@@ -1,0 +1,14 @@
+syntax:glob
+
+obj/*
+*.suo
+*.user
+bin/*
+obj/*
+Bin/*
+release/*
+Binary/System.*
+TestResults*
+*.testsettings
+*.vsmdi
+*.testsettings
