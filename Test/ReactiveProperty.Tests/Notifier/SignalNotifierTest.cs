@@ -2,19 +2,19 @@
 using System.Reactive.Linq;
 using Codeplex.Reactive.Notifier;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.Reactive.Testing;
 
 namespace ReactiveProperty.Tests
 {
     [TestClass]
-    public class SignalNotifierTest
+    public class SignalNotifierTest : ReactiveTest
     {
         [TestMethod]
         public void Test()
         {
             var notifier = new SignalNotifier(10);
-
-            var changed = notifier.Replay();
-            changed.Connect();
+            var recorder = new TestScheduler().CreateObserver<SignalChangedStatus>();
+            notifier.Subscribe(recorder);
 
             notifier.Max.Is(10);
             notifier.Count.Is(0);
@@ -26,15 +26,15 @@ namespace ReactiveProperty.Tests
             notifier.Decrement(5);
             notifier.Decrement(5);
 
-            changed.Take(8).ToEnumerable().Is(
-                SignalChangedStatus.Increment,
-                SignalChangedStatus.Increment,
-                SignalChangedStatus.Increment,
-                SignalChangedStatus.Increment,
-                SignalChangedStatus.Max,
-                SignalChangedStatus.Decrement,
-                SignalChangedStatus.Decrement,
-                SignalChangedStatus.Empty);
+            recorder.Messages.Is(
+                OnNext(0, SignalChangedStatus.Increment),
+                OnNext(0, SignalChangedStatus.Increment),
+                OnNext(0, SignalChangedStatus.Increment),
+                OnNext(0, SignalChangedStatus.Increment),
+                OnNext(0, SignalChangedStatus.Max),
+                OnNext(0, SignalChangedStatus.Decrement),
+                OnNext(0, SignalChangedStatus.Decrement),
+                OnNext(0, SignalChangedStatus.Empty));
 
             notifier.Increment(10);
             notifier.Count.Is(10);
