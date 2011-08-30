@@ -9,6 +9,3 @@ Bin/*
 release/*
 Binary/System.*
 TestResults*
-*.testsettings
-*.vsmdi
-*.testsettings

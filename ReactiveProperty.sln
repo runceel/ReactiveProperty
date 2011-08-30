@@ -9,18 +9,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.SL4", "Sou
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{6B13388E-F781-4F55-AF8B-2E991EA59DB8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6D885446-01F9-4414-A0CB-DE3F11742A0F}"
-	ProjectSection(SolutionItems) = preProject
-		Local.testsettings = Local.testsettings
-		ReactiveProperty.vsmdi = ReactiveProperty.vsmdi
-		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample", "Sample", "{6356D836-36AA-4CD9-8EB2-BF037115D329}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPF", "Sample\WPF\WPF.csproj", "{5894EB9D-270B-41E4-B57A-4F3A48062D20}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.Tests", "Test\ReactiveProperty.Tests\ReactiveProperty.Tests.csproj", "{9B3C2CF3-0AFD-4FB8-BAB1-2B7931C2AF18}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6EA82B8C-E3AE-4CEF-8666-DD67FEBDE192}"
+	ProjectSection(SolutionItems) = preProject
+		Local.testsettings = Local.testsettings
+		ReactiveProperty.vsmdi = ReactiveProperty.vsmdi
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
@@ -82,12 +82,11 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{1FA4492A-829D-4CD6-86E0-D224AB19377E} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
 		{74D4FD08-05D0-430A-BE08-F4DA1BE0A71B} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
-		{6D885446-01F9-4414-A0CB-DE3F11742A0F} = {6B13388E-F781-4F55-AF8B-2E991EA59DB8}
 		{9B3C2CF3-0AFD-4FB8-BAB1-2B7931C2AF18} = {6B13388E-F781-4F55-AF8B-2E991EA59DB8}
 		{5894EB9D-270B-41E4-B57A-4F3A48062D20} = {6356D836-36AA-4CD9-8EB2-BF037115D329}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
 		BuildVersion_UseGlobalSettings = True
+		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
 	EndGlobalSection
 EndGlobal

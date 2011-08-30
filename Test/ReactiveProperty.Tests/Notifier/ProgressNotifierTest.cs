@@ -1,6 +1,8 @@
 ﻿using Codeplex.Reactive.Notifier;
 using Microsoft.Reactive.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading;
+using System;
 
 namespace ReactiveProperty.Tests
 {
@@ -31,7 +33,4 @@ namespace ReactiveProperty.Tests
                 OnCompleted<int>(0));
         }
     }
-
-
-
 }
