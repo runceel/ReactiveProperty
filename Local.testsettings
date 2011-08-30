@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <TestSettings name="ローカル" id="e1aa9e28-2aba-4180-8671-4a68f17461ea" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
   <Description>これらはローカル テスト実行用の既定のテスト設定です。</Description>
-  <Deployment enabled="false" />
   <Execution>
     <Timeouts runTimeout="1800000" testTimeout="10000" />
     <TestTypeSpecific>
@@ -22,6 +21,17 @@
       </WebTestRunConfiguration>
     </TestTypeSpecific>
     <AgentRule name="LocalMachineDefaultRole">
+      <DataCollectors>
+        <DataCollector uri="datacollector://microsoft/CodeCoverage/1.0" assemblyQualifiedName="Microsoft.VisualStudio.TestTools.CodeCoverage.CoveragePlugIn, Microsoft.VisualStudio.QualityTools.Plugins.CodeCoverage, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" friendlyName="コード カバレッジ">
+          <Configuration>
+            <CodeCoverage xmlns="">
+              <Regular>
+                <CodeCoverageItem binaryFile="Source\NET40\bin\Debug\ReactiveProperty.dll" pdbFile="Source\NET40\bin\Debug\ReactiveProperty.pdb" instrumentInPlace="true" />
+              </Regular>
+            </CodeCoverage>
+          </Configuration>
+        </DataCollector>
+      </DataCollectors>
     </AgentRule>
   </Execution>
 </TestSettings>

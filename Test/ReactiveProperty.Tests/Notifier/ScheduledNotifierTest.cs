@@ -42,12 +42,5 @@ namespace ReactiveProperty.Tests
             var e = AssertEx.Throws<ArgumentNullException>(() => new ScheduledNotifier<int>(null));
             e.ParamName.Is("scheduler");
         }
-
-        [TestMethod]
-        public void Subscribe()
-        {
-            AssertEx.Throws<ArgumentNullException>(() => 
-                new ScheduledNotifier<int>(Scheduler.CurrentThread).Subscribe(null));
-        }
     }
 }
