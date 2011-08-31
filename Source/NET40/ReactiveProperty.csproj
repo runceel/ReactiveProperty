@@ -123,6 +123,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EventToReactive.cs" />
+    <Compile Include="Extensions\AccessorCache.cs" />
+    <Compile Include="Extensions\INotifyPropertyChangedExtensions.cs" />
+    <Compile Include="Extensions\INotifyCollectionChangedExtensions.cs" />
     <Compile Include="Notifier\ProgressNotifier.cs" />
     <Compile Include="Notifier\SignalNotifier.cs" />
     <Compile Include="Notifier\ScheduledNotifier.cs" />
@@ -134,7 +137,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Asynchronous\" />
-    <Folder Include="Extensions\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
