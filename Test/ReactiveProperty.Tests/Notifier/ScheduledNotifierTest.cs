@@ -18,12 +18,12 @@ namespace ReactiveProperty.Tests
             var notifier = new ScheduledNotifier<int>(testScheduler);
             notifier.Subscribe(recorder);
 
-            notifier.Raise(1);
-            notifier.Raise(2);
-            notifier.Raise(3, TimeSpan.FromMinutes(10));
-            notifier.Raise(4, TimeSpan.FromMinutes(1));
-            notifier.Raise(5, TimeSpan.FromMinutes(5));
-            notifier.Raise(6);
+            notifier.Report(1);
+            notifier.Report(2);
+            notifier.Report(3, TimeSpan.FromMinutes(10));
+            notifier.Report(4, TimeSpan.FromMinutes(1));
+            notifier.Report(5, TimeSpan.FromMinutes(5));
+            notifier.Report(6);
 
             testScheduler.Start();
 

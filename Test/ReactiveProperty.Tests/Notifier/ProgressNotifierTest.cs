@@ -12,7 +12,7 @@ namespace ReactiveProperty.Tests
         [TestMethod]
         public void Test()
         {
-            var prog = new ProgressNotifier();
+            var prog = new ProgressNotifier(100);
             var recorder = new TestScheduler().CreateObserver<int>();
             prog.Subscribe(recorder);
 

@@ -38,6 +38,7 @@ namespace Codeplex.Reactive
         public void Dispose()
         {
             trigger.Dispose();
+            GC.SuppressFinalize(this);
         }
     }
 }

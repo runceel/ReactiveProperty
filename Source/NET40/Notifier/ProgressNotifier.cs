@@ -3,22 +3,6 @@ using System.Reactive.Subjects;
 
 namespace Codeplex.Reactive.Notifier
 {
-    // this interface borrow from AsyncCTP
-    // will replace in the future
-
-    /// <summary>
-    /// Defines a provider for progress updates.
-    /// </summary>
-    /// <typeparam name="T">The type of progress update value.</typeparam>
-    public interface IProgress<in T>
-    {
-        /// <summary>
-        /// Reports a progress update.
-        /// </summary>
-        /// <param name="value">The value of the updated progress.</param>
-        void Report(T value);
-    }
-
     public class ProgressNotifier : IObservable<int>, IProgress<int>
     {
         readonly BehaviorSubject<int> notifier;
@@ -27,11 +11,11 @@ namespace Codeplex.Reactive.Notifier
         public int Current { get; private set; }
         public bool IsCompleted { get; private set; }
 
-        public ProgressNotifier(int max = 100, int start = 0)
+        public ProgressNotifier(int max)
         {
             this.max = max;
-            Current = start;
-            notifier = new BehaviorSubject<int>(start);
+            this.Current = 0;
+            notifier = new BehaviorSubject<int>(0);
         }
 
         /// <summary>Report Progress(send to OnNext)</summary>
