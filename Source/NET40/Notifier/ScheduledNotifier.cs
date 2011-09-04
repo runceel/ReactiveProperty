@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reactive.Concurrency;
 using System.Reactive.Subjects;
+using System.Diagnostics.Contracts;
 
 namespace Codeplex.Reactive.Notifier
 {
@@ -16,7 +17,7 @@ namespace Codeplex.Reactive.Notifier
 
         public ScheduledNotifier(IScheduler scheduler)
         {
-            if (scheduler == null) throw new ArgumentNullException("scheduler");
+            Contract.Requires<ArgumentNullException>(scheduler != null);
 
             this.scheduler = scheduler;
         }
@@ -38,6 +39,8 @@ namespace Codeplex.Reactive.Notifier
 
         public IDisposable Subscribe(IObserver<T> observer)
         {
+            Contract.Requires<ArgumentNullException>(observer != null);
+
             return trigger.Subscribe(observer);
         }
     }

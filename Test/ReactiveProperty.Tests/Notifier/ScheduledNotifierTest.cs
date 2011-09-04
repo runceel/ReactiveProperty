@@ -37,10 +37,45 @@ namespace ReactiveProperty.Tests
         }
 
         [TestMethod]
+        public void TestOffset()
+        {
+            var testScheduler = new TestScheduler();
+            var recorder = testScheduler.CreateObserver<int>();
+
+            var notifier = new ScheduledNotifier<int>(testScheduler);
+            notifier.Subscribe(recorder);
+
+            var origin = new DateTimeOffset();
+
+            notifier.Report(1);
+            notifier.Report(2);
+            notifier.Report(3, origin);
+            notifier.Report(4, origin.AddDays(10));
+            notifier.Report(5, origin.AddYears(1));
+            notifier.Report(6);
+
+            testScheduler.Start();
+
+            recorder.Messages.Is(
+                OnNext(1, 1),
+                OnNext(1, 2),
+                OnNext(1, 3),
+                OnNext(1, 6),
+                OnNext(origin.AddDays(10).Ticks, 4),
+                OnNext(origin.AddYears(1).Ticks, 5));
+        }
+
+        [TestMethod]
         public void Constructor()
         {
-            var e = AssertEx.Throws<ArgumentNullException>(() => new ScheduledNotifier<int>(null));
-            e.ParamName.Is("scheduler");
+            AssertEx.Throws<ArgumentNullException>(() => new ScheduledNotifier<int>(null));
+        }
+
+        [TestMethod]
+        public void Subscribe()
+        {
+            AssertEx.Throws<ArgumentNullException>(() =>
+                new ScheduledNotifier<int>().Subscribe(null));
         }
     }
 }

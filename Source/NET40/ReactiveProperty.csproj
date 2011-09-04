@@ -136,7 +136,6 @@
     <Compile Include="Extensions\AccessorCache.cs" />
     <Compile Include="Extensions\INotifyPropertyChangedExtensions.cs" />
     <Compile Include="Extensions\INotifyCollectionChangedExtensions.cs" />
-    <Compile Include="Notifier\ProgressNotifier.cs" />
     <Compile Include="Notifier\SignalNotifier.cs" />
     <Compile Include="Notifier\ScheduledNotifier.cs" />
     <Compile Include="Notifier\IProgress.cs" />

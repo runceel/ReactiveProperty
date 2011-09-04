@@ -1,0 +1,1013 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ReactiveProperty.Moles</name>
+    </assembly>
+    <members>
+        <member name="T:Codeplex.Reactive.Moles.MEventToReactive">
+            <summary>Mole type of <see cref="T:Codeplex.Reactive.EventToReactive"/>
+            .</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MEventToReactive.#ctor">
+            <summary>Initializes a new mole</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MEventToReactive.#ctor(Codeplex.Reactive.EventToReactive)">
+            <summary>Initializes a new mole for the given instance</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MEventToReactive.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MEventToReactive.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MEventToReactive.Bind(System.Windows.Media.Animation.IAnimatable)">
+            <summary>Binds the members of the interface to the mole.</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MEventToReactive.Bind(System.Windows.Interactivity.IAttachedObject)">
+            <summary>Binds the members of the interface to the mole.</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MEventToReactive.Behavior">
+            <summary>Assigns the behavior for all methods of the moled type</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MEventToReactive.Constructor">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.EventToReactive.#ctor"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MEventToReactive.InvokeObject">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.EventToReactive.Invoke(System.Object)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MEventToReactive.ReactivePropertyGet">
+            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.EventToReactive.ReactiveProperty"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MEventToReactive.ReactivePropertySetIReactivePropertyOfObject">
+            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.EventToReactive.ReactiveProperty"/>
+            </summary>
+        </member>
+        <member name="T:Codeplex.Reactive.Moles.MEventToReactive.AllInstances">
+            <summary>Define moles for all instances members</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MEventToReactive.AllInstances.InvokeObject">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.EventToReactive.Invoke(System.Object)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MEventToReactive.AllInstances.ReactivePropertyGet">
+            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.EventToReactive.ReactiveProperty"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MEventToReactive.AllInstances.ReactivePropertySetIReactivePropertyOfObject">
+            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.EventToReactive.ReactiveProperty"/>
+            </summary>
+        </member>
+        <member name="T:Codeplex.Reactive.Extensions.Moles.MINotifyCollectionChangedExtensions">
+            <summary>Mole type of <see cref="T:Codeplex.Reactive.Extensions.INotifyCollectionChangedExtensions"/>
+            .</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Extensions.Moles.MINotifyCollectionChangedExtensions.#ctor">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Extensions.Moles.MINotifyCollectionChangedExtensions.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Extensions.Moles.MINotifyCollectionChangedExtensions.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Extensions.Moles.MINotifyCollectionChangedExtensions.CollectionChangedAsObservableT``1(Microsoft.Moles.Framework.MolesDelegates.Func{``0,System.IObservable{System.Collections.Specialized.NotifyCollectionChangedEventArgs}})">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Extensions.INotifyCollectionChangedExtensions.CollectionChangedAsObservable``1(``0)"/>
+            </summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Extensions.Moles.MINotifyCollectionChangedExtensions._CollectionChangedAsObservableb__0ActionOfNotifyCollectionChangedEventArgs``1(Microsoft.Moles.Framework.MolesDelegates.Func{System.Action{System.Collections.Specialized.NotifyCollectionChangedEventArgs},System.Collections.Specialized.NotifyCollectionChangedEventHandler})">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Extensions.INotifyCollectionChangedExtensions.&lt;CollectionChangedAsObservable&gt;b__0``1(System.Action`1{System.Collections.Specialized.NotifyCollectionChangedEventArgs})"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Extensions.Moles.MINotifyCollectionChangedExtensions.Behavior">
+            <summary>Assigns the behavior for all methods of the moled type</summary>
+        </member>
+        <member name="T:Codeplex.Reactive.Extensions.Moles.MINotifyPropertyChangedExtensions">
+            <summary>Mole type of <see cref="T:Codeplex.Reactive.Extensions.INotifyPropertyChangedExtensions"/>
+            .</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Extensions.Moles.MINotifyPropertyChangedExtensions.#ctor">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Extensions.Moles.MINotifyPropertyChangedExtensions.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Extensions.Moles.MINotifyPropertyChangedExtensions.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Extensions.Moles.MINotifyPropertyChangedExtensions.ObservePropertyTSubjectExpressionOfFuncOfTSubjectTProperty``2(Microsoft.Moles.Framework.MolesDelegates.Func{``0,System.Linq.Expressions.Expression{System.Func{``0,``1}},System.IObservable{``1}})">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Extensions.INotifyPropertyChangedExtensions.ObserveProperty``2(``0,System.Linq.Expressions.Expression`1{System.Func`2{``0,``1}})"/>
+            </summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Extensions.Moles.MINotifyPropertyChangedExtensions.PropertyChangedAsObservableT``1(Microsoft.Moles.Framework.MolesDelegates.Func{``0,System.IObservable{System.ComponentModel.PropertyChangedEventArgs}})">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Extensions.INotifyPropertyChangedExtensions.PropertyChangedAsObservable``1(``0)"/>
+            </summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Extensions.Moles.MINotifyPropertyChangedExtensions._PropertyChangedAsObservableb__0ActionOfPropertyChangedEventArgs``1(Microsoft.Moles.Framework.MolesDelegates.Func{System.Action{System.ComponentModel.PropertyChangedEventArgs},System.ComponentModel.PropertyChangedEventHandler})">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Extensions.INotifyPropertyChangedExtensions.&lt;PropertyChangedAsObservable&gt;b__0``1(System.Action`1{System.ComponentModel.PropertyChangedEventArgs})"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Extensions.Moles.MINotifyPropertyChangedExtensions.Behavior">
+            <summary>Assigns the behavior for all methods of the moled type</summary>
+        </member>
+        <member name="T:Codeplex.Reactive.Notifier.Moles.MProgressNotifier">
+            <summary>Mole type of <see cref="T:Codeplex.Reactive.Notifier.ProgressNotifier"/>
+            .</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.#ctor">
+            <summary>Initializes a new mole</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.#ctor(Codeplex.Reactive.Notifier.ProgressNotifier)">
+            <summary>Initializes a new mole for the given instance</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.Bind(Codeplex.Reactive.Notifier.IProgress{System.Int32})">
+            <summary>Binds the members of the interface to the mole.</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.Bind(System.IObservable{System.Int32})">
+            <summary>Binds the members of the interface to the mole.</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.Behavior">
+            <summary>Assigns the behavior for all methods of the moled type</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.CancelString">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Notifier.ProgressNotifier.Cancel(System.String)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.Complete">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Notifier.ProgressNotifier.Complete"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.ConstructorInt32">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Notifier.ProgressNotifier.#ctor(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.CurrentGet">
+            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.Notifier.ProgressNotifier.Current"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.CurrentSetInt32">
+            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.Notifier.ProgressNotifier.Current"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.IsCompletedGet">
+            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.Notifier.ProgressNotifier.IsCompleted"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.IsCompletedSetBoolean">
+            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.Notifier.ProgressNotifier.IsCompleted"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.ReportInt32">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Notifier.ProgressNotifier.Report(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.SubscribeIObserverOfInt32">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Notifier.ProgressNotifier.Subscribe(System.IObserver`1{System.Int32})"/>
+            </summary>
+        </member>
+        <member name="T:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.AllInstances">
+            <summary>Define moles for all instances members</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.AllInstances.CancelString">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Notifier.ProgressNotifier.Cancel(System.String)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.AllInstances.Complete">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Notifier.ProgressNotifier.Complete"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.AllInstances.CurrentGet">
+            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.Notifier.ProgressNotifier.Current"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.AllInstances.CurrentSetInt32">
+            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.Notifier.ProgressNotifier.Current"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.AllInstances.IsCompletedGet">
+            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.Notifier.ProgressNotifier.IsCompleted"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.AllInstances.IsCompletedSetBoolean">
+            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.Notifier.ProgressNotifier.IsCompleted"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.AllInstances.ReportInt32">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Notifier.ProgressNotifier.Report(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.AllInstances.SubscribeIObserverOfInt32">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Notifier.ProgressNotifier.Subscribe(System.IObserver`1{System.Int32})"/>
+            </summary>
+        </member>
+        <member name="T:Codeplex.Reactive.Asynchronous.Moles.MProgressStatus">
+            <summary>Mole type of <see cref="T:Codeplex.Reactive.Asynchronous.ProgressStatus"/>
+            .</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Asynchronous.Moles.MProgressStatus.#ctor">
+            <summary>Initializes a new mole</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Asynchronous.Moles.MProgressStatus.#ctor(Codeplex.Reactive.Asynchronous.ProgressStatus)">
+            <summary>Initializes a new mole for the given instance</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Asynchronous.Moles.MProgressStatus.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Asynchronous.Moles.MProgressStatus.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MProgressStatus.Behavior">
+            <summary>Assigns the behavior for all methods of the moled type</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MProgressStatus.ConstructorInt64Int64">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.ProgressStatus.#ctor(System.Int64,System.Int64)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MProgressStatus.CurrentLengthGet">
+            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.Asynchronous.ProgressStatus.CurrentLength"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MProgressStatus.CurrentLengthSetInt64">
+            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.Asynchronous.ProgressStatus.CurrentLength"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MProgressStatus.PercentageGet">
+            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.Asynchronous.ProgressStatus.Percentage"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MProgressStatus.TotalLengthGet">
+            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.Asynchronous.ProgressStatus.TotalLength"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MProgressStatus.TotalLengthSetInt64">
+            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.Asynchronous.ProgressStatus.TotalLength"/>
+            </summary>
+        </member>
+        <member name="T:Codeplex.Reactive.Asynchronous.Moles.MProgressStatus.AllInstances">
+            <summary>Define moles for all instances members</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MProgressStatus.AllInstances.CurrentLengthGet">
+            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.Asynchronous.ProgressStatus.CurrentLength"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MProgressStatus.AllInstances.CurrentLengthSetInt64">
+            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.Asynchronous.ProgressStatus.CurrentLength"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MProgressStatus.AllInstances.PercentageGet">
+            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.Asynchronous.ProgressStatus.Percentage"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MProgressStatus.AllInstances.TotalLengthGet">
+            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.Asynchronous.ProgressStatus.TotalLength"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MProgressStatus.AllInstances.TotalLengthSetInt64">
+            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.Asynchronous.ProgressStatus.TotalLength"/>
+            </summary>
+        </member>
+        <member name="T:Codeplex.Reactive.Moles.MReactiveCommand`1">
+            <summary>Mole type of <see cref="T:Codeplex.Reactive.ReactiveCommand`1"/>
+            .</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MReactiveCommand`1.#ctor">
+            <summary>Initializes a new mole</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MReactiveCommand`1.#ctor(Codeplex.Reactive.ReactiveCommand{`0})">
+            <summary>Initializes a new mole for the given instance</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MReactiveCommand`1.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MReactiveCommand`1.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MReactiveCommand`1.Bind(System.Windows.Input.ICommand)">
+            <summary>Binds the members of the interface to the mole.</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MReactiveCommand`1.Bind(System.IDisposable)">
+            <summary>Binds the members of the interface to the mole.</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MReactiveCommand`1.Bind(System.IObservable{`0})">
+            <summary>Binds the members of the interface to the mole.</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveCommand`1.Behavior">
+            <summary>Assigns the behavior for all methods of the moled type</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveCommand`1.CanExecuteChangedAddEventHandler">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveCommand`1.add_CanExecuteChanged(System.EventHandler)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveCommand`1.CanExecuteChangedRemoveEventHandler">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveCommand`1.remove_CanExecuteChanged(System.EventHandler)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveCommand`1.CanExecuteObject">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveCommand`1.CanExecute(System.Object)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveCommand`1.Constructor">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveCommand`1.#ctor"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveCommand`1.ConstructorFuncOfTBoolean">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveCommand`1.#ctor(System.Func`2{`1,System.Boolean})"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveCommand`1.Dispose">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveCommand`1.Dispose"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveCommand`1.ExecuteObject">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveCommand`1.Execute(System.Object)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveCommand`1.SubscribeIObserverOfT">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveCommand`1.Subscribe(System.IObserver`1{`1})"/>
+            </summary>
+        </member>
+        <member name="T:Codeplex.Reactive.Moles.MReactiveCommand`1.AllInstances">
+            <summary>Define moles for all instances members</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveCommand`1.AllInstances.CanExecuteChangedAddEventHandler">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveCommand`1.add_CanExecuteChanged(System.EventHandler)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveCommand`1.AllInstances.CanExecuteChangedRemoveEventHandler">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveCommand`1.remove_CanExecuteChanged(System.EventHandler)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveCommand`1.AllInstances.CanExecuteObject">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveCommand`1.CanExecute(System.Object)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveCommand`1.AllInstances.Dispose">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveCommand`1.Dispose"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveCommand`1.AllInstances.ExecuteObject">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveCommand`1.Execute(System.Object)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveCommand`1.AllInstances.SubscribeIObserverOfT">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveCommand`1.Subscribe(System.IObserver`1{`1})"/>
+            </summary>
+        </member>
+        <member name="T:Codeplex.Reactive.Moles.MReactiveProperty`1">
+            <summary>Mole type of <see cref="T:Codeplex.Reactive.ReactiveProperty`1"/>
+            .</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MReactiveProperty`1.#ctor">
+            <summary>Initializes a new mole</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MReactiveProperty`1.#ctor(Codeplex.Reactive.ReactiveProperty{`0})">
+            <summary>Initializes a new mole for the given instance</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MReactiveProperty`1.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MReactiveProperty`1.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MReactiveProperty`1.Bind(Codeplex.Reactive.IReactiveProperty{`0})">
+            <summary>Binds the members of the interface to the mole.</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MReactiveProperty`1.Bind(System.IDisposable)">
+            <summary>Binds the members of the interface to the mole.</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MReactiveProperty`1.Bind(System.IObservable{`0})">
+            <summary>Binds the members of the interface to the mole.</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveProperty`1.Behavior">
+            <summary>Assigns the behavior for all methods of the moled type</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveProperty`1.ConstructorActionOfTTReactivePropertyMode">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveProperty`1.#ctor(System.Action`1{`1},`1,Codeplex.Reactive.ReactivePropertyMode)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveProperty`1.ConstructorIObservableOfTActionOfTTReactivePropertyMode">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveProperty`1.#ctor(System.IObservable`1{`1},System.Action`1{`1},`1,Codeplex.Reactive.ReactivePropertyMode)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveProperty`1.ConstructorTReactivePropertyMode">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveProperty`1.#ctor(`1,Codeplex.Reactive.ReactivePropertyMode)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveProperty`1.Dispose">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveProperty`1.Dispose"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveProperty`1.SubscribeIObserverOfT">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveProperty`1.Subscribe(System.IObserver`1{`1})"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveProperty`1.ValueCodeplexReactiveIReactivePropertyTget">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveProperty`1.Codeplex.Reactive.IReactiveProperty&lt;T&gt;.get_Value"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveProperty`1.ValueCodeplexReactiveIReactivePropertyTsetObject">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveProperty`1.Codeplex.Reactive.IReactiveProperty&lt;T&gt;.set_Value(System.Object)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveProperty`1.ValueGet">
+            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.ReactiveProperty`1.Value"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveProperty`1.ValueSetT">
+            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.ReactiveProperty`1.Value"/>
+            </summary>
+        </member>
+        <member name="T:Codeplex.Reactive.Moles.MReactiveProperty`1.AllInstances">
+            <summary>Define moles for all instances members</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveProperty`1.AllInstances.Dispose">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveProperty`1.Dispose"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveProperty`1.AllInstances.SubscribeIObserverOfT">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveProperty`1.Subscribe(System.IObserver`1{`1})"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveProperty`1.AllInstances.ValueCodeplexReactiveIReactivePropertyTget">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveProperty`1.Codeplex.Reactive.IReactiveProperty&lt;T&gt;.get_Value"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveProperty`1.AllInstances.ValueCodeplexReactiveIReactivePropertyTsetObject">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveProperty`1.Codeplex.Reactive.IReactiveProperty&lt;T&gt;.set_Value(System.Object)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveProperty`1.AllInstances.ValueGet">
+            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.ReactiveProperty`1.Value"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveProperty`1.AllInstances.ValueSetT">
+            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.ReactiveProperty`1.Value"/>
+            </summary>
+        </member>
+        <member name="T:Codeplex.Reactive.Moles.MReactivePropertyObservableExtensions">
+            <summary>Mole type of <see cref="T:Codeplex.Reactive.ReactivePropertyObservableExtensions"/>
+            .</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MReactivePropertyObservableExtensions.#ctor">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MReactivePropertyObservableExtensions.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MReactivePropertyObservableExtensions.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MReactivePropertyObservableExtensions.ToReactivePropertyIObservableOfTActionOfTTReactivePropertyMode``1(Microsoft.Moles.Framework.MolesDelegates.Func{System.IObservable{``0},System.Action{``0},``0,Codeplex.Reactive.ReactivePropertyMode,Codeplex.Reactive.ReactiveProperty{``0}})">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactivePropertyObservableExtensions.ToReactiveProperty``1(System.IObservable`1{``0},System.Action`1{``0},``0,Codeplex.Reactive.ReactivePropertyMode)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactivePropertyObservableExtensions.Behavior">
+            <summary>Assigns the behavior for all methods of the moled type</summary>
+        </member>
+        <member name="T:Codeplex.Reactive.Notifier.Moles.MScheduledNotifier`1">
+            <summary>Mole type of <see cref="T:Codeplex.Reactive.Notifier.ScheduledNotifier`1"/>
+            .</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Notifier.Moles.MScheduledNotifier`1.#ctor">
+            <summary>Initializes a new mole</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Notifier.Moles.MScheduledNotifier`1.#ctor(Codeplex.Reactive.Notifier.ScheduledNotifier{`0})">
+            <summary>Initializes a new mole for the given instance</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Notifier.Moles.MScheduledNotifier`1.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Notifier.Moles.MScheduledNotifier`1.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Notifier.Moles.MScheduledNotifier`1.Bind(Codeplex.Reactive.Notifier.IProgress{`0})">
+            <summary>Binds the members of the interface to the mole.</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Notifier.Moles.MScheduledNotifier`1.Bind(System.IObservable{`0})">
+            <summary>Binds the members of the interface to the mole.</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MScheduledNotifier`1.Behavior">
+            <summary>Assigns the behavior for all methods of the moled type</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MScheduledNotifier`1.Constructor">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Notifier.ScheduledNotifier`1.#ctor"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MScheduledNotifier`1.ConstructorIScheduler">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Notifier.ScheduledNotifier`1.#ctor(System.Reactive.Concurrency.IScheduler)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MScheduledNotifier`1.ReportT">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Notifier.ScheduledNotifier`1.Report(`1)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MScheduledNotifier`1.ReportTDateTimeOffset">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Notifier.ScheduledNotifier`1.Report(`1,System.DateTimeOffset)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MScheduledNotifier`1.ReportTTimeSpan">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Notifier.ScheduledNotifier`1.Report(`1,System.TimeSpan)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MScheduledNotifier`1.SubscribeIObserverOfT">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Notifier.ScheduledNotifier`1.Subscribe(System.IObserver`1{`1})"/>
+            </summary>
+        </member>
+        <member name="T:Codeplex.Reactive.Notifier.Moles.MScheduledNotifier`1.AllInstances">
+            <summary>Define moles for all instances members</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MScheduledNotifier`1.AllInstances.ReportT">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Notifier.ScheduledNotifier`1.Report(`1)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MScheduledNotifier`1.AllInstances.ReportTDateTimeOffset">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Notifier.ScheduledNotifier`1.Report(`1,System.DateTimeOffset)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MScheduledNotifier`1.AllInstances.ReportTTimeSpan">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Notifier.ScheduledNotifier`1.Report(`1,System.TimeSpan)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MScheduledNotifier`1.AllInstances.SubscribeIObserverOfT">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Notifier.ScheduledNotifier`1.Subscribe(System.IObserver`1{`1})"/>
+            </summary>
+        </member>
+        <member name="T:Codeplex.Reactive.Notifier.Moles.MSignalNotifier">
+            <summary>Mole type of <see cref="T:Codeplex.Reactive.Notifier.SignalNotifier"/>
+            .</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Notifier.Moles.MSignalNotifier.#ctor">
+            <summary>Initializes a new mole</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Notifier.Moles.MSignalNotifier.#ctor(Codeplex.Reactive.Notifier.SignalNotifier)">
+            <summary>Initializes a new mole for the given instance</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Notifier.Moles.MSignalNotifier.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Notifier.Moles.MSignalNotifier.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Notifier.Moles.MSignalNotifier.Bind(System.IObservable{Codeplex.Reactive.Notifier.SignalChangedStatus})">
+            <summary>Binds the members of the interface to the mole.</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MSignalNotifier.Behavior">
+            <summary>Assigns the behavior for all methods of the moled type</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MSignalNotifier.ConstructorInt32">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Notifier.SignalNotifier.#ctor(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MSignalNotifier.CountGet">
+            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.Notifier.SignalNotifier.Count"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MSignalNotifier.CountSetInt32">
+            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.Notifier.SignalNotifier.Count"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MSignalNotifier.DecrementInt32">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Notifier.SignalNotifier.Decrement(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MSignalNotifier.IncrementInt32">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Notifier.SignalNotifier.Increment(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MSignalNotifier.MaxGet">
+            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.Notifier.SignalNotifier.Max"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MSignalNotifier.MaxSetInt32">
+            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.Notifier.SignalNotifier.Max"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MSignalNotifier.SubscribeIObserverOfSignalChangedStatus">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Notifier.SignalNotifier.Subscribe(System.IObserver`1{Codeplex.Reactive.Notifier.SignalChangedStatus})"/>
+            </summary>
+        </member>
+        <member name="T:Codeplex.Reactive.Notifier.Moles.MSignalNotifier.AllInstances">
+            <summary>Define moles for all instances members</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MSignalNotifier.AllInstances.CountGet">
+            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.Notifier.SignalNotifier.Count"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MSignalNotifier.AllInstances.CountSetInt32">
+            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.Notifier.SignalNotifier.Count"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MSignalNotifier.AllInstances.DecrementInt32">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Notifier.SignalNotifier.Decrement(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MSignalNotifier.AllInstances.IncrementInt32">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Notifier.SignalNotifier.Increment(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MSignalNotifier.AllInstances.MaxGet">
+            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.Notifier.SignalNotifier.Max"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MSignalNotifier.AllInstances.MaxSetInt32">
+            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.Notifier.SignalNotifier.Max"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.MSignalNotifier.AllInstances.SubscribeIObserverOfSignalChangedStatus">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Notifier.SignalNotifier.Subscribe(System.IObserver`1{Codeplex.Reactive.Notifier.SignalChangedStatus})"/>
+            </summary>
+        </member>
+        <member name="T:Codeplex.Reactive.Asynchronous.Moles.MStreamExtensions">
+            <summary>Mole type of <see cref="T:Codeplex.Reactive.Asynchronous.StreamExtensions"/>
+            .</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Asynchronous.Moles.MStreamExtensions.#ctor">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Asynchronous.Moles.MStreamExtensions.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Asynchronous.Moles.MStreamExtensions.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MStreamExtensions.Behavior">
+            <summary>Assigns the behavior for all methods of the moled type</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MStreamExtensions.ReadAsObservableStreamByteArrayInt32Int32">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.StreamExtensions.ReadAsObservable(System.IO.Stream,System.Byte[],System.Int32,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MStreamExtensions.ReadAsyncStreamInt32">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.StreamExtensions.ReadAsync(System.IO.Stream,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MStreamExtensions.ReadLineAsyncStreamEncodingInt32">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.StreamExtensions.ReadLineAsync(System.IO.Stream,System.Text.Encoding,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MStreamExtensions.ReadLineAsyncStreamInt32">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.StreamExtensions.ReadLineAsync(System.IO.Stream,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MStreamExtensions.WriteAsObservableStreamByteArrayInt32Int32">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.StreamExtensions.WriteAsObservable(System.IO.Stream,System.Byte[],System.Int32,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MStreamExtensions.WriteAsyncStreamIEnumerableOfByteInt32">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.StreamExtensions.WriteAsync(System.IO.Stream,System.Collections.Generic.IEnumerable`1{System.Byte},System.Int32)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MStreamExtensions.WriteAsyncStreamIObservableOfByteInt32">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.StreamExtensions.WriteAsync(System.IO.Stream,System.IObservable`1{System.Byte},System.Int32)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MStreamExtensions.WriteAsyncStreamString">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.StreamExtensions.WriteAsync(System.IO.Stream,System.String)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MStreamExtensions.WriteAsyncStreamStringEncoding">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.StreamExtensions.WriteAsync(System.IO.Stream,System.String,System.Text.Encoding)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MStreamExtensions.WriteLineAsyncStreamIEnumerableOfString">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.StreamExtensions.WriteLineAsync(System.IO.Stream,System.Collections.Generic.IEnumerable`1{System.String})"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MStreamExtensions.WriteLineAsyncStreamIEnumerableOfStringEncoding">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.StreamExtensions.WriteLineAsync(System.IO.Stream,System.Collections.Generic.IEnumerable`1{System.String},System.Text.Encoding)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MStreamExtensions.WriteLineAsyncStreamIObservableOfString">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.StreamExtensions.WriteLineAsync(System.IO.Stream,System.IObservable`1{System.String})"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MStreamExtensions.WriteLineAsyncStreamIObservableOfStringEncoding">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.StreamExtensions.WriteLineAsync(System.IO.Stream,System.IObservable`1{System.String},System.Text.Encoding)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MStreamExtensions.WriteLineAsyncStreamString">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.StreamExtensions.WriteLineAsync(System.IO.Stream,System.String)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MStreamExtensions.WriteLineAsyncStreamStringEncoding">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.StreamExtensions.WriteLineAsync(System.IO.Stream,System.String,System.Text.Encoding)"/>
+            </summary>
+        </member>
+        <member name="T:Codeplex.Reactive.Moles.MUIDispatcherObservableExtensions">
+            <summary>Mole type of <see cref="T:Codeplex.Reactive.UIDispatcherObservableExtensions"/>
+            .</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MUIDispatcherObservableExtensions.#ctor">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MUIDispatcherObservableExtensions.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MUIDispatcherObservableExtensions.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MUIDispatcherObservableExtensions.ObserveOnUIUIDispatcherIObservableOfT``1(Microsoft.Moles.Framework.MolesDelegates.Func{System.IObservable{``0},System.IObservable{``0}})">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.UIDispatcherObservableExtensions.ObserveOnUIUIDispatcher``1(System.IObservable`1{``0})"/>
+            </summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MUIDispatcherObservableExtensions.SubscribeOnUIDispatcherIObservableOfT``1(Microsoft.Moles.Framework.MolesDelegates.Func{System.IObservable{``0},System.IObservable{``0}})">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.UIDispatcherObservableExtensions.SubscribeOnUIDispatcher``1(System.IObservable`1{``0})"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MUIDispatcherObservableExtensions.Behavior">
+            <summary>Assigns the behavior for all methods of the moled type</summary>
+        </member>
+        <member name="T:Codeplex.Reactive.Asynchronous.Moles.MWebRequestExtensions">
+            <summary>Mole type of <see cref="T:Codeplex.Reactive.Asynchronous.WebRequestExtensions"/>
+            .</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Asynchronous.Moles.MWebRequestExtensions.#ctor">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Asynchronous.Moles.MWebRequestExtensions.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Asynchronous.Moles.MWebRequestExtensions.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MWebRequestExtensions.Behavior">
+            <summary>Assigns the behavior for all methods of the moled type</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MWebRequestExtensions.GetRequestStreamAsObservableWebRequest">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.WebRequestExtensions.GetRequestStreamAsObservable(System.Net.WebRequest)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MWebRequestExtensions.GetResponseAsObservableWebRequest">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.WebRequestExtensions.GetResponseAsObservable(System.Net.WebRequest)"/>
+            </summary>
+        </member>
+        <member name="T:Codeplex.Reactive.Asynchronous.Moles.MWebResponseExtensions">
+            <summary>Mole type of <see cref="T:Codeplex.Reactive.Asynchronous.WebResponseExtensions"/>
+            .</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Asynchronous.Moles.MWebResponseExtensions.#ctor">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Asynchronous.Moles.MWebResponseExtensions.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Asynchronous.Moles.MWebResponseExtensions.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MWebResponseExtensions.Behavior">
+            <summary>Assigns the behavior for all methods of the moled type</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MWebResponseExtensions.DownloadDataAsyncWebResponse">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.WebResponseExtensions.DownloadDataAsync(System.Net.WebResponse)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MWebResponseExtensions.DownloadDataAsyncWebResponseIProgressOfProgressStatus">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.WebResponseExtensions.DownloadDataAsync(System.Net.WebResponse,Codeplex.Reactive.Notifier.IProgress`1{Codeplex.Reactive.Asynchronous.ProgressStatus})"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MWebResponseExtensions.DownloadStringAsyncWebResponse">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.WebResponseExtensions.DownloadStringAsync(System.Net.WebResponse)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MWebResponseExtensions.DownloadStringAsyncWebResponseEncoding">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.WebResponseExtensions.DownloadStringAsync(System.Net.WebResponse,System.Text.Encoding)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MWebResponseExtensions.DownloadStringLineAsyncWebResponse">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.WebResponseExtensions.DownloadStringLineAsync(System.Net.WebResponse)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MWebResponseExtensions.DownloadStringLineAsyncWebResponseEncoding">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.WebResponseExtensions.DownloadStringLineAsync(System.Net.WebResponse,System.Text.Encoding)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MWebResponseExtensions._DownloadDataAsyncb__2ListOfByteByteArray">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.WebResponseExtensions.&lt;DownloadDataAsync&gt;b__2(System.Collections.Generic.List`1{System.Byte},System.Byte[])"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MWebResponseExtensions._DownloadDataAsyncb__3ListOfByte">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.WebResponseExtensions.&lt;DownloadDataAsync&gt;b__3(System.Collections.Generic.List`1{System.Byte})"/>
+            </summary>
+        </member>
+        <member name="T:Codeplex.Reactive.Moles.SEventToReactive">
+            <summary>Stub type of <see cref="T:Codeplex.Reactive.EventToReactive"/>
+            .</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.SEventToReactive.#ctor">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.SEventToReactive.CloneCore(System.Windows.Freezable)">
+            <summary>Sets the stub of <see cref="M:System.Windows.Freezable.CloneCore(System.Windows.Freezable)"/>
+            </summary>
+        </member>
+        <member name="F:Codeplex.Reactive.Moles.SEventToReactive.CloneCoreFreezable">
+            <summary>Sets the stub of <see cref="M:System.Windows.Freezable.CloneCore(System.Windows.Freezable)"/>
+            </summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.SEventToReactive.CloneCurrentValueCore(System.Windows.Freezable)">
+            <summary>Sets the stub of <see cref="M:System.Windows.Freezable.CloneCurrentValueCore(System.Windows.Freezable)"/>
+            </summary>
+        </member>
+        <member name="F:Codeplex.Reactive.Moles.SEventToReactive.CloneCurrentValueCoreFreezable">
+            <summary>Sets the stub of <see cref="M:System.Windows.Freezable.CloneCurrentValueCore(System.Windows.Freezable)"/>
+            </summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.SEventToReactive.CreateInstanceCore">
+            <summary>Sets the stub of <see cref="M:System.Windows.Interactivity.TriggerAction.CreateInstanceCore"/>
+            </summary>
+        </member>
+        <member name="F:Codeplex.Reactive.Moles.SEventToReactive.CreateInstanceCore01">
+            <summary>Sets the stub of <see cref="M:System.Windows.Interactivity.TriggerAction.CreateInstanceCore"/>
+            </summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.SEventToReactive.FreezeCore(System.Boolean)">
+            <summary>Sets the stub of <see cref="M:System.Windows.Media.Animation.Animatable.FreezeCore(System.Boolean)"/>
+            </summary>
+        </member>
+        <member name="F:Codeplex.Reactive.Moles.SEventToReactive.FreezeCoreBoolean">
+            <summary>Sets the stub of <see cref="M:System.Windows.Media.Animation.Animatable.FreezeCore(System.Boolean)"/>
+            </summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.SEventToReactive.GetAsFrozenCore(System.Windows.Freezable)">
+            <summary>Sets the stub of <see cref="M:System.Windows.Freezable.GetAsFrozenCore(System.Windows.Freezable)"/>
+            </summary>
+        </member>
+        <member name="F:Codeplex.Reactive.Moles.SEventToReactive.GetAsFrozenCoreFreezable">
+            <summary>Sets the stub of <see cref="M:System.Windows.Freezable.GetAsFrozenCore(System.Windows.Freezable)"/>
+            </summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.SEventToReactive.GetCurrentValueAsFrozenCore(System.Windows.Freezable)">
+            <summary>Sets the stub of <see cref="M:System.Windows.Freezable.GetCurrentValueAsFrozenCore(System.Windows.Freezable)"/>
+            </summary>
+        </member>
+        <member name="F:Codeplex.Reactive.Moles.SEventToReactive.GetCurrentValueAsFrozenCoreFreezable">
+            <summary>Sets the stub of <see cref="M:System.Windows.Freezable.GetCurrentValueAsFrozenCore(System.Windows.Freezable)"/>
+            </summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.SEventToReactive.InitializeStub">
+            <summary>Initializes a new instance of type SEventToReactive</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.SEventToReactive.Invoke(System.Object)">
+            <summary>Sets the stub of <see cref="M:Codeplex.Reactive.EventToReactive.Invoke(System.Object)"/>
+            </summary>
+        </member>
+        <member name="F:Codeplex.Reactive.Moles.SEventToReactive.InvokeObject">
+            <summary>Sets the stub of <see cref="M:Codeplex.Reactive.EventToReactive.Invoke(System.Object)"/>
+            </summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.SEventToReactive.OnAttached">
+            <summary>Sets the stub of <see cref="M:System.Windows.Interactivity.TriggerAction.OnAttached"/>
+            </summary>
+        </member>
+        <member name="F:Codeplex.Reactive.Moles.SEventToReactive.OnAttached01">
+            <summary>Sets the stub of <see cref="M:System.Windows.Interactivity.TriggerAction.OnAttached"/>
+            </summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.SEventToReactive.OnChanged">
+            <summary>Sets the stub of <see cref="M:System.Windows.Freezable.OnChanged"/>
+            </summary>
+        </member>
+        <member name="F:Codeplex.Reactive.Moles.SEventToReactive.OnChanged01">
+            <summary>Sets the stub of <see cref="M:System.Windows.Freezable.OnChanged"/>
+            </summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.SEventToReactive.OnDetaching">
+            <summary>Sets the stub of <see cref="M:System.Windows.Interactivity.TriggerAction.OnDetaching"/>
+            </summary>
+        </member>
+        <member name="F:Codeplex.Reactive.Moles.SEventToReactive.OnDetaching01">
+            <summary>Sets the stub of <see cref="M:System.Windows.Interactivity.TriggerAction.OnDetaching"/>
+            </summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.SEventToReactive.OnPropertyChanged(System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>Sets the stub of <see cref="M:System.Windows.Freezable.OnPropertyChanged(System.Windows.DependencyPropertyChangedEventArgs)"/>
+            </summary>
+        </member>
+        <member name="F:Codeplex.Reactive.Moles.SEventToReactive.OnPropertyChangedDependencyPropertyChangedEventArgs">
+            <summary>Sets the stub of <see cref="M:System.Windows.Freezable.OnPropertyChanged(System.Windows.DependencyPropertyChangedEventArgs)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.SEventToReactive.CallBase">
+            <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.SEventToReactive.InstanceBehavior">
+            <summary>Gets or sets the instance behavior.</summary>
+        </member>
+        <member name="T:Codeplex.Reactive.Notifier.Moles.SProgressNotifier">
+            <summary>Stub type of <see cref="T:Codeplex.Reactive.Notifier.ProgressNotifier"/>
+            .</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Notifier.Moles.SProgressNotifier.#ctor(System.Int32)">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Notifier.Moles.SProgressNotifier.InitializeStub">
+            <summary>Initializes a new instance of type SProgressNotifier</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.SProgressNotifier.CallBase">
+            <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.SProgressNotifier.InstanceBehavior">
+            <summary>Gets or sets the instance behavior.</summary>
+        </member>
+        <member name="T:Codeplex.Reactive.Asynchronous.Moles.SProgressStatus">
+            <summary>Stub type of <see cref="T:Codeplex.Reactive.Asynchronous.ProgressStatus"/>
+            .</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Asynchronous.Moles.SProgressStatus.#ctor(System.Int64,System.Int64)">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Asynchronous.Moles.SProgressStatus.InitializeStub">
+            <summary>Initializes a new instance of type SProgressStatus</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.SProgressStatus.CallBase">
+            <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.SProgressStatus.InstanceBehavior">
+            <summary>Gets or sets the instance behavior.</summary>
+        </member>
+        <member name="T:Codeplex.Reactive.Moles.SReactiveCommand`1">
+            <summary>Stub type of <see cref="T:Codeplex.Reactive.ReactiveCommand`1"/>
+            .</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.SReactiveCommand`1.#ctor">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.SReactiveCommand`1.#ctor(System.Func{`0,System.Boolean})">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.SReactiveCommand`1.InitializeStub">
+            <summary>Initializes a new instance of type SReactiveCommand</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.SReactiveCommand`1.CallBase">
+            <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.SReactiveCommand`1.InstanceBehavior">
+            <summary>Gets or sets the instance behavior.</summary>
+        </member>
+        <member name="T:Codeplex.Reactive.Moles.SReactiveProperty`1">
+            <summary>Stub type of <see cref="T:Codeplex.Reactive.ReactiveProperty`1"/>
+            .</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.SReactiveProperty`1.#ctor(`0,Codeplex.Reactive.ReactivePropertyMode)">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.SReactiveProperty`1.#ctor(System.Action{`0},`0,Codeplex.Reactive.ReactivePropertyMode)">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.SReactiveProperty`1.#ctor(System.IObservable{`0},System.Action{`0},`0,Codeplex.Reactive.ReactivePropertyMode)">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.SReactiveProperty`1.InitializeStub">
+            <summary>Initializes a new instance of type SReactiveProperty</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.SReactiveProperty`1.CallBase">
+            <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.SReactiveProperty`1.InstanceBehavior">
+            <summary>Gets or sets the instance behavior.</summary>
+        </member>
+        <member name="T:Codeplex.Reactive.Notifier.Moles.SScheduledNotifier`1">
+            <summary>Stub type of <see cref="T:Codeplex.Reactive.Notifier.ScheduledNotifier`1"/>
+            .</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Notifier.Moles.SScheduledNotifier`1.#ctor">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Notifier.Moles.SScheduledNotifier`1.#ctor(System.Reactive.Concurrency.IScheduler)">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Notifier.Moles.SScheduledNotifier`1.InitializeStub">
+            <summary>Initializes a new instance of type SScheduledNotifier</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.SScheduledNotifier`1.CallBase">
+            <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.SScheduledNotifier`1.InstanceBehavior">
+            <summary>Gets or sets the instance behavior.</summary>
+        </member>
+        <member name="T:Codeplex.Reactive.Notifier.Moles.SSignalNotifier">
+            <summary>Stub type of <see cref="T:Codeplex.Reactive.Notifier.SignalNotifier"/>
+            .</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Notifier.Moles.SSignalNotifier.#ctor(System.Int32)">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Notifier.Moles.SSignalNotifier.InitializeStub">
+            <summary>Initializes a new instance of type SSignalNotifier</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.SSignalNotifier.CallBase">
+            <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifier.Moles.SSignalNotifier.InstanceBehavior">
+            <summary>Gets or sets the instance behavior.</summary>
+        </member>
+    </members>
+</doc>

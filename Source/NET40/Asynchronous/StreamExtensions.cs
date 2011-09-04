@@ -21,11 +21,25 @@ namespace Codeplex.Reactive.Asynchronous
     {
         public static IObservable<Unit> WriteAsObservable(this Stream stream, byte[] buffer, int offset, int count)
         {
+            Contract.Requires<ArgumentNullException>(stream != (Stream)null);
+            Contract.Requires<ArgumentNullException>(buffer != null);
+            Contract.Requires<ArgumentOutOfRangeException>(offset >= 0);
+            Contract.Requires<ArgumentOutOfRangeException>(count >= 0);
+            Contract.Requires<ArgumentException>(count <= ((int)(buffer.Length) - offset));
+            Contract.Ensures(Contract.Result<IObservable<Unit>>() != null);
+
             return Observable.FromAsyncPattern((ac, o) => stream.BeginWrite(buffer, offset, count, ac, o), stream.EndWrite)();
         }
 
         public static IObservable<int> ReadAsObservable(this Stream stream, byte[] buffer, int offset, int count)
         {
+            Contract.Requires<ArgumentNullException>(stream != (Stream)null);
+            Contract.Requires<ArgumentNullException>(buffer != null);
+            Contract.Requires<ArgumentOutOfRangeException>(offset >= 0);
+            Contract.Requires<ArgumentOutOfRangeException>(count >= 0);
+            Contract.Requires<ArgumentException>(count <= ((int)(buffer.Length) - offset));
+            Contract.Ensures(Contract.Result<IObservable<int>>() != null);
+
             return Observable.FromAsyncPattern<int>((ac, o) => stream.BeginRead(buffer, offset, count, ac, o), stream.EndRead)();
         }
 

@@ -27,12 +27,5 @@ namespace ReactiveProperty.Tests.Asynchronous
                 buffer.Is(bytes);
             }
         }
-
-        [TestMethod]
-        public void ReadAsObservableException()
-        {
-            var stream = new MemoryStream();
-            stream.ReadAsObservable(null, 0, 0).Subscribe();
-        }
     }
 }
