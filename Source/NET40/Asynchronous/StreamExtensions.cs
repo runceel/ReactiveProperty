@@ -28,7 +28,10 @@ namespace Codeplex.Reactive.Asynchronous
             Contract.Requires<ArgumentException>(count <= ((int)(buffer.Length) - offset));
             Contract.Ensures(Contract.Result<IObservable<Unit>>() != null);
 
-            return Observable.FromAsyncPattern((ac, o) => stream.BeginWrite(buffer, offset, count, ac, o), stream.EndWrite)();
+            var result =  Observable.FromAsyncPattern((ac, o) => stream.BeginWrite(buffer, offset, count, ac, o), stream.EndWrite)();
+            
+            Contract.Assume(result != null);
+            return result;
         }
 
         public static IObservable<int> ReadAsObservable(this Stream stream, byte[] buffer, int offset, int count)
@@ -40,16 +43,26 @@ namespace Codeplex.Reactive.Asynchronous
             Contract.Requires<ArgumentException>(count <= ((int)(buffer.Length) - offset));
             Contract.Ensures(Contract.Result<IObservable<int>>() != null);
 
-            return Observable.FromAsyncPattern<int>((ac, o) => stream.BeginRead(buffer, offset, count, ac, o), stream.EndRead)();
+            var result = Observable.FromAsyncPattern<int>((ac, o) => stream.BeginRead(buffer, offset, count, ac, o), stream.EndRead)();
+
+            Contract.Assume(result != null);
+            return result;
         }
 
         public static IObservable<Unit> WriteAsync(this Stream stream, string data)
         {
+            Contract.Requires<ArgumentNullException>(stream != null);
+            Contract.Requires<ArgumentNullException>(data != null);
+
             return WriteAsync(stream, data, Encoding.UTF8);
         }
 
         public static IObservable<Unit> WriteAsync(this Stream stream, string data, Encoding encoding)
         {
+            Contract.Requires<ArgumentNullException>(stream != null);
+            Contract.Requires<ArgumentNullException>(data != null);
+            Contract.Requires<ArgumentNullException>(encoding != null);
+
             return WriteAsync(stream, encoding.GetBytes(data));
         }
 

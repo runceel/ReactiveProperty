@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Reactive.Subjects;
 using System.Reactive.Linq;
+using System.Diagnostics.Contracts;
 
 namespace Codeplex.Reactive.Notifier
 {
@@ -16,24 +17,28 @@ namespace Codeplex.Reactive.Notifier
     {
         readonly object lockObject = new object();
         readonly Subject<SignalChangedStatus> statusChanged = new Subject<SignalChangedStatus>();
+        readonly int max;
 
-        public int Max { get; private set; }
+        public int Max { get { return max; } }
         public int Count { get; private set; }
 
         public SignalNotifier(int max = int.MaxValue)
         {
-            if (max <= 0) throw new ArgumentException("1以上の値を指定してください。");
+            Contract.Requires<ArgumentException>(max >= 1, "value allows over 1");
+            Contract.Ensures(Max == max);
+            Contract.Ensures(Count == 0);
 
-            Max = max;
+            this.max = max;
         }
 
         public void Increment(int incrementCount = 1)
         {
-            if (incrementCount < 1) throw new ArgumentException("1以上の値を指定してください。");
+            Contract.Requires<ArgumentException>(incrementCount >= 1, "value allows over 1");
+            Contract.Ensures(Count == Contract.OldValue(Count) + incrementCount);
 
             lock (lockObject)
             {
-                if (incrementCount + Count > Max) throw new InvalidOperationException("指定した最大値を超えてインクリメントしようとしました。");
+                if (incrementCount + Count > Max) throw new InvalidOperationException("over max value");
 
                 Count += incrementCount;
                 statusChanged.OnNext(SignalChangedStatus.Increment);
@@ -43,11 +48,12 @@ namespace Codeplex.Reactive.Notifier
 
         public void Decrement(int decrementCount = 1)
         {
-            if (decrementCount < 1) throw new ArgumentException("1以上の値を指定してください。");
+            Contract.Requires<ArgumentException>(decrementCount >= 1, "value allows over 1");
+            Contract.Ensures(Count == Contract.OldValue(Count) - decrementCount);
 
             lock (lockObject)
             {
-                if (Count - decrementCount < 0) throw new InvalidOperationException("0以下にデクリメントしようとしました。");
+                if (Count - decrementCount < 0) throw new InvalidOperationException("not allow decrement to under 0");
 
                 Count -= decrementCount;
                 statusChanged.OnNext(SignalChangedStatus.Decrement);

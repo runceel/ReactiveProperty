@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Codeplex.Reactive.Notifier;
 
 namespace WPF
 {
@@ -22,6 +23,14 @@ namespace WPF
         public MainWindow()
         {
             InitializeComponent();
+
+            var signalN = new SignalNotifier(100);
+
+            signalN.Increment(-1);
+
+
+            signalN.Increment(99);
+
         }
     }
 }

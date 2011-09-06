@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Diagnostics.Contracts;
 
 namespace Codeplex.Reactive.Extensions
 {
@@ -8,8 +9,14 @@ namespace Codeplex.Reactive.Extensions
     {
         static Dictionary<string, Delegate> cache = new Dictionary<string, Delegate>();
 
+        [Pure]
         public static Func<TType, TProperty> Lookup<TProperty>(Expression<Func<TType, TProperty>> propertySelector, out string propertyName)
         {
+            Contract.Requires<ArgumentNullException>(propertySelector != null);
+            Contract.Requires(propertySelector.Body is MemberExpression);
+            Contract.Ensures(Contract.Result<Func<TType, TProperty>>() != null);
+            Contract.Ensures(!string.IsNullOrEmpty(Contract.ValueAtReturn(out propertyName)));
+
             propertyName = ((MemberExpression)propertySelector.Body).Member.Name;
             Delegate accessor;
 
@@ -22,6 +29,8 @@ namespace Codeplex.Reactive.Extensions
                 }
             }
 
+            Contract.Assume(accessor != null);
+            Contract.Assume(!string.IsNullOrEmpty(propertyName));
             return (Func<TType, TProperty>)accessor;
         }
     }

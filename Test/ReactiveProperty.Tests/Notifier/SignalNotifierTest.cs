@@ -38,13 +38,11 @@ namespace ReactiveProperty.Tests
 
             notifier.Increment(10);
             notifier.Count.Is(10);
-            AssertEx.Throws<InvalidOperationException>(() =>
-                notifier.Increment());
+            AssertEx.Throws<InvalidOperationException>(() => notifier.Increment());
 
             notifier.Decrement(10);
             notifier.Count.Is(0);
-            AssertEx.Throws<InvalidOperationException>(() =>
-                notifier.Decrement());
+            AssertEx.Throws<InvalidOperationException>(() => notifier.Decrement());
 
             notifier.Increment(5);
             notifier.Count.Is(5);

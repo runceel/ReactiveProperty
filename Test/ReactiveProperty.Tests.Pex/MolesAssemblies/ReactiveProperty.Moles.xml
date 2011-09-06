@@ -112,102 +112,6 @@
         <member name="P:Codeplex.Reactive.Extensions.Moles.MINotifyPropertyChangedExtensions.Behavior">
             <summary>Assigns the behavior for all methods of the moled type</summary>
         </member>
-        <member name="T:Codeplex.Reactive.Notifier.Moles.MProgressNotifier">
-            <summary>Mole type of <see cref="T:Codeplex.Reactive.Notifier.ProgressNotifier"/>
-            .</summary>
-        </member>
-        <member name="M:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.#ctor">
-            <summary>Initializes a new mole</summary>
-        </member>
-        <member name="M:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.#ctor(Codeplex.Reactive.Notifier.ProgressNotifier)">
-            <summary>Initializes a new mole for the given instance</summary>
-        </member>
-        <member name="M:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.BehaveAsCurrent">
-            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
-        </member>
-        <member name="M:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.BehaveAsNotImplemented">
-            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
-        </member>
-        <member name="M:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.Bind(Codeplex.Reactive.Notifier.IProgress{System.Int32})">
-            <summary>Binds the members of the interface to the mole.</summary>
-        </member>
-        <member name="M:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.Bind(System.IObservable{System.Int32})">
-            <summary>Binds the members of the interface to the mole.</summary>
-        </member>
-        <member name="P:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.Behavior">
-            <summary>Assigns the behavior for all methods of the moled type</summary>
-        </member>
-        <member name="P:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.CancelString">
-            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Notifier.ProgressNotifier.Cancel(System.String)"/>
-            </summary>
-        </member>
-        <member name="P:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.Complete">
-            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Notifier.ProgressNotifier.Complete"/>
-            </summary>
-        </member>
-        <member name="P:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.ConstructorInt32">
-            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Notifier.ProgressNotifier.#ctor(System.Int32)"/>
-            </summary>
-        </member>
-        <member name="P:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.CurrentGet">
-            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.Notifier.ProgressNotifier.Current"/>
-            </summary>
-        </member>
-        <member name="P:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.CurrentSetInt32">
-            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.Notifier.ProgressNotifier.Current"/>
-            </summary>
-        </member>
-        <member name="P:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.IsCompletedGet">
-            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.Notifier.ProgressNotifier.IsCompleted"/>
-            </summary>
-        </member>
-        <member name="P:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.IsCompletedSetBoolean">
-            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.Notifier.ProgressNotifier.IsCompleted"/>
-            </summary>
-        </member>
-        <member name="P:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.ReportInt32">
-            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Notifier.ProgressNotifier.Report(System.Int32)"/>
-            </summary>
-        </member>
-        <member name="P:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.SubscribeIObserverOfInt32">
-            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Notifier.ProgressNotifier.Subscribe(System.IObserver`1{System.Int32})"/>
-            </summary>
-        </member>
-        <member name="T:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.AllInstances">
-            <summary>Define moles for all instances members</summary>
-        </member>
-        <member name="P:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.AllInstances.CancelString">
-            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Notifier.ProgressNotifier.Cancel(System.String)"/>
-            </summary>
-        </member>
-        <member name="P:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.AllInstances.Complete">
-            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Notifier.ProgressNotifier.Complete"/>
-            </summary>
-        </member>
-        <member name="P:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.AllInstances.CurrentGet">
-            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.Notifier.ProgressNotifier.Current"/>
-            </summary>
-        </member>
-        <member name="P:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.AllInstances.CurrentSetInt32">
-            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.Notifier.ProgressNotifier.Current"/>
-            </summary>
-        </member>
-        <member name="P:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.AllInstances.IsCompletedGet">
-            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.Notifier.ProgressNotifier.IsCompleted"/>
-            </summary>
-        </member>
-        <member name="P:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.AllInstances.IsCompletedSetBoolean">
-            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.Notifier.ProgressNotifier.IsCompleted"/>
-            </summary>
-        </member>
-        <member name="P:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.AllInstances.ReportInt32">
-            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Notifier.ProgressNotifier.Report(System.Int32)"/>
-            </summary>
-        </member>
-        <member name="P:Codeplex.Reactive.Notifier.Moles.MProgressNotifier.AllInstances.SubscribeIObserverOfInt32">
-            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Notifier.ProgressNotifier.Subscribe(System.IObserver`1{System.Int32})"/>
-            </summary>
-        </member>
         <member name="T:Codeplex.Reactive.Asynchronous.Moles.MProgressStatus">
             <summary>Mole type of <see cref="T:Codeplex.Reactive.Asynchronous.ProgressStatus"/>
             .</summary>
@@ -899,22 +803,6 @@
             <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
         </member>
         <member name="P:Codeplex.Reactive.Moles.SEventToReactive.InstanceBehavior">
-            <summary>Gets or sets the instance behavior.</summary>
-        </member>
-        <member name="T:Codeplex.Reactive.Notifier.Moles.SProgressNotifier">
-            <summary>Stub type of <see cref="T:Codeplex.Reactive.Notifier.ProgressNotifier"/>
-            .</summary>
-        </member>
-        <member name="M:Codeplex.Reactive.Notifier.Moles.SProgressNotifier.#ctor(System.Int32)">
-            <summary>Initializes a new instance</summary>
-        </member>
-        <member name="M:Codeplex.Reactive.Notifier.Moles.SProgressNotifier.InitializeStub">
-            <summary>Initializes a new instance of type SProgressNotifier</summary>
-        </member>
-        <member name="P:Codeplex.Reactive.Notifier.Moles.SProgressNotifier.CallBase">
-            <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
-        </member>
-        <member name="P:Codeplex.Reactive.Notifier.Moles.SProgressNotifier.InstanceBehavior">
             <summary>Gets or sets the instance behavior.</summary>
         </member>
         <member name="T:Codeplex.Reactive.Asynchronous.Moles.SProgressStatus">

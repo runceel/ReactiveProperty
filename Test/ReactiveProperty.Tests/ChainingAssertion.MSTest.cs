@@ -170,11 +170,13 @@ using System.Dynamic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Diagnostics.Contracts;
 
 namespace Microsoft.VisualStudio.TestTools.UnitTesting
 {
     #region Extensions
 
+    [ContractVerification(false)]
     public static partial class AssertEx
     {
         /// <summary>Assert.AreEqual, if T is IEnumerable then CollectionAssert.AreEqual</summary>
@@ -331,6 +333,19 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting
             }
 
             return (T)exception;
+        }
+
+        /// <summary>expected testCode throws ContractException</summary>
+        /// <returns>ContractException</returns>
+        public static Exception ThrowsContractException(Action testCode, string message = "")
+        {
+            var exception = AssertEx.Catch<Exception>(testCode, message);
+            var type = exception.GetType();
+            if (type.Namespace == "System.Diagnostics.Contracts" && type.Name == "ContractException")
+            {
+                return exception;
+            }
+            throw new AssertFailedException("Throwed Exception is not ContractException", exception);
         }
 
         /// <summary>does not throw any exceptions</summary>

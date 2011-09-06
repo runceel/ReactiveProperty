@@ -27,20 +27,28 @@ namespace Codeplex.Reactive.Notifier
             scheduler.Schedule(() => trigger.OnNext(value));
         }
 
-        public void Report(T value, TimeSpan dueTime)
+        public IDisposable Report(T value, TimeSpan dueTime)
         {
-            scheduler.Schedule(dueTime, () => trigger.OnNext(value));
+            Contract.Ensures(Contract.Result<IDisposable>() != null);
+
+            var cancel = scheduler.Schedule(dueTime, () => trigger.OnNext(value));
+
+            Contract.Assume(cancel != null);
+            return cancel;
         }
 
-        public void Report(T value, DateTimeOffset dueTime)
+        public IDisposable Report(T value, DateTimeOffset dueTime)
         {
-            scheduler.Schedule(dueTime, () => trigger.OnNext(value));
+            Contract.Ensures(Contract.Result<IDisposable>() != null);
+
+            var cancel = scheduler.Schedule(dueTime, () => trigger.OnNext(value));
+
+            Contract.Assume(cancel != null);
+            return cancel;
         }
 
         public IDisposable Subscribe(IObserver<T> observer)
         {
-            Contract.Requires<ArgumentNullException>(observer != null);
-
             return trigger.Subscribe(observer);
         }
     }
