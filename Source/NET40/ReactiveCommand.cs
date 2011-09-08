@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Reactive.Subjects;
 using System.Windows.Input;
+using GalaSoft.MvvmLight.Command;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Codeplex.Reactive
 {
@@ -18,6 +20,13 @@ namespace Codeplex.Reactive
         public ReactiveCommand(Func<T, bool> canExecute)
         {
             this.canExecute = canExecute;
+        }
+
+        [SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate", Justification = "This cannot be an event")]
+        public void RaiseCanExecuteChanged()
+        {
+            var handler = CanExecuteChanged;
+            if (handler != null) handler(this, EventArgs.Empty);
         }
 
         public bool CanExecute(object parameter)
@@ -38,7 +47,6 @@ namespace Codeplex.Reactive
         public void Dispose()
         {
             trigger.Dispose();
-            GC.SuppressFinalize(this);
         }
     }
 }

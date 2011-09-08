@@ -27,5 +27,18 @@ namespace ReactiveProperty.Tests.Asynchronous
                 buffer.Is(bytes);
             }
         }
+
+        [TestMethod]
+        public void WriteAsObservable()
+        {
+            var bytes = Encoding.UTF8.GetBytes("てすとすとりんぐ");
+            using (var stream = new MemoryStream())
+            {
+                var result = stream.WriteAsObservable(bytes, 0, bytes.Length).ToEnumerable().ToArray();
+
+                result.Length.Is(1);
+                stream.ToArray().Is(bytes);
+            }
+        }
     }
 }

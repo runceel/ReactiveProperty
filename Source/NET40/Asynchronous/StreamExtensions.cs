@@ -77,7 +77,7 @@ namespace Codeplex.Reactive.Asynchronous
                 .Buffer(chunkSize)
                 .Select(l => stream.WriteAsObservable(l.ToArray(), 0, l.Count))
                 .Concat()
-                .Finally(() => stream.Close());
+                .Finally(() => { stream.Flush(); stream.Close(); });
         }
 
         public static IObservable<Unit> WriteLineAsync(this Stream stream, string data)

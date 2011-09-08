@@ -21,7 +21,7 @@ namespace Codeplex.Reactive.Asynchronous
 [TestMethod]
 [PexGeneratedBy(typeof(StreamExtensionsTest))]
 [ExpectedException(typeof(ArgumentNullException))]
-public void ReadAsObservableThrowsArgumentNullException599()
+public void ReadAsObservableThrowsArgumentNullException394()
 {
     IObservable<int> iObservable;
     iObservable = this.ReadAsObservable((Stream)null, (byte[])null, 0, 0);
@@ -29,7 +29,7 @@ public void ReadAsObservableThrowsArgumentNullException599()
 [TestMethod]
 [PexGeneratedBy(typeof(StreamExtensionsTest))]
 [ExpectedException(typeof(ArgumentNullException))]
-public void ReadAsObservableThrowsArgumentNullException632()
+public void ReadAsObservableThrowsArgumentNullException946()
 {
     using (PexDisposableContext disposables = PexDisposableContext.Create())
     {
@@ -62,7 +62,7 @@ public void ReadAsObservable493()
 [TestMethod]
 [PexGeneratedBy(typeof(StreamExtensionsTest))]
 [ExpectedException(typeof(ArgumentException))]
-public void ReadAsObservableThrowsArgumentException608()
+public void ReadAsObservableThrowsArgumentException927()
 {
     using (PexDisposableContext disposables = PexDisposableContext.Create())
     {
@@ -79,7 +79,7 @@ public void ReadAsObservableThrowsArgumentException608()
 [TestMethod]
 [PexGeneratedBy(typeof(StreamExtensionsTest))]
 [ExpectedException(typeof(ArgumentOutOfRangeException))]
-public void ReadAsObservableThrowsArgumentOutOfRangeException367()
+public void ReadAsObservableThrowsArgumentOutOfRangeException99()
 {
     using (PexDisposableContext disposables = PexDisposableContext.Create())
     {

@@ -8,7 +8,7 @@ namespace Codeplex.Reactive
     public class ReactiveCollection<T> : ObservableCollection<T>, IDisposable
     {
         readonly IDisposable subscription;
-        readonly bool isRaiseOnUIDispatcher = false;
+        readonly bool isRaiseOnUIDispatcher;
 
         public ReactiveCollection(IObservable<T> source, bool isRaiseOnUIDispatcher = true)
         {

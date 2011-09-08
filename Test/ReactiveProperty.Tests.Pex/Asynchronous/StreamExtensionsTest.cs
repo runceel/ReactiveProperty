@@ -8,6 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Pex.Framework.Generated;
 using System.Reactive.Linq;
 using System.Text;
+using System.Reactive;
 
 namespace Codeplex.Reactive.Asynchronous
 {
@@ -43,10 +44,40 @@ namespace Codeplex.Reactive.Asynchronous
 
             IObservable<int> result
                = StreamExtensions.ReadAsObservable(stream, buffer, 0, bytes.Length);
-            var disp = result.First();
+            var disp = result.Single();
 
             disp.Is(bytes.Length);
             buffer.Is(bytes);
         }
+
+        /// <summary>Test stub for WriteAsObservable(Stream, Byte[], Int32, Int32)</summary>
+        [PexMethod]
+        public IObservable<Unit> WriteAsObservable(
+            Stream stream,
+            byte[] buffer,
+            int offset,
+            int count
+        )
+        {
+            IObservable<Unit> result
+               = StreamExtensions.WriteAsObservable(stream, buffer, offset, count);
+            return result;
+        }
+
+        [PexMethod]
+        public void WriteAsObservableAndSubscribe(
+            [PexAssumeNotNull]string s
+        )
+        {
+            var bytes = Encoding.UTF8.GetBytes(s);
+            var stream = new MemoryStream();
+
+            var result = stream.WriteAsObservable(bytes, 0, bytes.Length);
+            var disp = result.Single();
+
+            disp.Is(Unit.Default);
+            stream.ToArray().Is(bytes);
+        }
+
     }
 }

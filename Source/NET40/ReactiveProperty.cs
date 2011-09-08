@@ -5,7 +5,6 @@ using Microsoft.Phone.Reactive;
 #else
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-
 #endif
 
 namespace Codeplex.Reactive
@@ -29,9 +28,9 @@ namespace Codeplex.Reactive
     public class ReactiveProperty<T> : ViewModelBase, IReactiveProperty<T>
     {
         T latestValue;
-        IObservable<T> source;
-        Subject<T> anotherTrigger = new Subject<T>();
-        IDisposable sourceDisposable;
+        readonly IObservable<T> source;
+        readonly Subject<T> anotherTrigger = new Subject<T>();
+        readonly IDisposable sourceDisposable;
 
         /// <summary>One way from Source</summary>
         public ReactiveProperty(T initialValue = default(T), ReactivePropertyMode mode = ReactivePropertyMode.None)
@@ -64,6 +63,7 @@ namespace Codeplex.Reactive
                 ? merge.Publish(initialValue)
                 : merge.Publish();
 
+            // subscribe
             (mode.HasFlag(ReactivePropertyMode.PropertyChangedInvokeOnUIDispatcher)
                     ? connectable.ObserveOnUIUIDispatcher()
                     : connectable)
@@ -80,15 +80,8 @@ namespace Codeplex.Reactive
 
         public T Value
         {
-            get
-            {
-                return latestValue;
-            }
-            set
-            {
-                latestValue = value;
-                anotherTrigger.OnNext(value);
-            }
+            get { return latestValue; }
+            set { anotherTrigger.OnNext(value); }
         }
 
         object IReactiveProperty<T>.Value

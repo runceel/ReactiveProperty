@@ -124,6 +124,9 @@
     <Compile Include="Asynchronous\StreamExtensionsTest.ReadAsObservableAndSubscribe.g.cs">
       <DependentUpon>StreamExtensionsTest.cs</DependentUpon>
     </Compile>
+    <Compile Include="Asynchronous\StreamExtensionsTest.WriteAsObservableAndSubscribe.g.cs">
+      <DependentUpon>StreamExtensionsTest.cs</DependentUpon>
+    </Compile>
     <Compile Include="ChainingAssertion.MSTest.cs" />
     <Compile Include="Notifier\SignalNotifierTest.cs" />
     <Compile Include="Notifier\SignalNotifierTest.Decrement.g.cs">

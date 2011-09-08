@@ -16,6 +16,7 @@ using Codeplex.Reactive;
 using GalaSoft.MvvmLight;
 using System.Reactive.Linq;
 using Codeplex.Reactive.Extensions;
+using System.ComponentModel;
 
 namespace WPF
 {
@@ -39,17 +40,21 @@ namespace WPF
     {
         public ReactiveProperty<string> In { get; set; }
         public ReactiveProperty<string> Out { get; set; }
+        public ReactiveCollection<long> Collection { get; set; }
 
         public MainWindowViewModel()
         {
-            In = new ReactiveProperty<string>();
+            In = new ReactiveProperty<string>(_=>RaisePropertyChanged("In"));
 
-            Out = In.Delay(TimeSpan.FromSeconds(3))
+            Out = In.Delay(TimeSpan.FromSeconds(1))
                     .ToReactiveProperty();
+
+            Collection = Observable.Interval(TimeSpan.FromSeconds(1))
+                .ToReactiveCollection();
+
 
 
             
-
         }
     }
 }

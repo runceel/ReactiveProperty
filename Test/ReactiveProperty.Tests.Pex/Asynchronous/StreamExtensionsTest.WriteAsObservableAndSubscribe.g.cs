@@ -9,10 +9,8 @@
 // compile anymore, you may delete this file and invoke Pex again.
 // </auto-generated>
 using System;
-using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Pex.Framework.Generated;
-using Microsoft.Pex.Engine.Exceptions;
 
 namespace Codeplex.Reactive.Asynchronous
 {
@@ -20,21 +18,33 @@ namespace Codeplex.Reactive.Asynchronous
     {
 [TestMethod]
 [PexGeneratedBy(typeof(StreamExtensionsTest))]
-public void ReadAsObservableAndSubscribe57()
+public void WriteAsObservableAndSubscribe57()
 {
-    this.ReadAsObservableAndSubscribe("");
+    this.WriteAsObservableAndSubscribe("");
 }
 [TestMethod]
 [PexGeneratedBy(typeof(StreamExtensionsTest))]
-public void ReadAsObservableAndSubscribe418()
+public void WriteAsObservableAndSubscribe295()
 {
-    this.ReadAsObservableAndSubscribe("\udc00");
+    this.WriteAsObservableAndSubscribe("\0");
 }
 [TestMethod]
 [PexGeneratedBy(typeof(StreamExtensionsTest))]
-public void ReadAsObservableAndSubscribe94()
+public void WriteAsObservableAndSubscribe480()
 {
-    this.ReadAsObservableAndSubscribe("\0\0\0\0\0\0\0\0\u0100\0\0\0\0\0\0");
+    this.WriteAsObservableAndSubscribe("\0\0");
+}
+[TestMethod]
+[PexGeneratedBy(typeof(StreamExtensionsTest))]
+public void WriteAsObservableAndSubscribe950()
+{
+    this.WriteAsObservableAndSubscribe("\ud801\0\0");
+}
+[TestMethod]
+[PexGeneratedBy(typeof(StreamExtensionsTest))]
+public void WriteAsObservableAndSubscribe22()
+{
+    this.WriteAsObservableAndSubscribe("\ud9c0\udc00");
 }
     }
 }

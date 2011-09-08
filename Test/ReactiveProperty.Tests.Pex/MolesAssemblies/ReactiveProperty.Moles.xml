@@ -331,6 +331,10 @@
             <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveCommand`1.Execute(System.Object)"/>
             </summary>
         </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveCommand`1.RaiseCanExecuteChanged">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveCommand`1.RaiseCanExecuteChanged"/>
+            </summary>
+        </member>
         <member name="P:Codeplex.Reactive.Moles.MReactiveCommand`1.SubscribeIObserverOfT">
             <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveCommand`1.Subscribe(System.IObserver`1{`1})"/>
             </summary>
@@ -356,6 +360,10 @@
         </member>
         <member name="P:Codeplex.Reactive.Moles.MReactiveCommand`1.AllInstances.ExecuteObject">
             <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveCommand`1.Execute(System.Object)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveCommand`1.AllInstances.RaiseCanExecuteChanged">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveCommand`1.RaiseCanExecuteChanged"/>
             </summary>
         </member>
         <member name="P:Codeplex.Reactive.Moles.MReactiveCommand`1.AllInstances.SubscribeIObserverOfT">
