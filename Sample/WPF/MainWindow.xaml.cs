@@ -12,6 +12,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Codeplex.Reactive.Notifier;
+using Codeplex.Reactive;
+using GalaSoft.MvvmLight;
+using System.Reactive.Linq;
+using Codeplex.Reactive.Extensions;
 
 namespace WPF
 {
@@ -24,12 +28,27 @@ namespace WPF
         {
             InitializeComponent();
 
-            var signalN = new SignalNotifier(100);
 
-            signalN.Increment(-1);
+            DataContext = new MainWindowViewModel();
 
 
-            signalN.Increment(99);
+        }
+    }
+
+    public class MainWindowViewModel : ViewModelBase
+    {
+        public ReactiveProperty<string> In { get; set; }
+        public ReactiveProperty<string> Out { get; set; }
+
+        public MainWindowViewModel()
+        {
+            In = new ReactiveProperty<string>();
+
+            Out = In.Delay(TimeSpan.FromSeconds(3))
+                    .ToReactiveProperty();
+
+
+            
 
         }
     }

@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Windows;
+using GalaSoft.MvvmLight.Threading;
 
 namespace WPF
 {
@@ -12,5 +13,9 @@ namespace WPF
     /// </summary>
     public partial class App : Application
     {
+        public App()
+        {
+            DispatcherHelper.Initialize();
+        }
     }
 }

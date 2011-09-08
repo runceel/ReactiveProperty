@@ -1,9 +1,11 @@
 ﻿using System;
+using GalaSoft.MvvmLight;
 #if WINDOWS_PHONE
 using Microsoft.Phone.Reactive;
 #else
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+
 #endif
 
 namespace Codeplex.Reactive
@@ -24,7 +26,7 @@ namespace Codeplex.Reactive
         object Value { get; set; }
     }
 
-    public class ReactiveProperty<T> : IReactiveProperty<T>
+    public class ReactiveProperty<T> : ViewModelBase, IReactiveProperty<T>
     {
         T latestValue;
         IObservable<T> source;
@@ -37,12 +39,17 @@ namespace Codeplex.Reactive
         { }
 
         /// <summary>Two way binding(mainly from source)</summary>
-        public ReactiveProperty(Action<T> propertyChanged, T initialValue = default(T), ReactivePropertyMode mode = ReactivePropertyMode.All)
-            : this(Observable.Never<T>(), propertyChanged, initialValue, mode)
+        public ReactiveProperty(Action<T> parentRaisePropertyChanged, T initialValue = default(T), ReactivePropertyMode mode = ReactivePropertyMode.All)
+            : this(Observable.Never<T>(), parentRaisePropertyChanged, initialValue, mode)
         { }
 
-        /// <summary>Two way binding(mainly from this)</summary>
-        public ReactiveProperty(IObservable<T> source, Action<T> propertyChanged, T initialValue = default(T),
+        // ToReactivePropery Only
+        internal ReactiveProperty(IObservable<T> source, T initialValue = default(T), ReactivePropertyMode mode = ReactivePropertyMode.All)
+            : this(source, null, initialValue, mode)
+        { }
+
+        // ToReactivePropery Only
+        internal ReactiveProperty(IObservable<T> source, Action<T> parentRaisePropertyChanged, T initialValue = default(T),
             ReactivePropertyMode mode = ReactivePropertyMode.All)
         {
             this.latestValue = initialValue;
@@ -57,18 +64,15 @@ namespace Codeplex.Reactive
                 ? merge.Publish(initialValue)
                 : merge.Publish();
 
-            // call propertyChanged subscribe
-            if (propertyChanged != null)
-            {
-                (mode.HasFlag(ReactivePropertyMode.PropertyChangedInvokeOnUIDispatcher)
-                        ? connectable.ObserveOnUIUIDispatcher()
-                        : connectable)
-                    .Subscribe(x =>
-                    {
-                        latestValue = x;
-                        propertyChanged(x);
-                    });
-            }
+            (mode.HasFlag(ReactivePropertyMode.PropertyChangedInvokeOnUIDispatcher)
+                    ? connectable.ObserveOnUIUIDispatcher()
+                    : connectable)
+                .Subscribe(x =>
+                {
+                    latestValue = x;
+                    RaisePropertyChanged("Value");
+                    if (parentRaisePropertyChanged != null) parentRaisePropertyChanged(x);
+                });
 
             // start subscription
             this.sourceDisposable = connectable.Connect();
@@ -98,20 +102,27 @@ namespace Codeplex.Reactive
             return source.Subscribe(observer);
         }
 
-        public void Dispose()
+        public override void Cleanup()
         {
             sourceDisposable.Dispose();
+            base.Cleanup();
         }
     }
 
     public static class ReactivePropertyObservableExtensions
     {
         public static ReactiveProperty<T> ToReactiveProperty<T>(this IObservable<T> source,
-            Action<T> propertyChanged,
             T initialValue = default(T),
             ReactivePropertyMode mode = ReactivePropertyMode.All)
         {
-            return new ReactiveProperty<T>(source, propertyChanged, initialValue, mode);
+            return new ReactiveProperty<T>(source, initialValue, mode);
+        }
+
+        public static ReactiveProperty<T> ToReactiveProperty<T>(this IObservable<T> source,
+            Action<T> parentRaisePropertyChanged, T initialValue = default(T),
+            ReactivePropertyMode mode = ReactivePropertyMode.All)
+        {
+            return new ReactiveProperty<T>(source, parentRaisePropertyChanged, initialValue, mode);
         }
     }
 }

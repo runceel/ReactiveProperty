@@ -178,6 +178,103 @@
             <summary>Sets the mole of <see cref="P:Codeplex.Reactive.Asynchronous.ProgressStatus.TotalLength"/>
             </summary>
         </member>
+        <member name="T:Codeplex.Reactive.Moles.MReactiveCollection`1">
+            <summary>Mole type of <see cref="T:Codeplex.Reactive.ReactiveCollection`1"/>
+            .</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MReactiveCollection`1.#ctor">
+            <summary>Initializes a new mole</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MReactiveCollection`1.#ctor(Codeplex.Reactive.ReactiveCollection{`0})">
+            <summary>Initializes a new mole for the given instance</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MReactiveCollection`1.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MReactiveCollection`1.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MReactiveCollection`1.Bind(System.Collections.Specialized.INotifyCollectionChanged)">
+            <summary>Binds the members of the interface to the mole.</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MReactiveCollection`1.Bind(System.ComponentModel.INotifyPropertyChanged)">
+            <summary>Binds the members of the interface to the mole.</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MReactiveCollection`1.Bind(System.IDisposable)">
+            <summary>Binds the members of the interface to the mole.</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MReactiveCollection`1.Bind(System.Collections.ICollection)">
+            <summary>Binds the members of the interface to the mole.</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MReactiveCollection`1.Bind(System.Collections.IEnumerable)">
+            <summary>Binds the members of the interface to the mole.</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MReactiveCollection`1.Bind(System.Collections.IList)">
+            <summary>Binds the members of the interface to the mole.</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MReactiveCollection`1.Bind(System.Collections.Generic.ICollection{`0})">
+            <summary>Binds the members of the interface to the mole.</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MReactiveCollection`1.Bind(System.Collections.Generic.IEnumerable{`0})">
+            <summary>Binds the members of the interface to the mole.</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MReactiveCollection`1.Bind(System.Collections.Generic.IList{`0})">
+            <summary>Binds the members of the interface to the mole.</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveCollection`1.Behavior">
+            <summary>Assigns the behavior for all methods of the moled type</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveCollection`1.ConstructorIObservableOfTBoolean">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveCollection`1.#ctor(System.IObservable`1{`1},System.Boolean)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveCollection`1.Dispose">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveCollection`1.Dispose"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveCollection`1.OnCollectionChangedNotifyCollectionChangedEventArgs">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveCollection`1.OnCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveCollection`1._n__FabricatedMethod4NotifyCollectionChangedEventArgs">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveCollection`1.&lt;&gt;n__FabricatedMethod4(System.Collections.Specialized.NotifyCollectionChangedEventArgs)"/>
+            </summary>
+        </member>
+        <member name="T:Codeplex.Reactive.Moles.MReactiveCollection`1.AllInstances">
+            <summary>Define moles for all instances members</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveCollection`1.AllInstances.Dispose">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveCollection`1.Dispose"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveCollection`1.AllInstances.OnCollectionChangedNotifyCollectionChangedEventArgs">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveCollection`1.OnCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveCollection`1.AllInstances._n__FabricatedMethod4NotifyCollectionChangedEventArgs">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveCollection`1.&lt;&gt;n__FabricatedMethod4(System.Collections.Specialized.NotifyCollectionChangedEventArgs)"/>
+            </summary>
+        </member>
+        <member name="T:Codeplex.Reactive.Moles.MReactiveCollectionObservableExtensions">
+            <summary>Mole type of <see cref="T:Codeplex.Reactive.ReactiveCollectionObservableExtensions"/>
+            .</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MReactiveCollectionObservableExtensions.#ctor">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MReactiveCollectionObservableExtensions.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MReactiveCollectionObservableExtensions.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MReactiveCollectionObservableExtensions.ToReactiveCollectionIObservableOfTBoolean``1(Microsoft.Moles.Framework.MolesDelegates.Func{System.IObservable{``0},System.Boolean,Codeplex.Reactive.ReactiveCollection{``0}})">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveCollectionObservableExtensions.ToReactiveCollection``1(System.IObservable`1{``0},System.Boolean)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveCollectionObservableExtensions.Behavior">
+            <summary>Assigns the behavior for all methods of the moled type</summary>
+        </member>
         <member name="T:Codeplex.Reactive.Moles.MReactiveCommand`1">
             <summary>Mole type of <see cref="T:Codeplex.Reactive.ReactiveCommand`1"/>
             .</summary>
@@ -281,7 +378,13 @@
         <member name="M:Codeplex.Reactive.Moles.MReactiveProperty`1.BehaveAsNotImplemented">
             <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
         </member>
+        <member name="M:Codeplex.Reactive.Moles.MReactiveProperty`1.Bind(GalaSoft.MvvmLight.ICleanup)">
+            <summary>Binds the members of the interface to the mole.</summary>
+        </member>
         <member name="M:Codeplex.Reactive.Moles.MReactiveProperty`1.Bind(Codeplex.Reactive.IReactiveProperty{`0})">
+            <summary>Binds the members of the interface to the mole.</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MReactiveProperty`1.Bind(System.ComponentModel.INotifyPropertyChanged)">
             <summary>Binds the members of the interface to the mole.</summary>
         </member>
         <member name="M:Codeplex.Reactive.Moles.MReactiveProperty`1.Bind(System.IDisposable)">
@@ -293,6 +396,10 @@
         <member name="P:Codeplex.Reactive.Moles.MReactiveProperty`1.Behavior">
             <summary>Assigns the behavior for all methods of the moled type</summary>
         </member>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveProperty`1.Cleanup">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveProperty`1.Cleanup"/>
+            </summary>
+        </member>
         <member name="P:Codeplex.Reactive.Moles.MReactiveProperty`1.ConstructorActionOfTTReactivePropertyMode">
             <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveProperty`1.#ctor(System.Action`1{`1},`1,Codeplex.Reactive.ReactivePropertyMode)"/>
             </summary>
@@ -301,12 +408,12 @@
             <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveProperty`1.#ctor(System.IObservable`1{`1},System.Action`1{`1},`1,Codeplex.Reactive.ReactivePropertyMode)"/>
             </summary>
         </member>
-        <member name="P:Codeplex.Reactive.Moles.MReactiveProperty`1.ConstructorTReactivePropertyMode">
-            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveProperty`1.#ctor(`1,Codeplex.Reactive.ReactivePropertyMode)"/>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveProperty`1.ConstructorIObservableOfTTReactivePropertyMode">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveProperty`1.#ctor(System.IObservable`1{`1},`1,Codeplex.Reactive.ReactivePropertyMode)"/>
             </summary>
         </member>
-        <member name="P:Codeplex.Reactive.Moles.MReactiveProperty`1.Dispose">
-            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveProperty`1.Dispose"/>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveProperty`1.ConstructorTReactivePropertyMode">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveProperty`1.#ctor(`1,Codeplex.Reactive.ReactivePropertyMode)"/>
             </summary>
         </member>
         <member name="P:Codeplex.Reactive.Moles.MReactiveProperty`1.SubscribeIObserverOfT">
@@ -332,8 +439,8 @@
         <member name="T:Codeplex.Reactive.Moles.MReactiveProperty`1.AllInstances">
             <summary>Define moles for all instances members</summary>
         </member>
-        <member name="P:Codeplex.Reactive.Moles.MReactiveProperty`1.AllInstances.Dispose">
-            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveProperty`1.Dispose"/>
+        <member name="P:Codeplex.Reactive.Moles.MReactiveProperty`1.AllInstances.Cleanup">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactiveProperty`1.Cleanup"/>
             </summary>
         </member>
         <member name="P:Codeplex.Reactive.Moles.MReactiveProperty`1.AllInstances.SubscribeIObserverOfT">
@@ -371,6 +478,10 @@
         </member>
         <member name="M:Codeplex.Reactive.Moles.MReactivePropertyObservableExtensions.ToReactivePropertyIObservableOfTActionOfTTReactivePropertyMode``1(Microsoft.Moles.Framework.MolesDelegates.Func{System.IObservable{``0},System.Action{``0},``0,Codeplex.Reactive.ReactivePropertyMode,Codeplex.Reactive.ReactiveProperty{``0}})">
             <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactivePropertyObservableExtensions.ToReactiveProperty``1(System.IObservable`1{``0},System.Action`1{``0},``0,Codeplex.Reactive.ReactivePropertyMode)"/>
+            </summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.MReactivePropertyObservableExtensions.ToReactivePropertyIObservableOfTTReactivePropertyMode``1(Microsoft.Moles.Framework.MolesDelegates.Func{System.IObservable{``0},``0,Codeplex.Reactive.ReactivePropertyMode,Codeplex.Reactive.ReactiveProperty{``0}})">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.ReactivePropertyObservableExtensions.ToReactiveProperty``1(System.IObservable`1{``0},``0,Codeplex.Reactive.ReactivePropertyMode)"/>
             </summary>
         </member>
         <member name="P:Codeplex.Reactive.Moles.MReactivePropertyObservableExtensions.Behavior">
@@ -490,10 +601,6 @@
             <summary>Sets the mole of <see cref="P:Codeplex.Reactive.Notifier.SignalNotifier.Max"/>
             </summary>
         </member>
-        <member name="P:Codeplex.Reactive.Notifier.Moles.MSignalNotifier.MaxSetInt32">
-            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.Notifier.SignalNotifier.Max"/>
-            </summary>
-        </member>
         <member name="P:Codeplex.Reactive.Notifier.Moles.MSignalNotifier.SubscribeIObserverOfSignalChangedStatus">
             <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Notifier.SignalNotifier.Subscribe(System.IObserver`1{Codeplex.Reactive.Notifier.SignalChangedStatus})"/>
             </summary>
@@ -518,10 +625,6 @@
             </summary>
         </member>
         <member name="P:Codeplex.Reactive.Notifier.Moles.MSignalNotifier.AllInstances.MaxGet">
-            <summary>Sets the mole of <see cref="P:Codeplex.Reactive.Notifier.SignalNotifier.Max"/>
-            </summary>
-        </member>
-        <member name="P:Codeplex.Reactive.Notifier.Moles.MSignalNotifier.AllInstances.MaxSetInt32">
             <summary>Sets the mole of <see cref="P:Codeplex.Reactive.Notifier.SignalNotifier.Max"/>
             </summary>
         </member>
@@ -821,6 +924,30 @@
         <member name="P:Codeplex.Reactive.Asynchronous.Moles.SProgressStatus.InstanceBehavior">
             <summary>Gets or sets the instance behavior.</summary>
         </member>
+        <member name="T:Codeplex.Reactive.Moles.SReactiveCollection`1">
+            <summary>Stub type of <see cref="T:Codeplex.Reactive.ReactiveCollection`1"/>
+            .</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.SReactiveCollection`1.#ctor(System.IObservable{`0},System.Boolean)">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.SReactiveCollection`1.InitializeStub">
+            <summary>Initializes a new instance of type SReactiveCollection</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.SReactiveCollection`1.OnCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs)">
+            <summary>Sets the stub of <see cref="M:Codeplex.Reactive.ReactiveCollection`1.OnCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs)"/>
+            </summary>
+        </member>
+        <member name="F:Codeplex.Reactive.Moles.SReactiveCollection`1.OnCollectionChangedNotifyCollectionChangedEventArgs">
+            <summary>Sets the stub of <see cref="M:Codeplex.Reactive.ReactiveCollection`1.OnCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.SReactiveCollection`1.CallBase">
+            <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Moles.SReactiveCollection`1.InstanceBehavior">
+            <summary>Gets or sets the instance behavior.</summary>
+        </member>
         <member name="T:Codeplex.Reactive.Moles.SReactiveCommand`1">
             <summary>Stub type of <see cref="T:Codeplex.Reactive.ReactiveCommand`1"/>
             .</summary>
@@ -850,11 +977,46 @@
         <member name="M:Codeplex.Reactive.Moles.SReactiveProperty`1.#ctor(System.Action{`0},`0,Codeplex.Reactive.ReactivePropertyMode)">
             <summary>Initializes a new instance</summary>
         </member>
-        <member name="M:Codeplex.Reactive.Moles.SReactiveProperty`1.#ctor(System.IObservable{`0},System.Action{`0},`0,Codeplex.Reactive.ReactivePropertyMode)">
-            <summary>Initializes a new instance</summary>
+        <member name="M:Codeplex.Reactive.Moles.SReactiveProperty`1.Broadcast``1(``0,``0,System.String)">
+            <summary>Sets the stub of <see cref="M:GalaSoft.MvvmLight.ViewModelBase.Broadcast``1(``0,``0,System.String)"/>
+            </summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.SReactiveProperty`1.BroadcastTTString``1(Microsoft.Moles.Framework.MolesDelegates.Action{``0,``0,System.String})">
+            <summary>Sets stubs of Broadcast(!!0 oldValue, !!0 newValue, String propertyName)</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.SReactiveProperty`1.Cleanup">
+            <summary>Sets the stub of <see cref="M:Codeplex.Reactive.ReactiveProperty`1.Cleanup"/>
+            </summary>
+        </member>
+        <member name="F:Codeplex.Reactive.Moles.SReactiveProperty`1.Cleanup01">
+            <summary>Sets the stub of <see cref="M:Codeplex.Reactive.ReactiveProperty`1.Cleanup"/>
+            </summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.SReactiveProperty`1.Dispose(System.Boolean)">
+            <summary>Sets the stub of <see cref="M:GalaSoft.MvvmLight.ViewModelBase.Dispose(System.Boolean)"/>
+            </summary>
+        </member>
+        <member name="F:Codeplex.Reactive.Moles.SReactiveProperty`1.DisposeBoolean">
+            <summary>Sets the stub of <see cref="M:GalaSoft.MvvmLight.ViewModelBase.Dispose(System.Boolean)"/>
+            </summary>
         </member>
         <member name="M:Codeplex.Reactive.Moles.SReactiveProperty`1.InitializeStub">
             <summary>Initializes a new instance of type SReactiveProperty</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.SReactiveProperty`1.RaisePropertyChanged(System.String)">
+            <summary>Sets the stub of <see cref="M:GalaSoft.MvvmLight.ViewModelBase.RaisePropertyChanged(System.String)"/>
+            </summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.SReactiveProperty`1.RaisePropertyChanged``1(System.String,``0,``0,System.Boolean)">
+            <summary>Sets the stub of <see cref="M:GalaSoft.MvvmLight.ViewModelBase.RaisePropertyChanged``1(System.String,``0,``0,System.Boolean)"/>
+            </summary>
+        </member>
+        <member name="F:Codeplex.Reactive.Moles.SReactiveProperty`1.RaisePropertyChangedString">
+            <summary>Sets the stub of <see cref="M:GalaSoft.MvvmLight.ViewModelBase.RaisePropertyChanged(System.String)"/>
+            </summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Moles.SReactiveProperty`1.RaisePropertyChangedStringTTBoolean``1(Microsoft.Moles.Framework.MolesDelegates.Action{System.String,``0,``0,System.Boolean})">
+            <summary>Sets stubs of RaisePropertyChanged(String propertyName, !!0 oldValue, !!0 newValue, Boolean broadcast)</summary>
         </member>
         <member name="P:Codeplex.Reactive.Moles.SReactiveProperty`1.CallBase">
             <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
