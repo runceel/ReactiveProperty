@@ -14,9 +14,9 @@ namespace Codeplex.Reactive.Asynchronous
         {
             get
             {
-                return (TotalLength < 0 || CurrentLength < 0)
+                return (TotalLength <= 0 || CurrentLength <= 0)
                     ? 0
-                    : (int)((CurrentLength / TotalLength) * 100);
+                    : (int)(((double)CurrentLength / (double)TotalLength) * 100);
             }
         }
 
@@ -24,6 +24,11 @@ namespace Codeplex.Reactive.Asynchronous
         {
             CurrentLength = currentLength;
             TotalLength = totalLength;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("{0}/{1} - {2}%", CurrentLength, TotalLength, Percentage);
         }
     }
 }

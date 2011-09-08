@@ -93,6 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Asynchronous\StreamExtensionsTest.cs" />
+    <Compile Include="Asynchronous\ProgressStatusTest.cs" />
     <Compile Include="ChainingAssertion.MSTest.cs" />
     <Compile Include="Notifier\ScheduledNotifierTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

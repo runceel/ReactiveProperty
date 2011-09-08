@@ -28,8 +28,8 @@ namespace Codeplex.Reactive.Asynchronous
             Contract.Requires<ArgumentException>(count <= ((int)(buffer.Length) - offset));
             Contract.Ensures(Contract.Result<IObservable<Unit>>() != null);
 
-            var result =  Observable.FromAsyncPattern((ac, o) => stream.BeginWrite(buffer, offset, count, ac, o), stream.EndWrite)();
-            
+            var result = Observable.FromAsyncPattern((ac, o) => stream.BeginWrite(buffer, offset, count, ac, o), stream.EndWrite)();
+
             Contract.Assume(result != null);
             return result;
         }
@@ -53,8 +53,19 @@ namespace Codeplex.Reactive.Asynchronous
         {
             Contract.Requires<ArgumentNullException>(stream != null);
             Contract.Requires<ArgumentNullException>(data != null);
+            Contract.Ensures(Contract.Result<IObservable<Unit>>() != null);
 
             return WriteAsync(stream, data, Encoding.UTF8);
+        }
+
+        public static IObservable<Unit> WriteAsync(this Stream stream, string data, IProgress<ProgressStatus> progressReporter)
+        {
+            Contract.Requires<ArgumentNullException>(stream != null);
+            Contract.Requires<ArgumentNullException>(data != null);
+            Contract.Requires<ArgumentNullException>(progressReporter != null);
+            Contract.Ensures(Contract.Result<IObservable<Unit>>() != null);
+
+            return WriteAsync(stream, data, Encoding.UTF8, progressReporter);
         }
 
         public static IObservable<Unit> WriteAsync(this Stream stream, string data, Encoding encoding)
@@ -62,22 +73,92 @@ namespace Codeplex.Reactive.Asynchronous
             Contract.Requires<ArgumentNullException>(stream != null);
             Contract.Requires<ArgumentNullException>(data != null);
             Contract.Requires<ArgumentNullException>(encoding != null);
+            Contract.Ensures(Contract.Result<IObservable<Unit>>() != null);
 
             return WriteAsync(stream, encoding.GetBytes(data));
         }
 
+        public static IObservable<Unit> WriteAsync(this Stream stream, string data, Encoding encoding, IProgress<ProgressStatus> progressReporter)
+        {
+            Contract.Requires<ArgumentNullException>(stream != null);
+            Contract.Requires<ArgumentNullException>(data != null);
+            Contract.Requires<ArgumentNullException>(encoding != null);
+            Contract.Requires<ArgumentNullException>(progressReporter != null);
+            Contract.Ensures(Contract.Result<IObservable<Unit>>() != null);
+
+            return WriteAsync(stream, encoding.GetBytes(data), progressReporter);
+        }
+
         public static IObservable<Unit> WriteAsync(this Stream stream, IEnumerable<byte> data, int chunkSize = 65536)
         {
-            return WriteAsync(stream, data.ToObservable(), chunkSize);
+            Contract.Requires<ArgumentNullException>(stream != null);
+            Contract.Requires<ArgumentNullException>(data != null);
+            Contract.Requires<ArgumentException>(chunkSize > 0);
+            Contract.Ensures(Contract.Result<IObservable<Unit>>() != null);
+
+            var dataOb = data.ToObservable();
+            Contract.Assume(dataOb != null);
+            return WriteAsync(stream, dataOb, chunkSize);
+        }
+
+        public static IObservable<Unit> WriteAsync(this Stream stream, IEnumerable<byte> data, IProgress<ProgressStatus> progressReporter, int chunkSize = 65536)
+        {
+            Contract.Requires<ArgumentNullException>(stream != null);
+            Contract.Requires<ArgumentNullException>(data != null);
+            Contract.Requires<ArgumentNullException>(progressReporter != null);
+            Contract.Requires<ArgumentException>(chunkSize > 0);
+            Contract.Ensures(Contract.Result<IObservable<Unit>>() != null);
+
+            var collection = data as ICollection<byte>;
+            var totalLength = (collection != null) ? collection.Count : -1;
+
+            var dataOb = data.ToObservable();
+            Contract.Assume(dataOb != null);
+            return WriteAsyncCore(stream, dataOb, progressReporter, chunkSize, totalLength);
         }
 
         public static IObservable<Unit> WriteAsync(this Stream stream, IObservable<byte> data, int chunkSize = 65536)
         {
-            return Observable.Defer(() => data)
+            Contract.Requires<ArgumentNullException>(stream != null);
+            Contract.Requires<ArgumentNullException>(data != null);
+            Contract.Requires<ArgumentException>(chunkSize > 0);
+            Contract.Ensures(Contract.Result<IObservable<Unit>>() != null);
+
+            return WriteAsyncCore(stream, data, null, chunkSize, -1);
+        }
+
+        public static IObservable<Unit> WriteAsync(this Stream stream, IObservable<byte> data, IProgress<ProgressStatus> progressReporter, int chunkSize = 65536)
+        {
+            Contract.Requires<ArgumentNullException>(stream != null);
+            Contract.Requires<ArgumentNullException>(data != null);
+            Contract.Requires<ArgumentNullException>(progressReporter != null);
+            Contract.Requires<ArgumentException>(chunkSize > 0);
+            Contract.Ensures(Contract.Result<IObservable<Unit>>() != null);
+
+            return WriteAsyncCore(stream, data, progressReporter, chunkSize, -1);
+        }
+
+        static IObservable<Unit> WriteAsyncCore(Stream stream, IObservable<byte> data, IProgress<ProgressStatus> progressReporter, int chunkSize, int totalLength)
+        {
+            Contract.Requires<ArgumentNullException>(stream != null);
+            Contract.Requires<ArgumentNullException>(data != null);
+            Contract.Requires<ArgumentException>(chunkSize > 0);
+            Contract.Ensures(Contract.Result<IObservable<Unit>>() != null);
+
+            var result = Observable.Defer(() =>
+                {
+                    Report(progressReporter, 0, totalLength);
+                    return data;
+                })
                 .Buffer(chunkSize)
-                .Select(l => stream.WriteAsObservable(l.ToArray(), 0, l.Count))
+                .Select(l => stream.WriteAsObservable(l.ToArray(), 0, l.Count)
+                    .Do(_ => Report(progressReporter, stream.Length, totalLength)))
                 .Concat()
-                .Finally(() => { stream.Flush(); stream.Close(); });
+                .Finally(() => { stream.Flush(); stream.Close(); })
+                .TakeLast(1);
+
+            Contract.Assume(result != null);
+            return result;
         }
 
         public static IObservable<Unit> WriteLineAsync(this Stream stream, string data)
@@ -172,6 +253,12 @@ namespace Codeplex.Reactive.Asynchronous
                             observer.OnCompleted();
                         });
             });
+        }
+
+        // report helper
+        static void Report(IProgress<ProgressStatus> reporter, long currentLength, long totalLength)
+        {
+            if (reporter != null) reporter.Report(new ProgressStatus(currentLength, totalLength));
         }
     }
 }

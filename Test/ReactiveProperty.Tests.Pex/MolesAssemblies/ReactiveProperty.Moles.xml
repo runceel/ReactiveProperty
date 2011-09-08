@@ -147,6 +147,10 @@
             <summary>Sets the mole of <see cref="P:Codeplex.Reactive.Asynchronous.ProgressStatus.Percentage"/>
             </summary>
         </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MProgressStatus.ToString">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.ProgressStatus.ToString"/>
+            </summary>
+        </member>
         <member name="P:Codeplex.Reactive.Asynchronous.Moles.MProgressStatus.TotalLengthGet">
             <summary>Sets the mole of <see cref="P:Codeplex.Reactive.Asynchronous.ProgressStatus.TotalLength"/>
             </summary>
@@ -168,6 +172,10 @@
         </member>
         <member name="P:Codeplex.Reactive.Asynchronous.Moles.MProgressStatus.AllInstances.PercentageGet">
             <summary>Sets the mole of <see cref="P:Codeplex.Reactive.Asynchronous.ProgressStatus.Percentage"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MProgressStatus.AllInstances.ToString01">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.ProgressStatus.ToString"/>
             </summary>
         </member>
         <member name="P:Codeplex.Reactive.Asynchronous.Moles.MProgressStatus.AllInstances.TotalLengthGet">
@@ -672,12 +680,28 @@
             <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.StreamExtensions.ReadLineAsync(System.IO.Stream,System.Int32)"/>
             </summary>
         </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MStreamExtensions.ReportIProgressOfProgressStatusInt64Int64">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.StreamExtensions.Report(Codeplex.Reactive.Notifier.IProgress`1{Codeplex.Reactive.Asynchronous.ProgressStatus},System.Int64,System.Int64)"/>
+            </summary>
+        </member>
         <member name="P:Codeplex.Reactive.Asynchronous.Moles.MStreamExtensions.WriteAsObservableStreamByteArrayInt32Int32">
             <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.StreamExtensions.WriteAsObservable(System.IO.Stream,System.Byte[],System.Int32,System.Int32)"/>
             </summary>
         </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MStreamExtensions.WriteAsyncCoreStreamIObservableOfByteIProgressOfProgressStatusInt32Int32">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.StreamExtensions.WriteAsyncCore(System.IO.Stream,System.IObservable`1{System.Byte},Codeplex.Reactive.Notifier.IProgress`1{Codeplex.Reactive.Asynchronous.ProgressStatus},System.Int32,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MStreamExtensions.WriteAsyncStreamIEnumerableOfByteIProgressOfProgressStatusInt32">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.StreamExtensions.WriteAsync(System.IO.Stream,System.Collections.Generic.IEnumerable`1{System.Byte},Codeplex.Reactive.Notifier.IProgress`1{Codeplex.Reactive.Asynchronous.ProgressStatus},System.Int32)"/>
+            </summary>
+        </member>
         <member name="P:Codeplex.Reactive.Asynchronous.Moles.MStreamExtensions.WriteAsyncStreamIEnumerableOfByteInt32">
             <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.StreamExtensions.WriteAsync(System.IO.Stream,System.Collections.Generic.IEnumerable`1{System.Byte},System.Int32)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MStreamExtensions.WriteAsyncStreamIObservableOfByteIProgressOfProgressStatusInt32">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.StreamExtensions.WriteAsync(System.IO.Stream,System.IObservable`1{System.Byte},Codeplex.Reactive.Notifier.IProgress`1{Codeplex.Reactive.Asynchronous.ProgressStatus},System.Int32)"/>
             </summary>
         </member>
         <member name="P:Codeplex.Reactive.Asynchronous.Moles.MStreamExtensions.WriteAsyncStreamIObservableOfByteInt32">
@@ -690,6 +714,14 @@
         </member>
         <member name="P:Codeplex.Reactive.Asynchronous.Moles.MStreamExtensions.WriteAsyncStreamStringEncoding">
             <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.StreamExtensions.WriteAsync(System.IO.Stream,System.String,System.Text.Encoding)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MStreamExtensions.WriteAsyncStreamStringEncodingIProgressOfProgressStatus">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.StreamExtensions.WriteAsync(System.IO.Stream,System.String,System.Text.Encoding,Codeplex.Reactive.Notifier.IProgress`1{Codeplex.Reactive.Asynchronous.ProgressStatus})"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MStreamExtensions.WriteAsyncStreamStringIProgressOfProgressStatus">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.StreamExtensions.WriteAsync(System.IO.Stream,System.String,Codeplex.Reactive.Notifier.IProgress`1{Codeplex.Reactive.Asynchronous.ProgressStatus})"/>
             </summary>
         </member>
         <member name="P:Codeplex.Reactive.Asynchronous.Moles.MStreamExtensions.WriteLineAsyncStreamIEnumerableOfString">
@@ -925,6 +957,14 @@
         </member>
         <member name="M:Codeplex.Reactive.Asynchronous.Moles.SProgressStatus.InitializeStub">
             <summary>Initializes a new instance of type SProgressStatus</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Asynchronous.Moles.SProgressStatus.ToString">
+            <summary>Sets the stub of <see cref="M:Codeplex.Reactive.Asynchronous.ProgressStatus.ToString"/>
+            </summary>
+        </member>
+        <member name="F:Codeplex.Reactive.Asynchronous.Moles.SProgressStatus.ToString01">
+            <summary>Sets the stub of <see cref="M:Codeplex.Reactive.Asynchronous.ProgressStatus.ToString"/>
+            </summary>
         </member>
         <member name="P:Codeplex.Reactive.Asynchronous.Moles.SProgressStatus.CallBase">
             <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
