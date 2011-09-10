@@ -213,5 +213,146 @@ horaana john.";
                     && x.Percentage == 0);
             }
         }
+
+        [TestMethod]
+        public void WriteLineAsync()
+        {
+            using (var stream = new MemoryStream())
+            {
+                stream.WriteLineAsync(new[] { "foo", "bar", "baz" }).Single().Is(Unit.Default);
+                Encoding.UTF8.GetString(stream.ToArray()).Is(@"foo
+bar
+baz
+");
+            }
+
+            using (var stream = new MemoryStream())
+            {
+                stream.WriteLineAsync(new[] { "foo", "bar", "baz" }.ToObservable()).Single().Is(Unit.Default);
+                Encoding.UTF8.GetString(stream.ToArray()).Is(@"foo
+bar
+baz
+");
+            }
+
+            var shiftjis = Encoding.GetEncoding("shift-jis");
+
+            using (var stream = new MemoryStream())
+            {
+                stream.WriteLineAsync(new[] { "foo", "bar", "baz" }, shiftjis).Single().Is(Unit.Default);
+                shiftjis.GetString(stream.ToArray()).Is(@"foo
+bar
+baz
+");
+            }
+
+            using (var stream = new MemoryStream())
+            {
+                stream.WriteLineAsync(new[] { "foo", "bar", "baz" }.ToObservable(), shiftjis).Single().Is(Unit.Default);
+                shiftjis.GetString(stream.ToArray()).Is(@"foo
+bar
+baz
+");
+            }
+        }
+
+        [TestMethod]
+        public void ReadAsync()
+        {
+            var bytes = Encoding.UTF8.GetBytes(TestString); // length = 114
+
+            using (var ms = new MemoryStream(bytes))
+            {
+                var xs = ms.ReadAsync(5).Single();
+                xs.Is(bytes);
+            }
+
+            using (var ms = new MemoryStream(bytes))
+            {
+                var xs = ms.ReadAsync(30, isAggregateAllChunks: false).ToEnumerable().ToArray();
+                xs.Length.Is(4);
+                xs[0].Is(bytes.Take(30));
+                xs[1].Is(bytes.Skip(30).Take(30));
+                xs[2].Is(bytes.Skip(60).Take(30));
+                xs[3].Is(bytes.Skip(90).Take(30));
+            }
+
+            var testScheduler = new TestScheduler();
+            var recorder = testScheduler.CreateObserver<ProgressStatus>();
+            var notifier = new ScheduledNotifier<ProgressStatus>();
+            notifier.Subscribe(recorder);
+
+            using (var ms = new MemoryStream(bytes))
+            {
+                ms.ReadAsync(notifier, bytes.Length, 40).Single().Is(bytes);
+                recorder.Messages.Count.Is(4);
+                recorder.Messages[0].Value.Value.Is(x =>
+                    x.CurrentLength == 0
+                    && x.TotalLength == bytes.Length
+                    && x.Percentage == 0);
+
+                recorder.Messages[1].Value.Value.Is(x =>
+                    x.CurrentLength == 40
+                    && x.TotalLength == bytes.Length
+                    && x.Percentage == 35);
+
+                recorder.Messages[2].Value.Value.Is(x =>
+                    x.CurrentLength == 80
+                    && x.TotalLength == bytes.Length
+                    && x.Percentage == 70);
+
+                recorder.Messages[3].Value.Value.Is(x =>
+                    x.CurrentLength == bytes.Length
+                    && x.TotalLength == bytes.Length
+                    && x.Percentage == 100);
+            }
+
+            recorder.Messages.Clear();
+            using (var ms = new MemoryStream(bytes))
+            {
+                var xs = ms.ReadAsync(notifier, bytes.Length, 40, isAggregateAllChunks: false).ToEnumerable().ToArray();
+                xs.Length.Is(3);
+                xs[0].Is(bytes.Take(40));
+                xs[1].Is(bytes.Skip(40).Take(40));
+                xs[2].Is(bytes.Skip(80).Take(40));
+
+                recorder.Messages.Count.Is(4);
+                recorder.Messages[0].Value.Value.Is(x =>
+                    x.CurrentLength == 0
+                    && x.TotalLength == bytes.Length
+                    && x.Percentage == 0);
+
+                recorder.Messages[1].Value.Value.Is(x =>
+                    x.CurrentLength == 40
+                    && x.TotalLength == bytes.Length
+                    && x.Percentage == 35);
+
+                recorder.Messages[2].Value.Value.Is(x =>
+                    x.CurrentLength == 80
+                    && x.TotalLength == bytes.Length
+                    && x.Percentage == 70);
+
+                recorder.Messages[3].Value.Value.Is(x =>
+                    x.CurrentLength == bytes.Length
+                    && x.TotalLength == bytes.Length
+                    && x.Percentage == 100);
+            }
+
+            recorder.Messages.Clear();
+            using (var ms = new MemoryStream())
+            {
+                var xs = ms.ReadAsync(notifier,0 , isAggregateAllChunks: false).ToEnumerable().ToArray();
+                xs.Length.Is(0);
+
+                recorder.Messages.Count.Is(1);
+                recorder.Messages[0].Value.Value.Is(x =>
+                    x.CurrentLength == 0
+                    && x.TotalLength == 0
+                    && x.Percentage == 0);
+            }
+        }
+
+
+
     }
 }

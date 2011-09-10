@@ -32,23 +32,5 @@ namespace Codeplex.Reactive.Asynchronous
             return Observable.Create(subscribe);
 #endif
         }
-
-        public static IObservable<TResult> SafeFromAsyncPattern<TResult>(Func<AsyncCallback, object, IAsyncResult> begin, Func<IAsyncResult, TResult> end)
-            where TResult : IDisposable
-        {
-            return ObservableEx.Create<TResult>(observer =>
-            {
-                var disposable = new BooleanDisposable();
-
-                Observable.FromAsyncPattern<TResult>(begin, ar =>
-                {
-                    var result = end(ar);
-                    if (disposable.IsDisposed) result.Dispose();
-                    return result;
-                })().Subscribe(observer);
-
-                return disposable;
-            });
-        }
     }
 }

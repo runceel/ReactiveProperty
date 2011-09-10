@@ -668,8 +668,16 @@
             <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.StreamExtensions.ReadAsObservable(System.IO.Stream,System.Byte[],System.Int32,System.Int32)"/>
             </summary>
         </member>
-        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MStreamExtensions.ReadAsyncStreamInt32">
-            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.StreamExtensions.ReadAsync(System.IO.Stream,System.Int32)"/>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MStreamExtensions.ReadAsyncCoreStreamIProgressOfProgressStatusInt32Int32Boolean">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.StreamExtensions.ReadAsyncCore(System.IO.Stream,Codeplex.Reactive.Notifier.IProgress`1{Codeplex.Reactive.Asynchronous.ProgressStatus},System.Int32,System.Int32,System.Boolean)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MStreamExtensions.ReadAsyncStreamIProgressOfProgressStatusInt32Int32Boolean">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.StreamExtensions.ReadAsync(System.IO.Stream,Codeplex.Reactive.Notifier.IProgress`1{Codeplex.Reactive.Asynchronous.ProgressStatus},System.Int32,System.Int32,System.Boolean)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MStreamExtensions.ReadAsyncStreamInt32Boolean">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.StreamExtensions.ReadAsync(System.IO.Stream,System.Int32,System.Boolean)"/>
             </summary>
         </member>
         <member name="P:Codeplex.Reactive.Asynchronous.Moles.MStreamExtensions.ReadLineAsyncStreamEncodingInt32">
@@ -740,12 +748,12 @@
             <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.StreamExtensions.WriteLineAsync(System.IO.Stream,System.IObservable`1{System.String},System.Text.Encoding)"/>
             </summary>
         </member>
-        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MStreamExtensions.WriteLineAsyncStreamString">
-            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.StreamExtensions.WriteLineAsync(System.IO.Stream,System.String)"/>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MStreamExtensions._ReadAsyncCoreb__17ListOfByteByteArray">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.StreamExtensions.&lt;ReadAsyncCore&gt;b__17(System.Collections.Generic.List`1{System.Byte},System.Byte[])"/>
             </summary>
         </member>
-        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MStreamExtensions.WriteLineAsyncStreamStringEncoding">
-            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.StreamExtensions.WriteLineAsync(System.IO.Stream,System.String,System.Text.Encoding)"/>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MStreamExtensions._ReadAsyncCoreb__18ListOfByte">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.StreamExtensions.&lt;ReadAsyncCore&gt;b__18(System.Collections.Generic.List`1{System.Byte})"/>
             </summary>
         </member>
         <member name="T:Codeplex.Reactive.Moles.MUIDispatcherObservableExtensions">

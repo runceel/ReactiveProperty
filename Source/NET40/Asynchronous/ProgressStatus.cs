@@ -7,6 +7,8 @@ namespace Codeplex.Reactive.Asynchronous
 {
     public class ProgressStatus
     {
+        public const int Unknown = -1;
+
         public long CurrentLength { get; private set; }
         public long TotalLength { get; private set; }
 

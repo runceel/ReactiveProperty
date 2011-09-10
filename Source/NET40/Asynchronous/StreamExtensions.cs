@@ -2,17 +2,15 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Text;
+using Codeplex.Reactive.Notifier;
+using System.Diagnostics.Contracts;
 #if WINDOWS_PHONE
 using Microsoft.Phone.Reactive;
 #else
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Reactive.Concurrency;
-using System.Reactive.Disposables;
-using Codeplex.Reactive.Notifier;
-using System.Diagnostics.Contracts;
 #endif
 
 namespace Codeplex.Reactive.Asynchronous
@@ -110,7 +108,7 @@ namespace Codeplex.Reactive.Asynchronous
             Contract.Ensures(Contract.Result<IObservable<Unit>>() != null);
 
             var collection = data as ICollection<byte>;
-            var totalLength = (collection != null) ? collection.Count : -1;
+            var totalLength = (collection != null) ? collection.Count : ProgressStatus.Unknown;
 
             var dataOb = data.ToObservable();
             Contract.Assume(dataOb != null);
@@ -124,7 +122,7 @@ namespace Codeplex.Reactive.Asynchronous
             Contract.Requires<ArgumentException>(chunkSize > 0);
             Contract.Ensures(Contract.Result<IObservable<Unit>>() != null);
 
-            return WriteAsyncCore(stream, data, null, chunkSize, -1);
+            return WriteAsyncCore(stream, data, null, chunkSize, ProgressStatus.Unknown);
         }
 
         public static IObservable<Unit> WriteAsync(this Stream stream, IObservable<byte> data, IProgress<ProgressStatus> progressReporter, int chunkSize = 65536)
@@ -135,7 +133,7 @@ namespace Codeplex.Reactive.Asynchronous
             Contract.Requires<ArgumentException>(chunkSize > 0);
             Contract.Ensures(Contract.Result<IObservable<Unit>>() != null);
 
-            return WriteAsyncCore(stream, data, progressReporter, chunkSize, -1);
+            return WriteAsyncCore(stream, data, progressReporter, chunkSize, ProgressStatus.Unknown);
         }
 
         static IObservable<Unit> WriteAsyncCore(Stream stream, IObservable<byte> data, IProgress<ProgressStatus> progressReporter, int chunkSize, int totalLength)
@@ -151,8 +149,9 @@ namespace Codeplex.Reactive.Asynchronous
                     return data;
                 })
                 .Buffer(chunkSize)
-                .Select(l => stream.WriteAsObservable(l.ToArray(), 0, l.Count)
-                    .Do(_ => Report(progressReporter, stream.Length, totalLength)))
+                .Select((l, i) => stream
+                    .WriteAsObservable(l.ToArray(), 0, l.Count)
+                    .Do(_ => Report(progressReporter, (i * chunkSize) + l.Count, totalLength)))
                 .Concat()
                 .Finally(() => { stream.Flush(); stream.Close(); })
                 .TakeLast(1);
@@ -161,45 +160,88 @@ namespace Codeplex.Reactive.Asynchronous
             return result;
         }
 
-        public static IObservable<Unit> WriteLineAsync(this Stream stream, string data)
-        {
-            return WriteLineAsync(stream, data, Encoding.UTF8);
-        }
-
-        public static IObservable<Unit> WriteLineAsync(this Stream stream, string data, Encoding encoding)
-        {
-            return WriteAsync(stream, data + Environment.NewLine, encoding);
-        }
-
         public static IObservable<Unit> WriteLineAsync(this Stream stream, IEnumerable<string> data)
         {
+            Contract.Requires<ArgumentNullException>(stream != null);
+            Contract.Requires<ArgumentNullException>(data != null);
+            Contract.Ensures(Contract.Result<IObservable<Unit>>() != null);
+
             return WriteLineAsync(stream, data, Encoding.UTF8);
         }
 
         public static IObservable<Unit> WriteLineAsync(this Stream stream, IObservable<string> data)
         {
+            Contract.Requires<ArgumentNullException>(stream != null);
+            Contract.Requires<ArgumentNullException>(data != null);
+            Contract.Ensures(Contract.Result<IObservable<Unit>>() != null);
+
             return WriteLineAsync(stream, data, Encoding.UTF8);
         }
 
         public static IObservable<Unit> WriteLineAsync(this Stream stream, IEnumerable<string> data, Encoding encoding)
         {
-            return WriteLineAsync(stream, data.ToObservable(), encoding);
+            Contract.Requires<ArgumentNullException>(stream != null);
+            Contract.Requires<ArgumentNullException>(data != null);
+            Contract.Requires<ArgumentNullException>(encoding != null);
+            Contract.Ensures(Contract.Result<IObservable<Unit>>() != null);
+
+            var dataOb = data.ToObservable();
+            Contract.Assume(dataOb != null);
+            return WriteLineAsync(stream, dataOb, encoding);
         }
 
         public static IObservable<Unit> WriteLineAsync(this Stream stream, IObservable<string> data, Encoding encoding)
         {
-            return WriteAsync(stream, data.SelectMany(s => encoding.GetBytes(s + Environment.NewLine)));
+            Contract.Requires<ArgumentNullException>(stream != null);
+            Contract.Requires<ArgumentNullException>(data != null);
+            Contract.Requires<ArgumentNullException>(encoding != null);
+            Contract.Ensures(Contract.Result<IObservable<Unit>>() != null);
+
+            var writeData = data.SelectMany(s => encoding.GetBytes(s + Environment.NewLine));
+            Contract.Assume(writeData != null);
+            return WriteAsync(stream, writeData);
         }
 
-        public static IObservable<byte[]> ReadAsync(this Stream stream, int chunkSize = 65536)
+        public static IObservable<byte[]> ReadAsync(this Stream stream, int chunkSize = 65536, bool isAggregateAllChunks = true)
         {
-            return Observable.Defer(() => Observable.Return(new byte[chunkSize], Scheduler.CurrentThread))
+            Contract.Requires<ArgumentNullException>(stream != null);
+            Contract.Requires<ArgumentException>(chunkSize > 0);
+            Contract.Ensures(Contract.Result<IObservable<byte[]>>() != null);
+
+            return ReadAsyncCore(stream, null, ProgressStatus.Unknown, chunkSize, isAggregateAllChunks);
+        }
+
+        public static IObservable<byte[]> ReadAsync(this Stream stream, IProgress<ProgressStatus> progressReporter, int totalLength = ProgressStatus.Unknown, int chunkSize = 65536, bool isAggregateAllChunks = true)
+        {
+            Contract.Requires<ArgumentNullException>(stream != null);
+            Contract.Requires<ArgumentException>(chunkSize > 0);
+            Contract.Requires<ArgumentNullException>(progressReporter != null);
+            Contract.Ensures(Contract.Result<IObservable<byte[]>>() != null);
+
+            return ReadAsyncCore(stream, progressReporter, totalLength, chunkSize, isAggregateAllChunks);
+        }
+
+        static IObservable<byte[]> ReadAsyncCore(Stream stream, IProgress<ProgressStatus> progressReporter, int totalLength, int chunkSize, bool isAggregateAllChunks)
+        {
+            Contract.Requires<ArgumentNullException>(stream != null);
+            Contract.Requires<ArgumentException>(chunkSize > 0);
+            Contract.Ensures(Contract.Result<IObservable<byte[]>>() != null);
+
+            var currentLength = 0;
+            var query = Observable.Defer(() =>
+                {
+                    if (currentLength == 0) Report(progressReporter, currentLength, totalLength);
+                    return Observable.Return(new byte[chunkSize], Scheduler.CurrentThread);
+                })
                 .SelectMany(buffer => stream.ReadAsObservable(buffer, 0, chunkSize),
                     (buffer, readCount) => new { buffer, readCount })
                 .Repeat()
                 .TakeWhile(a => a.readCount != 0)
                 .Select(a =>
                 {
+                    currentLength += a.readCount;
+                    Report(progressReporter, currentLength, totalLength);
+
                     if (a.readCount == chunkSize) return a.buffer;
 
                     var newBuffer = new byte[a.readCount];
@@ -207,6 +249,15 @@ namespace Codeplex.Reactive.Asynchronous
                     return newBuffer;
                 })
                 .Finally(() => stream.Close());
+
+            var result = (isAggregateAllChunks)
+                ? query
+                    .Aggregate(new List<byte>(), (list, bytes) => { list.AddRange(bytes); return list; })
+                    .Select(list => list.ToArray())
+                : query;
+
+            Contract.Assume(result != null);
+            return result;
         }
 
         public static IObservable<string> ReadLineAsync(this Stream stream, int chunkSize = 65536)

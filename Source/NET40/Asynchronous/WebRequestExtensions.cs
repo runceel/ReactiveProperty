@@ -19,12 +19,46 @@ namespace Codeplex.Reactive.Asynchronous
     {
         public static IObservable<WebResponse> GetResponseAsObservable(this WebRequest request)
         {
-            return ObservableEx.SafeFromAsyncPattern<WebResponse>(request.BeginGetResponse, request.EndGetResponse);
+            return Observable.Create<WebResponse>(observer =>
+            {
+                Observable.FromAsyncPattern<WebResponse>(request.BeginGetResponse,
+                    ar =>
+                    {
+                        try
+                        {
+                            return request.EndGetResponse(ar);
+                        }
+                        catch (WebException ex)
+                        {
+                            if (ex.Status == WebExceptionStatus.RequestCanceled) return null;
+                            throw;
+                        }
+                    })()
+                    .Subscribe(observer);
+                return () => request.Abort();
+            });
         }
 
         public static IObservable<Stream> GetRequestStreamAsObservable(this WebRequest request)
         {
-            return ObservableEx.SafeFromAsyncPattern<Stream>(request.BeginGetRequestStream, request.EndGetRequestStream);
+            return Observable.Create<Stream>(observer =>
+            {
+                Observable.FromAsyncPattern<Stream>(request.BeginGetRequestStream,
+                    ar =>
+                    {
+                        try
+                        {
+                            return request.EndGetRequestStream(ar);
+                        }
+                        catch (WebException ex)
+                        {
+                            if (ex.Status == WebExceptionStatus.RequestCanceled) return null;
+                            throw;
+                        }
+                    })()
+                    .Subscribe(observer);
+                return () => request.Abort();
+            });
         }
     }
 }
