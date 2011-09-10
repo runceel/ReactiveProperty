@@ -20,7 +20,6 @@ namespace Codeplex.Reactive.Asynchronous
         {
             int result = target.Percentage;
             return result;
-            // TODO: add assertions to method ProgressStatusTest.PercentageGet(ProgressStatus)
         }
         
         // promote
@@ -63,7 +62,6 @@ namespace Codeplex.Reactive.Asynchronous
         {
             string result = target.ToString();
             return result;
-            // TODO: add assertions to method ProgressStatusTest.ToString01(ProgressStatus)
         }
         [TestMethod]
         public void ToString0147()

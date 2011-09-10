@@ -15,6 +15,8 @@ using System.Reactive.Disposables;
 
 namespace Codeplex.Reactive.Asynchronous
 {
+    // TODO:other methods
+
     public static class WebRequestExtensions
     {
         public static IObservable<WebResponse> GetResponseAsObservable(this WebRequest request)

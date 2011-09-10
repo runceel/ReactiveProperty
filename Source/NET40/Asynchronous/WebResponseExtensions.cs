@@ -18,6 +18,8 @@ namespace Codeplex.Reactive.Asynchronous
 {
     public static class WebResponseExtensions
     {
+        // TODO:Add Contract
+
         public static IObservable<byte[]> DownloadDataAsync(this WebResponse response)
         {
             return Observable.Defer(() => response.GetResponseStream().ReadAsync())

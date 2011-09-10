@@ -132,6 +132,7 @@
     <Compile Include="Asynchronous\WebRequestExtensions.cs" />
     <Compile Include="Asynchronous\WebResponseExtensions.cs" />
     <Compile Include="Asynchronous\StreamExtensions.cs" />
+    <Compile Include="Asynchronous\WebClientExtensions.cs" />
     <Compile Include="EventToReactive.cs" />
     <Compile Include="Extensions\AccessorCache.cs" />
     <Compile Include="Extensions\INotifyPropertyChangedExtensions.cs" />
