@@ -80,6 +80,13 @@ horaana john.";
                 r.Length.Is(1);
                 stream.ToArray().Is(bytes);
             }
+
+            using (var stream = new MemoryStream())
+            {
+                var r = stream.WriteAsync("").ToEnumerable().ToArray();
+                r.Length.Is(1);
+                stream.ToArray().Is(new byte[0]);
+            }
         }
 
         [TestMethod]
@@ -263,8 +270,21 @@ baz
 
             using (var ms = new MemoryStream(bytes))
             {
-                var xs = ms.ReadAsync(5).Single();
+                var xs = ms.ReadAsync(5, isAggregateAllChunks : true).Single();
                 xs.Is(bytes);
+            }
+
+            using (var ms = new MemoryStream(Encoding.UTF8.GetBytes("")))
+            {
+                var xs = ms.ReadAsync(isAggregateAllChunks: false).ToEnumerable().ToArray();
+                xs.Length.Is(0);
+            }
+
+            using (var ms = new MemoryStream(Encoding.UTF8.GetBytes("")))
+            {
+                var xs = ms.ReadAsync(isAggregateAllChunks: true).ToEnumerable().ToArray();
+                xs.Length.Is(1);
+                xs[0].Is(new byte[0]);
             }
 
             using (var ms = new MemoryStream(bytes))
@@ -341,7 +361,7 @@ baz
             recorder.Messages.Clear();
             using (var ms = new MemoryStream())
             {
-                var xs = ms.ReadAsync(notifier,0 , isAggregateAllChunks: false).ToEnumerable().ToArray();
+                var xs = ms.ReadAsync(notifier, 0, isAggregateAllChunks: false).ToEnumerable().ToArray();
                 xs.Length.Is(0);
 
                 recorder.Messages.Count.Is(1);
@@ -352,7 +372,53 @@ baz
             }
         }
 
+        [TestMethod]
+        public void ReadLineAsync()
+        {
+            var strings = TestString.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
 
+            using (var ms = new MemoryStream(Encoding.UTF8.GetBytes("")))
+            {
+                var xs = ms.ReadLineAsync().ToEnumerable().ToArray();
+                xs.Length.Is(0);
+            }
 
+            using (var ms = new MemoryStream(new byte[]{239,187, 191}
+                .Concat(Encoding.UTF8.GetBytes("test")).ToArray()))
+            {
+                var xs = ms.ReadLineAsync().ToEnumerable().ToArray();
+                xs.Is("test");
+            }
+
+            using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(TestString)))
+            {
+                ms.ReadLineAsync(3).ToEnumerable().Is(strings);
+            }
+
+            var sjis = Encoding.GetEncoding("Shift-JIS");
+            using (var ms = new MemoryStream(sjis.GetBytes(TestString)))
+            {
+                ms.ReadLineAsync(sjis, 3).ToEnumerable().Is(strings);
+            }
+
+            var utf8nobom = new UTF8Encoding(false);
+            using (var ms = new MemoryStream(utf8nobom.GetBytes(TestString)))
+            {
+                ms.ReadLineAsync(utf8nobom, 3).ToEnumerable().Is(strings);
+            }
+
+            var str = "test1あ\rtぅぉest2\nteおいst3\r\ntなest4\n\r\nteめst5\r\n\r\n";
+            using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(str)))
+            {
+                ms.ReadLineAsync(1).ToEnumerable().Is(
+                    "test1あ",
+                    "tぅぉest2",
+                    "teおいst3",
+                    "tなest4",
+                    "",
+                    "teめst5",
+                    "");
+            }
+        }
     }
 }

@@ -16,26 +16,5 @@ namespace Codeplex.Reactive.Notifier
 {
     public partial class SignalNotifierTest
     {
-[TestMethod]
-[PexGeneratedBy(typeof(SignalNotifierTest))]
-[ExpectedException(typeof(ArgumentException))]
-public void DecrementThrowsArgumentException556()
-{
-    this.Decrement(1, 1, 0);
-}
-[TestMethod]
-[PexGeneratedBy(typeof(SignalNotifierTest))]
-[PexRaisedException(typeof(AssertFailedException))]
-public void DecrementThrowsAssertFailedException652()
-{
-    this.Decrement(514, 3, 1);
-}
-[TestMethod]
-[PexGeneratedBy(typeof(SignalNotifierTest))]
-[PexRaisedException(typeof(AssertFailedException))]
-public void DecrementThrowsAssertFailedException57()
-{
-    this.Decrement(1023, 1022, 1022);
-}
     }
 }

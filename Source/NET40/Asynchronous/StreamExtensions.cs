@@ -146,7 +146,7 @@ namespace Codeplex.Reactive.Asynchronous
             var result = Observable.Defer(() =>
                 {
                     Report(progressReporter, 0, totalLength);
-                    return data;
+                    return data.StartWith(new byte[0]);
                 })
                 .Buffer(chunkSize)
                 .Select((l, i) => stream
@@ -154,6 +154,7 @@ namespace Codeplex.Reactive.Asynchronous
                     .Do(_ => Report(progressReporter, (i * chunkSize) + l.Count, totalLength)))
                 .Concat()
                 .Finally(() => { stream.Flush(); stream.Close(); })
+                .StartWith(Unit.Default) // length must be 1
                 .TakeLast(1);
 
             Contract.Assume(result != null);
@@ -262,12 +263,20 @@ namespace Codeplex.Reactive.Asynchronous
 
         public static IObservable<string> ReadLineAsync(this Stream stream, int chunkSize = 65536)
         {
+            Contract.Requires<ArgumentNullException>(stream != null);
+            Contract.Requires<ArgumentException>(chunkSize > 0);
+            Contract.Ensures(Contract.Result<IObservable<string>>() != null);
+
             return ReadLineAsync(stream, Encoding.UTF8, chunkSize);
         }
 
         public static IObservable<string> ReadLineAsync(this Stream stream, Encoding encoding, int chunkSize = 65536)
         {
-            return ObservableEx.Create<string>(observer =>
+            Contract.Requires<ArgumentNullException>(stream != null);
+            Contract.Requires<ArgumentException>(chunkSize > 0);
+            Contract.Ensures(Contract.Result<IObservable<string>>() != null);
+
+            var result = ObservableEx.Create<string>(observer =>
             {
                 var decoder = encoding.GetDecoder();
                 var bom = encoding.GetChars(encoding.GetPreamble()).FirstOrDefault();
@@ -304,6 +313,9 @@ namespace Codeplex.Reactive.Asynchronous
                             observer.OnCompleted();
                         });
             });
+
+            Contract.Assume(result != null);
+            return result;
         }
 
         // report helper

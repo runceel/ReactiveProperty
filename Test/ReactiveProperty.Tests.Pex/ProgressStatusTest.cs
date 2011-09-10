@@ -22,6 +22,9 @@ namespace Codeplex.Reactive.Asynchronous
             return result;
             // TODO: add assertions to method ProgressStatusTest.PercentageGet(ProgressStatus)
         }
+        
+        // promote
+
         [TestMethod]
         public void PercentageGet710()
         {
