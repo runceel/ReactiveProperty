@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using Codeplex.Reactive.Notifier;
+using System.Diagnostics.Contracts;
 #if WINDOWS_PHONE
 using Microsoft.Phone.Reactive;
 #else
@@ -11,8 +13,6 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
-using Codeplex.Reactive.Notifier;
-using System.Diagnostics.Contracts;
 #endif
 
 namespace Codeplex.Reactive.Asynchronous
@@ -28,7 +28,7 @@ namespace Codeplex.Reactive.Asynchronous
                 return () =>
                     Observable.FromEvent<DownloadProgressChangedEventHandler, DownloadProgressChangedEventArgs>(
                             h => (sender, e) => h(e), h => client.DownloadProgressChanged += h, h => client.DownloadProgressChanged -= h)
-                        .Subscribe(e => progress.Report(e));
+                        .Subscribe(progress.Report);
             }
             else
             {
@@ -43,7 +43,7 @@ namespace Codeplex.Reactive.Asynchronous
                 return () =>
                     Observable.FromEvent<UploadProgressChangedEventHandler, UploadProgressChangedEventArgs>(
                             h => (sender, e) => h(e), h => client.UploadProgressChanged += h, h => client.UploadProgressChanged -= h)
-                        .Subscribe(e => progress.Report(e));
+                        .Subscribe(progress.Report);
             }
             else
             {
@@ -57,11 +57,10 @@ namespace Codeplex.Reactive.Asynchronous
         {
             var result = Observable.Create<TEventArgs>(observer =>
             {
-                var progress = progressSubscribe();
                 var subscription = Observable.FromEvent<TDelegate, TEventArgs>(conversion, addHandler, removeHandler)
                     .Take(1)
-                    .Do(_ => progress.Dispose())
                     .Subscribe(observer);
+                var progress = progressSubscribe();
                 startAsync();
                 return () =>
                 {
@@ -81,7 +80,7 @@ namespace Codeplex.Reactive.Asynchronous
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(address));
             Contract.Ensures(Contract.Result<IObservable<DownloadDataCompletedEventArgs>>() != null);
 
-            return DownloadDataObservableAsyncCore(client, new Uri(address), null);
+            return DownloadDataObservableAsync(client, new Uri(address));
         }
 
         public static IObservable<DownloadDataCompletedEventArgs> DownloadDataObservableAsync(this WebClient client, Uri address)
