@@ -128,5 +128,116 @@ namespace Codeplex.Reactive.Asynchronous
             iObservable = this.DownloadFileObservableAsync02((WebClient)null, (Uri)null,
                                                              (string)null, (IProgress<DownloadProgressChangedEventArgs>)null);
         }
+        [PexMethod(MaxConditions = 10000, MaxBranches = 20000), PexAllowedException(typeof(UriFormatException))]
+        public IObservable<DownloadStringCompletedEventArgs> DownloadStringObservableAsync(WebClient client, string address)
+        {
+            IObservable<DownloadStringCompletedEventArgs> result
+               = WebClientExtensions.DownloadStringObservableAsync(client, address);
+            result.Subscribe().IsNotNull();
+            return result;
+        }
+        [PexMethod(MaxConditions = 10000, MaxBranches = 20000)]
+        public IObservable<DownloadStringCompletedEventArgs> DownloadStringObservableAsync01(
+            WebClient client,
+            Uri address,
+            IProgress<DownloadProgressChangedEventArgs> progress
+        )
+        {
+            IObservable<DownloadStringCompletedEventArgs> result
+               = WebClientExtensions.DownloadStringObservableAsync(client, address, progress);
+            result.Subscribe().IsNotNull();
+            return result;
+        }
+        [PexMethod(MaxConditions = 10000, MaxBranches = 20000)]
+        public IObservable<DownloadStringCompletedEventArgs> DownloadStringObservableAsync(WebClient client, Uri address)
+        {
+            IObservable<DownloadStringCompletedEventArgs> result
+               = WebClientExtensions.DownloadStringObservableAsync(client, address);
+            result.Subscribe().IsNotNull();
+            return result;
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void DownloadStringObservableAsyncThrowsArgumentNullException936()
+        {
+            IObservable<DownloadStringCompletedEventArgs> iObservable;
+            iObservable = this.DownloadStringObservableAsync((WebClient)null, (string)null);
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void DownloadStringObservableAsync01ThrowsArgumentNullException266()
+        {
+            IObservable<DownloadStringCompletedEventArgs> iObservable;
+            iObservable = this.DownloadStringObservableAsync01((WebClient)null,
+                                                               (Uri)null, (IProgress<DownloadProgressChangedEventArgs>)null);
+        }
+        [PexMethod(MaxConditions = 10000, MaxBranches = 20000)]
+        public IObservable<OpenReadCompletedEventArgs> OpenReadObservableAsync01(WebClient client, Uri address)
+        {
+            IObservable<OpenReadCompletedEventArgs> result
+               = WebClientExtensions.OpenReadObservableAsync(client, address);
+            return result;
+        }
+        [PexMethod(MaxConditions = 10000, MaxBranches = 20000)]
+        public IObservable<OpenReadCompletedEventArgs> OpenReadObservableAsync(WebClient client, string address)
+        {
+            IObservable<OpenReadCompletedEventArgs> result
+               = WebClientExtensions.OpenReadObservableAsync(client, address);
+            return result;
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void OpenReadObservableAsyncThrowsArgumentNullException364()
+        {
+            IObservable<OpenReadCompletedEventArgs> iObservable;
+            iObservable = this.OpenReadObservableAsync((WebClient)null, (string)null);
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void OpenReadObservableAsync01ThrowsArgumentNullException141()
+        {
+            IObservable<OpenReadCompletedEventArgs> iObservable;
+            iObservable = this.OpenReadObservableAsync01((WebClient)null, (Uri)null);
+        }
+        [PexMethod(MaxConditions = 10000, MaxBranches = 20000)]
+        public IObservable<OpenWriteCompletedEventArgs> OpenWriteObservableAsync(
+            WebClient client,
+            string address,
+            string method
+        )
+        {
+            IObservable<OpenWriteCompletedEventArgs> result
+               = WebClientExtensions.OpenWriteObservableAsync(client, address, method);
+            result.Subscribe().IsNotNull();
+            return result;
+        }
+        [PexMethod(MaxConditions = 10000, MaxBranches = 20000)]
+        public IObservable<OpenWriteCompletedEventArgs> OpenWriteObservableAsync01(
+            WebClient client,
+            Uri address,
+            string method
+        )
+        {
+            IObservable<OpenWriteCompletedEventArgs> result
+               = WebClientExtensions.OpenWriteObservableAsync(client, address, method);
+            result.Subscribe().IsNotNull();
+            return result;
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void OpenWriteObservableAsync01ThrowsArgumentNullException473()
+        {
+            IObservable<OpenWriteCompletedEventArgs> iObservable;
+            iObservable =
+              this.OpenWriteObservableAsync01((WebClient)null, (Uri)null, (string)null);
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void OpenWriteObservableAsyncThrowsArgumentNullException109()
+        {
+            IObservable<OpenWriteCompletedEventArgs> iObservable;
+            iObservable =
+              this.OpenWriteObservableAsync((WebClient)null, (string)null, (string)null);
+        }
     }
 }

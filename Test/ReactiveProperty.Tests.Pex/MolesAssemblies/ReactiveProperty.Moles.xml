@@ -832,16 +832,36 @@
             <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.WebClientExtensions.DownloadFileObservableAsync(System.Net.WebClient,System.Uri,System.String,Codeplex.Reactive.Notifier.IProgress`1{System.Net.DownloadProgressChangedEventArgs})"/>
             </summary>
         </member>
-        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MWebClientExtensions.DownloadStringObservableAsyncWebClient">
-            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.WebClientExtensions.DownloadStringObservableAsync(System.Net.WebClient)"/>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MWebClientExtensions.DownloadStringObservableAsyncCoreWebClientUriIProgressOfDownloadProgressChangedEventArgs">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.WebClientExtensions.DownloadStringObservableAsyncCore(System.Net.WebClient,System.Uri,Codeplex.Reactive.Notifier.IProgress`1{System.Net.DownloadProgressChangedEventArgs})"/>
             </summary>
         </member>
-        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MWebClientExtensions.OpenReadObservableAsyncWebClient">
-            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.WebClientExtensions.OpenReadObservableAsync(System.Net.WebClient)"/>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MWebClientExtensions.DownloadStringObservableAsyncWebClientString">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.WebClientExtensions.DownloadStringObservableAsync(System.Net.WebClient,System.String)"/>
             </summary>
         </member>
-        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MWebClientExtensions.OpenWriteObservableAsyncWebClient">
-            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.WebClientExtensions.OpenWriteObservableAsync(System.Net.WebClient)"/>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MWebClientExtensions.DownloadStringObservableAsyncWebClientUri">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.WebClientExtensions.DownloadStringObservableAsync(System.Net.WebClient,System.Uri)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MWebClientExtensions.DownloadStringObservableAsyncWebClientUriIProgressOfDownloadProgressChangedEventArgs">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.WebClientExtensions.DownloadStringObservableAsync(System.Net.WebClient,System.Uri,Codeplex.Reactive.Notifier.IProgress`1{System.Net.DownloadProgressChangedEventArgs})"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MWebClientExtensions.OpenReadObservableAsyncWebClientString">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.WebClientExtensions.OpenReadObservableAsync(System.Net.WebClient,System.String)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MWebClientExtensions.OpenReadObservableAsyncWebClientUri">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.WebClientExtensions.OpenReadObservableAsync(System.Net.WebClient,System.Uri)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MWebClientExtensions.OpenWriteObservableAsyncWebClientStringString">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.WebClientExtensions.OpenWriteObservableAsync(System.Net.WebClient,System.String,System.String)"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MWebClientExtensions.OpenWriteObservableAsyncWebClientUriString">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.WebClientExtensions.OpenWriteObservableAsync(System.Net.WebClient,System.Uri,System.String)"/>
             </summary>
         </member>
         <member name="P:Codeplex.Reactive.Asynchronous.Moles.MWebClientExtensions.RegisterDownloadProgressWebClientIProgressOfDownloadProgressChangedEventArgs">
@@ -860,20 +880,52 @@
             <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.WebClientExtensions.UploadFileObservableAsync(System.Net.WebClient)"/>
             </summary>
         </member>
-        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MWebClientExtensions._DownloadDataObservableAsyncCoreb__22ActionOfDownloadDataCompletedEventArgs">
-            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.WebClientExtensions.&lt;DownloadDataObservableAsyncCore&gt;b__22(System.Action`1{System.Net.DownloadDataCompletedEventArgs})"/>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MWebClientExtensions.UploadStringObservableAsyncWebClient">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.WebClientExtensions.UploadStringObservableAsync(System.Net.WebClient)"/>
             </summary>
         </member>
-        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MWebClientExtensions._DownloadFileObservableAsyncCoreb__2cActionOfAsyncCompletedEventArgs">
-            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.WebClientExtensions.&lt;DownloadFileObservableAsyncCore&gt;b__2c(System.Action`1{System.ComponentModel.AsyncCompletedEventArgs})"/>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MWebClientExtensions.UploadValuesObservableAsyncWebClient">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.WebClientExtensions.UploadValuesObservableAsync(System.Net.WebClient)"/>
             </summary>
         </member>
-        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MWebClientExtensions._RegisterDownloadProgressb__5">
-            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.WebClientExtensions.&lt;RegisterDownloadProgress&gt;b__5"/>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MWebClientExtensions._DownloadDataObservableAsyncCoreb__1bActionOfDownloadDataCompletedEventArgs">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.WebClientExtensions.&lt;DownloadDataObservableAsyncCore&gt;b__1b(System.Action`1{System.Net.DownloadDataCompletedEventArgs})"/>
             </summary>
         </member>
-        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MWebClientExtensions._RegisterUploadProgressb__12">
-            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.WebClientExtensions.&lt;RegisterUploadProgress&gt;b__12"/>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MWebClientExtensions._DownloadDataObservableAsyncCoreb__1f">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.WebClientExtensions.&lt;DownloadDataObservableAsyncCore&gt;b__1f"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MWebClientExtensions._DownloadFileObservableAsyncCoreb__27ActionOfAsyncCompletedEventArgs">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.WebClientExtensions.&lt;DownloadFileObservableAsyncCore&gt;b__27(System.Action`1{System.ComponentModel.AsyncCompletedEventArgs})"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MWebClientExtensions._DownloadFileObservableAsyncCoreb__2b">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.WebClientExtensions.&lt;DownloadFileObservableAsyncCore&gt;b__2b"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MWebClientExtensions._DownloadStringObservableAsyncCoreb__33ActionOfDownloadStringCompletedEventArgs">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.WebClientExtensions.&lt;DownloadStringObservableAsyncCore&gt;b__33(System.Action`1{System.Net.DownloadStringCompletedEventArgs})"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MWebClientExtensions._DownloadStringObservableAsyncCoreb__37">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.WebClientExtensions.&lt;DownloadStringObservableAsyncCore&gt;b__37"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MWebClientExtensions._OpenReadObservableAsyncb__3fActionOfOpenReadCompletedEventArgs">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.WebClientExtensions.&lt;OpenReadObservableAsync&gt;b__3f(System.Action`1{System.Net.OpenReadCompletedEventArgs})"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MWebClientExtensions._OpenReadObservableAsyncb__43">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.WebClientExtensions.&lt;OpenReadObservableAsync&gt;b__43"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MWebClientExtensions._OpenWriteObservableAsyncb__4bActionOfOpenWriteCompletedEventArgs">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.WebClientExtensions.&lt;OpenWriteObservableAsync&gt;b__4b(System.Action`1{System.Net.OpenWriteCompletedEventArgs})"/>
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Asynchronous.Moles.MWebClientExtensions._OpenWriteObservableAsyncb__4f">
+            <summary>Sets the mole of <see cref="M:Codeplex.Reactive.Asynchronous.WebClientExtensions.&lt;OpenWriteObservableAsync&gt;b__4f"/>
             </summary>
         </member>
         <member name="T:Codeplex.Reactive.Asynchronous.Moles.MWebRequestExtensions">

@@ -136,6 +136,21 @@
     <Compile Include="WebClientExtensionsTest.DownloadFileObservableAsync02.g.cs">
       <DependentUpon>WebClientExtensionsTest.cs</DependentUpon>
     </Compile>
+    <Compile Include="WebClientExtensionsTest.DownloadStringObservableAsync.g.cs">
+      <DependentUpon>WebClientExtensionsTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WebClientExtensionsTest.DownloadStringObservableAsync01.g.cs">
+      <DependentUpon>WebClientExtensionsTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WebClientExtensionsTest.OpenReadObservableAsync01.g.cs">
+      <DependentUpon>WebClientExtensionsTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WebClientExtensionsTest.OpenWriteObservableAsync.g.cs">
+      <DependentUpon>WebClientExtensionsTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WebClientExtensionsTest.OpenWriteObservableAsync01.g.cs">
+      <DependentUpon>WebClientExtensionsTest.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Moles Include="ReactiveProperty.moles" />
