@@ -67,5 +67,66 @@ namespace Codeplex.Reactive.Asynchronous
             iObservable = this.DownloadDataObservableAsync02((WebClient)null,
                                                              (Uri)null, (IProgress<DownloadProgressChangedEventArgs>)null);
         }
+        [PexMethod(MaxConditions = 10000, MaxBranches = 20000)]
+        public IObservable<AsyncCompletedEventArgs> DownloadFileObservableAsync02(
+            WebClient client,
+            Uri address,
+            string fileName,
+            IProgress<DownloadProgressChangedEventArgs> progress
+        )
+        {
+            IObservable<AsyncCompletedEventArgs> result
+               = WebClientExtensions.DownloadFileObservableAsync(client, address, fileName, progress);
+            result.Subscribe();
+            return result;
+        }
+        [PexMethod(MaxConditions = 10000, MaxBranches = 20000)]
+        public IObservable<AsyncCompletedEventArgs> DownloadFileObservableAsync01(
+            WebClient client,
+            Uri address,
+            string fileName
+        )
+        {
+            IObservable<AsyncCompletedEventArgs> result
+               = WebClientExtensions.DownloadFileObservableAsync(client, address, fileName);
+            result.Subscribe();
+            return result;
+        }
+        [PexMethod(MaxConditions = 10000, MaxBranches = 20000)]
+        public IObservable<AsyncCompletedEventArgs> DownloadFileObservableAsync(
+            WebClient client,
+            string address,
+            string fileName
+        )
+        {
+            IObservable<AsyncCompletedEventArgs> result
+               = WebClientExtensions.DownloadFileObservableAsync(client, address, fileName);
+            result.Subscribe();
+            return result;
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void DownloadFileObservableAsyncThrowsArgumentNullException75()
+        {
+            IObservable<AsyncCompletedEventArgs> iObservable;
+            iObservable =
+              this.DownloadFileObservableAsync((WebClient)null, (string)null, (string)null);
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void DownloadFileObservableAsync01ThrowsArgumentNullException422()
+        {
+            IObservable<AsyncCompletedEventArgs> iObservable;
+            iObservable =
+              this.DownloadFileObservableAsync01((WebClient)null, (Uri)null, (string)null);
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void DownloadFileObservableAsync02ThrowsArgumentNullException222()
+        {
+            IObservable<AsyncCompletedEventArgs> iObservable;
+            iObservable = this.DownloadFileObservableAsync02((WebClient)null, (Uri)null,
+                                                             (string)null, (IProgress<DownloadProgressChangedEventArgs>)null);
+        }
     }
 }
