@@ -12,6 +12,8 @@ using Microsoft.Reactive.Testing;
 using System.Net;
 using System.Net.Moles;
 using System.Threading;
+using System.Xml.Linq;
+using System.ComponentModel.Moles;
 
 namespace ReactiveProperty.Tests.Asynchronous
 {
@@ -37,8 +39,19 @@ namespace ReactiveProperty.Tests.Asynchronous
             MWebClient.AllInstances.DownloadProgressChangedRemoveDownloadProgressChangedEventHandler =
                 (wc, h) => progressHandler -= h;
 
+            MAsyncCompletedEventArgs.AllInstances.ErrorGet = _ => null;
+
             MWebClient.AllInstances.DownloadDataAsyncUri = (wc, uri) =>
             {
+                // when error...
+                if (uri.OriginalString == "http://error.com/")
+                {
+                    var d = new MDownloadDataCompletedEventArgs();
+                    new MAsyncCompletedEventArgs(d) { ErrorGet = () => new WebException() };
+                    completeHandler(wc, d);
+                    return;
+                }
+
                 // async...
                 ThreadPool.QueueUserWorkItem(_ =>
                 {
@@ -82,11 +95,41 @@ namespace ReactiveProperty.Tests.Asynchronous
             recorder.Messages[2].Value.Value.Is(x =>
                 x.BytesReceived == result.Result.Length && x.TotalBytesToReceive == result.Result.Length);
 
-
             recorder.Messages.Clear();
             client.DownloadDataObservableAsync("http://moles.com/dummy").First();
             result.Result.Is(data);
             recorder.Messages.Count.Is(0);
+
+            recorder.Messages.Clear();
+            var errorResult = client.DownloadDataObservableAsync("http://error.com/").Materialize().ToEnumerable().ToArray();
+            errorResult.Length.Is(1);
+            errorResult[0].Is(x => x.Kind == NotificationKind.OnError && x.Exception is WebException);
+        }
+
+        [TestMethod]
+        public void DownloadDataObservableAsyncReal()
+        {
+            var scheduler = new TestScheduler();
+            var recorder = scheduler.CreateObserver<DownloadProgressChangedEventArgs>();
+            var notifier = new ScheduledNotifier<DownloadProgressChangedEventArgs>();
+            notifier.Subscribe(recorder);
+
+            var client = new WebClient();
+            var result = client.DownloadDataObservableAsync(new Uri("http://twitter.com/statuses/public_timeline.xml"), notifier).Single();
+
+            recorder.Messages.Count.Is(x => x > 1);
+            var xml = XElement.Parse(Encoding.UTF8.GetString(result.Result));
+            xml.Elements("status").Count().Is(20);
+
+            // exception check
+            recorder.Messages.Clear();
+            var xs = client.DownloadDataObservableAsync("http://google.co.jp/404")
+                .Materialize()
+                .ToEnumerable()
+                .ToArray();
+            xs.Length.Is(1);
+            xs[0].Is(x =>
+                x.Kind == NotificationKind.OnError && x.Exception is WebException);
         }
     }
 

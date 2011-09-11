@@ -13,6 +13,7 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
+using System.ComponentModel;
 #endif
 
 namespace Codeplex.Reactive.Asynchronous
@@ -54,19 +55,21 @@ namespace Codeplex.Reactive.Asynchronous
         static IObservable<TEventArgs> RegisterAsyncEvent<TDelegate, TEventArgs>(WebClient client,
             Func<Action<TEventArgs>, TDelegate> conversion, Action<TDelegate> addHandler, Action<TDelegate> removeHandler,
             Func<IDisposable> progressSubscribe, Action startAsync)
+            where TEventArgs : AsyncCompletedEventArgs
         {
             var result = Observable.Create<TEventArgs>(observer =>
             {
                 var subscription = Observable.FromEvent<TDelegate, TEventArgs>(conversion, addHandler, removeHandler)
                     .Take(1)
+                    .Do(e => { if (e.Error != null) throw e.Error; })
                     .Subscribe(observer);
                 var progress = progressSubscribe();
                 startAsync();
                 return () =>
                 {
-                    client.CancelAsync();
                     subscription.Dispose();
                     progress.Dispose();
+                    client.CancelAsync();
                 };
             });
 
