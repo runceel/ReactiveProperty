@@ -40,6 +40,7 @@ namespace ReactiveProperty.Tests.Asynchronous
                 (wc, h) => progressHandler -= h;
 
             MAsyncCompletedEventArgs.AllInstances.ErrorGet = _ => null;
+            MAsyncCompletedEventArgs.AllInstances.CancelledGet = _ => false;
 
             MWebClient.AllInstances.DownloadDataAsyncUri = (wc, uri) =>
             {
@@ -48,6 +49,14 @@ namespace ReactiveProperty.Tests.Asynchronous
                 {
                     var d = new MDownloadDataCompletedEventArgs();
                     new MAsyncCompletedEventArgs(d) { ErrorGet = () => new WebException() };
+                    completeHandler(wc, d);
+                    return;
+                }
+                // cancel
+                if (uri.OriginalString == "http://cancel.com/")
+                {
+                    var d = new MDownloadDataCompletedEventArgs();
+                    new MAsyncCompletedEventArgs(d) { CancelledGet = () => true };
                     completeHandler(wc, d);
                     return;
                 }
@@ -85,25 +94,29 @@ namespace ReactiveProperty.Tests.Asynchronous
 
             var client = new WebClient();
             var result = client.DownloadDataObservableAsync(new Uri("http://moles.com/dummy"), notifier).First();
-            result.Result.Is(data);
+            result.Is(data);
 
             recorder.Messages.Count.Is(3);
             recorder.Messages[0].Value.Value.Is(x =>
-                x.BytesReceived == 0 && x.TotalBytesToReceive == result.Result.Length);
+                x.BytesReceived == 0 && x.TotalBytesToReceive == result.Length);
             recorder.Messages[1].Value.Value.Is(x =>
-                x.BytesReceived == 100 && x.TotalBytesToReceive == result.Result.Length);
+                x.BytesReceived == 100 && x.TotalBytesToReceive == result.Length);
             recorder.Messages[2].Value.Value.Is(x =>
-                x.BytesReceived == result.Result.Length && x.TotalBytesToReceive == result.Result.Length);
+                x.BytesReceived == result.Length && x.TotalBytesToReceive == result.Length);
 
             recorder.Messages.Clear();
             client.DownloadDataObservableAsync("http://moles.com/dummy").First();
-            result.Result.Is(data);
+            result.Is(data);
             recorder.Messages.Count.Is(0);
 
-            recorder.Messages.Clear();
             var errorResult = client.DownloadDataObservableAsync("http://error.com/").Materialize().ToEnumerable().ToArray();
             errorResult.Length.Is(1);
             errorResult[0].Is(x => x.Kind == NotificationKind.OnError && x.Exception is WebException);
+
+            // check cancel
+            var cancelResult = client.DownloadDataObservableAsync("http://cancel.com/").Materialize().ToEnumerable().ToArray();
+            cancelResult.Length.Is(1);
+            cancelResult[0].Is(x => x.Kind == NotificationKind.OnError && x.Exception is OperationCanceledException);
         }
 
         [TestMethod]
@@ -118,8 +131,8 @@ namespace ReactiveProperty.Tests.Asynchronous
             var result = client.DownloadDataObservableAsync(new Uri("http://twitter.com/statuses/public_timeline.xml"), notifier).Single();
 
             recorder.Messages.Count.Is(x => x > 1);
-            var xml = XElement.Parse(Encoding.UTF8.GetString(result.Result));
-            xml.Elements("status").Count().Is(20);
+            var xml = XElement.Parse(Encoding.UTF8.GetString(result));
+            xml.Elements("status").Count().Is(x => x == 20 || x == 19);
 
             // exception check
             recorder.Messages.Clear();
@@ -152,6 +165,7 @@ namespace ReactiveProperty.Tests.Asynchronous
                 (wc, h) => progressHandler -= h;
 
             MAsyncCompletedEventArgs.AllInstances.ErrorGet = _ => null;
+            MAsyncCompletedEventArgs.AllInstances.CancelledGet = _ => false;
 
             MWebClient.AllInstances.DownloadFileAsyncUriString = (wc, uri, filepath) =>
             {
@@ -265,6 +279,7 @@ namespace ReactiveProperty.Tests.Asynchronous
                 (wc, h) => progressHandler -= h;
 
             MAsyncCompletedEventArgs.AllInstances.ErrorGet = _ => null;
+            MAsyncCompletedEventArgs.AllInstances.CancelledGet = _ => false;
 
             MWebClient.AllInstances.DownloadStringAsyncUri = (wc, uri) =>
             {
@@ -310,19 +325,19 @@ namespace ReactiveProperty.Tests.Asynchronous
 
             var client = new WebClient();
             var result = client.DownloadStringObservableAsync(new Uri("http://moles.com/dummy"), notifier).First();
-            result.Result.Is(data);
+            result.Is(data);
 
             recorder.Messages.Count.Is(3);
             recorder.Messages[0].Value.Value.Is(x =>
-                x.BytesReceived == 0 && x.TotalBytesToReceive == result.Result.Length);
+                x.BytesReceived == 0 && x.TotalBytesToReceive == result.Length);
             recorder.Messages[1].Value.Value.Is(x =>
-                x.BytesReceived == 100 && x.TotalBytesToReceive == result.Result.Length);
+                x.BytesReceived == 100 && x.TotalBytesToReceive == result.Length);
             recorder.Messages[2].Value.Value.Is(x =>
-                x.BytesReceived == result.Result.Length && x.TotalBytesToReceive == result.Result.Length);
+                x.BytesReceived == result.Length && x.TotalBytesToReceive == result.Length);
 
             recorder.Messages.Clear();
             client.DownloadStringObservableAsync("http://moles.com/dummy").First();
-            result.Result.Is(data);
+            result.Is(data);
             recorder.Messages.Count.Is(0);
 
             recorder.Messages.Clear();
@@ -343,7 +358,7 @@ namespace ReactiveProperty.Tests.Asynchronous
             var result = client.DownloadStringObservableAsync(new Uri("http://twitter.com/statuses/public_timeline.xml"), notifier).Single();
 
             recorder.Messages.Count.Is(x => x > 1);
-            var xml = XElement.Parse(result.Result);
+            var xml = XElement.Parse(result);
             xml.Elements("status").Count().Is(x => x == 20 || x == 19);
 
             // exception check
@@ -368,6 +383,7 @@ namespace ReactiveProperty.Tests.Asynchronous
                 (wc, h) => completeHandler -= h;
 
             MAsyncCompletedEventArgs.AllInstances.ErrorGet = _ => null;
+            MAsyncCompletedEventArgs.AllInstances.CancelledGet = _ => false;
 
             MWebClient.AllInstances.OpenReadAsyncUri = (wc, uri) =>
             {
@@ -393,10 +409,10 @@ namespace ReactiveProperty.Tests.Asynchronous
             // act
             var client = new WebClient();
             var result = client.OpenReadObservableAsync(new Uri("http://moles.com/dummy")).First();
-            new StreamReader(result.Result).ReadToEnd().Is("hogehogehugahuga");
+            new StreamReader(result).ReadToEnd().Is("hogehogehugahuga");
 
-            client.OpenReadObservableAsync("http://moles.com/dummy").First();
-            new StreamReader(result.Result).ReadToEnd().Is("hogehogehugahuga");
+            result = client.OpenReadObservableAsync("http://moles.com/dummy").First();
+            new StreamReader(result).ReadToEnd().Is("hogehogehugahuga");
 
             var errorResult = client.OpenReadObservableAsync("http://error.com/").Materialize().ToEnumerable().ToArray();
             errorResult.Length.Is(1);
@@ -409,7 +425,7 @@ namespace ReactiveProperty.Tests.Asynchronous
             var client = new WebClient();
             var result = client.OpenReadObservableAsync(new Uri("http://twitter.com/statuses/public_timeline.xml")).Single();
 
-            var xml = XElement.Load(result.Result);
+            var xml = XElement.Load(result);
             xml.Elements("status").Count().Is(20);
 
             // exception check
@@ -433,6 +449,7 @@ namespace ReactiveProperty.Tests.Asynchronous
                 (wc, h) => completeHandler -= h;
 
             MAsyncCompletedEventArgs.AllInstances.ErrorGet = _ => null;
+            MAsyncCompletedEventArgs.AllInstances.CancelledGet = _ => false;
 
             MWebClient.AllInstances.OpenWriteAsyncUriString = (wc, uri, method) =>
             {
@@ -457,7 +474,7 @@ namespace ReactiveProperty.Tests.Asynchronous
 
             var client = new WebClient();
             var result = client.OpenWriteObservableAsync(new Uri("http://moles.com/dummy")).Single();
-            result.Result.IsInstanceOf<MemoryStream>();
+            result.IsInstanceOf<MemoryStream>();
 
             var errorResult = client.OpenWriteObservableAsync("http://error.com/").Materialize().ToEnumerable().ToArray();
             errorResult.Length.Is(1);
@@ -470,7 +487,7 @@ namespace ReactiveProperty.Tests.Asynchronous
             var client = new WebClient();
             client.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
             var result = client.OpenWriteObservableAsync(new Uri("http://goo.gl/api/shorten"), "POST").Single();
-            using (var sw = new StreamWriter(result.Result))
+            using (var sw = new StreamWriter(result))
             {
                 sw.Write("url=http%3A%2F%2Fgoogle.com%2F&security_token");
             }

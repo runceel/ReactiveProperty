@@ -11,6 +11,8 @@ using Microsoft.Pex.Framework.Generated;
 using System.Collections.Specialized;
 using System.Net.Cache;
 using System.ComponentModel;
+using System.IO;
+using System.Reactive;
 
 namespace Codeplex.Reactive.Asynchronous
 {
@@ -21,27 +23,27 @@ namespace Codeplex.Reactive.Asynchronous
     public partial class WebClientExtensionsTest
     {
         [PexMethod]
-        public IObservable<DownloadDataCompletedEventArgs> DownloadDataObservableAsync02(
+        public IObservable<byte[]> DownloadDataObservableAsync02(
             WebClient client,
             Uri address,
             IProgress<DownloadProgressChangedEventArgs> progress
         )
         {
-            IObservable<DownloadDataCompletedEventArgs> result
+            IObservable<byte[]> result
                = WebClientExtensions.DownloadDataObservableAsync(client, address, progress);
             return result;
         }
         [PexMethod]
-        public IObservable<DownloadDataCompletedEventArgs> DownloadDataObservableAsync01(WebClient client, Uri address)
+        public IObservable<byte[]> DownloadDataObservableAsync01(WebClient client, Uri address)
         {
-            IObservable<DownloadDataCompletedEventArgs> result
+            IObservable<byte[]> result
                = WebClientExtensions.DownloadDataObservableAsync(client, address);
             return result;
         }
         [PexMethod(MaxConditions = 2000)]
-        public IObservable<DownloadDataCompletedEventArgs> DownloadDataObservableAsync(WebClient client, string address)
+        public IObservable<byte[]> DownloadDataObservableAsync(WebClient client, string address)
         {
-            IObservable<DownloadDataCompletedEventArgs> result
+            IObservable<byte[]> result
                = WebClientExtensions.DownloadDataObservableAsync(client, address);
             return result;
         }
@@ -49,57 +51,57 @@ namespace Codeplex.Reactive.Asynchronous
         [ExpectedException(typeof(ArgumentNullException))]
         public void DownloadDataObservableAsyncThrowsArgumentNullException863()
         {
-            IObservable<DownloadDataCompletedEventArgs> iObservable;
+            IObservable<byte[]> iObservable;
             iObservable = this.DownloadDataObservableAsync((WebClient)null, (string)null);
         }
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void DownloadDataObservableAsync01ThrowsArgumentNullException259()
         {
-            IObservable<DownloadDataCompletedEventArgs> iObservable;
+            IObservable<byte[]> iObservable;
             iObservable = this.DownloadDataObservableAsync01((WebClient)null, (Uri)null);
         }
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void DownloadDataObservableAsync02ThrowsArgumentNullException420()
         {
-            IObservable<DownloadDataCompletedEventArgs> iObservable;
+            IObservable<byte[]> iObservable;
             iObservable = this.DownloadDataObservableAsync02((WebClient)null,
                                                              (Uri)null, (IProgress<DownloadProgressChangedEventArgs>)null);
         }
         [PexMethod(MaxConditions = 10000, MaxBranches = 20000)]
-        public IObservable<AsyncCompletedEventArgs> DownloadFileObservableAsync02(
+        public IObservable<Unit> DownloadFileObservableAsync02(
             WebClient client,
             Uri address,
             string fileName,
             IProgress<DownloadProgressChangedEventArgs> progress
         )
         {
-            IObservable<AsyncCompletedEventArgs> result
+            IObservable<Unit> result
                = WebClientExtensions.DownloadFileObservableAsync(client, address, fileName, progress);
             result.Subscribe();
             return result;
         }
         [PexMethod(MaxConditions = 10000, MaxBranches = 20000)]
-        public IObservable<AsyncCompletedEventArgs> DownloadFileObservableAsync01(
+        public IObservable<Unit> DownloadFileObservableAsync01(
             WebClient client,
             Uri address,
             string fileName
         )
         {
-            IObservable<AsyncCompletedEventArgs> result
+            IObservable<Unit> result
                = WebClientExtensions.DownloadFileObservableAsync(client, address, fileName);
             result.Subscribe();
             return result;
         }
         [PexMethod(MaxConditions = 10000, MaxBranches = 20000)]
-        public IObservable<AsyncCompletedEventArgs> DownloadFileObservableAsync(
+        public IObservable<Unit> DownloadFileObservableAsync(
             WebClient client,
             string address,
             string fileName
         )
         {
-            IObservable<AsyncCompletedEventArgs> result
+            IObservable<Unit> result
                = WebClientExtensions.DownloadFileObservableAsync(client, address, fileName);
             result.Subscribe();
             return result;
@@ -108,7 +110,7 @@ namespace Codeplex.Reactive.Asynchronous
         [ExpectedException(typeof(ArgumentNullException))]
         public void DownloadFileObservableAsyncThrowsArgumentNullException75()
         {
-            IObservable<AsyncCompletedEventArgs> iObservable;
+            IObservable<Unit> iObservable;
             iObservable =
               this.DownloadFileObservableAsync((WebClient)null, (string)null, (string)null);
         }
@@ -116,7 +118,7 @@ namespace Codeplex.Reactive.Asynchronous
         [ExpectedException(typeof(ArgumentNullException))]
         public void DownloadFileObservableAsync01ThrowsArgumentNullException422()
         {
-            IObservable<AsyncCompletedEventArgs> iObservable;
+            IObservable<Unit> iObservable;
             iObservable =
               this.DownloadFileObservableAsync01((WebClient)null, (Uri)null, (string)null);
         }
@@ -124,34 +126,34 @@ namespace Codeplex.Reactive.Asynchronous
         [ExpectedException(typeof(ArgumentNullException))]
         public void DownloadFileObservableAsync02ThrowsArgumentNullException222()
         {
-            IObservable<AsyncCompletedEventArgs> iObservable;
+            IObservable<Unit> iObservable;
             iObservable = this.DownloadFileObservableAsync02((WebClient)null, (Uri)null,
                                                              (string)null, (IProgress<DownloadProgressChangedEventArgs>)null);
         }
         [PexMethod(MaxConditions = 10000, MaxBranches = 20000), PexAllowedException(typeof(UriFormatException))]
-        public IObservable<DownloadStringCompletedEventArgs> DownloadStringObservableAsync(WebClient client, string address)
+        public IObservable<string> DownloadStringObservableAsync(WebClient client, string address)
         {
-            IObservable<DownloadStringCompletedEventArgs> result
+            IObservable<string> result
                = WebClientExtensions.DownloadStringObservableAsync(client, address);
             result.Subscribe().IsNotNull();
             return result;
         }
         [PexMethod(MaxConditions = 10000, MaxBranches = 20000)]
-        public IObservable<DownloadStringCompletedEventArgs> DownloadStringObservableAsync01(
+        public IObservable<string> DownloadStringObservableAsync01(
             WebClient client,
             Uri address,
             IProgress<DownloadProgressChangedEventArgs> progress
         )
         {
-            IObservable<DownloadStringCompletedEventArgs> result
+            IObservable<string> result
                = WebClientExtensions.DownloadStringObservableAsync(client, address, progress);
             result.Subscribe().IsNotNull();
             return result;
         }
         [PexMethod(MaxConditions = 10000, MaxBranches = 20000)]
-        public IObservable<DownloadStringCompletedEventArgs> DownloadStringObservableAsync(WebClient client, Uri address)
+        public IObservable<string> DownloadStringObservableAsync(WebClient client, Uri address)
         {
-            IObservable<DownloadStringCompletedEventArgs> result
+            IObservable<string> result
                = WebClientExtensions.DownloadStringObservableAsync(client, address);
             result.Subscribe().IsNotNull();
             return result;
@@ -160,28 +162,28 @@ namespace Codeplex.Reactive.Asynchronous
         [ExpectedException(typeof(ArgumentNullException))]
         public void DownloadStringObservableAsyncThrowsArgumentNullException936()
         {
-            IObservable<DownloadStringCompletedEventArgs> iObservable;
+            IObservable<string> iObservable;
             iObservable = this.DownloadStringObservableAsync((WebClient)null, (string)null);
         }
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void DownloadStringObservableAsync01ThrowsArgumentNullException266()
         {
-            IObservable<DownloadStringCompletedEventArgs> iObservable;
+            IObservable<string> iObservable;
             iObservable = this.DownloadStringObservableAsync01((WebClient)null,
                                                                (Uri)null, (IProgress<DownloadProgressChangedEventArgs>)null);
         }
         [PexMethod(MaxConditions = 10000, MaxBranches = 20000)]
-        public IObservable<OpenReadCompletedEventArgs> OpenReadObservableAsync01(WebClient client, Uri address)
+        public IObservable<Stream> OpenReadObservableAsync01(WebClient client, Uri address)
         {
-            IObservable<OpenReadCompletedEventArgs> result
+            IObservable<Stream> result
                = WebClientExtensions.OpenReadObservableAsync(client, address);
             return result;
         }
         [PexMethod(MaxConditions = 10000, MaxBranches = 20000)]
-        public IObservable<OpenReadCompletedEventArgs> OpenReadObservableAsync(WebClient client, string address)
+        public IObservable<Stream> OpenReadObservableAsync(WebClient client, string address)
         {
-            IObservable<OpenReadCompletedEventArgs> result
+            IObservable<Stream> result
                = WebClientExtensions.OpenReadObservableAsync(client, address);
             return result;
         }
@@ -189,36 +191,36 @@ namespace Codeplex.Reactive.Asynchronous
         [ExpectedException(typeof(ArgumentNullException))]
         public void OpenReadObservableAsyncThrowsArgumentNullException364()
         {
-            IObservable<OpenReadCompletedEventArgs> iObservable;
+            IObservable<Stream> iObservable;
             iObservable = this.OpenReadObservableAsync((WebClient)null, (string)null);
         }
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void OpenReadObservableAsync01ThrowsArgumentNullException141()
         {
-            IObservable<OpenReadCompletedEventArgs> iObservable;
+            IObservable<Stream> iObservable;
             iObservable = this.OpenReadObservableAsync01((WebClient)null, (Uri)null);
         }
         [PexMethod(MaxConditions = 10000, MaxBranches = 20000)]
-        public IObservable<OpenWriteCompletedEventArgs> OpenWriteObservableAsync(
+        public IObservable<Stream> OpenWriteObservableAsync(
             WebClient client,
             string address,
             string method
         )
         {
-            IObservable<OpenWriteCompletedEventArgs> result
+            IObservable<Stream> result
                = WebClientExtensions.OpenWriteObservableAsync(client, address, method);
             result.Subscribe().IsNotNull();
             return result;
         }
         [PexMethod(MaxConditions = 10000, MaxBranches = 20000)]
-        public IObservable<OpenWriteCompletedEventArgs> OpenWriteObservableAsync01(
+        public IObservable<Stream> OpenWriteObservableAsync01(
             WebClient client,
             Uri address,
             string method
         )
         {
-            IObservable<OpenWriteCompletedEventArgs> result
+            IObservable<Stream> result
                = WebClientExtensions.OpenWriteObservableAsync(client, address, method);
             result.Subscribe().IsNotNull();
             return result;
@@ -227,7 +229,7 @@ namespace Codeplex.Reactive.Asynchronous
         [ExpectedException(typeof(ArgumentNullException))]
         public void OpenWriteObservableAsync01ThrowsArgumentNullException473()
         {
-            IObservable<OpenWriteCompletedEventArgs> iObservable;
+            IObservable<Stream> iObservable;
             iObservable =
               this.OpenWriteObservableAsync01((WebClient)null, (Uri)null, (string)null);
         }
@@ -235,7 +237,7 @@ namespace Codeplex.Reactive.Asynchronous
         [ExpectedException(typeof(ArgumentNullException))]
         public void OpenWriteObservableAsyncThrowsArgumentNullException109()
         {
-            IObservable<OpenWriteCompletedEventArgs> iObservable;
+            IObservable<Stream> iObservable;
             iObservable =
               this.OpenWriteObservableAsync((WebClient)null, (string)null, (string)null);
         }

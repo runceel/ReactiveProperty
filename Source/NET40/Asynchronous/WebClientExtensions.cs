@@ -8,6 +8,8 @@ using Microsoft.Phone.Reactive;
 #else
 using System.Reactive.Linq;
 using System.Reactive.Disposables;
+using System.Reactive;
+using System.IO;
 #endif
 
 namespace Codeplex.Reactive.Asynchronous
@@ -30,20 +32,22 @@ namespace Codeplex.Reactive.Asynchronous
                     .Subscribe(progress.Report);
         }
 
-        static IObservable<TEventArgs> RegisterAsyncEvent<TDelegate, TEventArgs>(WebClient client,
+        static IObservable<TResult> RegisterAsyncEvent<TDelegate, TEventArgs, TResult>(WebClient client,
             Func<Action<TEventArgs>, TDelegate> conversion, Action<TDelegate> addHandler, Action<TDelegate> removeHandler,
-            Func<IDisposable> progressSubscribe, Action startAsync)
+            Func<TEventArgs, TResult> resultSelector, Func<IDisposable> progressSubscribe, Action startAsync)
             where TEventArgs : AsyncCompletedEventArgs
         {
-            var result = Observable.Create<TEventArgs>(observer =>
+            var result = Observable.Create<TResult>(observer =>
             {
                 var isCompleted = false;
                 var subscription = Observable.FromEvent<TDelegate, TEventArgs>(conversion, addHandler, removeHandler)
                     .Take(1)
-                    .Do(e =>
+                    .Select(e =>
                     {
                         isCompleted = true;
+                        if (e.Cancelled) throw new OperationCanceledException("Call AsyncCancel directly is not supported. If you want to cancel, please call Subscript's Dispose");
                         if (e.Error != null) throw e.Error;
+                        return resultSelector(e);
                     })
                     .Subscribe(observer);
                 var progress = progressSubscribe();
@@ -60,7 +64,7 @@ namespace Codeplex.Reactive.Asynchronous
             return result;
         }
 
-        public static IObservable<DownloadDataCompletedEventArgs> DownloadDataObservableAsync(this WebClient client, string address)
+        public static IObservable<byte[]> DownloadDataObservableAsync(this WebClient client, string address)
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(address));
@@ -69,7 +73,7 @@ namespace Codeplex.Reactive.Asynchronous
             return DownloadDataObservableAsync(client, new Uri(address));
         }
 
-        public static IObservable<DownloadDataCompletedEventArgs> DownloadDataObservableAsync(this WebClient client, Uri address)
+        public static IObservable<byte[]> DownloadDataObservableAsync(this WebClient client, Uri address)
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(address != null);
@@ -78,7 +82,7 @@ namespace Codeplex.Reactive.Asynchronous
             return DownloadDataObservableAsyncCore(client, address, null);
         }
 
-        public static IObservable<DownloadDataCompletedEventArgs> DownloadDataObservableAsync(this WebClient client, Uri address, IProgress<DownloadProgressChangedEventArgs> progress)
+        public static IObservable<byte[]> DownloadDataObservableAsync(this WebClient client, Uri address, IProgress<DownloadProgressChangedEventArgs> progress)
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(address != null);
@@ -88,22 +92,23 @@ namespace Codeplex.Reactive.Asynchronous
             return DownloadDataObservableAsyncCore(client, address, progress);
         }
 
-        static IObservable<DownloadDataCompletedEventArgs> DownloadDataObservableAsyncCore(this WebClient client, Uri address, IProgress<DownloadProgressChangedEventArgs> progress)
+        static IObservable<byte[]> DownloadDataObservableAsyncCore(this WebClient client, Uri address, IProgress<DownloadProgressChangedEventArgs> progress)
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(address != null);
             Contract.Ensures(Contract.Result<IObservable<DownloadDataCompletedEventArgs>>() != null);
 
-            return RegisterAsyncEvent<DownloadDataCompletedEventHandler, DownloadDataCompletedEventArgs>(
+            return RegisterAsyncEvent<DownloadDataCompletedEventHandler, DownloadDataCompletedEventArgs, byte[]>(
                 client,
                 h => (sender, e) => h(e),
                 h => client.DownloadDataCompleted += h,
                 h => client.DownloadDataCompleted -= h,
+                e => e.Result,
                 (progress != null) ? RegisterDownloadProgress(client, progress) : () => Disposable.Empty,
                 () => client.DownloadDataAsync(address));
         }
 
-        public static IObservable<AsyncCompletedEventArgs> DownloadFileObservableAsync(this WebClient client, string address, string fileName)
+        public static IObservable<Unit> DownloadFileObservableAsync(this WebClient client, string address, string fileName)
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(address));
@@ -113,7 +118,7 @@ namespace Codeplex.Reactive.Asynchronous
             return DownloadFileObservableAsync(client, new Uri(address), fileName);
         }
 
-        public static IObservable<AsyncCompletedEventArgs> DownloadFileObservableAsync(this WebClient client, Uri address, string fileName)
+        public static IObservable<Unit> DownloadFileObservableAsync(this WebClient client, Uri address, string fileName)
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(address != null);
@@ -123,7 +128,7 @@ namespace Codeplex.Reactive.Asynchronous
             return DownloadFileObservableAsyncCore(client, address, fileName, null);
         }
 
-        public static IObservable<AsyncCompletedEventArgs> DownloadFileObservableAsync(this WebClient client, Uri address, string fileName, IProgress<DownloadProgressChangedEventArgs> progress)
+        public static IObservable<Unit> DownloadFileObservableAsync(this WebClient client, Uri address, string fileName, IProgress<DownloadProgressChangedEventArgs> progress)
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(address != null);
@@ -134,23 +139,24 @@ namespace Codeplex.Reactive.Asynchronous
             return DownloadFileObservableAsyncCore(client, address, fileName, progress);
         }
 
-        static IObservable<AsyncCompletedEventArgs> DownloadFileObservableAsyncCore(WebClient client, Uri address, string fileName, IProgress<DownloadProgressChangedEventArgs> progress)
+        static IObservable<Unit> DownloadFileObservableAsyncCore(WebClient client, Uri address, string fileName, IProgress<DownloadProgressChangedEventArgs> progress)
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(address != null);
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(fileName));
             Contract.Ensures(Contract.Result<IObservable<AsyncCompletedEventArgs>>() != null);
 
-            return RegisterAsyncEvent<AsyncCompletedEventHandler, AsyncCompletedEventArgs>(
+            return RegisterAsyncEvent<AsyncCompletedEventHandler, AsyncCompletedEventArgs, Unit>(
                 client,
                 h => (sender, e) => h(e),
                 h => client.DownloadFileCompleted += h,
                 h => client.DownloadFileCompleted -= h,
+                e => Unit.Default,
                 (progress != null) ? RegisterDownloadProgress(client, progress) : () => Disposable.Empty,
                 () => client.DownloadFileAsync(address, fileName));
         }
 
-        public static IObservable<DownloadStringCompletedEventArgs> DownloadStringObservableAsync(this WebClient client, string address)
+        public static IObservable<string> DownloadStringObservableAsync(this WebClient client, string address)
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(address));
@@ -159,7 +165,7 @@ namespace Codeplex.Reactive.Asynchronous
             return DownloadStringObservableAsync(client, new Uri(address));
         }
 
-        public static IObservable<DownloadStringCompletedEventArgs> DownloadStringObservableAsync(this WebClient client, Uri address)
+        public static IObservable<string> DownloadStringObservableAsync(this WebClient client, Uri address)
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(address != null);
@@ -168,7 +174,7 @@ namespace Codeplex.Reactive.Asynchronous
             return DownloadStringObservableAsyncCore(client, address, null);
         }
 
-        public static IObservable<DownloadStringCompletedEventArgs> DownloadStringObservableAsync(this WebClient client, Uri address, IProgress<DownloadProgressChangedEventArgs> progress)
+        public static IObservable<string> DownloadStringObservableAsync(this WebClient client, Uri address, IProgress<DownloadProgressChangedEventArgs> progress)
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(address != null);
@@ -178,22 +184,23 @@ namespace Codeplex.Reactive.Asynchronous
             return DownloadStringObservableAsyncCore(client, address, progress);
         }
 
-        static IObservable<DownloadStringCompletedEventArgs> DownloadStringObservableAsyncCore(WebClient client, Uri address, IProgress<DownloadProgressChangedEventArgs> progress)
+        static IObservable<string> DownloadStringObservableAsyncCore(WebClient client, Uri address, IProgress<DownloadProgressChangedEventArgs> progress)
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(address != null);
             Contract.Ensures(Contract.Result<IObservable<DownloadStringCompletedEventArgs>>() != null);
 
-            return RegisterAsyncEvent<DownloadStringCompletedEventHandler, DownloadStringCompletedEventArgs>(
+            return RegisterAsyncEvent<DownloadStringCompletedEventHandler, DownloadStringCompletedEventArgs, string>(
                 client,
                 h => (sender, e) => h(e),
                 h => client.DownloadStringCompleted += h,
                 h => client.DownloadStringCompleted -= h,
+                e => e.Result,
                 (progress != null) ? RegisterDownloadProgress(client, progress) : () => Disposable.Empty,
                 () => client.DownloadStringAsync(address));
         }
 
-        public static IObservable<OpenReadCompletedEventArgs> OpenReadObservableAsync(this WebClient client, string address)
+        public static IObservable<Stream> OpenReadObservableAsync(this WebClient client, string address)
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(address));
@@ -202,22 +209,23 @@ namespace Codeplex.Reactive.Asynchronous
             return OpenReadObservableAsync(client, new Uri(address));
         }
 
-        public static IObservable<OpenReadCompletedEventArgs> OpenReadObservableAsync(this WebClient client, Uri address)
+        public static IObservable<Stream> OpenReadObservableAsync(this WebClient client, Uri address)
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(address != null);
             Contract.Ensures(Contract.Result<IObservable<OpenReadCompletedEventArgs>>() != null);
 
-            return RegisterAsyncEvent<OpenReadCompletedEventHandler, OpenReadCompletedEventArgs>(
+            return RegisterAsyncEvent<OpenReadCompletedEventHandler, OpenReadCompletedEventArgs, Stream>(
                 client,
                 h => (sender, e) => h(e),
                 h => client.OpenReadCompleted += h,
                 h => client.OpenReadCompleted -= h,
+                e => e.Result,
                 () => Disposable.Empty,
                 () => client.OpenReadAsync(address));
         }
 
-        public static IObservable<OpenWriteCompletedEventArgs> OpenWriteObservableAsync(this WebClient client, string address, string method = null)
+        public static IObservable<Stream> OpenWriteObservableAsync(this WebClient client, string address, string method = null)
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(address));
@@ -226,24 +234,25 @@ namespace Codeplex.Reactive.Asynchronous
             return OpenWriteObservableAsync(client, new Uri(address), method);
         }
 
-        public static IObservable<OpenWriteCompletedEventArgs> OpenWriteObservableAsync(this WebClient client, Uri address, string method = null)
+        public static IObservable<Stream> OpenWriteObservableAsync(this WebClient client, Uri address, string method = null)
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(address != null);
             Contract.Ensures(Contract.Result<IObservable<OpenWriteCompletedEventArgs>>() != null);
 
-            return RegisterAsyncEvent<OpenWriteCompletedEventHandler, OpenWriteCompletedEventArgs>(
+            return RegisterAsyncEvent<OpenWriteCompletedEventHandler, OpenWriteCompletedEventArgs, Stream>(
                 client,
                 h => (sender, e) => h(e),
                 h => client.OpenWriteCompleted += h,
                 h => client.OpenWriteCompleted -= h,
+                e => e.Result,
                 () => Disposable.Empty,
                 () => client.OpenWriteAsync(address, null));
         }
 
         public static IObservable<WebResponse> UploadDataObservableAsync(this WebClient client)
         {
-            
+
             // TODO:
             return null;
         }
