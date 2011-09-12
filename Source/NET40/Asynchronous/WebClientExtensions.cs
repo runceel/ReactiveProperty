@@ -68,7 +68,7 @@ namespace Codeplex.Reactive.Asynchronous
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(address));
-            Contract.Ensures(Contract.Result<IObservable<DownloadDataCompletedEventArgs>>() != null);
+            Contract.Ensures(Contract.Result<IObservable<byte[]>>() != null);
 
             return DownloadDataObservableAsync(client, new Uri(address));
         }
@@ -77,7 +77,7 @@ namespace Codeplex.Reactive.Asynchronous
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(address != null);
-            Contract.Ensures(Contract.Result<IObservable<DownloadDataCompletedEventArgs>>() != null);
+            Contract.Ensures(Contract.Result<IObservable<byte[]>>() != null);
 
             return DownloadDataObservableAsyncCore(client, address, null);
         }
@@ -87,7 +87,7 @@ namespace Codeplex.Reactive.Asynchronous
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(address != null);
             Contract.Requires<ArgumentNullException>(progress != null);
-            Contract.Ensures(Contract.Result<IObservable<DownloadDataCompletedEventArgs>>() != null);
+            Contract.Ensures(Contract.Result<IObservable<byte[]>>() != null);
 
             return DownloadDataObservableAsyncCore(client, address, progress);
         }
@@ -96,7 +96,7 @@ namespace Codeplex.Reactive.Asynchronous
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(address != null);
-            Contract.Ensures(Contract.Result<IObservable<DownloadDataCompletedEventArgs>>() != null);
+            Contract.Ensures(Contract.Result<IObservable<byte[]>>() != null);
 
             return RegisterAsyncEvent<DownloadDataCompletedEventHandler, DownloadDataCompletedEventArgs, byte[]>(
                 client,
@@ -113,7 +113,7 @@ namespace Codeplex.Reactive.Asynchronous
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(address));
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(fileName));
-            Contract.Ensures(Contract.Result<IObservable<AsyncCompletedEventArgs>>() != null);
+            Contract.Ensures(Contract.Result<IObservable<Unit>>() != null);
 
             return DownloadFileObservableAsync(client, new Uri(address), fileName);
         }
@@ -123,7 +123,7 @@ namespace Codeplex.Reactive.Asynchronous
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(address != null);
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(fileName));
-            Contract.Ensures(Contract.Result<IObservable<AsyncCompletedEventArgs>>() != null);
+            Contract.Ensures(Contract.Result<IObservable<Unit>>() != null);
 
             return DownloadFileObservableAsyncCore(client, address, fileName, null);
         }
@@ -134,7 +134,7 @@ namespace Codeplex.Reactive.Asynchronous
             Contract.Requires<ArgumentNullException>(address != null);
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(fileName));
             Contract.Requires<ArgumentNullException>(progress != null);
-            Contract.Ensures(Contract.Result<IObservable<AsyncCompletedEventArgs>>() != null);
+            Contract.Ensures(Contract.Result<IObservable<Unit>>() != null);
 
             return DownloadFileObservableAsyncCore(client, address, fileName, progress);
         }
@@ -144,7 +144,7 @@ namespace Codeplex.Reactive.Asynchronous
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(address != null);
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(fileName));
-            Contract.Ensures(Contract.Result<IObservable<AsyncCompletedEventArgs>>() != null);
+            Contract.Ensures(Contract.Result<IObservable<Unit>>() != null);
 
             return RegisterAsyncEvent<AsyncCompletedEventHandler, AsyncCompletedEventArgs, Unit>(
                 client,
@@ -160,7 +160,7 @@ namespace Codeplex.Reactive.Asynchronous
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(address));
-            Contract.Ensures(Contract.Result<IObservable<DownloadStringCompletedEventArgs>>() != null);
+            Contract.Ensures(Contract.Result<IObservable<string>>() != null);
 
             return DownloadStringObservableAsync(client, new Uri(address));
         }
@@ -169,7 +169,7 @@ namespace Codeplex.Reactive.Asynchronous
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(address != null);
-            Contract.Ensures(Contract.Result<IObservable<DownloadStringCompletedEventArgs>>() != null);
+            Contract.Ensures(Contract.Result<IObservable<string>>() != null);
 
             return DownloadStringObservableAsyncCore(client, address, null);
         }
@@ -179,7 +179,7 @@ namespace Codeplex.Reactive.Asynchronous
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(address != null);
             Contract.Requires<ArgumentNullException>(progress != null);
-            Contract.Ensures(Contract.Result<IObservable<DownloadStringCompletedEventArgs>>() != null);
+            Contract.Ensures(Contract.Result<IObservable<string>>() != null);
 
             return DownloadStringObservableAsyncCore(client, address, progress);
         }
@@ -188,7 +188,7 @@ namespace Codeplex.Reactive.Asynchronous
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(address != null);
-            Contract.Ensures(Contract.Result<IObservable<DownloadStringCompletedEventArgs>>() != null);
+            Contract.Ensures(Contract.Result<IObservable<string>>() != null);
 
             return RegisterAsyncEvent<DownloadStringCompletedEventHandler, DownloadStringCompletedEventArgs, string>(
                 client,
@@ -204,7 +204,7 @@ namespace Codeplex.Reactive.Asynchronous
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(address));
-            Contract.Ensures(Contract.Result<IObservable<OpenReadCompletedEventArgs>>() != null);
+            Contract.Ensures(Contract.Result<IObservable<Stream>>() != null);
 
             return OpenReadObservableAsync(client, new Uri(address));
         }
@@ -213,7 +213,7 @@ namespace Codeplex.Reactive.Asynchronous
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(address != null);
-            Contract.Ensures(Contract.Result<IObservable<OpenReadCompletedEventArgs>>() != null);
+            Contract.Ensures(Contract.Result<IObservable<Stream>>() != null);
 
             return RegisterAsyncEvent<OpenReadCompletedEventHandler, OpenReadCompletedEventArgs, Stream>(
                 client,
@@ -229,7 +229,7 @@ namespace Codeplex.Reactive.Asynchronous
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(address));
-            Contract.Ensures(Contract.Result<IObservable<OpenWriteCompletedEventArgs>>() != null);
+            Contract.Ensures(Contract.Result<IObservable<Stream>>() != null);
 
             return OpenWriteObservableAsync(client, new Uri(address), method);
         }
@@ -238,7 +238,7 @@ namespace Codeplex.Reactive.Asynchronous
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(address != null);
-            Contract.Ensures(Contract.Result<IObservable<OpenWriteCompletedEventArgs>>() != null);
+            Contract.Ensures(Contract.Result<IObservable<Stream>>() != null);
 
             return RegisterAsyncEvent<OpenWriteCompletedEventHandler, OpenWriteCompletedEventArgs, Stream>(
                 client,
