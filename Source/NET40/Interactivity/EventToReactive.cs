@@ -17,10 +17,7 @@ namespace Codeplex.Reactive
             set { SetValue(ReactivePropertyProperty, value); }
         }
 
-        public static readonly DependencyProperty ReactivePropertyProperty = DependencyProperty.Register(
-            "ReactiveProperty",
-            typeof(IReactiveProperty<object>),
-            typeof(EventToReactive),
-            new PropertyMetadata());
+        public static readonly DependencyProperty ReactivePropertyProperty =
+            DependencyProperty.Register("ReactiveProperty", typeof(IReactiveProperty<object>), typeof(EventToReactive), new PropertyMetadata());
     }
 }

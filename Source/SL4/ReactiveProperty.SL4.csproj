@@ -83,7 +83,6 @@
     <Compile Include="..\NET40\Extensions\INotifyPropertyChangedExtensions.cs">
       <Link>Extensions\INotifyPropertyChangedExtensions.cs</Link>
     </Compile>
-    <Compile Include="Extensions\INotifyDataErrorInfoExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

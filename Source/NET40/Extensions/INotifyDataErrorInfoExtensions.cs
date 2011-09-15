@@ -6,6 +6,8 @@ using Codeplex.Reactive.Extensions;
 
 namespace ReactiveProperty.Extensions
 {
+#if SILVERLIGHT
+
     public static class INotifyDataErrorInfoExtensions
     {
         public static IObservable<DataErrorsChangedEventArgs> ErrorsChangedAsObservable<T>(this T source)
@@ -29,4 +31,5 @@ namespace ReactiveProperty.Extensions
                 .Select(_ => ((Func<TSubject, TProperty>)accessor).Invoke(subject));
         }
     }
+#endif
 }

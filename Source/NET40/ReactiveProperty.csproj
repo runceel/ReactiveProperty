@@ -133,10 +133,12 @@
     <Compile Include="Asynchronous\WebResponseExtensions.cs" />
     <Compile Include="Asynchronous\StreamExtensions.cs" />
     <Compile Include="Asynchronous\WebClientExtensions.cs" />
-    <Compile Include="EventToReactive.cs" />
+    <Compile Include="Interactivity\EventToReactive.cs" />
     <Compile Include="Extensions\AccessorCache.cs" />
+    <Compile Include="Extensions\INotifyDataErrorInfoExtensions.cs" />
     <Compile Include="Extensions\INotifyPropertyChangedExtensions.cs" />
     <Compile Include="Extensions\INotifyCollectionChangedExtensions.cs" />
+    <Compile Include="Extensions\ICommandExtensions.cs" />
     <Compile Include="Notifier\SignalNotifier.cs" />
     <Compile Include="Notifier\ScheduledNotifier.cs" />
     <Compile Include="Notifier\IProgress.cs" />
