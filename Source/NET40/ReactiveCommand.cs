@@ -45,7 +45,7 @@ namespace Codeplex.Reactive
             var value = initialValue;
             this.canExecuteSubscription = canExecute
                 .DistinctUntilChanged()
-                .ObserveOnUIUIDispatcher()
+                .ObserveOnDispatcherEx()
                 .Subscribe(b =>
                 {
                     value = b;

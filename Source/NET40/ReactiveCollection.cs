@@ -1,26 +1,26 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using GalaSoft.MvvmLight.Threading;
+using System.Windows.Threading;
 
 namespace Codeplex.Reactive
 {
     public class ReactiveCollection<T> : ObservableCollection<T>, IDisposable
     {
         readonly IDisposable subscription;
-        readonly bool isRaiseOnUIDispatcher;
+        readonly Dispatcher notifyDispatcher;
 
-        public ReactiveCollection(IObservable<T> source, bool isRaiseOnUIDispatcher = true)
+        public ReactiveCollection(IObservable<T> source, Dispatcher notifyDispatcher = null)
         {
-            this.isRaiseOnUIDispatcher = isRaiseOnUIDispatcher;
+            this.notifyDispatcher = notifyDispatcher;
             this.subscription = source.Subscribe(this.Add);
         }
 
         protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
-            if (isRaiseOnUIDispatcher && !DispatcherHelper.UIDispatcher.CheckAccess())
+            if (notifyDispatcher != null && !notifyDispatcher.CheckAccess())
             {
-                DispatcherHelper.UIDispatcher.BeginInvoke(new Action(() => base.OnCollectionChanged(e)));
+                notifyDispatcher.BeginInvoke(new Action(() => base.OnCollectionChanged(e)));
             }
             else
             {
@@ -36,9 +36,9 @@ namespace Codeplex.Reactive
 
     public static class ReactiveCollectionObservableExtensions
     {
-        public static ReactiveCollection<T> ToReactiveCollection<T>(this IObservable<T> source, bool isAddOnUIDispatcher = true)
+        public static ReactiveCollection<T> ToReactiveCollection<T>(this IObservable<T> source, Dispatcher collectionChangedDispatcher = null)
         {
-            return new ReactiveCollection<T>(source, isAddOnUIDispatcher);
+            return new ReactiveCollection<T>(source, collectionChangedDispatcher);
         }
     }
 }

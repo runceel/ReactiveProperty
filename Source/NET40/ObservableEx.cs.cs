@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Windows.Threading;
 #if WINDOWS_PHONE
 using Microsoft.Phone.Reactive;
 #else
@@ -13,8 +14,11 @@ using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 #endif
 
-namespace Codeplex.Reactive.Asynchronous
+namespace Codeplex.Reactive
 {
+    /// <summary>
+    /// Compatibility for Rx-Main with Phone.Reactive
+    /// </summary>
     internal static class ObservableEx
     {
 #if WINDOWS_PHONE
@@ -30,6 +34,15 @@ namespace Codeplex.Reactive.Asynchronous
             return Observable.CreateWithDisposable(subscribe);
 #else
             return Observable.Create(subscribe);
+#endif
+        }
+
+        public static IObservable<T> ObserveOnDispatcherEx<T>(this IObservable<T> source)
+        {
+#if SILVERLIGHT
+            return source.ObserveOn(new DispatcherSynchronizationContext(Deployment.Current.Dispatcher));
+#else
+            return source.ObserveOn(new DispatcherSynchronizationContext(Dispatcher.CurrentDispatcher));
 #endif
         }
     }

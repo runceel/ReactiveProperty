@@ -1,10 +1,10 @@
 ﻿using System;
-using GalaSoft.MvvmLight;
 #if WINDOWS_PHONE
 using Microsoft.Phone.Reactive;
 #else
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using System.ComponentModel;
 #endif
 
 namespace Codeplex.Reactive
@@ -25,8 +25,10 @@ namespace Codeplex.Reactive
         object Value { get; set; }
     }
 
-    public class ReactiveProperty<T> : ViewModelBase, IReactiveProperty<T>
+    public class ReactiveProperty<T> : INotifyPropertyChanged, IReactiveProperty<T>
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         T latestValue;
         readonly IObservable<T> source;
         readonly Subject<T> anotherTrigger = new Subject<T>();
@@ -65,7 +67,7 @@ namespace Codeplex.Reactive
 
             // subscribe
             (mode.HasFlag(ReactivePropertyMode.PropertyChangedInvokeOnUIDispatcher)
-                    ? connectable.ObserveOnUIUIDispatcher()
+                    ? connectable.ObserveOnDispatcherEx()
                     : connectable)
                 .Subscribe(x =>
                 {
@@ -76,6 +78,12 @@ namespace Codeplex.Reactive
 
             // start subscription
             this.sourceDisposable = connectable.Connect();
+        }
+
+        void RaisePropertyChanged(string propertyName)
+        {
+            var handler = PropertyChanged;
+            if (handler != null) PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public T Value
@@ -95,10 +103,9 @@ namespace Codeplex.Reactive
             return source.Subscribe(observer);
         }
 
-        public override void Cleanup()
+        public void Dispose()
         {
             sourceDisposable.Dispose();
-            base.Cleanup();
         }
     }
 
