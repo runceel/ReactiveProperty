@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Windows.Input;
-using System.Reactive.Disposables;
 
 namespace Codeplex.Reactive
 {
@@ -11,10 +9,6 @@ namespace Codeplex.Reactive
     {
         public ReactiveCommand()
             : base()
-        { }
-
-        public ReactiveCommand(Func<object, bool> canExecute)
-            : base(canExecute)
         { }
 
         public ReactiveCommand(IObservable<bool> canExecute, bool initialValue = true)
@@ -31,14 +25,8 @@ namespace Codeplex.Reactive
         readonly IDisposable canExecuteSubscription;
 
         public ReactiveCommand()
-            : this((Func<T, bool>)null)
+            : this(Observable.Never<bool>())
         { }
-
-        public ReactiveCommand(Func<T, bool> canExecute)
-        {
-            this.canExecute = canExecute;
-            this.canExecuteSubscription = Disposable.Empty;
-        }
 
         public ReactiveCommand(IObservable<bool> canExecute, bool initialValue = true)
         {
@@ -49,21 +37,15 @@ namespace Codeplex.Reactive
                 .Subscribe(b =>
                 {
                     value = b;
-                    RaiseCanExecuteChanged();
+                    var handler = CanExecuteChanged;
+                    if (handler != null) handler(this, EventArgs.Empty);
                 });
             this.canExecute = _ => value;
         }
 
-        [SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate")]
-        public void RaiseCanExecuteChanged()
-        {
-            var handler = CanExecuteChanged;
-            if (handler != null) handler(this, EventArgs.Empty);
-        }
-
         public bool CanExecute(object parameter)
         {
-            return (canExecute == null) ? true : canExecute((T)parameter);
+            return canExecute((T)parameter);
         }
 
         public void Execute(object parameter)

@@ -34,12 +34,10 @@ namespace Codeplex.Reactive
         readonly Subject<T> anotherTrigger = new Subject<T>();
         readonly IDisposable sourceDisposable;
 
-        /// <summary>One way from Source</summary>
-        public ReactiveProperty(T initialValue = default(T), ReactivePropertyMode mode = ReactivePropertyMode.None)
+        public ReactiveProperty(T initialValue = default(T), ReactivePropertyMode mode = ReactivePropertyMode.All)
             : this(Observable.Never<T>(), null, initialValue, mode)
         { }
 
-        /// <summary>Two way binding(mainly from source)</summary>
         public ReactiveProperty(Action<T> parentRaisePropertyChanged, T initialValue = default(T), ReactivePropertyMode mode = ReactivePropertyMode.All)
             : this(Observable.Never<T>(), parentRaisePropertyChanged, initialValue, mode)
         { }

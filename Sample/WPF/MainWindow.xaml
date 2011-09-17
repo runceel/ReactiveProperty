@@ -3,8 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="350" Width="525">
     <StackPanel>
-        <TextBox Text="{Binding In.Value, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
-        <TextBlock Text="{Binding Out.Value, Mode=OneWay}" />
-        <ListBox ItemsSource="{Binding Collection}" />
+        <TextBox Text="{Binding FirstName.Value}" />
+        <TextBox Text="{Binding LastName.Value}" />
+        <TextBlock Text="{Binding FullName.Value}" />
     </StackPanel>
 </Window>

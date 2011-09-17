@@ -32,29 +32,25 @@ namespace WPF
 
             DataContext = new MainWindowViewModel();
 
-
-        }
-    }
-
-    public class MainWindowViewModel : ViewModelBase
-    {
-        public ReactiveProperty<string> In { get; set; }
-        public ReactiveProperty<string> Out { get; set; }
-        public ReactiveCollection<long> Collection { get; set; }
-
-        public MainWindowViewModel()
-        {
-            In = new ReactiveProperty<string>(_=>RaisePropertyChanged("In"));
-
-            Out = In.Delay(TimeSpan.FromSeconds(1))
-                    .ToReactiveProperty();
-
-            Collection = Observable.Interval(TimeSpan.FromSeconds(1))
-                .ToReactiveCollection();
-
-
-
             
         }
     }
+
+
+    public class MainWindowViewModel
+    {
+        public ReactiveProperty<string> FirstName { get; set; }
+        public ReactiveProperty<string> LastName { get; set; }
+        public ReactiveProperty<string> FullName { get; set; }
+
+        public MainWindowViewModel()
+        {
+            FirstName = new ReactiveProperty<string>();
+            LastName = new ReactiveProperty<string>();
+
+            FullName = FirstName.CombineLatest(LastName, (f, l) => f + " " + l)
+                .ToReactiveProperty();
+        }
+    }
+
 }
