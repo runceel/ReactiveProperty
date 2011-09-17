@@ -4,7 +4,11 @@
         Title="MainWindow" Height="350" Width="525">
     <StackPanel>
         <TextBox Text="{Binding FirstName.Value}" />
-        <TextBox Text="{Binding LastName.Value}" />
+        <TextBox Text="{Binding LastName.Value }"  />
         <TextBlock Text="{Binding FullName.Value}" />
+        <CheckBox IsChecked="{Binding A.Value}">A</CheckBox>
+        <CheckBox IsChecked="{Binding B.Value}">B</CheckBox>
+        <CheckBox IsChecked="{Binding C.Value}">C</CheckBox>
+        <Button IsEnabled="{Binding IsExecutable.Value}">BTN</Button>
     </StackPanel>
 </Window>

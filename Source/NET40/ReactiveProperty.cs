@@ -9,15 +9,20 @@ using System.ComponentModel;
 
 namespace Codeplex.Reactive
 {
+    internal class SingletonPropertyChangedEventArgs
+    {
+        public static readonly PropertyChangedEventArgs Value = new PropertyChangedEventArgs("Value");
+    }
+
     [Flags]
     public enum ReactivePropertyMode
     {
         None = 0x00,
         DistinctUntilChanged = 0x01,
-        PropertyChangedInvokeOnUIDispatcher = 0x02,
+        PropertyChangedInvokeOnDispatcher = 0x02,
         RaiseLatestValueOnSubscribe = 0x04,
-        /// <summary>DistinctUntilChanged | PropertyChangedInvokeOnUIDispatcher | RaiseLatestValueOnSubscribe</summary>
-        All = DistinctUntilChanged | PropertyChangedInvokeOnUIDispatcher | RaiseLatestValueOnSubscribe
+        /// <summary>DistinctUntilChanged | PropertyChangedInvokeOnDispatcher | RaiseLatestValueOnSubscribe</summary>
+        All = DistinctUntilChanged | PropertyChangedInvokeOnDispatcher | RaiseLatestValueOnSubscribe
     }
 
     public interface IReactiveProperty<out T> : IObservable<T>, IDisposable
@@ -56,32 +61,29 @@ namespace Codeplex.Reactive
             // create source
             var merge = source.Merge(anotherTrigger);
             if (mode.HasFlag(ReactivePropertyMode.DistinctUntilChanged)) merge = merge.DistinctUntilChanged();
-            this.source = merge;
 
             // publish observable
             var connectable = (mode.HasFlag(ReactivePropertyMode.RaiseLatestValueOnSubscribe))
                 ? merge.Publish(initialValue)
                 : merge.Publish();
+            this.source = connectable.AsObservable();
 
-            // subscribe
-            (mode.HasFlag(ReactivePropertyMode.PropertyChangedInvokeOnUIDispatcher)
-                    ? connectable.ObserveOnDispatcherEx()
-                    : connectable)
+            // set value immediately
+            var setValue = connectable.Do(x => latestValue = x);
+
+            // raise notification
+            (mode.HasFlag(ReactivePropertyMode.PropertyChangedInvokeOnDispatcher)
+                    ? setValue.ObserveOnDispatcherEx()
+                    : setValue)
                 .Subscribe(x =>
                 {
-                    latestValue = x;
-                    RaisePropertyChanged("Value");
+                    var handler = PropertyChanged;
+                    if (handler != null) PropertyChanged(this, SingletonPropertyChangedEventArgs.Value);
                     if (parentRaisePropertyChanged != null) parentRaisePropertyChanged(x);
                 });
 
             // start subscription
             this.sourceDisposable = connectable.Connect();
-        }
-
-        void RaisePropertyChanged(string propertyName)
-        {
-            var handler = PropertyChanged;
-            if (handler != null) PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public T Value
@@ -104,6 +106,13 @@ namespace Codeplex.Reactive
         public void Dispose()
         {
             sourceDisposable.Dispose();
+        }
+
+        public override string ToString()
+        {
+            return (latestValue == null)
+                ? "null"
+                : "{" + latestValue.GetType().Name + ":" + latestValue.ToString() + "}";
         }
     }
 

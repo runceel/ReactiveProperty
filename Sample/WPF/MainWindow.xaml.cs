@@ -32,7 +32,9 @@ namespace WPF
 
             DataContext = new MainWindowViewModel();
 
-            
+
+
+
         }
     }
 
@@ -43,6 +45,12 @@ namespace WPF
         public ReactiveProperty<string> LastName { get; set; }
         public ReactiveProperty<string> FullName { get; set; }
 
+        public ReactiveProperty<bool> A { get; private set; }
+        public ReactiveProperty<bool> B { get; private set; }
+        public ReactiveProperty<bool> C { get; private set; }
+        public ReactiveProperty<bool> IsExecutable { get; private set; }
+
+
         public MainWindowViewModel()
         {
             FirstName = new ReactiveProperty<string>();
@@ -50,6 +58,28 @@ namespace WPF
 
             FullName = FirstName.CombineLatest(LastName, (f, l) => f + " " + l)
                 .ToReactiveProperty();
+
+            A = new ReactiveProperty<bool>();
+            B = new ReactiveProperty<bool>();
+            C = new ReactiveProperty<bool>();
+
+            IsExecutable =
+
+            Observable.Merge(A, B, C)
+                .Select(_ => A.Value && B.Value && C.Value)
+                .ToReactiveProperty();
+
+
+            new IObservable<bool>[] { A, B, C }
+                    .Aggregate((io, rp) => io.CombineLatest(rp, (x, y) => x && y))
+                .ToReactiveProperty();
+
+
+
+
+
+
+
         }
     }
 
