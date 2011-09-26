@@ -250,11 +250,31 @@ namespace Codeplex.Reactive.Asynchronous
                 () => client.OpenWriteAsync(address, null));
         }
 
-        public static IObservable<WebResponse> UploadDataObservableAsync(this WebClient client)
+        public static IObservable<byte[]> UploadDataObservableAsync(this WebClient client, string address, byte[] data, string method = null)
         {
+            return UploadDataObservableAsync(client, new Uri(address), data, method);
+        }
 
-            // TODO:
-            return null;
+        public static IObservable<byte[]> UploadDataObservableAsync(this WebClient client, Uri address, byte[] data, string method = null)
+        {
+            return UploadDataObservableAsyncCore(client, address, data, null, method);
+        }
+
+        public static IObservable<byte[]> UploadDataObservableAsync(this WebClient client, Uri address, byte[] data, IProgress<UploadProgressChangedEventArgs> progress, string method = null)
+        {
+            return UploadDataObservableAsyncCore(client, address, data, progress, method);
+        }
+
+        public static IObservable<byte[]> UploadDataObservableAsyncCore(WebClient client, Uri address, byte[] data, IProgress<UploadProgressChangedEventArgs> progress, string method)
+        {
+            return RegisterAsyncEvent<UploadDataCompletedEventHandler, UploadDataCompletedEventArgs, byte[]>(
+                client,
+                h => (sender, e) => h(e),
+                h => client.UploadDataCompleted += h,
+                h => client.UploadDataCompleted -= h,
+                e => e.Result,
+                (progress != null) ? RegisterUploadProgress(client, progress) : () => Disposable.Empty,
+                () => client.UploadDataAsync(address, method, data, null));
         }
 
         public static IObservable<WebResponse> UploadFileObservableAsync(this WebClient client)

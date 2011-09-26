@@ -103,6 +103,7 @@
     <Compile Include="Asynchronous\ProgressStatusTest.cs" />
     <Compile Include="Asynchronous\WebClientExtensionsTest.cs" />
     <Compile Include="ChainingAssertion.MSTest.cs" />
+    <Compile Include="Init.cs" />
     <Compile Include="Notifier\ScheduledNotifierTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Notifier\SignalNotifierTest.cs" />

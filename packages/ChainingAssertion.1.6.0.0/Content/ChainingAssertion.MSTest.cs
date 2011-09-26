@@ -1,6 +1,6 @@
 ﻿/*--------------------------------------------------------------------------
  * Chaining Assertion for MSTest
- * ver 1.5.0.0 (Jul. 25th, 2011)
+ * ver 1.6.0.0 (Sep. 20th, 2011)
  *
  * created and maintained by neuecc <ils@neue.cc - @neuecc on Twitter>
  * licensed under Microsoft Public License(Ms-PL)
@@ -103,8 +103,10 @@
  * // Exception Test(alternative of ExpectedExceptionAttribute)
  * // AssertEx.Throws does not allow derived type
  * // AssertEx.Catch allows derived type
+ * // AssertEx.ThrowsContractException catch only Code Contract's ContractException
  * AssertEx.Throws<ArgumentNullException>(() => "foo".StartsWith(null));
  * AssertEx.Catch<Exception>(() => "foo".StartsWith(null));
+ * AssertEx.ThrowsContractException(() => // contract method //);
  * 
  * // return value is occured exception
  * var ex = AssertEx.Throws<InvalidOperationException>(() =>
@@ -194,12 +196,27 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting
         /// <summary>Assert.IsTrue(predicate(value))</summary>
         public static void Is<T>(this T value, Expression<Func<T, bool>> predicate, string message = "")
         {
-            var paramName = predicate.Parameters.First().Name;
-            var msg = string.Format("{0} = {1}, {2}{3}",
-                paramName, value, predicate,
-                string.IsNullOrEmpty(message) ? "" : ", " + message);
+            var condition = predicate.Compile().Invoke(value);
 
-            Assert.IsTrue(predicate.Compile().Invoke(value), msg);
+            var paramName = predicate.Parameters.First().Name;
+            string msg = "";
+            try
+            {
+                var dumper = new ExpressionDumper<T>(value, predicate.Parameters.Single());
+                dumper.Visit(predicate);
+                var dump = string.Join(", ", dumper.Members.Select(kvp => kvp.Key + " = " + kvp.Value));
+                msg = string.Format("\r\n{0} = {1}\r\n{2}\r\n{3}{4}",
+                    paramName, value, dump, predicate,
+                    string.IsNullOrEmpty(message) ? "" : ", " + message);
+            }
+            catch
+            {
+                msg = string.Format("{0} = {1}, {2}{3}",
+                    paramName, value, predicate,
+                    string.IsNullOrEmpty(message) ? "" : ", " + message);
+            }
+
+            Assert.IsTrue(condition, msg);
         }
 
         /// <summary>CollectionAssert.AreEqual</summary>
@@ -345,7 +362,12 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting
             {
                 return exception;
             }
-            throw new AssertFailedException("Throwed Exception is not ContractException", exception);
+
+            var additionalMsg = string.IsNullOrEmpty(message) ? "" : ", " + message;
+            var formatted = string.Format("Throwed Exception is not ContractException. Catched:{0}{1}",
+                exception.GetType().Name, additionalMsg);
+
+            throw new AssertFailedException(formatted);
         }
 
         /// <summary>does not throw any exceptions</summary>
@@ -391,6 +413,33 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting
             }
         }
 
+        private class ReflectAccessor<T>
+        {
+            public Func<object> GetValue { get; private set; }
+            public Action<object> SetValue { get; private set; }
+
+            public ReflectAccessor(T target, string name)
+            {
+                var field = typeof(T).GetField(name, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                if (field != null)
+                {
+                    GetValue = () => field.GetValue(target);
+                    SetValue = value => field.SetValue(target, value);
+                    return;
+                }
+
+                var prop = typeof(T).GetProperty(name, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                if (prop != null)
+                {
+                    GetValue = () => prop.GetValue(target, null);
+                    SetValue = value => prop.SetValue(target, value, null);
+                    return;
+                }
+
+                throw new ArgumentException(string.Format("\"{0}\" not found : Type <{1}>", name, typeof(T).Name));
+            }
+        }
+
         #region DynamicAccessor
 
         /// <summary>to DynamicAccessor that can call private method/field/property/indexer.</summary>
@@ -431,14 +480,14 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting
 
             public override bool TrySetMember(SetMemberBinder binder, object value)
             {
-                var accessor = new ReflectAccessor(target, binder.Name);
+                var accessor = new ReflectAccessor<T>(target, binder.Name);
                 accessor.SetValue(value);
                 return true;
             }
 
             public override bool TryGetMember(GetMemberBinder binder, out object result)
             {
-                var accessor = new ReflectAccessor(target, binder.Name);
+                var accessor = new ReflectAccessor<T>(target, binder.Name);
                 result = accessor.GetValue();
                 return true;
             }
@@ -581,32 +630,35 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting
                     return 0;
                 }
             }
+        }
 
-            private class ReflectAccessor
+        #endregion
+
+        #region ExpressionDumper
+
+        private class ExpressionDumper<T> : ExpressionVisitor
+        {
+            ParameterExpression param;
+            T target;
+
+            public Dictionary<string, object> Members { get; private set; }
+
+            public ExpressionDumper(T target, ParameterExpression param)
             {
-                public Func<object> GetValue { get; private set; }
-                public Action<object> SetValue { get; private set; }
+                this.target = target;
+                this.param = param;
+                this.Members = new Dictionary<string, object>();
+            }
 
-                public ReflectAccessor(T target, string name)
+            protected override Expression VisitMember(MemberExpression node)
+            {
+                if (node.Expression == param && !Members.ContainsKey(node.Member.Name))
                 {
-                    var field = typeof(T).GetField(name, TransparentFlags);
-                    if (field != null)
-                    {
-                        GetValue = () => field.GetValue(target);
-                        SetValue = value => field.SetValue(target, value);
-                        return;
-                    }
-
-                    var prop = typeof(T).GetProperty(name, TransparentFlags);
-                    if (prop != null)
-                    {
-                        GetValue = () => prop.GetValue(target, null);
-                        SetValue = value => prop.SetValue(target, value, null);
-                        return;
-                    }
-
-                    throw new ArgumentException(string.Format("\"{0}\" not found : Type <{1}>", name, typeof(T).Name));
+                    var accessor = new ReflectAccessor<T>(target, node.Member.Name);
+                    Members.Add(node.Member.Name, accessor.GetValue());
                 }
+
+                return base.VisitMember(node);
             }
         }
 

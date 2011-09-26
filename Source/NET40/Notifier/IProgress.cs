@@ -3,7 +3,7 @@ using System.Reactive.Subjects;
 
 namespace Codeplex.Reactive.Notifier
 {
-    // this interface borrow from AsyncCTP
+    // this interface borrow from .NET 4.5
     // will replace in the future
 
     /// <summary>

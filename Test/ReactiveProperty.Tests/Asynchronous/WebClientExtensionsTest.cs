@@ -493,5 +493,25 @@ namespace ReactiveProperty.Tests.Asynchronous
             }
             client.ResponseHeaders[HttpResponseHeader.Location].Is("http://goo.gl/mR2d");
         }
+
+        [TestMethod]
+        public void UploadDataObservableAsyncReal()
+        {
+            var scheduler = new TestScheduler();
+            var recorder = scheduler.CreateObserver<UploadProgressChangedEventArgs>();
+            var notifier = new ScheduledNotifier<UploadProgressChangedEventArgs>();
+            notifier.Subscribe(recorder);
+
+            var client = new WebClient();
+            var data = Encoding.UTF8.GetBytes("screen_name=neuecc");
+            var result = client.UploadDataObservableAsync(
+                    new Uri("http://api.twitter.com/1/users/lookup.xml"), data, notifier)
+                .Single();
+
+            var xml = XElement.Parse(Encoding.UTF8.GetString(result));
+            xml.Element("user").Element("id").Value.Is("10487662");
+
+            recorder.Messages.Count.Is(x => x > 1);
+        }
     }
 }
