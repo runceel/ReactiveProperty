@@ -142,6 +142,7 @@
     <Compile Include="ReactiveCollection.cs" />
     <Compile Include="ReactiveCommand.cs" />
     <Compile Include="ReactiveProperty.cs" />
+    <Compile Include="UIDispatcherScheduler.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="App.xaml">
