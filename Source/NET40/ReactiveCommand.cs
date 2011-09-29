@@ -2,6 +2,8 @@
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Windows.Input;
+using System.Reactive.Concurrency;
+
 
 namespace Codeplex.Reactive
 {
@@ -20,9 +22,9 @@ namespace Codeplex.Reactive
     {
         public event EventHandler CanExecuteChanged;
 
-        readonly Func<T, bool> canExecute;
         readonly Subject<T> trigger = new Subject<T>();
         readonly IDisposable canExecuteSubscription;
+        bool isCanExecute;
 
         public ReactiveCommand()
             : this(Observable.Never<bool>())
@@ -30,22 +32,21 @@ namespace Codeplex.Reactive
 
         public ReactiveCommand(IObservable<bool> canExecute, bool initialValue = true)
         {
-            var value = initialValue;
+            this.isCanExecute = initialValue;
             this.canExecuteSubscription = canExecute
                 .DistinctUntilChanged()
-                .ObserveOnDispatcherEx()
+                .ObserveOnUIDispatcher()
                 .Subscribe(b =>
                 {
-                    value = b;
+                    isCanExecute = b;
                     var handler = CanExecuteChanged;
                     if (handler != null) handler(this, EventArgs.Empty);
                 });
-            this.canExecute = _ => value;
         }
 
         public bool CanExecute(object parameter)
         {
-            return canExecute((T)parameter);
+            return isCanExecute;
         }
 
         public void Execute(object parameter)
@@ -62,24 +63,24 @@ namespace Codeplex.Reactive
         {
             trigger.Dispose();
             canExecuteSubscription.Dispose();
+
+            if (isCanExecute)
+            {
+                isCanExecute = false;
+                UIDispatcherScheduler.Default.Schedule(() =>
+                {
+                    var handler = CanExecuteChanged;
+                    if (handler != null) handler(this, EventArgs.Empty);
+                });
+            }
         }
     }
 
     public static class ReactiveCommandExtensions
     {
-        public static ReactiveCommand ToReactiveCommand(this IObservable<bool> canExecuteSource)
-        {
-            return new ReactiveCommand(canExecuteSource);
-        }
-
         public static ReactiveCommand ToReactiveCommand(this IObservable<bool> canExecuteSource, bool initialValue = true)
         {
             return new ReactiveCommand(canExecuteSource, initialValue);
-        }
-
-        public static ReactiveCommand<T> ToReactiveCommand<T>(this IObservable<bool> canExecuteSource)
-        {
-            return new ReactiveCommand<T>(canExecuteSource);
         }
 
         public static ReactiveCommand<T> ToReactiveCommand<T>(this IObservable<bool> canExecuteSource, bool initialValue = true)

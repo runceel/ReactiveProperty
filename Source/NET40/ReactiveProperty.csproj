@@ -123,7 +123,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Asynchronous\ProgressStatus.cs" />
-    <Compile Include="ObservableEx.cs.cs" />
+    <Compile Include="ObservableEx.cs" />
     <Compile Include="Asynchronous\WebRequestExtensions.cs" />
     <Compile Include="Asynchronous\WebResponseExtensions.cs" />
     <Compile Include="Asynchronous\StreamExtensions.cs" />
@@ -142,6 +142,7 @@
     <Compile Include="ReactiveCollection.cs" />
     <Compile Include="ReactiveCommand.cs" />
     <Compile Include="ReactiveProperty.cs" />
+    <Compile Include="RetryObservableExtensions.cs" />
     <Compile Include="UIDispatcherScheduler.cs" />
   </ItemGroup>
   <ItemGroup>

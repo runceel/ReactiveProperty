@@ -36,14 +36,5 @@ namespace Codeplex.Reactive
             return Observable.Create(subscribe);
 #endif
         }
-
-        public static IObservable<T> ObserveOnDispatcherEx<T>(this IObservable<T> source)
-        {
-#if SILVERLIGHT
-            return source.ObserveOn(new DispatcherSynchronizationContext(Deployment.Current.Dispatcher));
-#else
-            return source.ObserveOn(new DispatcherSynchronizationContext(Dispatcher.CurrentDispatcher));
-#endif
-        }
     }
 }

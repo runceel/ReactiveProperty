@@ -19,10 +19,10 @@ namespace Codeplex.Reactive
     {
         None = 0x00,
         DistinctUntilChanged = 0x01,
-        PropertyChangedInvokeOnDispatcher = 0x02,
+        PropertyChangedInvokeOnUIDispatcher = 0x02,
         RaiseLatestValueOnSubscribe = 0x04,
-        /// <summary>DistinctUntilChanged | PropertyChangedInvokeOnDispatcher | RaiseLatestValueOnSubscribe</summary>
-        All = DistinctUntilChanged | PropertyChangedInvokeOnDispatcher | RaiseLatestValueOnSubscribe
+        /// <summary>DistinctUntilChanged | PropertyChangedInvokeOnUIDispatcher | RaiseLatestValueOnSubscribe</summary>
+        All = DistinctUntilChanged | PropertyChangedInvokeOnUIDispatcher | RaiseLatestValueOnSubscribe
     }
 
     public interface IReactiveProperty<out T> : IObservable<T>, IDisposable
@@ -72,8 +72,8 @@ namespace Codeplex.Reactive
             var setValue = connectable.Do(x => latestValue = x);
 
             // raise notification
-            (mode.HasFlag(ReactivePropertyMode.PropertyChangedInvokeOnDispatcher)
-                    ? setValue.ObserveOnDispatcherEx()
+            (mode.HasFlag(ReactivePropertyMode.PropertyChangedInvokeOnUIDispatcher)
+                    ? setValue.ObserveOnUIDispatcher()
                     : setValue)
                 .Subscribe(x =>
                 {
