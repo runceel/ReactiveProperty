@@ -3,12 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="350" Width="525">
     <StackPanel>
-        <TextBox Text="{Binding FirstName.Value}" />
-        <TextBox Text="{Binding LastName.Value }"  />
-        <TextBlock Text="{Binding FullName.Value}" />
-        <CheckBox IsChecked="{Binding A.Value}">A</CheckBox>
-        <CheckBox IsChecked="{Binding B.Value}">B</CheckBox>
-        <CheckBox IsChecked="{Binding C.Value}">C</CheckBox>
-        <Button IsEnabled="{Binding IsExecutable.Value}">BTN</Button>
+        <TextBox Text="{Binding TadanoText.Value, ValidatesOnExceptions=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Width="300" />
+        <Button Command="{Binding MessageBoxCommand}">BTN</Button>
+        <Button Click="Button_Click">BBB</Button>
     </StackPanel>
 </Window>

@@ -1,10 +1,15 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Linq.Expressions;
+using System.Linq;
+
 #if WINDOWS_PHONE
 using Microsoft.Phone.Reactive;
 #else
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.ComponentModel;
+using System.Reactive.Disposables;
 #endif
 
 namespace Codeplex.Reactive
@@ -25,12 +30,16 @@ namespace Codeplex.Reactive
         All = DistinctUntilChanged | PropertyChangedInvokeOnUIDispatcher | RaiseLatestValueOnSubscribe
     }
 
+    // TODO:WP7版のRxにin/outがないので要修正
     public interface IReactiveProperty<out T> : IObservable<T>, IDisposable
     {
         object Value { get; set; }
     }
 
-    public class ReactiveProperty<T> : INotifyPropertyChanged, IReactiveProperty<T>
+    public class ReactiveProperty<T> : INotifyPropertyChanged, IDataErrorInfo, IReactiveProperty<T>
+#if SILVERLIGHT
+, INotifyDataErrorInfo
+#endif
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -38,6 +47,14 @@ namespace Codeplex.Reactive
         readonly IObservable<T> source;
         readonly Subject<T> anotherTrigger = new Subject<T>();
         readonly IDisposable sourceDisposable;
+
+        // for Validation
+        SerialDisposable validateErrorSubscription = new SerialDisposable();
+        SerialDisposable validateNotifyErrorSubscription = new SerialDisposable();
+        ValidationAttribute[] attributes;
+        BehaviorSubject<object> errorsTrigger = new BehaviorSubject<object>(null);
+        readonly ValidationContext validationContext;
+
 
         public ReactiveProperty(T initialValue = default(T), ReactivePropertyMode mode = ReactivePropertyMode.All)
             : this(Observable.Never<T>(), null, initialValue, mode)
@@ -57,6 +74,7 @@ namespace Codeplex.Reactive
             ReactivePropertyMode mode = ReactivePropertyMode.All)
         {
             this.latestValue = initialValue;
+            this.validationContext = new ValidationContext(this, null, null) { MemberName = "Value" };
 
             // create source
             var merge = source.Merge(anotherTrigger);
@@ -89,7 +107,27 @@ namespace Codeplex.Reactive
         public T Value
         {
             get { return latestValue; }
-            set { anotherTrigger.OnNext(value); }
+            set
+            {
+                anotherTrigger.OnNext(value);
+
+                if (attributes != null)
+                {
+                    try
+                    {
+                        foreach (var item in attributes)
+                        {
+                            item.Validate(value, validationContext);
+                        }
+                        errorsTrigger.OnNext(null);
+                    }
+                    catch (Exception ex)
+                    {
+                        errorsTrigger.OnNext(ex);
+                        throw;
+                    }
+                }
+            }
         }
 
         object IReactiveProperty<T>.Value
@@ -106,6 +144,9 @@ namespace Codeplex.Reactive
         public void Dispose()
         {
             sourceDisposable.Dispose();
+            validateErrorSubscription.Dispose();
+            validateNotifyErrorSubscription.Dispose();
+            errorsTrigger.Dispose();
         }
 
         public override string ToString()
@@ -114,6 +155,85 @@ namespace Codeplex.Reactive
                 ? "null"
                 : "{" + latestValue.GetType().Name + ":" + latestValue.ToString() + "}";
         }
+
+        // Validations
+
+        public IObservable<object> ErrorsChanged
+        {
+            get { return errorsTrigger.AsObservable(); }
+        }
+
+        // Exception
+
+        public ReactiveProperty<T> SetValidateAttribute(Expression<Func<ReactiveProperty<T>>> selfSelector)
+        {
+            this.attributes = ((MemberExpression)selfSelector.Body).Member
+                .GetCustomAttributes(typeof(ValidationAttribute), true)
+                .Cast<ValidationAttribute>()
+                .ToArray();
+            return this;
+        }
+
+        // IDataErrorInfo
+
+        string currentError;
+
+        public ReactiveProperty<T> SetValidateError(Func<T, string> validate)
+        {
+            validateErrorSubscription.Disposable = source
+                .Subscribe(x =>
+                {
+                    currentError = validate(x);
+                    errorsTrigger.OnNext(currentError);
+                });
+            return this;
+        }
+
+        public string Error
+        {
+            get { return currentError; }
+        }
+
+        public string this[string columnName]
+        {
+            get { return currentError; }
+        }
+
+#if SILVERLIGHT
+        // INotifyDataErrorInfo
+
+        IEnumerable currentErrors;
+
+        EventHandler<DataErrorsChangedEventArgs> errorsChanged;
+        event EventHandler<DataErrorsChangedEventArgs> INotifyDataErrorInfo.ErrorsChanged
+        {
+            add { errorsChanged += value; }
+            remove { errorsChanged -= value; }
+        }
+
+        public ReactiveProperty<T> SetValidateNotifyError(Func<IObservable<T>, IObservable<IEnumerable>> validate)
+        {
+            validateNotifyErrorSubscription.Disposable = validate(source)
+                .Subscribe(xs =>
+                {
+                    currentErrors = xs;
+                    errorsTrigger.OnNext(currentErrors);
+                });
+
+            return this;
+        }
+
+        public System.Collections.IEnumerable GetErrors(string propertyName)
+        {
+            return currentErrors;
+        }
+
+        public bool HasErrors
+        {
+            get { return currentErrors != null; }
+        }
+
+#endif
     }
 
     public static class ReactivePropertyObservableExtensions

@@ -62,6 +62,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
+    <Reference Include="System.ComponentModel.DataAnnotations, Version=2.0.5.0, Culture=neutral, PublicKeyToken=ddd0da4d3e678217, processorArchitecture=MSIL" />
     <Reference Include="System.Reactive, Version=1.0.10621.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Rx-Main.1.0.10621\lib\SL4\System.Reactive.dll</HintPath>
@@ -82,6 +83,24 @@
     </Compile>
     <Compile Include="..\NET40\Extensions\INotifyPropertyChangedExtensions.cs">
       <Link>Extensions\INotifyPropertyChangedExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NET40\ObservableEx.cs">
+      <Link>ObservableEx.cs</Link>
+    </Compile>
+    <Compile Include="..\NET40\ReactiveCollection.cs">
+      <Link>ReactiveCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\NET40\ReactiveCommand.cs">
+      <Link>ReactiveCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\NET40\ReactiveProperty.cs">
+      <Link>ReactiveProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\NET40\RetryObservableExtensions.cs">
+      <Link>RetryObservableExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NET40\UIDispatcherScheduler.cs">
+      <Link>UIDispatcherScheduler.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
