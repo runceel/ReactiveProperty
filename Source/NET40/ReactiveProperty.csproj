@@ -123,6 +123,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Asynchronous\ProgressStatus.cs" />
+    <Compile Include="Extensions\CombineLatestObservableExtensions.cs" />
     <Compile Include="ObservableEx.cs" />
     <Compile Include="Asynchronous\WebRequestExtensions.cs" />
     <Compile Include="Asynchronous\WebResponseExtensions.cs" />

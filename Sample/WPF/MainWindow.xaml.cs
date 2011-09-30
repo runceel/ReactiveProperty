@@ -32,8 +32,11 @@ namespace WPF
 
             DataContext = new MainWindowViewModel();
 
-
-
+            
+                
+            
+                
+                
 
         }
     }
