@@ -49,12 +49,10 @@ namespace Codeplex.Reactive
         readonly IDisposable sourceDisposable;
 
         // for Validation
-        SerialDisposable validateErrorSubscription = new SerialDisposable();
-        SerialDisposable validateNotifyErrorSubscription = new SerialDisposable();
+        readonly SerialDisposable validateNotifyErrorSubscription = new SerialDisposable();
+        readonly BehaviorSubject<object> errorsTrigger = new BehaviorSubject<object>(null);
         ValidationAttribute[] attributes;
-        BehaviorSubject<object> errorsTrigger = new BehaviorSubject<object>(null);
-        readonly ValidationContext validationContext;
-
+        ValidationContext validationContext;
 
         public ReactiveProperty(T initialValue = default(T), ReactivePropertyMode mode = ReactivePropertyMode.All)
             : this(Observable.Never<T>(), null, initialValue, mode)
@@ -64,17 +62,16 @@ namespace Codeplex.Reactive
             : this(Observable.Never<T>(), parentRaisePropertyChanged, initialValue, mode)
         { }
 
-        // ToReactivePropery Only
+        // ToReactiveProperty Only
         internal ReactiveProperty(IObservable<T> source, T initialValue = default(T), ReactivePropertyMode mode = ReactivePropertyMode.All)
             : this(source, null, initialValue, mode)
         { }
 
-        // ToReactivePropery Only
+        // ToReactiveProperty Only
         internal ReactiveProperty(IObservable<T> source, Action<T> parentRaisePropertyChanged, T initialValue = default(T),
             ReactivePropertyMode mode = ReactivePropertyMode.All)
         {
             this.latestValue = initialValue;
-            this.validationContext = new ValidationContext(this, null, null) { MemberName = "Value" };
 
             // create source
             var merge = source.Merge(anotherTrigger);
@@ -117,7 +114,7 @@ namespace Codeplex.Reactive
                     {
                         foreach (var item in attributes)
                         {
-                            item.Validate(value, validationContext);
+                            item.Validate(value, validationContext ?? new ValidationContext(this, null, null) { MemberName = "Value" });
                         }
                         errorsTrigger.OnNext(null);
                     }
@@ -144,7 +141,6 @@ namespace Codeplex.Reactive
         public void Dispose()
         {
             sourceDisposable.Dispose();
-            validateErrorSubscription.Dispose();
             validateNotifyErrorSubscription.Dispose();
             errorsTrigger.Dispose();
         }
@@ -176,16 +172,12 @@ namespace Codeplex.Reactive
 
         // IDataErrorInfo
 
+        Func<T, string> dataErrorInfoValidate;
         string currentError;
 
         public ReactiveProperty<T> SetValidateError(Func<T, string> validate)
         {
-            validateErrorSubscription.Disposable = source
-                .Subscribe(x =>
-                {
-                    currentError = validate(x);
-                    errorsTrigger.OnNext(currentError);
-                });
+            this.dataErrorInfoValidate = validate;
             return this;
         }
 
@@ -196,7 +188,17 @@ namespace Codeplex.Reactive
 
         public string this[string columnName]
         {
-            get { return currentError; }
+            get
+            {
+                var handler = dataErrorInfoValidate;
+                if (handler != null && columnName == "Value")
+                {
+                    currentError = handler(latestValue);
+                    errorsTrigger.OnNext(currentError);
+                    return currentError;
+                }
+                else return null;
+            }
         }
 
 #if SILVERLIGHT

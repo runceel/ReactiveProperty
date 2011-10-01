@@ -60,7 +60,7 @@ namespace WPF
     public class MainWindowViewModel
     {
         [Required]
-        [Range(1, 10, ErrorMessage = "hogehoge")]
+        [RegularExpression("...")]
         public ReactiveProperty<string> TadanoText { get; set; }
 
 
@@ -76,11 +76,10 @@ namespace WPF
             TadanoText = new ReactiveProperty<string>()
                 .SetValidateError(s =>
                 {
-                    return null;
-                    //if (s == null) return null;
-                    //return s.All(Char.IsUpper)
-                    //    ? null
-                    //    : "全部大文字じゃありません！";
+                    if (s == null) return null;
+                    return s.All(Char.IsUpper)
+                        ? null
+                        : "全部大文字じゃありません！";
                 })
                 .SetValidateAttribute(() => TadanoText);
 
