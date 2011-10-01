@@ -4,6 +4,7 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Windows.Threading;
 using System.Diagnostics.Contracts;
+using System.Windows;
 
 namespace Codeplex.Reactive
 {
@@ -11,8 +12,13 @@ namespace Codeplex.Reactive
     {
         // static
 
-        static readonly UIDispatcherScheduler defaultScheduler =
-            new UIDispatcherScheduler(Dispatcher.CurrentDispatcher);
+        static readonly UIDispatcherScheduler defaultScheduler = new UIDispatcherScheduler(
+#if SILVERLIGHT
+Deployment.Current.Dispatcher
+#else
+            Dispatcher.CurrentDispatcher
+#endif
+);
 
         public static UIDispatcherScheduler Default
         {
@@ -53,7 +59,11 @@ namespace Codeplex.Reactive
             if (interval.Ticks == 0) return Schedule(state, action); // schedule immediately
 
             var cancelable = new MultipleAssignmentDisposable();
-            DispatcherTimer timer = new DispatcherTimer(DispatcherPriority.Background, Dispatcher)
+            DispatcherTimer timer = new DispatcherTimer(
+#if !SILVERLIGHT
+                DispatcherPriority.Background, Dispatcher
+#endif
+                )
             {
                 Interval = interval
             };
@@ -110,7 +120,7 @@ namespace Codeplex.Reactive
             Contract.Ensures(Contract.Result<IObservable<T>>() != null);
 
             var result = source.ObserveOn(UIDispatcherScheduler.Default);
-            
+
             Contract.Assume(result != null);
             return result;
         }

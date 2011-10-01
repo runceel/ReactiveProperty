@@ -24,6 +24,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.Tests.Pex", "Test\ReactiveProperty.Tests.Pex\ReactiveProperty.Tests.Pex.csproj", "{6A3C066B-46A4-4928-80B4-89C32D651277}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Silverlight", "Sample\Silverlight\Silverlight.csproj", "{1727E152-CA8D-4011-83FC-4E908711938F}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = ReactiveProperty.vsmdi
@@ -87,6 +89,16 @@ Global
 		{6A3C066B-46A4-4928-80B4-89C32D651277}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{6A3C066B-46A4-4928-80B4-89C32D651277}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{6A3C066B-46A4-4928-80B4-89C32D651277}.Release|x86.ActiveCfg = Release|Any CPU
+		{1727E152-CA8D-4011-83FC-4E908711938F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1727E152-CA8D-4011-83FC-4E908711938F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1727E152-CA8D-4011-83FC-4E908711938F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{1727E152-CA8D-4011-83FC-4E908711938F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{1727E152-CA8D-4011-83FC-4E908711938F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1727E152-CA8D-4011-83FC-4E908711938F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1727E152-CA8D-4011-83FC-4E908711938F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1727E152-CA8D-4011-83FC-4E908711938F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{1727E152-CA8D-4011-83FC-4E908711938F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{1727E152-CA8D-4011-83FC-4E908711938F}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,9 +109,10 @@ Global
 		{9B3C2CF3-0AFD-4FB8-BAB1-2B7931C2AF18} = {6B13388E-F781-4F55-AF8B-2E991EA59DB8}
 		{6A3C066B-46A4-4928-80B4-89C32D651277} = {6B13388E-F781-4F55-AF8B-2E991EA59DB8}
 		{5894EB9D-270B-41E4-B57A-4F3A48062D20} = {6356D836-36AA-4CD9-8EB2-BF037115D329}
+		{1727E152-CA8D-4011-83FC-4E908711938F} = {6356D836-36AA-4CD9-8EB2-BF037115D329}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
 		BuildVersion_UseGlobalSettings = True
+		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
 	EndGlobalSection
 EndGlobal

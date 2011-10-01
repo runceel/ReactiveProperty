@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using System.Linq;
-
+using System.Collections;
 #if WINDOWS_PHONE
 using Microsoft.Phone.Reactive;
 #else
@@ -18,6 +18,12 @@ namespace Codeplex.Reactive
     {
         public static readonly PropertyChangedEventArgs Value = new PropertyChangedEventArgs("Value");
     }
+#if SILVERLIGHT
+    internal class SingletonDataErrorsChangedEventArgs
+    {
+        public static readonly DataErrorsChangedEventArgs Value = new DataErrorsChangedEventArgs("Value");
+    }
+#endif
 
     [Flags]
     public enum ReactivePropertyMode
@@ -51,8 +57,8 @@ namespace Codeplex.Reactive
         // for Validation
         readonly SerialDisposable validateNotifyErrorSubscription = new SerialDisposable();
         readonly BehaviorSubject<object> errorsTrigger = new BehaviorSubject<object>(null);
+        readonly ValidationContext validationContext;
         ValidationAttribute[] attributes;
-        ValidationContext validationContext;
 
         public ReactiveProperty(T initialValue = default(T), ReactivePropertyMode mode = ReactivePropertyMode.All)
             : this(Observable.Never<T>(), null, initialValue, mode)
@@ -72,6 +78,7 @@ namespace Codeplex.Reactive
             ReactivePropertyMode mode = ReactivePropertyMode.All)
         {
             this.latestValue = initialValue;
+            this.validationContext = new ValidationContext(this, null, null) { MemberName = "Value" };
 
             // create source
             var merge = source.Merge(anotherTrigger);
@@ -114,7 +121,7 @@ namespace Codeplex.Reactive
                     {
                         foreach (var item in attributes)
                         {
-                            item.Validate(value, validationContext ?? new ValidationContext(this, null, null) { MemberName = "Value" });
+                            item.Validate(value, validationContext);
                         }
                         errorsTrigger.OnNext(null);
                     }
@@ -219,6 +226,12 @@ namespace Codeplex.Reactive
                 .Subscribe(xs =>
                 {
                     currentErrors = xs;
+                    var handler = errorsChanged;
+                    if (handler != null)
+                    {
+                        UIDispatcherScheduler.Default.Dispatcher.BeginInvoke(new Action(() =>
+                            handler(this, SingletonDataErrorsChangedEventArgs.Value)));
+                    }
                     errorsTrigger.OnNext(currentErrors);
                 });
 
