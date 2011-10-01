@@ -10,6 +10,7 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.ComponentModel;
 using System.Reactive.Disposables;
+using System.Reactive.Concurrency;
 #endif
 
 namespace Codeplex.Reactive
@@ -111,27 +112,7 @@ namespace Codeplex.Reactive
         public T Value
         {
             get { return latestValue; }
-            set
-            {
-                anotherTrigger.OnNext(value);
-
-                if (attributes != null)
-                {
-                    try
-                    {
-                        foreach (var item in attributes)
-                        {
-                            item.Validate(value, validationContext);
-                        }
-                        errorsTrigger.OnNext(null);
-                    }
-                    catch (Exception ex)
-                    {
-                        errorsTrigger.OnNext(ex);
-                        throw;
-                    }
-                }
-            }
+            set { anotherTrigger.OnNext(value); }
         }
 
         object IReactiveProperty<T>.Value
@@ -193,10 +174,26 @@ namespace Codeplex.Reactive
             get { return currentError; }
         }
 
-        public string this[string columnName]
+        string IDataErrorInfo.this[string columnName]
         {
             get
             {
+                if (attributes != null && columnName == "Value")
+                {
+                    try
+                    {
+                        foreach (var item in attributes)
+                        {
+                            item.Validate(latestValue, validationContext);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        errorsTrigger.OnNext(ex);
+                        return ex.Message;
+                    }
+                }
+
                 var handler = dataErrorInfoValidate;
                 if (handler != null && columnName == "Value")
                 {
@@ -204,7 +201,9 @@ namespace Codeplex.Reactive
                     errorsTrigger.OnNext(currentError);
                     return currentError;
                 }
-                else return null;
+
+                errorsTrigger.OnNext(null);
+                return null;
             }
         }
 
@@ -229,8 +228,8 @@ namespace Codeplex.Reactive
                     var handler = errorsChanged;
                     if (handler != null)
                     {
-                        UIDispatcherScheduler.Default.Dispatcher.BeginInvoke(new Action(() =>
-                            handler(this, SingletonDataErrorsChangedEventArgs.Value)));
+                        UIDispatcherScheduler.Default.Schedule(() =>
+                            handler(this, SingletonDataErrorsChangedEventArgs.Value));
                     }
                     errorsTrigger.OnNext(currentErrors);
                 });

@@ -44,7 +44,6 @@ namespace Silverlight
 
             OnNotifyError = new ReactiveProperty<string>()
                 .SetValidateNotifyError(self => self
-                    .Delay(TimeSpan.FromSeconds(3))
                     .Select(s => s != null && s.All(Char.IsLower) ? null : new[] { "ERROR" }));
 
 
