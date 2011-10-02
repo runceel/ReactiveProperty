@@ -96,4 +96,19 @@ namespace Codeplex.Reactive
             if (list.Count > 0) yield return list.ToArray();
         }
     }
+
+#if WP_COMMON
+    internal static class EnumEx
+    {
+        public static bool HasFlag(this Enum self, Enum flags)
+        {
+            if (self.GetType() != flags.GetType()) throw new ArgumentException("not sampe type");
+
+            var sval = Convert.ToUInt64(self);
+            var fval = Convert.ToUInt64(flags);
+
+            return (sval & fval) == fval;
+        }
+    }
+#endif
 }

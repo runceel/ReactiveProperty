@@ -8,11 +8,13 @@ using Codeplex.Reactive.Extensions;
 using Microsoft.Phone.Reactive;
 using SerialDisposable = Microsoft.Phone.Reactive.MutableDisposable;
 #else
-using System.ComponentModel.DataAnnotations;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Reactive.Disposables;
 using System.Reactive.Concurrency;
+#endif
+#if !WP_COMMON
+using System.ComponentModel.DataAnnotations;
 #endif
 
 namespace Codeplex.Reactive
@@ -147,7 +149,7 @@ namespace Codeplex.Reactive
 
         // Exception
 
-#if! WINDOWS_PHONE
+#if! WP_COMMON
         ValidationContext validationContext;
         ValidationAttribute[] attributes;
 
@@ -204,7 +206,7 @@ namespace Codeplex.Reactive
         {
             get
             {
-#if! WINDOWS_PHONE
+#if! WP_COMMON
                 if (attributes != null && columnName == "Value")
                 {
                     var exceptionResult = ValidateException();

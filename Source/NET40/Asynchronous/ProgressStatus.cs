@@ -7,11 +7,15 @@ namespace Codeplex.Reactive.Asynchronous
 {
     public class ProgressStatus
     {
+        /// <summary>Represents unknown length. This equals -1.</summary>
         public const int Unknown = -1;
 
+        /// <summary>Current length of status.</summary>
         public long CurrentLength { get; private set; }
+        /// <summary>Total(Max) length of status.</summary>
         public long TotalLength { get; private set; }
 
+        /// <summary>Current/Total</summary>
         public int Percentage
         {
             get
@@ -22,6 +26,11 @@ namespace Codeplex.Reactive.Asynchronous
             }
         }
 
+        /// <summary>
+        /// Represents progress status.
+        /// </summary>
+        /// <param name="currentLength">Current length of status.</param>
+        /// <param name="totalLength">Total length of status.</param>
         public ProgressStatus(long currentLength, long totalLength)
         {
             CurrentLength = currentLength;

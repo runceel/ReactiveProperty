@@ -5,12 +5,12 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1D98A326-401B-4A99-97EA-2FF3697C266F}</ProjectGuid>
+    <ProjectGuid>{0296B16D-FD94-4764-B403-A74A157F7BD8}</ProjectGuid>
     <ProjectTypeGuids>{C089C8C0-30E0-4E22-80C0-CE093F111A43};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ReactiveProperty.WP7</RootNamespace>
-    <AssemblyName>ReactiveProperty.WP7</AssemblyName>
+    <RootNamespace>ReactiveProperty.WP7.Rx_Main</RootNamespace>
+    <AssemblyName>ReactiveProperty.WP7.Rx_Main</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
     <TargetFrameworkProfile>WindowsPhone71</TargetFrameworkProfile>
@@ -25,7 +25,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>Bin\Debug</OutputPath>
-    <DefineConstants>TRACE;DEBUG;SILVERLIGHT;WINDOWS_PHONE;WP_COMMON</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;SILVERLIGHT;WP_COMMON</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
@@ -95,8 +95,11 @@
     <Reference Include="Microsoft.Contracts">
       <HintPath>..\..\packages\CodeContracts.Unofficial.1.0.0.2\lib\sl3-wp\Microsoft.Contracts.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Phone.Reactive" />
     <Reference Include="System.Observable" />
+    <Reference Include="System.Reactive, Version=1.0.10621.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Rx-Main.1.0.10621\lib\SL3-WP\System.Reactive.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows" />
     <Reference Include="system" />
     <Reference Include="System.Core" />
@@ -179,6 +182,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />
   <ProjectExtensions />
