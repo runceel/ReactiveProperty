@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Diagnostics.Contracts;
 using Codeplex.Reactive.Notifier;
 #if WINDOWS_PHONE
 using Microsoft.Phone.Reactive;
@@ -16,113 +17,280 @@ using System.Reactive.Disposables;
 
 namespace Codeplex.Reactive.Asynchronous
 {
-    // TODO:other methods
-
     public static class WebRequestExtensions
     {
+        static IObservable<TResult> SafeFromAsyncPattern<TResult>(Func<AsyncCallback, object, IAsyncResult> begin, Func<IAsyncResult, TResult> end, Action cancelAsync)
+        {
+            Contract.Ensures(Contract.Result<IObservable<TResult>>() != null);
+
+            var result = Observable.Create<TResult>(observer =>
+            {
+                var isCompleted = false;
+                Observable.FromAsyncPattern<TResult>(begin,
+                    ar =>
+                    {
+                        try
+                        {
+                            isCompleted = true;
+                            return end(ar);
+                        }
+                        catch (WebException ex)
+                        {
+                            if (ex.Status == WebExceptionStatus.RequestCanceled) return default(TResult);
+                            throw;
+                        }
+                    })()
+                    .Subscribe(observer);
+                return () =>
+                {
+                    if (!isCompleted) cancelAsync();
+                };
+            });
+
+            Contract.Assume(result != null);
+            return result;
+        }
+
+        /// <summary>
+        /// <para>Get WebResponse async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
         public static IObservable<WebResponse> GetResponseAsync(this WebRequest request)
         {
-            return Observable.Create<WebResponse>(observer =>
-            {
-                Observable.FromAsyncPattern<WebResponse>(request.BeginGetResponse,
-                    ar =>
-                    {
-                        try
-                        {
-                            return request.EndGetResponse(ar);
-                        }
-                        catch (WebException ex)
-                        {
-                            if (ex.Status == WebExceptionStatus.RequestCanceled) return null;
-                            throw;
-                        }
-                    })()
-                    .Subscribe(observer);
-                return () => request.Abort();
-            });
+            Contract.Requires<ArgumentNullException>(request != null);
+            Contract.Ensures(Contract.Result<IObservable<WebResponse>>() != null);
+
+            return SafeFromAsyncPattern(request.BeginGetResponse, request.EndGetResponse, request.Abort);
         }
 
+        /// <summary>
+        /// <para>Get HttpWebResponse async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
+        public static IObservable<HttpWebResponse> GetResponseAsync(this HttpWebRequest request)
+        {
+            Contract.Requires<ArgumentNullException>(request != null);
+            Contract.Ensures(Contract.Result<IObservable<HttpWebResponse>>() != null);
+
+            return SafeFromAsyncPattern(request.BeginGetResponse, ar => (HttpWebResponse)request.EndGetResponse(ar), request.Abort);
+        }
+
+        /// <summary>
+        /// <para>Get RequestStream async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
         public static IObservable<Stream> GetRequestStreamAsync(this WebRequest request)
         {
-            return Observable.Create<Stream>(observer =>
-            {
-                Observable.FromAsyncPattern<Stream>(request.BeginGetRequestStream,
-                    ar =>
-                    {
-                        try
-                        {
-                            return request.EndGetRequestStream(ar);
-                        }
-                        catch (WebException ex)
-                        {
-                            if (ex.Status == WebExceptionStatus.RequestCanceled) return null;
-                            throw;
-                        }
-                    })()
-                    .Subscribe(observer);
-                return () => request.Abort();
-            });
+            Contract.Requires<ArgumentNullException>(request != null);
+            Contract.Ensures(Contract.Result<IObservable<Stream>>() != null);
+
+            return SafeFromAsyncPattern(request.BeginGetRequestStream, request.EndGetRequestStream, request.Abort);
         }
 
+        /// <summary>
+        /// <para>Download data async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
         public static IObservable<byte[]> DownloadDataAsync(this WebRequest request)
         {
-            return request.GetResponseAsync().SelectMany(r => r.DownloadDataAsync());
+            Contract.Requires<ArgumentNullException>(request != null);
+            Contract.Ensures(Contract.Result<IObservable<byte[]>>() != null);
+
+            var result = request.GetResponseAsync().SelectMany(r => r.DownloadDataAsync());
+
+            Contract.Assume(result != null);
+            return result;
         }
 
-        public static IObservable<byte[]> DownloadDataAsync(this WebRequest request, IProgress<ProgressStatus> notifier)
+        /// <summary>
+        /// <para>Download data async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
+        /// <param name="progressReporter">Reporter of progress(such as ScheduledNotifier).</param>
+        public static IObservable<byte[]> DownloadDataAsync(this WebRequest request, IProgress<ProgressStatus> progressReporter)
         {
-            return request.GetResponseAsync().SelectMany(r => r.DownloadDataAsync(notifier));
+            Contract.Requires<ArgumentNullException>(request != null);
+            Contract.Requires<ArgumentNullException>(progressReporter != null);
+            Contract.Ensures(Contract.Result<IObservable<byte[]>>() != null);
+
+            var result = request.GetResponseAsync().SelectMany(r => r.DownloadDataAsync(progressReporter));
+
+            Contract.Assume(result != null);
+            return result;
         }
 
+        /// <summary>
+        /// <para>Download string async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
         public static IObservable<string> DownloadStringAsync(this WebRequest request)
         {
-            return request.GetResponseAsync().SelectMany(r => r.DownloadStringAsync());
+            Contract.Requires<ArgumentNullException>(request != null);
+            Contract.Ensures(Contract.Result<IObservable<string>>() != null);
+
+            return DownloadStringAsync(request, Encoding.UTF8);
         }
 
+        /// <summary>
+        /// <para>Download string async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
         public static IObservable<string> DownloadStringAsync(this WebRequest request, Encoding encoding)
         {
-            return request.GetResponseAsync().SelectMany(r => r.DownloadStringAsync(encoding));
+            Contract.Requires<ArgumentNullException>(request != null);
+            Contract.Requires<ArgumentNullException>(encoding != null);
+            Contract.Ensures(Contract.Result<IObservable<string>>() != null);
+
+            var result = request.GetResponseAsync().SelectMany(r => r.DownloadStringAsync(encoding));
+
+            Contract.Assume(result != null);
+            return result;
         }
 
+        /// <summary>
+        /// <para>Download string async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
+        /// <param name="progressReporter">Reporter of progress(such as ScheduledNotifier).</param>
+        public static IObservable<string> DownloadStringAsync(this WebRequest request, IProgress<ProgressStatus> progressReporter)
+        {
+            Contract.Requires<ArgumentNullException>(request != null);
+            Contract.Requires<ArgumentNullException>(progressReporter != null);
+            Contract.Ensures(Contract.Result<IObservable<string>>() != null);
+
+            return DownloadStringAsync(request, Encoding.UTF8, progressReporter);
+        }
+
+        /// <summary>
+        /// <para>Download string async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
+        /// <param name="progressReporter">Reporter of progress(such as ScheduledNotifier).</param>
+        public static IObservable<string> DownloadStringAsync(this WebRequest request, Encoding encoding, IProgress<ProgressStatus> progressReporter)
+        {
+            Contract.Requires<ArgumentNullException>(request != null);
+            Contract.Requires<ArgumentNullException>(encoding != null);
+            Contract.Requires<ArgumentNullException>(progressReporter != null);
+            Contract.Ensures(Contract.Result<IObservable<string>>() != null);
+
+            var result = request.GetResponseAsync().SelectMany(r => r.DownloadStringAsync(encoding, progressReporter));
+
+            Contract.Assume(result != null);
+            return result;
+        }
+
+        /// <summary>
+        /// <para>Download string lines async.</para>
+        /// <para>Run deferred, Length of return value is lines row count.</para>
+        /// </summary>
         public static IObservable<string> DownloadStringLineAsync(this WebRequest request)
         {
-            return request.GetResponseAsync().SelectMany(r => r.DownloadStringLineAsync());
+            Contract.Requires<ArgumentNullException>(request != null);
+            Contract.Ensures(Contract.Result<IObservable<string>>() != null);
+
+            return DownloadStringLineAsync(request, Encoding.UTF8);
         }
 
+        /// <summary>
+        /// <para>Download string lines async.</para>
+        /// <para>Run deferred, Length of return value is lines row count.</para>
+        /// </summary>
         public static IObservable<string> DownloadStringLineAsync(this WebRequest request, Encoding encoding)
         {
-            return request.GetResponseAsync().SelectMany(r => r.DownloadStringLineAsync(encoding));
+            Contract.Requires<ArgumentNullException>(request != null);
+            Contract.Requires<ArgumentNullException>(encoding != null);
+            Contract.Ensures(Contract.Result<IObservable<string>>() != null);
+
+            var result = request.GetResponseAsync().SelectMany(r => r.DownloadStringLineAsync(encoding));
+
+            Contract.Assume(result != null);
+            return result;
         }
 
+        /// <summary>
+        /// <para>Upload string async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
         public static IObservable<WebResponse> UploadStringAsync(this WebRequest request, string data)
         {
+            Contract.Requires<ArgumentNullException>(request != null);
+            Contract.Requires<ArgumentNullException>(data != null);
+            Contract.Ensures(Contract.Result<IObservable<WebResponse>>() != null);
+
             return request.UploadStringAsync(data, Encoding.UTF8);
         }
 
+        /// <summary>
+        /// <para>Upload string async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
         public static IObservable<WebResponse> UploadStringAsync(this WebRequest request, string data, Encoding encoding)
         {
+            Contract.Requires<ArgumentNullException>(request != null);
+            Contract.Requires<ArgumentNullException>(data != null);
+            Contract.Requires<ArgumentNullException>(encoding != null);
+            Contract.Ensures(Contract.Result<IObservable<WebResponse>>() != null);
+
             var bytes = encoding.GetBytes(data);
             return request.UploadDataAsync(bytes);
         }
 
-        public static IObservable<WebResponse> UploadStringAsync(this WebRequest request, string data, IProgress<ProgressStatus> progressReporter, int chunkSize = 65536)
+        /// <summary>
+        /// <para>Upload string async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
+        /// <param name="progressReporter">Reporter of progress(such as ScheduledNotifier).</param>
+        public static IObservable<WebResponse> UploadStringAsync(this WebRequest request, string data, IProgress<ProgressStatus> progressReporter)
         {
-            return UploadStringAsync(request, data, Encoding.UTF8, progressReporter, chunkSize);
+            Contract.Requires<ArgumentNullException>(request != null);
+            Contract.Requires<ArgumentNullException>(data != null);
+            Contract.Requires<ArgumentNullException>(progressReporter != null);
+            Contract.Ensures(Contract.Result<IObservable<WebResponse>>() != null);
+
+            return UploadStringAsync(request, data, Encoding.UTF8, progressReporter);
         }
 
-        public static IObservable<WebResponse> UploadStringAsync(this WebRequest request, string data, Encoding encoding, IProgress<ProgressStatus> progressReporter, int chunkSize = 65536)
+        /// <summary>
+        /// <para>Upload string async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
+        /// <param name="progressReporter">Reporter of progress(such as ScheduledNotifier).</param>
+        public static IObservable<WebResponse> UploadStringAsync(this WebRequest request, string data, Encoding encoding, IProgress<ProgressStatus> progressReporter)
         {
+            Contract.Requires<ArgumentNullException>(request != null);
+            Contract.Requires<ArgumentNullException>(data != null);
+            Contract.Requires<ArgumentNullException>(encoding != null);
+            Contract.Requires<ArgumentNullException>(progressReporter != null);
+            Contract.Ensures(Contract.Result<IObservable<WebResponse>>() != null);
+
             var bytes = encoding.GetBytes(data);
-            return request.UploadDataAsync(bytes, progressReporter, chunkSize);
+            return request.UploadDataAsync(bytes, progressReporter);
         }
 
+        /// <summary>
+        /// <para>Upload values async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
         public static IObservable<WebResponse> UploadValuesAsync(this WebRequest request, IDictionary<string, string> parameters)
         {
+            Contract.Requires<ArgumentNullException>(request != null);
+            Contract.Requires<ArgumentNullException>(parameters != null);
+            Contract.Ensures(Contract.Result<IObservable<WebResponse>>() != null);
+
             return UploadValuesAsync(request, parameters, Encoding.UTF8);
         }
 
+        /// <summary>
+        /// <para>Upload values async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
         public static IObservable<WebResponse> UploadValuesAsync(this WebRequest request, IDictionary<string, string> parameters, Encoding encoding)
         {
+            Contract.Requires<ArgumentNullException>(request != null);
+            Contract.Requires<ArgumentNullException>(parameters != null);
+            Contract.Requires<ArgumentNullException>(encoding != null);
+            Contract.Ensures(Contract.Result<IObservable<WebResponse>>() != null);
+
             var parameter = parameters.Select(kvp => Uri.EscapeDataString(kvp.Key) + "=" + Uri.EscapeDataString(kvp.Value))
                 .Aggregate(new StringBuilder(), (sb, x) => sb.Append(x)).ToString();
             var bytes = encoding.GetBytes(parameter);
@@ -130,34 +298,80 @@ namespace Codeplex.Reactive.Asynchronous
             return request.UploadDataAsync(bytes);
         }
 
-        public static IObservable<WebResponse> UploadValuesAsync(this WebRequest request, IDictionary<string, string> parameters, IProgress<ProgressStatus> progressReporter, int chunkSize = 65536)
+        /// <summary>
+        /// <para>Upload values async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
+        /// <param name="progressReporter">Reporter of progress(such as ScheduledNotifier).</param>
+        public static IObservable<WebResponse> UploadValuesAsync(this WebRequest request, IDictionary<string, string> parameters, IProgress<ProgressStatus> progressReporter)
         {
-            return UploadValuesAsync(request, parameters, progressReporter, Encoding.UTF8, chunkSize);
+            Contract.Requires<ArgumentNullException>(request != null);
+            Contract.Requires<ArgumentNullException>(parameters != null);
+            Contract.Requires<ArgumentNullException>(progressReporter != null);
+            Contract.Ensures(Contract.Result<IObservable<WebResponse>>() != null);
+
+            return UploadValuesAsync(request, parameters, Encoding.UTF8, progressReporter);
         }
 
-        public static IObservable<WebResponse> UploadValuesAsync(this WebRequest request, IDictionary<string, string> parameters, IProgress<ProgressStatus> progressReporter, Encoding encoding, int chunkSize = 65536)
+        /// <summary>
+        /// <para>Upload values async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
+        /// <param name="progressReporter">Reporter of progress(such as ScheduledNotifier).</param>
+        public static IObservable<WebResponse> UploadValuesAsync(this WebRequest request, IDictionary<string, string> parameters, Encoding encoding, IProgress<ProgressStatus> progressReporter)
         {
+            Contract.Requires<ArgumentNullException>(request != null);
+            Contract.Requires<ArgumentNullException>(parameters != null);
+            Contract.Requires<ArgumentNullException>(progressReporter != null);
+            Contract.Requires<ArgumentNullException>(encoding != null);
+            Contract.Ensures(Contract.Result<IObservable<WebResponse>>() != null);
+
             var parameter = parameters.Select(kvp => Uri.EscapeDataString(kvp.Key) + "=" + Uri.EscapeDataString(kvp.Value))
                .Aggregate(new StringBuilder(), (sb, x) => sb.Append(x)).ToString();
             var bytes = encoding.GetBytes(parameter);
 
-            return request.UploadDataAsync(bytes, progressReporter, chunkSize);
+            return request.UploadDataAsync(bytes, progressReporter);
         }
 
+        /// <summary>
+        /// <para>Upload data async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
         public static IObservable<WebResponse> UploadDataAsync(this WebRequest request, byte[] data)
         {
-            return request.GetRequestStreamAsync()
+            Contract.Requires<ArgumentNullException>(request != null);
+            Contract.Requires<ArgumentNullException>(data != null);
+            Contract.Ensures(Contract.Result<IObservable<WebResponse>>() != null);
+
+            var result = request.GetRequestStreamAsync()
                 .SelectMany(stream => stream.WriteAsObservable(data, 0, data.Length)
                     .Finally(() => { stream.Flush(); stream.Close(); }))
                 .TakeLast(1) // call before sequence's finally
                 .SelectMany(_ => request.GetResponseAsync());
+
+            Contract.Assume(result != null);
+            return result;
         }
 
+        /// <summary>
+        /// <para>Upload data async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
+        /// <param name="progressReporter">Reporter of progress(such as ScheduledNotifier).</param>
+        /// <param name="chunkSize">The size of one reading.</param>
         public static IObservable<WebResponse> UploadDataAsync(this WebRequest request, byte[] data, IProgress<ProgressStatus> progressReporter, int chunkSize = 65536)
         {
-            return request.GetRequestStreamAsync()
+            Contract.Requires<ArgumentNullException>(request != null);
+            Contract.Requires<ArgumentNullException>(data != null);
+            Contract.Requires<ArgumentNullException>(progressReporter != null);
+            Contract.Ensures(Contract.Result<IObservable<WebResponse>>() != null);
+
+            var result = request.GetRequestStreamAsync()
                 .SelectMany(stream => stream.WriteAsync(data, progressReporter, chunkSize))
                 .SelectMany(_ => request.GetResponseAsync());
+
+            Contract.Assume(result != null);
+            return result;
         }
     }
 }

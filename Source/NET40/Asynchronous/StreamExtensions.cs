@@ -23,7 +23,6 @@ namespace Codeplex.Reactive.Asynchronous
         /// </summary>
         public static IObservable<Unit> WriteAsObservable(this Stream stream, byte[] buffer, int offset, int count)
         {
-            
             Contract.Requires<ArgumentNullException>(stream != (Stream)null);
             Contract.Requires<ArgumentNullException>(buffer != null);
             Contract.Requires<ArgumentOutOfRangeException>(offset >= 0);

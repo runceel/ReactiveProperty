@@ -18,6 +18,8 @@ using System.Reactive.Linq;
 using Codeplex.Reactive.Extensions;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Net;
+using Codeplex.Reactive.Asynchronous;
 
 namespace WPF
 {
@@ -33,7 +35,7 @@ namespace WPF
 
             DataContext = new MainWindowViewModel();
 
-
+            var hoge = ((HttpWebRequest)WebRequest.Create("http://")).GetResponseAsync();
 
 
 
