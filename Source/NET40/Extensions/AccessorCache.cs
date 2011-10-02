@@ -13,7 +13,6 @@ namespace Codeplex.Reactive.Extensions
         public static Func<TType, TProperty> Lookup<TProperty>(Expression<Func<TType, TProperty>> propertySelector, out string propertyName)
         {
             Contract.Requires<ArgumentNullException>(propertySelector != null);
-            Contract.Requires(propertySelector.Body is MemberExpression);
             Contract.Ensures(Contract.Result<Func<TType, TProperty>>() != null);
             Contract.Ensures(!string.IsNullOrEmpty(Contract.ValueAtReturn(out propertyName)));
 

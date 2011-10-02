@@ -17,6 +17,8 @@ namespace Codeplex.Reactive.Asynchronous
 {
     public static class StreamExtensions
     {
+        /// <summary>BeginWrite-EndWrite Obserable Wrapper. Run immediately.</summary>
+        /// <returns>Length is always 1</returns>
         public static IObservable<Unit> WriteAsObservable(this Stream stream, byte[] buffer, int offset, int count)
         {
             Contract.Requires<ArgumentNullException>(stream != (Stream)null);
@@ -32,6 +34,8 @@ namespace Codeplex.Reactive.Asynchronous
             return result;
         }
 
+        /// <summary>BeginRead-EndRead Obserable Wrapper. Run immediately.</summary>
+        /// <returns>Length is always 1</returns>
         public static IObservable<int> ReadAsObservable(this Stream stream, byte[] buffer, int offset, int count)
         {
             Contract.Requires<ArgumentNullException>(stream != (Stream)null);
@@ -47,6 +51,8 @@ namespace Codeplex.Reactive.Asynchronous
             return result;
         }
 
+        /// <summary>Write string(Encode to UTF8) async. Run deferred.</summary>
+        /// <returns>Length is always 1</returns>
         public static IObservable<Unit> WriteAsync(this Stream stream, string data)
         {
             Contract.Requires<ArgumentNullException>(stream != null);
@@ -56,6 +62,9 @@ namespace Codeplex.Reactive.Asynchronous
             return WriteAsync(stream, data, Encoding.UTF8);
         }
 
+        /// <summary>Write string(Encode to UTF8) async. Run deferred.</summary>
+        /// <param name="progressReporter">Reporter of progress(such as ScheduledNotifier).</param>
+        /// <returns>Length is always 1</returns>
         public static IObservable<Unit> WriteAsync(this Stream stream, string data, IProgress<ProgressStatus> progressReporter)
         {
             Contract.Requires<ArgumentNullException>(stream != null);
@@ -66,6 +75,8 @@ namespace Codeplex.Reactive.Asynchronous
             return WriteAsync(stream, data, Encoding.UTF8, progressReporter);
         }
 
+        /// <summary>Write string async. Run deferred.</summary>
+        /// <returns>Length is always 1</returns>
         public static IObservable<Unit> WriteAsync(this Stream stream, string data, Encoding encoding)
         {
             Contract.Requires<ArgumentNullException>(stream != null);
@@ -76,6 +87,9 @@ namespace Codeplex.Reactive.Asynchronous
             return WriteAsync(stream, encoding.GetBytes(data));
         }
 
+        /// <summary>Write string async. Run deferred.</summary>
+        /// <param name="progressReporter">Reporter of progress(such as ScheduledNotifier).</param>
+        /// <returns>Length is always 1</returns>
         public static IObservable<Unit> WriteAsync(this Stream stream, string data, Encoding encoding, IProgress<ProgressStatus> progressReporter)
         {
             Contract.Requires<ArgumentNullException>(stream != null);
@@ -87,6 +101,8 @@ namespace Codeplex.Reactive.Asynchronous
             return WriteAsync(stream, encoding.GetBytes(data), progressReporter);
         }
 
+        /// <summary>Write data async. Run deferred.</summary>
+        /// <returns>Length is always 1</returns>
         public static IObservable<Unit> WriteAsync(this Stream stream, IEnumerable<byte> data, int chunkSize = 65536)
         {
             Contract.Requires<ArgumentNullException>(stream != null);
@@ -97,6 +113,9 @@ namespace Codeplex.Reactive.Asynchronous
             return WriteAsyncCore(stream, data, null, chunkSize, ProgressStatus.Unknown);
         }
 
+        /// <summary>Write data async. Run deferred.</summary>
+        /// <param name="progressReporter">Reporter of progress(such as ScheduledNotifier).</param>
+        /// <returns>Length is always 1</returns>
         public static IObservable<Unit> WriteAsync(this Stream stream, IEnumerable<byte> data, IProgress<ProgressStatus> progressReporter, int chunkSize = 65536)
         {
             Contract.Requires<ArgumentNullException>(stream != null);
@@ -136,6 +155,8 @@ namespace Codeplex.Reactive.Asynchronous
             return result;
         }
 
+        /// <summary>Write strings that add every lines Environment.NewLine(Encode to UTF8) async. Run deferred.</summary>
+        /// <returns>Length is always 1</returns>
         public static IObservable<Unit> WriteLineAsync(this Stream stream, IEnumerable<string> data)
         {
             Contract.Requires<ArgumentNullException>(stream != null);
@@ -145,6 +166,8 @@ namespace Codeplex.Reactive.Asynchronous
             return WriteLineAsync(stream, data, Encoding.UTF8);
         }
 
+        /// <summary>Write strings that add every lines Environment.NewLine(Encode to UTF8) async. Run deferred.</summary>
+        /// <returns>Length is always 1</returns>
         public static IObservable<Unit> WriteLineAsync(this Stream stream, IEnumerable<string> data, Encoding encoding)
         {
             Contract.Requires<ArgumentNullException>(stream != null);
@@ -157,6 +180,13 @@ namespace Codeplex.Reactive.Asynchronous
             return WriteAsync(stream, writeData);
         }
 
+        /// <summary>
+        /// Read data async. Run deferred.
+        /// </summary>
+        /// <param name="stream">Target stream.</param>
+        /// <param name="chunkSize">The size of one reading.</param>
+        /// <param name="isAggregateAllChunks">If true, collect all chunks(return length is 1) else return length is reading count.</param>
+        /// <returns>If isAggregateAllChunks is true then 1, else reading count.</returns>
         public static IObservable<byte[]> ReadAsync(this Stream stream, int chunkSize = 65536, bool isAggregateAllChunks = true)
         {
             Contract.Requires<ArgumentNullException>(stream != null);
@@ -166,6 +196,15 @@ namespace Codeplex.Reactive.Asynchronous
             return ReadAsyncCore(stream, null, ProgressStatus.Unknown, chunkSize, isAggregateAllChunks);
         }
 
+        /// <summary>
+        /// Read data async. Run deferred.
+        /// </summary>
+        /// <param name="stream">Target stream.</param>
+        /// <param name="progressReporter">Reporter of progress(such as ScheduledNotifier).</param>
+        /// <param name="totalLength">Target stream's length(use for ProgressReporter)</param>
+        /// <param name="chunkSize">The size of one reading.</param>
+        /// <param name="isAggregateAllChunks">If true, collect all chunks(return length is 1) else return length is reading count.</param>
+        /// <returns>If isAggregateAllChunks is true then 1, else reading count.</returns>
         public static IObservable<byte[]> ReadAsync(this Stream stream, IProgress<ProgressStatus> progressReporter, int totalLength = ProgressStatus.Unknown, int chunkSize = 65536, bool isAggregateAllChunks = true)
         {
             Contract.Requires<ArgumentNullException>(stream != null);
@@ -215,6 +254,8 @@ namespace Codeplex.Reactive.Asynchronous
             return result;
         }
 
+        /// <summary>Read string lines(Encode to UTF8) async. Run deferred.</summary>
+        /// <returns>Length is lines row count</returns>
         public static IObservable<string> ReadLineAsync(this Stream stream, int chunkSize = 65536)
         {
             Contract.Requires<ArgumentNullException>(stream != null);
@@ -224,6 +265,8 @@ namespace Codeplex.Reactive.Asynchronous
             return ReadLineAsync(stream, Encoding.UTF8, chunkSize);
         }
 
+        /// <summary>Read string lines async. Run deferred.</summary>
+        /// <returns>Length is lines row count</returns>
         public static IObservable<string> ReadLineAsync(this Stream stream, Encoding encoding, int chunkSize = 65536)
         {
             Contract.Requires<ArgumentNullException>(stream != null);

@@ -41,7 +41,6 @@ namespace Codeplex.Reactive.Notifier
         public void Increment(int incrementCount = 1)
         {
             Contract.Requires<ArgumentException>(incrementCount >= 1, "value allows over 1");
-            Contract.Ensures(Count == Contract.OldValue(Count) + incrementCount);
 
             lock (lockObject)
             {
@@ -56,7 +55,6 @@ namespace Codeplex.Reactive.Notifier
         public void Decrement(int decrementCount = 1)
         {
             Contract.Requires<ArgumentException>(decrementCount >= 1, "value allows over 1");
-            Contract.Ensures(Count == Contract.OldValue(Count) - decrementCount);
 
             lock (lockObject)
             {
