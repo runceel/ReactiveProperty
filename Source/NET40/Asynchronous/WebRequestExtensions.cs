@@ -20,7 +20,7 @@ namespace Codeplex.Reactive.Asynchronous
 
     public static class WebRequestExtensions
     {
-        public static IObservable<WebResponse> GetResponseAsObservable(this WebRequest request)
+        public static IObservable<WebResponse> GetResponseAsync(this WebRequest request)
         {
             return Observable.Create<WebResponse>(observer =>
             {
@@ -42,7 +42,7 @@ namespace Codeplex.Reactive.Asynchronous
             });
         }
 
-        public static IObservable<Stream> GetRequestStreamAsObservable(this WebRequest request)
+        public static IObservable<Stream> GetRequestStreamAsync(this WebRequest request)
         {
             return Observable.Create<Stream>(observer =>
             {
@@ -66,32 +66,32 @@ namespace Codeplex.Reactive.Asynchronous
 
         public static IObservable<byte[]> DownloadDataAsync(this WebRequest request)
         {
-            return request.GetResponseAsObservable().SelectMany(r => r.DownloadDataAsync());
+            return request.GetResponseAsync().SelectMany(r => r.DownloadDataAsync());
         }
 
         public static IObservable<byte[]> DownloadDataAsync(this WebRequest request, IProgress<ProgressStatus> notifier)
         {
-            return request.GetResponseAsObservable().SelectMany(r => r.DownloadDataAsync(notifier));
+            return request.GetResponseAsync().SelectMany(r => r.DownloadDataAsync(notifier));
         }
 
         public static IObservable<string> DownloadStringAsync(this WebRequest request)
         {
-            return request.GetResponseAsObservable().SelectMany(r => r.DownloadStringAsync());
+            return request.GetResponseAsync().SelectMany(r => r.DownloadStringAsync());
         }
 
         public static IObservable<string> DownloadStringAsync(this WebRequest request, Encoding encoding)
         {
-            return request.GetResponseAsObservable().SelectMany(r => r.DownloadStringAsync(encoding));
+            return request.GetResponseAsync().SelectMany(r => r.DownloadStringAsync(encoding));
         }
 
         public static IObservable<string> DownloadStringLineAsync(this WebRequest request)
         {
-            return request.GetResponseAsObservable().SelectMany(r => r.DownloadStringLineAsync());
+            return request.GetResponseAsync().SelectMany(r => r.DownloadStringLineAsync());
         }
 
         public static IObservable<string> DownloadStringLineAsync(this WebRequest request, Encoding encoding)
         {
-            return request.GetResponseAsObservable().SelectMany(r => r.DownloadStringLineAsync(encoding));
+            return request.GetResponseAsync().SelectMany(r => r.DownloadStringLineAsync(encoding));
         }
 
         public static IObservable<WebResponse> UploadStringAsync(this WebRequest request, string data)
@@ -146,18 +146,18 @@ namespace Codeplex.Reactive.Asynchronous
 
         public static IObservable<WebResponse> UploadDataAsync(this WebRequest request, byte[] data)
         {
-            return request.GetRequestStreamAsObservable()
+            return request.GetRequestStreamAsync()
                 .SelectMany(stream => stream.WriteAsObservable(data, 0, data.Length)
                     .Finally(() => { stream.Flush(); stream.Close(); }))
                 .TakeLast(1) // call before sequence's finally
-                .SelectMany(_ => request.GetResponseAsObservable());
+                .SelectMany(_ => request.GetResponseAsync());
         }
 
         public static IObservable<WebResponse> UploadDataAsync(this WebRequest request, byte[] data, IProgress<ProgressStatus> progressReporter, int chunkSize = 65536)
         {
-            return request.GetRequestStreamAsObservable()
+            return request.GetRequestStreamAsync()
                 .SelectMany(stream => stream.WriteAsync(data, progressReporter, chunkSize))
-                .SelectMany(_ => request.GetResponseAsObservable());
+                .SelectMany(_ => request.GetResponseAsync());
         }
     }
 }

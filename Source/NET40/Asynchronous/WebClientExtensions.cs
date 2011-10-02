@@ -65,6 +65,11 @@ namespace Codeplex.Reactive.Asynchronous
             return result;
         }
 
+        /// <summary>
+        /// <para>Download string async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
+        /// <returns>Length is always 1</returns>
         public static IObservable<string> DownloadStringObservableAsync(this WebClient client, string address)
         {
             Contract.Requires<ArgumentNullException>(client != null);
@@ -74,6 +79,11 @@ namespace Codeplex.Reactive.Asynchronous
             return DownloadStringObservableAsync(client, new Uri(address));
         }
 
+        /// <summary>
+        /// <para>Download string async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
+        /// <returns>Length is always 1</returns>
         public static IObservable<string> DownloadStringObservableAsync(this WebClient client, Uri address)
         {
             Contract.Requires<ArgumentNullException>(client != null);
@@ -83,6 +93,12 @@ namespace Codeplex.Reactive.Asynchronous
             return DownloadStringObservableAsyncCore(client, address, null);
         }
 
+        /// <summary>
+        /// <para>Download string async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
+        /// <param name="progress">Reporter of progress(such as ScheduledNotifier).</param>
+        /// <returns>Length is always 1</returns>
         public static IObservable<string> DownloadStringObservableAsync(this WebClient client, Uri address, IProgress<DownloadProgressChangedEventArgs> progress)
         {
             Contract.Requires<ArgumentNullException>(client != null);
@@ -109,6 +125,11 @@ namespace Codeplex.Reactive.Asynchronous
                 () => client.DownloadStringAsync(address));
         }
 
+        /// <summary>
+        /// <para>Open response stream async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
+        /// <returns>Length is always 1</returns>
         public static IObservable<Stream> OpenReadObservableAsync(this WebClient client, string address)
         {
             Contract.Requires<ArgumentNullException>(client != null);
@@ -118,6 +139,11 @@ namespace Codeplex.Reactive.Asynchronous
             return OpenReadObservableAsync(client, new Uri(address));
         }
 
+        /// <summary>
+        /// <para>Open response stream async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
+        /// <returns>Length is always 1</returns>
         public static IObservable<Stream> OpenReadObservableAsync(this WebClient client, Uri address)
         {
             Contract.Requires<ArgumentNullException>(client != null);
@@ -134,6 +160,11 @@ namespace Codeplex.Reactive.Asynchronous
                 () => client.OpenReadAsync(address));
         }
 
+        /// <summary>
+        /// <para>Open request stream async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
+        /// <returns>Length is always 1</returns>
         public static IObservable<Stream> OpenWriteObservableAsync(this WebClient client, string address, string method = null)
         {
             Contract.Requires<ArgumentNullException>(client != null);
@@ -143,6 +174,11 @@ namespace Codeplex.Reactive.Asynchronous
             return OpenWriteObservableAsync(client, new Uri(address), method);
         }
 
+        /// <summary>
+        /// <para>Open request stream async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
+        /// <returns>Length is always 1</returns>
         public static IObservable<Stream> OpenWriteObservableAsync(this WebClient client, Uri address, string method = null)
         {
             Contract.Requires<ArgumentNullException>(client != null);
@@ -159,6 +195,11 @@ namespace Codeplex.Reactive.Asynchronous
                 () => client.OpenWriteAsync(address, null));
         }
 
+        /// <summary>
+        /// <para>Upload string async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
+        /// <returns>Length is always 1</returns>
         public static IObservable<string> UploadStringObservableAsync(WebClient client, string address, string data, string method = null)
         {
             Contract.Requires<ArgumentNullException>(client != null);
@@ -169,6 +210,11 @@ namespace Codeplex.Reactive.Asynchronous
             return UploadStringObservableAsync(client, new Uri(address), data, method);
         }
 
+        /// <summary>
+        /// <para>Upload string async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
+        /// <returns>Length is always 1</returns>
         public static IObservable<string> UploadStringObservableAsync(WebClient client, Uri address, string data, string method = null)
         {
             Contract.Requires<ArgumentNullException>(client != null);
@@ -179,6 +225,12 @@ namespace Codeplex.Reactive.Asynchronous
             return UploadStringObservableAsyncCore(client, address, data, null, method);
         }
 
+        /// <summary>
+        /// <para>Upload string async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
+        /// <param name="progress">Reporter of progress(such as ScheduledNotifier).</param>
+        /// <returns>Length is always 1</returns>
         public static IObservable<string> UploadStringObservableAsync(WebClient client, Uri address, string data, IProgress<UploadProgressChangedEventArgs> progress, string method = null)
         {
             Contract.Requires<ArgumentNullException>(client != null);
@@ -190,7 +242,7 @@ namespace Codeplex.Reactive.Asynchronous
             return UploadStringObservableAsyncCore(client, address, data, progress, method);
         }
 
-        public static IObservable<string> UploadStringObservableAsyncCore(WebClient client, Uri address, string data, IProgress<UploadProgressChangedEventArgs> progress, string method)
+        static IObservable<string> UploadStringObservableAsyncCore(WebClient client, Uri address, string data, IProgress<UploadProgressChangedEventArgs> progress, string method)
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(address != null);
@@ -208,6 +260,10 @@ namespace Codeplex.Reactive.Asynchronous
         }
 
 #if !SILVERLIGHT
+        /// <summary>
+        /// <para>Download data async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
         public static IObservable<byte[]> DownloadDataObservableAsync(this WebClient client, string address)
         {
             Contract.Requires<ArgumentNullException>(client != null);
@@ -217,6 +273,10 @@ namespace Codeplex.Reactive.Asynchronous
             return DownloadDataObservableAsync(client, new Uri(address));
         }
 
+        /// <summary>
+        /// <para>Download data async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
         public static IObservable<byte[]> DownloadDataObservableAsync(this WebClient client, Uri address)
         {
             Contract.Requires<ArgumentNullException>(client != null);
@@ -226,6 +286,12 @@ namespace Codeplex.Reactive.Asynchronous
             return DownloadDataObservableAsyncCore(client, address, null);
         }
 
+        /// <summary>
+        /// <para>Download data async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
+        /// <param name="progress">Reporter of progress(such as ScheduledNotifier).</param>
+        /// <returns>Length is always 1</returns>
         public static IObservable<byte[]> DownloadDataObservableAsync(this WebClient client, Uri address, IProgress<DownloadProgressChangedEventArgs> progress)
         {
             Contract.Requires<ArgumentNullException>(client != null);
@@ -252,6 +318,10 @@ namespace Codeplex.Reactive.Asynchronous
                 () => client.DownloadDataAsync(address));
         }
 
+        /// <summary>
+        /// <para>Download file async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
         public static IObservable<Unit> DownloadFileObservableAsync(this WebClient client, string address, string fileName)
         {
             Contract.Requires<ArgumentNullException>(client != null);
@@ -262,6 +332,10 @@ namespace Codeplex.Reactive.Asynchronous
             return DownloadFileObservableAsync(client, new Uri(address), fileName);
         }
 
+        /// <summary>
+        /// <para>Download file async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
         public static IObservable<Unit> DownloadFileObservableAsync(this WebClient client, Uri address, string fileName)
         {
             Contract.Requires<ArgumentNullException>(client != null);
@@ -272,6 +346,11 @@ namespace Codeplex.Reactive.Asynchronous
             return DownloadFileObservableAsyncCore(client, address, fileName, null);
         }
 
+        /// <summary>
+        /// <para>Download file async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
+        /// <param name="progress">Reporter of progress(such as ScheduledNotifier).</param>
         public static IObservable<Unit> DownloadFileObservableAsync(this WebClient client, Uri address, string fileName, IProgress<DownloadProgressChangedEventArgs> progress)
         {
             Contract.Requires<ArgumentNullException>(client != null);
@@ -300,6 +379,10 @@ namespace Codeplex.Reactive.Asynchronous
                 () => client.DownloadFileAsync(address, fileName));
         }
 
+        /// <summary>
+        /// <para>Upload data async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
         public static IObservable<byte[]> UploadDataObservableAsync(this WebClient client, string address, byte[] data, string method = null)
         {
             Contract.Requires<ArgumentNullException>(client != null);
@@ -310,6 +393,10 @@ namespace Codeplex.Reactive.Asynchronous
             return UploadDataObservableAsync(client, new Uri(address), data, method);
         }
 
+        /// <summary>
+        /// <para>Upload data async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
         public static IObservable<byte[]> UploadDataObservableAsync(this WebClient client, Uri address, byte[] data, string method = null)
         {
             Contract.Requires<ArgumentNullException>(client != null);
@@ -320,6 +407,11 @@ namespace Codeplex.Reactive.Asynchronous
             return UploadDataObservableAsyncCore(client, address, data, null, method);
         }
 
+        /// <summary>
+        /// <para>Upload data async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
+        /// <param name="progress">Reporter of progress(such as ScheduledNotifier).</param>
         public static IObservable<byte[]> UploadDataObservableAsync(this WebClient client, Uri address, byte[] data, IProgress<UploadProgressChangedEventArgs> progress, string method = null)
         {
             Contract.Requires<ArgumentNullException>(client != null);
@@ -331,7 +423,7 @@ namespace Codeplex.Reactive.Asynchronous
             return UploadDataObservableAsyncCore(client, address, data, progress, method);
         }
 
-        public static IObservable<byte[]> UploadDataObservableAsyncCore(WebClient client, Uri address, byte[] data, IProgress<UploadProgressChangedEventArgs> progress, string method)
+        static IObservable<byte[]> UploadDataObservableAsyncCore(WebClient client, Uri address, byte[] data, IProgress<UploadProgressChangedEventArgs> progress, string method)
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(address != null);
@@ -348,6 +440,10 @@ namespace Codeplex.Reactive.Asynchronous
                 () => client.UploadDataAsync(address, method, data, null));
         }
 
+        /// <summary>
+        /// <para>Upload file async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
         public static IObservable<byte[]> UploadFileObservableAsync(this WebClient client, string address, string fileName, string method = null)
         {
             Contract.Requires<ArgumentNullException>(client != null);
@@ -358,6 +454,10 @@ namespace Codeplex.Reactive.Asynchronous
             return UploadFileObservableAsync(client, new Uri(address), fileName, method);
         }
 
+        /// <summary>
+        /// <para>Upload file async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
         public static IObservable<byte[]> UploadFileObservableAsync(this WebClient client, Uri address, string fileName, string method = null)
         {
             Contract.Requires<ArgumentNullException>(client != null);
@@ -368,6 +468,11 @@ namespace Codeplex.Reactive.Asynchronous
             return UploadFileObservableAsyncCore(client, address, fileName, null, method);
         }
 
+        /// <summary>
+        /// <para>Upload file async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
+        /// <param name="progress">Reporter of progress(such as ScheduledNotifier).</param>
         public static IObservable<byte[]> UploadFileObservableAsync(this WebClient client, Uri address, string fileName, IProgress<UploadProgressChangedEventArgs> progress, string method = null)
         {
             Contract.Requires<ArgumentNullException>(client != null);
@@ -379,7 +484,7 @@ namespace Codeplex.Reactive.Asynchronous
             return UploadFileObservableAsyncCore(client, address, fileName, progress, method);
         }
 
-        public static IObservable<byte[]> UploadFileObservableAsyncCore(WebClient client, Uri address, string fileName, IProgress<UploadProgressChangedEventArgs> progress, string method)
+        static IObservable<byte[]> UploadFileObservableAsyncCore(WebClient client, Uri address, string fileName, IProgress<UploadProgressChangedEventArgs> progress, string method)
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(address != null);
@@ -396,6 +501,10 @@ namespace Codeplex.Reactive.Asynchronous
                 () => client.UploadFileAsync(address, method, fileName, null));
         }
 
+        /// <summary>
+        /// <para>Upload values async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
         public static IObservable<byte[]> UploadValuesObservableAsync(WebClient client, string address, NameValueCollection data, string method = null)
         {
             Contract.Requires<ArgumentNullException>(client != null);
@@ -403,9 +512,13 @@ namespace Codeplex.Reactive.Asynchronous
             Contract.Requires<ArgumentNullException>(data != null);
             Contract.Ensures(Contract.Result<IObservable<string>>() != null);
 
-            return UploadValuesObservableAsync(client,new Uri(address), data, method);
+            return UploadValuesObservableAsync(client, new Uri(address), data, method);
         }
 
+        /// <summary>
+        /// <para>Upload values async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
         public static IObservable<byte[]> UploadValuesObservableAsync(WebClient client, Uri address, NameValueCollection data, string method = null)
         {
             Contract.Requires<ArgumentNullException>(client != null);
@@ -416,6 +529,11 @@ namespace Codeplex.Reactive.Asynchronous
             return UploadValuesObservableAsyncCore(client, address, data, null, method);
         }
 
+        /// <summary>
+        /// <para>Upload values async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
+        /// <param name="progress">Reporter of progress(such as ScheduledNotifier).</param>
         public static IObservable<byte[]> UploadValuesObservableAsync(WebClient client, Uri address, NameValueCollection data, IProgress<UploadProgressChangedEventArgs> progress, string method = null)
         {
             Contract.Requires<ArgumentNullException>(client != null);
@@ -427,7 +545,7 @@ namespace Codeplex.Reactive.Asynchronous
             return UploadValuesObservableAsyncCore(client, address, data, progress, method);
         }
 
-        public static IObservable<byte[]> UploadValuesObservableAsyncCore(WebClient client, Uri address, NameValueCollection data, IProgress<UploadProgressChangedEventArgs> progress, string method)
+        static IObservable<byte[]> UploadValuesObservableAsyncCore(WebClient client, Uri address, NameValueCollection data, IProgress<UploadProgressChangedEventArgs> progress, string method)
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(address != null);

@@ -17,10 +17,13 @@ namespace Codeplex.Reactive.Asynchronous
 {
     public static class StreamExtensions
     {
-        /// <summary>BeginWrite-EndWrite Obserable Wrapper. Run immediately.</summary>
-        /// <returns>Length is always 1</returns>
+        /// <summary>
+        /// <para>BeginWrite-EndWrite Obserable Wrapper.</para>
+        /// <para>Run immediately, Length of return value is always 1.</para>
+        /// </summary>
         public static IObservable<Unit> WriteAsObservable(this Stream stream, byte[] buffer, int offset, int count)
         {
+            
             Contract.Requires<ArgumentNullException>(stream != (Stream)null);
             Contract.Requires<ArgumentNullException>(buffer != null);
             Contract.Requires<ArgumentOutOfRangeException>(offset >= 0);
@@ -34,8 +37,10 @@ namespace Codeplex.Reactive.Asynchronous
             return result;
         }
 
-        /// <summary>BeginRead-EndRead Obserable Wrapper. Run immediately.</summary>
-        /// <returns>Length is always 1</returns>
+        /// <summary>
+        /// <para>BeginRead-EndRead Obserable Wrapper.</para>
+        /// <para>Run immediately, Length of return value is always 1.</para>
+        /// </summary>
         public static IObservable<int> ReadAsObservable(this Stream stream, byte[] buffer, int offset, int count)
         {
             Contract.Requires<ArgumentNullException>(stream != (Stream)null);
@@ -51,8 +56,10 @@ namespace Codeplex.Reactive.Asynchronous
             return result;
         }
 
-        /// <summary>Write string(Encode to UTF8) async. Run deferred.</summary>
-        /// <returns>Length is always 1</returns>
+        /// <summary>
+        /// <para>Write string(Encode to UTF8) async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
         public static IObservable<Unit> WriteAsync(this Stream stream, string data)
         {
             Contract.Requires<ArgumentNullException>(stream != null);
@@ -62,7 +69,10 @@ namespace Codeplex.Reactive.Asynchronous
             return WriteAsync(stream, data, Encoding.UTF8);
         }
 
-        /// <summary>Write string(Encode to UTF8) async. Run deferred.</summary>
+        /// <summary>
+        /// <para>Write string(Encode to UTF8) async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
         /// <param name="progressReporter">Reporter of progress(such as ScheduledNotifier).</param>
         /// <returns>Length is always 1</returns>
         public static IObservable<Unit> WriteAsync(this Stream stream, string data, IProgress<ProgressStatus> progressReporter)
@@ -75,7 +85,10 @@ namespace Codeplex.Reactive.Asynchronous
             return WriteAsync(stream, data, Encoding.UTF8, progressReporter);
         }
 
-        /// <summary>Write string async. Run deferred.</summary>
+        /// <summary>
+        /// <para>Write string async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
         /// <returns>Length is always 1</returns>
         public static IObservable<Unit> WriteAsync(this Stream stream, string data, Encoding encoding)
         {
@@ -87,7 +100,10 @@ namespace Codeplex.Reactive.Asynchronous
             return WriteAsync(stream, encoding.GetBytes(data));
         }
 
-        /// <summary>Write string async. Run deferred.</summary>
+        /// <summary>
+        /// <para>Write string async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
         /// <param name="progressReporter">Reporter of progress(such as ScheduledNotifier).</param>
         /// <returns>Length is always 1</returns>
         public static IObservable<Unit> WriteAsync(this Stream stream, string data, Encoding encoding, IProgress<ProgressStatus> progressReporter)
@@ -101,7 +117,10 @@ namespace Codeplex.Reactive.Asynchronous
             return WriteAsync(stream, encoding.GetBytes(data), progressReporter);
         }
 
-        /// <summary>Write data async. Run deferred.</summary>
+        /// <summary>
+        /// <para>Write data async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
         /// <returns>Length is always 1</returns>
         public static IObservable<Unit> WriteAsync(this Stream stream, IEnumerable<byte> data, int chunkSize = 65536)
         {
@@ -113,7 +132,10 @@ namespace Codeplex.Reactive.Asynchronous
             return WriteAsyncCore(stream, data, null, chunkSize, ProgressStatus.Unknown);
         }
 
-        /// <summary>Write data async. Run deferred.</summary>
+        /// <summary>
+        /// <para>Write data async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
         /// <param name="progressReporter">Reporter of progress(such as ScheduledNotifier).</param>
         /// <returns>Length is always 1</returns>
         public static IObservable<Unit> WriteAsync(this Stream stream, IEnumerable<byte> data, IProgress<ProgressStatus> progressReporter, int chunkSize = 65536)
@@ -126,7 +148,7 @@ namespace Codeplex.Reactive.Asynchronous
 
             var collection = data as ICollection<byte>;
             var totalLength = (collection != null) ? collection.Count : ProgressStatus.Unknown;
-
+            
             return WriteAsyncCore(stream, data, progressReporter, chunkSize, totalLength);
         }
 
@@ -155,7 +177,10 @@ namespace Codeplex.Reactive.Asynchronous
             return result;
         }
 
-        /// <summary>Write strings that add every lines Environment.NewLine(Encode to UTF8) async. Run deferred.</summary>
+        /// <summary>
+        /// <para>Write strings that add every lines Environment.NewLine(Encode to UTF8) async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
         /// <returns>Length is always 1</returns>
         public static IObservable<Unit> WriteLineAsync(this Stream stream, IEnumerable<string> data)
         {
@@ -166,7 +191,10 @@ namespace Codeplex.Reactive.Asynchronous
             return WriteLineAsync(stream, data, Encoding.UTF8);
         }
 
-        /// <summary>Write strings that add every lines Environment.NewLine(Encode to UTF8) async. Run deferred.</summary>
+        /// <summary>
+        /// <para>Write strings that add every lines Environment.NewLine(Encode to UTF8) async.</para>
+        /// <para>Run deferred, Length of return value is always 1.</para>
+        /// </summary>
         /// <returns>Length is always 1</returns>
         public static IObservable<Unit> WriteLineAsync(this Stream stream, IEnumerable<string> data, Encoding encoding)
         {
@@ -181,7 +209,8 @@ namespace Codeplex.Reactive.Asynchronous
         }
 
         /// <summary>
-        /// Read data async. Run deferred.
+        /// <para>Read data async.</para>
+        /// <para>Run deferred, Length of return value is if isAggregateAllChunks is true then 1, else reading count.</para>
         /// </summary>
         /// <param name="stream">Target stream.</param>
         /// <param name="chunkSize">The size of one reading.</param>
@@ -197,7 +226,8 @@ namespace Codeplex.Reactive.Asynchronous
         }
 
         /// <summary>
-        /// Read data async. Run deferred.
+        /// <para>Read data async.</para>
+        /// <para>Run deferred, Length of return value is if isAggregateAllChunks is true then 1, else reading count.</para>
         /// </summary>
         /// <param name="stream">Target stream.</param>
         /// <param name="progressReporter">Reporter of progress(such as ScheduledNotifier).</param>
@@ -254,7 +284,10 @@ namespace Codeplex.Reactive.Asynchronous
             return result;
         }
 
-        /// <summary>Read string lines(Encode to UTF8) async. Run deferred.</summary>
+        /// <summary>
+        /// <para>Read string lines(Encode to UTF8) async.</para>
+        /// <para>Run deferred, Length of return value is lines row count.</para>
+        /// </summary>
         /// <returns>Length is lines row count</returns>
         public static IObservable<string> ReadLineAsync(this Stream stream, int chunkSize = 65536)
         {
@@ -265,7 +298,10 @@ namespace Codeplex.Reactive.Asynchronous
             return ReadLineAsync(stream, Encoding.UTF8, chunkSize);
         }
 
-        /// <summary>Read string lines async. Run deferred.</summary>
+        /// <summary>
+        /// <para>Read string lines async.</para>
+        /// <para>Run deferred, Length of return value is lines row count.</para>
+        /// </summary>
         /// <returns>Length is lines row count</returns>
         public static IObservable<string> ReadLineAsync(this Stream stream, Encoding encoding, int chunkSize = 65536)
         {
