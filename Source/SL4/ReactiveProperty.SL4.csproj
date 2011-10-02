@@ -96,22 +96,64 @@
     <Reference Include="System.Windows" />
     <Reference Include="system" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\Lib\SL4\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Net" />
     <Reference Include="System.Windows.Browser" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\NET40\Asynchronous\ProgressStatus.cs">
+      <Link>Asynchronous\ProgressStatus.cs</Link>
+    </Compile>
+    <Compile Include="..\NET40\Asynchronous\StreamExtensions.cs">
+      <Link>Asynchronous\StreamExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NET40\Asynchronous\WebClientExtensions.cs">
+      <Link>Asynchronous\WebClientExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NET40\Asynchronous\WebRequestExtensions.cs">
+      <Link>Asynchronous\WebRequestExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NET40\Asynchronous\WebResponseExtensions.cs">
+      <Link>Asynchronous\WebResponseExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\NET40\Extensions\AccessorCache.cs">
       <Link>Extensions\AccessorCache.cs</Link>
+    </Compile>
+    <Compile Include="..\NET40\Extensions\CombineLatestObservableExtensions.cs">
+      <Link>Extensions\CombineLatestObservableExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NET40\Extensions\ICommandExtensions.cs">
+      <Link>Extensions\ICommandExtensions.cs</Link>
     </Compile>
     <Compile Include="..\NET40\Extensions\INotifyCollectionChangedExtensions.cs">
       <Link>Extensions\INotifyCollectionChangedExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\NET40\Extensions\INotifyDataErrorInfoExtensions.cs">
+      <Link>Extensions\INotifyDataErrorInfoExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\NET40\Extensions\INotifyPropertyChangedExtensions.cs">
       <Link>Extensions\INotifyPropertyChangedExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\NET40\Extensions\RetryObservableExtensions.cs">
+      <Link>Extensions\RetryObservableExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\NET40\Extensions\UIDispatcherSchedulerObservableExtensions.cs">
       <Link>Extensions\UIDispatcherSchedulerObservableExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NET40\Interactivity\EventToReactive.cs">
+      <Link>Interactivity\EventToReactive.cs</Link>
+    </Compile>
+    <Compile Include="..\NET40\Notifier\IProgress.cs">
+      <Link>Notifier\IProgress.cs</Link>
+    </Compile>
+    <Compile Include="..\NET40\Notifier\ScheduledNotifier.cs">
+      <Link>Notifier\ScheduledNotifier.cs</Link>
+    </Compile>
+    <Compile Include="..\NET40\Notifier\SignalNotifier.cs">
+      <Link>Notifier\SignalNotifier.cs</Link>
     </Compile>
     <Compile Include="..\NET40\ObservableEx.cs">
       <Link>ObservableEx.cs</Link>
@@ -128,7 +170,6 @@
     <Compile Include="..\NET40\UIDispatcherScheduler.cs">
       <Link>UIDispatcherScheduler.cs</Link>
     </Compile>
-    <Compile Include="Extensions\CombineLatestObservableExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -146,10 +187,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Asynchronous\" />
-    <Folder Include="Interactivity\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>

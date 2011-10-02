@@ -18,6 +18,6 @@ namespace Codeplex.Reactive
         }
 
         public static readonly DependencyProperty ReactivePropertyProperty =
-            DependencyProperty.Register("ReactiveProperty", typeof(IReactiveProperty<object>), typeof(EventToReactive), new PropertyMetadata());
+            DependencyProperty.Register("ReactiveProperty", typeof(IReactiveProperty<object>), typeof(EventToReactive), new PropertyMetadata(null));
     }
 }
