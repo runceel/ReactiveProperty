@@ -1,6 +1,13 @@
 ﻿using System;
-using System.Reactive.Concurrency;
+#if WINDOWS_PHONE
+using Microsoft.Phone.Reactive;
+#else
+using System.Reactive;
 using System.Reactive.Linq;
+using System.Reactive.Concurrency;
+using System.Reactive.Disposables;
+using System.Reactive.Subjects;
+#endif
 
 namespace Codeplex.Reactive.Extensions
 {
@@ -46,7 +53,7 @@ namespace Codeplex.Reactive.Extensions
             this IObservable<TSource> source, Action<TException> onError, int retryCount, TimeSpan delay, IScheduler delayScheduler)
             where TException : Exception
         {
-            var dueTime = Scheduler.Normalize(delay);
+            var dueTime = (delay.Ticks < 0) ? TimeSpan.Zero : delay;
             var empty = Observable.Empty<TSource>();
             var count = 0;
 

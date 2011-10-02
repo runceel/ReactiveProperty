@@ -1,10 +1,17 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq.Expressions;
-using System.Reactive.Linq;
 using Codeplex.Reactive.Extensions;
+#if WINDOWS_PHONE
+using Microsoft.Phone.Reactive;
+#else
+using System.Reactive;
+using System.Reactive.Linq;
+using System.Reactive.Concurrency;
+using System.Reactive.Disposables;
+#endif
 
-namespace ReactiveProperty.Extensions
+namespace Codeplex.Reactive.Extensions
 {
 #if SILVERLIGHT
 
@@ -13,7 +20,7 @@ namespace ReactiveProperty.Extensions
         public static IObservable<DataErrorsChangedEventArgs> ErrorsChangedAsObservable<T>(this T source)
             where T : INotifyDataErrorInfo
         {
-            return Observable.FromEvent<EventHandler<DataErrorsChangedEventArgs>, DataErrorsChangedEventArgs>(
+            return ObservableEx.FromEvent<EventHandler<DataErrorsChangedEventArgs>, DataErrorsChangedEventArgs>(
                 h => (sender, e) => h(e),
                 h => source.ErrorsChanged += h,
                 h => source.ErrorsChanged -= h);

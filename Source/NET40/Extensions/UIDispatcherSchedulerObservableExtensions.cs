@@ -3,7 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Diagnostics.Contracts;
+#if WINDOWS_PHONE
+using Microsoft.Phone.Reactive;
+#else
+using System.Reactive;
 using System.Reactive.Linq;
+using System.Reactive.Concurrency;
+using System.Reactive.Disposables;
+#endif
 
 namespace Codeplex.Reactive.Extensions
 {

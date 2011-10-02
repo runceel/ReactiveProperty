@@ -45,8 +45,10 @@ Deployment.Current.Dispatcher
 
         public DateTimeOffset Now
         {
-            get { return Scheduler.Now; }
+            get { return DateTimeOffset.Now; }
         }
+
+#if !WINDOWS_PHONE
 
         public IDisposable Schedule<TState>(TState state, DateTimeOffset dueTime, Func<IScheduler, TState, IDisposable> action)
         {
@@ -114,5 +116,41 @@ Deployment.Current.Dispatcher
                 return cancelable;
             }
         }
+
+#else
+
+        public IDisposable Schedule(Action action, TimeSpan dueTime)
+        {
+            if (action == null) throw new ArgumentNullException("action");
+
+            return Scheduler.Dispatcher.Schedule(action, dueTime);
+        }
+
+        public IDisposable Schedule(Action action)
+        {
+            if (action == null) throw new ArgumentNullException("action");
+
+            if (Dispatcher.CheckAccess())
+            {
+                action();
+                return Disposable.Empty;
+            }
+            else
+            {
+                var cancelable = new BooleanDisposable();
+
+                Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    if (!cancelable.IsDisposed)
+                    {
+                        action();
+                    }
+                }));
+
+                return cancelable;
+            }
+        }
+
+#endif
     }
 }

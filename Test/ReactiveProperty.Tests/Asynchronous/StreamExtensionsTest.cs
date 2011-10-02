@@ -76,13 +76,6 @@ horaana john.";
 
             using (var stream = new MemoryStream())
             {
-                var r = stream.WriteAsync(bytes.ToObservable()).ToEnumerable().ToArray();
-                r.Length.Is(1);
-                stream.ToArray().Is(bytes);
-            }
-
-            using (var stream = new MemoryStream())
-            {
                 var r = stream.WriteAsync("").ToEnumerable().ToArray();
                 r.Length.Is(1);
                 stream.ToArray().Is(new byte[0]);
@@ -191,34 +184,6 @@ horaana john.";
                     && x.TotalLength == -1
                     && x.Percentage == 0);
             }
-
-            recorder.Messages.Clear();
-            using (var stream = new MemoryStream())
-            {
-                stream.WriteAsync(bytes.ToObservable(), notifier, 40).ToEnumerable().ToArray().Length.Is(1);
-                Encoding.UTF8.GetString(stream.ToArray()).Is(TestString);
-
-                recorder.Messages.Count.Is(4);
-                recorder.Messages[0].Value.Value.Is(x =>
-                    x.CurrentLength == 0
-                    && x.TotalLength == -1
-                    && x.Percentage == 0);
-
-                recorder.Messages[1].Value.Value.Is(x =>
-                    x.CurrentLength == 40
-                    && x.TotalLength == -1
-                    && x.Percentage == 0);
-
-                recorder.Messages[2].Value.Value.Is(x =>
-                    x.CurrentLength == 80
-                    && x.TotalLength == -1
-                    && x.Percentage == 0);
-
-                recorder.Messages[3].Value.Value.Is(x =>
-                    x.CurrentLength == bytes.Length
-                    && x.TotalLength == -1
-                    && x.Percentage == 0);
-            }
         }
 
         [TestMethod]
@@ -227,15 +192,6 @@ horaana john.";
             using (var stream = new MemoryStream())
             {
                 stream.WriteLineAsync(new[] { "foo", "bar", "baz" }).Single().Is(Unit.Default);
-                Encoding.UTF8.GetString(stream.ToArray()).Is(@"foo
-bar
-baz
-");
-            }
-
-            using (var stream = new MemoryStream())
-            {
-                stream.WriteLineAsync(new[] { "foo", "bar", "baz" }.ToObservable()).Single().Is(Unit.Default);
                 Encoding.UTF8.GetString(stream.ToArray()).Is(@"foo
 bar
 baz
@@ -252,15 +208,6 @@ bar
 baz
 ");
             }
-
-            using (var stream = new MemoryStream())
-            {
-                stream.WriteLineAsync(new[] { "foo", "bar", "baz" }.ToObservable(), shiftjis).Single().Is(Unit.Default);
-                shiftjis.GetString(stream.ToArray()).Is(@"foo
-bar
-baz
-");
-            }
         }
 
         [TestMethod]
@@ -270,7 +217,7 @@ baz
 
             using (var ms = new MemoryStream(bytes))
             {
-                var xs = ms.ReadAsync(5, isAggregateAllChunks : true).Single();
+                var xs = ms.ReadAsync(5, isAggregateAllChunks: true).Single();
                 xs.Is(bytes);
             }
 
@@ -383,7 +330,7 @@ baz
                 xs.Length.Is(0);
             }
 
-            using (var ms = new MemoryStream(new byte[]{239,187, 191}
+            using (var ms = new MemoryStream(new byte[] { 239, 187, 191 }
                 .Concat(Encoding.UTF8.GetBytes("test")).ToArray()))
             {
                 var xs = ms.ReadLineAsync().ToEnumerable().ToArray();

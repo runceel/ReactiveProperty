@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using Codeplex.Reactive.Notifier;
 #if WINDOWS_PHONE
 using Microsoft.Phone.Reactive;
 #else
@@ -11,7 +12,6 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
-using Codeplex.Reactive.Notifier;
 #endif
 
 namespace Codeplex.Reactive.Asynchronous

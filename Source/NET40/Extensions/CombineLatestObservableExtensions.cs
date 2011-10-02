@@ -1,8 +1,21 @@
 ﻿using System;
+#if WINDOWS_PHONE
+using Microsoft.Phone.Reactive;
+#else
+using System.Reactive;
 using System.Reactive.Linq;
+using System.Reactive.Concurrency;
+using System.Reactive.Disposables;
+#endif
 
 namespace Codeplex.Reactive.Extensions
 {
+#if WINDOWS_PHONE
+    public delegate TResult Func<T1, T2, T3, T4, T5, TResult>(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5);
+    public delegate TResult Func<T1, T2, T3, T4, T5, T6, TResult>(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6);
+    public delegate TResult Func<T1, T2, T3, T4, T5, T6, T7, TResult>(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7);
+#endif
+
     public static class CombineLatestObservableExtensions
     {
         public static IObservable<TResult> CombineLatest<T1, T2, T3, TResult>(
@@ -36,6 +49,7 @@ namespace Codeplex.Reactive.Extensions
                     t4
                     ));
         }
+
         public static IObservable<TResult> CombineLatest<T1, T2, T3, T4, T5, TResult>(
             this IObservable<T1> source1,
             IObservable<T2> source2,

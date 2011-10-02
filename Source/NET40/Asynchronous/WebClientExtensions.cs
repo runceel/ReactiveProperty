@@ -3,13 +3,13 @@ using System.Net;
 using Codeplex.Reactive.Notifier;
 using System.Diagnostics.Contracts;
 using System.ComponentModel;
+using System.IO;
 #if WINDOWS_PHONE
 using Microsoft.Phone.Reactive;
 #else
 using System.Reactive.Linq;
 using System.Reactive.Disposables;
 using System.Reactive;
-using System.IO;
 using System.Collections.Specialized;
 #endif
 
@@ -20,7 +20,7 @@ namespace Codeplex.Reactive.Asynchronous
         static Func<IDisposable> RegisterDownloadProgress(WebClient client, IProgress<DownloadProgressChangedEventArgs> progress)
         {
             return () =>
-                Observable.FromEvent<DownloadProgressChangedEventHandler, DownloadProgressChangedEventArgs>(
+                ObservableEx.FromEvent<DownloadProgressChangedEventHandler, DownloadProgressChangedEventArgs>(
                         h => (sender, e) => h(e), h => client.DownloadProgressChanged += h, h => client.DownloadProgressChanged -= h)
                     .Subscribe(progress.Report);
         }
@@ -28,7 +28,7 @@ namespace Codeplex.Reactive.Asynchronous
         static Func<IDisposable> RegisterUploadProgress(WebClient client, IProgress<UploadProgressChangedEventArgs> progress)
         {
             return () =>
-                Observable.FromEvent<UploadProgressChangedEventHandler, UploadProgressChangedEventArgs>(
+                ObservableEx.FromEvent<UploadProgressChangedEventHandler, UploadProgressChangedEventArgs>(
                         h => (sender, e) => h(e), h => client.UploadProgressChanged += h, h => client.UploadProgressChanged -= h)
                     .Subscribe(progress.Report);
         }
@@ -41,7 +41,7 @@ namespace Codeplex.Reactive.Asynchronous
             var result = Observable.Create<TResult>(observer =>
             {
                 var isCompleted = false;
-                var subscription = Observable.FromEvent<TDelegate, TEventArgs>(conversion, addHandler, removeHandler)
+                var subscription = ObservableEx.FromEvent<TDelegate, TEventArgs>(conversion, addHandler, removeHandler)
                     .Take(1)
                     .Select(e =>
                     {

@@ -94,9 +94,7 @@ namespace Codeplex.Reactive.Asynchronous
             Contract.Requires<ArgumentException>(chunkSize > 0);
             Contract.Ensures(Contract.Result<IObservable<Unit>>() != null);
 
-            var dataOb = data.ToObservable();
-            Contract.Assume(dataOb != null);
-            return WriteAsync(stream, dataOb, chunkSize);
+            return WriteAsyncCore(stream, data, null, chunkSize, ProgressStatus.Unknown);
         }
 
         public static IObservable<Unit> WriteAsync(this Stream stream, IEnumerable<byte> data, IProgress<ProgressStatus> progressReporter, int chunkSize = 65536)
@@ -110,51 +108,28 @@ namespace Codeplex.Reactive.Asynchronous
             var collection = data as ICollection<byte>;
             var totalLength = (collection != null) ? collection.Count : ProgressStatus.Unknown;
 
-            var dataOb = data.ToObservable();
-            Contract.Assume(dataOb != null);
-            return WriteAsyncCore(stream, dataOb, progressReporter, chunkSize, totalLength);
+            return WriteAsyncCore(stream, data, progressReporter, chunkSize, totalLength);
         }
 
-        public static IObservable<Unit> WriteAsync(this Stream stream, IObservable<byte> data, int chunkSize = 65536)
+        static IObservable<Unit> WriteAsyncCore(Stream stream, IEnumerable<byte> data, IProgress<ProgressStatus> progressReporter, int chunkSize, int totalLength)
         {
             Contract.Requires<ArgumentNullException>(stream != null);
             Contract.Requires<ArgumentNullException>(data != null);
             Contract.Requires<ArgumentException>(chunkSize > 0);
             Contract.Ensures(Contract.Result<IObservable<Unit>>() != null);
 
-            return WriteAsyncCore(stream, data, null, chunkSize, ProgressStatus.Unknown);
-        }
-
-        public static IObservable<Unit> WriteAsync(this Stream stream, IObservable<byte> data, IProgress<ProgressStatus> progressReporter, int chunkSize = 65536)
-        {
-            Contract.Requires<ArgumentNullException>(stream != null);
-            Contract.Requires<ArgumentNullException>(data != null);
-            Contract.Requires<ArgumentNullException>(progressReporter != null);
-            Contract.Requires<ArgumentException>(chunkSize > 0);
-            Contract.Ensures(Contract.Result<IObservable<Unit>>() != null);
-
-            return WriteAsyncCore(stream, data, progressReporter, chunkSize, ProgressStatus.Unknown);
-        }
-
-        static IObservable<Unit> WriteAsyncCore(Stream stream, IObservable<byte> data, IProgress<ProgressStatus> progressReporter, int chunkSize, int totalLength)
-        {
-            Contract.Requires<ArgumentNullException>(stream != null);
-            Contract.Requires<ArgumentNullException>(data != null);
-            Contract.Requires<ArgumentException>(chunkSize > 0);
-            Contract.Ensures(Contract.Result<IObservable<Unit>>() != null);
-
-            var result = Observable.Defer(() =>
+            var result = EnumerableEx.Defer(() =>
                 {
                     Report(progressReporter, 0, totalLength);
-                    return data.StartWith(new byte[0]);
+                    return data;
                 })
                 .Buffer(chunkSize)
-                .Select((l, i) => stream
-                    .WriteAsObservable(l.ToArray(), 0, l.Count)
-                    .Do(_ => Report(progressReporter, (i * chunkSize) + l.Count, totalLength)))
+                .Select((xs, i) => stream
+                    .WriteAsObservable(xs, 0, xs.Length)
+                    .Do(_ => Report(progressReporter, (i * chunkSize) + xs.Length, totalLength)))
                 .Concat()
                 .Finally(() => { stream.Flush(); stream.Close(); })
-                .StartWith(Unit.Default) // length must be 1
+                .StartWith(new Unit()) // length must be 1
                 .TakeLast(1);
 
             Contract.Assume(result != null);
@@ -170,28 +145,7 @@ namespace Codeplex.Reactive.Asynchronous
             return WriteLineAsync(stream, data, Encoding.UTF8);
         }
 
-        public static IObservable<Unit> WriteLineAsync(this Stream stream, IObservable<string> data)
-        {
-            Contract.Requires<ArgumentNullException>(stream != null);
-            Contract.Requires<ArgumentNullException>(data != null);
-            Contract.Ensures(Contract.Result<IObservable<Unit>>() != null);
-
-            return WriteLineAsync(stream, data, Encoding.UTF8);
-        }
-
         public static IObservable<Unit> WriteLineAsync(this Stream stream, IEnumerable<string> data, Encoding encoding)
-        {
-            Contract.Requires<ArgumentNullException>(stream != null);
-            Contract.Requires<ArgumentNullException>(data != null);
-            Contract.Requires<ArgumentNullException>(encoding != null);
-            Contract.Ensures(Contract.Result<IObservable<Unit>>() != null);
-
-            var dataOb = data.ToObservable();
-            Contract.Assume(dataOb != null);
-            return WriteLineAsync(stream, dataOb, encoding);
-        }
-
-        public static IObservable<Unit> WriteLineAsync(this Stream stream, IObservable<string> data, Encoding encoding)
         {
             Contract.Requires<ArgumentNullException>(stream != null);
             Contract.Requires<ArgumentNullException>(data != null);
@@ -284,26 +238,28 @@ namespace Codeplex.Reactive.Asynchronous
                 var prev = default(char);
 
                 return stream.ReadAsync(chunkSize)
-                    .SelectMany(bytes =>
-                    {
-                        var charBuffer = new char[encoding.GetMaxCharCount(bytes.Length)];
-                        var count = decoder.GetChars(bytes, 0, bytes.Length, charBuffer, 0);
-                        return charBuffer.Take(count);
-                    })
                     .Subscribe(
-                        c =>
+                        bytes =>
                         {
-                            if (c == bom) { } // skip bom
-                            else if (prev == '\r' && c == '\n') { } // when \r\n do nothing
-                            else if (c == '\r' || c == '\n')   // reach at EndOfLine
-                            {
-                                var str = sb.ToString();
-                                sb.Length = 0;
-                                observer.OnNext(str);
-                            }
-                            else sb.Append(c); // normally char
+                            var charBuffer = new char[encoding.GetMaxCharCount(bytes.Length)];
+                            var count = decoder.GetChars(bytes, 0, bytes.Length, charBuffer, 0);
 
-                            prev = c;
+                            for (int i = 0; i < count; i++)
+                            {
+                                var c = charBuffer[i];
+
+                                if (c == bom) { } // skip bom
+                                else if (prev == '\r' && c == '\n') { } // when \r\n do nothing
+                                else if (c == '\r' || c == '\n')   // reach at EndOfLine
+                                {
+                                    var str = sb.ToString();
+                                    sb.Length = 0;
+                                    observer.OnNext(str);
+                                }
+                                else sb.Append(c); // normally char
+
+                                prev = c;
+                            }
                         },
                         observer.OnError,
                         () =>

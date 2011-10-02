@@ -1,7 +1,14 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq.Expressions;
+#if WINDOWS_PHONE
+using Microsoft.Phone.Reactive;
+#else
+using System.Reactive;
 using System.Reactive.Linq;
+using System.Reactive.Concurrency;
+using System.Reactive.Disposables;
+#endif
 
 namespace Codeplex.Reactive.Extensions
 {
@@ -10,7 +17,7 @@ namespace Codeplex.Reactive.Extensions
         public static IObservable<PropertyChangedEventArgs> PropertyChangedAsObservable<T>(this T subject)
             where T : INotifyPropertyChanged
         {
-            return Observable.FromEvent<PropertyChangedEventHandler, PropertyChangedEventArgs>(
+            return ObservableEx.FromEvent<PropertyChangedEventHandler, PropertyChangedEventArgs>(
                 h => (sender, e) => h(e),
                 h => subject.PropertyChanged += h,
                 h => subject.PropertyChanged -= h);

@@ -1,7 +1,14 @@
 ﻿using System;
-using System.Reactive.Concurrency;
-using System.Reactive.Subjects;
 using System.Diagnostics.Contracts;
+#if WINDOWS_PHONE
+using Microsoft.Phone.Reactive;
+#else
+using System.Reactive;
+using System.Reactive.Linq;
+using System.Reactive.Concurrency;
+using System.Reactive.Disposables;
+using System.Reactive.Subjects;
+#endif
 
 namespace Codeplex.Reactive.Notifier
 {

@@ -39,13 +39,12 @@ namespace Codeplex.Reactive
         All = DistinctUntilChanged | PropertyChangedInvokeOnUIDispatcher | RaiseLatestValueOnSubscribe
     }
 
-    // TODO:WP7版のRxにin/outがないので要修正
-    public interface IReactiveProperty<out T> : IObservable<T>, IDisposable
+    public interface IPushableValue
     {
         object Value { get; set; }
     }
 
-    public class ReactiveProperty<T> : INotifyPropertyChanged, IDataErrorInfo, IReactiveProperty<T>
+    public class ReactiveProperty<T> : IObservable<T>, IDisposable, INotifyPropertyChanged, IPushableValue, IDataErrorInfo
 #if SILVERLIGHT
 , INotifyDataErrorInfo
 #endif
@@ -60,8 +59,6 @@ namespace Codeplex.Reactive
         // for Validation
         readonly SerialDisposable validateNotifyErrorSubscription = new SerialDisposable();
         readonly BehaviorSubject<object> errorsTrigger = new BehaviorSubject<object>(null);
-        readonly ValidationContext validationContext;
-        ValidationAttribute[] attributes;
 
         public ReactiveProperty(T initialValue = default(T), ReactivePropertyMode mode = ReactivePropertyMode.All)
             : this(Observable.Never<T>(), null, initialValue, mode)
@@ -81,7 +78,6 @@ namespace Codeplex.Reactive
             ReactivePropertyMode mode = ReactivePropertyMode.All)
         {
             this.latestValue = initialValue;
-            this.validationContext = new ValidationContext(this, null, null) { MemberName = "Value" };
 
             // create source
             var merge = source.Merge(anotherTrigger);
@@ -117,7 +113,7 @@ namespace Codeplex.Reactive
             set { anotherTrigger.OnNext(value); }
         }
 
-        object IReactiveProperty<T>.Value
+        object IPushableValue.Value
         {
             get { return (T)Value; }
             set { Value = (T)value; }
@@ -151,6 +147,10 @@ namespace Codeplex.Reactive
 
         // Exception
 
+#if! WINDOWS_PHONE
+        ValidationContext validationContext;
+        ValidationAttribute[] attributes;
+
         public ReactiveProperty<T> SetValidateAttribute(Expression<Func<ReactiveProperty<T>>> selfSelector)
         {
             this.attributes = ((MemberExpression)selfSelector.Body).Member
@@ -159,6 +159,30 @@ namespace Codeplex.Reactive
                 .ToArray();
             return this;
         }
+
+        string ValidateException()
+        {
+            try
+            {
+                if (validationContext == null)
+                {
+                    validationContext = new ValidationContext(this, null, null) { MemberName = "Value" };
+                }
+
+                foreach (var item in attributes)
+                {
+                    item.Validate(latestValue, validationContext);
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                errorsTrigger.OnNext(ex);
+                return ex.Message;
+            }
+        }
+#endif
 
         // IDataErrorInfo
 
@@ -180,21 +204,16 @@ namespace Codeplex.Reactive
         {
             get
             {
+#if! WINDOWS_PHONE
                 if (attributes != null && columnName == "Value")
                 {
-                    try
+                    var exceptionResult = ValidateException();
+                    if (exceptionResult != null)
                     {
-                        foreach (var item in attributes)
-                        {
-                            item.Validate(latestValue, validationContext);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        errorsTrigger.OnNext(ex);
-                        return ex.Message;
+                        return exceptionResult;
                     }
                 }
+#endif
 
                 var handler = dataErrorInfoValidate;
                 if (handler != null && columnName == "Value")

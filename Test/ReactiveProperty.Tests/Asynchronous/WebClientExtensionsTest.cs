@@ -116,7 +116,7 @@ namespace ReactiveProperty.Tests.Asynchronous
             // check cancel
             var cancelResult = client.DownloadDataObservableAsync("http://cancel.com/").Materialize().ToEnumerable().ToArray();
             cancelResult.Length.Is(1);
-            cancelResult[0].Is(x => x.Kind == NotificationKind.OnError && x.Exception is OperationCanceledException);
+            cancelResult[0].Is(x => x.Kind == NotificationKind.OnError && x.Exception is InvalidOperationException);
         }
 
         [TestMethod]

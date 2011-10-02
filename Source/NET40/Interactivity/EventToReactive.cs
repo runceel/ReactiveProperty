@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Interactivity;
-using System.Reactive.Subjects;
 
 namespace Codeplex.Reactive
 {
@@ -11,13 +10,13 @@ namespace Codeplex.Reactive
             ReactiveProperty.Value = parameter;
         }
 
-        public IReactiveProperty<object> ReactiveProperty
+        public IPushableValue ReactiveProperty
         {
-            get { return (IReactiveProperty<object>)GetValue(ReactivePropertyProperty); }
+            get { return (IPushableValue)GetValue(ReactivePropertyProperty); }
             set { SetValue(ReactivePropertyProperty, value); }
         }
 
         public static readonly DependencyProperty ReactivePropertyProperty =
-            DependencyProperty.Register("ReactiveProperty", typeof(IReactiveProperty<object>), typeof(EventToReactive), new PropertyMetadata(null));
+            DependencyProperty.Register("ReactiveProperty", typeof(IPushableValue), typeof(EventToReactive), new PropertyMetadata(null));
     }
 }
