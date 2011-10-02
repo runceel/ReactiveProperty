@@ -3,7 +3,7 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Windows.Input;
 using System.Reactive.Concurrency;
-
+using Codeplex.Reactive.Extensions;
 
 namespace Codeplex.Reactive
 {

@@ -125,6 +125,7 @@
   <ItemGroup>
     <Compile Include="Asynchronous\ProgressStatus.cs" />
     <Compile Include="Extensions\CombineLatestObservableExtensions.cs" />
+    <Compile Include="Extensions\UIDispatcherSchedulerObservableExtensions.cs" />
     <Compile Include="ObservableEx.cs" />
     <Compile Include="Asynchronous\WebRequestExtensions.cs" />
     <Compile Include="Asynchronous\WebResponseExtensions.cs" />
@@ -144,7 +145,7 @@
     <Compile Include="ReactiveCollection.cs" />
     <Compile Include="ReactiveCommand.cs" />
     <Compile Include="ReactiveProperty.cs" />
-    <Compile Include="RetryObservableExtensions.cs" />
+    <Compile Include="Extensions\RetryObservableExtensions.cs" />
     <Compile Include="UIDispatcherScheduler.cs" />
   </ItemGroup>
   <ItemGroup>

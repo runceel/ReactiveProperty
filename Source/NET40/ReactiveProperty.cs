@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using System.Linq;
 using System.Collections;
+using Codeplex.Reactive.Extensions;
 #if WINDOWS_PHONE
 using Microsoft.Phone.Reactive;
 #else

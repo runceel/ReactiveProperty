@@ -110,6 +110,9 @@
     <Compile Include="..\NET40\Extensions\INotifyPropertyChangedExtensions.cs">
       <Link>Extensions\INotifyPropertyChangedExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\NET40\Extensions\UIDispatcherSchedulerObservableExtensions.cs">
+      <Link>Extensions\UIDispatcherSchedulerObservableExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\NET40\ObservableEx.cs">
       <Link>ObservableEx.cs</Link>
     </Compile>
@@ -121,9 +124,6 @@
     </Compile>
     <Compile Include="..\NET40\ReactiveProperty.cs">
       <Link>ReactiveProperty.cs</Link>
-    </Compile>
-    <Compile Include="..\NET40\RetryObservableExtensions.cs">
-      <Link>RetryObservableExtensions.cs</Link>
     </Compile>
     <Compile Include="..\NET40\UIDispatcherScheduler.cs">
       <Link>UIDispatcherScheduler.cs</Link>

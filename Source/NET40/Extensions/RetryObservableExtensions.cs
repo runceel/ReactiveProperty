@@ -2,7 +2,7 @@
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 
-namespace Codeplex.Reactive
+namespace Codeplex.Reactive.Extensions
 {
     // TODO:add Contract, add UnitTest
 
