@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Windows.Threading;
+using System.Diagnostics.Contracts;
 #if WINDOWS_PHONE
 using Microsoft.Phone.Reactive;
 #else
@@ -54,16 +55,20 @@ namespace Codeplex.Reactive
 
         public static IObservable<TEventArgs> FromEvent<TDelegate, TEventArgs>(Func<Action<TEventArgs>, TDelegate> conversion, Action<TDelegate> addHandler, Action<TDelegate> removeHandler)
         {
+            Contract.Ensures(Contract.Result<IObservable<TEventArgs>>() != null);
+
 #if WINDOWS_PHONE
-            return Observable.CreateWithDisposable<TEventArgs>(observer =>
+            var result = Observable.CreateWithDisposable<TEventArgs>(observer =>
             {
                 var handler = conversion(observer.OnNext);
                 addHandler(handler);
                 return Disposable.Create(() => removeHandler(handler));
             });
 #else
-            return Observable.FromEvent(conversion, addHandler, removeHandler);
+            var result = Observable.FromEvent(conversion, addHandler, removeHandler);
 #endif
+            Contract.Assume(result != null);
+            return result;
         }
     }
 

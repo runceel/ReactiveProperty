@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 #if WINDOWS_PHONE
 using Microsoft.Phone.Reactive;
 #else
@@ -18,20 +19,37 @@ namespace Codeplex.Reactive.Extensions
 
     public static class CombineLatestObservableExtensions
     {
+        /// <summary>
+        /// Merges many observable sequences into one observable sequence by using the
+        //  selector function whenever one of the observable sequences produces an element.
+        /// </summary>
         public static IObservable<TResult> CombineLatest<T1, T2, T3, TResult>(
             this IObservable<T1> source1,
             IObservable<T2> source2,
             IObservable<T3> source3,
             Func<T1, T2, T3, TResult> selector)
         {
-            return source1
+            Contract.Requires<ArgumentNullException>(source1 != null);
+            Contract.Requires<ArgumentNullException>(source2 != null);
+            Contract.Requires<ArgumentNullException>(source3 != null);
+            Contract.Ensures(Contract.Result<IObservable<TResult>>() != null);
+
+            var result = source1
                 .CombineLatest(source2, (t1, t2) => new { t1, t2 })
                 .CombineLatest(source3, (a, t3) => selector(
                     a.t1,
                     a.t2,
                     t3
                     ));
+
+            Contract.Assume(result != null);
+            return result;
         }
+
+        /// <summary>
+        /// Merges many observable sequences into one observable sequence by using the
+        //  selector function whenever one of the observable sequences produces an element.
+        /// </summary>
         public static IObservable<TResult> CombineLatest<T1, T2, T3, T4, TResult>(
             this IObservable<T1> source1,
             IObservable<T2> source2,
@@ -39,7 +57,13 @@ namespace Codeplex.Reactive.Extensions
             IObservable<T4> source4,
             Func<T1, T2, T3, T4, TResult> selector)
         {
-            return source1
+            Contract.Requires<ArgumentNullException>(source1 != null);
+            Contract.Requires<ArgumentNullException>(source2 != null);
+            Contract.Requires<ArgumentNullException>(source3 != null);
+            Contract.Requires<ArgumentNullException>(source4 != null);
+            Contract.Ensures(Contract.Result<IObservable<TResult>>() != null);
+
+            var result = source1
                 .CombineLatest(source2, (t1, t2) => new { t1, t2 })
                 .CombineLatest(source3, (a, t3) => new { a, t3 })
                 .CombineLatest(source4, (a, t4) => selector(
@@ -48,8 +72,15 @@ namespace Codeplex.Reactive.Extensions
                     a.t3,
                     t4
                     ));
+
+            Contract.Assume(result != null);
+            return result;
         }
 
+        /// <summary>
+        /// Merges many observable sequences into one observable sequence by using the
+        //  selector function whenever one of the observable sequences produces an element.
+        /// </summary>
         public static IObservable<TResult> CombineLatest<T1, T2, T3, T4, T5, TResult>(
             this IObservable<T1> source1,
             IObservable<T2> source2,
@@ -58,7 +89,14 @@ namespace Codeplex.Reactive.Extensions
             IObservable<T5> source5,
             Func<T1, T2, T3, T4, T5, TResult> selector)
         {
-            return source1
+            Contract.Requires<ArgumentNullException>(source1 != null);
+            Contract.Requires<ArgumentNullException>(source2 != null);
+            Contract.Requires<ArgumentNullException>(source3 != null);
+            Contract.Requires<ArgumentNullException>(source4 != null);
+            Contract.Requires<ArgumentNullException>(source5 != null);
+            Contract.Ensures(Contract.Result<IObservable<TResult>>() != null);
+
+            var result = source1
                 .CombineLatest(source2, (t1, t2) => new { t1, t2 })
                 .CombineLatest(source3, (a, t3) => new { a, t3 })
                 .CombineLatest(source4, (a, t4) => new { a, t4 })
@@ -69,8 +107,15 @@ namespace Codeplex.Reactive.Extensions
                     a.t4,
                     t5
                     ));
+
+            Contract.Assume(result != null);
+            return result;
         }
 
+        /// <summary>
+        /// Merges many observable sequences into one observable sequence by using the
+        //  selector function whenever one of the observable sequences produces an element.
+        /// </summary>
         public static IObservable<TResult> CombineLatest<T1, T2, T3, T4, T5, T6, TResult>(
             this IObservable<T1> source1,
             IObservable<T2> source2,
@@ -80,7 +125,15 @@ namespace Codeplex.Reactive.Extensions
             IObservable<T6> source6,
             Func<T1, T2, T3, T4, T5, T6, TResult> selector)
         {
-            return source1
+            Contract.Requires<ArgumentNullException>(source1 != null);
+            Contract.Requires<ArgumentNullException>(source2 != null);
+            Contract.Requires<ArgumentNullException>(source3 != null);
+            Contract.Requires<ArgumentNullException>(source4 != null);
+            Contract.Requires<ArgumentNullException>(source5 != null);
+            Contract.Requires<ArgumentNullException>(source6 != null);
+            Contract.Ensures(Contract.Result<IObservable<TResult>>() != null);
+
+            var result = source1
                 .CombineLatest(source2, (t1, t2) => new { t1, t2 })
                 .CombineLatest(source3, (a, t3) => new { a, t3 })
                 .CombineLatest(source4, (a, t4) => new { a, t4 })
@@ -93,8 +146,15 @@ namespace Codeplex.Reactive.Extensions
                     a.t5,
                     t6
                     ));
+
+            Contract.Assume(result != null);
+            return result;
         }
 
+        /// <summary>
+        /// Merges many observable sequences into one observable sequence by using the
+        //  selector function whenever one of the observable sequences produces an element.
+        /// </summary>
         public static IObservable<TResult> CombineLatest<T1, T2, T3, T4, T5, T6, T7, TResult>(
             this IObservable<T1> source1,
             IObservable<T2> source2,
@@ -105,7 +165,16 @@ namespace Codeplex.Reactive.Extensions
             IObservable<T7> source7,
             Func<T1, T2, T3, T4, T5, T6, T7, TResult> selector)
         {
-            return source1
+            Contract.Requires<ArgumentNullException>(source1 != null);
+            Contract.Requires<ArgumentNullException>(source2 != null);
+            Contract.Requires<ArgumentNullException>(source3 != null);
+            Contract.Requires<ArgumentNullException>(source4 != null);
+            Contract.Requires<ArgumentNullException>(source5 != null);
+            Contract.Requires<ArgumentNullException>(source6 != null);
+            Contract.Requires<ArgumentNullException>(source7 != null);
+            Contract.Ensures(Contract.Result<IObservable<TResult>>() != null);
+
+            var result = source1
                 .CombineLatest(source2, (t1, t2) => new { t1, t2 })
                 .CombineLatest(source3, (a, t3) => new { a, t3 })
                 .CombineLatest(source4, (a, t4) => new { a, t4 })
@@ -120,6 +189,9 @@ namespace Codeplex.Reactive.Extensions
                     a.t6,
                     t7
                     ));
+
+            Contract.Assume(result != null);
+            return result;
         }
     }
 }
