@@ -1,9 +1,14 @@
 ﻿using System;
-using System.Reactive.Linq;
-using System.Reactive.Subjects;
 using System.Windows.Input;
-using System.Reactive.Concurrency;
 using Codeplex.Reactive.Extensions;
+#if WINDOWS_PHONE
+using Microsoft.Phone.Reactive;
+#else
+using System.Reactive;
+using System.Reactive.Linq;
+using System.Reactive.Concurrency;
+using System.Reactive.Disposables;
+#endif
 
 namespace Codeplex.Reactive
 {

@@ -26,6 +26,12 @@ namespace Codeplex.Reactive
         {
             return source.BufferWithCount(count);
         }
+
+        public static void Dispose<T>(this ISubject<T> subject)
+        {
+            // do nothing.
+        }
+
 #endif
 
         public static IObservable<TSource> Create<TSource>(Func<IObserver<TSource>, IDisposable> subscribe)

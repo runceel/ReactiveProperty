@@ -395,6 +395,8 @@ namespace Codeplex.Reactive.Asynchronous
                 () => client.UploadStringAsync(address, method, data, null));
         }
 
+#if !SILVERLIGHT
+
         public static IObservable<byte[]> UploadValuesObservableAsync(WebClient client, string address, NameValueCollection data, string method = null)
         {
             Contract.Requires<ArgumentNullException>(client != null);
@@ -442,5 +444,7 @@ namespace Codeplex.Reactive.Asynchronous
                 (progress != null) ? RegisterUploadProgress(client, progress) : () => Disposable.Empty,
                 () => client.UploadValuesAsync(address, method, data, null));
         }
+
+#endif
     }
 }

@@ -1,10 +1,14 @@
 ﻿using System;
-using System.Reactive.Concurrency;
-using System.Reactive.Disposables;
-using System.Reactive.Linq;
 using System.Windows.Threading;
-using System.Diagnostics.Contracts;
 using System.Windows;
+#if WINDOWS_PHONE
+using Microsoft.Phone.Reactive;
+#else
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
+using System.Reactive.Disposables;
+using System.Reactive.Concurrency;
+#endif
 
 namespace Codeplex.Reactive
 {

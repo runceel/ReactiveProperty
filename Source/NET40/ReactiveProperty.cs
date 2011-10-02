@@ -1,15 +1,16 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using System.Linq;
 using System.Collections;
+using System.ComponentModel;
 using Codeplex.Reactive.Extensions;
 #if WINDOWS_PHONE
 using Microsoft.Phone.Reactive;
+using SerialDisposable = Microsoft.Phone.Reactive.MutableDisposable;
 #else
+using System.ComponentModel.DataAnnotations;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using System.ComponentModel;
 using System.Reactive.Disposables;
 using System.Reactive.Concurrency;
 #endif
