@@ -17,9 +17,8 @@ using System.Reactive.Disposables;
 
 namespace Codeplex.Reactive
 {
-    /// <summary>
-    /// Compatibility for Rx-Main with Phone.Reactive
-    /// </summary>
+    // Compatibility for Rx-Main with Phone.Reactive and WP7/Siliverlight Specified
+
     internal static class ObservableEx
     {
 #if WINDOWS_PHONE
@@ -117,3 +116,29 @@ namespace Codeplex.Reactive
     }
 #endif
 }
+
+#if WP_COMMON
+namespace System.Diagnostics.Contracts
+{
+    // WP7's Code Contracts can not work.
+    // Threfore, use this dummy insetead of Contract.
+    internal static class Contract
+    {
+        public static void Requires<T>(bool condition, string message = "")
+            where T : Exception, new()
+        {
+            if (!condition) throw new T();
+        }
+
+        public static T Result<T>() { return default(T); }
+
+        public static T ValueAtReturn<T>(out T value) { value = default(T); return default(T); }
+
+        [Conditional("CONTRACTS_FULL")]
+        public static void Ensures(bool condition) { }
+
+        [Conditional("CONTRACTS_FULL")]
+        public static void Assume(bool condition) { }
+    }
+}
+#endif

@@ -61,8 +61,21 @@ namespace Silverlight
         public ReactiveProperty<string> OnNotifyError { get; private set; }
         public ReactiveCommand Command1 { get; set; }
 
+        public ReactiveProperty<MouseEventArgs> MouseMove { get;private set; }
+        public ReactiveProperty<string> TBLOCK { get; set; }
+
+
         public MainPageViewModel()
         {
+            MouseMove = new ReactiveProperty<MouseEventArgs>();
+
+            TBLOCK = MouseMove.Select(e => e.GetPosition(null))
+                .Select(p => p.X + ":" + p.Y)
+                .ToReactiveProperty();
+
+
+
+
             OnException = new ReactiveProperty<string>()
                 .SetValidateAttribute(() => OnException);
 

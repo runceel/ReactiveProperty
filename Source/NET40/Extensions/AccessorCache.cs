@@ -9,7 +9,6 @@ namespace Codeplex.Reactive.Extensions
     {
         static Dictionary<string, Delegate> cache = new Dictionary<string, Delegate>();
 
-        [Pure]
         public static Func<TType, TProperty> Lookup<TProperty>(Expression<Func<TType, TProperty>> propertySelector, out string propertyName)
         {
             Contract.Requires<ArgumentNullException>(propertySelector != null);
