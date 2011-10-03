@@ -41,12 +41,13 @@ namespace Codeplex.Reactive
         All = DistinctUntilChanged | PropertyChangedInvokeOnUIDispatcher | RaiseLatestValueOnSubscribe
     }
 
-    public interface IPushableValue
+    // for EventToReactive
+    internal interface IValue
     {
         object Value { get; set; }
     }
 
-    public class ReactiveProperty<T> : IObservable<T>, IDisposable, INotifyPropertyChanged, IPushableValue, IDataErrorInfo
+    public class ReactiveProperty<T> : IObservable<T>, IDisposable, INotifyPropertyChanged, IValue, IDataErrorInfo
 #if SILVERLIGHT
 , INotifyDataErrorInfo
 #endif
@@ -115,7 +116,7 @@ namespace Codeplex.Reactive
             set { anotherTrigger.OnNext(value); }
         }
 
-        object IPushableValue.Value
+        object IValue.Value
         {
             get { return (T)Value; }
             set { Value = (T)value; }

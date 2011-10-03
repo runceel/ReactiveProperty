@@ -87,7 +87,7 @@ namespace Codeplex.Reactive
             if (source == null) throw new ArgumentNullException("source");
             if (count <= 0) throw new ArgumentOutOfRangeException("count");
 
-            var list = new List<TSource>(count);
+            var list = new List<TSource>(); // not use initial capacity
             foreach (var item in source)
             {
                 list.Add(item);
@@ -107,7 +107,7 @@ namespace Codeplex.Reactive
     {
         public static bool HasFlag(this Enum self, Enum flags)
         {
-            if (self.GetType() != flags.GetType()) throw new ArgumentException("not sampe type");
+            if (self.GetType() != flags.GetType()) throw new ArgumentException("not same type");
 
             var sval = Convert.ToUInt64(self);
             var fval = Convert.ToUInt64(flags);

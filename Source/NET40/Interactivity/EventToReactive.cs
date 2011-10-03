@@ -7,16 +7,16 @@ namespace Codeplex.Reactive
     {
         protected override void Invoke(object parameter)
         {
-            ReactiveProperty.Value = parameter;
+            ((IValue)ReactiveProperty).Value = parameter;
         }
 
-        public IPushableValue ReactiveProperty
+        public object ReactiveProperty
         {
-            get { return (IPushableValue)GetValue(ReactivePropertyProperty); }
+            get { return GetValue(ReactivePropertyProperty); }
             set { SetValue(ReactivePropertyProperty, value); }
         }
 
         public static readonly DependencyProperty ReactivePropertyProperty =
-            DependencyProperty.Register("ReactiveProperty", typeof(IPushableValue), typeof(EventToReactive), new PropertyMetadata(null));
+            DependencyProperty.Register("ReactiveProperty", typeof(IValue), typeof(EventToReactive), new PropertyMetadata(null));
     }
 }

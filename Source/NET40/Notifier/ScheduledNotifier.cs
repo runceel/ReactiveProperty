@@ -12,16 +12,24 @@ using System.Reactive.Subjects;
 
 namespace Codeplex.Reactive.Notifier
 {
+    /// <summary>
+    /// Notify value on setuped scheduler.
+    /// </summary>
     public class ScheduledNotifier<T> : IObservable<T>, IProgress<T>
     {
         readonly IScheduler scheduler;
         readonly Subject<T> trigger = new Subject<T>();
 
+        /// <summary>
+        /// Use scheduler is Scheduler.Immediate.
+        /// </summary>
         public ScheduledNotifier()
         {
             this.scheduler = Scheduler.Immediate;
         }
-
+        /// <summary>
+        /// Use scheduler is argument's scheduler.
+        /// </summary>
         public ScheduledNotifier(IScheduler scheduler)
         {
             Contract.Requires<ArgumentNullException>(scheduler != null);
@@ -29,11 +37,17 @@ namespace Codeplex.Reactive.Notifier
             this.scheduler = scheduler;
         }
 
+        /// <summary>
+        /// Push value to subscribers on setuped scheduler.
+        /// </summary>
         public void Report(T value)
         {
             scheduler.Schedule(() => trigger.OnNext(value));
         }
 
+        /// <summary>
+        /// Push value to subscribers on setuped scheduler.
+        /// </summary>
         public IDisposable Report(T value, TimeSpan dueTime)
         {
             Contract.Ensures(Contract.Result<IDisposable>() != null);
@@ -44,6 +58,9 @@ namespace Codeplex.Reactive.Notifier
             return cancel;
         }
 
+        /// <summary>
+        /// Push value to subscribers on setuped scheduler.
+        /// </summary>
         public IDisposable Report(T value, DateTimeOffset dueTime)
         {
             Contract.Ensures(Contract.Result<IDisposable>() != null);
@@ -54,6 +71,9 @@ namespace Codeplex.Reactive.Notifier
             return cancel;
         }
 
+        /// <summary>
+        /// Subscribe observer.
+        /// </summary>
         public IDisposable Subscribe(IObserver<T> observer)
         {
             return trigger.Subscribe(observer);

@@ -12,6 +12,11 @@ using System.Reactive.Concurrency;
 
 namespace Codeplex.Reactive
 {
+    /// <summary>
+    /// <para>If call Schedule on UIThread then schedule immediately else dispatch BeginInvoke.</para>
+    /// <para>UIDIspatcherScheduler is created when access to UIDispatcher.Default first in the whole application.</para>
+    /// <para>If you want to explicitly initialize, call UIDispatcherScheduler.Initialize() in App.xaml.cs.</para>
+    /// </summary>
     public class UIDispatcherScheduler : IScheduler
     {
         // static
@@ -24,11 +29,19 @@ Deployment.Current.Dispatcher
 #endif
 );
 
+        /// <summary>
+        /// <para>If call Schedule on UIThread then schedule immediately else dispatch BeginInvoke.</para>
+        /// <para>UIDIspatcherScheduler is created when access to UIDispatcher.Default first in the whole application.</para>
+        /// <para>If you want to explicitly initialize, call UIDispatcherScheduler.Initialize() in App.xaml.cs.</para>
+        /// </summary>
         public static UIDispatcherScheduler Default
         {
             get { return defaultScheduler; }
         }
 
+        /// <summary>
+        /// Create UIDispatcherSchedule on called thread if is not initialized yet.
+        /// </summary>
         public static void Initialize()
         {
             var _ = defaultScheduler; // initialize
@@ -93,6 +106,9 @@ Deployment.Current.Dispatcher
             return cancelable;
         }
 
+        /// <summary>
+        /// <para>If call Schedule on UIThread then schedule immediately else dispatch BeginInvoke.</para>
+        /// </summary>
         public IDisposable Schedule<TState>(TState state, Func<IScheduler, TState, IDisposable> action)
         {
             if (action == null) throw new ArgumentNullException("action");
@@ -126,6 +142,9 @@ Deployment.Current.Dispatcher
             return Scheduler.Dispatcher.Schedule(action, dueTime);
         }
 
+        /// <summary>
+        /// <para>If call Schedule on UIThread then schedule immediately else dispatch BeginInvoke.</para>
+        /// </summary>
         public IDisposable Schedule(Action action)
         {
             if (action == null) throw new ArgumentNullException("action");

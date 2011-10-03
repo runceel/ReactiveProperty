@@ -15,11 +15,22 @@ using System.Reactive.Subjects;
 
 namespace Codeplex.Reactive.Notifier
 {
+    /// <summary>Event kind of SignalNotifier.</summary>
     public enum SignalChangedStatus
     {
-        Increment, Decrement, Empty, Max
+        /// <summary>Count incremented.</summary>
+        Increment,
+        /// <summary>Count decremented.</summary>
+        Decrement,
+        /// <summary>Count is zero.</summary>
+        Empty,
+        /// <summary>Count arrived max.</summary>
+        Max
     }
 
+    /// <summary>
+    /// Notify event of count signals.
+    /// </summary>
     public class SignalNotifier : IObservable<SignalChangedStatus>
     {
         readonly object lockObject = new object();
@@ -29,15 +40,20 @@ namespace Codeplex.Reactive.Notifier
         public int Max { get { return max; } }
         public int Count { get; private set; }
 
+        /// <summary>
+        /// Setup max count of signal.
+        /// </summary>
         public SignalNotifier(int max = int.MaxValue)
         {
             Contract.Requires<ArgumentException>(max >= 1, "value allows over 1");
             Contract.Ensures(Max == max);
-            Contract.Ensures(Count == 0);
 
             this.max = max;
         }
 
+        /// <summary>
+        /// Increment count and notify status.
+        /// </summary>
         public void Increment(int incrementCount = 1)
         {
             Contract.Requires<ArgumentException>(incrementCount >= 1, "value allows over 1");
@@ -52,6 +68,9 @@ namespace Codeplex.Reactive.Notifier
             }
         }
 
+        /// <summary>
+        /// Decrement count and notify status.
+        /// </summary>
         public void Decrement(int decrementCount = 1)
         {
             Contract.Requires<ArgumentException>(decrementCount >= 1, "value allows over 1");
@@ -66,6 +85,9 @@ namespace Codeplex.Reactive.Notifier
             }
         }
 
+        /// <summary>
+        /// Subscribe observer.
+        /// </summary>
         public IDisposable Subscribe(IObserver<SignalChangedStatus> observer)
         {
             return statusChanged.Subscribe(observer);
