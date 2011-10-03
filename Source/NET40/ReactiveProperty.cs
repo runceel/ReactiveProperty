@@ -257,7 +257,7 @@ namespace Codeplex.Reactive
         /// <summary>
         /// <para>Set IDataErrorInfo's validation.</para>
         /// </summary>
-        /// <param name="validate">If success return null, failure return string.</param>
+        /// <param name="validate">If success return null, failure return string(ErrorMessage).</param>
         public ReactiveProperty<T> SetValidateError(Func<T, string> validate)
         {
             Contract.Requires<ArgumentNullException>(validate != null);
@@ -318,7 +318,7 @@ namespace Codeplex.Reactive
         /// <summary>
         /// <para>Set INotifyDataErrorInfo's asynchronous validation.</para>
         /// </summary>
-        /// <param name="validate">Argument is self. If success return IO&lt;null&gt;, failure return IO&lt;IEnumerable&gt;.</param>
+        /// <param name="validate">Argument is self. If success return IO&lt;null&gt;, failure return IO&lt;IEnumerable&gt;(Errors).</param>
         public ReactiveProperty<T> SetValidateNotifyError(Func<IObservable<T>, IObservable<IEnumerable>> validate)
         {
             Contract.Requires<ArgumentNullException>(validate != null);
