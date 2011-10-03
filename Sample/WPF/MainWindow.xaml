@@ -8,7 +8,7 @@
     </Window.DataContext>
 
     <StackPanel>
-        <TextBox Text="{Binding TadanoText.Value, ValidatesOnExceptions=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=Default}" Width="300" />
+        <TextBox Text="{Binding TadanoText.Value, ValidatesOnExceptions=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="300" />
         <Button Command="{Binding MessageBoxCommand}">BTN</Button>
     </StackPanel>
 </Window>

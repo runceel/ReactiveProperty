@@ -23,7 +23,7 @@ namespace Silverlight
         public MainPage()
         {
             InitializeComponent();
-            DataContext = new MyClass();   
+            DataContext = new MainPageViewModel();   
         }
     }
 
@@ -63,13 +63,13 @@ namespace Silverlight
 
         public MainPageViewModel()
         {
-            OnException = new ReactiveProperty<string>(mode: ReactivePropertyMode.DistinctUntilChanged)
+            OnException = new ReactiveProperty<string>()
                 .SetValidateAttribute(() => OnException);
 
-            OnDataError = new ReactiveProperty<string>(mode: ReactivePropertyMode.DistinctUntilChanged)
+            OnDataError = new ReactiveProperty<string>()
                 .SetValidateError(s => s != null && s.All(Char.IsUpper) ? null : "ERROR!");
 
-            OnNotifyError = new ReactiveProperty<string>(mode: ReactivePropertyMode.DistinctUntilChanged)
+            OnNotifyError = new ReactiveProperty<string>()
                 .SetValidateNotifyError(self => self
                     .Select(s => s != null && s.All(Char.IsLower) ? null : new[] { "ERROR" }));
 

@@ -33,7 +33,7 @@ namespace WPF
             InitializeComponent();
 
 
-            
+
 
 
 
@@ -54,7 +54,7 @@ namespace WPF
 
         public MainWindowViewModel()
         {
-            TadanoText = new ReactiveProperty<string>()
+            TadanoText = new ReactiveProperty<string>(mode: ReactivePropertyMode.DistinctUntilChanged)
                 .SetValidateAttribute(() => TadanoText);
 
             MessageBoxCommand = new ReactiveCommand();

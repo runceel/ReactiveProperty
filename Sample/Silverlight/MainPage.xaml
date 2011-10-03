@@ -6,15 +6,15 @@
              xmlns:l="clr-namespace:Silverlight"
     mc:Ignorable="d"
     d:DesignHeight="300" d:DesignWidth="400">
-    
-        
-    
 
 
-        <Grid x:Name="LayoutRoot" Background="White">
+
+
+
+    <Grid x:Name="LayoutRoot" Background="White">
         <Button Command="{Binding Command1, Mode=TwoWay}" Content="Button" Height="23" HorizontalAlignment="Left" Margin="89,199,0,0" Name="button1" VerticalAlignment="Top" Width="75" />
-        <TextBox Text="{Binding OnException, Mode=TwoWay, ValidatesOnDataErrors=True}" Height="24" HorizontalAlignment="Left" Margin="47,52,0,0" Name="textBox1" VerticalAlignment="Top" Width="120" />
-        <TextBox Text="{Binding OnDataError, Mode=TwoWay, ValidatesOnDataErrors=True}" Height="24" HorizontalAlignment="Left" Margin="47,109,0,0" Name="textBox2" VerticalAlignment="Top" Width="120" />
-        <TextBox Text="{Binding OnNotifyError, Mode=TwoWay, ValidatesOnNotifyDataErrors=True}" Height="24" HorizontalAlignment="Left" Margin="65,156,0,0" Name="textBox3" VerticalAlignment="Top" Width="120" />
+        <TextBox Text="{Binding OnException.Value, Mode=TwoWay, ValidatesOnDataErrors=True}" Height="24" HorizontalAlignment="Left" Margin="47,52,0,0" Name="textBox1" VerticalAlignment="Top" Width="120" />
+        <TextBox Text="{Binding OnDataError.Value, Mode=TwoWay, ValidatesOnDataErrors=True}" Height="24" HorizontalAlignment="Left" Margin="47,109,0,0" Name="textBox2" VerticalAlignment="Top" Width="120" />
+        <TextBox Text="{Binding OnNotifyError.Value, Mode=TwoWay, ValidatesOnNotifyDataErrors=True}" Height="24" HorizontalAlignment="Left" Margin="65,156,0,0" Name="textBox3" VerticalAlignment="Top" Width="120" />
     </Grid>
 </UserControl>
