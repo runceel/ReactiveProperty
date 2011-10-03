@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Diagnostics.Contracts;
 using System.Windows.Threading;
 #if WINDOWS_PHONE
 using Microsoft.Phone.Reactive;
@@ -13,29 +14,57 @@ using System.Reactive.Disposables;
 
 namespace Codeplex.Reactive
 {
+    /// <summary>
+    /// ObservableCollection that notify OnCollectionChanged on IScheduler.
+    /// </summary>
     public class ReactiveCollection<T> : ObservableCollection<T>, IDisposable
     {
         readonly IDisposable subscription;
-        readonly Dispatcher notifyDispatcher;
+        readonly IScheduler notifyScheduler;
 
-        public ReactiveCollection(IObservable<T> source, Dispatcher notifyDispatcher = null)
+        /// <summary>Use scheduler is UIDispatcherScheduler.</summary>
+        public ReactiveCollection()
         {
-            this.notifyDispatcher = notifyDispatcher;
+            this.notifyScheduler = UIDispatcherScheduler.Default;
+        }
+
+        /// <summary>Use scheduler is argument's scheduler.</summary>
+        public ReactiveCollection(IScheduler scheduler)
+        {
+            Contract.Requires<ArgumentNullException>(scheduler != null);
+
+            this.notifyScheduler = scheduler;
+            this.subscription = Disposable.Empty;
+        }
+
+        /// <summary>Use scheduler is UIDispatcherScheduler and subscribe source sequence.</summary>
+        public ReactiveCollection(IObservable<T> source)
+        {
+            Contract.Requires<ArgumentNullException>(source != null);
+
+            this.notifyScheduler = UIDispatcherScheduler.Default;
+            this.subscription = source.Subscribe(this.Add);
+        }
+
+        /// <summary>Use scheduler is argument's scheduler and subscribe source sequence.</summary>
+        public ReactiveCollection(IObservable<T> source, IScheduler scheduler)
+        {
+            Contract.Requires<ArgumentNullException>(source != null);
+            Contract.Requires<ArgumentNullException>(scheduler != null);
+
+            this.notifyScheduler = scheduler;
             this.subscription = source.Subscribe(this.Add);
         }
 
         protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
-            if (notifyDispatcher != null && !notifyDispatcher.CheckAccess())
-            {
-                notifyDispatcher.BeginInvoke(new Action(() => base.OnCollectionChanged(e)));
-            }
-            else
+            notifyScheduler.Schedule(() =>
             {
                 base.OnCollectionChanged(e);
-            }
+            });
         }
 
+        /// <summary>Unsubcribe source sequence.</summary>
         public void Dispose()
         {
             subscription.Dispose();
@@ -44,9 +73,23 @@ namespace Codeplex.Reactive
 
     public static class ReactiveCollectionObservableExtensions
     {
-        public static ReactiveCollection<T> ToReactiveCollection<T>(this IObservable<T> source, Dispatcher collectionChangedDispatcher = null)
+        /// <summary>Use scheduler is UIDispatcherScheduler and subscribe source sequence.</summary>
+        public static ReactiveCollection<T> ToReactiveCollection<T>(this IObservable<T> source)
         {
-            return new ReactiveCollection<T>(source, collectionChangedDispatcher);
+            Contract.Requires<ArgumentNullException>(source != null);
+            Contract.Ensures(Contract.Result<ReactiveCollection<T>>() != null);
+
+            return new ReactiveCollection<T>(source);
+        }
+
+        /// <summary>Use scheduler is argument's scheduler and subscribe source sequence.</summary>
+        public static ReactiveCollection<T> ToReactiveCollection<T>(this IObservable<T> source, IScheduler scheduler)
+        {
+            Contract.Requires<ArgumentNullException>(source != null);
+            Contract.Requires<ArgumentNullException>(scheduler != null);
+            Contract.Ensures(Contract.Result<ReactiveCollection<T>>() != null);
+
+            return new ReactiveCollection<T>(source, scheduler);
         }
     }
 }

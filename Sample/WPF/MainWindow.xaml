@@ -1,10 +1,14 @@
 ﻿<Window x:Class="WPF.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:l="clr-namespace:WPF"
         Title="MainWindow" Height="350" Width="525">
+    <Window.DataContext>
+        <l:MainWindowViewModel/>
+    </Window.DataContext>
+
     <StackPanel>
-        <TextBox Text="{Binding TadanoText.Value, ValidatesOnExceptions=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Width="300" />
+        <TextBox Text="{Binding TadanoText.Value, ValidatesOnExceptions=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=Default}" Width="300" />
         <Button Command="{Binding MessageBoxCommand}">BTN</Button>
-        <Button Click="Button_Click">BBB</Button>
     </StackPanel>
 </Window>

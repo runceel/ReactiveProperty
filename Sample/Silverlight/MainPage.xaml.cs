@@ -13,15 +13,42 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.ComponentModel.DataAnnotations;
 using Codeplex.Reactive.Extensions;
+using System.ComponentModel;
 
 namespace Silverlight
 {
+
     public partial class MainPage : UserControl
     {
         public MainPage()
         {
             InitializeComponent();
-            DataContext = new MainPageViewModel();
+            DataContext = new MyClass();   
+        }
+    }
+
+
+    public class MyClass : IDataErrorInfo
+    {
+
+        public string OnException { get; private set; }
+        public string OnDataError { get; private set; }
+        public string OnNotifyError { get; private set; }
+        public ReactiveCommand Command1 { get; set; }
+
+        public MyClass()
+        {
+            Command1 = new ReactiveCommand();
+        }
+
+        public string Error
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public string this[string columnName]
+        {
+            get { return "aaa"; }
         }
     }
 
@@ -36,13 +63,13 @@ namespace Silverlight
 
         public MainPageViewModel()
         {
-            OnException = new ReactiveProperty<string>()
+            OnException = new ReactiveProperty<string>(mode: ReactivePropertyMode.DistinctUntilChanged)
                 .SetValidateAttribute(() => OnException);
 
-            OnDataError = new ReactiveProperty<string>()
+            OnDataError = new ReactiveProperty<string>(mode: ReactivePropertyMode.DistinctUntilChanged)
                 .SetValidateError(s => s != null && s.All(Char.IsUpper) ? null : "ERROR!");
 
-            OnNotifyError = new ReactiveProperty<string>()
+            OnNotifyError = new ReactiveProperty<string>(mode: ReactivePropertyMode.DistinctUntilChanged)
                 .SetValidateNotifyError(self => self
                     .Select(s => s != null && s.All(Char.IsLower) ? null : new[] { "ERROR" }));
 

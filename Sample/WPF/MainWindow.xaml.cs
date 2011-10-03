@@ -33,30 +33,14 @@ namespace WPF
             InitializeComponent();
 
 
-            DataContext = new MainWindowViewModel();
-
-            var hoge = ((HttpWebRequest)WebRequest.Create("http://")).GetResponseAsync();
-
-
+            
 
 
 
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Dispatcher.BeginInvoke(new Action(() => { throw new Exception(); }));
-        }
     }
 
-    public class A : IServiceProvider
-    {
-
-        public object GetService(Type serviceType)
-        {
-            throw new NotImplementedException();
-        }
-    }
 
 
     public class MainWindowViewModel
@@ -70,36 +54,10 @@ namespace WPF
 
         public MainWindowViewModel()
         {
-
-
-            // IDataErrorInfoは   T -> string
-            // INotifyErrorInfoは IO<T> -> IO<IEnumerable>
-            // で設定させるつもり、これはIDataErrorInfoのほう。
             TadanoText = new ReactiveProperty<string>()
-                .SetValidateError(s =>
-                {
-                    if (s == null) return null;
-                    return s.All(Char.IsUpper)
-                        ? null
-                        : "全部大文字じゃありません！";
-                })
                 .SetValidateAttribute(() => TadanoText);
 
-            
-
-            
-
-            var vc = new ValidationContext(this, null, null) { MemberName = "a" };
-
-
-            // 検証の結果はErrorsChangedに送られてくる
-            // それをそのままICommandのCanExecuteに流す生成
-            MessageBoxCommand = TadanoText.ErrorsChanged
-                .Select(o => o == null)
-                .ToReactiveCommand();
-
-            // CommandのExecuteの設定はSubscribeでやる
-            MessageBoxCommand.Subscribe(_ => MessageBox.Show("ほむほむ"));
+            MessageBoxCommand = new ReactiveCommand();
         }
     }
 

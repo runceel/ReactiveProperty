@@ -35,10 +35,9 @@ namespace Codeplex.Reactive
     {
         None = 0x00,
         DistinctUntilChanged = 0x01,
-        PropertyChangedInvokeOnUIDispatcher = 0x02,
-        RaiseLatestValueOnSubscribe = 0x04,
-        /// <summary>DistinctUntilChanged | PropertyChangedInvokeOnUIDispatcher | RaiseLatestValueOnSubscribe</summary>
-        All = DistinctUntilChanged | PropertyChangedInvokeOnUIDispatcher | RaiseLatestValueOnSubscribe
+        RaiseLatestValueOnSubscribe = 0x02,
+        /// <summary>DistinctUntilChanged | RaiseLatestValueOnSubscribe</summary>
+        All = DistinctUntilChanged | RaiseLatestValueOnSubscribe
     }
 
     // for EventToReactive
@@ -77,7 +76,16 @@ namespace Codeplex.Reactive
         { }
 
         // ToReactiveProperty Only
-        internal ReactiveProperty(IObservable<T> source, Action<T> parentRaisePropertyChanged, T initialValue = default(T),
+        internal ReactiveProperty(
+            IObservable<T> source, Action<T> parentRaisePropertyChanged, T initialValue = default(T),
+            ReactivePropertyMode mode = ReactivePropertyMode.All)
+            : this(source, parentRaisePropertyChanged, UIDispatcherScheduler.Default,initialValue, mode)
+        { }
+
+        // ToReactiveProperty Only
+        internal ReactiveProperty(
+            IObservable<T> source, Action<T> parentRaisePropertyChanged,
+            IScheduler raisePropertyChangedScheduler, T initialValue = default(T),
             ReactivePropertyMode mode = ReactivePropertyMode.All)
         {
             this.latestValue = initialValue;
@@ -92,13 +100,10 @@ namespace Codeplex.Reactive
                 : merge.Publish();
             this.source = connectable.AsObservable();
 
-            // set value immediately
-            var setValue = connectable.Do(x => latestValue = x);
-
             // raise notification
-            (mode.HasFlag(ReactivePropertyMode.PropertyChangedInvokeOnUIDispatcher)
-                    ? setValue.ObserveOnUIDispatcher()
-                    : setValue)
+            connectable
+                .Do(x => latestValue = x) // setvalue immediately
+                .ObserveOn(raisePropertyChangedScheduler)
                 .Subscribe(x =>
                 {
                     var handler = PropertyChanged;
