@@ -2,13 +2,13 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:l="clr-namespace:WPF"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="500" Width="500">
     <Window.DataContext>
-        <l:MainWindowViewModel/>
+        <l:MainWindowViewModel />
     </Window.DataContext>
 
     <StackPanel>
-        <TextBox Text="{Binding TadanoText.Value, ValidatesOnExceptions=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="300" />
-        <Button Command="{Binding MessageBoxCommand}">BTN</Button>
+        <TextBlock>Select Sample</TextBlock>
+        <Button Content="ReactiveProperty Basics" Command="{Binding NavigateBasics}" />
     </StackPanel>
 </Window>

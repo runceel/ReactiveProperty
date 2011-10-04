@@ -3,15 +3,15 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("ReactiveProperty")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("ReactiveProperty - MVVM Extensions on Reactive Extensions")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyCompany("neuecc")]
 [assembly: AssemblyProduct("ReactiveProperty")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2011")]
+[assembly: AssemblyCopyright("neuecc")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 [assembly: ComVisible(false)]
 
-[assembly: AssemblyVersion("0.1.25.0")]
-[assembly: AssemblyFileVersion("0.1.25.0")]
+[assembly: AssemblyVersion("0.1.0.0")]
+[assembly: AssemblyFileVersion("0.1.0.0")]
