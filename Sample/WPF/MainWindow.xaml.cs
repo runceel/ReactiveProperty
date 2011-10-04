@@ -54,7 +54,7 @@ namespace WPF
 
         public MainWindowViewModel()
         {
-            TadanoText = new ReactiveProperty<string>(mode: ReactivePropertyMode.DistinctUntilChanged)
+            
                 
 
             MessageBoxCommand = new ReactiveCommand();

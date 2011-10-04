@@ -94,6 +94,7 @@
   <ItemGroup>
     <Reference Include="Microsoft.Phone.Reactive" />
     <Reference Include="System.Observable" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows" />
     <Reference Include="system" />
     <Reference Include="System.Core" />
@@ -167,6 +168,9 @@
     </Compile>
     <Compile Include="..\NET40\ReactiveProperty.cs">
       <Link>ReactiveProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\NET40\Serialization\SerializeHelper.cs">
+      <Link>Serialization\SerializeHelper.cs</Link>
     </Compile>
     <Compile Include="..\NET40\UIDispatcherScheduler.cs">
       <Link>UIDispatcherScheduler.cs</Link>

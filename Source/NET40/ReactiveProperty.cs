@@ -39,8 +39,8 @@ namespace Codeplex.Reactive
         RaiseLatestValueOnSubscribe = 0x02,
     }
 
-    // for EventToReactive
-    internal interface IValue
+    // for EventToReactive and Serialization
+    public interface IValue
     {
         object Value { get; set; }
     }
