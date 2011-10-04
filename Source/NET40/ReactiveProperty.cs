@@ -35,8 +35,10 @@ namespace Codeplex.Reactive
     public enum ReactivePropertyMode
     {
         None = 0x00,
+        /// <summary>If next value is same as current, not set and not notify.</summary>
         DistinctUntilChanged = 0x01,
-        RaiseLatestValueOnSubscribe = 0x02,
+        /// <summary>Push notify on instance created and subscribed.</summary>
+        RaiseLatestValueOnSubscribe = 0x02
     }
 
     // for EventToReactive and Serialization
@@ -199,7 +201,7 @@ namespace Codeplex.Reactive
         /// <para>From Attribute is Exception, from IDataErrorInfo is string, from IDataNotifyErrorInfo is Enumerable.</para>
         /// <para>If you want to assort type, please choose OfType. For example: ErrorsChanged.OfType&lt;string&gt;().</para>
         /// </summary>
-        public IObservable<object> ErrorsChanged
+        public IObservable<object> ObserveErrorChanged
         {
             get { return errorsTrigger.AsObservable(); }
         }
@@ -309,13 +311,7 @@ namespace Codeplex.Reactive
         // INotifyDataErrorInfo
 
         IEnumerable currentErrors;
-
-        EventHandler<DataErrorsChangedEventArgs> errorsChanged;
-        event EventHandler<DataErrorsChangedEventArgs> INotifyDataErrorInfo.ErrorsChanged
-        {
-            add { errorsChanged += value; }
-            remove { errorsChanged -= value; }
-        }
+        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
         /// <summary>
         /// <para>Set INotifyDataErrorInfo's asynchronous validation.</para>
@@ -330,7 +326,7 @@ namespace Codeplex.Reactive
                 .Subscribe(xs =>
                 {
                     currentErrors = xs;
-                    var handler = errorsChanged;
+                    var handler = ErrorsChanged;
                     if (handler != null)
                     {
                         raiseEventScheduler.Schedule(() =>

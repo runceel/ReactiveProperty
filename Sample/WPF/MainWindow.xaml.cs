@@ -47,15 +47,17 @@ namespace WPF
     {
         [Required]
         [RegularExpression("...")]
-        public ReactiveProperty<string> TadanoText { get; set; }
+        public ReactiveCollection<string> TadanoText { get; set; }
 
 
         public ReactiveCommand MessageBoxCommand { get; private set; }
 
         public MainWindowViewModel()
         {
+
+
             
-                
+            
 
             MessageBoxCommand = new ReactiveCommand();
 

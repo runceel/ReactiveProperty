@@ -5,6 +5,8 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Xml;
+using System.Diagnostics.Contracts;
+using System;
 
 namespace Codeplex.Reactive.Serialization
 {
@@ -16,8 +18,16 @@ namespace Codeplex.Reactive.Serialization
                 .Where(pi => pi.PropertyType == typeof(IValue));
         }
 
+        /// <summary>
+        /// Serialize target contains ReactiveObject's Value.
+        /// </summary>
+        /// <param name="target">ReactiveObjects holder(such as ViewModel).</param>
+        /// <returns>Serialized string.</returns>
         public static string PackReactivePropertyValue(object target)
         {
+            Contract.Requires<ArgumentNullException>(target != null);
+            Contract.Ensures(Contract.Result<string>() != null);
+
             var values = GetIValueProperties(target)
                 .ToDictionary(pi => pi.Name, pi =>
                 {
@@ -34,8 +44,17 @@ namespace Codeplex.Reactive.Serialization
             return sb.ToString();
         }
 
+        /// <summary>
+        /// <para>Deserialize target's ReactiveObject value.</para>
+        /// <para>Deserialize order is at first DataMemberAttribute' Order, second alphabetical order.</para>
+        /// </summary>
+        /// <param name="target">ReactiveObjects holder(such as ViewModel).</param>
+        /// <param name="packedData">Serialized string.</param>
         public static void UnpackReactivePropertyValue(object target, string packedData)
         {
+            Contract.Requires<ArgumentNullException>(target != null);
+            Contract.Requires<ArgumentNullException>(packedData != null);
+
             Dictionary<string, object> values;
             var serializer = new DataContractSerializer(typeof(Dictionary<string, object>));
             using (var sr = new StringReader(packedData))

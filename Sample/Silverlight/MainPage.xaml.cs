@@ -87,8 +87,8 @@ namespace Silverlight
                     .Select(s => s != null && s.All(Char.IsLower) ? null : new[] { "ERROR" }));
 
 
-            Command1 = OnException.ErrorsChanged
-                .CombineLatest(OnDataError.ErrorsChanged, OnNotifyError.ErrorsChanged,
+            Command1 = OnException.ObserveErrorChanged
+                .CombineLatest(OnDataError.ObserveErrorChanged, OnNotifyError.ObserveErrorChanged,
                     (t1, t2, t3) => new[] { t1, t2, t3 }.All(x => x == null))
                 .ToReactiveCommand();
         }
