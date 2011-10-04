@@ -47,8 +47,15 @@ namespace WPF
     {
         [Required]
         [RegularExpression("...")]
-        public ReactiveCollection<string> TadanoText { get; set; }
+        public ReactiveCollection<string> TadanoText { get; private set; }
 
+
+
+        public ReactiveCollection<string> PropertyName { get; private set; }
+        public ReactiveCommand CommandName { get; private set; }
+
+
+        
 
         public ReactiveCommand MessageBoxCommand { get; private set; }
 
@@ -56,15 +63,15 @@ namespace WPF
         {
 
 
-            
-            
+
+
 
             MessageBoxCommand = new ReactiveCommand();
 
 
-            
-                
-                
+
+
+
         }
     }
 

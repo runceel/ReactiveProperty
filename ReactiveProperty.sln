@@ -30,6 +30,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.WP7", "Sou
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.WP7.Rx-Main", "Source\WP7.Rx-Main\ReactiveProperty.WP7.Rx-Main.csproj", "{0296B16D-FD94-4764-B403-A74A157F7BD8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Snippet", "Snippet", "{9F7EFC36-593F-4521-B678-41B00A6642B1}"
+	ProjectSection(SolutionItems) = preProject
+		Snippet\ReactiveCollection.snippet = Snippet\ReactiveCollection.snippet
+		Snippet\ReactiveCommand.snippet = Snippet\ReactiveCommand.snippet
+		Snippet\ReactiveCommandGeneric.snippet = Snippet\ReactiveCommandGeneric.snippet
+		Snippet\ReactiveProperty.snippet = Snippet\ReactiveProperty.snippet
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = ReactiveProperty.vsmdi
@@ -138,7 +146,7 @@ Global
 		{1727E152-CA8D-4011-83FC-4E908711938F} = {6356D836-36AA-4CD9-8EB2-BF037115D329}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
 		BuildVersion_UseGlobalSettings = True
+		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
 	EndGlobalSection
 EndGlobal
