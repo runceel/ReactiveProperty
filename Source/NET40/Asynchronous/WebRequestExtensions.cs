@@ -55,7 +55,7 @@ namespace Codeplex.Reactive.Asynchronous
         /// <para>Get WebResponse async.</para>
         /// <para>Run deferred, Length of return value is always 1.</para>
         /// </summary>
-        public static IObservable<WebResponse> GetResponseAsync(this WebRequest request)
+        public static IObservable<WebResponse> GetResponseObservableAsync(this WebRequest request)
         {
             Contract.Requires<ArgumentNullException>(request != null);
             Contract.Ensures(Contract.Result<IObservable<WebResponse>>() != null);
@@ -67,7 +67,7 @@ namespace Codeplex.Reactive.Asynchronous
         /// <para>Get HttpWebResponse async.</para>
         /// <para>Run deferred, Length of return value is always 1.</para>
         /// </summary>
-        public static IObservable<HttpWebResponse> GetResponseAsync(this HttpWebRequest request)
+        public static IObservable<HttpWebResponse> GetResponseObservableAsync(this HttpWebRequest request)
         {
             Contract.Requires<ArgumentNullException>(request != null);
             Contract.Ensures(Contract.Result<IObservable<HttpWebResponse>>() != null);
@@ -79,7 +79,7 @@ namespace Codeplex.Reactive.Asynchronous
         /// <para>Get RequestStream async.</para>
         /// <para>Run deferred, Length of return value is always 1.</para>
         /// </summary>
-        public static IObservable<Stream> GetRequestStreamAsync(this WebRequest request)
+        public static IObservable<Stream> GetRequestStreamObservableAsync(this WebRequest request)
         {
             Contract.Requires<ArgumentNullException>(request != null);
             Contract.Ensures(Contract.Result<IObservable<Stream>>() != null);
@@ -96,7 +96,7 @@ namespace Codeplex.Reactive.Asynchronous
             Contract.Requires<ArgumentNullException>(request != null);
             Contract.Ensures(Contract.Result<IObservable<byte[]>>() != null);
 
-            var result = request.GetResponseAsync().SelectMany(r => r.DownloadDataAsync());
+            var result = request.GetResponseObservableAsync().SelectMany(r => r.DownloadDataAsync());
 
             Contract.Assume(result != null);
             return result;
@@ -113,7 +113,7 @@ namespace Codeplex.Reactive.Asynchronous
             Contract.Requires<ArgumentNullException>(progressReporter != null);
             Contract.Ensures(Contract.Result<IObservable<byte[]>>() != null);
 
-            var result = request.GetResponseAsync().SelectMany(r => r.DownloadDataAsync(progressReporter));
+            var result = request.GetResponseObservableAsync().SelectMany(r => r.DownloadDataAsync(progressReporter));
 
             Contract.Assume(result != null);
             return result;
@@ -141,7 +141,7 @@ namespace Codeplex.Reactive.Asynchronous
             Contract.Requires<ArgumentNullException>(encoding != null);
             Contract.Ensures(Contract.Result<IObservable<string>>() != null);
 
-            var result = request.GetResponseAsync().SelectMany(r => r.DownloadStringAsync(encoding));
+            var result = request.GetResponseObservableAsync().SelectMany(r => r.DownloadStringAsync(encoding));
 
             Contract.Assume(result != null);
             return result;
@@ -173,7 +173,7 @@ namespace Codeplex.Reactive.Asynchronous
             Contract.Requires<ArgumentNullException>(progressReporter != null);
             Contract.Ensures(Contract.Result<IObservable<string>>() != null);
 
-            var result = request.GetResponseAsync().SelectMany(r => r.DownloadStringAsync(encoding, progressReporter));
+            var result = request.GetResponseObservableAsync().SelectMany(r => r.DownloadStringAsync(encoding, progressReporter));
 
             Contract.Assume(result != null);
             return result;
@@ -201,7 +201,7 @@ namespace Codeplex.Reactive.Asynchronous
             Contract.Requires<ArgumentNullException>(encoding != null);
             Contract.Ensures(Contract.Result<IObservable<string>>() != null);
 
-            var result = request.GetResponseAsync().SelectMany(r => r.DownloadStringLineAsync(encoding));
+            var result = request.GetResponseObservableAsync().SelectMany(r => r.DownloadStringLineAsync(encoding));
 
             Contract.Assume(result != null);
             return result;
@@ -343,11 +343,11 @@ namespace Codeplex.Reactive.Asynchronous
             Contract.Requires<ArgumentNullException>(data != null);
             Contract.Ensures(Contract.Result<IObservable<WebResponse>>() != null);
 
-            var result = request.GetRequestStreamAsync()
+            var result = request.GetRequestStreamObservableAsync()
                 .SelectMany(stream => stream.WriteAsObservable(data, 0, data.Length)
                     .Finally(() => { stream.Flush(); stream.Close(); }))
                 .TakeLast(1) // call before sequence's finally
-                .SelectMany(_ => request.GetResponseAsync());
+                .SelectMany(_ => request.GetResponseObservableAsync());
 
             Contract.Assume(result != null);
             return result;
@@ -366,9 +366,9 @@ namespace Codeplex.Reactive.Asynchronous
             Contract.Requires<ArgumentNullException>(progressReporter != null);
             Contract.Ensures(Contract.Result<IObservable<WebResponse>>() != null);
 
-            var result = request.GetRequestStreamAsync()
+            var result = request.GetRequestStreamObservableAsync()
                 .SelectMany(stream => stream.WriteAsync(data, progressReporter, chunkSize))
-                .SelectMany(_ => request.GetResponseAsync());
+                .SelectMany(_ => request.GetResponseObservableAsync());
 
             Contract.Assume(result != null);
             return result;
