@@ -57,6 +57,7 @@ namespace Codeplex.Reactive
         public event PropertyChangedEventHandler PropertyChanged;
 
         T latestValue;
+        readonly IScheduler raiseEventScheduler;
         readonly IObservable<T> source;
         readonly Subject<T> anotherTrigger = new Subject<T>();
         readonly IDisposable sourceDisposable;
@@ -121,6 +122,7 @@ namespace Codeplex.Reactive
             Contract.Requires<ArgumentNullException>(raiseEventScheduler != null);
 
             this.latestValue = initialValue;
+            this.raiseEventScheduler = raiseEventScheduler;
 
             // create source
             var merge = source.Merge(anotherTrigger);
@@ -331,7 +333,7 @@ namespace Codeplex.Reactive
                     var handler = errorsChanged;
                     if (handler != null)
                     {
-                        UIDispatcherScheduler.Default.Schedule(() =>
+                        raiseEventScheduler.Schedule(() =>
                             handler(this, SingletonDataErrorsChangedEventArgs.Value));
                     }
                     errorsTrigger.OnNext(currentErrors);
