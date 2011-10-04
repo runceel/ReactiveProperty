@@ -142,6 +142,9 @@
     <Compile Include="..\NET40\Extensions\INotifyPropertyChangedExtensions.cs">
       <Link>Extensions\INotifyPropertyChangedExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\NET40\Extensions\ObservableCollectionExtensions.cs">
+      <Link>Extensions\ObservableCollectionExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\NET40\Extensions\RetryObservableExtensions.cs">
       <Link>Extensions\RetryObservableExtensions.cs</Link>
     </Compile>
@@ -186,7 +189,11 @@
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />
-  <ProjectExtensions />
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties ProjectLinkReference="1fa4492a-829d-4cd6-86e0-d224ab19377e" ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" />
+    </VisualStudio>
+  </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
