@@ -1,0 +1,14 @@
+﻿<Window x:Class="WPF.Views.Asynchronous"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:WPF.ViewModels"
+        Title="Asynchronous" Height="700" Width="500">
+    <Window.DataContext>
+        <vm:AsynchronousViewModel />
+    </Window.DataContext>
+    <StackPanel>
+        <TextBlock>Incremental Wikipedia Search</TextBlock>
+        <TextBox Text="{Binding SearchTerm.Value, UpdateSourceTrigger=PropertyChanged}" />
+        <ListBox ItemsSource="{Binding SearchResults.Value}" />
+    </StackPanel>
+</Window>

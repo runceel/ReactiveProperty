@@ -14,8 +14,11 @@ namespace WPF.ViewModels
 
         public ReactivePropertyBasicsViewModel()
         {
+            // mode is Flags.
+            var allMode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe;
+
             // binding value from UI Control
-            InputText = new ReactiveProperty<string>();
+            InputText = new ReactiveProperty<string>(initialValue: "", mode: allMode);
 
             // send value to UI Control
             DisplayText = InputText
@@ -25,7 +28,7 @@ namespace WPF.ViewModels
 
             ShowMessageBox = InputText
                 .Select(s => !string.IsNullOrEmpty(s))   // condition sequence of CanExecute
-                .ToReactiveCommand(initialValue: false); // Convert to ReactiveCommand
+                .ToReactiveCommand(); // Convert to ReactiveCommand
 
             // ReactiveCommand's Subscribe is set ICommand's Execute
             ShowMessageBox.Subscribe(_ => MessageBox.Show("Hello, Reactive Property!"));
