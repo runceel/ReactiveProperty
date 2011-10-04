@@ -31,10 +31,6 @@ namespace Codeplex.Reactive.Extensions
 
     public static class ObservableCollectionExtensions
     {
-        /// <summary>Converts CollectionChangedAction = Add to observable sequence.</summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="source"></param>
-        /// <returns></returns>
         public static IObservable<T> AddChanged<T>(this ObservableCollection<T> source)
         {
             return source.CollectionChangedAsObservable()
