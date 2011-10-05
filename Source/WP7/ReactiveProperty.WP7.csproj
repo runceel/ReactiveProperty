@@ -130,6 +130,9 @@
     <Compile Include="..\NET40\Extensions\ICommandExtensions.cs">
       <Link>Extensions\ICommandExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\NET40\Extensions\IDisposableExtensions.cs">
+      <Link>Extensions\IDisposableExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\NET40\Extensions\INotifyCollectionChangedExtensions.cs">
       <Link>Extensions\INotifyCollectionChangedExtensions.cs</Link>
     </Compile>

@@ -22,7 +22,6 @@ namespace WPF.ViewModels
                 .Select(WikipediaModel.SearchTermAsync)
                 .Switch() // flatten
                 .ToReactiveProperty();
-
         }
     }
 
