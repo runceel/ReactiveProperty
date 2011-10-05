@@ -93,11 +93,15 @@
     </ApplicationDefinition>
     <Compile Include="ViewModels\AsynchronousViewModel.cs" />
     <Compile Include="ViewModels\ReactivePropertyBasicsViewModel.cs" />
+    <Compile Include="ViewModels\ValidationViewModel.cs" />
     <Compile Include="Views\Asynchronous.xaml.cs">
       <DependentUpon>Asynchronous.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ReactivePropertyBasics.xaml.cs">
       <DependentUpon>ReactivePropertyBasics.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Validation.xaml.cs">
+      <DependentUpon>Validation.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -116,6 +120,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ReactivePropertyBasics.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Validation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

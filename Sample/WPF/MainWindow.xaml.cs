@@ -17,6 +17,7 @@ namespace WPF
     {
         public ReactiveCommand NavigateBasics { get; private set; }
         public ReactiveCommand NavigateAsync { get; private set; }
+        public ReactiveCommand NavigateValidation { get; private set; }
 
         public MainWindowViewModel()
         {
@@ -24,6 +25,8 @@ namespace WPF
             NavigateBasics.Subscribe(_ => new ReactivePropertyBasics().Show());
             NavigateAsync = new ReactiveCommand();
             NavigateAsync.Subscribe(_ => new Asynchronous().Show());
+            NavigateValidation = new ReactiveCommand();
+            NavigateValidation.Subscribe(_ => new Validation().Show());
         }
     }
 }

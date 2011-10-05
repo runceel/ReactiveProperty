@@ -13,9 +13,12 @@ using System.Windows.Shapes;
 
 namespace WPF.Views
 {
-    public partial class ReactivePropertyBasics : Window
+    /// <summary>
+    /// Validation.xaml の相互作用ロジック
+    /// </summary>
+    public partial class Validation : Window
     {
-        public ReactivePropertyBasics()
+        public Validation()
         {
             InitializeComponent();
         }

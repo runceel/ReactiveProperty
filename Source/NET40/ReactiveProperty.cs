@@ -68,7 +68,7 @@ namespace Codeplex.Reactive
         // for Validation
         bool isValueChanged = false;
         readonly SerialDisposable validateNotifyErrorSubscription = new SerialDisposable();
-        readonly BehaviorSubject<object> errorsTrigger = new BehaviorSubject<object>(null);
+        readonly Subject<object> errorsTrigger = new Subject<object>();
 
         /// <summary>PropertyChanged raise on UIDispatcherScheduler</summary>
         public ReactiveProperty(T initialValue = default(T), ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged)
@@ -281,10 +281,11 @@ namespace Codeplex.Reactive
         {
             get
             {
+                if (columnName != "Value") return null;
                 if (!isValueChanged) return null;
 
 #if! WP_COMMON
-                if (attributes != null && columnName == "Value")
+                if (attributes != null)
                 {
                     var exceptionResult = ValidateException();
                     if (exceptionResult != null)
@@ -295,7 +296,7 @@ namespace Codeplex.Reactive
 #endif
 
                 var handler = dataErrorInfoValidate;
-                if (handler != null && columnName == "Value")
+                if (handler != null)
                 {
                     currentError = handler(latestValue);
                     errorsTrigger.OnNext(currentError);

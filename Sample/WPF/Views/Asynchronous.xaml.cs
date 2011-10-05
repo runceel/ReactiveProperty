@@ -13,9 +13,6 @@ using System.Windows.Shapes;
 
 namespace WPF.Views
 {
-    /// <summary>
-    /// Asynchronous.xaml の相互作用ロジック
-    /// </summary>
     public partial class Asynchronous : Window
     {
         public Asynchronous()

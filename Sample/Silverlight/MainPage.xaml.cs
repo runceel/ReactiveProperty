@@ -86,6 +86,8 @@ namespace Silverlight
                 .SetValidateNotifyError(self => self
                     .Select(s => s != null && s.All(Char.IsLower) ? null : new[] { "ERROR" }));
 
+            
+
 
             Command1 = OnException.ObserveErrorChanged
                 .CombineLatest(OnDataError.ObserveErrorChanged, OnNotifyError.ObserveErrorChanged,

@@ -7,10 +7,10 @@
         <vm:ReactivePropertyBasicsViewModel />
     </Window.DataContext>
     <StackPanel>
-        <TextBlock>Apperas chracter after 1 second.</TextBlock>
+        <TextBlock>Appears chracter after 1 second.</TextBlock>
         <!-- ReactiveProperty binding ".Value" -->
-        <TextBox Text="{Binding InputText.Value, UpdateSourceTrigger=PropertyChanged}" />
+        <TextBox Text="{Binding InputText.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         <TextBlock Text="{Binding DisplayText.Value}" />
-        <Button Command="{Binding ShowMessageBox}">Is TextBox empty or not?</Button>
+        <Button Command="{Binding ReplaceTextCommand}">Is TextBox empty or not?</Button>
     </StackPanel>
 </Window>

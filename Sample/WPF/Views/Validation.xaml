@@ -1,0 +1,30 @@
+﻿<Window x:Class="WPF.Views.Validation"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:WPF.ViewModels"
+        Title="Validation" Height="300" Width="500">
+    <Window.DataContext>
+        <vm:ValidationViewModel />
+    </Window.DataContext>
+    <StackPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Column="0" Grid.Row="0">Range 0..100</TextBlock>
+            <TextBox  Grid.Column="1" Grid.Row="0"
+                      Text="{Binding Validation1.Value, ValidatesOnDataErrors=True}"/>
+            <TextBlock Grid.Column="0" Grid.Row="1">All Capital</TextBlock>
+            <TextBox  Grid.Column="1" Grid.Row="1"
+                      Text="{Binding Validation2.Value, ValidatesOnDataErrors=True}"/>
+        </Grid>
+        <TextBlock Text="{Binding ErrorInfo.Value}" />
+        <Button Command="{Binding NextCommand}">Next</Button>
+    </StackPanel>
+</Window>

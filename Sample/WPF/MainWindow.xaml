@@ -11,7 +11,7 @@
         <TextBlock>Select Sample</TextBlock>
         <Button Command="{Binding NavigateBasics}">ReactiveProperty Basics</Button>
         <Button Command="{Binding NavigateAsync}">Asynchronous</Button>
-        <Button Command="{Binding NavigateBasics}">Validation</Button>
+        <Button Command="{Binding NavigateValidation}">Validation</Button>
         <Button Command="{Binding NavigateBasics}">Serialization</Button>
         <Button Command="{Binding NavigateBasics}">EventToReactive Trigger</Button>
     </StackPanel>

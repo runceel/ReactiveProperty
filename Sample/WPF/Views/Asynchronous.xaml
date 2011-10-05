@@ -9,6 +9,14 @@
     <StackPanel>
         <TextBlock>Incremental Wikipedia Search</TextBlock>
         <TextBox Text="{Binding SearchTerm.Value, UpdateSourceTrigger=PropertyChanged}" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="{Binding SearchingStatus.Value}" Grid.Column="0" />
+            <TextBlock Text="{Binding ProgressStatus.Value}" Grid.Column="1" />
+        </Grid>
         <ListBox ItemsSource="{Binding SearchResults.Value}" />
     </StackPanel>
 </Window>

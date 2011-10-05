@@ -10,7 +10,7 @@ namespace WPF.ViewModels
     {
         public ReactiveProperty<string> InputText { get; private set; }
         public ReactiveProperty<string> DisplayText { get; private set; }
-        public ReactiveCommand ShowMessageBox { get; private set; }
+        public ReactiveCommand ReplaceTextCommand { get; private set; }
 
         public ReactivePropertyBasicsViewModel()
         {
@@ -26,12 +26,13 @@ namespace WPF.ViewModels
                 .Delay(TimeSpan.FromSeconds(1)) // rx query2
                 .ToReactiveProperty();          // convert to ReactiveProperty
 
-            ShowMessageBox = InputText
+            ReplaceTextCommand = InputText
                 .Select(s => !string.IsNullOrEmpty(s))   // condition sequence of CanExecute
-                .ToReactiveCommand(); // Convert to ReactiveCommand
+                .ToReactiveCommand(); // convert to ReactiveCommand
 
             // ReactiveCommand's Subscribe is set ICommand's Execute
-            ShowMessageBox.Subscribe(_ => MessageBox.Show("Hello, Reactive Property!"));
+            // ReactiveProperty.Value set is push(& set) value
+            ReplaceTextCommand.Subscribe(_ => InputText.Value = "Hello, ReactiveProperty!");
         }
     }
 }
