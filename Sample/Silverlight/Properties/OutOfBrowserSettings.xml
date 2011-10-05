@@ -1,7 +1,7 @@
-<OutOfBrowserSettings ShortName="Silverlight アプリケーション" EnableGPUAcceleration="False" ShowInstallMenuItem="True">
-  <OutOfBrowserSettings.Blurb>デスクトップの Silverlight アプリケーションを、自宅でも、職場でも、外出先でも利用できます。</OutOfBrowserSettings.Blurb>
+<OutOfBrowserSettings ShortName="ReactiveProperty Sample" EnableGPUAcceleration="False" ShowInstallMenuItem="True">
+  <OutOfBrowserSettings.Blurb>ReactiveProperty Sample</OutOfBrowserSettings.Blurb>
   <OutOfBrowserSettings.WindowSettings>
-    <WindowSettings Title="Silverlight アプリケーション" />
+    <WindowSettings Title="ReactiveProperty Sample" />
   </OutOfBrowserSettings.WindowSettings>
   <OutOfBrowserSettings.SecuritySettings>
     <SecuritySettings ElevatedPermissions="Required" />

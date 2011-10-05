@@ -1,0 +1,25 @@
+﻿<Window x:Class="WPF.Views.EventToReactive"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:WPF.ViewModels"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:r="clr-namespace:Codeplex.Reactive.Interactivity;assembly=ReactiveProperty"
+        Title="EventToReactive" Height="300" Width="300">
+    <Window.DataContext>
+        <vm:EventToReactiveViewModel />
+    </Window.DataContext>
+
+    <Grid>
+        <!-- Use Blend SDK's Interaction Trigger -->
+        <!-- Event binding to ReactiveProperty -->
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="MouseMove">
+                <r:EventToReactive ReactiveProperty="{Binding MouseMove}" />
+            </i:EventTrigger>
+            <i:EventTrigger EventName="MouseDown">
+                <r:EventToReactive ReactiveProperty="{Binding MouseDown}" />
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
+        <TextBlock Text="{Binding CurrentPoint.Value}" />
+    </Grid>
+</Window>

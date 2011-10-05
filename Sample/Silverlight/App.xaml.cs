@@ -36,16 +36,8 @@ namespace Silverlight
 
         private void Application_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
         {
-            // アプリケーションがデバッガーの外側で実行されている場合、ブラウザーの
-            // 例外メカニズムによって例外が報告されます。これにより、IE ではステータス バーに
-            // 黄色の通知アイコンが表示され、Firefox にはスクリプト エラーが表示されます。
             if (!System.Diagnostics.Debugger.IsAttached)
             {
-
-                // メモ : これにより、アプリケーションは例外がスローされた後も実行され続け、例外は
-                // ハンドルされません。 
-                // 実稼動アプリケーションでは、このエラー処理は、Web サイトにエラーを報告し、
-                // アプリケーションを停止させるものに置換される必要があります。
                 e.Handled = true;
                 Deployment.Current.Dispatcher.BeginInvoke(delegate { ReportErrorToDOM(e); });
             }

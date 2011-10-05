@@ -32,7 +32,7 @@ namespace WPF
             NavigateSerialization = new ReactiveCommand();
             NavigateSerialization.Subscribe(_ => new Serialization().Show());
             NavigateEventToReactive = new ReactiveCommand();
-            NavigateEventToReactive.Subscribe(_ => new Validation().Show());
+            NavigateEventToReactive.Subscribe(_ => new EventToReactive().Show());
         }
     }
 }

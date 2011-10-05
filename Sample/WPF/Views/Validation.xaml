@@ -17,7 +17,7 @@
                 <RowDefinition />
                 <RowDefinition />
             </Grid.RowDefinitions>
-
+            <!-- all validation set ValidatesOnDataErrors=True -->
             <TextBlock Grid.Column="0" Grid.Row="0">Range 0..100</TextBlock>
             <TextBox  Grid.Column="1" Grid.Row="0"
                       Text="{Binding ValidationAttr.Value, ValidatesOnDataErrors=True}"/>

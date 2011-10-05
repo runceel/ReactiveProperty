@@ -8,22 +8,16 @@
     xmlns:r="clr-namespace:Codeplex.Reactive.Interactivity;assembly=ReactiveProperty.SL4"
     mc:Ignorable="d"
     d:DesignHeight="300" d:DesignWidth="400">
-
-
-    <Grid x:Name="LayoutRoot" Background="White">
-        <i:Interaction.Triggers>
-            <i:EventTrigger EventName="MouseMove">
-                <r:EventToReactive ReactiveProperty="{Binding MouseMove}" />
-            </i:EventTrigger>
-        </i:Interaction.Triggers>
-
-
-
-
-        <Button Command="{Binding Command1, Mode=TwoWay}" Content="Button" Height="23" HorizontalAlignment="Left" Margin="89,199,0,0" Name="button1" VerticalAlignment="Top" Width="75" />
-        <TextBox Text="{Binding OnException.Value, Mode=TwoWay, ValidatesOnDataErrors=True}" Height="24" HorizontalAlignment="Left" Margin="47,52,0,0" Name="textBox1" VerticalAlignment="Top" Width="120" />
-        <TextBox Text="{Binding OnDataError.Value, Mode=TwoWay, ValidatesOnDataErrors=True}" Height="24" HorizontalAlignment="Left" Margin="47,109,0,0" Name="textBox2" VerticalAlignment="Top" Width="120" />
-        <TextBox Text="{Binding OnNotifyError.Value, Mode=TwoWay, ValidatesOnNotifyDataErrors=True}" Height="24" HorizontalAlignment="Left" Margin="65,156,0,0" Name="textBox3" VerticalAlignment="Top" Width="120" />
-        <TextBlock Text="{Binding TBLOCK.Value}"/>
-    </Grid>
+    <UserControl.DataContext>
+        <l:MainPageViewModel />
+    </UserControl.DataContext>
+    
+    <StackPanel>
+        <TextBlock>Select Sample</TextBlock>
+        <Button Command="{Binding NavigateBasics}">ReactiveProperty Basics</Button>
+        <Button Command="{Binding NavigateAsync}">Asynchronous</Button>
+        <Button Command="{Binding NavigateValidation}">Validation</Button>
+        <Button Command="{Binding NavigateSerialization}">Serialization</Button>
+        <Button Command="{Binding NavigateEventToReactive}">EventToReactive Trigger</Button>
+    </StackPanel>
 </UserControl>

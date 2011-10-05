@@ -3,6 +3,20 @@
              x:Class="Silverlight.App"
              >
     <Application.Resources>
-        
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="30" />
+            <Setter Property="FontFamily" Value="Segoe UI Light" />
+            <Setter Property="Margin" Value="5" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="FontFamily" Value="Segoe UI" />
+            <Setter Property="Margin" Value="5" />
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="FontFamily" Value="Segoe UI Light" />
+            <Setter Property="Margin" Value="5" />
+        </Style>
     </Application.Resources>
 </Application>

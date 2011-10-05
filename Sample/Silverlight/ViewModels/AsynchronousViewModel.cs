@@ -8,7 +8,7 @@ using Codeplex.Reactive.Notifier;
 using Codeplex.Reactive.Asynchronous; // namespace for Asynchronous Extension Methods
 using Codeplex.Reactive.Extensions;   // namespace for Extensions(OnErroRetry etc...)
 
-namespace WPF.ViewModels
+namespace Silverlight.ViewModels
 {
     // sample of asynchronous operation
     public class AsynchronousViewModel
@@ -72,7 +72,6 @@ namespace WPF.ViewModels
         public static IObservable<WikipediaModel[]> SearchTermAsync(string term, IProgress<DownloadProgressChangedEventArgs> progress)
         {
             var clinet = new WebClient();
-            clinet.Headers[HttpRequestHeader.UserAgent] = "ReactiveProperty Sample";
             return clinet.DownloadStringObservableAsync(new Uri(string.Format(ApiFormat, term)), progress)
                 .Select(Parse);
         }

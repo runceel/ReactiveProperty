@@ -1,100 +1,37 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Codeplex.Reactive;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Reactive.Linq;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
-using System.ComponentModel.DataAnnotations;
-using Codeplex.Reactive.Extensions;
-using System.ComponentModel;
+using Silverlight.Views;
 
 namespace Silverlight
 {
-
-    public partial class MainPage : UserControl
+    public partial class MainPage : System.Windows.Controls.UserControl
     {
         public MainPage()
         {
             InitializeComponent();
-            DataContext = new MainPageViewModel();   
-        }
-    }
-
-
-    public class MyClass : IDataErrorInfo
-    {
-
-        public string OnException { get; private set; }
-        public string OnDataError { get; private set; }
-        public string OnNotifyError { get; private set; }
-        public ReactiveCommand Command1 { get; set; }
-
-        public MyClass()
-        {
-            Command1 = new ReactiveCommand();
-        }
-
-        public string Error
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public string this[string columnName]
-        {
-            get { return "aaa"; }
         }
     }
 
     public class MainPageViewModel
     {
-        [Required]
-        [Range(1, 10)]
-        public ReactiveProperty<string> OnException { get; private set; }
-        public ReactiveProperty<string> OnDataError { get; private set; }
-        public ReactiveProperty<string> OnNotifyError { get; private set; }
-        public ReactiveCommand Command1 { get; set; }
-
-        public ReactiveProperty<MouseEventArgs> MouseMove { get;private set; }
-        public ReactiveProperty<string> TBLOCK { get; set; }
-
+        public ReactiveCommand NavigateBasics { get; private set; }
+        public ReactiveCommand NavigateAsync { get; private set; }
+        public ReactiveCommand NavigateValidation { get; private set; }
+        public ReactiveCommand NavigateSerialization { get; private set; }
+        public ReactiveCommand NavigateEventToReactive { get; private set; }
 
         public MainPageViewModel()
         {
-            MouseMove = new ReactiveProperty<MouseEventArgs>();
-
-            TBLOCK = MouseMove.Select(e => e.GetPosition(null))
-                .Select(p => p.X + ":" + p.Y)
-                .ToReactiveProperty();
-
-
-
-
-            OnException = new ReactiveProperty<string>()
-                .SetValidateAttribute(() => OnException);
-
-            OnDataError = new ReactiveProperty<string>()
-                .SetValidateError(s => s != null && s.All(Char.IsUpper) ? null : "ERROR!");
-
-            OnNotifyError = new ReactiveProperty<string>()
-                .SetValidateNotifyError(self => self
-                    .Select(s => s != null && s.All(Char.IsLower) ? null : new[] { "ERROR" }));
-
-            
-
-
-            Command1 = OnException.ObserveErrorChanged
-                .CombineLatest(OnDataError.ObserveErrorChanged, OnNotifyError.ObserveErrorChanged,
-                    (t1, t2, t3) => new[] { t1, t2, t3 }.All(x => x == null))
-                .ToReactiveCommand();
+            NavigateBasics = new ReactiveCommand();
+            NavigateBasics.Subscribe(_ => new ReactivePropertyBasics().Show());
+            NavigateAsync = new ReactiveCommand();
+            NavigateAsync.Subscribe(_ => new Asynchronous().Show());
+            NavigateValidation = new ReactiveCommand();
+            NavigateValidation.Subscribe(_ => new Validation().Show());
+            NavigateSerialization = new ReactiveCommand();
+            NavigateSerialization.Subscribe(_ => new Serialization().Show());
+            NavigateEventToReactive = new ReactiveCommand();
+            //NavigateEventToReactive.Subscribe(_ => new EventToReactive().Show());
         }
-
-
     }
 }
