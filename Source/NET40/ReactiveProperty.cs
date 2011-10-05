@@ -213,7 +213,7 @@ namespace Codeplex.Reactive
         ValidationAttribute[] attributes;
 
         /// <summary>
-        /// <para>Set DataAnnotaion's validation.</para>
+        /// <para>Set DataAnnotaion's validation, return value is self.</para>
         /// <para>Note:This validation check by IDataErrorInfo. Please turn on XAML's ValidatesOnDataErrors</para>
         /// </summary>
         /// <param name="selfSelector">Self selector. For example: () =&gt; this.MyProperty</param>
@@ -259,7 +259,7 @@ namespace Codeplex.Reactive
         string currentError;
 
         /// <summary>
-        /// <para>Set IDataErrorInfo's validation.</para>
+        /// <para>Set IDataErrorInfo's validation, return value is self.</para>
         /// </summary>
         /// <param name="validate">If success return null, failure return string(ErrorMessage).</param>
         public ReactiveProperty<T> SetValidateError(Func<T, string> validate)
@@ -315,7 +315,7 @@ namespace Codeplex.Reactive
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
         /// <summary>
-        /// <para>Set INotifyDataErrorInfo's asynchronous validation.</para>
+        /// <para>Set INotifyDataErrorInfo's asynchronous validation, return value is self.</para>
         /// </summary>
         /// <param name="validate">Argument is self. If success return IO&lt;null&gt;, failure return IO&lt;IEnumerable&gt;(Errors).</param>
         public ReactiveProperty<T> SetValidateNotifyError(Func<IObservable<T>, IObservable<IEnumerable>> validate)

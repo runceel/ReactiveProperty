@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.ComponentModel.DataAnnotations;
-using Codeplex.Reactive;
+using System.Linq;
 using System.Reactive.Linq;
 using System.Windows;
+using Codeplex.Reactive;
 
 namespace WPF.ViewModels
 {
@@ -13,28 +11,49 @@ namespace WPF.ViewModels
     {
         [Required]
         [Range(0, 100)]
-        public ReactiveProperty<string> Validation1 { get; private set; }
-        public ReactiveProperty<string> Validation2 { get; private set; }
+        public ReactiveProperty<string> ValidationAttr { get; private set; }
+        public ReactiveProperty<string> ValidationData { get; private set; }
+        [StringLength(5)]
+        public ReactiveProperty<string> ValidationBoth { get; private set; }
         public ReactiveProperty<string> ErrorInfo { get; private set; }
         public ReactiveCommand NextCommand { get; private set; }
 
         public ValidationViewModel()
         {
-            Validation1 = new ReactiveProperty<string>()
-                .SetValidateAttribute(() => Validation1);
+            // DataAnnotation Attribute, call SetValidateAttribute and select self property
+            // Note:error result dispatch to IDataErrorInfo, not exception.
+            //      therefore, XAML is ValidatesOnDataErrors=True
+            ValidationAttr = new ReactiveProperty<string>()
+                .SetValidateAttribute(() => ValidationAttr);
 
-            Validation2 = new ReactiveProperty<string>()
+            // IDataErrorInfo, call SetValidateError and set validate condition
+            // null is success(have no error), string is error message
+            ValidationData = new ReactiveProperty<string>()
                 .SetValidateError(s => s.All(Char.IsUpper) ? null : "not all uppercase");
 
-            var errors = Validation1.ObserveErrorChanged.Merge(Validation2.ObserveErrorChanged);
+            // Can set both validation
+            ValidationBoth = new ReactiveProperty<string>()
+                .SetValidateAttribute(() => ValidationBoth)
+                .SetValidateError(s => s.All(Char.IsLower) ? null : "not all lowercase");
 
+            // Validation result is pushed to ObserveErrorChanged
+            var errors = Observable.Merge(
+                ValidationAttr.ObserveErrorChanged,
+                ValidationData.ObserveErrorChanged,
+                ValidationBoth.ObserveErrorChanged);
+
+            // Use OfType, choose error source
             ErrorInfo = Observable.Merge(
                     errors.Where(o => o == null).Select(_ => ""), // success
                     errors.OfType<Exception>().Select(e => e.Message), // from attribute
                     errors.OfType<string>()) // from IDataErrorInfo
                 .ToReactiveProperty();
 
-            NextCommand = errors.Select(x => x == null).ToReactiveCommand(false);
+            // Validation is view initialized not run in default.
+            // If want to validate on view initialize,
+            // use ReactivePropertyMode.RaiseLatestValueOnSubscribe to ReactiveProperty
+            // that mode is validate values on initialize.
+            NextCommand = errors.Select(x => x == null).ToReactiveCommand(initialValue: false);
             NextCommand.Subscribe(_ => MessageBox.Show("Can go to next!"));
         }
     }
