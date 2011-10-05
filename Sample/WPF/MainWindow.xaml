@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:l="clr-namespace:WPF"
-        Title="MainWindow" Height="450" Width="500">
+        Title="ReactiveProperty Sample" Height="450" Width="500">
     <Window.DataContext>
         <l:MainWindowViewModel />
     </Window.DataContext>
@@ -12,8 +12,8 @@
         <Button Command="{Binding NavigateBasics}">ReactiveProperty Basics</Button>
         <Button Command="{Binding NavigateAsync}">Asynchronous</Button>
         <Button Command="{Binding NavigateValidation}">Validation</Button>
-        <Button Command="{Binding NavigateBasics}">Serialization</Button>
-        <Button Command="{Binding NavigateBasics}">EventToReactive Trigger</Button>
+        <Button Command="{Binding NavigateSerialization}">Serialization</Button>
+        <Button Command="{Binding NavigateEventToReactive}">EventToReactive Trigger</Button>
     </StackPanel>
 
 </Window>

@@ -74,6 +74,7 @@
     <Reference Include="System.Reactive, Version=1.0.10621.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Rx-Main.1.0.10621\lib\Net4\System.Reactive.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -93,12 +94,16 @@
     </ApplicationDefinition>
     <Compile Include="ViewModels\AsynchronousViewModel.cs" />
     <Compile Include="ViewModels\ReactivePropertyBasicsViewModel.cs" />
+    <Compile Include="ViewModels\SerializationViewModel.cs" />
     <Compile Include="ViewModels\ValidationViewModel.cs" />
     <Compile Include="Views\Asynchronous.xaml.cs">
       <DependentUpon>Asynchronous.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ReactivePropertyBasics.xaml.cs">
       <DependentUpon>ReactivePropertyBasics.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Serialization.xaml.cs">
+      <DependentUpon>Serialization.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Validation.xaml.cs">
       <DependentUpon>Validation.xaml</DependentUpon>
@@ -120,6 +125,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ReactivePropertyBasics.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Serialization.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -15,13 +15,13 @@ namespace Codeplex.Reactive.Serialization
         static IEnumerable<PropertyInfo> GetIValueProperties(object target)
         {
             return target.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                .Where(pi => pi.PropertyType == typeof(IValue));
+                .Where(pi => typeof(IValue).IsAssignableFrom(pi.PropertyType));
         }
 
         /// <summary>
-        /// Serialize target contains ReactiveObject's Value.
+        /// Serialize target contains ReactiveProperty's Value.
         /// </summary>
-        /// <param name="target">ReactiveObjects holder(such as ViewModel).</param>
+        /// <param name="target">ReactiveProperty holder(such as ViewModel).</param>
         /// <returns>Serialized string.</returns>
         public static string PackReactivePropertyValue(object target)
         {
@@ -45,10 +45,10 @@ namespace Codeplex.Reactive.Serialization
         }
 
         /// <summary>
-        /// <para>Deserialize target's ReactiveObject value.</para>
+        /// <para>Deserialize target's ReactiveProperty value.</para>
         /// <para>Deserialize order is at first DataMemberAttribute' Order, second alphabetical order.</para>
         /// </summary>
-        /// <param name="target">ReactiveObjects holder(such as ViewModel).</param>
+        /// <param name="target">ReactiveProperty holder(such as ViewModel).</param>
         /// <param name="packedData">Serialized string.</param>
         public static void UnpackReactivePropertyValue(object target, string packedData)
         {
