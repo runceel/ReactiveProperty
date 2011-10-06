@@ -12,7 +12,7 @@
     </controls:ChildWindow.DataContext>
 
     <StackPanel>
-        <CheckBox Content="CheckBox1" IsChecked="{Binding IsChedked.Value, Mode=TwoWay}"/>
+        <CheckBox Content="CheckBox1" IsChecked="{Binding IsChecked.Value, Mode=TwoWay}"/>
         <ComboBox SelectedIndex="{Binding SelectedIndex.Value, Mode=TwoWay}" ItemsSource="{Binding Items}" />
         <TextBox Text="{Binding Text.Value, Mode=TwoWay}" />
         <Slider Value="{Binding SliderPosition.Value, Mode=TwoWay}" />

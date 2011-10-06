@@ -13,7 +13,7 @@ namespace Silverlight.ViewModels
     public class SerializationViewModel
     {
         // [IgnoreDataMember] ignore serialize
-        public ReactiveProperty<bool> IsChedked { get; private set; }
+        public ReactiveProperty<bool> IsChecked { get; private set; }
         public ReactiveProperty<int> SelectedIndex { get; private set; }
         [DataMember(Order = 3)] // deserialize order
         public ReactiveProperty<string> Text { get; private set; }
@@ -29,7 +29,7 @@ namespace Silverlight.ViewModels
                 .StartWith(-1)
                 .Take(30)
                 .ToReactiveCollection();
-            IsChedked = new ReactiveProperty<bool>();
+            IsChecked = new ReactiveProperty<bool>();
             SelectedIndex = new ReactiveProperty<int>(-1);
             Text = new ReactiveProperty<string>();
             SliderPosition = new ReactiveProperty<int>();

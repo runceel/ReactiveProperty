@@ -12,7 +12,7 @@ namespace WP7.ViewModels
     public class SerializationViewModel
     {
         // [IgnoreDataMember] ignore serialize
-        public ReactiveProperty<bool> IsChedked { get; private set; }
+        public ReactiveProperty<bool> IsChecked { get; private set; }
         [DataMember(Order = 3)] // deserialize order
         public ReactiveProperty<string> Text { get; private set; }
         public ReactiveProperty<int> SliderPosition { get; private set; }
@@ -22,7 +22,7 @@ namespace WP7.ViewModels
 
         public SerializationViewModel()
         {
-            IsChedked = new ReactiveProperty<bool>();
+            IsChecked = new ReactiveProperty<bool>();
             Text = new ReactiveProperty<string>();
             SliderPosition = new ReactiveProperty<int>();
 

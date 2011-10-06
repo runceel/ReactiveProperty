@@ -32,7 +32,7 @@
 
 
         <StackPanel Grid.Row="1">
-            <CheckBox Content="CheckBox1" IsChecked="{Binding IsChedked.Value, Mode=TwoWay}"/>
+            <CheckBox Content="CheckBox1" IsChecked="{Binding IsChecked.Value, Mode=TwoWay}"/>
             <TextBox Text="{Binding Text.Value, Mode=TwoWay}" />
             <Slider Value="{Binding SliderPosition.Value, Mode=TwoWay}" />
 
