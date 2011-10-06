@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>ReactiveProperty</id>
+        <version>0.1.0.0</version>
+        <title>ReactiveProperty</title>
+        <authors>neuecc</authors>
+        <owners>neuecc</owners>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>ReactiveProperty is MVVM and Asynchronous Extensions for Reactive Extensions. Target is .NET 4.0 Client Profile, Silverlight 4, Windows Phone 7.1(with Rx-Main).</description>
+        <language>en-US</language>
+        <licenseUrl>http://reactiveproperty.codeplex.com/license</licenseUrl>
+        <projectUrl>http://reactiveproperty.codeplex.com/</projectUrl>
+        <tags>rx mvvm async</tags>
+        <dependencies>
+            <dependency id="Rx-Main" version="1.0.10605" />
+        </dependencies>
+        <references>
+            <reference file="ReactiveProperty.dll" />
+            <reference file="ReactiveProperty.SL4.dll" />
+            <reference file="ReactiveProperty.WP7.Rx_Main.dll" />
+            <reference file="System.Windows.Interactivity.dll" />
+        </references>
+    </metadata>
+    <files>
+        <file src="..\Binary\NET40\ReactiveProperty.dll" target="lib\NET40" />
+        <file src="..\Binary\NET40\ReactiveProperty.pdb" target="lib\NET40" />
+        <file src="..\Binary\NET40\ReactiveProperty.XML" target="lib\NET40" />
+        <file src="..\Binary\NET40\System.Windows.Interactivity.dll" target="lib\NET40" />
+        <file src="..\Binary\NET40\CodeContracts\ReactiveProperty.Contracts.dll" target="lib\NET40\CodeContracts" />
+        <file src="..\Binary\NET40\CodeContracts\ReactiveProperty.Contracts.pdb" target="lib\NET40\CodeContracts" />
+        <file src="..\Binary\SL4\ReactiveProperty.SL4.dll" target="lib\SL4" />
+        <file src="..\Binary\SL4\ReactiveProperty.SL4.pdb" target="lib\SL4" />
+        <file src="..\Binary\SL4\ReactiveProperty.SL4.XML" target="lib\SL4" />
+        <file src="..\Binary\SL4\System.Windows.Interactivity.dll" target="lib\SL4" />
+        <file src="..\Binary\SL4\CodeContracts\ReactiveProperty.SL4.Contracts.dll" target="lib\SL4\CodeContracts" />
+        <file src="..\Binary\SL4\CodeContracts\ReactiveProperty.SL4.Contracts.pdb" target="lib\SL4\CodeContracts" />
+        <file src="..\Binary\WP7.Rx-Main\ReactiveProperty.WP7.Rx_Main.dll" target="lib\SL4-WindowsPhone71" />
+        <file src="..\Binary\WP7.Rx-Main\ReactiveProperty.WP7.Rx_Main.pdb" target="lib\SL4-WindowsPhone71" />
+        <file src="..\Binary\WP7.Rx-Main\ReactiveProperty.WP7.Rx_Main.XML" target="lib\SL4-WindowsPhone71" />
+        <file src="..\Binary\WP7.Rx-Main\System.Windows.Interactivity.dll" target="lib\SL4-WindowsPhone71" />
+    </files>
+</package>

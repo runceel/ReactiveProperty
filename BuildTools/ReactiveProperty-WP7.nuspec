@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>ReactiveProperty-WP7</id>
+        <version>0.1.0.0</version>
+        <title>ReactiveProperty-WP7</title>
+        <authors>neuecc</authors>
+        <owners>neuecc</owners>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>ReactiveProperty is MVVM and Asynchronous Extensions for Reactive Extensions. Target is Windows Phone 7.1(Microsoft.Phone.Reactive).</description>
+        <language>en-US</language>
+        <licenseUrl>http://reactiveproperty.codeplex.com/license</licenseUrl>
+        <projectUrl>http://reactiveproperty.codeplex.com/</projectUrl>
+        <tags>rx mvvm async</tags>
+        <frameworkAssemblies>
+            <frameworkAssembly assemblyName="Microsoft.Phone.Reactive" targetFramework="SL4-WindowsPhone71" />
+            <frameworkAssembly assemblyName="System.Observable" targetFramework="SL4-WindowsPhone71" />
+        </frameworkAssemblies>
+    </metadata>
+    <files>
+        <file src="..\Binary\WP7\ReactiveProperty.WP7.dll" target="lib\SL4-WindowsPhone71" />
+        <file src="..\Binary\WP7\ReactiveProperty.WP7.pdb" target="lib\SL4-WindowsPhone71" />
+        <file src="..\Binary\WP7\ReactiveProperty.WP7.XML" target="lib\SL4-WindowsPhone71" />
+        <file src="..\Binary\WP7\System.Windows.Interactivity.dll" target="lib\SL4-WindowsPhone71" />
+    </files>
+</package>
