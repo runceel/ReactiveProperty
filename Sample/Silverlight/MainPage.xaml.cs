@@ -31,7 +31,7 @@ namespace Silverlight
             NavigateSerialization = new ReactiveCommand();
             NavigateSerialization.Subscribe(_ => new Serialization().Show());
             NavigateEventToReactive = new ReactiveCommand();
-            //NavigateEventToReactive.Subscribe(_ => new EventToReactive().Show());
+            NavigateEventToReactive.Subscribe(_ => new EventToReactive().Show());
         }
     }
 }
