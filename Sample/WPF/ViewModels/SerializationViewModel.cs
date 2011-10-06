@@ -12,13 +12,13 @@ namespace WPF.ViewModels
 {
     public class SerializationViewModel
     {
-        public ReactiveCollection<long> Items { get; private set; }
+        // [IgnoreDataMember] ignore serialize
         public ReactiveProperty<bool> IsChedked { get; private set; }
         public ReactiveProperty<int> SelectedIndex { get; private set; }
-        [DataMember(Order = 3)]
+        [DataMember(Order = 3)] // deserialize order
         public ReactiveProperty<string> Text { get; private set; }
-        [DataMember(Order = 2)]
         public ReactiveProperty<int> SliderPosition { get; private set; }
+        public ReactiveCollection<long> Items { get; private set; }
         public ReactiveCommand Serialize { get; private set; }
         public ReactiveCommand Deserialize { get; private set; }
 

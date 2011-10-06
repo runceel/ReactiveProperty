@@ -29,6 +29,7 @@ namespace Codeplex.Reactive.Serialization
             Contract.Ensures(Contract.Result<string>() != null);
 
             var values = GetIValueProperties(target)
+                .Where(pi => pi.GetCustomAttributes(typeof(IgnoreDataMemberAttribute), false).FirstOrDefault() == null)
                 .ToDictionary(pi => pi.Name, pi =>
                 {
                     var ivalue = (IValue)pi.GetValue(target, null);

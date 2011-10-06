@@ -58,7 +58,7 @@ namespace Silverlight.ViewModels
                     errors.Where(o => o == null).Select(_ => ""), // success
                     errors.OfType<Exception>().Select(e => e.Message), // from attribute
                     errors.OfType<string>(), // from IDataErrorInfo
-                    errors.OfType<IEnumerable>().Select(xs => xs.Cast<string>().First()))  // from INotifyDataErrorInfo
+                    errors.OfType<string[]>().Select(xs => xs[0]))  // from INotifyDataErrorInfo
                 .ToReactiveProperty();
 
             // Validation is view initialized not run in default.
