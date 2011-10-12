@@ -40,6 +40,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Snippet", "Snippet", "{9F7E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{A9542547-5556-442E-ACCB-6DB437E5E25C}"
 	ProjectSection(SolutionItems) = preProject
+		Docs\(JPN)Session_SilverlightSquareInTokyo4.pptx = Docs\(JPN)Session_SilverlightSquareInTokyo4.pptx
+		Docs\Asset.pptx = Docs\Asset.pptx
 		Docs\ReadMe.txt = Docs\ReadMe.txt
 	EndProjectSection
 EndProject
@@ -178,7 +180,7 @@ Global
 		{A16C4DB4-50A5-47AB-8565-B5C6157EB1EA} = {6356D836-36AA-4CD9-8EB2-BF037115D329}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
 		BuildVersion_UseGlobalSettings = True
+		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
 	EndGlobalSection
 EndGlobal
