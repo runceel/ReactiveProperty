@@ -24,19 +24,14 @@
     </metadata>
     <files>
         <file src="..\Binary\NET40\ReactiveProperty.dll" target="lib\NET40" />
-        <file src="..\Binary\NET40\ReactiveProperty.pdb" target="lib\NET40" />
         <file src="..\Binary\NET40\ReactiveProperty.XML" target="lib\NET40" />
         <file src="..\Binary\NET40\System.Windows.Interactivity.dll" target="lib\NET40" />
         <file src="..\Binary\NET40\CodeContracts\ReactiveProperty.Contracts.dll" target="lib\NET40\CodeContracts" />
-        <file src="..\Binary\NET40\CodeContracts\ReactiveProperty.Contracts.pdb" target="lib\NET40\CodeContracts" />
         <file src="..\Binary\SL4\ReactiveProperty.SL4.dll" target="lib\SL4" />
-        <file src="..\Binary\SL4\ReactiveProperty.SL4.pdb" target="lib\SL4" />
         <file src="..\Binary\SL4\ReactiveProperty.SL4.XML" target="lib\SL4" />
         <file src="..\Binary\SL4\System.Windows.Interactivity.dll" target="lib\SL4" />
         <file src="..\Binary\SL4\CodeContracts\ReactiveProperty.SL4.Contracts.dll" target="lib\SL4\CodeContracts" />
-        <file src="..\Binary\SL4\CodeContracts\ReactiveProperty.SL4.Contracts.pdb" target="lib\SL4\CodeContracts" />
         <file src="..\Binary\WP7.Rx-Main\ReactiveProperty.WP7.Rx_Main.dll" target="lib\SL4-WindowsPhone71" />
-        <file src="..\Binary\WP7.Rx-Main\ReactiveProperty.WP7.Rx_Main.pdb" target="lib\SL4-WindowsPhone71" />
         <file src="..\Binary\WP7.Rx-Main\ReactiveProperty.WP7.Rx_Main.XML" target="lib\SL4-WindowsPhone71" />
         <file src="..\Binary\WP7.Rx-Main\System.Windows.Interactivity.dll" target="lib\SL4-WindowsPhone71" />
     </files>

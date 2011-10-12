@@ -19,7 +19,6 @@
     </metadata>
     <files>
         <file src="..\Binary\WP7\ReactiveProperty.WP7.dll" target="lib\SL4-WindowsPhone71" />
-        <file src="..\Binary\WP7\ReactiveProperty.WP7.pdb" target="lib\SL4-WindowsPhone71" />
         <file src="..\Binary\WP7\ReactiveProperty.WP7.XML" target="lib\SL4-WindowsPhone71" />
         <file src="..\Binary\WP7\System.Windows.Interactivity.dll" target="lib\SL4-WindowsPhone71" />
     </files>
