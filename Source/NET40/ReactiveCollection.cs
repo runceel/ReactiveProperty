@@ -22,13 +22,13 @@ namespace Codeplex.Reactive
         readonly IDisposable subscription;
         readonly IScheduler notifyScheduler;
 
-        /// <summary>Use scheduler is UIDispatcherScheduler.</summary>
+        /// <summary>Notify scheduler is UIDispatcherScheduler.</summary>
         public ReactiveCollection()
         {
             this.notifyScheduler = UIDispatcherScheduler.Default;
         }
 
-        /// <summary>Use scheduler is argument's scheduler.</summary>
+        /// <summary>Notify scheduler is argument's scheduler.</summary>
         public ReactiveCollection(IScheduler scheduler)
         {
             Contract.Requires<ArgumentNullException>(scheduler != null);
@@ -37,7 +37,7 @@ namespace Codeplex.Reactive
             this.subscription = Disposable.Empty;
         }
 
-        /// <summary>Use scheduler is UIDispatcherScheduler and subscribe source sequence.</summary>
+        /// <summary>Source sequence as ObservableCollection. Notify scheduler is UIDispatcherScheduler.</summary>
         public ReactiveCollection(IObservable<T> source)
         {
             Contract.Requires<ArgumentNullException>(source != null);
@@ -46,7 +46,7 @@ namespace Codeplex.Reactive
             this.subscription = source.Subscribe(this.Add);
         }
 
-        /// <summary>Use scheduler is argument's scheduler and subscribe source sequence.</summary>
+        /// <summary>Source sequence as ObservableCollection. Notify scheduler is argument's scheduler.</summary>
         public ReactiveCollection(IObservable<T> source, IScheduler scheduler)
         {
             Contract.Requires<ArgumentNullException>(source != null);
@@ -56,12 +56,14 @@ namespace Codeplex.Reactive
             this.subscription = source.Subscribe(this.Add);
         }
 
+        protected override void OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            notifyScheduler.Schedule(() => base.OnPropertyChanged(e));
+        }
+
         protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
-            notifyScheduler.Schedule(() =>
-            {
-                base.OnCollectionChanged(e);
-            });
+            notifyScheduler.Schedule(() => base.OnCollectionChanged(e));
         }
 
         /// <summary>Unsubcribe source sequence.</summary>
@@ -73,7 +75,7 @@ namespace Codeplex.Reactive
 
     public static class ReactiveCollectionObservableExtensions
     {
-        /// <summary>Use scheduler is UIDispatcherScheduler and subscribe source sequence.</summary>
+        /// <summary>Source sequence as ObservableCollection. Notify scheduler is UIDispatcherScheduler.</summary>
         public static ReactiveCollection<T> ToReactiveCollection<T>(this IObservable<T> source)
         {
             Contract.Requires<ArgumentNullException>(source != null);
@@ -82,7 +84,7 @@ namespace Codeplex.Reactive
             return new ReactiveCollection<T>(source);
         }
 
-        /// <summary>Use scheduler is argument's scheduler and subscribe source sequence.</summary>
+        /// <summary>Source sequence as ObservableCollection. Notify scheduler is argument's scheduler.</summary>
         public static ReactiveCollection<T> ToReactiveCollection<T>(this IObservable<T> source, IScheduler scheduler)
         {
             Contract.Requires<ArgumentNullException>(source != null);
