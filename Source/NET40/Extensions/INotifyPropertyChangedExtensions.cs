@@ -29,7 +29,7 @@ namespace Codeplex.Reactive.Extensions
         }
 
         /// <summary>
-        /// Converts NotificationObject's property to an observable sequence.
+        /// Converts NotificationObject's property changed to an observable sequence.
         /// </summary>
         /// <param name="propertySelector">Argument is self, Return is target property.</param>
         public static IObservable<TProperty> ObserveProperty<TSubject, TProperty>(
