@@ -45,7 +45,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>Bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;SILVERLIGHT;SL4</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
@@ -80,7 +80,7 @@
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\..\Binary\SL4\</OutputPath>
-    <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
+    <DefineConstants>TRACE;SILVERLIGHT;SL4</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
@@ -168,6 +168,9 @@
     </Compile>
     <Compile Include="..\NET40\Extensions\INotifyPropertyChangedExtensions.cs">
       <Link>Extensions\INotifyPropertyChangedExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NET40\Extensions\INotifyPropertyChangingExtensions.cs">
+      <Link>Extensions\INotifyPropertyChangingExtensions.cs</Link>
     </Compile>
     <Compile Include="..\NET40\Extensions\ObservableCollectionExtensions.cs">
       <Link>Extensions\ObservableCollectionExtensions.cs</Link>

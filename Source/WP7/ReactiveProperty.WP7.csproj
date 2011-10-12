@@ -143,6 +143,9 @@
     <Compile Include="..\NET40\Extensions\INotifyPropertyChangedExtensions.cs">
       <Link>Extensions\INotifyPropertyChangedExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\NET40\Extensions\INotifyPropertyChangingExtensions.cs">
+      <Link>Extensions\INotifyPropertyChangingExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\NET40\Extensions\ObservableCollectionExtensions.cs">
       <Link>Extensions\ObservableCollectionExtensions.cs</Link>
     </Compile>
