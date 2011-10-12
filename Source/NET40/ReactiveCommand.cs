@@ -118,6 +118,12 @@ namespace Codeplex.Reactive
             return isCanExecute;
         }
 
+        /// <summary>Push default value to subscribers.</summary>
+        public void Execute()
+        {
+            trigger.OnNext(default(T));
+        }
+
         /// <summary>Push parameter to subscribers.</summary>
         public void Execute(object parameter)
         {
