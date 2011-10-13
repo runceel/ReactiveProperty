@@ -53,6 +53,12 @@ namespace Codeplex.Reactive
             Contract.Requires<ArgumentNullException>(canExecuteSource != null);
             Contract.Requires<ArgumentNullException>(scheduler != null);
         }
+
+        /// <summary>Push null to subscribers.</summary>
+        public void Execute()
+        {
+            Execute(null);
+        }
     }
 
     public class ReactiveCommand<T> : IObservable<T>, ICommand, IDisposable
@@ -118,14 +124,14 @@ namespace Codeplex.Reactive
             return isCanExecute;
         }
 
-        /// <summary>Push default value to subscribers.</summary>
-        public void Execute()
+        /// <summary>Push parameter to subscribers.</summary>
+        public void Execute(T parameter)
         {
-            trigger.OnNext(default(T));
+            trigger.OnNext(parameter);
         }
 
         /// <summary>Push parameter to subscribers.</summary>
-        public void Execute(object parameter)
+        public void ICommand.Execute(object parameter)
         {
             trigger.OnNext((T)parameter);
         }
