@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>ReactiveProperty.SL4</name>
+        <name>ReactiveProperty.SL5</name>
     </assembly>
     <members>
         <member name="M:Codeplex.Reactive.Extensions.UIDispatcherObservableExtensions.ObserveOnUIDispatcher``1(System.IObservable{``0})">
@@ -446,6 +446,15 @@
             <summary>
             CanExecuteChanged is called from canExecute sequence on scheduler.
             </summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Extensions.INotifyPropertyChangingExtensions.PropertyChangingAsObservable``1(``0)">
+            <summary>Converts PropertyChanging to an observable sequence.</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Extensions.INotifyPropertyChangingExtensions.ObservePropertyChanging``2(``0,System.Linq.Expressions.Expression{System.Func{``0,``1}})">
+            <summary>
+            Converts NotificationObject's property changing to an observable sequence.
+            </summary>
+            <param name="propertySelector">Argument is self, Return is target property.</param>
         </member>
         <member name="M:Codeplex.Reactive.Extensions.INotifyPropertyChangedExtensions.PropertyChangedAsObservable``1(``0)">
             <summary>Converts PropertyChanged to an observable sequence.</summary>

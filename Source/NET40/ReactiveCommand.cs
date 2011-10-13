@@ -131,7 +131,7 @@ namespace Codeplex.Reactive
         }
 
         /// <summary>Push parameter to subscribers.</summary>
-        public void ICommand.Execute(object parameter)
+        void ICommand.Execute(object parameter)
         {
             trigger.OnNext((T)parameter);
         }
