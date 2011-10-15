@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F8894035-FB81-4ED6-8226-9F9C79466628}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ReactiveProperty</RootNamespace>
+    <AssemblyName>ReactiveProperty</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <CodeContractsAssemblyMode>0</CodeContractsAssemblyMode>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeOnlyPublicSurface>True</CodeContractsRuntimeOnlyPublicSurface>
+    <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRuntimeSkipQuantifiers>False</CodeContractsRuntimeSkipQuantifiers>
+    <CodeContractsRunCodeAnalysis>False</CodeContractsRunCodeAnalysis>
+    <CodeContractsNonNullObligations>False</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>False</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>False</CodeContractsArithmeticObligations>
+    <CodeContractsEnumObligations>False</CodeContractsEnumObligations>
+    <CodeContractsRedundantAssumptions>False</CodeContractsRedundantAssumptions>
+    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsShowSquigglies>False</CodeContractsShowSquigglies>
+    <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
+    <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
+    <CodeContractsCustomRewriterAssembly />
+    <CodeContractsCustomRewriterClass />
+    <CodeContractsLibPaths />
+    <CodeContractsExtraRewriteOptions />
+    <CodeContractsExtraAnalysisOptions />
+    <CodeContractsBaseLineFile />
+    <CodeContractsCacheAnalysisResults>False</CodeContractsCacheAnalysisResults>
+    <CodeContractsRuntimeCheckingLevel>ReleaseRequires</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsReferenceAssembly>Build</CodeContractsReferenceAssembly>
+    <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeOnlyPublicSurface>True</CodeContractsRuntimeOnlyPublicSurface>
+    <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRuntimeSkipQuantifiers>False</CodeContractsRuntimeSkipQuantifiers>
+    <CodeContractsRunCodeAnalysis>False</CodeContractsRunCodeAnalysis>
+    <CodeContractsNonNullObligations>False</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>False</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>False</CodeContractsArithmeticObligations>
+    <CodeContractsEnumObligations>False</CodeContractsEnumObligations>
+    <CodeContractsRedundantAssumptions>False</CodeContractsRedundantAssumptions>
+    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsShowSquigglies>False</CodeContractsShowSquigglies>
+    <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
+    <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
+    <CodeContractsCustomRewriterAssembly />
+    <CodeContractsCustomRewriterClass />
+    <CodeContractsLibPaths />
+    <CodeContractsExtraRewriteOptions />
+    <CodeContractsExtraAnalysisOptions />
+    <CodeContractsBaseLineFile />
+    <CodeContractsCacheAnalysisResults>False</CodeContractsCacheAnalysisResults>
+    <CodeContractsRuntimeCheckingLevel>ReleaseRequires</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsReferenceAssembly>Build</CodeContractsReferenceAssembly>
+    <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Reactive, Version=1.1.11011.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Rx_Experimental-Main.1.1.11011\lib\Net4\System.Reactive.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\Lib\NET40\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Source\NET40\Asynchronous\ProgressStatus.cs">
+      <Link>Asynchronous\ProgressStatus.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\Asynchronous\StreamExtensions.cs">
+      <Link>Asynchronous\StreamExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\Asynchronous\WebClientExtensions.cs">
+      <Link>Asynchronous\WebClientExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\Asynchronous\WebRequestExtensions.cs">
+      <Link>Asynchronous\WebRequestExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\Asynchronous\WebResponseExtensions.cs">
+      <Link>Asynchronous\WebResponseExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\Extensions\AccessorCache.cs">
+      <Link>Extensions\AccessorCache.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\Extensions\CombineLatestObservableExtensions.cs">
+      <Link>Extensions\CombineLatestObservableExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\Extensions\ICommandExtensions.cs">
+      <Link>Extensions\ICommandExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\Extensions\IDisposableExtensions.cs">
+      <Link>Extensions\IDisposableExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\Extensions\INotifyCollectionChangedExtensions.cs">
+      <Link>Extensions\INotifyCollectionChangedExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\Extensions\INotifyDataErrorInfoExtensions.cs">
+      <Link>Extensions\INotifyDataErrorInfoExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\Extensions\INotifyPropertyChangedExtensions.cs">
+      <Link>Extensions\INotifyPropertyChangedExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\Extensions\INotifyPropertyChangingExtensions.cs">
+      <Link>Extensions\INotifyPropertyChangingExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\Extensions\ObservableCollectionExtensions.cs">
+      <Link>Extensions\ObservableCollectionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\Extensions\RetryObservableExtensions.cs">
+      <Link>Extensions\RetryObservableExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\Extensions\UIDispatcherSchedulerObservableExtensions.cs">
+      <Link>Extensions\UIDispatcherSchedulerObservableExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\Interactivity\EventToReactive.cs">
+      <Link>Interactivity\EventToReactive.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\Notifier\IProgress.cs">
+      <Link>Notifier\IProgress.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\Notifier\ScheduledNotifier.cs">
+      <Link>Notifier\ScheduledNotifier.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\Notifier\SignalNotifier.cs">
+      <Link>Notifier\SignalNotifier.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\ObservableEx.cs">
+      <Link>ObservableEx.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\Properties\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\ReactiveCollection.cs">
+      <Link>ReactiveCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\ReactiveCommand.cs">
+      <Link>ReactiveCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\ReactiveProperty.cs">
+      <Link>ReactiveProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\Serialization\SerializeHelper.cs">
+      <Link>Serialization\SerializeHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\UIDispatcherScheduler.cs">
+      <Link>UIDispatcherScheduler.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" ProjectLinkReference="1fa4492a-829d-4cd6-86e0-d224ab19377e" />
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
