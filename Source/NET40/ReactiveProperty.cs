@@ -181,9 +181,11 @@ namespace Codeplex.Reactive
         /// </summary>
         public void Dispose()
         {
+            anotherTrigger.Dispose();
             raiseSubscription.Dispose();
             sourceDisposable.Dispose();
             validateNotifyErrorSubscription.Dispose();
+            errorsTrigger.OnCompleted();
             errorsTrigger.Dispose();
         }
 

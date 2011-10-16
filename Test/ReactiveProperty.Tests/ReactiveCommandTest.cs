@@ -6,6 +6,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Codeplex.Reactive;
 using System.Reactive.Linq;
 using Microsoft.Reactive.Testing;
+using System.Reactive.Subjects;
+using System.Threading;
 
 namespace ReactiveProperty.Tests
 {

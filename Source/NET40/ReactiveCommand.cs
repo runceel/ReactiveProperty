@@ -149,7 +149,7 @@ namespace Codeplex.Reactive
         }
 
         /// <summary>
-        /// Dispose all subscription and lock CanExecute is false.
+        /// Stop all subscription and lock CanExecute is false.
         /// </summary>
         public void Dispose()
         {
@@ -162,6 +162,7 @@ namespace Codeplex.Reactive
                 isCanExecute = false;
                 scheduler.Schedule(() =>
                 {
+                    isCanExecute = false;
                     var handler = CanExecuteChanged;
                     if (handler != null) handler(this, EventArgs.Empty);
                 });
