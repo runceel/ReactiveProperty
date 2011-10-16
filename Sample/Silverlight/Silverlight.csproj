@@ -87,12 +87,11 @@
   <ItemGroup>
     <Reference Include="mscorlib" />
     <Reference Include="ReactiveProperty.SL4, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Binary\SL4\ReactiveProperty.SL4.dll</HintPath>
+      <HintPath>..\..\Binary\Rx_Stable\SL4\ReactiveProperty.SL4.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations, Version=2.0.5.0, Culture=neutral, PublicKeyToken=ddd0da4d3e678217, processorArchitecture=MSIL" />
     <Reference Include="System.Reactive, Version=1.0.10621.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\Binary\SL4\System.Reactive.dll</HintPath>
+      <HintPath>..\..\Binary\Rx_Stable\SL4\System.Reactive.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows" />
@@ -101,7 +100,7 @@
     <Reference Include="System.Net" />
     <Reference Include="System.Windows.Controls, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\Binary\SL4\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\..\Binary\Rx_Stable\SL4\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Windows.Browser" />

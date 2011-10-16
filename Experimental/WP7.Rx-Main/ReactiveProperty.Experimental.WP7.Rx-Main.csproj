@@ -31,14 +31,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>Bin\Release</OutputPath>
-    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <OutputPath>..\..\Binary\Rx_Experimental\WP7.Rx-Main\</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT;WP_COMMON</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\..\Binary\Rx_Experimental\WP7.Rx-Main\ReactiveProperty.Experimental.WP7.Rx-Main.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System.Observable" />

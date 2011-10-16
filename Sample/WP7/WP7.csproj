@@ -52,7 +52,6 @@
     <Reference Include="Microsoft.Phone.Interop" />
     <Reference Include="Microsoft.Phone.Reactive" />
     <Reference Include="ReactiveProperty.WP7, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Binary\WP7\ReactiveProperty.WP7.dll</HintPath>
     </Reference>
     <Reference Include="System.Observable" />

@@ -62,18 +62,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ReactiveProperty, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\Binary\NET40\ReactiveProperty.dll</HintPath>
+    <Reference Include="ReactiveProperty.NET40">
+      <HintPath>..\..\Binary\Rx_Stable\NET40\ReactiveProperty.NET40.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Reactive, Version=1.0.10621.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\Binary\NET40\System.Reactive.dll</HintPath>
+      <HintPath>..\..\Binary\Rx_Stable\NET40\System.Reactive.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\Binary\NET40\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\..\Binary\Rx_Stable\NET40\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
