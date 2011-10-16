@@ -118,8 +118,14 @@ namespace Codeplex.Reactive
                 });
         }
 
+        /// <summary>Return current canExecute status.</summary>
+        public bool CanExecute()
+        {
+            return isCanExecute;
+        }
+
         /// <summary>Return current canExecute status. parameter is ignored.</summary>
-        public bool CanExecute(object parameter)
+        bool ICommand.CanExecute(object parameter)
         {
             return isCanExecute;
         }
@@ -147,6 +153,7 @@ namespace Codeplex.Reactive
         /// </summary>
         public void Dispose()
         {
+            trigger.OnCompleted();
             trigger.Dispose();
             canExecuteSubscription.Dispose();
 
