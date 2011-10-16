@@ -32,8 +32,10 @@ namespace Codeplex.Reactive.Extensions
         /// Converts NotificationObject's property changed to an observable sequence.
         /// </summary>
         /// <param name="propertySelector">Argument is self, Return is target property.</param>
+        /// <param name="isPushCurrentValueOnSubscribe">Push current value on first subscribe.</param>
         public static IObservable<TProperty> ObserveProperty<TSubject, TProperty>(
-            this TSubject subject, Expression<Func<TSubject, TProperty>> propertySelector)
+            this TSubject subject, Expression<Func<TSubject, TProperty>> propertySelector,
+            bool isPushCurrentValueAtFirst = true)
             where TSubject : INotifyPropertyChanged
         {
             Contract.Requires<ArgumentNullException>(subject != null);
@@ -42,10 +44,18 @@ namespace Codeplex.Reactive.Extensions
 
             string propertyName;
             var accessor = AccessorCache<TSubject>.Lookup(propertySelector, out propertyName);
+            var isFirst = true;
 
-            var result = subject.PropertyChangedAsObservable()
-                .Where(e => e.PropertyName == propertyName)
-                .Select(_ => ((Func<TSubject, TProperty>)accessor).Invoke(subject));
+            var result = Observable.Defer(() =>
+            {
+                var flag = isFirst;
+                isFirst = false;
+
+                var q = subject.PropertyChangedAsObservable()
+                    .Where(e => e.PropertyName == propertyName)
+                    .Select(_ => accessor.Invoke(subject));
+                return (isPushCurrentValueAtFirst && flag) ? q.StartWith(accessor.Invoke(subject)) : q;
+            });
 
             Contract.Assume(result != null);
             return result;
