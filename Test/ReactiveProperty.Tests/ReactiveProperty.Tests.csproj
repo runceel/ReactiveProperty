@@ -107,6 +107,7 @@
     <Compile Include="Asynchronous\WebClientExtensionsTest.cs" />
     <Compile Include="ChainingAssertion.MSTest.cs" />
     <Compile Include="Extensions\INotifyPropertyChangedExtensionsTest.cs" />
+    <Compile Include="Extensions\INotifyPropertyChangingExtensionsTest.cs" />
     <Compile Include="Init.cs" />
     <Compile Include="Notifier\ScheduledNotifierTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

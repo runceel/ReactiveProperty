@@ -245,7 +245,7 @@ namespace ReactiveProperty.Tests.Asynchronous
 
             recorder.Messages.Count.Is(x => x > 1);
             var xml = XElement.Load("test_public_tl.xml");
-            xml.Elements("status").Count().Is(20);
+            xml.Elements("status").Count().Is(i => i == 20 || i == 19);
 
             // exception check
             recorder.Messages.Clear();
