@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{BBDFA04A-8734-422D-8F59-9D501036E2F6}</ProjectGuid>
+    <ProjectTypeGuids>{C089C8C0-30E0-4E22-80C0-CE093F111A43};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ReactiveProperty.Experimental.WP7.Rx_Main</RootNamespace>
+    <AssemblyName>ReactiveProperty.Experimental.WP7.Rx-Main</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <TargetFrameworkProfile>WindowsPhone71</TargetFrameworkProfile>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <SilverlightApplication>false</SilverlightApplication>
+    <ValidateXaml>true</ValidateXaml>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Bin\Debug</OutputPath>
+    <DefineConstants>TRACE;DEBUG;SILVERLIGHT;WP_COMMON</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System.Observable" />
+    <Reference Include="System.Reactive, Version=1.1.11011.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Rx_Experimental-Main.1.1.11011\lib\SL3-WP\System.Reactive.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Interactivity, Version=3.8.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\Lib\SL4-WindowsPhone71\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Net" />
+    <Reference Include="mscorlib.extensions" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Source\NET40\Asynchronous\ProgressStatus.cs">
+      <Link>Asynchronous\ProgressStatus.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\Asynchronous\StreamExtensions.cs">
+      <Link>Asynchronous\StreamExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\Asynchronous\WebClientExtensions.cs">
+      <Link>Asynchronous\WebClientExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\Asynchronous\WebRequestExtensions.cs">
+      <Link>Asynchronous\WebRequestExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\Asynchronous\WebResponseExtensions.cs">
+      <Link>Asynchronous\WebResponseExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\Extensions\AccessorCache.cs">
+      <Link>Extensions\AccessorCache.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\Extensions\CombineLatestObservableExtensions.cs">
+      <Link>Extensions\CombineLatestObservableExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\Extensions\ICommandExtensions.cs">
+      <Link>Extensions\ICommandExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\Extensions\IDisposableExtensions.cs">
+      <Link>Extensions\IDisposableExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\Extensions\INotifyCollectionChangedExtensions.cs">
+      <Link>Extensions\INotifyCollectionChangedExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\Extensions\INotifyDataErrorInfoExtensions.cs">
+      <Link>Extensions\INotifyDataErrorInfoExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\Extensions\INotifyPropertyChangedExtensions.cs">
+      <Link>Extensions\INotifyPropertyChangedExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\Extensions\INotifyPropertyChangingExtensions.cs">
+      <Link>Extensions\INotifyPropertyChangingExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\Extensions\ObservableCollectionExtensions.cs">
+      <Link>Extensions\ObservableCollectionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\Extensions\RetryObservableExtensions.cs">
+      <Link>Extensions\RetryObservableExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\Extensions\UIDispatcherSchedulerObservableExtensions.cs">
+      <Link>Extensions\UIDispatcherSchedulerObservableExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\Interactivity\EventToReactive.cs">
+      <Link>Interactivity\EventToReactive.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\Notifier\IProgress.cs">
+      <Link>Notifier\IProgress.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\Notifier\ScheduledNotifier.cs">
+      <Link>Notifier\ScheduledNotifier.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\Notifier\SignalNotifier.cs">
+      <Link>Notifier\SignalNotifier.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\ObservableEx.cs">
+      <Link>ObservableEx.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\Properties\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\ReactiveCollection.cs">
+      <Link>ReactiveCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\ReactiveCommand.cs">
+      <Link>ReactiveCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\ReactiveProperty.cs">
+      <Link>ReactiveProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\Serialization\SerializeHelper.cs">
+      <Link>Serialization\SerializeHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\NET40\UIDispatcherScheduler.cs">
+      <Link>UIDispatcherScheduler.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" ProjectLinkReference="1fa4492a-829d-4cd6-86e0-d224ab19377e" />
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
