@@ -51,8 +51,8 @@
     <Reference Include="Microsoft.Phone" />
     <Reference Include="Microsoft.Phone.Interop" />
     <Reference Include="Microsoft.Phone.Reactive" />
-    <Reference Include="ReactiveProperty.WP7, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\Binary\WP7\ReactiveProperty.WP7.dll</HintPath>
+    <Reference Include="ReactiveProperty.WP7.Rx-Main">
+      <HintPath>..\..\Binary\Rx_Stable\WP7.Rx-Main\ReactiveProperty.WP7.Rx-Main.dll</HintPath>
     </Reference>
     <Reference Include="System.Observable" />
     <Reference Include="System.Runtime.Serialization" />

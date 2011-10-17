@@ -19,7 +19,7 @@
             <reference file="ReactiveProperty.NET40.dll" />
             <reference file="ReactiveProperty.SL4.dll" />
             <reference file="ReactiveProperty.SL5.dll" />
-            <reference file="ReactiveProperty.WP7.Rx_Main.dll" />
+            <reference file="ReactiveProperty.WP7.Rx-Main.dll" />
             <reference file="System.Windows.Interactivity.dll" />
         </references>
         <frameworkAssemblies>
@@ -47,8 +47,8 @@
         <file src="..\Binary\Rx_Stable\SL5\ReactiveProperty.SL5.XML" target="lib\SL5" />
         <file src="..\Binary\Rx_Stable\SL5\System.Windows.Interactivity.dll" target="lib\SL5" />
         <file src="..\Binary\Rx_Stable\SL5\CodeContracts\ReactiveProperty.SL5.Contracts.dll" target="lib\SL5\CodeContracts" />
-        <file src="..\Binary\Rx_Stable\WP7.Rx-Main\ReactiveProperty.WP7.Rx_Main.dll" target="lib\SL4-WindowsPhone71" />
-        <file src="..\Binary\Rx_Stable\WP7.Rx-Main\ReactiveProperty.WP7.Rx_Main.XML" target="lib\SL4-WindowsPhone71" />
+        <file src="..\Binary\Rx_Stable\WP7.Rx-Main\ReactiveProperty.WP7.Rx-Main.dll" target="lib\SL4-WindowsPhone71" />
+        <file src="..\Binary\Rx_Stable\WP7.Rx-Main\ReactiveProperty.WP7.Rx-Main.XML" target="lib\SL4-WindowsPhone71" />
         <file src="..\Binary\Rx_Stable\WP7.Rx-Main\System.Windows.Interactivity.dll" target="lib\SL4-WindowsPhone71" />
     </files>
 </package>
