@@ -16,7 +16,7 @@
             <dependency id="Rx-Main" version="1.0.10621" />
         </dependencies>
         <references>
-            <reference file="ReactiveProperty.dll" />
+            <reference file="ReactiveProperty.NET40.dll" />
             <reference file="ReactiveProperty.SL4.dll" />
             <reference file="ReactiveProperty.SL5.dll" />
             <reference file="ReactiveProperty.WP7.Rx_Main.dll" />

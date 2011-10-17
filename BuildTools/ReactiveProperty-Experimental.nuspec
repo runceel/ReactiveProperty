@@ -16,7 +16,7 @@
             <dependency id="Rx_Experimental-Main" version="1.1.11011" />
         </dependencies>
         <references>
-            <reference file="ReactiveProperty.Experimental.dll" />
+            <reference file="ReactiveProperty.Experimental.NET40.dll" />
             <reference file="ReactiveProperty.Experimental.SL4.dll" />
             <reference file="ReactiveProperty.Experimental.SL5.dll" />
             <reference file="ReactiveProperty.Experimental.WP7.Rx_Main.dll" />
