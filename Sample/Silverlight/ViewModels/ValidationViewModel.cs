@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Windows;
 using Codeplex.Reactive;
+using Codeplex.Reactive.Extensions;
 using System.Collections;
 
 namespace Silverlight.ViewModels
@@ -65,7 +66,13 @@ namespace Silverlight.ViewModels
             // If want to validate on view initialize,
             // use ReactivePropertyMode.RaiseLatestValueOnSubscribe to ReactiveProperty
             // that mode is validate values on initialize.
-            NextCommand = errors.Select(x => x == null).ToReactiveCommand(initialValue: false);
+            NextCommand = ValidationAttr.ObserveErrorChanged
+                .CombineLatest(
+                    ValidationData.ObserveErrorChanged,
+                    ValidationBoth.ObserveErrorChanged,
+                    ValidationNotify.ObserveErrorChanged,
+                    (a, b, c, d) => new[] { a, b, c, d }.All(x => x == null))
+                .ToReactiveCommand(initialValue: false);
             NextCommand.Subscribe(_ => MessageBox.Show("Can go to next!"));
         }
     }

@@ -2,8 +2,8 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>ReactiveProperty-WP7</id>
-        <version>0.1.0.0</version>
-        <title>ReactiveProperty-WP7</title>
+        <version>0.2.0.0</version>
+        <title>ReactiveProperty for WP7(Microsoft.Phone.Reactive)</title>
         <authors>neuecc</authors>
         <owners>neuecc</owners>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -13,6 +13,10 @@
         <projectUrl>http://reactiveproperty.codeplex.com/</projectUrl>
         <tags>rx mvvm async</tags>
         <frameworkAssemblies>
+            <frameworkAssembly assemblyName="System" targetFramework="SL4-WindowsPhone71" />
+            <frameworkAssembly assemblyName="System.Core" targetFramework="SL4-WindowsPhone71" />
+            <frameworkAssembly assemblyName="System.Xml" targetFramework="SL4-WindowsPhone71" />
+            <frameworkAssembly assemblyName="System.Runtime.Serialization" targetFramework="SL4-WindowsPhone71" />
             <frameworkAssembly assemblyName="Microsoft.Phone.Reactive" targetFramework="SL4-WindowsPhone71" />
             <frameworkAssembly assemblyName="System.Observable" targetFramework="SL4-WindowsPhone71" />
         </frameworkAssemblies>

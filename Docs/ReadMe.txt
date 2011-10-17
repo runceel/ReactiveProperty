@@ -1,6 +1,6 @@
 ﻿/*--------------------------------------------------------------------------
  * ReactiveProperty
- * ver 0.1.0.0 (Oct. 6th, 2011)
+ * ver 0.2.0.0 (Oct. 17th, 2011)
  *
  * created and maintained by neuecc <ils@neue.cc - @neuecc/Twitter>
  * licensed under Microsoft Public License(Ms-PL)
@@ -25,14 +25,21 @@ I recommend that use MVVM Framework together.
 
 ---Bin/Assembly---
 
+Rx_Stable/Rx_Experimental
 |-NET40 - .NET 4.0 Client Profile
 |-SL4 - Silverlight 4
-|-WP7 - Windows Phone 7.1(no requires Rx-Main. This depend Microsoft.Phone.Reactive)
+|-SL5 - Silverlight 5
 |-WP7.Rx-Main - Windows Phone 7.1
+
+WP7
+|- Windows Phone 7.1(no requires Rx-Main. This depend Microsoft.Phone.Reactive)
 
 ---Dependency---
 
-Currently target Rx version is Build 1.0.10605(Stable, Rx-Main on NuGet) except WP7.
+Currently target Rx version is
+Build 1.0.10621(Stable, Rx-Main on NuGet),
+Build 1.1.11011(Experimental, Rx_Experimental-Main on NuGet)
+or WP7(Microsoft.Phone.Reactive)
 Codeplex.Reactive.Interactivity namespace and under classes,
 depend System.Windows.Interactivity(Blend SDK)
 
@@ -43,6 +50,9 @@ Install-Package ReactiveProperty
 
 Install-Package ReactiveProperty-WP7
 -> WP7
+
+Install-Package ReactiveProperty-Experimental
+-> NET40, SL, WP7.Rx-Main | dependencies Rx_Experimental-Main
 
 ---Snippet---
 
@@ -63,7 +73,7 @@ rcoll ReactiveCollection.snippet
 Codeplex.Reactive
 -> ReacitveProperty - two-way bindable IObservable
 -> ReactiveCommand - declaratively notify CanExecute from inside
--> ReactiveCollection - IObservable as ObservableCollection(and notify dispatch on IScheduler)
+-> ReactiveCollection - IObservable as ObservableCollection(and operate on IScheduler)
 -> UIDispatcherScheduler - Schedule on UIDispatcher, if access same thread schedule immediately.
 
 Codeplex.Reactive.Asynchronous
@@ -95,6 +105,18 @@ Auto generate unit test using Pex.
 Assert helper using ChainingAssertion http://chainingassertion.codeplex.com/
 
 ---History---
+
+2011-10-17 ver 0.2.0.0
+    Add
+        Support Rx-Experimental
+        INotifyPropertyChangedExtensions.ObserveProperty isPushCurrentValueAtFirst overload
+        (Changed:default behavior is true, ver.0.1 was false)
+        INotifyPropertyChangingExtensions(WPF/WP7)
+        ReactiveCollection.Execute() overload
+        ReactiveCollection add AddOnScheduler, ClearOnScheduler, etc...
+    Change
+        ReactiveCommand<T>.Dispose() send OnCompleted to subscribers
+        ReactiveCollection remove notify on scheduler
 
 2011-10-06 ver 0.1.0.0
     Initial Release

@@ -51,6 +51,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildTools", "BuildTools", 
 		BuildTools\NuGet.exe = BuildTools\NuGet.exe
 		BuildTools\pack.bat = BuildTools\pack.bat
 		BuildTools\push.bat = BuildTools\push.bat
+		BuildTools\ReactiveProperty-Experimental.nuspec = BuildTools\ReactiveProperty-Experimental.nuspec
 		BuildTools\ReactiveProperty-WP7.nuspec = BuildTools\ReactiveProperty-WP7.nuspec
 		BuildTools\ReactiveProperty.nuspec = BuildTools\ReactiveProperty.nuspec
 	EndProjectSection
@@ -247,7 +248,7 @@ Global
 		{F8894035-FB81-4ED6-8226-9F9C79466628} = {67A413A0-BD1C-442D-A941-DBE382A3311C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
 		BuildVersion_UseGlobalSettings = True
+		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
 	EndGlobalSection
 EndGlobal

@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.Phone.Reactive;
 using System.Windows;
 using Codeplex.Reactive;
+using Codeplex.Reactive.Extensions;
 using System.Collections;
 
 namespace WP7.ViewModels
@@ -54,7 +55,12 @@ namespace WP7.ViewModels
             // If want to validate on view initialize,
             // use ReactivePropertyMode.RaiseLatestValueOnSubscribe to ReactiveProperty
             // that mode is validate values on initialize.
-            NextCommand = errors.Select(x => x == null).ToReactiveCommand(initialValue: false);
+            NextCommand = ValidationData.ObserveErrorChanged
+                .CombineLatest(
+                    ValidationBoth.ObserveErrorChanged,
+                    ValidationNotify.ObserveErrorChanged,
+                    (a, b, c) => new[] { a, b, c }.All(x => x == null))
+                .ToReactiveCommand(initialValue: false);
             NextCommand.Subscribe(_ => MessageBox.Show("Can go to next!"));
         }
     }
