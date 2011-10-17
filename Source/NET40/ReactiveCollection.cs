@@ -15,55 +15,97 @@ using System.Reactive.Disposables;
 namespace Codeplex.Reactive
 {
     /// <summary>
-    /// ObservableCollection that notify OnCollectionChanged on IScheduler.
+    /// ObservableCollection that operate on scheduler.
     /// </summary>
     public class ReactiveCollection<T> : ObservableCollection<T>, IDisposable
     {
         readonly IDisposable subscription;
-        readonly IScheduler notifyScheduler;
+        readonly IScheduler scheduler;
 
-        /// <summary>Notify scheduler is UIDispatcherScheduler.</summary>
+        /// <summary>Operate scheduler is UIDispatcherScheduler.</summary>
         public ReactiveCollection()
-        {
-            this.notifyScheduler = UIDispatcherScheduler.Default;
-        }
+            : this(UIDispatcherScheduler.Default)
+        { }
 
-        /// <summary>Notify scheduler is argument's scheduler.</summary>
+        /// <summary>Operate scheduler is argument's scheduler.</summary>
         public ReactiveCollection(IScheduler scheduler)
         {
             Contract.Requires<ArgumentNullException>(scheduler != null);
 
-            this.notifyScheduler = scheduler;
+            this.scheduler = scheduler;
             this.subscription = Disposable.Empty;
         }
 
-        /// <summary>Source sequence as ObservableCollection. Notify scheduler is UIDispatcherScheduler.</summary>
+        /// <summary>Source sequence as ObservableCollection. Operate scheduler is UIDispatcherScheduler.</summary>
         public ReactiveCollection(IObservable<T> source)
+            : this(source, UIDispatcherScheduler.Default)
         {
             Contract.Requires<ArgumentNullException>(source != null);
-
-            this.notifyScheduler = UIDispatcherScheduler.Default;
-            this.subscription = source.Subscribe(this.Add);
         }
 
-        /// <summary>Source sequence as ObservableCollection. Notify scheduler is argument's scheduler.</summary>
+        /// <summary>Source sequence as ObservableCollection. Operate scheduler is argument's scheduler.</summary>
         public ReactiveCollection(IObservable<T> source, IScheduler scheduler)
         {
             Contract.Requires<ArgumentNullException>(source != null);
             Contract.Requires<ArgumentNullException>(scheduler != null);
 
-            this.notifyScheduler = scheduler;
-            this.subscription = source.Subscribe(this.Add);
+            this.scheduler = scheduler;
+            this.subscription = source.ObserveOn(scheduler).Subscribe(this.Add);
         }
 
-        protected override void OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs e)
+        /// <summary>Add called on scheduler</summary>
+        public void AddOnScheduler(T item)
         {
-            notifyScheduler.Schedule(() => base.OnPropertyChanged(e));
+            scheduler.Schedule(() => Add(item));
         }
 
-        protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+        /// <summary>Clear called on scheduler</summary>
+        public void ClearOnScheduler()
         {
-            notifyScheduler.Schedule(() => base.OnCollectionChanged(e));
+            scheduler.Schedule(() => Clear());
+        }
+
+        /// <summary>Insert called on scheduler</summary>
+        public void InsertOnScheduler(int index, T item)
+        {
+            Contract.Requires<ArgumentOutOfRangeException>(index >= 0);
+
+            scheduler.Schedule(() => Insert(index, item));
+        }
+
+#if !SILVERLIGHT
+
+        /// <summary>Move called on scheduler</summary>
+        public void MoveOnScheduler(int oldIndex, int newIndex)
+        {
+            Contract.Requires<ArgumentOutOfRangeException>(oldIndex >= 0);
+            Contract.Requires<ArgumentOutOfRangeException>(newIndex >= 0);
+
+            scheduler.Schedule(() => Move(oldIndex, newIndex));
+        }
+
+#endif
+
+        /// <summary>Remove called on scheduler</summary>
+        public void RemoveOnScheduler(T item)
+        {
+            scheduler.Schedule(() => Remove(item));
+        }
+
+        /// <summary>RemoveAt called on scheduler</summary>
+        public void RemoveAtOnScheduler(int index)
+        {
+            Contract.Requires<ArgumentOutOfRangeException>(index >= 0);
+
+            scheduler.Schedule(() => RemoveAt(index));
+        }
+
+        /// <summary>Set(indexer set) called on scheduler</summary>
+        public void SetOnScheduler(int index, T value)
+        {
+            Contract.Requires<ArgumentOutOfRangeException>(index >= 0);
+
+            scheduler.Schedule(() => this[index] = value);
         }
 
         /// <summary>Unsubcribe source sequence.</summary>
@@ -75,7 +117,7 @@ namespace Codeplex.Reactive
 
     public static class ReactiveCollectionObservableExtensions
     {
-        /// <summary>Source sequence as ObservableCollection. Notify scheduler is UIDispatcherScheduler.</summary>
+        /// <summary>Source sequence as ObservableCollection. Operate scheduler is UIDispatcherScheduler.</summary>
         public static ReactiveCollection<T> ToReactiveCollection<T>(this IObservable<T> source)
         {
             Contract.Requires<ArgumentNullException>(source != null);
@@ -84,7 +126,7 @@ namespace Codeplex.Reactive
             return new ReactiveCollection<T>(source);
         }
 
-        /// <summary>Source sequence as ObservableCollection. Notify scheduler is argument's scheduler.</summary>
+        /// <summary>Source sequence as ObservableCollection. Operate scheduler is argument's scheduler.</summary>
         public static ReactiveCollection<T> ToReactiveCollection<T>(this IObservable<T> source, IScheduler scheduler)
         {
             Contract.Requires<ArgumentNullException>(source != null);
