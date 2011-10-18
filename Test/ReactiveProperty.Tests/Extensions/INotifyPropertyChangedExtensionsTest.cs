@@ -92,6 +92,21 @@ namespace ReactiveProperty.Tests.Extensions
                 OnError<string>(1000, commonEx));
         }
 
+        [TestMethod]
+        public void ToReactivePropertyAsSynchronized()
+        {
+            var model = new Model() { Name = "homuhomu" };
+            var prop = model.ToReactivePropertyAsSynchronized(x => x.Name);
+
+            prop.Value.Is("homuhomu");
+
+            prop.Value = "madomado";
+            model.Name.Is("madomado");
+
+            model.Name = "mamimami";
+            prop.Value.Is("mamimami");
+        }
+
         class Model : INotifyPropertyChanged
         {
             private string name;

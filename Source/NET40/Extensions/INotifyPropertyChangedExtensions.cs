@@ -43,7 +43,7 @@ namespace Codeplex.Reactive.Extensions
             Contract.Ensures(Contract.Result<IObservable<TProperty>>() != null);
 
             string propertyName;
-            var accessor = AccessorCache<TSubject>.Lookup(propertySelector, out propertyName);
+            var accessor = AccessorCache<TSubject>.LookupGet(propertySelector, out propertyName);
             var isFirst = true;
 
             var result = Observable.Defer(() =>
@@ -56,6 +56,30 @@ namespace Codeplex.Reactive.Extensions
                     .Select(_ => accessor.Invoke(subject));
                 return (isPushCurrentValueAtFirst && flag) ? q.StartWith(accessor.Invoke(subject)) : q;
             });
+
+            Contract.Assume(result != null);
+            return result;
+        }
+
+        /// <summary>
+        /// Converts NotificationObject's property to ReactiveProperty. Value is two-way synchronized.
+        /// </summary>
+        /// <param name="propertySelector">Argument is self, Return is target property.</param>
+        /// <param name="mode">ReactiveProperty mode.</param>
+        public static ReactiveProperty<TProperty> ToReactivePropertyAsSynchronized<TSubject, TProperty>(
+            this TSubject subject, Expression<Func<TSubject, TProperty>> propertySelector,
+            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged)
+            where TSubject : INotifyPropertyChanged
+        {
+            Contract.Requires<ArgumentNullException>(subject != null);
+            Contract.Requires<ArgumentNullException>(propertySelector != null);
+            Contract.Ensures(Contract.Result<ReactiveProperty<TProperty>>() != null);
+
+            string propertyName; // no use
+            var setter = AccessorCache<TSubject>.LookupSet(propertySelector, out propertyName);
+
+            var result = subject.ObserveProperty(propertySelector).ToReactiveProperty(mode: mode);
+            result.Subscribe(x => setter(subject, x));
 
             Contract.Assume(result != null);
             return result;

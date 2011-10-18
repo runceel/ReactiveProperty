@@ -45,7 +45,7 @@ namespace Codeplex.Reactive.Extensions
             Contract.Ensures(Contract.Result<IObservable<TProperty>>() != null);
 
             string propertyName;
-            var accessor = AccessorCache<TSubject>.Lookup(propertySelector, out propertyName);
+            var accessor = AccessorCache<TSubject>.LookupGet(propertySelector, out propertyName);
             var isFirst = true;
 
             var result = Observable.Defer(() =>
