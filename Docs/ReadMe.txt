@@ -46,13 +46,13 @@ depend System.Windows.Interactivity(Blend SDK)
 ---NuGet Installation---
 
 Install-Package ReactiveProperty
--> NET40, SL, WP7.Rx-Main
-
-Install-Package ReactiveProperty-WP7
--> WP7
+-> NET40, SL4, SL5, WP7.Rx-Main | dependencies Rx-Main
 
 Install-Package ReactiveProperty-Experimental
--> NET40, SL, WP7.Rx-Main | dependencies Rx_Experimental-Main
+-> NET40, SL4, SL5, WP7.Rx-Main | dependencies Rx_Experimental-Main
+
+Install-Package ReactiveProperty-WP7
+-> WP7(Microsoft.Phone.Reactive)
 
 ---Snippet---
 
@@ -112,7 +112,7 @@ Assert helper using ChainingAssertion http://chainingassertion.codeplex.com/
         INotifyPropertyChangedExtensions.ObserveProperty isPushCurrentValueAtFirst overload
         (Changed:default behavior is true, ver.0.1 was false)
         INotifyPropertyChangingExtensions(WPF/WP7)
-        ReactiveCollection.Execute() overload
+        ReactiveCommand.Execute() overload
         ReactiveCollection add AddOnScheduler, ClearOnScheduler, etc...
     Change
         ReactiveCommand<T>.Dispose() send OnCompleted to subscribers

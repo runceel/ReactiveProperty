@@ -11,9 +11,6 @@ using System.Threading;
 
 namespace ReactiveProperty.Tests
 {
-    /// <summary>
-    /// ReactiveCommandTest の概要の説明
-    /// </summary>
     [TestClass]
     public class ReactiveCommandTest : ReactiveTest
     {
