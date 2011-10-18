@@ -77,48 +77,19 @@ namespace Codeplex.Reactive
 
         /// <summary>PropertyChanged raise on selected scheduler</summary>
         public ReactiveProperty(IScheduler raiseEventScheduler, T initialValue = default(T), ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged)
-            : this((Action<T>)null, raiseEventScheduler, initialValue, mode)
-        {
-            Contract.Requires<ArgumentNullException>(raiseEventScheduler != null);
-        }
-
-        /// <summary>PropertyChanged raise on UIDispatcherScheduler</summary>
-        public ReactiveProperty(Action<T> parentRaisePropertyChanged, T initialValue = default(T), ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged)
-            : this(parentRaisePropertyChanged, UIDispatcherScheduler.Default, initialValue, mode)
-        { }
-
-        /// <summary>PropertyChanged raise on selected scheduler</summary>
-        public ReactiveProperty(Action<T> parentRaisePropertyChanged, IScheduler raiseEventScheduler, T initialValue = default(T), ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged)
-            : this(Observable.Never<T>(), parentRaisePropertyChanged, raiseEventScheduler, initialValue, mode)
+            : this(Observable.Never<T>(), raiseEventScheduler, initialValue, mode)
         {
             Contract.Requires<ArgumentNullException>(raiseEventScheduler != null);
         }
 
         // ToReactiveProperty Only
         internal ReactiveProperty(IObservable<T> source, T initialValue = default(T), ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged)
-            : this(source, (Action<T>)null, initialValue, mode)
+            : this(source, UIDispatcherScheduler.Default, initialValue, mode)
         {
             Contract.Requires<ArgumentNullException>(source != null);
         }
 
         internal ReactiveProperty(IObservable<T> source, IScheduler raiseEventScheduler, T initialValue = default(T), ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged)
-            : this(source, null, raiseEventScheduler, initialValue, mode)
-        {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(raiseEventScheduler != null);
-        }
-
-        internal ReactiveProperty(
-            IObservable<T> source, Action<T> parentRaisePropertyChanged, T initialValue = default(T), ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged)
-            : this(source, parentRaisePropertyChanged, UIDispatcherScheduler.Default, initialValue, mode)
-        {
-            Contract.Requires<ArgumentNullException>(source != null);
-        }
-
-        internal ReactiveProperty(
-            IObservable<T> source, Action<T> parentRaisePropertyChanged,
-            IScheduler raiseEventScheduler, T initialValue = default(T),
-            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged)
         {
             Contract.Requires<ArgumentNullException>(source != null);
             Contract.Requires<ArgumentNullException>(raiseEventScheduler != null);
@@ -146,7 +117,6 @@ namespace Codeplex.Reactive
 
                     var handler = PropertyChanged;
                     if (handler != null) PropertyChanged(this, SingletonPropertyChangedEventArgs.Value);
-                    if (parentRaisePropertyChanged != null) parentRaisePropertyChanged(x);
                 });
 
             // start source
@@ -385,37 +355,6 @@ namespace Codeplex.Reactive
             Contract.Ensures(Contract.Result<ReactiveProperty<T>>() != null);
 
             return new ReactiveProperty<T>(source, raiseEventScheduler, initialValue, mode);
-        }
-
-        /// <summary>
-        /// <para>Convert to two-way bindable IObservable&lt;T&gt;</para>
-        /// <para>PropertyChanged raise on UIDispatcherScheduler</para>
-        /// </summary>
-        public static ReactiveProperty<T> ToReactiveProperty<T>(this IObservable<T> source,
-            Action<T> parentRaisePropertyChanged, T initialValue = default(T),
-            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged)
-        {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(parentRaisePropertyChanged != null);
-            Contract.Ensures(Contract.Result<ReactiveProperty<T>>() != null);
-
-            return new ReactiveProperty<T>(source, parentRaisePropertyChanged, initialValue, mode);
-        }
-
-        /// <summary>
-        /// <para>Convert to two-way bindable IObservable&lt;T&gt;</para>
-        /// <para>PropertyChanged raise on selected scheduler</para>
-        /// </summary>
-        public static ReactiveProperty<T> ToReactiveProperty<T>(this IObservable<T> source,
-            Action<T> parentRaisePropertyChanged, IScheduler raiseEventScheduler, T initialValue = default(T),
-            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged)
-        {
-            Contract.Requires<ArgumentNullException>(source != null);
-            Contract.Requires<ArgumentNullException>(parentRaisePropertyChanged != null);
-            Contract.Requires<ArgumentNullException>(raiseEventScheduler != null);
-            Contract.Ensures(Contract.Result<ReactiveProperty<T>>() != null);
-
-            return new ReactiveProperty<T>(source, parentRaisePropertyChanged, raiseEventScheduler, initialValue, mode);
         }
     }
 }
