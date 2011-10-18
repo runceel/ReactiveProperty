@@ -41,6 +41,11 @@ namespace Codeplex.Reactive
         {
             return scheduler.Schedule(action, dueTime);
         }
+
+        public static IDisposable Schedule(this IScheduler scheduler, TimeSpan dueTime, Action<Action<TimeSpan>> action)
+        {
+            return scheduler.Schedule(action, dueTime);
+        }
 #endif
 
         public static IObservable<TSource> Create<TSource>(Func<IObserver<TSource>, IDisposable> subscribe)

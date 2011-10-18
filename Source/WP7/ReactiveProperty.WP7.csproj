@@ -185,6 +185,9 @@
     <Compile Include="..\NET40\ReactiveProperty.cs">
       <Link>ReactiveProperty.cs</Link>
     </Compile>
+    <Compile Include="..\NET40\ReactiveTimer.cs">
+      <Link>ReactiveTimer.cs</Link>
+    </Compile>
     <Compile Include="..\NET40\Serialization\SerializeHelper.cs">
       <Link>Serialization\SerializeHelper.cs</Link>
     </Compile>
