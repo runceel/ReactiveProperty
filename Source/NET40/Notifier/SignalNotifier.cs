@@ -60,9 +60,10 @@ namespace Codeplex.Reactive.Notifier
 
             lock (lockObject)
             {
-                if (incrementCount + Count > Max) throw new InvalidOperationException("over max value");
+                if (Count == Max) return;
+                else if (incrementCount + Count > Max) Count = Max;
+                else Count += incrementCount;
 
-                Count += incrementCount;
                 statusChanged.OnNext(SignalChangedStatus.Increment);
                 if (Count == Max) statusChanged.OnNext(SignalChangedStatus.Max);
             }
@@ -77,9 +78,10 @@ namespace Codeplex.Reactive.Notifier
 
             lock (lockObject)
             {
-                if (Count - decrementCount < 0) throw new InvalidOperationException("not allow decrement to under 0");
+                if (Count == 0) return;
+                else if (Count - decrementCount < 0) Count = 0;
+                else Count -= decrementCount;
 
-                Count -= decrementCount;
                 statusChanged.OnNext(SignalChangedStatus.Decrement);
                 if (Count == 0) statusChanged.OnNext(SignalChangedStatus.Empty);
             }
