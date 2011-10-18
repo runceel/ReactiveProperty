@@ -131,6 +131,7 @@
     <Compile Include="Extensions\ObservableCollectionExtensions.cs" />
     <Compile Include="Extensions\UIDispatcherSchedulerObservableExtensions.cs" />
     <Compile Include="Extensions\INotifyPropertyChangingExtensions.cs" />
+    <Compile Include="Extensions\CatchIgnoreObservableExtensions.cs" />
     <Compile Include="ObservableEx.cs" />
     <Compile Include="Asynchronous\WebRequestExtensions.cs" />
     <Compile Include="Asynchronous\WebResponseExtensions.cs" />

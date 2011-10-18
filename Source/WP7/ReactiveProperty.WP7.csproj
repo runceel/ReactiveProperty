@@ -125,6 +125,9 @@
     <Compile Include="..\NET40\Extensions\AccessorCache.cs">
       <Link>Extensions\AccessorCache.cs</Link>
     </Compile>
+    <Compile Include="..\NET40\Extensions\CatchIgnoreObservableExtensions.cs">
+      <Link>Extensions\CatchIgnoreObservableExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\NET40\Extensions\CombineLatestObservableExtensions.cs">
       <Link>Extensions\CombineLatestObservableExtensions.cs</Link>
     </Compile>
@@ -194,7 +197,7 @@
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" ProjectLinkReference="1fa4492a-829d-4cd6-86e0-d224ab19377e" />
+      <UserProperties ProjectLinkReference="1fa4492a-829d-4cd6-86e0-d224ab19377e" ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
