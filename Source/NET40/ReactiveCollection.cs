@@ -15,7 +15,7 @@ using System.Reactive.Disposables;
 namespace Codeplex.Reactive
 {
     /// <summary>
-    /// ObservableCollection that operate on scheduler.
+    /// ObservableCollection that operate on scheduler use by ***OnScheduler methods.
     /// </summary>
     public class ReactiveCollection<T> : ObservableCollection<T>, IDisposable
     {
@@ -63,6 +63,15 @@ namespace Codeplex.Reactive
         public void ClearOnScheduler()
         {
             scheduler.Schedule(() => Clear());
+        }
+
+        /// <summary>Get(indexer get) called on scheduler</summary>
+        public IObservable<T> GetOnScheduler(int index)
+        {
+            Contract.Requires<ArgumentOutOfRangeException>(index >= 0);
+            Contract.Ensures(Contract.Result<IObservable<T>>() != null);
+
+            return Observable.Start(() => this[index], scheduler);
         }
 
         /// <summary>Insert called on scheduler</summary>
