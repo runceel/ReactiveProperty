@@ -100,7 +100,12 @@ namespace Codeplex.Reactive
             // create source
             var merge = source.Merge(anotherTrigger);
             if (mode.HasFlag(ReactivePropertyMode.DistinctUntilChanged)) merge = merge.DistinctUntilChanged();
-            merge = merge.Do(x => latestValue = x); // setvalue immediately
+            merge = merge.Do(x =>
+            {
+                // setvalue immediately
+                if (!isValueChanged) isValueChanged = true;
+                latestValue = x;
+            });
 
             // publish observable
             var connectable = (mode.HasFlag(ReactivePropertyMode.RaiseLatestValueOnSubscribe))
@@ -113,7 +118,7 @@ namespace Codeplex.Reactive
                 .ObserveOn(raiseEventScheduler)
                 .Subscribe(x =>
                 {
-                    if (!isValueChanged) isValueChanged = true;
+
 
                     var handler = PropertyChanged;
                     if (handler != null) PropertyChanged(this, SingletonPropertyChangedEventArgs.Value);
@@ -201,7 +206,7 @@ namespace Codeplex.Reactive
             return this;
         }
 
-        string ValidateException()
+        Exception ValidateException()
         {
             try
             {
@@ -219,8 +224,7 @@ namespace Codeplex.Reactive
             }
             catch (Exception ex)
             {
-                errorsTrigger.OnNext(ex);
-                return ex.Message;
+                return ex;
             }
         }
 #endif
@@ -262,7 +266,9 @@ namespace Codeplex.Reactive
                     var exceptionResult = ValidateException();
                     if (exceptionResult != null)
                     {
-                        return exceptionResult;
+                        currentError = exceptionResult.Message;
+                        errorsTrigger.OnNext(currentError);
+                        return currentError;
                     }
                 }
 #endif
