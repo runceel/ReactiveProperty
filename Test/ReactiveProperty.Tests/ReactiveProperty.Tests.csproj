@@ -110,6 +110,7 @@
     <Compile Include="Extensions\INotifyPropertyChangingExtensionsTest.cs" />
     <Compile Include="Init.cs" />
     <Compile Include="Notifier\ScheduledNotifierTest.cs" />
+    <Compile Include="Notifier\BooleanNotifierTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Notifier\CountNotifierTest.cs" />
     <Compile Include="ReactiveCommandTest.cs" />

@@ -166,6 +166,9 @@
     <Compile Include="..\NET40\Interactivity\EventToReactive.cs">
       <Link>Interactivity\EventToReactive.cs</Link>
     </Compile>
+    <Compile Include="..\NET40\Notifier\BooleanNotifier.cs">
+      <Link>Notifier\BooleanNotifier.cs</Link>
+    </Compile>
     <Compile Include="..\NET40\Notifier\CountNotifier.cs">
       <Link>Notifier\CountNotifier.cs</Link>
     </Compile>
