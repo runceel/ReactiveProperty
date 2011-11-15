@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Reactive.Concurrency;
-using Codeplex.Reactive.Notifier;
+using Codeplex.Reactive.Notifiers;
 using Microsoft.Reactive.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.Contracts;

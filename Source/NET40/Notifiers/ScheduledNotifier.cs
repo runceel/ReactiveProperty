@@ -10,7 +10,7 @@ using System.Reactive.Disposables;
 using System.Reactive.Subjects;
 #endif
 
-namespace Codeplex.Reactive.Notifier
+namespace Codeplex.Reactive.Notifiers
 {
     /// <summary>
     /// Notify value on setuped scheduler.

@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Xml.Linq;
 using Codeplex.Reactive.Asynchronous;
-using Codeplex.Reactive.Notifier;
+using Codeplex.Reactive.Notifiers;
 using Microsoft.Reactive.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

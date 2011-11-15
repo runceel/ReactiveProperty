@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Codeplex.Reactive.Notifier
+namespace Codeplex.Reactive.Notifiers
 {
     // this interface borrow from .NET 4.5
     // will replace in the future

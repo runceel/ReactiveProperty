@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Net;
-using Codeplex.Reactive.Notifier;
+using Codeplex.Reactive.Notifiers;
 using System.Diagnostics.Contracts;
 using System.ComponentModel;
 using System.IO;

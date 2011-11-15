@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Diagnostics.Contracts;
-using Codeplex.Reactive.Notifier;
+using Codeplex.Reactive.Notifiers;
 #if WINDOWS_PHONE
 using Microsoft.Phone.Reactive;
 #else

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
-using Codeplex.Reactive.Notifier;
+using Codeplex.Reactive.Notifiers;
 using Codeplex.Reactive.Asynchronous;
 using System.Reactive.Linq;
 using System.Reactive;

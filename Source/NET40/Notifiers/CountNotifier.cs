@@ -13,7 +13,7 @@ using System.Reactive.Disposables;
 using System.Reactive.Subjects;
 #endif
 
-namespace Codeplex.Reactive.Notifier
+namespace Codeplex.Reactive.Notifiers
 {
     /// <summary>Event kind of CountNotifier.</summary>
     public enum CountChangedStatus
