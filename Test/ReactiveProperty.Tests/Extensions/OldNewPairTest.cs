@@ -14,11 +14,15 @@ namespace ReactiveProperty.Tests
         [TestMethod()]
         public void ToStringTest()
         {
-            // ToString result same as AnonymousClass
+            // ToString result same as AnonymousType
 
             new OldNewPair<string>("old", "new")
                 .ToString()
                 .Is(new { Old = "old", New = "new" }.ToString());
+
+            new OldNewPair<string>(null, null)
+                .ToString()
+                .Is(new { Old = (string)null, New = (string)null }.ToString());
 
             new OldNewPair<int>(10, 20)
                 .ToString()

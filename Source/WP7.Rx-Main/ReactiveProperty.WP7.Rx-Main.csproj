@@ -163,6 +163,9 @@
     <Compile Include="..\NET40\Extensions\OldNewPair.cs">
       <Link>Extensions\OldNewPair.cs</Link>
     </Compile>
+    <Compile Include="..\NET40\Extensions\PairwiseObservableExtensions.cs">
+      <Link>Extensions\PairwiseObservableExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\NET40\Extensions\RetryObservableExtensions.cs">
       <Link>Extensions\RetryObservableExtensions.cs</Link>
     </Compile>

@@ -134,6 +134,7 @@
     <Compile Include="Extensions\INotifyPropertyChangingExtensions.cs" />
     <Compile Include="Extensions\CatchIgnoreObservableExtensions.cs" />
     <Compile Include="Extensions\CombineLatestEnumerableExtensions.cs" />
+    <Compile Include="Extensions\PairwiseObservableExtensions.cs" />
     <Compile Include="Notifiers\BooleanNotifier.cs" />
     <Compile Include="ObservableEx.cs" />
     <Compile Include="Asynchronous\WebRequestExtensions.cs" />
