@@ -166,14 +166,14 @@
     <Compile Include="..\NET40\Interactivity\EventToReactive.cs">
       <Link>Interactivity\EventToReactive.cs</Link>
     </Compile>
+    <Compile Include="..\NET40\Notifier\CountNotifier.cs">
+      <Link>Notifier\CountNotifier.cs</Link>
+    </Compile>
     <Compile Include="..\NET40\Notifier\IProgress.cs">
       <Link>Notifier\IProgress.cs</Link>
     </Compile>
     <Compile Include="..\NET40\Notifier\ScheduledNotifier.cs">
       <Link>Notifier\ScheduledNotifier.cs</Link>
-    </Compile>
-    <Compile Include="..\NET40\Notifier\SignalNotifier.cs">
-      <Link>Notifier\SignalNotifier.cs</Link>
     </Compile>
     <Compile Include="..\NET40\ObservableEx.cs">
       <Link>ObservableEx.cs</Link>
@@ -209,7 +209,7 @@
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" ProjectLinkReference="1fa4492a-829d-4cd6-86e0-d224ab19377e" />
+      <UserProperties ProjectLinkReference="1fa4492a-829d-4cd6-86e0-d224ab19377e" ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

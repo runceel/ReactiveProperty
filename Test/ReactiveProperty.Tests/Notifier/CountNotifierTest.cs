@@ -7,13 +7,13 @@ using Microsoft.Reactive.Testing;
 namespace ReactiveProperty.Tests
 {
     [TestClass]
-    public class SignalNotifierTest : ReactiveTest
+    public class CountNotifierTest : ReactiveTest
     {
         [TestMethod]
         public void Test()
         {
-            var notifier = new SignalNotifier(10);
-            var recorder = new TestScheduler().CreateObserver<SignalChangedStatus>();
+            var notifier = new CountNotifier(10);
+            var recorder = new TestScheduler().CreateObserver<CountChangedStatus>();
             notifier.Subscribe(recorder);
 
             notifier.Max.Is(10);
@@ -27,14 +27,14 @@ namespace ReactiveProperty.Tests
             notifier.Decrement(5);
 
             recorder.Messages.Is(
-                OnNext(0, SignalChangedStatus.Increment),
-                OnNext(0, SignalChangedStatus.Increment),
-                OnNext(0, SignalChangedStatus.Increment),
-                OnNext(0, SignalChangedStatus.Increment),
-                OnNext(0, SignalChangedStatus.Max),
-                OnNext(0, SignalChangedStatus.Decrement),
-                OnNext(0, SignalChangedStatus.Decrement),
-                OnNext(0, SignalChangedStatus.Empty));
+                OnNext(0, CountChangedStatus.Increment),
+                OnNext(0, CountChangedStatus.Increment),
+                OnNext(0, CountChangedStatus.Increment),
+                OnNext(0, CountChangedStatus.Increment),
+                OnNext(0, CountChangedStatus.Max),
+                OnNext(0, CountChangedStatus.Decrement),
+                OnNext(0, CountChangedStatus.Decrement),
+                OnNext(0, CountChangedStatus.Empty));
 
             // over max
             notifier.Increment(10);
@@ -58,9 +58,9 @@ namespace ReactiveProperty.Tests
             notifier.Increment(15);
             notifier.Count.Is(10);
             recorder.Messages.Is(
-                OnNext(0, SignalChangedStatus.Increment),
-                OnNext(0, SignalChangedStatus.Increment),
-                OnNext(0, SignalChangedStatus.Max));
+                OnNext(0, CountChangedStatus.Increment),
+                OnNext(0, CountChangedStatus.Increment),
+                OnNext(0, CountChangedStatus.Max));
 
             // over dec
             recorder.Messages.Clear();
@@ -68,18 +68,18 @@ namespace ReactiveProperty.Tests
             notifier.Decrement(15);
             notifier.Count.Is(0);
             recorder.Messages.Is(
-                OnNext(0, SignalChangedStatus.Decrement),
-                OnNext(0, SignalChangedStatus.Decrement),
-                OnNext(0, SignalChangedStatus.Empty));
+                OnNext(0, CountChangedStatus.Decrement),
+                OnNext(0, CountChangedStatus.Decrement),
+                OnNext(0, CountChangedStatus.Empty));
 
             AssertEx.Throws<ArgumentException>(() =>
                 notifier.Increment(-1));
             AssertEx.Throws<ArgumentException>(() =>
                 notifier.Decrement(-1));
             AssertEx.Throws<ArgumentException>(() =>
-                new SignalNotifier(0));
+                new CountNotifier(0));
             AssertEx.DoesNotThrow(() =>
-                new SignalNotifier(1));
+                new CountNotifier(1));
         }
     }
 }

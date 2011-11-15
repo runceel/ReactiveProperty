@@ -111,7 +111,7 @@
     <Compile Include="Init.cs" />
     <Compile Include="Notifier\ScheduledNotifierTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Notifier\SignalNotifierTest.cs" />
+    <Compile Include="Notifier\CountNotifierTest.cs" />
     <Compile Include="ReactiveCommandTest.cs" />
     <Compile Include="Serialization\SerializeHelperTest.cs" />
     <Compile Include="ReactivePropertyTest.Validation.cs" />

@@ -158,14 +158,14 @@
     <Compile Include="..\..\Source\NET40\Interactivity\EventToReactive.cs">
       <Link>Interactivity\EventToReactive.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\NET40\Notifier\CountNotifier.cs">
+      <Link>Notifier\CountNotifier.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\NET40\Notifier\IProgress.cs">
       <Link>Notifier\IProgress.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\NET40\Notifier\ScheduledNotifier.cs">
       <Link>Notifier\ScheduledNotifier.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\NET40\Notifier\SignalNotifier.cs">
-      <Link>Notifier\SignalNotifier.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\NET40\ObservableEx.cs">
       <Link>ObservableEx.cs</Link>

@@ -118,8 +118,6 @@ namespace Codeplex.Reactive
                 .ObserveOn(raiseEventScheduler)
                 .Subscribe(x =>
                 {
-
-
                     var handler = PropertyChanged;
                     if (handler != null) PropertyChanged(this, SingletonPropertyChangedEventArgs.Value);
                 });

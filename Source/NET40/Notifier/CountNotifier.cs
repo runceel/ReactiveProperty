@@ -15,8 +15,8 @@ using System.Reactive.Subjects;
 
 namespace Codeplex.Reactive.Notifier
 {
-    /// <summary>Event kind of SignalNotifier.</summary>
-    public enum SignalChangedStatus
+    /// <summary>Event kind of CountNotifier.</summary>
+    public enum CountChangedStatus
     {
         /// <summary>Count incremented.</summary>
         Increment,
@@ -29,12 +29,12 @@ namespace Codeplex.Reactive.Notifier
     }
 
     /// <summary>
-    /// Notify event of count signals.
+    /// Notify event of count flag.
     /// </summary>
-    public class SignalNotifier : IObservable<SignalChangedStatus>
+    public class CountNotifier : IObservable<CountChangedStatus>
     {
         readonly object lockObject = new object();
-        readonly Subject<SignalChangedStatus> statusChanged = new Subject<SignalChangedStatus>();
+        readonly Subject<CountChangedStatus> statusChanged = new Subject<CountChangedStatus>();
         readonly int max;
 
         public int Max { get { return max; } }
@@ -43,7 +43,7 @@ namespace Codeplex.Reactive.Notifier
         /// <summary>
         /// Setup max count of signal.
         /// </summary>
-        public SignalNotifier(int max = int.MaxValue)
+        public CountNotifier(int max = int.MaxValue)
         {
             Contract.Requires<ArgumentException>(max >= 1, "value allows over 1");
             Contract.Ensures(Max == max);
@@ -64,8 +64,8 @@ namespace Codeplex.Reactive.Notifier
                 else if (incrementCount + Count > Max) Count = Max;
                 else Count += incrementCount;
 
-                statusChanged.OnNext(SignalChangedStatus.Increment);
-                if (Count == Max) statusChanged.OnNext(SignalChangedStatus.Max);
+                statusChanged.OnNext(CountChangedStatus.Increment);
+                if (Count == Max) statusChanged.OnNext(CountChangedStatus.Max);
             }
         }
 
@@ -82,15 +82,15 @@ namespace Codeplex.Reactive.Notifier
                 else if (Count - decrementCount < 0) Count = 0;
                 else Count -= decrementCount;
 
-                statusChanged.OnNext(SignalChangedStatus.Decrement);
-                if (Count == 0) statusChanged.OnNext(SignalChangedStatus.Empty);
+                statusChanged.OnNext(CountChangedStatus.Decrement);
+                if (Count == 0) statusChanged.OnNext(CountChangedStatus.Empty);
             }
         }
 
         /// <summary>
         /// Subscribe observer.
         /// </summary>
-        public IDisposable Subscribe(IObserver<SignalChangedStatus> observer)
+        public IDisposable Subscribe(IObserver<CountChangedStatus> observer)
         {
             return statusChanged.Subscribe(observer);
         }
