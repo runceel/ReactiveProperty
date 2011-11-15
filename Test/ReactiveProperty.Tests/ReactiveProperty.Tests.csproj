@@ -116,6 +116,7 @@
     <Compile Include="ReactiveCommandTest.cs" />
     <Compile Include="Serialization\SerializeHelperTest.cs" />
     <Compile Include="ReactivePropertyTest.Validation.cs" />
+    <Compile Include="ReactiveTimerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">

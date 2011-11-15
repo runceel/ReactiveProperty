@@ -59,6 +59,7 @@ namespace Codeplex.Reactive
         public event PropertyChangedEventHandler PropertyChanged;
 
         T latestValue;
+        bool isDisposed = false;
         readonly IScheduler raiseEventScheduler;
         readonly IObservable<T> source;
         readonly Subject<T> anotherTrigger = new Subject<T>();
@@ -154,6 +155,9 @@ namespace Codeplex.Reactive
         /// </summary>
         public void Dispose()
         {
+            if (isDisposed) return;
+
+            isDisposed = true;
             anotherTrigger.Dispose();
             raiseSubscription.Dispose();
             sourceDisposable.Dispose();

@@ -71,7 +71,10 @@ namespace Codeplex.Reactive
             Contract.Requires<ArgumentOutOfRangeException>(index >= 0);
             Contract.Ensures(Contract.Result<IObservable<T>>() != null);
 
-            return Observable.Start(() => this[index], scheduler);
+            var result = Observable.Start(() => this[index], scheduler);
+
+            Contract.Assume(result != null);
+            return result;
         }
 
         /// <summary>Insert called on scheduler</summary>

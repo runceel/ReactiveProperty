@@ -69,6 +69,7 @@ namespace Codeplex.Reactive
         readonly IDisposable canExecuteSubscription;
         readonly IScheduler scheduler;
         bool isCanExecute;
+        bool isDisposed = false;
 
         /// <summary>
         /// CanExecute is always true. When disposed CanExecute change false called on UIDispatcherScheduler.
@@ -153,6 +154,9 @@ namespace Codeplex.Reactive
         /// </summary>
         public void Dispose()
         {
+            if (isDisposed) return;
+
+            isDisposed = true;
             trigger.OnCompleted();
             trigger.Dispose();
             canExecuteSubscription.Dispose();

@@ -34,6 +34,8 @@ namespace ReactiveProperty.Tests
             cmd.Dispose();
             cmd.CanExecute().Is(false);
 
+            cmd.Dispose(); // dispose again
+
             recorder1.Messages.Is(
                 OnNext(0, @null),
                 OnNext(10, @null),
