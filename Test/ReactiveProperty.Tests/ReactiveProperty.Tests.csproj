@@ -82,6 +82,7 @@
     <Reference Include="mscorlib.Behaviors, Version=0.94.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="mscorlib.Moles, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0ae41878053f6703, processorArchitecture=MSIL" />
     <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Behaviors, Version=0.94.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -93,8 +94,10 @@
       <HintPath>..\..\packages\Rx-Main.1.0.10621\lib\Net4\System.Reactive.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDependentAssemblyPaths Condition=" '$(VS100COMNTOOLS)' != '' " Include="$(VS100COMNTOOLS)..\IDE\PrivateAssemblies">
@@ -106,6 +109,7 @@
     <Compile Include="Asynchronous\ProgressStatusTest.cs" />
     <Compile Include="Asynchronous\WebClientExtensionsTest.cs" />
     <Compile Include="ChainingAssertion.MSTest.cs" />
+    <Compile Include="Extensions\CombineLatestEnumerableExtensionsTest.cs" />
     <Compile Include="Extensions\INotifyPropertyChangedExtensionsTest.cs" />
     <Compile Include="Extensions\INotifyPropertyChangingExtensionsTest.cs" />
     <Compile Include="Init.cs" />

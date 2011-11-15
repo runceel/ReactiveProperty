@@ -129,9 +129,11 @@
     <Compile Include="Extensions\CombineLatestObservableExtensions.cs" />
     <Compile Include="Extensions\IDisposableExtensions.cs" />
     <Compile Include="Extensions\ObservableCollectionExtensions.cs" />
+    <Compile Include="Extensions\OldNewPair.cs" />
     <Compile Include="Extensions\UIDispatcherSchedulerObservableExtensions.cs" />
     <Compile Include="Extensions\INotifyPropertyChangingExtensions.cs" />
     <Compile Include="Extensions\CatchIgnoreObservableExtensions.cs" />
+    <Compile Include="Extensions\CombineLatestEnumerableExtensions.cs" />
     <Compile Include="Notifier\BooleanNotifier.cs" />
     <Compile Include="ObservableEx.cs" />
     <Compile Include="Asynchronous\WebRequestExtensions.cs" />

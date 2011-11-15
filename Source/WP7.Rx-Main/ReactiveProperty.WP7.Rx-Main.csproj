@@ -133,6 +133,9 @@
     <Compile Include="..\NET40\Extensions\CatchIgnoreObservableExtensions.cs">
       <Link>Extensions\CatchIgnoreObservableExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\NET40\Extensions\CombineLatestEnumerableExtensions.cs">
+      <Link>Extensions\CombineLatestEnumerableExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\NET40\Extensions\CombineLatestObservableExtensions.cs">
       <Link>Extensions\CombineLatestObservableExtensions.cs</Link>
     </Compile>
@@ -156,6 +159,9 @@
     </Compile>
     <Compile Include="..\NET40\Extensions\ObservableCollectionExtensions.cs">
       <Link>Extensions\ObservableCollectionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NET40\Extensions\OldNewPair.cs">
+      <Link>Extensions\OldNewPair.cs</Link>
     </Compile>
     <Compile Include="..\NET40\Extensions\RetryObservableExtensions.cs">
       <Link>Extensions\RetryObservableExtensions.cs</Link>
