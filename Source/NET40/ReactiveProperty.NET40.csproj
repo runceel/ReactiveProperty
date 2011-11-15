@@ -156,7 +156,7 @@
     <Compile Include="ReactiveProperty.cs" />
     <Compile Include="Extensions\RetryObservableExtensions.cs" />
     <Compile Include="ReactiveTimer.cs" />
-    <Compile Include="Serialization\SerializeHelper.cs" />
+    <Compile Include="Helpers\SerializeHelper.cs" />
     <Compile Include="UIDispatcherScheduler.cs" />
   </ItemGroup>
   <ItemGroup>

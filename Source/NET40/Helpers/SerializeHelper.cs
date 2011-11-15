@@ -8,7 +8,7 @@ using System.Xml;
 using System.Diagnostics.Contracts;
 using System;
 
-namespace Codeplex.Reactive.Serialization
+namespace Codeplex.Reactive.Helpers
 {
     public static class SerializeHelper
     {

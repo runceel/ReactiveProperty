@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Codeplex.Reactive;
-using Codeplex.Reactive.Serialization;
+using Codeplex.Reactive.Helpers;
 using System.Runtime.Serialization;
 
 namespace ReactiveProperty.Tests.Serialization

@@ -161,6 +161,9 @@
     <Compile Include="..\..\Source\NET40\Extensions\UIDispatcherSchedulerObservableExtensions.cs">
       <Link>Extensions\UIDispatcherSchedulerObservableExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\NET40\Helpers\SerializeHelper.cs">
+      <Link>Helpers\SerializeHelper.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\NET40\Interactivity\EventToReactive.cs">
       <Link>Interactivity\EventToReactive.cs</Link>
     </Compile>
@@ -193,9 +196,6 @@
     </Compile>
     <Compile Include="..\..\Source\NET40\ReactiveTimer.cs">
       <Link>ReactiveTimer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\NET40\Serialization\SerializeHelper.cs">
-      <Link>Serialization\SerializeHelper.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\NET40\UIDispatcherScheduler.cs">
       <Link>UIDispatcherScheduler.cs</Link>

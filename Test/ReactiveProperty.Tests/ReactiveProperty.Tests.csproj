@@ -118,7 +118,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Notifiers\CountNotifierTest.cs" />
     <Compile Include="ReactiveCommandTest.cs" />
-    <Compile Include="Serialization\SerializeHelperTest.cs" />
+    <Compile Include="Helpers\SerializeHelperTest.cs" />
     <Compile Include="ReactivePropertyTest.Validation.cs" />
     <Compile Include="ReactiveTimerTest.cs" />
   </ItemGroup>
