@@ -112,6 +112,7 @@
     <Compile Include="Extensions\CombineLatestEnumerableExtensionsTest.cs" />
     <Compile Include="Extensions\INotifyPropertyChangedExtensionsTest.cs" />
     <Compile Include="Extensions\INotifyPropertyChangingExtensionsTest.cs" />
+    <Compile Include="Extensions\OldNewPairTest.cs" />
     <Compile Include="Init.cs" />
     <Compile Include="Notifiers\ScheduledNotifierTest.cs" />
     <Compile Include="Notifiers\BooleanNotifierTest.cs" />

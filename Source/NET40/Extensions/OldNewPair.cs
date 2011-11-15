@@ -14,7 +14,7 @@
 
         public override string ToString()
         {
-            return "(" + OldItem + ", " + NewItem + ")";
+            return "{ Old = " + OldItem + ", New = " + NewItem + " }";
         }
     }
 }
