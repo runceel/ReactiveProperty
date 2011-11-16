@@ -107,6 +107,24 @@ namespace ReactiveProperty.Tests.Extensions
             prop.Value.Is("mamimami");
         }
 
+        [TestMethod]
+        public void ToReactivePropertyAsSynchronizedConvert()
+        {
+            var model = new Model() { Age = 30 };
+            var prop = model.ToReactivePropertyAsSynchronized(
+                x => x.Age, // property selector
+                x => "Age:" + x,  // convert
+                x => int.Parse(x.Replace("Age:", ""))); // convertBack
+
+            prop.Value.Is("Age:30");
+
+            prop.Value = "Age:50";
+            model.Age.Is(50);
+
+            model.Age = 80;
+            prop.Value.Is("Age:80");
+        }
+
         class Model : INotifyPropertyChanged
         {
             private string name;
@@ -116,7 +134,16 @@ namespace ReactiveProperty.Tests.Extensions
                 set { name = value; PropertyChanged(this, new PropertyChangedEventArgs("Name")); }
             }
 
+            private int age;
+            public int Age
+            {
+                get { return age; }
+                set { age = value; PropertyChanged(this, new PropertyChangedEventArgs("Age")); }
+            }
+
             public event PropertyChangedEventHandler PropertyChanged = (_, __) => { };
         }
+
+
     }
 }

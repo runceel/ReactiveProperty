@@ -84,5 +84,34 @@ namespace Codeplex.Reactive.Extensions
             Contract.Assume(result != null);
             return result;
         }
+
+        /// <summary>
+        /// Converts NotificationObject's property to ReactiveProperty. Value is two-way synchronized.
+        /// </summary>
+        /// <param name="propertySelector">Argument is self, Return is target property.</param>
+        /// <param name="convert">Convert selector to ReactiveProperty.</param>
+        /// <param name="convertBack">Convert selector to source.</param>
+        /// <param name="mode">ReactiveProperty mode.</param>
+        public static ReactiveProperty<TResult> ToReactivePropertyAsSynchronized<TSubject, TProperty, TResult>(
+            this TSubject subject, Expression<Func<TSubject, TProperty>> propertySelector,
+            Func<TProperty, TResult> convert, Func<TResult, TProperty> convertBack,
+            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged)
+            where TSubject : INotifyPropertyChanged
+        {
+            Contract.Requires<ArgumentNullException>(subject != null);
+            Contract.Requires<ArgumentNullException>(propertySelector != null);
+            Contract.Ensures(Contract.Result<ReactiveProperty<TProperty>>() != null);
+
+            string propertyName; // no use
+            var setter = AccessorCache<TSubject>.LookupSet(propertySelector, out propertyName);
+
+            var result = subject.ObserveProperty(propertySelector)
+                .Select(convert)
+                .ToReactiveProperty(mode: mode);
+            result.Select(convertBack).Subscribe(x => setter(subject, x));
+
+            Contract.Assume(result != null);
+            return result;
+        }
     }
 }
