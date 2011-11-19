@@ -17,7 +17,7 @@ namespace RxPropTest
         {
             var target = new Target();
             target.Name.Value = "sample";
-            ((IDataErrorInfo)target.Name)["Value"].IsNull();
+            target.Name.ForceValidate().IsNull();
             target.Name.Error.IsNull();
         }
 
@@ -26,7 +26,7 @@ namespace RxPropTest
         {
             var target = new Target();
             target.Name.Value = "";
-            ((IDataErrorInfo)target.Name)["Value"].Is("ErrorMessage");
+            target.Name.ForceValidate().Is("ErrorMessage");
             target.Name.Error.Is("ErrorMessage");
         }
 
@@ -35,7 +35,7 @@ namespace RxPropTest
         {
             var target = new Target();
             target.Age.Value = 13;
-            ((IDataErrorInfo)target.Age)["Value"].IsNull();
+            target.Age.ForceValidate().IsNull();
             target.Age.Error.IsNull();
         }
 
@@ -44,7 +44,7 @@ namespace RxPropTest
         {
             var target = new Target();
             target.Age.Value = -1;
-            ((IDataErrorInfo)target.Age)["Value"].Is("ErrorMessage");
+            target.Age.ForceValidate().Is("ErrorMessage");
             target.Age.Error.Is("ErrorMessage");
         }
     }

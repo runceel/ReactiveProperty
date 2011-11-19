@@ -291,8 +291,8 @@ namespace Codeplex.Reactive.Asynchronous
             Contract.Requires<ArgumentNullException>(encoding != null);
             Contract.Ensures(Contract.Result<IObservable<WebResponse>>() != null);
 
-            var parameter = parameters.Select(kvp => Uri.EscapeDataString(kvp.Key) + "=" + Uri.EscapeDataString(kvp.Value))
-                .Aggregate(new StringBuilder(), (sb, x) => sb.Append(x)).ToString();
+            var parameter = string.Join("&", parameters
+                .Select(kvp => Uri.EscapeDataString(kvp.Key) + "=" + Uri.EscapeDataString(kvp.Value)).ToArray());
             var bytes = encoding.GetBytes(parameter);
 
             return request.UploadDataAsync(bytes);
@@ -326,8 +326,8 @@ namespace Codeplex.Reactive.Asynchronous
             Contract.Requires<ArgumentNullException>(encoding != null);
             Contract.Ensures(Contract.Result<IObservable<WebResponse>>() != null);
 
-            var parameter = parameters.Select(kvp => Uri.EscapeDataString(kvp.Key) + "=" + Uri.EscapeDataString(kvp.Value))
-               .Aggregate(new StringBuilder(), (sb, x) => sb.Append(x)).ToString();
+            var parameter = string.Join("&", parameters
+                .Select(kvp => Uri.EscapeDataString(kvp.Key) + "=" + Uri.EscapeDataString(kvp.Value)).ToArray());
             var bytes = encoding.GetBytes(parameter);
 
             return request.UploadDataAsync(bytes, progressReporter);

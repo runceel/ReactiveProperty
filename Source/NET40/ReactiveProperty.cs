@@ -45,6 +45,7 @@ namespace Codeplex.Reactive
     public interface IReactiveProperty
     {
         object Value { get; set; }
+        string ForceValidate();
     }
 
     /// <summary>
@@ -186,6 +187,15 @@ namespace Codeplex.Reactive
         }
 
         // Exception
+
+        /// <summary>
+        /// Trigger IDataErrorInfo validation.
+        /// </summary>
+        /// <returns>If success return null, failure return string(ErrorMessage).</returns>
+        public string ForceValidate()
+        {
+            return ((IDataErrorInfo)this)["Value"];
+        }
 
 #if! WP_COMMON
         ValidationContext validationContext;
