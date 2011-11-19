@@ -23,9 +23,9 @@ namespace Codeplex.Reactive
 
         static readonly UIDispatcherScheduler defaultScheduler = new UIDispatcherScheduler(
 #if SILVERLIGHT
-Deployment.Current.Dispatcher
+(Deployment.Current != null) ? Deployment.Current.Dispatcher : null
 #else
-            Dispatcher.CurrentDispatcher
+Dispatcher.CurrentDispatcher
 #endif
 );
 
@@ -73,6 +73,7 @@ Deployment.Current.Dispatcher
         public IDisposable Schedule<TState>(TState state, TimeSpan dueTime, Func<IScheduler, TState, IDisposable> action)
         {
             if (action == null) throw new ArgumentNullException("action");
+            if (Dispatcher == null) return Disposable.Empty; // for designer mode
 
             var interval = Scheduler.Normalize(dueTime);
             if (interval.Ticks == 0) return Schedule(state, action); // schedule immediately
@@ -112,6 +113,7 @@ Deployment.Current.Dispatcher
         public IDisposable Schedule<TState>(TState state, Func<IScheduler, TState, IDisposable> action)
         {
             if (action == null) throw new ArgumentNullException("action");
+            if (Dispatcher == null) return Disposable.Empty; // for designer mode
 
             if (Dispatcher.CheckAccess())
             {
@@ -138,6 +140,7 @@ Deployment.Current.Dispatcher
         public IDisposable Schedule(Action action, TimeSpan dueTime)
         {
             if (action == null) throw new ArgumentNullException("action");
+            if (Dispatcher == null) return Disposable.Empty; // for designer mode
 
             return Scheduler.Dispatcher.Schedule(action, dueTime);
         }
@@ -148,6 +151,7 @@ Deployment.Current.Dispatcher
         public IDisposable Schedule(Action action)
         {
             if (action == null) throw new ArgumentNullException("action");
+            if (Dispatcher == null) return Disposable.Empty; // for designer mode
 
             if (Dispatcher.CheckAccess())
             {
