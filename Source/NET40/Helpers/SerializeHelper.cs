@@ -15,7 +15,7 @@ namespace Codeplex.Reactive.Helpers
         static IEnumerable<PropertyInfo> GetIValueProperties(object target)
         {
             return target.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                .Where(pi => typeof(IValue).IsAssignableFrom(pi.PropertyType));
+                .Where(pi => typeof(IReactiveProperty).IsAssignableFrom(pi.PropertyType));
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace Codeplex.Reactive.Helpers
                 .Where(pi => pi.GetCustomAttributes(typeof(IgnoreDataMemberAttribute), false).FirstOrDefault() == null)
                 .ToDictionary(pi => pi.Name, pi =>
                 {
-                    var ivalue = (IValue)pi.GetValue(target, null);
+                    var ivalue = (IReactiveProperty)pi.GetValue(target, null);
                     return (ivalue != null) ? ivalue.Value : null;
                 });
 
@@ -79,7 +79,7 @@ namespace Codeplex.Reactive.Helpers
                 object value;
                 if (values.TryGetValue(item.pi.Name, out value))
                 {
-                    var ivalue = (IValue)item.pi.GetValue(target, null);
+                    var ivalue = (IReactiveProperty)item.pi.GetValue(target, null);
                     if (ivalue != null) ivalue.Value = value;
                 }
             }

@@ -7,7 +7,7 @@ namespace Codeplex.Reactive.Interactivity
     {
         protected override void Invoke(object parameter)
         {
-            ((IValue)ReactiveProperty).Value = parameter;
+            ((IReactiveProperty)ReactiveProperty).Value = parameter;
         }
 
         public object ReactiveProperty
@@ -17,6 +17,6 @@ namespace Codeplex.Reactive.Interactivity
         }
 
         public static readonly DependencyProperty ReactivePropertyProperty =
-            DependencyProperty.Register("ReactiveProperty", typeof(IValue), typeof(EventToReactive), new PropertyMetadata(null));
+            DependencyProperty.Register("ReactiveProperty", typeof(IReactiveProperty), typeof(EventToReactive), new PropertyMetadata(null));
     }
 }

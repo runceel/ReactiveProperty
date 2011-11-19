@@ -42,7 +42,7 @@ namespace Codeplex.Reactive
     }
 
     // for EventToReactive and Serialization
-    public interface IValue
+    public interface IReactiveProperty
     {
         object Value { get; set; }
     }
@@ -51,7 +51,7 @@ namespace Codeplex.Reactive
     /// Two-way bindable IObserable&lt;T&gt;
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ReactiveProperty<T> : IObservable<T>, IDisposable, INotifyPropertyChanged, IValue, IDataErrorInfo
+    public class ReactiveProperty<T> : IObservable<T>, IDisposable, INotifyPropertyChanged, IReactiveProperty, IDataErrorInfo
 #if SILVERLIGHT
 , INotifyDataErrorInfo
 #endif
@@ -72,25 +72,25 @@ namespace Codeplex.Reactive
         readonly Subject<object> errorsTrigger = new Subject<object>();
 
         /// <summary>PropertyChanged raise on UIDispatcherScheduler</summary>
-        public ReactiveProperty(T initialValue = default(T), ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged)
+        public ReactiveProperty(T initialValue = default(T), ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
             : this(UIDispatcherScheduler.Default, initialValue, mode)
         { }
 
         /// <summary>PropertyChanged raise on selected scheduler</summary>
-        public ReactiveProperty(IScheduler raiseEventScheduler, T initialValue = default(T), ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged)
+        public ReactiveProperty(IScheduler raiseEventScheduler, T initialValue = default(T), ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
             : this(Observable.Never<T>(), raiseEventScheduler, initialValue, mode)
         {
             Contract.Requires<ArgumentNullException>(raiseEventScheduler != null);
         }
 
         // ToReactiveProperty Only
-        internal ReactiveProperty(IObservable<T> source, T initialValue = default(T), ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged)
+        internal ReactiveProperty(IObservable<T> source, T initialValue = default(T), ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
             : this(source, UIDispatcherScheduler.Default, initialValue, mode)
         {
             Contract.Requires<ArgumentNullException>(source != null);
         }
 
-        internal ReactiveProperty(IObservable<T> source, IScheduler raiseEventScheduler, T initialValue = default(T), ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged)
+        internal ReactiveProperty(IObservable<T> source, IScheduler raiseEventScheduler, T initialValue = default(T), ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
         {
             Contract.Requires<ArgumentNullException>(source != null);
             Contract.Requires<ArgumentNullException>(raiseEventScheduler != null);
@@ -136,7 +136,7 @@ namespace Codeplex.Reactive
             set { anotherTrigger.OnNext(value); }
         }
 
-        object IValue.Value
+        object IReactiveProperty.Value
         {
             get { return (T)Value; }
             set { Value = (T)value; }
@@ -334,15 +334,61 @@ namespace Codeplex.Reactive
 #endif
     }
 
-    public static class ReactivePropertyObservableExtensions
+    /// <summary>
+    /// Static methods and extension methods of ReactiveProperty&lt;T&gt;
+    /// </summary>
+    public static class ReactiveProperty
     {
+        /// <summary>
+        /// <para>Convert plain object to ReactiveProperty.</para>
+        /// <para>Value is OneWayToSource(ReactiveProperty -> Object) synchronized.</para>
+        /// <para>PropertyChanged raise on UIDispatcherScheduler</para>
+        /// </summary>
+        public static ReactiveProperty<TProperty> FromObject<TTarget, TProperty>(
+            TTarget target,
+            Expression<Func<TTarget, TProperty>> propertySelector,
+            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
+        {
+            Contract.Requires<ArgumentNullException>(target != null);
+            Contract.Requires<ArgumentNullException>(propertySelector != null);
+            Contract.Ensures(Contract.Result<ReactiveProperty<TProperty>>() != null);
+
+            return FromObject(target, propertySelector, UIDispatcherScheduler.Default, mode);
+        }
+
+        /// <summary>
+        /// <para>Convert plain object to ReactiveProperty.</para>
+        /// <para>Value is OneWayToSource(ReactiveProperty -> Object) synchronized.</para>
+        /// <para>PropertyChanged raise on selected scheduler</para>
+        /// </summary>
+        public static ReactiveProperty<TProperty> FromObject<TTarget, TProperty>(
+            TTarget target,
+            Expression<Func<TTarget, TProperty>> propertySelector,
+            IScheduler raiseEventScheduler,
+            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
+        {
+            Contract.Requires<ArgumentNullException>(target != null);
+            Contract.Requires<ArgumentNullException>(propertySelector != null);
+            Contract.Ensures(Contract.Result<ReactiveProperty<TProperty>>() != null);
+
+            string propertyName; // no use
+            var getter = AccessorCache<TTarget>.LookupGet(propertySelector, out propertyName);
+            var setter = AccessorCache<TTarget>.LookupSet(propertySelector, out propertyName);
+
+            var result = new ReactiveProperty<TProperty>(raiseEventScheduler, initialValue: getter(target), mode: mode);
+            result.Subscribe(x => setter(target, x));
+
+            return result;
+        }
+
+
         /// <summary>
         /// <para>Convert to two-way bindable IObservable&lt;T&gt;</para>
         /// <para>PropertyChanged raise on UIDispatcherScheduler</para>
         /// </summary>
         public static ReactiveProperty<T> ToReactiveProperty<T>(this IObservable<T> source,
             T initialValue = default(T),
-            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged)
+            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
         {
             Contract.Requires<ArgumentNullException>(source != null);
             Contract.Ensures(Contract.Result<ReactiveProperty<T>>() != null);
@@ -355,8 +401,9 @@ namespace Codeplex.Reactive
         /// <para>PropertyChanged raise on selected scheduler</para>
         /// </summary>
         public static ReactiveProperty<T> ToReactiveProperty<T>(this IObservable<T> source,
-            IScheduler raiseEventScheduler, T initialValue = default(T),
-            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged)
+            IScheduler raiseEventScheduler,
+            T initialValue = default(T),
+            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
         {
             Contract.Requires<ArgumentNullException>(source != null);
             Contract.Requires<ArgumentNullException>(raiseEventScheduler != null);

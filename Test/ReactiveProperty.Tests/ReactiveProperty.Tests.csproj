@@ -123,6 +123,7 @@
     <Compile Include="Helpers\SerializeHelperTest.cs" />
     <Compile Include="ReactivePropertyTest.Validation.cs" />
     <Compile Include="ReactiveTimerTest.cs" />
+    <Compile Include="ReactivePropertyTest.Static.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">

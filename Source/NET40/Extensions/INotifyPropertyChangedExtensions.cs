@@ -68,7 +68,7 @@ namespace Codeplex.Reactive.Extensions
         /// <param name="mode">ReactiveProperty mode.</param>
         public static ReactiveProperty<TProperty> ToReactivePropertyAsSynchronized<TSubject, TProperty>(
             this TSubject subject, Expression<Func<TSubject, TProperty>> propertySelector,
-            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged)
+            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
             where TSubject : INotifyPropertyChanged
         {
             Contract.Requires<ArgumentNullException>(subject != null);
@@ -95,12 +95,14 @@ namespace Codeplex.Reactive.Extensions
         public static ReactiveProperty<TResult> ToReactivePropertyAsSynchronized<TSubject, TProperty, TResult>(
             this TSubject subject, Expression<Func<TSubject, TProperty>> propertySelector,
             Func<TProperty, TResult> convert, Func<TResult, TProperty> convertBack,
-            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged)
+            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
             where TSubject : INotifyPropertyChanged
         {
             Contract.Requires<ArgumentNullException>(subject != null);
             Contract.Requires<ArgumentNullException>(propertySelector != null);
-            Contract.Ensures(Contract.Result<ReactiveProperty<TProperty>>() != null);
+            Contract.Requires<ArgumentNullException>(convert != null);
+            Contract.Requires<ArgumentNullException>(convertBack != null);
+            Contract.Ensures(Contract.Result<ReactiveProperty<TResult>>() != null);
 
             string propertyName; // no use
             var setter = AccessorCache<TSubject>.LookupSet(propertySelector, out propertyName);
