@@ -73,7 +73,10 @@ Dispatcher.CurrentDispatcher
         public IDisposable Schedule<TState>(TState state, TimeSpan dueTime, Func<IScheduler, TState, IDisposable> action)
         {
             if (action == null) throw new ArgumentNullException("action");
-            if (Dispatcher == null) return Disposable.Empty; // for designer mode
+            if (Dispatcher == null) // for designer mode
+            {
+                return Scheduler.CurrentThread.Schedule(state, dueTime, action);
+            }
 
             var interval = Scheduler.Normalize(dueTime);
             if (interval.Ticks == 0) return Schedule(state, action); // schedule immediately
@@ -113,7 +116,7 @@ Dispatcher.CurrentDispatcher
         public IDisposable Schedule<TState>(TState state, Func<IScheduler, TState, IDisposable> action)
         {
             if (action == null) throw new ArgumentNullException("action");
-            if (Dispatcher == null) return Disposable.Empty; // for designer mode
+            if (Dispatcher == null) return Scheduler.CurrentThread.Schedule(state, action); // for designer mode
 
             if (Dispatcher.CheckAccess())
             {
@@ -140,7 +143,7 @@ Dispatcher.CurrentDispatcher
         public IDisposable Schedule(Action action, TimeSpan dueTime)
         {
             if (action == null) throw new ArgumentNullException("action");
-            if (Dispatcher == null) return Disposable.Empty; // for designer mode
+            if (Dispatcher == null) return Scheduler.CurrentThread.Schedule(action, dueTime); // for designer mode
 
             return Scheduler.Dispatcher.Schedule(action, dueTime);
         }
@@ -151,7 +154,7 @@ Dispatcher.CurrentDispatcher
         public IDisposable Schedule(Action action)
         {
             if (action == null) throw new ArgumentNullException("action");
-            if (Dispatcher == null) return Disposable.Empty; // for designer mode
+            if (Dispatcher == null) return Scheduler.CurrentThread.Schedule(action); // for designer mode
 
             if (Dispatcher.CheckAccess())
             {
