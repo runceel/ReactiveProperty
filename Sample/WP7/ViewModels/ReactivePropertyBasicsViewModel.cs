@@ -14,10 +14,13 @@ namespace WP7.ViewModels
 
         public ReactivePropertyBasicsViewModel()
         {
-            // mode is Flags.
+            // mode is Flags. (default is all)
+            // DistinctUntilChanged is no push value if next value is same as current
+            // RaiseLatestValueOnSubscribe is push value when subscribed
             var allMode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe;
 
             // binding value from UI Control
+            // if no set initialValue then initialValue is default(T). int:0, string:null...
             InputText = new ReactiveProperty<string>(initialValue: "", mode: allMode);
 
             // send value to UI Control

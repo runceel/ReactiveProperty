@@ -25,7 +25,8 @@ namespace WP7.ViewModels
             // Notifier of network progress report
             var progress = new ScheduledNotifier<DownloadProgressChangedEventArgs>();
 
-            SearchTerm = new ReactiveProperty<string>();
+            // skip initialValue on subscribe
+            SearchTerm = new ReactiveProperty<string>(mode: ReactivePropertyMode.DistinctUntilChanged);
 
             // Search asynchronous & result direct bind
             // if network error, use OnErroRetry

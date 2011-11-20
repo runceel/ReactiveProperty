@@ -19,7 +19,7 @@ namespace WP7.Views
         public ReactivePropertyBasics()
         {
             InitializeComponent();
-            DataContext = new ReactivePropertyBasicsViewModel()
+            DataContext = new ReactivePropertyBasicsViewModel();
         }
     }
 }
