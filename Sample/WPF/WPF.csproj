@@ -97,6 +97,7 @@
     <Compile Include="ViewModels\ReactivePropertyBasicsViewModel.cs" />
     <Compile Include="ViewModels\SerializationViewModel.cs" />
     <Compile Include="ViewModels\ValidationViewModel.cs" />
+    <Compile Include="ViewModels\SynchronizeObjectViewModel.cs" />
     <Compile Include="Views\Asynchronous.xaml.cs">
       <DependentUpon>Asynchronous.xaml</DependentUpon>
     </Compile>
@@ -108,6 +109,9 @@
     </Compile>
     <Compile Include="Views\Serialization.xaml.cs">
       <DependentUpon>Serialization.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SynchronizeObject.xaml.cs">
+      <DependentUpon>SynchronizeObject.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Validation.xaml.cs">
       <DependentUpon>Validation.xaml</DependentUpon>
@@ -137,6 +141,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Serialization.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SynchronizeObject.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

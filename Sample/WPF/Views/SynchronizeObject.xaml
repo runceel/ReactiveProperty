@@ -1,0 +1,33 @@
+﻿<Window x:Class="WPF.Views.SynchronizeObject"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:WPF.ViewModels"
+        Title="SynchronizeObject" Height="300" Width="500">
+    <Window.DataContext>
+        <vm:SynchronizeObjectViewModel />
+    </Window.DataContext>
+    <StackPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <!-- INPC is INotifyPropertyChanged -->
+            <TextBlock Grid.Column="0" Grid.Row="0">(INPC)TwoWay</TextBlock>
+            <TextBox  Grid.Column="1" Grid.Row="0"
+                      Text="{Binding TwoWay.Value, Mode=TwoWay}"/>
+            <TextBlock Grid.Column="0" Grid.Row="1">(INPC)OneWay</TextBlock>
+            <TextBox  Grid.Column="1" Grid.Row="1"
+                      Text="{Binding OneWay.Value, Mode=TwoWay}"/>
+            <TextBlock Grid.Column="0" Grid.Row="2">OneWayToSource</TextBlock>
+            <TextBox  Grid.Column="1" Grid.Row="2"
+                      Text="{Binding OneWayToSource.Value, Mode=TwoWay}"/>
+        </Grid>
+        <Button Command="{Binding CheckCommand}">Check Model's Value</Button>
+    </StackPanel>
+</Window>

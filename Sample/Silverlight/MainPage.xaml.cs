@@ -19,6 +19,7 @@ namespace Silverlight
         public ReactiveCommand NavigateValidation { get; private set; }
         public ReactiveCommand NavigateSerialization { get; private set; }
         public ReactiveCommand NavigateEventToReactive { get; private set; }
+        public ReactiveCommand NavigateSynchronizeObject { get; private set; }
 
         public MainPageViewModel()
         {
@@ -32,6 +33,8 @@ namespace Silverlight
             NavigateSerialization.Subscribe(_ => new Serialization().Show());
             NavigateEventToReactive = new ReactiveCommand();
             NavigateEventToReactive.Subscribe(_ => new EventToReactive().Show());
+            NavigateSynchronizeObject = new ReactiveCommand();
+            NavigateSynchronizeObject.Subscribe(_ => new SynchronizeObject().Show());
         }
     }
 }

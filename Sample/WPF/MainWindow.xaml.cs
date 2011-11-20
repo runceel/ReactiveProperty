@@ -20,6 +20,7 @@ namespace WPF
         public ReactiveCommand NavigateValidation { get; private set; }
         public ReactiveCommand NavigateSerialization { get; private set; }
         public ReactiveCommand NavigateEventToReactive { get; private set; }
+        public ReactiveCommand NavigateSynchronize { get; private set; }
 
         public MainWindowViewModel()
         {
@@ -33,6 +34,8 @@ namespace WPF
             NavigateSerialization.Subscribe(_ => new Serialization().Show());
             NavigateEventToReactive = new ReactiveCommand();
             NavigateEventToReactive.Subscribe(_ => new EventToReactive().Show());
+            NavigateSynchronize = new ReactiveCommand();
+            NavigateSynchronize.Subscribe(_ => new SynchronizeObject().Show());
         }
     }
 }

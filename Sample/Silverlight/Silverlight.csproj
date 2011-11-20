@@ -100,6 +100,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Net" />
     <Reference Include="System.Windows.Controls, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Controls.Navigation, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\Binary\Rx_Stable\SL4\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -120,6 +121,7 @@
     <Compile Include="ViewModels\EventToReactiveViewModel.cs" />
     <Compile Include="ViewModels\ReactivePropertyBasicsViewModel.cs" />
     <Compile Include="ViewModels\SerializationViewModel.cs" />
+    <Compile Include="ViewModels\SynchronizeObjectViewModel.cs" />
     <Compile Include="ViewModels\ValidationViewModel.cs" />
     <Compile Include="Views\Asynchronous.xaml.cs">
       <DependentUpon>Asynchronous.xaml</DependentUpon>
@@ -129,6 +131,9 @@
     </Compile>
     <Compile Include="Views\Serialization.xaml.cs">
       <DependentUpon>Serialization.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SynchronizeObject.xaml.cs">
+      <DependentUpon>SynchronizeObject.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Validation.xaml.cs">
       <DependentUpon>Validation.xaml</DependentUpon>
@@ -155,6 +160,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Serialization.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SynchronizeObject.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

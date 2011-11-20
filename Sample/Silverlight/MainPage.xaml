@@ -7,7 +7,7 @@
     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
     xmlns:r="clr-namespace:Codeplex.Reactive.Interactivity;assembly=ReactiveProperty.SL4"
     mc:Ignorable="d"
-    d:DesignHeight="300" d:DesignWidth="400">
+    d:DesignHeight="400" d:DesignWidth="400">
     <UserControl.DataContext>
         <l:MainPageViewModel />
     </UserControl.DataContext>
@@ -19,5 +19,6 @@
         <Button Command="{Binding NavigateValidation}">Validation</Button>
         <Button Command="{Binding NavigateSerialization}">Serialization</Button>
         <Button Command="{Binding NavigateEventToReactive}">EventToReactive Trigger</Button>
+        <Button Command="{Binding NavigateSynchronizeObject}">SynchronizeObject</Button>
     </StackPanel>
 </UserControl>

@@ -35,6 +35,7 @@
             <Button Command="{Binding NavigateValidation}">Validation</Button>
             <Button Command="{Binding NavigateSerialization}">Serialization</Button>
             <Button Command="{Binding NavigateEventToReactive}">EventToReactive Trigger</Button>
+            <Button Command="{Binding NavigateSynchronizeObject}">SynchronizeObject</Button>
         </StackPanel>
     </Grid>
  
