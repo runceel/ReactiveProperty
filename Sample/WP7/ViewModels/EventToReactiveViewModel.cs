@@ -18,7 +18,10 @@ namespace WP7.ViewModels
 
         public EventToReactiveViewModel()
         {
-            MouseMove = new ReactiveProperty<MouseEventArgs>();
+            // mode off RaiseLatestValueOnSubscribe, because initialValue is null.
+            var mode = ReactivePropertyMode.DistinctUntilChanged;
+
+            MouseMove = new ReactiveProperty<MouseEventArgs>(mode: mode);
 
             CurrentPoint = MouseMove
                 .Select(m => m.GetPosition(null))

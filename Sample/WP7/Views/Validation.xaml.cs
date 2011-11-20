@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
+using WP7.ViewModels;
 
 namespace WP7.Views
 {
@@ -18,6 +19,7 @@ namespace WP7.Views
         public Validation()
         {
             InitializeComponent();
+            DataContext = new ValidationViewModel();
         }
     }
 }

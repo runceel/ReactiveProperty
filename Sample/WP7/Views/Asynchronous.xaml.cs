@@ -19,6 +19,7 @@ namespace WP7.Views
         public Asynchronous()
         {
             InitializeComponent();
+            DataContext = new AsynchronousViewModel();
         }
     }
 }

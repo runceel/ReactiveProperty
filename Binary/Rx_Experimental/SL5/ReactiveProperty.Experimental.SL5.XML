@@ -36,7 +36,7 @@
             <para>Run deferred, Length of return value is always 1.</para>
             </summary>
         </member>
-        <member name="M:Codeplex.Reactive.Asynchronous.StreamExtensions.WriteAsync(System.IO.Stream,System.String,Codeplex.Reactive.Notifier.IProgress{Codeplex.Reactive.Asynchronous.ProgressStatus})">
+        <member name="M:Codeplex.Reactive.Asynchronous.StreamExtensions.WriteAsync(System.IO.Stream,System.String,Codeplex.Reactive.Notifiers.IProgress{Codeplex.Reactive.Asynchronous.ProgressStatus})">
             <summary>
             <para>Write string(Encode to UTF8) async.</para>
             <para>Run deferred, Length of return value is always 1.</para>
@@ -51,7 +51,7 @@
             </summary>
             <returns>Length is always 1</returns>
         </member>
-        <member name="M:Codeplex.Reactive.Asynchronous.StreamExtensions.WriteAsync(System.IO.Stream,System.String,System.Text.Encoding,Codeplex.Reactive.Notifier.IProgress{Codeplex.Reactive.Asynchronous.ProgressStatus})">
+        <member name="M:Codeplex.Reactive.Asynchronous.StreamExtensions.WriteAsync(System.IO.Stream,System.String,System.Text.Encoding,Codeplex.Reactive.Notifiers.IProgress{Codeplex.Reactive.Asynchronous.ProgressStatus})">
             <summary>
             <para>Write string async.</para>
             <para>Run deferred, Length of return value is always 1.</para>
@@ -66,7 +66,7 @@
             </summary>
             <returns>Length is always 1</returns>
         </member>
-        <member name="M:Codeplex.Reactive.Asynchronous.StreamExtensions.WriteAsync(System.IO.Stream,System.Collections.Generic.IEnumerable{System.Byte},Codeplex.Reactive.Notifier.IProgress{Codeplex.Reactive.Asynchronous.ProgressStatus},System.Int32)">
+        <member name="M:Codeplex.Reactive.Asynchronous.StreamExtensions.WriteAsync(System.IO.Stream,System.Collections.Generic.IEnumerable{System.Byte},Codeplex.Reactive.Notifiers.IProgress{Codeplex.Reactive.Asynchronous.ProgressStatus},System.Int32)">
             <summary>
             <para>Write data async.</para>
             <para>Run deferred, Length of return value is always 1.</para>
@@ -98,7 +98,7 @@
             <param name="isAggregateAllChunks">If true, collect all chunks(return length is 1) else return length is reading count.</param>
             <returns>If isAggregateAllChunks is true then 1, else reading count.</returns>
         </member>
-        <member name="M:Codeplex.Reactive.Asynchronous.StreamExtensions.ReadAsync(System.IO.Stream,Codeplex.Reactive.Notifier.IProgress{Codeplex.Reactive.Asynchronous.ProgressStatus},System.Int32,System.Int32,System.Boolean)">
+        <member name="M:Codeplex.Reactive.Asynchronous.StreamExtensions.ReadAsync(System.IO.Stream,Codeplex.Reactive.Notifiers.IProgress{Codeplex.Reactive.Asynchronous.ProgressStatus},System.Int32,System.Int32,System.Boolean)">
             <summary>
             <para>Read data async.</para>
             <para>Run deferred, Length of return value is if isAggregateAllChunks is true then 1, else reading count.</para>
@@ -124,6 +124,9 @@
             </summary>
             <returns>Length is lines row count</returns>
         </member>
+        <member name="T:Codeplex.Reactive.Extensions.OldNewPair`1">
+            <summary>Value pair of OldItem and NewItem.</summary>
+        </member>
         <member name="M:Codeplex.Reactive.Extensions.INotifyDataErrorInfoExtensions.ErrorsChangedAsObservable``1(``0)">
             <summary>Converts ErrorsChanged to an observable sequence.</summary>
         </member>
@@ -133,9 +136,15 @@
             </summary>
             <param name="propertySelector">Argument is self, Return is target property.</param>
         </member>
+        <member name="M:Codeplex.Reactive.Extensions.CatchIgnoreObservableExtensions.CatchIgnore``1(System.IObservable{``0})">
+            <summary>Catch exception and return Observable.Empty.</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Extensions.CatchIgnoreObservableExtensions.CatchIgnore``2(System.IObservable{``0},System.Action{``1})">
+            <summary>Catch exception and return Observable.Empty.</summary>
+        </member>
         <member name="T:Codeplex.Reactive.ReactiveCollection`1">
             <summary>
-            ObservableCollection that operate on scheduler.
+            ObservableCollection that operate on scheduler use by ***OnScheduler methods.
             </summary>
         </member>
         <member name="M:Codeplex.Reactive.ReactiveCollection`1.#ctor">
@@ -155,6 +164,12 @@
         </member>
         <member name="M:Codeplex.Reactive.ReactiveCollection`1.ClearOnScheduler">
             <summary>Clear called on scheduler</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.ReactiveCollection`1.GetOnScheduler(System.Int32)">
+            <summary>Get(indexer get) called on scheduler, IObservable length is one.</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.ReactiveCollection`1.GetEnumerableOnScheduler(System.Int32)">
+            <summary>GetEnumerable(for LINQ) called on scheduler, IObservable length is one.</summary>
         </member>
         <member name="M:Codeplex.Reactive.ReactiveCollection`1.InsertOnScheduler(System.Int32,`0)">
             <summary>Insert called on scheduler</summary>
@@ -186,7 +201,7 @@
             <param name="chunkSize">The size of one reading.</param>
             <param name="isAggregateAllChunks">If true, collect all chunks(return length is 1) else return length is reading count.</param>
         </member>
-        <member name="M:Codeplex.Reactive.Asynchronous.WebResponseExtensions.DownloadDataAsync(System.Net.WebResponse,Codeplex.Reactive.Notifier.IProgress{Codeplex.Reactive.Asynchronous.ProgressStatus},System.Int32,System.Boolean)">
+        <member name="M:Codeplex.Reactive.Asynchronous.WebResponseExtensions.DownloadDataAsync(System.Net.WebResponse,Codeplex.Reactive.Notifiers.IProgress{Codeplex.Reactive.Asynchronous.ProgressStatus},System.Int32,System.Boolean)">
             <summary>
             <para>Download data async.</para>
             <para>Run deferred, Length of return value is if isAggregateAllChunks is true then 1, else reading count.</para>
@@ -208,14 +223,14 @@
             <para>Run deferred, Length of return value is always 1.</para>
             </summary>
         </member>
-        <member name="M:Codeplex.Reactive.Asynchronous.WebResponseExtensions.DownloadStringAsync(System.Net.WebResponse,Codeplex.Reactive.Notifier.IProgress{Codeplex.Reactive.Asynchronous.ProgressStatus})">
+        <member name="M:Codeplex.Reactive.Asynchronous.WebResponseExtensions.DownloadStringAsync(System.Net.WebResponse,Codeplex.Reactive.Notifiers.IProgress{Codeplex.Reactive.Asynchronous.ProgressStatus})">
             <summary>
             <para>Download string async.</para>
             <para>Run deferred, Length of return value is always 1.</para>
             </summary>
             <param name="progressReporter">Reporter of progress(such as ScheduledNotifier).</param>
         </member>
-        <member name="M:Codeplex.Reactive.Asynchronous.WebResponseExtensions.DownloadStringAsync(System.Net.WebResponse,System.Text.Encoding,Codeplex.Reactive.Notifier.IProgress{Codeplex.Reactive.Asynchronous.ProgressStatus})">
+        <member name="M:Codeplex.Reactive.Asynchronous.WebResponseExtensions.DownloadStringAsync(System.Net.WebResponse,System.Text.Encoding,Codeplex.Reactive.Notifiers.IProgress{Codeplex.Reactive.Asynchronous.ProgressStatus})">
             <summary>
             <para>Download string async.</para>
             <para>Run deferred, Length of return value is always 1.</para>
@@ -232,46 +247,6 @@
             <summary>
             <para>Download string lines async.</para>
             <para>Run deferred, Length of return value is lines row count.</para>
-            </summary>
-        </member>
-        <member name="T:Codeplex.Reactive.Notifier.SignalChangedStatus">
-            <summary>Event kind of SignalNotifier.</summary>
-        </member>
-        <member name="F:Codeplex.Reactive.Notifier.SignalChangedStatus.Increment">
-            <summary>Count incremented.</summary>
-        </member>
-        <member name="F:Codeplex.Reactive.Notifier.SignalChangedStatus.Decrement">
-            <summary>Count decremented.</summary>
-        </member>
-        <member name="F:Codeplex.Reactive.Notifier.SignalChangedStatus.Empty">
-            <summary>Count is zero.</summary>
-        </member>
-        <member name="F:Codeplex.Reactive.Notifier.SignalChangedStatus.Max">
-            <summary>Count arrived max.</summary>
-        </member>
-        <member name="T:Codeplex.Reactive.Notifier.SignalNotifier">
-            <summary>
-            Notify event of count signals.
-            </summary>
-        </member>
-        <member name="M:Codeplex.Reactive.Notifier.SignalNotifier.#ctor(System.Int32)">
-            <summary>
-            Setup max count of signal.
-            </summary>
-        </member>
-        <member name="M:Codeplex.Reactive.Notifier.SignalNotifier.Increment(System.Int32)">
-            <summary>
-            Increment count and notify status.
-            </summary>
-        </member>
-        <member name="M:Codeplex.Reactive.Notifier.SignalNotifier.Decrement(System.Int32)">
-            <summary>
-            Decrement count and notify status.
-            </summary>
-        </member>
-        <member name="M:Codeplex.Reactive.Notifier.SignalNotifier.Subscribe(System.IObserver{Codeplex.Reactive.Notifier.SignalChangedStatus})">
-            <summary>
-            Subscribe observer.
             </summary>
         </member>
         <member name="M:Codeplex.Reactive.Extensions.RetryObservableExtensions.OnErrorRetry``1(System.IObservable{``0})">
@@ -305,6 +280,12 @@
             When catched exception, do onError action and repeat observable sequence after delay time(work on delayScheduler) during within retryCount.
             </summary>
         </member>
+        <member name="M:Codeplex.Reactive.Extensions.ObservablePairwiseExtensions.Pairwise``1(System.IObservable{``0})">
+            <summary>Projects old and new element of a sequence into a new form.</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Extensions.ObservablePairwiseExtensions.Pairwise``2(System.IObservable{``0},System.Func{``0,``0,``1})">
+            <summary>Projects old and new element of a sequence into a new form.</summary>
+        </member>
         <member name="M:Codeplex.Reactive.Extensions.ICommandExtensions.CanExecuteChangedAsObservable``1(``0)">
             <summary>Converts CanExecuteChanged to an observable sequence.</summary>
         </member>
@@ -322,7 +303,7 @@
             </summary>
             <returns>Length is always 1</returns>
         </member>
-        <member name="M:Codeplex.Reactive.Asynchronous.WebClientExtensions.DownloadStringObservableAsync(System.Net.WebClient,System.Uri,Codeplex.Reactive.Notifier.IProgress{System.Net.DownloadProgressChangedEventArgs})">
+        <member name="M:Codeplex.Reactive.Asynchronous.WebClientExtensions.DownloadStringObservableAsync(System.Net.WebClient,System.Uri,Codeplex.Reactive.Notifiers.IProgress{System.Net.DownloadProgressChangedEventArgs})">
             <summary>
             <para>Download string async.</para>
             <para>Run deferred, Length of return value is always 1.</para>
@@ -372,7 +353,7 @@
             </summary>
             <returns>Length is always 1</returns>
         </member>
-        <member name="M:Codeplex.Reactive.Asynchronous.WebClientExtensions.UploadStringObservableAsync(System.Net.WebClient,System.Uri,System.String,Codeplex.Reactive.Notifier.IProgress{System.Net.UploadProgressChangedEventArgs},System.String)">
+        <member name="M:Codeplex.Reactive.Asynchronous.WebClientExtensions.UploadStringObservableAsync(System.Net.WebClient,System.Uri,System.String,Codeplex.Reactive.Notifiers.IProgress{System.Net.UploadProgressChangedEventArgs},System.String)">
             <summary>
             <para>Upload string async.</para>
             <para>Run deferred, Length of return value is always 1.</para>
@@ -488,6 +469,115 @@
             <param name="propertySelector">Argument is self, Return is target property.</param>
             <param name="isPushCurrentValueOnSubscribe">Push current value on first subscribe.</param>
         </member>
+        <member name="M:Codeplex.Reactive.Extensions.INotifyPropertyChangedExtensions.ToReactivePropertyAsSynchronized``2(``0,System.Linq.Expressions.Expression{System.Func{``0,``1}},Codeplex.Reactive.ReactivePropertyMode)">
+            <summary>
+            <para>Converts NotificationObject's property to ReactiveProperty. Value is two-way synchronized.</para>
+            <para>PropertyChanged raise on UIDispatcherScheduler.</para>
+            </summary>
+            <param name="propertySelector">Argument is self, Return is target property.</param>
+            <param name="mode">ReactiveProperty mode.</param>
+        </member>
+        <member name="M:Codeplex.Reactive.Extensions.INotifyPropertyChangedExtensions.ToReactivePropertyAsSynchronized``2(``0,System.Linq.Expressions.Expression{System.Func{``0,``1}},System.Reactive.Concurrency.IScheduler,Codeplex.Reactive.ReactivePropertyMode)">
+            <summary>
+            <para>Converts NotificationObject's property to ReactiveProperty. Value is two-way synchronized.</para>
+            <para>PropertyChanged raise on selected scheduler.</para>
+            </summary>
+            <param name="propertySelector">Argument is self, Return is target property.</param>
+            <param name="mode">ReactiveProperty mode.</param>
+        </member>
+        <member name="M:Codeplex.Reactive.Extensions.INotifyPropertyChangedExtensions.ToReactivePropertyAsSynchronized``3(``0,System.Linq.Expressions.Expression{System.Func{``0,``1}},System.Func{``1,``2},System.Func{``2,``1},Codeplex.Reactive.ReactivePropertyMode)">
+            <summary>
+            <para>Converts NotificationObject's property to ReactiveProperty. Value is two-way synchronized.</para>
+            <para>PropertyChanged raise on UIDispatcherScheduler.</para>
+            </summary>
+            <param name="propertySelector">Argument is self, Return is target property.</param>
+            <param name="convert">Convert selector to ReactiveProperty.</param>
+            <param name="convertBack">Convert selector to source.</param>
+            <param name="mode">ReactiveProperty mode.</param>
+        </member>
+        <member name="M:Codeplex.Reactive.Extensions.INotifyPropertyChangedExtensions.ToReactivePropertyAsSynchronized``3(``0,System.Linq.Expressions.Expression{System.Func{``0,``1}},System.Func{``1,``2},System.Func{``2,``1},System.Reactive.Concurrency.IScheduler,Codeplex.Reactive.ReactivePropertyMode)">
+            <summary>
+            <para>Converts NotificationObject's property to ReactiveProperty. Value is two-way synchronized.</para>
+            <para>PropertyChanged raise on selected scheduler.</para>
+            </summary>
+            <param name="propertySelector">Argument is self, Return is target property.</param>
+            <param name="convert">Convert selector to ReactiveProperty.</param>
+            <param name="convertBack">Convert selector to source.</param>
+            <param name="mode">ReactiveProperty mode.</param>
+        </member>
+        <member name="T:Codeplex.Reactive.Notifiers.CountChangedStatus">
+            <summary>Event kind of CountNotifier.</summary>
+        </member>
+        <member name="F:Codeplex.Reactive.Notifiers.CountChangedStatus.Increment">
+            <summary>Count incremented.</summary>
+        </member>
+        <member name="F:Codeplex.Reactive.Notifiers.CountChangedStatus.Decrement">
+            <summary>Count decremented.</summary>
+        </member>
+        <member name="F:Codeplex.Reactive.Notifiers.CountChangedStatus.Empty">
+            <summary>Count is zero.</summary>
+        </member>
+        <member name="F:Codeplex.Reactive.Notifiers.CountChangedStatus.Max">
+            <summary>Count arrived max.</summary>
+        </member>
+        <member name="T:Codeplex.Reactive.Notifiers.CountNotifier">
+            <summary>
+            Notify event of count flag.
+            </summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Notifiers.CountNotifier.#ctor(System.Int32)">
+            <summary>
+            Setup max count of signal.
+            </summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Notifiers.CountNotifier.Increment(System.Int32)">
+            <summary>
+            Increment count and notify status.
+            </summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Notifiers.CountNotifier.Decrement(System.Int32)">
+            <summary>
+            Decrement count and notify status.
+            </summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Notifiers.CountNotifier.Subscribe(System.IObserver{Codeplex.Reactive.Notifiers.CountChangedStatus})">
+            <summary>
+            Subscribe observer.
+            </summary>
+        </member>
+        <member name="T:Codeplex.Reactive.Notifiers.BooleanNotifier">
+            <summary>
+            Notify boolean flag.
+            </summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Notifiers.BooleanNotifier.#ctor(System.Boolean)">
+            <summary>
+            Setup initial flag.
+            </summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Notifiers.BooleanNotifier.TurnOn">
+            <summary>
+            Set and raise true if current value isn't true.
+            </summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Notifiers.BooleanNotifier.TurnOff">
+            <summary>
+            Set and raise false if current value isn't false.
+            </summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Notifiers.BooleanNotifier.SwitchValue">
+            <summary>
+            Set and raise reverse value.
+            </summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Notifiers.BooleanNotifier.Subscribe(System.IObserver{System.Boolean})">
+            <summary>
+            Subscribe observer.
+            </summary>
+        </member>
+        <member name="P:Codeplex.Reactive.Notifiers.BooleanNotifier.Value">
+            <summary>Current flag value</summary>
+        </member>
         <member name="F:Codeplex.Reactive.ReactivePropertyMode.DistinctUntilChanged">
             <summary>If next value is same as current, not set and not notify.</summary>
         </member>
@@ -506,12 +596,6 @@
         <member name="M:Codeplex.Reactive.ReactiveProperty`1.#ctor(System.Reactive.Concurrency.IScheduler,`0,Codeplex.Reactive.ReactivePropertyMode)">
             <summary>PropertyChanged raise on selected scheduler</summary>
         </member>
-        <member name="M:Codeplex.Reactive.ReactiveProperty`1.#ctor(System.Action{`0},`0,Codeplex.Reactive.ReactivePropertyMode)">
-            <summary>PropertyChanged raise on UIDispatcherScheduler</summary>
-        </member>
-        <member name="M:Codeplex.Reactive.ReactiveProperty`1.#ctor(System.Action{`0},System.Reactive.Concurrency.IScheduler,`0,Codeplex.Reactive.ReactivePropertyMode)">
-            <summary>PropertyChanged raise on selected scheduler</summary>
-        </member>
         <member name="M:Codeplex.Reactive.ReactiveProperty`1.Subscribe(System.IObserver{`0})">
             <summary>
             Subscribe source.
@@ -521,6 +605,12 @@
             <summary>
             Unsubcribe all subscription.
             </summary>
+        </member>
+        <member name="M:Codeplex.Reactive.ReactiveProperty`1.ForceValidate">
+            <summary>
+            Trigger IDataErrorInfo validation.
+            </summary>
+            <returns>If success return null, failure return string(ErrorMessage).</returns>
         </member>
         <member name="M:Codeplex.Reactive.ReactiveProperty`1.SetValidateAttribute(System.Linq.Expressions.Expression{System.Func{Codeplex.Reactive.ReactiveProperty{`0}}})">
             <summary>
@@ -562,28 +652,82 @@
         <member name="P:Codeplex.Reactive.ReactiveProperty`1.HasErrors">
             <summary>Get INotifyDataErrorInfo's error store</summary>
         </member>
-        <member name="M:Codeplex.Reactive.ReactivePropertyObservableExtensions.ToReactiveProperty``1(System.IObservable{``0},``0,Codeplex.Reactive.ReactivePropertyMode)">
+        <member name="T:Codeplex.Reactive.ReactiveProperty">
+            <summary>
+            Static methods and extension methods of ReactiveProperty&lt;T&gt;
+            </summary>
+        </member>
+        <member name="M:Codeplex.Reactive.ReactiveProperty.FromObject``2(``0,System.Linq.Expressions.Expression{System.Func{``0,``1}},Codeplex.Reactive.ReactivePropertyMode)">
+            <summary>
+            <para>Convert plain object to ReactiveProperty.</para>
+            <para>Value is OneWayToSource(ReactiveProperty -> Object) synchronized.</para>
+            <para>PropertyChanged raise on UIDispatcherScheduler</para>
+            </summary>
+        </member>
+        <member name="M:Codeplex.Reactive.ReactiveProperty.FromObject``2(``0,System.Linq.Expressions.Expression{System.Func{``0,``1}},System.Reactive.Concurrency.IScheduler,Codeplex.Reactive.ReactivePropertyMode)">
+            <summary>
+            <para>Convert plain object to ReactiveProperty.</para>
+            <para>Value is OneWayToSource(ReactiveProperty -> Object) synchronized.</para>
+            <para>PropertyChanged raise on selected scheduler</para>
+            </summary>
+        </member>
+        <member name="M:Codeplex.Reactive.ReactiveProperty.ToReactiveProperty``1(System.IObservable{``0},``0,Codeplex.Reactive.ReactivePropertyMode)">
             <summary>
             <para>Convert to two-way bindable IObservable&lt;T&gt;</para>
             <para>PropertyChanged raise on UIDispatcherScheduler</para>
             </summary>
         </member>
-        <member name="M:Codeplex.Reactive.ReactivePropertyObservableExtensions.ToReactiveProperty``1(System.IObservable{``0},System.Reactive.Concurrency.IScheduler,``0,Codeplex.Reactive.ReactivePropertyMode)">
+        <member name="M:Codeplex.Reactive.ReactiveProperty.ToReactiveProperty``1(System.IObservable{``0},System.Reactive.Concurrency.IScheduler,``0,Codeplex.Reactive.ReactivePropertyMode)">
             <summary>
             <para>Convert to two-way bindable IObservable&lt;T&gt;</para>
             <para>PropertyChanged raise on selected scheduler</para>
             </summary>
         </member>
-        <member name="M:Codeplex.Reactive.ReactivePropertyObservableExtensions.ToReactiveProperty``1(System.IObservable{``0},System.Action{``0},``0,Codeplex.Reactive.ReactivePropertyMode)">
+        <member name="T:Codeplex.Reactive.Notifiers.ScheduledNotifier`1">
             <summary>
-            <para>Convert to two-way bindable IObservable&lt;T&gt;</para>
-            <para>PropertyChanged raise on UIDispatcherScheduler</para>
+            Notify value on setuped scheduler.
             </summary>
         </member>
-        <member name="M:Codeplex.Reactive.ReactivePropertyObservableExtensions.ToReactiveProperty``1(System.IObservable{``0},System.Action{``0},System.Reactive.Concurrency.IScheduler,``0,Codeplex.Reactive.ReactivePropertyMode)">
+        <member name="T:Codeplex.Reactive.Notifiers.IProgress`1">
             <summary>
-            <para>Convert to two-way bindable IObservable&lt;T&gt;</para>
-            <para>PropertyChanged raise on selected scheduler</para>
+            Defines a provider for progress updates.
+            </summary>
+            <typeparam name="T">The type of progress update value.</typeparam>
+        </member>
+        <member name="M:Codeplex.Reactive.Notifiers.IProgress`1.Report(`0)">
+            <summary>
+            Reports a progress update.
+            </summary>
+            <param name="value">The value of the updated progress.</param>
+        </member>
+        <member name="M:Codeplex.Reactive.Notifiers.ScheduledNotifier`1.#ctor">
+            <summary>
+            Use scheduler is Scheduler.Immediate.
+            </summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Notifiers.ScheduledNotifier`1.#ctor(System.Reactive.Concurrency.IScheduler)">
+            <summary>
+            Use scheduler is argument's scheduler.
+            </summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Notifiers.ScheduledNotifier`1.Report(`0)">
+            <summary>
+            Push value to subscribers on setuped scheduler.
+            </summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Notifiers.ScheduledNotifier`1.Report(`0,System.TimeSpan)">
+            <summary>
+            Push value to subscribers on setuped scheduler.
+            </summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Notifiers.ScheduledNotifier`1.Report(`0,System.DateTimeOffset)">
+            <summary>
+            Push value to subscribers on setuped scheduler.
+            </summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Notifiers.ScheduledNotifier`1.Subscribe(System.IObserver{`0})">
+            <summary>
+            Subscribe observer.
             </summary>
         </member>
         <member name="M:Codeplex.Reactive.Extensions.IDisposableExtensions.AddTo(System.IDisposable,System.Collections.Generic.ICollection{System.IDisposable})">
@@ -594,55 +738,54 @@
         <!-- 正しくない形式の XML コメントがメンバー "M:Codeplex.Reactive.Extensions.CombineLatestObservableExtensions.CombineLatest``6(System.IObservable{``0},System.IObservable{``1},System.IObservable{``2},System.IObservable{``3},System.IObservable{``4},System.Func{``0,``1,``2,``3,``4,``5})" で無視されました -->
         <!-- 正しくない形式の XML コメントがメンバー "M:Codeplex.Reactive.Extensions.CombineLatestObservableExtensions.CombineLatest``7(System.IObservable{``0},System.IObservable{``1},System.IObservable{``2},System.IObservable{``3},System.IObservable{``4},System.IObservable{``5},System.Func{``0,``1,``2,``3,``4,``5,``6})" で無視されました -->
         <!-- 正しくない形式の XML コメントがメンバー "M:Codeplex.Reactive.Extensions.CombineLatestObservableExtensions.CombineLatest``8(System.IObservable{``0},System.IObservable{``1},System.IObservable{``2},System.IObservable{``3},System.IObservable{``4},System.IObservable{``5},System.IObservable{``6},System.Func{``0,``1,``2,``3,``4,``5,``6,``7})" で無視されました -->
-        <member name="T:Codeplex.Reactive.Notifier.ScheduledNotifier`1">
+        <member name="T:Codeplex.Reactive.ReactiveTimer">
             <summary>
-            Notify value on setuped scheduler.
+            Hot(stoppable/continuable) observable timer.
             </summary>
         </member>
-        <member name="T:Codeplex.Reactive.Notifier.IProgress`1">
-            <summary>
-            Defines a provider for progress updates.
-            </summary>
-            <typeparam name="T">The type of progress update value.</typeparam>
+        <member name="M:Codeplex.Reactive.ReactiveTimer.#ctor(System.TimeSpan)">
+            <summary>Operate scheduler ThreadPoolScheduler.</summary>
         </member>
-        <member name="M:Codeplex.Reactive.Notifier.IProgress`1.Report(`0)">
-            <summary>
-            Reports a progress update.
-            </summary>
-            <param name="value">The value of the updated progress.</param>
+        <member name="M:Codeplex.Reactive.ReactiveTimer.#ctor(System.TimeSpan,System.Reactive.Concurrency.IScheduler)">
+            <summary>Operate scheduler is argument's scheduler.</summary>
         </member>
-        <member name="M:Codeplex.Reactive.Notifier.ScheduledNotifier`1.#ctor">
-            <summary>
-            Use scheduler is Scheduler.Immediate.
-            </summary>
+        <member name="M:Codeplex.Reactive.ReactiveTimer.Start">
+            <summary>Start timer immediately.</summary>
         </member>
-        <member name="M:Codeplex.Reactive.Notifier.ScheduledNotifier`1.#ctor(System.Reactive.Concurrency.IScheduler)">
-            <summary>
-            Use scheduler is argument's scheduler.
-            </summary>
+        <member name="M:Codeplex.Reactive.ReactiveTimer.Start(System.TimeSpan)">
+            <summary>Start timer after dueTime.</summary>
         </member>
-        <member name="M:Codeplex.Reactive.Notifier.ScheduledNotifier`1.Report(`0)">
-            <summary>
-            Push value to subscribers on setuped scheduler.
-            </summary>
+        <member name="M:Codeplex.Reactive.ReactiveTimer.Stop">
+            <summary>Stop timer.</summary>
         </member>
-        <member name="M:Codeplex.Reactive.Notifier.ScheduledNotifier`1.Report(`0,System.TimeSpan)">
+        <member name="M:Codeplex.Reactive.ReactiveTimer.Reset">
+            <summary>Stop timer and reset count.</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.ReactiveTimer.Subscribe(System.IObserver{System.Int64})">
+            <summary>Subscribe observer.</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.ReactiveTimer.Dispose">
             <summary>
-            Push value to subscribers on setuped scheduler.
+            Send OnCompleted to subscribers and unsubscribe all.
             </summary>
         </member>
-        <member name="M:Codeplex.Reactive.Notifier.ScheduledNotifier`1.Report(`0,System.DateTimeOffset)">
-            <summary>
-            Push value to subscribers on setuped scheduler.
-            </summary>
+        <member name="P:Codeplex.Reactive.ReactiveTimer.Interval">
+            <summary>Timer interval.</summary>
         </member>
-        <member name="M:Codeplex.Reactive.Notifier.ScheduledNotifier`1.Subscribe(System.IObserver{`0})">
+        <member name="M:Codeplex.Reactive.Helpers.SerializeHelper.PackReactivePropertyValue(System.Object)">
             <summary>
-            Subscribe observer.
+            Serialize target contains ReactiveProperty's Value.
             </summary>
+            <param name="target">ReactiveProperty holder(such as ViewModel).</param>
+            <returns>Serialized string.</returns>
         </member>
-        <member name="T:Codeplex.Reactive.Extensions.OldNewPair`1">
-            <summary>Value pair of OldItem and NewItem.</summary>
+        <member name="M:Codeplex.Reactive.Helpers.SerializeHelper.UnpackReactivePropertyValue(System.Object,System.String)">
+            <summary>
+            <para>Deserialize target's ReactiveProperty value.</para>
+            <para>Deserialize order is at first DataMemberAttribute' Order, second alphabetical order.</para>
+            </summary>
+            <param name="target">ReactiveProperty holder(such as ViewModel).</param>
+            <param name="packedData">Serialized string.</param>
         </member>
         <member name="M:Codeplex.Reactive.Extensions.ObservableCollectionExtensions.ObserveAddChanged``1(System.Collections.ObjectModel.ObservableCollection{``0})">
             <summary>Observe CollectionChanged:Add and take single item.</summary>
@@ -664,6 +807,11 @@
         </member>
         <member name="M:Codeplex.Reactive.Extensions.ObservableCollectionExtensions.ObserveResetChanged``1(System.Collections.ObjectModel.ObservableCollection{``0})">
             <summary>Observe CollectionChanged:Reset.</summary>
+        </member>
+        <member name="M:Codeplex.Reactive.Extensions.CombineLatestEnumerableExtensions.CombineLatestValuesAreAllTrue(System.Collections.Generic.IEnumerable{System.IObservable{System.Boolean}})">
+            <summary>
+            Lastest values of each sequence are all true.
+            </summary>
         </member>
         <member name="F:Codeplex.Reactive.Asynchronous.ProgressStatus.Unknown">
             <summary>Represents unknown length. This equals -1.</summary>
@@ -708,7 +856,7 @@
             <para>Run deferred, Length of return value is always 1.</para>
             </summary>
         </member>
-        <member name="M:Codeplex.Reactive.Asynchronous.WebRequestExtensions.DownloadDataAsync(System.Net.WebRequest,Codeplex.Reactive.Notifier.IProgress{Codeplex.Reactive.Asynchronous.ProgressStatus})">
+        <member name="M:Codeplex.Reactive.Asynchronous.WebRequestExtensions.DownloadDataAsync(System.Net.WebRequest,Codeplex.Reactive.Notifiers.IProgress{Codeplex.Reactive.Asynchronous.ProgressStatus})">
             <summary>
             <para>Download data async.</para>
             <para>Run deferred, Length of return value is always 1.</para>
@@ -727,14 +875,14 @@
             <para>Run deferred, Length of return value is always 1.</para>
             </summary>
         </member>
-        <member name="M:Codeplex.Reactive.Asynchronous.WebRequestExtensions.DownloadStringAsync(System.Net.WebRequest,Codeplex.Reactive.Notifier.IProgress{Codeplex.Reactive.Asynchronous.ProgressStatus})">
+        <member name="M:Codeplex.Reactive.Asynchronous.WebRequestExtensions.DownloadStringAsync(System.Net.WebRequest,Codeplex.Reactive.Notifiers.IProgress{Codeplex.Reactive.Asynchronous.ProgressStatus})">
             <summary>
             <para>Download string async.</para>
             <para>Run deferred, Length of return value is always 1.</para>
             </summary>
             <param name="progressReporter">Reporter of progress(such as ScheduledNotifier).</param>
         </member>
-        <member name="M:Codeplex.Reactive.Asynchronous.WebRequestExtensions.DownloadStringAsync(System.Net.WebRequest,System.Text.Encoding,Codeplex.Reactive.Notifier.IProgress{Codeplex.Reactive.Asynchronous.ProgressStatus})">
+        <member name="M:Codeplex.Reactive.Asynchronous.WebRequestExtensions.DownloadStringAsync(System.Net.WebRequest,System.Text.Encoding,Codeplex.Reactive.Notifiers.IProgress{Codeplex.Reactive.Asynchronous.ProgressStatus})">
             <summary>
             <para>Download string async.</para>
             <para>Run deferred, Length of return value is always 1.</para>
@@ -765,14 +913,14 @@
             <para>Run deferred, Length of return value is always 1.</para>
             </summary>
         </member>
-        <member name="M:Codeplex.Reactive.Asynchronous.WebRequestExtensions.UploadStringAsync(System.Net.WebRequest,System.String,Codeplex.Reactive.Notifier.IProgress{Codeplex.Reactive.Asynchronous.ProgressStatus})">
+        <member name="M:Codeplex.Reactive.Asynchronous.WebRequestExtensions.UploadStringAsync(System.Net.WebRequest,System.String,Codeplex.Reactive.Notifiers.IProgress{Codeplex.Reactive.Asynchronous.ProgressStatus})">
             <summary>
             <para>Upload string async.</para>
             <para>Run deferred, Length of return value is always 1.</para>
             </summary>
             <param name="progressReporter">Reporter of progress(such as ScheduledNotifier).</param>
         </member>
-        <member name="M:Codeplex.Reactive.Asynchronous.WebRequestExtensions.UploadStringAsync(System.Net.WebRequest,System.String,System.Text.Encoding,Codeplex.Reactive.Notifier.IProgress{Codeplex.Reactive.Asynchronous.ProgressStatus})">
+        <member name="M:Codeplex.Reactive.Asynchronous.WebRequestExtensions.UploadStringAsync(System.Net.WebRequest,System.String,System.Text.Encoding,Codeplex.Reactive.Notifiers.IProgress{Codeplex.Reactive.Asynchronous.ProgressStatus})">
             <summary>
             <para>Upload string async.</para>
             <para>Run deferred, Length of return value is always 1.</para>
@@ -791,14 +939,14 @@
             <para>Run deferred, Length of return value is always 1.</para>
             </summary>
         </member>
-        <member name="M:Codeplex.Reactive.Asynchronous.WebRequestExtensions.UploadValuesAsync(System.Net.WebRequest,System.Collections.Generic.IDictionary{System.String,System.String},Codeplex.Reactive.Notifier.IProgress{Codeplex.Reactive.Asynchronous.ProgressStatus})">
+        <member name="M:Codeplex.Reactive.Asynchronous.WebRequestExtensions.UploadValuesAsync(System.Net.WebRequest,System.Collections.Generic.IDictionary{System.String,System.String},Codeplex.Reactive.Notifiers.IProgress{Codeplex.Reactive.Asynchronous.ProgressStatus})">
             <summary>
             <para>Upload values async.</para>
             <para>Run deferred, Length of return value is always 1.</para>
             </summary>
             <param name="progressReporter">Reporter of progress(such as ScheduledNotifier).</param>
         </member>
-        <member name="M:Codeplex.Reactive.Asynchronous.WebRequestExtensions.UploadValuesAsync(System.Net.WebRequest,System.Collections.Generic.IDictionary{System.String,System.String},System.Text.Encoding,Codeplex.Reactive.Notifier.IProgress{Codeplex.Reactive.Asynchronous.ProgressStatus})">
+        <member name="M:Codeplex.Reactive.Asynchronous.WebRequestExtensions.UploadValuesAsync(System.Net.WebRequest,System.Collections.Generic.IDictionary{System.String,System.String},System.Text.Encoding,Codeplex.Reactive.Notifiers.IProgress{Codeplex.Reactive.Asynchronous.ProgressStatus})">
             <summary>
             <para>Upload values async.</para>
             <para>Run deferred, Length of return value is always 1.</para>
@@ -811,7 +959,7 @@
             <para>Run deferred, Length of return value is always 1.</para>
             </summary>
         </member>
-        <member name="M:Codeplex.Reactive.Asynchronous.WebRequestExtensions.UploadDataAsync(System.Net.WebRequest,System.Byte[],Codeplex.Reactive.Notifier.IProgress{Codeplex.Reactive.Asynchronous.ProgressStatus},System.Int32)">
+        <member name="M:Codeplex.Reactive.Asynchronous.WebRequestExtensions.UploadDataAsync(System.Net.WebRequest,System.Byte[],Codeplex.Reactive.Notifiers.IProgress{Codeplex.Reactive.Asynchronous.ProgressStatus},System.Int32)">
             <summary>
             <para>Upload data async.</para>
             <para>Run deferred, Length of return value is always 1.</para>
@@ -842,21 +990,6 @@
             <para>UIDIspatcherScheduler is created when access to UIDispatcher.Default first in the whole application.</para>
             <para>If you want to explicitly initialize, call UIDispatcherScheduler.Initialize() in App.xaml.cs.</para>
             </summary>
-        </member>
-        <member name="M:Codeplex.Reactive.Serialization.SerializeHelper.PackReactivePropertyValue(System.Object)">
-            <summary>
-            Serialize target contains ReactiveProperty's Value.
-            </summary>
-            <param name="target">ReactiveProperty holder(such as ViewModel).</param>
-            <returns>Serialized string.</returns>
-        </member>
-        <member name="M:Codeplex.Reactive.Serialization.SerializeHelper.UnpackReactivePropertyValue(System.Object,System.String)">
-            <summary>
-            <para>Deserialize target's ReactiveProperty value.</para>
-            <para>Deserialize order is at first DataMemberAttribute' Order, second alphabetical order.</para>
-            </summary>
-            <param name="target">ReactiveProperty holder(such as ViewModel).</param>
-            <param name="packedData">Serialized string.</param>
         </member>
         <member name="M:Codeplex.Reactive.Extensions.INotifyCollectionChangedExtensions.CollectionChangedAsObservable``1(``0)">
             <summary>Converts CollectionChanged to an observable sequence.</summary>

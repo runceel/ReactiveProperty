@@ -17,10 +17,6 @@
     mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480"
     shell:SystemTray.IsVisible="True">
 
-    <phone:PhoneApplicationPage.DataContext>
-        <vm:EventToReactiveViewModel />
-    </phone:PhoneApplicationPage.DataContext>
-
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
