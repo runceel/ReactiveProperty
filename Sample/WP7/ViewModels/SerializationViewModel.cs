@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Phone.Reactive;
 using Codeplex.Reactive;
-using Codeplex.Reactive.Serialization;
+using Codeplex.Reactive.Helpers;
 using System.Runtime.Serialization;
 
 namespace WP7.ViewModels

@@ -3,7 +3,7 @@ using System.Windows;
 using Codeplex.Reactive;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Reactive;
-using Codeplex.Reactive.Notifier;
+using Codeplex.Reactive.Notifiers;
 
 namespace WP7
 {

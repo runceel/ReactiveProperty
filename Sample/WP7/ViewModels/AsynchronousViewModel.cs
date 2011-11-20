@@ -4,7 +4,7 @@ using System.Net;
 using Microsoft.Phone.Reactive;
 using System.Xml.Linq;
 using Codeplex.Reactive;
-using Codeplex.Reactive.Notifier;
+using Codeplex.Reactive.Notifiers;
 using Codeplex.Reactive.Asynchronous; // namespace for Asynchronous Extension Methods
 using Codeplex.Reactive.Extensions;   // namespace for Extensions(OnErroRetry etc...)
 
@@ -21,7 +21,7 @@ namespace WP7.ViewModels
         public AsynchronousViewModel()
         {
             // Notifier of network connecitng status/count
-            var connect = new SignalNotifier();
+            var connect = new CountNotifier();
             // Notifier of network progress report
             var progress = new ScheduledNotifier<DownloadProgressChangedEventArgs>();
 
@@ -42,9 +42,9 @@ namespace WP7.ViewModels
                 .Select(w => w.Select(x => x.ToString()).ToArray())
                 .ToReactiveProperty();
 
-            // SignalChangedStatus : Increment(network open), Decrement(network close), Empty(all complete)
+            // CountChangedStatus. : Increment(network open), Decrement(network close), Empty(all complete)
             SearchingStatus = connect
-                .Select(x => (x != SignalChangedStatus.Empty) ? "loading..." : "complete")
+                .Select(x => (x != CountChangedStatus.Empty) ? "loading..." : "complete")
                 .ToReactiveProperty();
 
             ProgressStatus = progress

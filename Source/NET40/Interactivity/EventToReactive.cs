@@ -7,6 +7,8 @@ namespace Codeplex.Reactive.Interactivity
     {
         protected override void Invoke(object parameter)
         {
+            if (parameter == null) return; // do nothing
+
             ((IReactiveProperty)ReactiveProperty).Value = parameter;
         }
 
