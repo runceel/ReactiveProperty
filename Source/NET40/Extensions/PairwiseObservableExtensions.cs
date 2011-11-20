@@ -20,10 +20,13 @@ namespace Codeplex.Reactive.Extensions
             Contract.Requires<ArgumentNullException>(source != null);
             Contract.Ensures(Contract.Result<IObservable<OldNewPair<T>>>() != null);
 
-            return source.Scan(
+            var result = source.Scan(
                     new OldNewPair<T>(default(T), default(T)),
                     (pair, newValue) => new OldNewPair<T>(pair.NewItem, newValue))
                 .Skip(1);
+
+            Contract.Assume(result != null);
+            return result;
         }
 
         /// <summary>Projects old and new element of a sequence into a new form.</summary>
@@ -33,7 +36,10 @@ namespace Codeplex.Reactive.Extensions
             Contract.Requires<ArgumentNullException>(selector != null);
             Contract.Ensures(Contract.Result<IObservable<TR>>() != null);
 
-            return source.Pairwise().Select(x => selector(x.OldItem, x.NewItem));
+            var result = source.Pairwise().Select(x => selector(x.OldItem, x.NewItem));
+
+            Contract.Assume(result != null);
+            return result;
         }
     }
 }
