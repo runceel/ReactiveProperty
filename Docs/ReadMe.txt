@@ -1,6 +1,6 @@
 ﻿/*--------------------------------------------------------------------------
  * ReactiveProperty
- * ver 0.2.0.0 (Oct. 17th, 2011)
+ * ver 0.3.0.0 (Nov. 20th, 2011)
  *
  * created and maintained by neuecc <ils@neue.cc - @neuecc/Twitter>
  * licensed under Microsoft Public License(Ms-PL)
@@ -32,16 +32,16 @@ Rx_Stable/Rx_Experimental
 |-WP7.Rx-Main - Windows Phone 7.1
 
 WP7
-|- Windows Phone 7.1(no requires Rx-Main. This depend Microsoft.Phone.Reactive)
+|- Windows Phone 7.1(no requires Rx-Main. This depends Microsoft.Phone.Reactive)
 
 ---Dependency---
 
 Currently target Rx version is
 Build 1.0.10621(Stable, Rx-Main on NuGet),
-Build 1.1.11011(Experimental, Rx_Experimental-Main on NuGet)
+Build 1.1.11111(Experimental, Rx_Experimental-Main on NuGet)
 or WP7(Microsoft.Phone.Reactive)
 Codeplex.Reactive.Interactivity namespace and under classes,
-depend System.Windows.Interactivity(Blend SDK)
+depends System.Windows.Interactivity(Blend SDK)
 
 ---NuGet Installation---
 
@@ -74,6 +74,7 @@ Codeplex.Reactive
 -> ReacitveProperty - two-way bindable IObservable
 -> ReactiveCommand - declaratively notify CanExecute from inside
 -> ReactiveCollection - IObservable as ObservableCollection(and operate on IScheduler)
+-> ReactiveTimer - Schedulable and hot(stoppable/continuable) timer.
 -> UIDispatcherScheduler - Schedule on UIDispatcher, if access same thread schedule immediately.
 
 Codeplex.Reactive.Asynchronous
@@ -85,11 +86,12 @@ Codeplex.Reactive.Extensions
 Codeplex.Reactive.Interactivity
 -> EventToReactive - Trigger that converts UIEvent to ReactiveProperty.
 
-Codeplex.Reactive.Notifier
+Codeplex.Reactive.Notifiers
 -> ScheduledNotifier - Notify value on scheduler(use with asynchronous progress report).
--> SignalNotifier - Notify event of count signals(this is thraed safe).
+-> CountNotifier - Notify event of count signals(this is thraed safe).
+-> BooleanNotifier - Notify boolean flag.
 
-Codeplex.Reactive.Serialization
+Codeplex.Reactive.Helpers
 -> SerializeHelper - Pack and unpack ReactiveProperty values.
 
 Standard usage and all API references details, see project home.
@@ -104,7 +106,35 @@ Unit test using MSTest and mock library is Moles.
 Auto generate unit test using Pex.
 Assert helper using ChainingAssertion http://chainingassertion.codeplex.com/
 
+---Special Thanks---
+
+Icon design by @ocazuco.
+
 ---History---
+
+2011-11-20 ver 0.3.0.0
+    Add
+        ReactiveProperty.FromObject - Create OneWayToSource synchronized ReactiveProperty
+        ToReactivePropertyAsSynchronized - Create TwoWay synchronized ReactiveProperty
+        ReactiveTimer - Schedulable and hot(stoppable/continuable) timer
+        BooleanNotifier - Notify boolean flag
+        ForceValidate - Call ReactiveProperty's IDataErrorInfo validation
+        GetOnScheduler, GetEnumerableOnScheduler - ReactiveCollection method
+        CatchIgnore - IObservable<T> Extension
+        Pairwise - IObservable<T> Extension
+        CombineLatestValuesAreAllTrue - IEnumerable<IObservable<bool>> Extension
+    Fix
+        Fix bugs, WebRequestExtensions.UploadValues - values no concatenate "&"
+        No crash in silverlight design view
+        No throw exception when call dispose multiple in ReactiveProperty and ReactiveCommand
+    Change
+        ReactivePropertyMode's default changes to DistinctUntilChanged|RaiseLatestValueOnSubscribe
+        (Changed:ver0.2 default behavior is DistinctUntilChanged only)
+        Namespace changed - Codeplex.Reactive.Notifier -> Codeplex.Reactive.Notifiers
+        Namespace changed - Codeplex.Reactive.Serialization -> Codeplex.Reactive.Helpers
+        Name changed - IValue -> IReactiveValue
+        Remove ReactiveProperty's parentRaisePropertyChanged overloads
+        Remove CombineLatest overloads in Rx-Experimental
 
 2011-10-17 ver 0.2.0.0
     Add

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Windows.Threading;
 #if WINDOWS_PHONE
@@ -65,13 +67,25 @@ namespace Codeplex.Reactive
             scheduler.Schedule(() => Clear());
         }
 
-        /// <summary>Get(indexer get) called on scheduler</summary>
+        /// <summary>Get(indexer get) called on scheduler, IObservable length is one.</summary>
         public IObservable<T> GetOnScheduler(int index)
         {
             Contract.Requires<ArgumentOutOfRangeException>(index >= 0);
             Contract.Ensures(Contract.Result<IObservable<T>>() != null);
 
             var result = Observable.Start(() => this[index], scheduler);
+
+            Contract.Assume(result != null);
+            return result;
+        }
+
+        /// <summary>GetEnumerable(for LINQ) called on scheduler, IObservable length is one.</summary>
+        public IObservable<IEnumerable<T>> GetEnumerableOnScheduler(int index)
+        {
+            Contract.Requires<ArgumentOutOfRangeException>(index >= 0);
+            Contract.Ensures(Contract.Result<IObservable<T>>() != null);
+
+            var result = Observable.Start(() => this.AsEnumerable(), scheduler);
 
             Contract.Assume(result != null);
             return result;

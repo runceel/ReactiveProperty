@@ -13,7 +13,7 @@
         <projectUrl>http://reactiveproperty.codeplex.com/</projectUrl>
         <tags>rx mvvm async</tags>
         <dependencies>
-            <dependency id="Rx_Experimental-Main" version="1.1.11011" />
+            <dependency id="Rx_Experimental-Main" version="1.1.11111" />
         </dependencies>
         <references>
             <reference file="ReactiveProperty.Experimental.NET40.dll" />
