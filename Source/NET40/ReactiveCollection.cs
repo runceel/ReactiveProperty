@@ -80,9 +80,8 @@ namespace Codeplex.Reactive
         }
 
         /// <summary>GetEnumerable(for LINQ) called on scheduler, IObservable length is one.</summary>
-        public IObservable<IEnumerable<T>> GetEnumerableOnScheduler(int index)
+        public IObservable<IEnumerable<T>> GetEnumerableOnScheduler()
         {
-            Contract.Requires<ArgumentOutOfRangeException>(index >= 0);
             Contract.Ensures(Contract.Result<IObservable<T>>() != null);
 
             var result = Observable.Start(() => this.AsEnumerable(), scheduler);
