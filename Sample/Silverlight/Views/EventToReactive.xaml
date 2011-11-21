@@ -11,15 +11,22 @@
     <controls:ChildWindow.DataContext>
         <vm:EventToReactiveViewModel />
     </controls:ChildWindow.DataContext>
+    <!-- recommend App.xaml.cs global resource -->
+    <controls:ChildWindow.Resources>
+        <vm:Converters x:Key="Converters" />
+    </controls:ChildWindow.Resources>
 
     <Grid>
         <!-- Use Blend SDK's Interaction Trigger -->
         <!-- Event binding to ReactiveProperty -->
         <i:Interaction.Triggers>
             <i:EventTrigger EventName="MouseMove">
-                <r:EventToReactive ReactiveProperty="{Binding MouseMove}" />
+                <!-- ConvertBack function is Func<object, object>-->
+                <r:EventToReactive ReactiveProperty="{Binding MouseMove}" 
+                                   Converter="{Binding MouseEventToPoint, Source={StaticResource Converters}}" />
             </i:EventTrigger>
             <i:EventTrigger EventName="MouseLeftButtonDown">
+                <!-- direct event bind -->
                 <r:EventToReactive ReactiveProperty="{Binding MouseDown}" />
             </i:EventTrigger>
         </i:Interaction.Triggers>

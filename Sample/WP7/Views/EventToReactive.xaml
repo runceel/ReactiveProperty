@@ -17,6 +17,11 @@
     mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480"
     shell:SystemTray.IsVisible="True">
 
+    <!-- recommend App.xaml.cs global resource -->
+    <phone:PhoneApplicationPage.Resources>
+        <vm:Converters x:Key="Converters" />
+    </phone:PhoneApplicationPage.Resources>
+    
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -32,7 +37,13 @@
             <!-- Event binding to ReactiveProperty -->
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseMove">
-                    <r:EventToReactive ReactiveProperty="{Binding MouseMove}" />
+                    <!-- ConvertBack function is Func<object, object>-->
+                    <r:EventToReactive ReactiveProperty="{Binding MouseMove}" 
+                                   Converter="{Binding MouseEventToPoint, Source={StaticResource Converters}}" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="MouseLeftButtonUp">
+                    <!-- direct event bind -->
+                    <r:EventToReactive ReactiveProperty="{Binding MouseUp}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
             <TextBlock Text="{Binding CurrentPoint.Value}" />
