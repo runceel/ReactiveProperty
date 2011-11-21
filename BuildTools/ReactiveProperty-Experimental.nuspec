@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>ReactiveProperty-Experimental</id>
-        <version>0.3.0.0</version>
+        <version>0.3.1.0</version>
         <title>ReactiveProperty for Rx Experimental</title>
         <authors>neuecc</authors>
         <owners>neuecc</owners>

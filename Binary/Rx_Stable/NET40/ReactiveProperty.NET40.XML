@@ -159,9 +159,6 @@
         <member name="M:Codeplex.Reactive.ReactiveCollection`1.GetOnScheduler(System.Int32)">
             <summary>Get(indexer get) called on scheduler, IObservable length is one.</summary>
         </member>
-        <member name="M:Codeplex.Reactive.ReactiveCollection`1.GetEnumerableOnScheduler(System.Int32)">
-            <summary>GetEnumerable(for LINQ) called on scheduler, IObservable length is one.</summary>
-        </member>
         <member name="M:Codeplex.Reactive.ReactiveCollection`1.InsertOnScheduler(System.Int32,`0)">
             <summary>Insert called on scheduler</summary>
         </member>

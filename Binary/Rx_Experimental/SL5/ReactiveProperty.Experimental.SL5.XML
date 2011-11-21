@@ -168,9 +168,6 @@
         <member name="M:Codeplex.Reactive.ReactiveCollection`1.GetOnScheduler(System.Int32)">
             <summary>Get(indexer get) called on scheduler, IObservable length is one.</summary>
         </member>
-        <member name="M:Codeplex.Reactive.ReactiveCollection`1.GetEnumerableOnScheduler(System.Int32)">
-            <summary>GetEnumerable(for LINQ) called on scheduler, IObservable length is one.</summary>
-        </member>
         <member name="M:Codeplex.Reactive.ReactiveCollection`1.InsertOnScheduler(System.Int32,`0)">
             <summary>Insert called on scheduler</summary>
         </member>
@@ -733,11 +730,6 @@
         <member name="M:Codeplex.Reactive.Extensions.IDisposableExtensions.AddTo(System.IDisposable,System.Collections.Generic.ICollection{System.IDisposable})">
             <summary>Add disposable(self) to CompositeDisposable(or other ICollection)</summary>
         </member>
-        <!-- 正しくない形式の XML コメントがメンバー "M:Codeplex.Reactive.Extensions.CombineLatestObservableExtensions.CombineLatest``4(System.IObservable{``0},System.IObservable{``1},System.IObservable{``2},System.Func{``0,``1,``2,``3})" で無視されました -->
-        <!-- 正しくない形式の XML コメントがメンバー "M:Codeplex.Reactive.Extensions.CombineLatestObservableExtensions.CombineLatest``5(System.IObservable{``0},System.IObservable{``1},System.IObservable{``2},System.IObservable{``3},System.Func{``0,``1,``2,``3,``4})" で無視されました -->
-        <!-- 正しくない形式の XML コメントがメンバー "M:Codeplex.Reactive.Extensions.CombineLatestObservableExtensions.CombineLatest``6(System.IObservable{``0},System.IObservable{``1},System.IObservable{``2},System.IObservable{``3},System.IObservable{``4},System.Func{``0,``1,``2,``3,``4,``5})" で無視されました -->
-        <!-- 正しくない形式の XML コメントがメンバー "M:Codeplex.Reactive.Extensions.CombineLatestObservableExtensions.CombineLatest``7(System.IObservable{``0},System.IObservable{``1},System.IObservable{``2},System.IObservable{``3},System.IObservable{``4},System.IObservable{``5},System.Func{``0,``1,``2,``3,``4,``5,``6})" で無視されました -->
-        <!-- 正しくない形式の XML コメントがメンバー "M:Codeplex.Reactive.Extensions.CombineLatestObservableExtensions.CombineLatest``8(System.IObservable{``0},System.IObservable{``1},System.IObservable{``2},System.IObservable{``3},System.IObservable{``4},System.IObservable{``5},System.IObservable{``6},System.Func{``0,``1,``2,``3,``4,``5,``6,``7})" で無視されました -->
         <member name="T:Codeplex.Reactive.ReactiveTimer">
             <summary>
             Hot(stoppable/continuable) observable timer.
