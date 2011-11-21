@@ -46,6 +46,7 @@ namespace Codeplex.Reactive
     {
         object Value { get; set; }
         string ForceValidate();
+        IObservable<object> ObserveErrorChanged { get; }
     }
 
     /// <summary>
