@@ -9,7 +9,7 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>ReactiveProperty is MVVM and Asynchronous Extensions for Reactive Extensions. Target is Windows Phone 7.1(Microsoft.Phone.Reactive).</description>
         <language>en-US</language>
-        <iconUrl>http://neue.cc/ReactivePropertyIcon_100x100.jpg</iconUrl>
+        <iconUrl>http://neue.cc/ReactivePropertyIcon_100x100.png</iconUrl>
         <licenseUrl>http://reactiveproperty.codeplex.com/license</licenseUrl>
         <projectUrl>http://reactiveproperty.codeplex.com/</projectUrl>
         <tags>rx mvvm async</tags>
