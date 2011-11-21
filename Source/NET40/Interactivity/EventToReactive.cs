@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Interactivity;
 
 namespace Codeplex.Reactive.Interactivity
@@ -7,7 +8,9 @@ namespace Codeplex.Reactive.Interactivity
     {
         protected override void Invoke(object parameter)
         {
-            ((IReactiveProperty)ReactiveProperty).Value = parameter;
+            var converter = Converter;
+            ((IReactiveProperty)ReactiveProperty).Value =
+                (converter != null) ? converter(parameter) : parameter;
         }
 
         public object ReactiveProperty
@@ -18,5 +21,14 @@ namespace Codeplex.Reactive.Interactivity
 
         public static readonly DependencyProperty ReactivePropertyProperty =
             DependencyProperty.Register("ReactiveProperty", typeof(IReactiveProperty), typeof(EventToReactive), new PropertyMetadata(null));
+
+        public Func<object, object> Converter
+        {
+            get { return (Func<object, object>)GetValue(ConverterProperty); }
+            set { SetValue(ConverterProperty, value); }
+        }
+
+        public static readonly DependencyProperty ConverterProperty =
+            DependencyProperty.Register("Converter", typeof(Func<object, object>), typeof(EventToReactive), new PropertyMetadata(null));
     }
 }
