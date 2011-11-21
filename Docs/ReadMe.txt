@@ -1,6 +1,6 @@
 ﻿/*--------------------------------------------------------------------------
  * ReactiveProperty
- * ver 0.3.0.0 (Nov. 20th, 2011)
+ * ver 0.3.1.0 (Nov. 21th, 2011)
  *
  * created and maintained by neuecc <ils@neue.cc - @neuecc/Twitter>
  * licensed under Microsoft Public License(Ms-PL)
@@ -111,6 +111,15 @@ Assert helper using ChainingAssertion http://chainingassertion.codeplex.com/
 Icon design by @ocazuco.
 
 ---History---
+
+2011-11-21 ver 0.3.1.0
+    Add
+        EventToReactive Convert(Func<object, object>) DependencyProperty
+    Fix
+        EventToReactive sample add Convert example
+        Remove CombineLatest overloads in Rx-Experimental
+    Remove
+        ReactiveCollection.GetEnumerableOnScheduler
 
 2011-11-20 ver 0.3.0.0
     Add

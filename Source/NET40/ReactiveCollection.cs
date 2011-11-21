@@ -79,17 +79,6 @@ namespace Codeplex.Reactive
             return result;
         }
 
-        /// <summary>GetEnumerable(for LINQ) called on scheduler, IObservable length is one.</summary>
-        public IObservable<IEnumerable<T>> GetEnumerableOnScheduler()
-        {
-            Contract.Ensures(Contract.Result<IObservable<T>>() != null);
-
-            var result = Observable.Start(() => this.AsEnumerable(), scheduler);
-
-            Contract.Assume(result != null);
-            return result;
-        }
-
         /// <summary>Insert called on scheduler</summary>
         public void InsertOnScheduler(int index, T item)
         {
