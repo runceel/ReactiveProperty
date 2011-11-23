@@ -7,10 +7,12 @@ using Codeplex.Reactive.Notifiers;
 using System.Diagnostics.Contracts;
 #if WINDOWS_PHONE
 using Microsoft.Phone.Reactive;
+using SerialDisposable = Microsoft.Phone.Reactive.MutableDisposable;
 #else
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Reactive.Concurrency;
+using System.Reactive.Disposables;
 #endif
 
 namespace Codeplex.Reactive.Asynchronous
@@ -147,7 +149,7 @@ namespace Codeplex.Reactive.Asynchronous
 
             var collection = data as ICollection<byte>;
             var totalLength = (collection != null) ? collection.Count : ProgressStatus.Unknown;
-            
+
             return WriteAsyncCore(stream, data, progressReporter, chunkSize, totalLength);
         }
 
@@ -315,7 +317,8 @@ namespace Codeplex.Reactive.Asynchronous
                 var sb = new StringBuilder();
                 var prev = default(char);
 
-                return stream.ReadAsync(chunkSize)
+                var disposable = new SerialDisposable(); // SingleAssignment
+                disposable.Disposable = stream.ReadAsync(chunkSize, isAggregateAllChunks: false)
                     .Subscribe(
                         bytes =>
                         {
@@ -337,6 +340,7 @@ namespace Codeplex.Reactive.Asynchronous
                                 else sb.Append(c); // normally char
 
                                 prev = c;
+                                if (disposable.IsDisposed) return;
                             }
                         },
                         observer.OnError,
@@ -346,6 +350,7 @@ namespace Codeplex.Reactive.Asynchronous
                             if (str != "") observer.OnNext(str);
                             observer.OnCompleted();
                         });
+                return disposable;
             });
 
             Contract.Assume(result != null);

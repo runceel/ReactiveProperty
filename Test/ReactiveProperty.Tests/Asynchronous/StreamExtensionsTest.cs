@@ -9,6 +9,7 @@ using Codeplex.Reactive.Asynchronous;
 using System.Reactive.Linq;
 using System.Reactive;
 using Microsoft.Reactive.Testing;
+using System.Threading;
 
 namespace ReactiveProperty.Tests.Asynchronous
 {
