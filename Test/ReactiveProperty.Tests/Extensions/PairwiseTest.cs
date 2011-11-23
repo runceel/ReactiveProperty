@@ -10,7 +10,7 @@ using System.Reactive.Linq;
 namespace ReactiveProperty.Tests
 {
     [TestClass()]
-    public class PairwiseTest
+    public class PairwiseTest : ReactiveTest
     {
         [TestMethod()]
         public void Test()
@@ -29,6 +29,16 @@ namespace ReactiveProperty.Tests
                     Tuple.Create(3, 4),
                     Tuple.Create(4, 5)
                 );
+
+            new TestScheduler().Start(() =>
+                    Observable.Empty<int>().Pairwise(), 10, 20, 30)
+                .Messages
+                .Is(OnCompleted<OldNewPair<int>>(20));
+
+            new TestScheduler().Start(() =>
+                    Observable.Return(1000).Pairwise(), 10, 20, 30)
+                .Messages
+                .Is(OnCompleted<OldNewPair<int>>(20));
         }
     }
 }
