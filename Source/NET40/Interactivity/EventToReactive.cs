@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Interactivity;
+using System.Reactive;
 
 namespace Codeplex.Reactive.Interactivity
 {
@@ -8,10 +9,20 @@ namespace Codeplex.Reactive.Interactivity
     {
         protected override void Invoke(object parameter)
         {
-            var converter = Converter;
-            ((IReactiveProperty)ReactiveProperty).Value =
-                (converter != null) ? converter(parameter) : parameter;
+            if (IgnoreEventArgs)
+            {
+                ((IReactiveProperty)ReactiveProperty).Value = new Unit();
+            }
+            else
+            {
+                var converter = Converter;
+                ((IReactiveProperty)ReactiveProperty).Value =
+                    (converter != null) ? converter(parameter) : parameter;
+            }
         }
+
+        // default is false
+        public bool IgnoreEventArgs { get; set; }
 
         public object ReactiveProperty
         {

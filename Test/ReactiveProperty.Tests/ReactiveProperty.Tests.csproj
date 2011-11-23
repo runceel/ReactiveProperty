@@ -114,6 +114,7 @@
     <Compile Include="Extensions\INotifyPropertyChangingExtensionsTest.cs" />
     <Compile Include="Extensions\OldNewPairTest.cs" />
     <Compile Include="Extensions\PairwiseTest.cs" />
+    <Compile Include="Extensions\RetryObservableExtensionsTest.cs" />
     <Compile Include="Init.cs" />
     <Compile Include="Notifiers\ScheduledNotifierTest.cs" />
     <Compile Include="Notifiers\BooleanNotifierTest.cs" />

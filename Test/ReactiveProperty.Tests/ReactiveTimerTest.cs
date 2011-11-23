@@ -15,7 +15,7 @@ namespace ReactiveProperty.Tests
     public class ReactiveTimerTest : ReactiveTest
     {
         [TestMethod]
-        public void ReactiveCommandAllFlow()
+        public void TimerTest1()
         {
             var testScheduler = new TestScheduler();
             var recorder = testScheduler.CreateObserver<long>();
@@ -57,34 +57,29 @@ namespace ReactiveProperty.Tests
         }
 
         [TestMethod]
-        public void TimerTest()
+        public void TimerTestStart2()
         {
-            // テスト用の自由に時間を動かせるスケジューラ
             var testScheduler = new TestScheduler();
             var recorder = testScheduler.CreateObserver<long>();
 
-            // 作成時点では動き出さない
             var timer = new ReactiveTimer(TimeSpan.FromSeconds(1), testScheduler);
-            timer.Subscribe(recorder); // Subscribeしても動き出さない
+            timer.Subscribe(recorder);
 
-            timer.Start(TimeSpan.FromSeconds(3)); // ここで開始。初期値を与えるとその時間後にスタート
+            timer.Start();
 
-            // 時間を絶対時間10秒のポイントまで進める(AdvanceTo)
-            testScheduler.AdvanceTo(TimeSpan.FromSeconds(5).Ticks);
+            testScheduler.AdvanceTo(TimeSpan.FromSeconds(3).Ticks + 1);
 
-            // MessagesにSubscribeに届いた時間と値が記録されているので、Assertする
             recorder.Messages.Is(
-                OnNext(TimeSpan.FromSeconds(3).Ticks, 0L),
-                OnNext(TimeSpan.FromSeconds(4).Ticks, 1L),
-                OnNext(TimeSpan.FromSeconds(5).Ticks, 2L));
+                OnNext(TimeSpan.FromSeconds(0).Ticks + 1, 0L),
+                OnNext(TimeSpan.FromSeconds(1).Ticks + 1, 1L),
+                OnNext(TimeSpan.FromSeconds(2).Ticks + 1, 2L),
+                OnNext(TimeSpan.FromSeconds(3).Ticks + 1, 3L));
             
-            timer.Stop(); // timerを止める
-            recorder.Messages.Clear(); // 記録をクリア
+            timer.Stop();
+            recorder.Messages.Clear();
 
-            // 時間を現在時間から5秒だけ進める(AdvanceBy)
             testScheduler.AdvanceBy(TimeSpan.FromSeconds(5).Ticks);
 
-            // timerは止まっているので値は届いてないことが確認できる
             recorder.Messages.Count.Is(0);
         }
     }

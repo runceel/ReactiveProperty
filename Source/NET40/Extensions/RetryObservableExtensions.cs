@@ -8,6 +8,7 @@ using System.Reactive.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Subjects;
+using System.Collections.Generic;
 #endif
 
 namespace Codeplex.Reactive.Extensions
@@ -23,8 +24,11 @@ namespace Codeplex.Reactive.Extensions
         {
             Contract.Requires<ArgumentNullException>(source != null);
             Contract.Ensures(Contract.Result<IObservable<TSource>>() != null);
-            
-            return source.OnErrorRetry((Exception _) => { });
+
+            var result = source.Retry();
+
+            Contract.Assume(result != null);
+            return result;
         }
 
         /// <summary>
@@ -99,18 +103,25 @@ namespace Codeplex.Reactive.Extensions
             Contract.Requires<ArgumentNullException>(delayScheduler != null);
             Contract.Ensures(Contract.Result<IObservable<TSource>>() != null);
 
-            var dueTime = (delay.Ticks < 0) ? TimeSpan.Zero : delay;
-            var empty = Observable.Empty<TSource>();
-            var count = 0;
-
-            var result = source.Catch((TException ex) =>
+            var result = Observable.Defer(() =>
             {
-                onError(ex);
+                var dueTime = (delay.Ticks < 0) ? TimeSpan.Zero : delay;
+                var empty = Observable.Empty<TSource>();
+                var count = 0;
 
-                return (++count < retryCount)
-                    ? (dueTime == TimeSpan.Zero) ? empty : empty.Delay(dueTime, delayScheduler)
-                    : Observable.Throw<TSource>(ex);
-            }).Repeat();
+                IObservable<TSource> self = null;
+                self = source.Catch((TException ex) =>
+                {
+                    onError(ex);
+
+                    return (++count < retryCount)
+                        ? (dueTime == TimeSpan.Zero)
+                            ? self.SubscribeOn(Scheduler.CurrentThread)
+                            : empty.Delay(dueTime, delayScheduler).Concat(self).SubscribeOn(Scheduler.CurrentThread)
+                        : Observable.Throw<TSource>(ex);
+                });
+                return self;
+            });
 
             Contract.Assume(result != null);
             return result;
