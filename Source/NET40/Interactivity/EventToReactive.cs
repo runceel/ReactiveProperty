@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Interactivity;
+#if WINDOWS_PHONE
+using Microsoft.Phone.Reactive;
+#else
 using System.Reactive;
+#endif
 
 namespace Codeplex.Reactive.Interactivity
 {
