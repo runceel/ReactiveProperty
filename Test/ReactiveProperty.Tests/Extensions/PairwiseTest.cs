@@ -6,6 +6,7 @@ using Codeplex.Reactive;
 using Microsoft.Reactive.Testing;
 using System.Linq;
 using System.Reactive.Linq;
+using Codeplex.Reactive.Interactivity;
 
 namespace ReactiveProperty.Tests
 {

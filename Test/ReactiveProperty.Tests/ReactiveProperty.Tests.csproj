@@ -74,6 +74,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Moles.Framework, Version=0.94.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Reactive.Testing, Version=1.0.10621.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Rx-Testing.1.0.10621\lib\Net4-Full\Microsoft.Reactive.Testing.dll</HintPath>
@@ -116,6 +117,7 @@
     <Compile Include="Extensions\PairwiseTest.cs" />
     <Compile Include="Extensions\RetryObservableExtensionsTest.cs" />
     <Compile Include="Init.cs" />
+    <Compile Include="Interactivity\EventToReactiveTest.cs" />
     <Compile Include="Notifiers\ScheduledNotifierTest.cs" />
     <Compile Include="Notifiers\BooleanNotifierTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
