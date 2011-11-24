@@ -30,7 +30,7 @@ namespace Codeplex.Reactive.Extensions
             Contract.Requires<ArgumentNullException>(selector != null);
             Contract.Ensures(Contract.Result<IObservable<TR>>() != null);
 
-            var result = Observable.Create<TR>(observer =>
+            var result = ObservableEx.Create<TR>(observer =>
             {
                 T prev = default(T);
                 var isFirst = true;
