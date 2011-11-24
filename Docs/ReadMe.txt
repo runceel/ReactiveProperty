@@ -1,6 +1,6 @@
 ﻿/*--------------------------------------------------------------------------
  * ReactiveProperty
- * ver 0.3.1.0 (Nov. 21th, 2011)
+ * ver 0.3.2.0 (Nov. 25th, 2011)
  *
  * created and maintained by neuecc <ils@neue.cc - @neuecc/Twitter>
  * licensed under Microsoft Public License(Ms-PL)
@@ -111,6 +111,16 @@ Assert helper using ChainingAssertion http://chainingassertion.codeplex.com/
 Icon design by @ocazuco.
 
 ---History---
+
+2011-11-25 ver 0.3.2.0
+    Add
+        EventToReactive add IgnoreEventArgs property
+        ReactiveProperty.FromObject add converter overload
+    Fix
+        Fix OnErrorRetry no work on OnCompleted
+        Fix Stream.ReadLineAsync no work infinity stream
+    Change
+        Pairwise improved performance
 
 2011-11-21 ver 0.3.1.0
     Add
