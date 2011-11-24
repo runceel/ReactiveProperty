@@ -658,6 +658,20 @@
             <para>PropertyChanged raise on selected scheduler</para>
             </summary>
         </member>
+        <member name="M:Codeplex.Reactive.ReactiveProperty.FromObject``3(``0,System.Linq.Expressions.Expression{System.Func{``0,``1}},System.Func{``1,``2},System.Func{``2,``1},Codeplex.Reactive.ReactivePropertyMode)">
+            <summary>
+            <para>Convert plain object to ReactiveProperty.</para>
+            <para>Value is OneWayToSource(ReactiveProperty -> Object) synchronized.</para>
+            <para>PropertyChanged raise on UIDispatcherScheduler</para>
+            </summary>
+        </member>
+        <member name="M:Codeplex.Reactive.ReactiveProperty.FromObject``3(``0,System.Linq.Expressions.Expression{System.Func{``0,``1}},System.Func{``1,``2},System.Func{``2,``1},System.Reactive.Concurrency.IScheduler,Codeplex.Reactive.ReactivePropertyMode)">
+            <summary>
+            <para>Convert plain object to ReactiveProperty.</para>
+            <para>Value is OneWayToSource(ReactiveProperty -> Object) synchronized.</para>
+            <para>PropertyChanged raise on selected scheduler</para>
+            </summary>
+        </member>
         <member name="M:Codeplex.Reactive.ReactiveProperty.ToReactiveProperty``1(System.IObservable{``0},``0,Codeplex.Reactive.ReactivePropertyMode)">
             <summary>
             <para>Convert to two-way bindable IObservable&lt;T&gt;</para>
