@@ -29,7 +29,12 @@
                 <!-- direct event bind -->
                 <r:EventToReactive ReactiveProperty="{Binding MouseDown}" />
             </i:EventTrigger>
+            <i:EventTrigger EventName="MouseEnter">
+                <!-- IgnoreEventArgs = true send Unit -->
+                <r:EventToReactive ReactiveProperty="{Binding MouseEnter}" IgnoreEventArgs="true" />
+            </i:EventTrigger>
         </i:Interaction.Triggers>
         <TextBlock Text="{Binding CurrentPoint.Value}" />
+        <TextBlock Text="{Binding Entered.Value}" Margin="0,100,0,0" />
     </Grid>
 </controls:ChildWindow>
