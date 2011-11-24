@@ -392,6 +392,56 @@ namespace Codeplex.Reactive
             return result;
         }
 
+        /// <summary>
+        /// <para>Convert plain object to ReactiveProperty.</para>
+        /// <para>Value is OneWayToSource(ReactiveProperty -> Object) synchronized.</para>
+        /// <para>PropertyChanged raise on UIDispatcherScheduler</para>
+        /// </summary>
+        public static ReactiveProperty<TResult> FromObject<TTarget, TProperty, TResult>(
+            TTarget target,
+            Expression<Func<TTarget, TProperty>> propertySelector,
+            Func<TProperty, TResult> convert,
+            Func<TResult, TProperty> convertBack,
+            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
+        {
+            Contract.Requires<ArgumentNullException>(target != null);
+            Contract.Requires<ArgumentNullException>(propertySelector != null);
+            Contract.Requires<ArgumentNullException>(convert != null);
+            Contract.Requires<ArgumentNullException>(convertBack != null);
+            Contract.Ensures(Contract.Result<ReactiveProperty<TResult>>() != null);
+
+            return FromObject(target, propertySelector, convert, convertBack, UIDispatcherScheduler.Default, mode);
+        }
+
+        /// <summary>
+        /// <para>Convert plain object to ReactiveProperty.</para>
+        /// <para>Value is OneWayToSource(ReactiveProperty -> Object) synchronized.</para>
+        /// <para>PropertyChanged raise on selected scheduler</para>
+        /// </summary>
+        public static ReactiveProperty<TResult> FromObject<TTarget, TProperty, TResult>(
+            TTarget target,
+            Expression<Func<TTarget, TProperty>> propertySelector,
+            Func<TProperty, TResult> convert,
+            Func<TResult, TProperty> convertBack,
+            IScheduler raiseEventScheduler,
+            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
+        {
+            Contract.Requires<ArgumentNullException>(target != null);
+            Contract.Requires<ArgumentNullException>(propertySelector != null);
+            Contract.Requires<ArgumentNullException>(convert != null);
+            Contract.Requires<ArgumentNullException>(convertBack != null);
+            Contract.Ensures(Contract.Result<ReactiveProperty<TResult>>() != null);
+
+            string propertyName; // no use
+            var getter = AccessorCache<TTarget>.LookupGet(propertySelector, out propertyName);
+            var setter = AccessorCache<TTarget>.LookupSet(propertySelector, out propertyName);
+
+            var result = new ReactiveProperty<TResult>(raiseEventScheduler, initialValue: convert(getter(target)), mode: mode);
+            result.Select(convertBack).Subscribe(x => setter(target, x));
+
+            return result;
+        }
+
 
         /// <summary>
         /// <para>Convert to two-way bindable IObservable&lt;T&gt;</para>
