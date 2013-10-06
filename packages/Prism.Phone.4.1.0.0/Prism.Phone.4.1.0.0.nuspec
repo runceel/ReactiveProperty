@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Prism.Phone</id>
+    <version>4.1.0.0</version>
+    <title>Prism.Phone</title>
+    <authors>Microsoft patterns &amp; practices</authors>
+    <owners>Microsoft patterns &amp; practices</owners>
+    <licenseUrl>http://compositewpf.codeplex.com/license</licenseUrl>
+    <projectUrl>http://prism.codeplex.com/</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>Prism helps you more easily design and build rich, flexible, and easy to maintain Windows Presentation Foundation (WPF) desktop applications and Silverlight Rich Internet Applications (RIAs) and Windows Phone 7 applications. These libraries assist in buildling loosley coupled applications as well as support implementing MVVM in your applications.  To get the most of these libraries, follow the More information link above.</description>
+    <summary>Prism core libraries for Windows 7 Phone.</summary>
+    <releaseNotes />
+    <copyright />
+    <language />
+  </metadata>
+</package>
