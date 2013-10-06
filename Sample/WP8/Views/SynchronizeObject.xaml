@@ -1,0 +1,71 @@
+﻿<phone:PhoneApplicationPage
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:Sample.ViewModels;assembly=Sample.ViewModels"
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" xmlns:InteractionRequest="clr-namespace:Microsoft.Practices.Prism.Interactivity.InteractionRequest;assembly=Microsoft.Practices.Prism.Interactivity.Phone"
+    xmlns:wi="clr-namespace:WP8.Interactivity"
+    x:Class="WP8.Views.SynchronizeObject"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True">
+    <phone:PhoneApplicationPage.DataContext>
+        <vm:SynchronizeObjectViewModel />
+    </phone:PhoneApplicationPage.DataContext>
+    
+	<i:Interaction.Triggers>
+		<i:EventTrigger EventName="PropertyChanged" SourceObject="{Binding AlertMessage, Mode=OneWay}">
+            <wi:AlertAction Message="{Binding AlertMessage.Value}" />
+        </i:EventTrigger>
+	</i:Interaction.Triggers>
+    
+	<Grid x:Name="LayoutRoot" Background="Transparent">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+
+		<StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
+			<TextBlock x:Name="ApplicationTitle" Text="SynchronizeObject" Style="{StaticResource PhoneTextNormalStyle}"/>
+		</StackPanel>
+
+		<StackPanel Grid.Row="1">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition />
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition />
+					<RowDefinition />
+					<RowDefinition />
+					<RowDefinition />
+				</Grid.RowDefinitions>
+				<!-- INPC is INotifyPropertyChanged -->
+				<TextBlock Grid.Column="0" Grid.Row="0">
+					<Run Text="(INPC)TwoWay"/>
+				</TextBlock>
+				<TextBox  Grid.Column="1" Grid.Row="0"
+					Text="{Binding TwoWay.Value, Mode=TwoWay}"/>
+				<TextBlock Grid.Column="0" Grid.Row="1">
+					<Run Text="(INPC)OneWay"/>
+				</TextBlock>
+				<TextBox  Grid.Column="1" Grid.Row="1"
+					Text="{Binding OneWay.Value, Mode=TwoWay}"/>
+				<TextBlock Grid.Column="0" Grid.Row="2">
+					<Run Text="OneWayToSource"/>
+				</TextBlock>
+				<TextBox  Grid.Column="1" Grid.Row="2"
+					Text="{Binding OneWayToSource.Value, Mode=TwoWay}"/>
+			</Grid>
+			<Button Command="{Binding CheckCommand}" Content="Check Model's Value"/>
+		</StackPanel>
+	</Grid>
+
+</phone:PhoneApplicationPage>

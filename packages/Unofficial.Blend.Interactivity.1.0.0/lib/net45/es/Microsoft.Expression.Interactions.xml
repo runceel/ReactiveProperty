@@ -1,0 +1,1241 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.Expression.Interactions</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.Expression.Interactivity.Core.ActionCommand">
+            <summary>
+            Una implementación básica de ICommand que aplica un método que no usa parámetros o un método que usa un parámetro.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ActionCommand.#ctor(System.Action)">
+            <summary>
+            Inicializa una nueva instancia de la clase <see cref="T:Microsoft.Expression.Interactivity.Core.ActionCommand"/>.
+            </summary>
+            <param name="action">Acción.</param>
+            <remarks>Utilice este constructor para proporcionar una acción que omita el parámetro ICommand.</remarks>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ActionCommand.#ctor(System.Action{System.Object})">
+            <summary>
+            Inicializa una nueva instancia de la clase <see cref="T:Microsoft.Expression.Interactivity.Core.ActionCommand"/>.
+            </summary>
+            <param name="objectAction">Una acción que usa un parámetro de objeto.</param>
+            <remarks>Utilice este constructor para proporcionar una acción que utiliza el objeto de parámetro transferido por el método de ejecución.</remarks>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ActionCommand.System#Windows#Input#ICommand#CanExecute(System.Object)">
+            <summary>
+            Define el método que determina si el comando puede ejecutarse en su estado actual.
+            </summary>
+            <param name="parameter">Datos usados por el comando.  Si el comando no requiere que se transfieran datos, este objeto se puede establecer en null.</param>
+            <returns>
+            Siempre devuelve true.
+            </returns>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ActionCommand.Execute(System.Object)">
+            <summary>
+            Define el método al que se llamará cuando se invoque el comando.
+            </summary>
+            <param name="parameter">Datos usados por el comando.  Si el comando no requiere que se transfieran datos, este objeto se puede establecer en null.</param>
+        </member>
+        <member name="E:Microsoft.Expression.Interactivity.Core.ActionCommand.System#Windows#Input#ICommand#CanExecuteChanged">
+            <summary>
+            Tiene lugar cuando se producen cambios que influyen en si el comando debe ejecutarse. No será activado por ActionCommand.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.CallMethodAction">
+            <summary>
+            Llama a un método en un objeto especificado cuando se invoca.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.CallMethodAction.Invoke(System.Object)">
+            <summary>
+            Invoca la acción.
+            </summary>
+            <param name="parameter">Parámetro de la acción. Si la acción no requiere un parámetro, éste se puede establecer en una referencia nula.</param>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.CallMethodAction.OnAttached">
+            <summary>
+            Se llama a este método después de adjuntar la acción a AssociatedObject.
+            </summary>
+            <remarks>Reemplace este método para enlazar funcionalidad a AssociatedObject.</remarks>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.CallMethodAction.OnDetaching">
+            <summary>
+            Se llama a este método cuando la acción se está desasociando de AssociatedObject, pero antes de que esto ocurra.
+            </summary>
+            <remarks>Reemplace este método para desenlazar funcionalidad de AssociatedObject.</remarks>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.CallMethodAction.TargetObject">
+            <summary>
+            Objeto que expone el método de interés. Ésta es una propiedad de dependencia.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.CallMethodAction.MethodName">
+            <summary>
+            Nombre del método que se va a invocar. Ésta es una propiedad de dependencia.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.ChangePropertyAction">
+            <summary>
+            Una acción que cambiará una propiedad especificada a un valor especificado cuando se invoca.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ChangePropertyAction.#ctor">
+            <summary>
+            Inicializa una nueva instancia de la clase <see cref="T:Microsoft.Expression.Interactivity.Core.ChangePropertyAction"/>.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ChangePropertyAction.Invoke(System.Object)">
+            <summary>
+            Invoca la acción.
+            </summary>
+            <param name="parameter">Parámetro de la acción. Si la acción no requiere un parámetro, éste se puede establecer en una referencia nula.</param>
+            <exception cref="T:System.ArgumentException">No se pudo encontrar en el destino una propiedad con <c cref="P:Microsoft.Expression.Interactivity.Core.ChangePropertyAction.PropertyName"/>.</exception>
+            <exception cref="T:System.ArgumentException">No se pudo establecer <c cref="P:Microsoft.Expression.Interactivity.Core.ChangePropertyAction.PropertyName"/> en el valor especificado por <c cref="P:Microsoft.Expression.Interactivity.Core.ChangePropertyAction.Value"/>.</exception>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.ChangePropertyAction.PropertyName">
+            <summary>
+            Obtiene o establece el nombre de la propiedad que se va a cambiar. Ésta es una propiedad de dependencia.
+            </summary>
+            <value>Nombre de la propiedad que se va a cambiar.</value>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.ChangePropertyAction.Value">
+            <summary>
+            Obtiene o define el valor que se va a establecer. Ésta es una propiedad de dependencia.
+            </summary>
+            <value>Valor que se va a establecer.</value>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.ChangePropertyAction.Duration">
+            <summary>
+            Obtiene o establece la duración de la animación que se aplicará al invocar ChangePropertyAction.  Ésta es una propiedad de dependencia. Si no se establece la duración, la animación no se aplicará.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.ChangePropertyAction.Increment">
+            <summary>
+            Incrementa en valor si es true; en caso contrario, se establece el valor directamente. Si no se puede incrementar el valor de la propiedad, intenta establecer el valor directamente.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.ComparisonCondition">
+            <summary>
+            Representa una condición ternaria.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ComparisonCondition.Evaluate">
+            <summary>
+            Método que evalúa la condición. Tenga en cuenta que este método puede iniciar una excepción ArgumentException si el operador es incompatible con el tipo. Por ejemplo, los operadores LessThan, LessThanOrEqual, GreaterThan, GreaterThanOrEqual requieren ambos operandos para implementar IComparable. 
+            </summary>
+            <returns>Devuelve true si se cumple la condición; de lo contrario, devuelve false.</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ComparisonCondition.EnsureBindingUpToDate">
+            <summary>
+            Asegúrese de que cualquier enlace sobre operandos de DP esté actualizado.  
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.ComparisonCondition.LeftOperand">
+            <summary>
+            Obtiene o establece el operando izquierdo.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.ComparisonCondition.RightOperand">
+            <summary>
+            Obtiene o establece el operando derecho.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.ComparisonCondition.Operator">
+            <summary>
+            Obtiene o establece el operador de comparación. 
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.ComparisonConditionType">
+            <summary>
+            Enumeración de distintos operadores de comparación.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.ComparisonLogic.EvaluateImpl(System.Object,Microsoft.Expression.Interactivity.Core.ComparisonConditionType,System.Object)">
+            <summary>
+            Este método evalúa operandos. 
+            </summary>
+            <param name="leftOperand">Operando izquierdo de la propiedad LeftOperand.</param>
+            <param name="operatorType">Operador de la propiedad Operator.</param>
+            <param name="rightOperand">Operando derecho de la propiedad RightOperand.</param>
+            <returns>Devuelve true si se cumple la condición; de lo contrario, devuelve false.</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.ComparisonLogic.EvaluateComparable(System.IComparable,Microsoft.Expression.Interactivity.Core.ComparisonConditionType,System.IComparable)">
+            <summary>
+            Evalúa ambos operandos que implementan la interfaz IComparable.
+            </summary>
+            <param name="leftOperand">Operando izquierdo de la propiedad LeftOperand.</param>
+            <param name="operatorType">Operador de la propiedad Operator.</param>
+            <param name="rightOperand">Operando derecho de la propiedad RightOperand.</param>
+            <returns>Devuelve true si se cumple la condición; de lo contrario, devuelve false.</returns>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.ForwardChaining">
+            <summary>
+            Encadenamiento progresivo.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.ConditionalExpression">
+            <summary>
+            Representa una expresión condicional que se establece en una propiedad ConditionBehavior.Condition. Contiene una lista de condiciones que se evalúa para devolver true o false para ICondition.Evaluate().
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.ICondition">
+            <summary>
+            Interfaz que debe implementar un objeto determinado para que se pueda establecer en una propiedad ConditionBehavior.Condition. 
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ConditionalExpression.#ctor">
+            <summary>
+            Inicializa una nueva instancia de la clase <see cref="T:Microsoft.Expression.Interactivity.Core.ConditionalExpression"/>.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ConditionalExpression.Evaluate">
+            <summary>
+            Recorre la colección Conditions y evalúa cada condición basándose en propiedad ForwardChaining.
+            </summary>
+            <returns>Devuelve true si se cumple la condición; de lo contrario, devuelve false.</returns>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.ConditionalExpression.ForwardChaining">
+            <summary>
+            Obtiene o define el encadenamiento progresivo para las condiciones. Si se establece el encadenamiento progresivo en ForwardChaining.And, deben cumplirse todas las condiciones. Si se establece el encadenamiento progresivo en ForwardChaining.Or, sólo debe cumplirse una condición.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.ConditionalExpression.Conditions">
+            <summary>
+            Devuelve la colección Conditions.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.ConditionBehavior">
+            <summary>
+            Comportamiento que se asocia a un desencadenador y controla las condiciones para desencadenar las acciones. 
+            </summary>
+            
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ConditionBehavior.#ctor">
+            <summary>
+            Inicializa una nueva instancia de la clase <see cref="T:Microsoft.Expression.Interactivity.Core.ConditionBehavior"/>.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ConditionBehavior.OnPreviewInvoke(System.Object,System.Windows.Interactivity.PreviewInvokeEventArgs)">
+            <summary>
+            Controlador de eventos que escucha el evento de invocación de vista previa desencadenado por el desencadenador. Si se establece PreviewInvokeEventArgs.Cancelling en True, se cancelará la invocación.
+            </summary>
+            <param name="sender">El objeto base del desencadenador.</param>
+            <param name="e">Objeto de tipo PreviewInvokeEventArgs donde e.Cancelling se puede establecer en True.</param>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.ConditionBehavior.Condition">
+            <summary>
+            Obtiene o establece el objeto ICondition en el comportamiento.
+            </summary>
+            <value>Nombre de la condición que se va a cambiar.</value>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.DataBindingHelper">
+            <summary>
+            Clase auxiliar para administrar expresiones de enlace en objetos de dependencia.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.DataBindingHelper.EnsureDataBindingUpToDateOnMembers(System.Windows.DependencyObject)">
+            <summary>
+            Asegúrese de que todos los DP de una acción con expresiones de enlace estén actualizados. DataTrigger se activa durante la fase de enlace de datos. Puesto que las acciones son elementos secundarios del desencadenador, los enlaces a la acción podrían no estar actualizados. Se llama a esta rutina antes de invocar la acción a fin de garantizar que todos los enlaces estén actualizados con los datos más recientes. 
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.DataBindingHelper.EnsureDataBindingOnActionsUpToDate(System.Windows.Interactivity.TriggerBase{System.Windows.DependencyObject})">
+            <summary>
+            Garantiza que todas las expresiones de enlace sobre acciones estén actualizadas
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.DataBindingHelper.EnsureBindingUpToDate(System.Windows.DependencyObject,System.Windows.DependencyProperty)">
+            <summary>
+             Esta función auxiliar garantiza que si una propiedad de dependencia en un objeto de dependencia tiene una expresión de enlace, dicha expresión esté actualizada. 
+            </summary>
+            <param name="target"></param>
+            <param name="dp"></param>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.DataStateBehavior">
+            <summary>
+            Alterna entre dos estados basándose en una instrucción condicional.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.DataStateBehavior.OnAttached">
+            <summary>
+            Se llama a este método después de adjuntar el comportamiento a AssociatedObject.
+            </summary>
+            <remarks>Reemplace este método para enlazar funcionalidad a AssociatedObject.</remarks>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.DataStateBehavior.IsElementLoaded(System.Windows.FrameworkElement)">
+            <summary>
+            Función auxiliar que sustituye a FrameworkElement.IsLoaded, dado que esta propiedad no está disponible en Silverlight.
+            </summary>
+            <param name="element">Elemento relevante.</param>
+            <returns>Devuelve true si se ha cargado el elemento; de lo contrario, devuelve false.</returns>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.DataStateBehavior.Binding">
+            <summary>
+            Obtiene o establece el enlace que produce el valor de la propiedad del objeto de datos. Ésta es una propiedad de dependencia.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.DataStateBehavior.Value">
+            <summary>
+            Obtiene o establece el valor que se va a comparar con el valor de la propiedad del objeto de datos. Ésta es una propiedad de dependencia.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.DataStateBehavior.TrueState">
+            <summary>
+            Obtiene o establece el nombre del estado visual al que se realiza la transición cuando se cumple la condición. Ésta es una propiedad de dependencia.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.DataStateBehavior.FalseState">
+            <summary>
+            Obtiene o establece el nombre del estado visual al que se realiza la transición cuando no se cumple la condición. Ésta es una propiedad de dependencia.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.DataStoreChangedTrigger">
+            <summary>
+            Desencadenador diseñado para enlazarse a una propiedad de almacén de datos. Se desencadena cuando la propiedad cambia.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.PropertyChangedTrigger">
+             <summary>
+             Representa un desencadenador que realiza acciones cuando los datos enlazados cambian. 
+             </summary>
+            UA_REVIEW:chabiss
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.PropertyChangedTrigger.EvaluateBindingChange(System.Object)">
+            <summary>
+            Se llama cuando la propiedad de enlace cambia. UA_REVIEW:chabiss
+            </summary>
+            <param name="args">Argumento <see cref="T:System.Windows.DependencyPropertyChangedEventArgs"/>. </param>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.PropertyChangedTrigger.OnAttached">
+            <summary>
+            Se llama a este método después de adjuntar el desencadenador a AssociatedObject. UA_REVIEW:chabiss
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.PropertyChangedTrigger.OnDetaching">
+            <summary>
+            Se llama a este método cuando el desencadenador se está desasociando de AssociatedObject, pero antes de que esto ocurra. UA_REVIEW:chabiss
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.PropertyChangedTrigger.Binding">
+             <summary>
+             Objeto de enlace al que el desencadenador escucha para detectar cambios.
+             </summary>
+            UA_REVIEW:chabiss
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.DataTrigger">
+            <summary>
+            Representa un desencadenador que lleva a cabo acciones cuando los datos enlazados cumplen una condición especificada.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.DataTrigger.EvaluateBindingChange(System.Object)">
+            <summary>
+            Se llama cuando la propiedad de enlace cambia. UA_REVIEW:chabiss
+            </summary>
+            <param name="args">Argumento <see cref="T:System.Windows.DependencyPropertyChangedEventArgs"/>. </param>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.DataTrigger.Value">
+            <summary>
+            Obtiene o establece el valor que se va a comparar con el valor de la propiedad del objeto de datos. Ésta es una propiedad de dependencia.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.DataTrigger.Comparison">
+            <summary>
+            Obtiene o establece el tipo de comparación que se va a realizar entre los valores especificados. Ésta es una propiedad de dependencia.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager">
+            <summary>
+            ExtendedVisualStateManager es una propiedad VisualStateManager personalizada que puede suavizar la animación de propiedades de diseño. Con la propiedad VisualStateManager personalizada, los estados pueden incluir cambios en propiedades como Grid.Column, cambiar el alto de los elementos a o desde Automático, etc. Estos cambios se suavizarán a lo largo del tiempo mediante las propiedades GeneratedDuration y GeneratedEasingFunction de la transición adecuada. Vea el área acerca de las invalidaciones de VisualStateManager más abajo para obtener una descripción general del algoritmo.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.UseFluidLayoutProperty">
+            <summary>
+            Objeto VisualStateGroup que puede usar o no FluidLayout.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.RuntimeVisibilityPropertyProperty">
+            <summary>
+            La visibilidad es sombreada por una propiedad adjunta personalizada en tiempo de ejecución.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.OriginalLayoutValuesProperty">
+            <summary>
+            Un objeto VisualStateGroup conserva una lista de estos valores originales en una propiedad adjunta.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.LayoutStoryboardProperty">
+            <summary>
+            Para cada estado, se extraen las propiedades específicas del diseño y, posteriormente, se adjuntan al estado. Estas propiedades se eliminan del propio estado.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.CurrentStateProperty">
+            <summary>
+            Recuerde el estado actual.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.TransitionEffectProperty">
+            <summary>
+            TransitionEffect que se utilizará cuando cambie el estado.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.TransitionEffectStoryboardProperty">
+            <summary>
+            TransitionEffectStoryboard en uso durante el cambio de estado.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.DidCacheBackgroundProperty">
+            <summary>
+            Fondo almacenado en caché que se utiliza durante el cambio de estado.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.CachedBackgroundProperty">
+            <summary>
+            Fondo almacenado en caché que se utiliza durante el cambio de estado.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.CachedEffectProperty">
+            <summary>
+            Fondo almacenado en caché que se utiliza durante el cambio de estado.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.MovingElements">
+            <summary>
+            Éste es el conjunto de elementos que están en movimiento.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.LayoutTransitionStoryboard">
+            <summary>
+            Éste es el guión gráfico que anima la transición.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.LayoutProperties">
+            <summary>
+            Esta lista contiene todas las propiedades conocidas del diseño.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.StopAnimations">
+            <summary>
+            Detenga la animación y sustituya los cambios de diseño que se realizaron para admitir esa animación.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.FindTransition(System.Windows.VisualStateGroup,System.Windows.VisualState,System.Windows.VisualState)">
+            <summary>
+            Localiza la transición que VisualStateManager usará para animar el cambio, de manera que la animación de diseño coincida con la duración y las entradas o salidas lentas.
+            </summary>
+            <param name="group">Grupo en el que tiene lugar la transición.</param>
+            <param name="previousState">Estado del que proviene.</param>
+            <param name="state">Estado hacia el que se dirige.</param>
+            <returns>Transición</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.ExtractLayoutStoryboard(System.Windows.VisualState)">
+            <summary>
+            Quite todas las propiedades que afectan al diseño del guión gráfico para el estado y almacénelas en caché en la propiedad adjunta.
+            </summary>
+            <param name="state">Estado hacia el que se mueve.</param>
+            <returns>Guión gráfico que contiene las propiedades de diseño de ese estado.</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.FindTargetElements(System.Windows.FrameworkElement,System.Windows.FrameworkElement,System.Windows.Media.Animation.Storyboard,System.Collections.Generic.List{Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.OriginalLayoutValueRecord},System.Collections.Generic.List{System.Windows.FrameworkElement})">
+            <summary>
+            El conjunto de elementos de destino es el conjunto de todos los elementos que podrían haberse movido en una transición de diseño. Este conjunto es la clausura de elementos con propiedades de diseño animadas en el estado. - Elementos relacionados con los elementos del conjunto. - Elementos primarios de los elementos del conjunto.
+             
+            El código posterior comprobará estos rectángulos antes y después del cambio de diseño.
+            </summary>
+            <param name="control">Control cuyo diseño está cambiando de estado.</param>
+            <param name="layoutStoryboard">Guión gráfico que contiene los cambios de diseño.</param>
+            <param name="originalValueRecords">Cualquier valor anterior procedente de navegaciones de estados anteriores que pueda revertirse.</param>
+            <param name="movingElements">Conjunto de elementos que están en movimiento (si hay una transición de cambio de estado en curso).</param>
+            <returns>Conjunto completo de elementos cuyo diseño podría haber cambiado.</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.GetRectsOfTargets(System.Collections.Generic.List{System.Windows.FrameworkElement},System.Collections.Generic.List{System.Windows.FrameworkElement})">
+            <summary>
+            Obtiene o establece un conjunto de rectángulos para todos los elementos de la lista de destino.
+            </summary>
+            <param name="targets">Conjunto de elementos que hay que considerar.</param>
+            <param name="movingElements">Conjunto de elementos en movimiento</param>
+            <returns>Diccionario que asigna elementos a sus rectángulos.</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.GetLayoutRect(System.Windows.FrameworkElement)">
+            <summary>
+            Obtenga el rectángulo de diseño de un elemento mediante la ranura de diseño y, posteriormente, calcule la parte de la ranura que está en uso.
+            </summary>
+            <param name="element">Elemento cuyo rectángulo de diseño se va a recuperar.</param>
+            <returns>Rectángulo de diseño de ese elemento.</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.GetOldOpacities(System.Windows.FrameworkElement,System.Windows.FrameworkElement,System.Windows.Media.Animation.Storyboard,System.Collections.Generic.List{Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.OriginalLayoutValueRecord},System.Collections.Generic.List{System.Windows.FrameworkElement})">
+            <summary>
+            Obtenga las opacidades de elementos en el momento del cambio de estado, en lugar de las visibilidades, porque el cambio de estado podría estar en curso y el valor actual es el más importante.
+            </summary>
+            <param name="control">Control cuyo estado está cambiando.</param>
+            <param name="layoutStoryboard">Guión gráfico con las propiedades de diseño.</param>
+            <param name="originalValueRecords">Conjunto de valores originales.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.SetLayoutStoryboardProperties(System.Windows.FrameworkElement,System.Windows.FrameworkElement,System.Windows.Media.Animation.Storyboard,System.Collections.Generic.List{Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.OriginalLayoutValueRecord})">
+            <summary>
+            Examine el guión gráfico de diseño y establezca todas las propiedades mediante SetValue con el fin de permitir que se llame a UpdateLayout sin aplicar una marca de graduación a la escala de tiempo, lo que daría lugar a una representación. Todos los valores que se sobrescriban se almacenarán en la colección de OriginalValueRecords para que se puedan sustituir más adelante.
+            </summary>
+            <param name="control">Control cuyo estado está cambiando.</param>
+            <param name="layoutStoryboard">Guión gráfico que contiene las propiedades de diseño.</param>
+            <param name="originalValueRecords">Almacén de valores originales.</param>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.WrapMovingElementsInCanvases(System.Collections.Generic.List{System.Windows.FrameworkElement},System.Collections.Generic.Dictionary{System.Windows.FrameworkElement,System.Windows.Rect},System.Collections.Generic.Dictionary{System.Windows.FrameworkElement,System.Windows.Rect})">
+            <summary>
+            Toma todos los elementos que se van a mover como resultado de la animación de diseño, y los ajusta en paneles de lienzo para que no afecten a los elementos relacionados con ellos.
+            </summary>
+            <param name="movingElements">Conjunto de elementos que se van a mover.</param>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.UnwrapMovingElementsFromCanvases(System.Collections.Generic.List{System.Windows.FrameworkElement})">
+            <summary>
+            Toma todos los elementos que se han movido como resultado de la animación de diseño y los desajusta de sus paneles de lienzo.
+            </summary>
+            <param name="movingElements">Conjunto de elementos que se han movido.</param>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.CopyLayoutProperties(System.Windows.FrameworkElement,System.Windows.FrameworkElement,System.Boolean)">
+            <summary>
+            Copie las propiedades de diseño del elemento de origen al elemento de destino. Esto los eliminará del origen.
+            </summary>
+            <param name="source">Origen de las propiedades de diseño.</param>
+            <param name="target">Destino de las propiedades de diseño.</param>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.CreateLayoutTransitionStoryboard(System.Windows.VisualTransition,System.Collections.Generic.List{System.Windows.FrameworkElement},System.Collections.Generic.Dictionary{System.Windows.FrameworkElement,System.Double})">
+            <summary>
+            Crea el guión gráfico que se usará para animar la transición. Use todos los resultados calculados previamente.
+            </summary>
+            <param name="duration">Duración de la animación.</param>
+            <param name="ease">Función de entradas y salidas lentas que se usará en la animación.</param>
+            <param name="movingElements">Conjunto de elementos que se van a mover.</param>
+            <param name="oldOpacities">Opacidades antiguas de los elementos cuyas propiedades de visibilidad están cambiando.</param>
+            <returns>Guión gráfico.</returns>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.OriginalLayoutValueRecord">
+            <summary>
+            OriginalValueRecord recuerda el valor original de una propiedad que se cambió en un estado.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Layout.FluidMoveScope">
+            <summary>
+            Este tipo enumerado indica si FluidMoveBehavior se aplica al elemento al que se ha adjuntado, o bien a los elementos secundarios de ese elemento. "Self" es útil cuando hay un elemento individual que debería comportarse de un modo determinado; "Children" resulta útil cuando el mismo comportamiento debería aplicarse a todos los elementos secundarios de WrapPanel o del panel ItemsHost de ItemsControl.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Layout.TagType">
+            <summary>
+            Este tipo enumerado indica si un elemento está identificado por sí mismo o por su DataContext. La identificación de DataContext permite el movimiento de una ubicación controlada por datos a otra.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehaviorBase.AppliesToProperty">
+            <summary>
+            Propiedad de dependencia para el ámbito del comportamiento. Vea FluidMoveScope para obtener información más detallada.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehaviorBase.IsActiveProperty">
+            <summary>
+            Propiedad de dependencia para el estado activo del comportamiento.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehaviorBase.TagProperty">
+            <summary>
+            Propiedad de dependencia que proporciona la capacidad de utilizar el elemento como su propia etiqueta, o el enlace en el elemento.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehaviorBase.TagPathProperty">
+            <summary>
+            Propiedad de dependencia para el trazado adicional que hay que agregar al enlace cuando UsaBindingAsTag es true.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehaviorBase.IdentityTagProperty">
+            <summary>
+            Etiqueta de identidad utilizada para detectar movimiento de elementos entre contenedores.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.FluidMoveBehaviorBase.AppliesTo">
+            <summary>
+            Indica si el comportamiento sólo se aplica a este elemento, o bien a todos los elementos secundarios del elemento (si el elemento es un panel).
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.FluidMoveBehaviorBase.IsActive">
+            <summary>
+            Indica si el comportamiento está activo actualmente.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.FluidMoveBehaviorBase.Tag">
+            <summary>
+            Indica si se va a utilizar el elemento como su propia etiqueta o el enlace en el elemento como la etiqueta.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.FluidMoveBehaviorBase.TagPath">
+            <summary>
+            Trazado adicional que se agrega al enlace cuando se especifica TagType.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Layout.FluidMoveBehaviorBase.TagData">
+            <summary>
+            Estructura privada que almacena todos los datos pertinentes relacionados con un elemento etiquetado.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior">
+            <summary>
+            Comportamiento que supervisa si se han producido cambios de diseño en un elemento (o conjunto de elementos) y que, cuando es necesario, mueve el elemento sin dificultad a la nueva posición. Este comportamiento no anima el tamaño ni la visibilidad de un elemento; únicamente anima el desplazamiento de dicho elemento dentro de su contenedor primario.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.DurationProperty">
+            <summary>
+            Propiedad de dependencia para la duración del movimiento.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.InitialTagProperty">
+            <summary>
+            Propiedad de dependencia para el tipo de etiqueta que se utilizará justo antes de que se cargue el objeto.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.InitialTagPathProperty">
+            <summary>
+            Propiedad de dependencia para el trazado adicional que hay que agregar al enlace cuando UsaBindingAsTag es true.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.InitialIdentityTagProperty">
+            <summary>
+            Etiqueta de identidad utilizada para detectar movimiento de elementos entre contenedores.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.FloatAboveProperty">
+            <summary>
+            Propiedad de dependencia para la marca FloatAbove.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.EaseXProperty">
+            <summary>
+            Propiedad de dependencia para la propiedad EasingFunction que se usará para el componente horizontal de la operación de movimiento.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.EaseYProperty">
+            <summary>
+            Propiedad de dependencia para la propiedad EasingFunction que se usará para el componente vertical de la operación de movimiento.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.OverlayProperty">
+            <summary>
+            Recuerda el elemento emergente/adorner utilizado, en caso de movimiento del elemento entre contenedores cuando el valor de FloatAbove es true.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.CacheDuringOverlayProperty">
+            <summary>
+            Caché de opacidad utilizada cuando se hace flotante un elemento emergente.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.HasTransformWrapperProperty">
+            <summary>
+            Marca la transformación de la animación.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.Duration">
+            <summary>
+            Duración de la operación de movimiento.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.InitialTag">
+            <summary>
+            Punto de generación para este elemento.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.InitialTagPath">
+            <summary>
+            Trazado adicional que se agrega al enlace cuando se especifica TagType.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.FloatAbove">
+            <summary>
+            Indicador que indica si se permite que los elementos floten sobre sus contenedores (en un elemento emergente o un adorner) al cambiar de contenedores.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.EaseX">
+            <summary>
+            La propiedad EasingFunction que se usará para el componente horizontal de la operación de movimiento.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.EaseY">
+            <summary>
+            La propiedad EasingFunction que se usará para el componente vertical de la operación de movimiento.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Layout.AdornerContainer">
+            <summary>
+            Clase auxiliar simple que permite utilizar cualquier elemento de UIElements como un adorner.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.GoToStateAction">
+            <summary>
+            Una acción que efectuará la transición de FrameworkElement a la propiedad VisualState especificada cuando se invoca.
+            </summary>
+            <remarks>
+            Si se ha establecido la propiedad TargetName, esta acción intentará cambiar el estado del elemento de destino. En caso contrario, se desplazará por el árbol de elementos con el fin de localizar el destino alternativo que define estados. ControlTemplate y UserControl son dos posibilidades habituales.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.GoToStateAction.OnTargetChanged(System.Windows.FrameworkElement,System.Windows.FrameworkElement)">
+            <summary>
+            Se llama a este método cuando se producen cambios en el destino. Si la propiedad TargetName no se ha establecido, esta acción tendrá un comportamiento personalizado.
+            </summary>
+            <param name="oldTarget"></param>
+            <param name="newTarget"></param>
+            <exception cref="T:System.InvalidOperationException">No se pudo localizar una propiedad FrameworkElement con estados.</exception>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.GoToStateAction.Invoke(System.Object)">
+            <summary>
+            Se llama a este método cuando se cumplen algunos criterios y se invoca la acción.
+            </summary>
+            <param name="parameter"></param>
+            <exception cref="T:System.InvalidOperationException">No se pudo cambiar el destino a la propiedad StateName especificada.</exception>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.GoToStateAction.UseTransitions">
+            <summary>
+            Determina si se debe usar o no VisualTransition para efectuar una transición entre estados.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.GoToStateAction.StateName">
+            <summary>
+            Nombre de VisualState.  
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Input.KeyTrigger">
+            <summary>
+            Desencadenador que es desencadenado por un evento de teclado.  Si se detectan los modificadores y la tecla de destino, se activa el desencadenador.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Input.KeyTrigger.Key">
+            <summary>
+            La tecla que se debe presionar para que el desencadenador se active.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Input.KeyTrigger.Modifiers">
+            <summary>
+            Modificadores que deben estar activos para que el desencadenador se active (el valor predeterminado es ningún modificador presionado).
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Input.KeyTrigger.ActiveOnFocus">
+            <summary>
+            Si es True, el desencadenador solo escuchará a su objeto de origen de desencadenador, lo que significa que ese elemento debe estar enfocado para que el desencadenador se active. Si es False, el desencadenador escuchará en la raíz, por lo que cualquier mensaje KeyDown/Up que no se haya controlado será captado.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Input.KeyTrigger.FiredOn">
+            <summary>
+            Determina si se va a escuchar o no el evento KeyDown o el evento KeyUp.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.LaunchUriOrFileAction">
+            <summary>
+            Acción que iniciará un proceso para abrir un archivo o URI. En el caso de los archivos, esta acción iniciará el programa predeterminado para la extensión determinada de archivo. Se abrirá un URI en un explorador web.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.LaunchUriOrFileAction.Invoke(System.Object)">
+            <summary>
+            Se llama a este método cuando se cumplen algunos criterios y se invoca la acción.
+            </summary>
+            <param name="parameter"></param>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.LaunchUriOrFileAction.Path">
+            <summary>
+            Archivo o URI que se abrirá. 
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior">
+            <summary>
+            Cambia la posición del elemento adjunto como respuesta a movimientos para arrastrar el mouse sobre el elemento.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.XProperty">
+            <summary>
+            Propiedad de dependencia para la posición X del elemento que se arrastra, tomando como referencia la parte izquierda del elemento raíz.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.YProperty">
+            <summary>
+            Propiedad de dependencia para la posición Y del elemento que se arrastra, tomando como referencia la parte superior del elemento raíz.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.ConstrainToParentBoundsProperty">
+            <summary>
+            Propiedad de dependencia para la propiedad ConstrainToParentBounds. Si es True, el elemento que se arrastra se restringirá para permanecer dentro de los límites de su contenedor primario.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.UpdatePosition(System.Windows.Point)">
+            <summary>
+            Intenta actualizar la posición del elemento asociado a las coordenadas especificadas.
+            </summary>
+            <param name="point">Posición deseada del elemento en coordenadas raíz.</param>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.ApplyTranslation(System.Double,System.Double)">
+            <summary>
+            Aplica una traslación de posición relativa al elemento asociado.
+            </summary>
+            <param name="x">Componente X de la traslación deseada en las coordenadas raíz.</param>
+            <param name="y">Componente Y de la traslación deseada en las coordenadas raíz.</param>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.ApplyTranslationTransform(System.Double,System.Double)">
+            <summary>
+            Aplica la traslación determinada a RenderTransform en el elemento asociado.
+            </summary>
+            <param name="x">Componente X de la traslación deseada en las coordenadas primarias.</param>
+            <param name="y">Componente Y de la traslación deseada en las coordenadas primarias.</param>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.CloneTransform(System.Windows.Media.Transform)">
+            <summary>
+            Realiza una copia en profundidad recursiva de la transformación especificada.
+            </summary>
+            <param name="transform">La transformación que se va a clonar.</param>
+            <returns>Una copia en profundidad de la transformación especificada, o null si la transformación especificada es nula.</returns>
+            <exception cref="T:System.ArgumentException">Se inicia si no se reconoce el tipo de la transformación.</exception>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.UpdatePosition">
+            <summary>
+            Actualiza las propiedades X e Y en función de la posición representada actual para el elemento asociado.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.RectContainsRect(System.Windows.Rect,System.Windows.Rect)">
+            <summary>
+            Comprueba si un rectángulo está contenido en otro.
+            </summary>
+            <param name="rect1">Rectángulo que contiene otro.</param>
+            <param name="rect2">Rectángulo contenido en otro.</param>
+            <returns><c>True</c> si rect1 contiene a rect2; de lo contrario, <c>False</c>.</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.TransformAsVector(System.Windows.Media.GeneralTransform,System.Double,System.Double)">
+            <summary>
+            Se transforma como un vector.
+            </summary>
+            <param name="transform">Transformación.</param>
+            <param name="x">Componente X del vector.</param>
+            <param name="y">Componente Y del vector.</param>
+            <returns>Punto que contiene los valores de X e Y transformados mediante la transformación como un vector.</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.GetTransformOffset(System.Windows.Media.GeneralTransform)">
+            <summary>
+            Obtiene el desplazamiento de la transformación.
+            </summary>
+            <param name="transform">Transformación.</param>
+            <returns>Desplazamiento de la transformación.</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.OnAttached">
+            <summary>
+            Se llama a este método después de adjuntar el comportamiento a AssociatedObject.
+            </summary>
+            <remarks>Reemplace este método para enlazar funcionalidad a AssociatedObject.</remarks>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.OnDetaching">
+            <summary>
+            Se llama a este método cuando el comportamiento se está desasociando de AssociatedObject, pero antes de que ocurra.
+            </summary>
+            <remarks>Reemplace este método para desenlazar funcionalidad de AssociatedObject.</remarks>
+        </member>
+        <member name="E:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.DragBegun">
+            <summary>
+            Se produce al iniciar un movimiento de arrastre.
+            </summary>
+        </member>
+        <member name="E:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.Dragging">
+            <summary>
+            Se produce al procesar una actualización de movimiento de arrastre.
+            </summary>
+        </member>
+        <member name="E:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.DragFinished">
+            <summary>
+            Se produce al finalizar un movimiento de arrastre.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.X">
+            <summary>
+            Obtiene o establece la posición X del elemento que se arrastra, tomando como referencia la parte izquierda del elemento raíz. Ésta es una propiedad de dependencia.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.Y">
+            <summary>
+            Obtiene o establece la posición Y del elemento que se arrastra, tomando como referencia la parte superior del elemento raíz. Ésta es una propiedad de dependencia.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.ConstrainToParentBounds">
+            <summary>
+            Obtiene o establece un valor que indica si el elemento que se arrastra está restringido para permanecer dentro de los límites de su contenedor primario. Ésta es una propiedad de dependencia.
+            </summary>
+            <value>
+            Es <c>True</c> si el elemento que se arrastra debe restringirse a los límites de su contenedor primario; en caso contrario, será <c>False</c>.
+            </value>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.ActualPosition">
+            <summary>
+            Obtiene la posición en pantalla del elemento asociado en las coordenadas raíz.
+            </summary>
+            <value>Posición en pantalla del elemento asociado en las coordenadas raíz.</value>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.ElementBounds">
+            <summary>
+            Obtiene los límites del elemento en las coordenadas de elemento.
+            </summary>
+            <value>Límites del elemento en las coordenadas de elemento.</value>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.ParentElement">
+            <summary>
+            Obtiene el elemento primario del objeto asociado.
+            </summary>
+            <value>Elemento primario del objeto asociado.</value>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.RootElement">
+            <summary>
+            Obtiene el elemento raíz de la escena donde se encuentra el objeto asociado.
+            </summary>
+            <value>Elemento raíz de la escena donde se encuentra el objeto asociado.</value>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.RenderTransform">
+            <summary>
+            Obtiene y establece la propiedad RenderTransform del elemento asociado.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Media.PlaySoundAction">
+            <summary>
+            Acción que reproducirá un sonido hasta que finalice.
+            </summary>
+            <remarks>
+            Esta acción está destinada a efectos de sonido breves que no necesitan ser detenidos ni controlados. Si intenta crear un reproductor de música o un juego, es posible que esta acción no satisfaga sus necesidades.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Media.PlaySoundAction.#ctor">
+            <summary>
+            Inicializa una nueva instancia de la clase <see cref="T:Microsoft.Expression.Interactivity.Media.PlaySoundAction"/>.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Media.PlaySoundAction.SetMediaElementProperties(System.Windows.Controls.MediaElement)">
+            <summary>
+            Cuando se invoca la acción, este método se usa para personalizar el objeto MediaElement creado dinámicamente.
+            </summary>
+            <remarks>
+            Este método puede resultar útil para los autores de acciones que desean ampliar PlaySoundAction. Si se desea controlar la propiedad MediaElement Balance, puede heredarla de PlaySoundAction y reemplazar este método.
+            </remarks>
+            <param name="mediaElement"></param>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Media.PlaySoundAction.Invoke(System.Object)">
+            <summary>
+            Se llama a este método cuando se cumplen algunos criterios; y la acción se debe invocar. 
+            </summary>
+            <remarks>
+            Cada vez que se invoca la acción, se reproduce un sonido nuevo. Aunque la implementación esta sujeta a cambios, el autor de la llamada debe prever que esto creará una nueva propiedad MediaElement, que se limpiará cuando el sonido finalice o si el elemento multimedia no se reproduce.
+            </remarks>
+            <param name="parameter"></param>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Media.PlaySoundAction.Source">
+            <summary>
+            URI que define la ubicación del archivo de sonido. Esto se utiliza para establecer la propiedad del origen de MediaElement. Ésta es una propiedad de dependencia.
+            </summary>
+            <remarks>
+            El sonido puede tener cualquier formato de archivo admitido por MediaElement. En el caso de un vídeo, sólo se reproducirá la sección de audio.
+            </remarks>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Media.PlaySoundAction.Volume">
+            <summary>
+            Controle el volumen del sonido. Esto se utiliza para establecer la propiedad Volume de MediaElement. Ésta es una propiedad de dependencia.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.RemoveElementAction">
+            <summary>
+            Acción que eliminará el elemento de destino del árbol cuando se invoca.
+            </summary>
+            <remarks>
+            Esta acción puede provocar un error. La acción entiende cómo quitar elementos de los elementos primarios comunes, pero no de las colecciones personalizadas o mediante la manipulación directa del árbol visual.
+            </remarks>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.SetDataStoreValueAction">
+            <summary>
+            Una acción que cambiará el valor de una propiedad de un objeto de almacenamiento de datos. Esta clase es idéntica a ChangePropertyAction. La única diferencia es que se carga el selector de almacén de datos para esta acción.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Media.StoryboardAction">
+            <summary>
+            Clase abstracta que permite establecer un guión gráfico como destino.
+            </summary>
+            <remarks>
+            Para los autores de acciones, esta clase proporciona un método estándar para establecer un guión gráfico como destino. Las herramientas de diseño pueden ofrecer una experiencia de edición especial para las clases que se heredan de esta acción, y mejorar así la experiencia del diseñador. 
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Media.StoryboardAction.OnStoryboardChanged(System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Se llama a este método al cambiar la propiedad Storyboard.
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Media.StoryboardAction.Storyboard">
+            <summary>
+            Guión gráfico de destino. Ésta es una propiedad de dependencia.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Media.ControlStoryboardAction">
+            <summary>
+            Acción que cambiará el estado del guión gráfico de destino cuando se invoca.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Media.ControlStoryboardAction.Invoke(System.Object)">
+            <summary>
+            Se llama a este método cuando se cumplen algunos criterios; y la acción se debe invocar. Este método intentará cambiar el guión gráfico de destino del modo definido por ControlStoryboardOption.
+            </summary>
+            <param name="parameter"></param>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Media.StoryboardTrigger">
+            <summary>
+            Clase abstracta que permite establecer un guión gráfico como destino.
+            </summary>
+            <remarks>
+            Para los autores de desencadenadores, esta clase ofrece un método estándar para establecer un guión gráfico como destino. Las herramientas de diseño pueden ofrecer una experiencia de edición especial para las clases que se heredan de este desencadenador, y mejorar así la experiencia del diseñador. 
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Media.StoryboardTrigger.OnStoryboardChanged(System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Se llama a este método al cambiar la propiedad Storyboard.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Media.StoryboardTrigger.Storyboard">
+            <summary>
+            Guión gráfico de destino. Ésta es una propiedad de dependencia.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Media.StoryboardCompletedTrigger">
+            <summary>
+            Desencadenador que escucha un guión gráfico hasta que finaliza.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Media.StoryboardCompletedTrigger.#ctor">
+            <summary>
+            Inicializa una nueva instancia de la clase <see cref="T:Microsoft.Expression.Interactivity.Media.StoryboardCompletedTrigger"/>.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.TimerTrigger">
+            <summary>
+            Desencadenador que se activa por un evento especificado que se produce en su origen y se activa después de un período de tiempo cuando el evento se activa.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.TimerTrigger.#ctor">
+            <summary>
+            Inicializa una nueva instancia de la clase <see cref="T:Microsoft.Expression.Interactivity.Core.TimerTrigger"/>.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.TimerTrigger.MillisecondsPerTick">
+            <summary>
+            Obtiene o establece el número de milisegundos de espera entre marcas de graduación. Ésta es una propiedad de dependencia.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.TimerTrigger.TotalTicks">
+            <summary>
+            Obtiene o establece el número total de marcas de graduación que se activarán antes de que el desencadenador finalice.  Ésta es una propiedad de dependencia.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Media.Effects.TransitionEffect">
+            <summary>
+            Define un sombreado de efecto de transición que realiza la transición de un elemento visual a otro con un valor interpolado entre 0 y 1.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.TransitionEffect.InputProperty">
+            <summary>
+            Propiedades con valores de pincel que se convierten en propiedades de muestrario en el sombreador. Representa la imagen presente en el estado final de la transición.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.TransitionEffect.OldImageProperty">
+            <summary>
+            Propiedades con valores de pincel que se convierten en propiedades de muestrario en el sombreador. Representa la imagen presente en el estado inicial de la transición.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.TransitionEffect.ProgressProperty">
+            <summary>
+            Utiliza una propiedad de dependencia como memoria auxiliar para el progreso. También se utiliza para representar el estado de una transición de principio a fin (intervalo entre 0 y 1).
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.TransitionEffect.CloneCurrentValue">
+            <summary>
+            Crea un clon modificable (copia en profundidad) de <see cref="T:TransitionEffect"/> con sus valores actuales. 
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.TransitionEffect.DeepCopy">
+            <summary>
+            Realiza una copia en profundidad del efecto de transición. Implementa CloneCurrentValue en Silverlight.
+            </summary>
+            <returns>Un clon de la instancia actual del efecto de transición.</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.TransitionEffect.#ctor">
+            <summary>
+            Actualiza las variables del sombreador a los valores predeterminados.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.TransitionEffect.Input">
+            <summary>
+            Obtiene o establece la variable de entrada en el sombreador.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.TransitionEffect.OldImage">
+            <summary>
+            Obtiene o establece la variable OldImage en el sombreador.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.TransitionEffect.Progress">
+            <summary>
+            Obtiene o establece la variable Progress en el sombreador.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Input.TranslateZoomRotateBehavior">
+            <summary>
+            Permite que el usuario utilice gestos táctiles comunes para trasladar, aplicar zoom y girar el objeto adjunto.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Input.TranslateZoomRotateBehavior.OnAttached">
+            <summary>
+            Se llama a este método después de adjuntar el comportamiento a AssociatedObject.
+            </summary>
+            <remarks>Reemplace este método para enlazar funcionalidad a AssociatedObject.</remarks>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Input.TranslateZoomRotateBehavior.OnDetaching">
+            <summary>
+            Se llama a este método cuando el comportamiento se está desasociando de AssociatedObject, pero antes de que ocurra.
+            </summary>
+            <remarks>Reemplace este método para desenlazar funcionalidad de AssociatedObject.</remarks>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Input.TranslateZoomRotateBehavior.SupportedGestures">
+            <summary>
+            Obtiene o establece un valor que especifica qué variantes de traslación y zoom se admiten.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Input.TranslateZoomRotateBehavior.TranslateFriction">
+            <summary>
+            Obtiene o establece un número que describe la velocidad a la que disminuye la traslación.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Input.TranslateZoomRotateBehavior.RotationalFriction">
+            <summary>
+            Obtiene o establece un número que describe la velocidad a la que disminuye el giro.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Input.TranslateZoomRotateBehavior.ConstrainToParentBounds">
+            <summary>
+            Obtiene o establece el valor que indica si el zoom y la posición de traslación del objeto adjunto están limitados por los límites del objeto primario.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Input.TranslateZoomRotateBehavior.MinimumScale">
+            <summary>
+            Obtiene o establece un número que indica el valor mínimo de zoom permitido.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Input.TranslateZoomRotateBehavior.MaximumScale">
+            <summary>
+            Obtiene o establece un número que indica el valor máximo de zoom permitido.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.VisualStateUtilities">
+            <summary>
+            Esta clase proporciona diversas operaciones estándar independientes de la plataforma para trabajar con VisualStateManager.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.VisualStateUtilities.GoToState(System.Windows.FrameworkElement,System.String,System.Boolean)">
+            <summary>
+            Realiza la transición del control entre dos estados.
+            </summary>
+            <param name="element">Elemento del que se realiza la transición entre estados.</param>
+            <param name="stateName">El estado al que se realiza la transición.</param>
+            <param name="useTransitions">True si se utiliza System.Windows.VisualTransition para realizar la transición entre estados; en caso contrario, false.</param>
+            <returns>True si se realiza correctamente la transición del control al nuevo estado; en caso contrario, false.</returns>
+            <exception cref="T:System.ArgumentNullException">Control es null.</exception>
+            <exception cref="T:System.ArgumentNullException">stateName es null.</exception>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.VisualStateUtilities.GetVisualStateGroups(System.Windows.FrameworkElement)">
+            <summary>
+            Obtiene el valor de la propiedad adjunta VisualStateManager.VisualStateGroups.
+            </summary>
+            <param name="targetObject">Elemento del que se va a obtener VisualStateManager.VisualStateGroups.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.VisualStateUtilities.TryFindNearestStatefulControl(System.Windows.FrameworkElement,System.Windows.FrameworkElement@)">
+            <summary>
+            Busca el elemento primario más cercano que contiene estados visuales.
+            </summary>
+            <param name="contextElement">Elemento del que se va a buscar el control con estado más cercano.</param>
+            <param name="resolvedControl">El control con estado más cercano si es True; de lo contrario, null.</param>
+            <returns>True si un elemento primario contiene estados visuales; de lo contrario, False.</returns>
+        </member>
+        <member name="T:ExceptionStringTable">
+            <summary>
+              Clase de recurso con establecimiento inflexible de tipos para buscar cadenas localizadas, etc.
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.ResourceManager">
+            <summary>
+              Devuelve la instancia de ResourceManager almacenada en caché y usada por esta clase.
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.Culture">
+            <summary>
+              Reemplaza la propiedad CurrentUICulture del subproceso actual para todas las búsquedas de recursos mediante el uso de esta clase de recurso con establecimiento inflexible de tipos.
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.CallMethodActionValidMethodNotFoundExceptionMessage">
+            <summary>
+              Busca una cadena localizada similar a No se pudo encontrar el método denominado '{0}' en el objeto de tipo '{1}' que coincida con la firma esperada.
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.ChangePropertyActionAmbiguousAdditionOperationExceptionMessage">
+            <summary>
+              Busca una cadena localizada similar a Se han encontrado varios operadores de suma posibles en el tipo '{0}'
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.ChangePropertyActionCannotAnimateTargetTypeExceptionMessage">
+            <summary>
+              Busca una cadena localizada similar a No se puede animar un cambio de propiedad en un destino de tipo '{0}'. Sólo se pueden animar cambios de propiedades en tipos derivados de DependencyObject.
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.ChangePropertyActionCannotFindPropertyNameExceptionMessage">
+            <summary>
+              Busca una cadena localizada similar a No se puede encontrar una propiedad con el nombre "{0}" en el tipo "{1}".
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.ChangePropertyActionCannotIncrementAnimatedPropertyChangeExceptionMessage">
+            <summary>
+              Busca una cadena localizada similar a No se puede establecer la propiedad Increment en True si la propiedad Duration está establecida.
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.ChangePropertyActionCannotIncrementWriteOnlyPropertyExceptionMessage">
+            <summary>
+              Busca una cadena localizada similar a No se puede incrementar la propiedad '{0}' porque no se puede leer su valor.
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.ChangePropertyActionCannotSetValueExceptionMessage">
+            <summary>
+              Busca una cadena localizada similar a No se puede asignar un valor del tipo "{0}" a la propiedad "{1}" del tipo "{2}". A la propiedad "{1}" solo se le pueden asignar valores del tipo "{2}".
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.ChangePropertyActionPropertyIsReadOnlyExceptionMessage">
+            <summary>
+              Busca una cadena localizada similar a La propiedad "{0}" definida por el tipo "{1}" no expone un método establecido y, por lo tanto, no se puede modificar.
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.DataStateBehaviorStateNameNotFoundExceptionMessage">
+            <summary>
+              Busca una cadena localizada similar a No se encuentra el estado denominado '{0}' en el tipo '{1}'. Asegúrese de que el estado existe y se puede obtener acceso al mismo desde este contexto.
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.GoToStateActionTargetHasNoStateGroups">
+            <summary>
+              Busca una cadena localizada similar a El destino {0} no define VisualStateGroups. .
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.InvalidLeftOperand">
+            <summary>
+              Busca una cadena localizada similar a No se puede usar LeftOperand de tipo "{0}" con el operador "{1}".
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.InvalidOperands">
+            <summary>
+              Busca una cadena localizada similar a No se puede usar LeftOperand de tipo "{1}" y RightOperand de tipo "{0}" con el operador "{2}".
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.InvalidRightOperand">
+            <summary>
+              Busca una cadena localizada similar a No se puede usar RightOperand de tipo "{0}" con el operador "{1}".
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.UnsupportedRemoveTargetExceptionMessage">
+            <summary>
+              Busca una cadena localizada similar a No se admite el destino de RemoveElementAction.
+            </summary>
+        </member>
+    </members>
+</doc>

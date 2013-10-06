@@ -23,7 +23,7 @@ namespace Sample.ViewModels
             // IDataErrorInfo, call SetValidateError and set validate condition
             // null is success(have no error), string is error message
             ValidationData = new ReactiveProperty<string>()
-                .SetValidateNotifyError((string s) => s.Cast<char>().All(Char.IsUpper) ? null : "not all uppercase");
+                .SetValidateNotifyError((string s) => !string.IsNullOrEmpty(s) && s.Cast<char>().All(Char.IsUpper) ? null : "not all uppercase");
 
             // INotifyDataErrorInfo, call SetValidateNotifyErro and set validate condition
             // first argument is self observable sequence
@@ -35,7 +35,7 @@ namespace Sample.ViewModels
 
             // Can set both validation
             ValidationBoth = new ReactiveProperty<string>()
-                .SetValidateNotifyError((string s) => s.Cast<char>().All(Char.IsLower) ? null : "not all lowercase")
+                .SetValidateNotifyError((string s) => !string.IsNullOrEmpty(s) && s.Cast<char>().All(Char.IsLower) ? null : "not all lowercase")
                 .SetValidateNotifyError(self => self
                     .Delay(TimeSpan.FromSeconds(1)) // asynchronous validation...
                     .Select(s => string.IsNullOrEmpty(s) || s.Length <= 5 ? null : (IEnumerable)new[] { "length 5" }));
@@ -63,7 +63,9 @@ namespace Sample.ViewModels
                     ValidationNotify.ObserveErrorChanged,
                     (a, b, c) => new[] { a, b, c }.All(x => x == null))
                 .ToReactiveCommand(initialValue: false);
-            this.AlertMessage = NextCommand.Select(_ => "Can go to next!").ToReactiveProperty(mode: ReactivePropertyMode.None);
+            this.AlertMessage = NextCommand.Select(_ => "Can go to next!").ToReactiveProperty(
+                initialValue: "Can go to next!",
+                mode: ReactivePropertyMode.None);
         }
     }
 }

@@ -14,7 +14,7 @@
     SupportedOrientations="Portrait" Orientation="Portrait"
     shell:SystemTray.IsVisible="True">
 
-    <!--LayoutRoot は、すべてのページ コンテンツが配置されるルート グリッドです-->
+	<!--LayoutRoot は、すべてのページ コンテンツが配置されるルート グリッドです-->
 	<Grid x:Name="LayoutRoot" Background="Transparent">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
@@ -38,43 +38,53 @@
             されます。これらの例にあるバインドにより、属性の値が、実行時に
             アプリの CurrentUICulture と一致する .resx ファイルから描画されます。
             
-         -->
-
-		<!--コメントを解除してアラインメント グリッドを表示し、コントロールが共通の
+         --><!--コメントを解除してアラインメント グリッドを表示し、コントロールが共通の
             境界に整列されるようにします。イメージの上余白は -32px で、システム 
             トレイを占有します。システム トレイが非表示になっている場合は、これを
             0 に設定します (または余白をすべて削除します)。
 
-            製品を出荷する前に、この XAML とイメージ自体を削除してください。-->
-		<!--<Image Source="/Assets/AlignmentGrid.png" VerticalAlignment="Top" Height="800" Width="480" Margin="0,-32,0,0" Grid.Row="0" Grid.RowSpan="2" IsHitTestVisible="False" />-->
-    <!--TitlePanel は、アプリケーション名とページ タイトルを格納します-->
+            製品を出荷する前に、この XAML とイメージ自体を削除してください。--><!--<Image Source="/Assets/AlignmentGrid.png" VerticalAlignment="Top" Height="800" Width="480" Margin="0,-32,0,0" Grid.Row="0" Grid.RowSpan="2" IsHitTestVisible="False" />--><!--TitlePanel は、アプリケーション名とページ タイトルを格納します-->
 		<StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
 			<TextBlock Text="ReactiveProperty Sample" Style="{StaticResource PhoneTextNormalStyle}" Margin="12,0"/>
 			<TextBlock Text="MainPage" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
 		</StackPanel>
 		<StackPanel x:Name="ContentPanel" Margin="12,0,12,0" Grid.Row="1" >
-            <Button Content="ReactiveProperty Basics">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <ec:NavigateToPageAction TargetPage="/Views/ReactivePropertyBasics.xaml"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </Button>
-            <Button Content="Asynchronous">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <ec:NavigateToPageAction TargetPage="/Views/Asynchronous.xaml"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </Button>
-            <Button Content="Validation">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <ec:NavigateToPageAction TargetPage="/Views/Validation.xaml"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </Button>
-        </StackPanel>
+			<Button Content="ReactiveProperty Basics">
+				<i:Interaction.Triggers>
+					<i:EventTrigger EventName="Click">
+						<ec:NavigateToPageAction TargetPage="/Views/ReactivePropertyBasics.xaml"/>
+					</i:EventTrigger>
+				</i:Interaction.Triggers>
+			</Button>
+			<Button Content="Asynchronous">
+				<i:Interaction.Triggers>
+					<i:EventTrigger EventName="Click">
+						<ec:NavigateToPageAction TargetPage="/Views/Asynchronous.xaml"/>
+					</i:EventTrigger>
+				</i:Interaction.Triggers>
+			</Button>
+			<Button Content="Validation">
+				<i:Interaction.Triggers>
+					<i:EventTrigger EventName="Click">
+						<ec:NavigateToPageAction TargetPage="/Views/Validation.xaml"/>
+					</i:EventTrigger>
+				</i:Interaction.Triggers>
+			</Button>
+			<Button Content="Serialization">
+				<i:Interaction.Triggers>
+					<i:EventTrigger EventName="Click">
+						<ec:NavigateToPageAction TargetPage="/Views/Serialization.xaml"/>
+					</i:EventTrigger>
+				</i:Interaction.Triggers>
+			</Button>
+			<Button Content="SynchronizeObject">
+				<i:Interaction.Triggers>
+					<i:EventTrigger EventName="Click">
+						<ec:NavigateToPageAction TargetPage="/Views/SynchronizeObject.xaml"/>
+					</i:EventTrigger>
+				</i:Interaction.Triggers>
+			</Button>
+		</StackPanel>
 
 	</Grid>
 

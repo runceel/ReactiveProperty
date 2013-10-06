@@ -1,0 +1,1603 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.Expression.Drawing</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.Expression.Controls.Callout">
+            <summary>
+            설명선 화살표가 결합된 여러 도형을 지원하는 설명선 도형을 렌더링합니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Controls.CompositeContentShape">
+             <summary>
+             <see cref="T:System.Windows.Controls.ContentControl"/>에서 파생되고 <see cref="T:Microsoft.Expression.Media.IShape"/>를 구현하는 합성 도형의 기본 클래스를 제공합니다.
+             </summary>
+             <remarks>
+             <see cref="T:Microsoft.Expression.Controls.CompositeContentShape"/>에서는 <see cref="T:Microsoft.Expression.Media.IShape"/> 인터페이스를 구현하고, <see cref="T:System.Windows.Shapes.Shape"/>와 유사한 기하 렌더링을 지원하지만, 레이아웃 경계를 벗어나서 기하가 렌더링될 수 있습니다.
+             
+             일반적인 구현의 경우 generic.xaml에 사용자 지정된 기본 템플릿이 제공됩니다. 이 템플릿에서 대부분의 도형 속성을 <see cref="T:System.Windows.Shapes.Path"/>에 바인딩합니다. 또한 <see cref="P:GeometrySource"/> 속성을 확장하여 <see cref="T:System.Windows.Shapes.Path"/>의 모양을 사용자 지정해야 합니다.
+            
+             이 클래스에서는 도형과 함께 콘텐츠를 표시할 수 있도록 지원합니다.
+             </remarks>
+        </member>
+        <member name="T:Microsoft.Expression.Media.IGeometrySourceParameters">
+            <summary>
+            Shape의 매개 변수를 설명하기 위한 인터페이스를 제공합니다.
+            </summary>
+            <remarks>
+            이 인터페이스는 Shape와 GeometrySource 간의 통신을 위한 데이터입니다. 일반적으로 IShape를 구현하면 이 인터페이스가 구현되어 GeometrySource.UpdateGeometry()에 전달되고, 여기서 도형을 읽기 전용 데이터 공급자로 사용합니다.
+            </remarks>
+        </member>
+        <member name="T:Microsoft.Expression.Media.IShape">
+            <summary>
+            도형을 정의하는 데 필요한 인터페이스를 제공합니다. 기본 및 합성 도형이 다른 유형의 FrameworkElement에서 추출될 수는 있지만 모두 이 인터페이스와 일치해야 합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.IShape.InvalidateGeometry(Microsoft.Expression.Media.InvalidateGeometryReasons)">
+            <summary>
+            <see cref="T:Microsoft.Expression.Media.IShape"/>에 대한 기하를 무효화합니다.  무효화 후에 <see cref="T:Microsoft.Expression.Media.IShape"/>에서 기하를 다시 계산합니다. 이 작업은 비동기적으로 발생합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.IShape.Fill">
+            <summary>도형의 내부를 칠하는 방법을 지정하는 <see cref="T:System.Windows.Media.Brush"/>를 가져오거나 설정합니다.</summary>
+            <returns>도형의 내부를 칠하는 방법을 설명하는 <see cref="T:System.Windows.Media.Brush"/>입니다. 기본값은 Null입니다.</returns>
+        </member>
+        <member name="P:Microsoft.Expression.Media.IShape.Stroke">
+            <summary><see cref="T:System.Windows.Shapes.Shape"/> 윤곽선을 칠하는 방법을 지정하는 <see cref="T:System.Windows.Media.Brush"/>를 가져오거나 설정합니다.</summary>
+            <returns><see cref="T:System.Windows.Shapes.Shape"/> 윤곽선을 칠하는 방법을 지정하는 <see cref="T:System.Windows.Media.Brush"/>입니다.</returns>
+        </member>
+        <member name="P:Microsoft.Expression.Media.IShape.StrokeThickness">
+            <summary><see cref="T:System.Windows.Shapes.Shape"/> 스트로크 윤곽선의 너비를 가져오거나 설정합니다. </summary>
+            <returns><see cref="T:System.Windows.Shapes.Shape"/> 윤곽선의 너비(픽셀 단위)입니다.</returns>
+        </member>
+        <member name="P:Microsoft.Expression.Media.IShape.Stretch">
+            <summary>도형의 할당된 공간을 채우는 방법을 설명하는 <see cref="T:System.Windows.Media.Stretch"/> 열거형 값을 가져오거나 설정합니다.</summary>
+            <returns><see cref="T:System.Windows.Media.Stretch"/> 열거형 값 중 하나입니다.  런타임 시 기본값은 <see cref="T:System.Windows.Shapes.Shape"/> 유형에 따라 다릅니다.</returns>
+        </member>
+        <member name="P:Microsoft.Expression.Media.IShape.RenderedGeometry">
+            <summary>
+            렌더링 엔진에서 제공하는 렌더링된 기하를 가져옵니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.IShape.GeometryMargin">
+            <summary>
+            논리적 영역과 실제 기하 영역 간의 여백을 가져옵니다. 양수(<see cref="T:Microsoft.Expression.Shapes.Arc"/>의 경우) 또는 음수(<see cref="T:Microsoft.Expression.Controls.Callout"/>의 경우)일 수 있습니다.
+            </summary>
+        </member>
+        <member name="E:Microsoft.Expression.Media.IShape.RenderedGeometryChanged">
+            <summary>
+            RenderedGeometry가 변경될 때 발생합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Controls.CompositeContentShape.CreateGeometrySource">
+            <summary>
+            기하 원본을 만들면서 도형을 그리는 방법을 확장합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Controls.CompositeContentShape.InvalidateGeometry(Microsoft.Expression.Media.InvalidateGeometryReasons)">
+            <summary>
+            <see cref="T:Microsoft.Expression.Media.IShape"/>에 대한 기하를 무효화합니다.  무효화 후에 <see cref="T:Microsoft.Expression.Media.IShape"/>에서 기하를 다시 계산합니다. 이 작업은 비동기적으로 발생합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Controls.CompositeContentShape.ArrangeOverride(System.Windows.Size)">
+            <summary>Silverlight 레이아웃의 정렬 패스 동작을 제공합니다. 클래스에서 이 메서드를 재정의하여 고유한 정렬 패스 동작을 정의할 수 있습니다.</summary>
+            <returns>레이아웃에서 요소를 정렬할 때 사용된 실제 크기입니다.</returns>
+            <param name="finalSize">이 개체가 자신과 하위 개체를 정렬할 때 사용해야 하는 상위 개체 내 최종 영역입니다.</param>
+            <remarks> 기하가 무효화된 경우 <see cref="T:Microsoft.Expression.Controls.CompositeContentShape"/>에서 기하를 다시 계산하고 RenderedGeometry 및 GeometryMargin을 업데이트합니다.</remarks>
+        </member>
+        <member name="M:Microsoft.Expression.Controls.CompositeContentShape.OnContentChanged(System.Object,System.Object)">
+            <summary>
+            가운데 맞춤 및 여러 줄 지원을 사용하여 콘텐츠 문자열을 <see cref="T:TextBlock"/>으로 변형합니다.
+            </summary>
+            <remarks>
+            <see cref="P:Content"/> 대신 <see cref="P:Microsoft.Expression.Controls.CompositeContentShape.InternalContent"/>에 대한 템플릿 바인딩을 사용하여 이 메서드를 활성화할 수 있습니다.
+            </remarks>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.CompositeContentShape.Fill">
+            <summary>
+            도형의 내부를 칠하는 방법을 지정하는 <see cref="T:System.Windows.Media.Brush"/>를 가져오거나 설정합니다.
+            </summary>
+            <returns>도형의 내부를 칠하는 방법을 설명하는 <see cref="T:System.Windows.Media.Brush"/>입니다.</returns>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.CompositeContentShape.Stroke">
+            <summary><see cref="T:System.Windows.Shapes.Shape"/> 윤곽선을 칠하는 방법을 지정하는 <see cref="T:System.Windows.Media.Brush"/>를 가져오거나 설정합니다.</summary>
+            <returns><see cref="T:System.Windows.Shapes.Shape"/> 윤곽선을 칠하는 방법을 지정하는 <see cref="T:System.Windows.Media.Brush"/>입니다.</returns>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.CompositeContentShape.StrokeThickness">
+            <summary><see cref="T:System.Windows.Shapes.Shape"/> 스트로크 윤곽선의 너비를 가져오거나 설정합니다. </summary>
+            <returns><see cref="T:System.Windows.Shapes.Shape"/> 윤곽선의 너비(픽셀 단위)입니다.</returns>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.CompositeContentShape.Stretch">
+            <summary>도형의 할당된 공간을 채우는 방법을 설명하는 <see cref="T:System.Windows.Media.Stretch"/> 열거형 값을 가져오거나 설정합니다.</summary>
+            <returns><see cref="T:System.Windows.Media.Stretch"/> 열거형 값 중 하나입니다. </returns>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.CompositeContentShape.StrokeStartLineCap">
+            <summary><see cref="P:System.Windows.Shapes.Shape.Stroke"/> 시작 시 <see cref="T:System.Windows.Shapes.Shape"/>를 설명하는 <see cref="T:System.Windows.Media.PenLineCap"/> 열거형 값을 가져오거나 설정합니다. </summary>
+            <returns><see cref="P:System.Windows.Shapes.Shape.Stroke"/> 시작 시 도형을 지정하는 <see cref="T:System.Windows.Media.PenLineCap"/> 열거형 값입니다.</returns>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.CompositeContentShape.StrokeEndLineCap">
+            <summary>줄의 끝 위치에서 <see cref="T:System.Windows.Shapes.Shape"/>를 설명하는 <see cref="T:System.Windows.Media.PenLineCap"/> 열거형 값을 가져오거나 설정합니다. </summary>
+            <returns><see cref="T:System.Windows.Media.PenLineCap"/> 열거형 값 중 하나입니다.  </returns>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.CompositeContentShape.StrokeLineJoin">
+            <summary><see cref="T:System.Windows.Shapes.Shape"/>의 꼭짓점에서 사용되는 이음 유형을 지정하는 <see cref="T:System.Windows.Media.PenLineJoin"/> 열거형 값을 가져오거나 설정합니다.</summary>
+            <returns>이음 모양을 지정하는 <see cref="T:System.Windows.Media.PenLineJoin"/> 열거형 값입니다. </returns>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.CompositeContentShape.StrokeMiterLimit">
+            <summary><see cref="T:System.Windows.Shapes.Shape"/> 요소의 <see cref="P:System.Windows.Shapes.Shape.StrokeThickness"/> 절반과 이음 길이의 비율에 대한 제한을 가져오거나 설정합니다. </summary>
+            <returns><see cref="T:System.Windows.Shapes.Shape"/> 요소의 <see cref="P:System.Windows.Shapes.Shape.StrokeThickness"/>에 대한 길이 비율의 제한입니다. 이 값은 항상 1보다 크거나 같은 양수입니다.</returns>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.CompositeContentShape.StrokeDashArray">
+            <summary>도형의 윤곽선을 그리는 데 사용하는 파선 및 간격 패턴을 나타내는 <see cref="T:System.Double"/> 값 모음을 가져오거나 설정합니다. </summary>
+            <returns>파선 및 간격 패턴을 지정하는 <see cref="T:System.Double"/> 값 모음입니다. </returns>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.CompositeContentShape.StrokeDashCap">
+            <summary>파선 끝을 그리는 방법을 지정하는 <see cref="T:System.Windows.Media.PenLineCap"/> 열거형 값을 가져오거나 설정합니다. </summary>
+            <returns><see cref="T:System.Windows.Media.PenLineCap"/> 열거형 값 중 하나입니다.  기본값은 <see cref="F:System.Windows.Media.PenLineCap.Flat"/>입니다. </returns>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.CompositeContentShape.StrokeDashOffset">
+            <summary>파선이 시작되는 파선 패턴 내 거리를 지정하는 <see cref="T:System.Double"/>을 가져오거나 설정합니다.</summary>
+            <returns>파선이 시작되는 파선 패턴 내 거리를 나타내는 <see cref="T:System.Double"/>입니다. 기본값은 0입니다.</returns>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.CompositeContentShape.RenderedGeometry">
+            <summary>
+            렌더링 엔진에서 제공하는 렌더링된 기하를 가져옵니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.CompositeContentShape.GeometryMargin">
+            <summary>
+            논리적 영역과 실제 기하 영역 간의 여백을 가져옵니다. 양수(<see cref="T:Microsoft.Expression.Shapes.Arc"/>의 경우) 또는 음수(<see cref="T:Microsoft.Expression.Controls.Callout"/>의 경우)일 수 있습니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.CompositeContentShape.InternalContent">
+            <summary>
+            문자열을 가운데로 맞춘 여러 줄의 TextBlock으로 변환하는 내부 콘텐츠를 가져오거나 설정합니다.
+            </summary>
+        </member>
+        <member name="E:Microsoft.Expression.Controls.CompositeContentShape.RenderedGeometryChanged">
+            <summary>
+            RenderedGeometry가 변경될 때 발생합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.Callout.AnchorPoint">
+            <summary>
+            위쪽 및 왼쪽 모서리를 기준으로 한 설명선 위치를 가져오거나 설정합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.Callout.CalloutStyle">
+            <summary>
+            설명선 스타일을 가져오거나 설정합니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Controls.CompositeShape">
+            <summary>
+            <see cref="T:System.Windows.Controls.Control"/>에서 파생되고 <see cref="T:Microsoft.Expression.Media.IShape"/>를 구현하는 합성 도형의 기본 클래스를 제공합니다.
+            </summary>
+            <remarks>
+            <see cref="T:Microsoft.Expression.Controls.CompositeShape"/>에서는 <see cref="T:Microsoft.Expression.Media.IShape"/> 인터페이스를 구현하고, <see cref="T:System.Windows.Shapes.Shape"/>와 유사한 기하 렌더링을 지원하지만, 레이아웃 경계를 벗어나서 기하가 렌더링될 수 있습니다.
+            
+            일반적인 구현의 경우 generic.xaml에 사용자 지정된 기본 템플릿이 제공됩니다. 이 템플릿에서 대부분의 도형 속성을 <see cref="T:System.Windows.Shapes.Path"/>에 바인딩합니다. 또한 <see cref="P:GeometrySource"/> 속성을 확장하여 <see cref="T:System.Windows.Shapes.Path"/>의 모양을 사용자 지정해야 합니다.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Expression.Controls.CompositeShape.CreateGeometrySource">
+            <summary>
+            기하 원본을 만들면서 도형을 그리는 방법을 확장합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Controls.CompositeShape.InvalidateGeometry(Microsoft.Expression.Media.InvalidateGeometryReasons)">
+            <summary>
+            <see cref="T:Microsoft.Expression.Media.IShape"/>에 대한 기하를 무효화합니다.   무효화 후에 <see cref="T:Microsoft.Expression.Media.IShape"/>에서 기하를 다시 계산합니다. 이 작업은 비동기적으로 발생합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Controls.CompositeShape.ArrangeOverride(System.Windows.Size)">
+            <summary>Silverlight 레이아웃의 정렬 패스 동작을 제공합니다. 클래스에서 이 메서드를 재정의하여 고유한 정렬 패스 동작을 정의할 수 있습니다.</summary>
+            <returns>레이아웃에서 요소를 정렬할 때 사용된 실제 크기입니다.</returns>
+            <param name="finalSize">이 개체가 자신과 하위 개체를 정렬할 때 사용해야 하는 상위 개체 내 최종 영역입니다.</param>
+            <remarks> 기하가 무효화된 경우 <see cref="T:Microsoft.Expression.Controls.CompositeShape"/>에서 기하를 다시 계산하고 RenderedGeometry 및 GeometryMargin을 업데이트합니다.</remarks>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.CompositeShape.Fill">
+            <summary>
+            도형의 내부를 칠하는 방법을 지정하는 <see cref="T:System.Windows.Media.Brush"/>를 가져오거나 설정합니다.
+            </summary>
+            <returns>도형의 내부를 칠하는 방법을 설명하는 <see cref="T:System.Windows.Media.Brush"/>입니다.</returns>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.CompositeShape.Stroke">
+            <summary><see cref="T:System.Windows.Shapes.Shape"/> 윤곽선을 칠하는 방법을 지정하는 <see cref="T:System.Windows.Media.Brush"/>를 가져오거나 설정합니다.</summary>
+            <returns><see cref="T:System.Windows.Shapes.Shape"/> 윤곽선을 칠하는 방법을 지정하는 <see cref="T:System.Windows.Media.Brush"/>입니다.</returns>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.CompositeShape.StrokeThickness">
+            <summary><see cref="T:System.Windows.Shapes.Shape"/> 스트로크 윤곽선의 너비를 가져오거나 설정합니다. </summary>
+            <returns><see cref="T:System.Windows.Shapes.Shape"/> 윤곽선의 너비(픽셀 단위)입니다.</returns>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.CompositeShape.Stretch">
+            <summary>도형의 할당된 공간을 채우는 방법을 설명하는 <see cref="T:System.Windows.Media.Stretch"/> 열거형 값을 가져오거나 설정합니다.</summary>
+            <returns><see cref="T:System.Windows.Media.Stretch"/> 열거형 값 중 하나입니다. </returns>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.CompositeShape.StrokeStartLineCap">
+            <summary><see cref="P:System.Windows.Shapes.Shape.Stroke"/> 시작 시 <see cref="T:System.Windows.Shapes.Shape"/>를 설명하는 <see cref="T:System.Windows.Media.PenLineCap"/> 열거형 값을 가져오거나 설정합니다. </summary>
+            <returns><see cref="P:System.Windows.Shapes.Shape.Stroke"/> 시작 시 도형을 지정하는 <see cref="T:System.Windows.Media.PenLineCap"/> 열거형 값입니다.</returns>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.CompositeShape.StrokeEndLineCap">
+            <summary>줄의 끝 위치에서 <see cref="T:System.Windows.Shapes.Shape"/>를 설명하는 <see cref="T:System.Windows.Media.PenLineCap"/> 열거형 값을 가져오거나 설정합니다. </summary>
+            <returns><see cref="T:System.Windows.Media.PenLineCap"/> 열거형 값 중 하나입니다.  </returns>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.CompositeShape.StrokeLineJoin">
+            <summary><see cref="T:System.Windows.Shapes.Shape"/>의 꼭짓점에서 사용되는 이음 유형을 지정하는 <see cref="T:System.Windows.Media.PenLineJoin"/> 열거형 값을 가져오거나 설정합니다.</summary>
+            <returns>이음 모양을 지정하는 <see cref="T:System.Windows.Media.PenLineJoin"/> 열거형 값입니다. </returns>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.CompositeShape.StrokeMiterLimit">
+            <summary><see cref="T:System.Windows.Shapes.Shape"/> 요소의 <see cref="P:System.Windows.Shapes.Shape.StrokeThickness"/> 절반과 이음 길이의 비율에 대한 제한을 가져오거나 설정합니다. </summary>
+            <returns><see cref="T:System.Windows.Shapes.Shape"/> 요소의 <see cref="P:System.Windows.Shapes.Shape.StrokeThickness"/>에 대한 길이 비율의 제한입니다. 이 값은 항상 1보다 크거나 같은 양수입니다.</returns>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.CompositeShape.StrokeDashArray">
+            <summary>도형의 윤곽선을 그리는 데 사용하는 파선 및 간격 패턴을 나타내는 <see cref="T:System.Double"/> 값 모음을 가져오거나 설정합니다. </summary>
+            <returns>파선 및 간격 패턴을 지정하는 <see cref="T:System.Double"/> 값 모음입니다. </returns>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.CompositeShape.StrokeDashCap">
+            <summary>파선 끝을 그리는 방법을 지정하는 <see cref="T:System.Windows.Media.PenLineCap"/> 열거형 값을 가져오거나 설정합니다. </summary>
+            <returns><see cref="T:System.Windows.Media.PenLineCap"/> 열거형 값 중 하나입니다.  기본값은 <see cref="F:System.Windows.Media.PenLineCap.Flat"/>입니다. </returns>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.CompositeShape.StrokeDashOffset">
+            <summary>파선이 시작되는 파선 패턴 내 거리를 지정하는 <see cref="T:System.Double"/>을 가져오거나 설정합니다.</summary>
+            <returns>파선이 시작되는 파선 패턴 내 거리를 나타내는 <see cref="T:System.Double"/>입니다. 기본값은 0입니다.</returns>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.CompositeShape.RenderedGeometry">
+            <summary>
+            렌더링 엔진에서 제공하는 렌더링된 기하를 가져옵니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.CompositeShape.GeometryMargin">
+            <summary>
+            논리적 영역과 실제 기하 영역 간의 여백을 가져옵니다. 양수(<see cref="T:Microsoft.Expression.Shapes.Arc"/>의 경우) 또는 음수(<see cref="T:Microsoft.Expression.Controls.Callout"/>의 경우)일 수 있습니다.
+            </summary>
+        </member>
+        <member name="E:Microsoft.Expression.Controls.CompositeShape.RenderedGeometryChanged">
+            <summary>
+            RenderedGeometry가 변경될 때 발생합니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Controls.LineArrow">
+            <summary>
+            양 끝에 선택적으로 화살촉이 있는 구부러진 선 세그먼트를 렌더링합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Controls.LineArrow.MeasureOverride(System.Windows.Size)">
+            <summary>Silverlight 레이아웃의 측정 패스 동작을 제공합니다. 클래스에서 이 메서드를 재정의하여 고유한 측정 패스 동작을 정의할 수 있습니다.</summary>
+            <returns>하위 개체 할당 크기의 계산 또는 고정된 컨테이너 크기에 따라 레이아웃 중에 개체에 필요한 것으로 판별된 크기입니다.</returns>
+            <param name="availableSize">이 개체가 하위 개체에 제공할 수 있는 사용 가능한 크기입니다. 사용 가능한 콘텐츠에 따라 개체 크기가 조정됨을 나타내려면 값으로 Infinity(<see cref="F:System.Double.PositiveInfinity"/>)를 지정할 수 있습니다.</param>
+            <remarks>
+            기본 <see cref="T:LineArrow"/>는 크기에 상관없이 렌더링할 수 있습니다.  <see cref="P:RenderedGeometry"/>가 레이아웃 경계까지 늘어나고 필요한 경우 외부로 렌더링됩니다.
+            </remarks>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.LineArrow.BendAmount">
+            <summary>
+            화살표의 구부러진 정도를 가져오거나 설정합니다.
+            </summary>
+            <value>0-1 사이의 구부러진 정도입니다.</value>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.LineArrow.StartArrow">
+            <summary>
+            줄의 시작 부분에 화살촉을 렌더링하는 방법을 가져오거나 설정합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.LineArrow.EndArrow">
+            <summary>
+            줄의 끝 부분에 화살촉을 렌더링하는 방법을 가져오거나 설정합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.LineArrow.StartCorner">
+            <summary>
+            화살표 그리기를 시작할 모서리를 가져오거나 설정합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.LineArrow.ArrowSize">
+            <summary>
+            화살표 길이(픽셀 단위)를 가져오거나 설정합니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Drawing.Core.PathGeometryHelper">
+            <summary>
+            PathGeometry와 함께 작동하는 도우미 클래스.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.PathGeometryHelper.ConvertToPathGeometry(System.String)">
+            <summary>
+            경로 미니 언어의 문자열을 PathGeometry로 변환합니다.
+            </summary>
+            <param name="abbreviatedGeometry">경로 미니 언어의 문자열입니다.</param>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.PathGeometryHelper.AsPathGeometry(System.Windows.Media.Geometry)">
+            <summary>
+            지정된 기하를 단일 PathGeometry로 변환합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.PathGeometryHelper.SyncPolylineGeometry(System.Windows.Media.Geometry@,System.Collections.Generic.IList{System.Windows.Point},System.Boolean)">
+            <summary>
+            PathGeometry로 지정된 기하를 지정된 점 목록과 일치하는 폴리라인으로 업데이트합니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Drawing.Core.PathGeometryHelper.AbbreviatedGeometryParser">
+            <summary>
+            약식 기하 구문을 구문 분석합니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Drawing.Core.PathSegmentHelper">
+            <summary>
+            ArcSegment를 BezierSegment로 변환하기 위한 도우미 클래스.
+            </summary>
+            <summary>
+            PathSegment 및 모든 변형에서 작동하는 도우미 클래스.
+            </summary>
+            <summary>
+            다른 유형의 PathSegment를 처리하기 위한 전략 클래스.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.PathSegmentHelper.ArcToBezierSegments(System.Windows.Media.ArcSegment,System.Windows.Point)">
+            <summary>
+            원호 세그먼트를 베지어 형식으로 변환합니다. BezierSegment, PolyBezierSegment, LineSegment 또는 Null을 반환합니다. Null을 반환할 경우 원호가 시작점으로 변질됩니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.PathSegmentHelper.SetIsStroked(System.Windows.Media.PathSegment,System.Boolean)">
+            <summary>
+            매개 변수가 3개인 생성자는 항상 IsStroked에 대한 로컬 값을 설정하기 때문에 호출하지 마십시오.
+            </summary>
+            <param name="segment"></param>
+            <param name="isStroked"></param>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.PathSegmentHelper.SyncPolylineSegment(System.Windows.Media.PathSegmentCollection,System.Int32,System.Collections.Generic.IList{System.Windows.Point},System.Int32,System.Int32)">
+            <summary>
+            SegmentCollection을 지정된 점 목록과 일치하는 지정된 폴리라인으로 업데이트합니다. 최소한으로 변경하고 아무 것도 변경하지 않은 경우 false를 반환합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.PathSegmentHelper.SyncPolyBezierSegment(System.Windows.Media.PathSegmentCollection,System.Int32,System.Collections.Generic.IList{System.Windows.Point},System.Int32,System.Int32)">
+            <summary>
+            컬렉션[인덱스] 세그먼트를 지정된 점 목록과 일치하는 폴리 베지어 세그먼트로 업데이트합니다. 지정된 점 목록에는 N 베지어 세그먼트에 대한 3*N 점이 포함되어야 합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.PathSegmentHelper.IsEmpty(System.Windows.Media.PathSegment)">
+            <summary>
+            지정된 패스 세그먼트가 비어 있는지 테스트합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.PathSegmentHelper.GetPointCount(System.Windows.Media.PathSegment)">
+            <summary>
+            지정된 패스 세그먼트의 점 개수를 가져옵니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.PathSegmentHelper.GetLastPoint(System.Windows.Media.PathSegment)">
+            <summary>
+            지정된 패스 세그먼트의 마지막 점을 가져옵니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.PathSegmentHelper.GetPoint(System.Windows.Media.PathSegment,System.Int32)">
+            <summary>
+            지정된 세그먼트에 있는 지정된 인덱스의 점을 가져옵니다. (-1)을 입력한 경우 마지막 점을 반환합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.PathSegmentHelper.FlattenSegment(System.Windows.Media.PathSegment,System.Collections.Generic.IList{System.Windows.Point},System.Windows.Point,System.Double)">
+            <summary>
+            지정된 세그먼트를 결합하고 지정된 점 목록에 결과 점을 추가합니다.
+            </summary>
+            <param name="segment">결합할 세그먼트입니다.</param>
+            <param name="points">결과 점 목록입니다.</param>
+            <param name="start">세그먼트의 시작점입니다.</param>
+            <param name="tolerance">오류 허용입니다. 양수여야 합니다. 0도 가능한데 기본 허용으로 대체됩니다.</param>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.PathSegmentHelper.ArcToBezierHelper.ArcToBezier(System.Double,System.Double,System.Double,System.Double,System.Double,System.Boolean,System.Boolean,System.Double,System.Double,System.Windows.Point[]@,System.Int32@)">
+            <summary>
+            ArcToBezier, 원호의 베지어 근사치를 계산합니다.
+            </summary>
+            <remarks>
+            이 유틸리티에서는 SVG 원호 사양에 정의된 타원 원호의 베지어 근사치를 계산합니다. 원호가 분할된 타원은 해당 좌표에 따라 축이 정렬되고 x 및 y 반경으로 정의됩니다. 회전 각도에 의해 원호의 축이 x 축에 따라 회전하는 방법이 정의됩니다. 시작점 및 끝점으로 4개의 가능한 원호 중 하나가 정의됩니다. 큰 원호 플래그에 의해 해당 원호 중 선택되는 원호가 결정됩니다.
+            
+            cPieces = 0이 반환되면 줄을 나타내고, cPieces = -1 원호는 원호가 점으로 변질됨을 나타냅니다. 
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.PathSegmentHelper.ArcToBezierHelper.GetArcAngle(System.Windows.Point,System.Windows.Point,System.Boolean,System.Boolean,System.Double@,System.Double@,System.Int32@)">
+            <summary>
+            베지어 원호 수와 각각의 사인/코사인을 가져옵니다.
+            </summary>
+            <remarks>
+            ArcToBezier에서 사용하는 전용 유틸리티입니다. 원호를 90도가 넘지 않는 조각으로 분할합니다. 입력 점은 단위 원 위에 있습니다.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.PathSegmentHelper.ArcToBezierHelper.GetBezierDistance(System.Double,System.Double)">
+             <summary>
+             GetBezierDistance는 거리를 반경에 대한 분수로 반환합니다.
+             </summary>
+            <remarks>
+                  원호의 끝점에서 이 끝점과 근접한 베지어 원호의 제어점까지의 거리를 원호 반경에 대한 분수로 가져옵니다.
+            
+                  원호 반경에 따라 결과가 달라지므로 원호 각도가 매우 중요합니다. 원호는 90도 이하로 간주되므로, 각도는 해당 각도의 코사인에 의해 결정되고 rDot = 두 반경 벡터의 내적에서 추출됩니다. 원호의 점과 끝과 중간점의 탄젠트와 일치하는 베지어 곡선이 필요합니다. 다음에서 곡선의 끝점에서 제어점까지의 거리를 계산해보겠습니다.
+            
+                  상대 거리를 구하기 때문에 단위 원에서 작업할 수 있습니다. 원의 가운데를 원점에 놓고 X 축을 2 벡터 사이의 이등분선으로 놓습니다.  각도를 벡터 사이에 놓겠습니다.  그러면 첫번째 점과 마지막 점의 X 좌표는 cos(a/2)가 됩니다. x는 두번째 점과 세번째 점의 X 좌표라고 하겠습니다.  t=1/2에서는 (1,0)에 점이 있습니다. 그러나 다음 다항식 조건은 모두 같습니다.
+            
+                            (1-t)^3 = t*(1-t)^2 = t^2*(1-t) = t^3 = 1/8,
+            
+                  따라서 베지어 수식에 따른 결과는 다음과 같습니다.
+            
+                            1 = (1/8) * (cos(a/2) + 3x + 3x + cos(a/2)), 
+            
+                  따라서
+            
+                            x = (4 - cos(a/2)) / 3
+            
+                  해당 점과 첫 번째 점 사이의 X 차이는 다음과 같습니다.
+                  
+                            DX = x - cos(a/2) = 4(1 - cos(a/2)) / 3.
+            
+                  그러나 DX = 거리 / sin(a/2)이므로 거리는 다음과 같습니다.
+            
+                            dist = (4/3)*(1 - cos(a/2)) / sin(a/2).
+            
+                  각도보다는 rDot = R^2 * cos(a)가 제공되므로 위와 아래를 R로 곱합니다.
+             
+                            dist = (4/3)*(R - Rcos(a/2)) / Rsin(a/2)
+             
+                  그리고 일부 삼각을 사용: ________________ cos(a/2)   = \/(1 + cos(a)) / 2 ______________________ R*cos(a/2) = \/(R^2 + R^2 cos(a)) / 2 ________________ = \/(R^2 + rDot) / 2
+            
+                  A = (R^2 + rDot)/2. ____________________ R*sin(a/2) = \/R^2 - R^2 cos^2(a/2) _______ = \/R^2 - A가 되게 합니다.
+            
+                  따라서 _ 4      R - \/A dist = - * ------------ 3      _______ \/R^2 - A
+            
+              기록: 2001년 5월 29일, MichKar가 만들었습니다.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.PathSegmentHelper.ArcToBezierHelper.AcceptRadius(System.Double,System.Double,System.Double@)">
+            <summary>
+            반경이 현 길이와 비교하여 너무 작을 경우 false를 반환하고(NaNs의 경우 true 반환) 반경이 수락된 값으로 수정됩니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Drawing.Core.BezierCurveFlattener">
+            <summary>
+            베지어 곡선을 결합하는 유틸리티 클래스입니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.BezierCurveFlattener.FlattenCubic(System.Windows.Point[],System.Double,System.Collections.Generic.ICollection{System.Windows.Point},System.Boolean,System.Collections.Generic.ICollection{System.Double})">
+            <summary>
+            베지어 입방형 곡선을 결합하고 결과 폴리라인을 세 번째 매개 변수에 추가합니다.
+            </summary>
+            <param name="controlPoints">4개의 베지어 입방형 제어점입니다.</param>
+            <param name="errorTolerance">조정한 곡선과 결합된 폴리라인의 2개 해당 점 간의 최대 거리입니다. 반드시 양수여야 합니다.</param>
+            <param name="resultPolyline">결합된 폴리라인을 추가할 위치입니다.</param>
+            <param name="skipFirstPoint">결합된 폴리라인을 추가할 경우 첫 번째 제어점을 건너뛰려면 true 입니다. 
+            <param name="resultParameters">각각의 폴리라인 꼭짓점과 연결된 베지어 곡선 매개 변수 값을 추가할 위치입니다.</param> 
+             <paramref name="resultPolyline"/>가 비어 있다면 첫 번째 제어점과 연결된 매개 변수가 항상 추가됩니다.</param>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.BezierCurveFlattener.FlattenQuadratic(System.Windows.Point[],System.Double,System.Collections.Generic.ICollection{System.Windows.Point},System.Boolean,System.Collections.Generic.ICollection{System.Double})">
+            <summary>
+            베지어 입방형 정방형 곡선을 결합하고 결과 폴리라인을 세 번째 매개 변수에 추가합니다. 입방형 사례에 대한 코드를 다시 사용하기 위해 베지어 곡선에 대한 높이를 사용합니다.
+            </summary>
+            <param name="controlPoints">3개의 베지어 정방형 제어점입니다.</param>
+            <param name="errorTolerance">조정한 곡선과 결합된 폴리라인의 2개 해당 점 간의 최대 거리입니다. 반드시 양수여야 합니다.</param>
+            <param name="resultPolyline">결합된 폴리라인을 추가할 위치입니다.</param>
+            <param name="skipFirstPoint">결합된 폴리라인을 추가할 경우 첫 번째 제어점을 건너뛰는지 여부입니다. 
+            <param name="resultParameters">각각의 폴리라인 꼭짓점과 연결된 베지어 곡선 매개 변수 값을 추가할 위치입니다.</param>
+             <paramref name="resultPolyline"/>가 비어 있다면 첫 번째 제어점과 연결된 매개 변수가 항상 추가됩니다.</param>
+        </member>
+        <member name="T:Microsoft.Expression.Drawing.Core.CommonExtensions">
+            <summary>
+            비 기하 형식을 지원하는 확장 메서드입니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.CommonExtensions.ForEach(System.Collections.IEnumerable,System.Action{System.Object})">
+            <summary>
+            전체 순서에 대해 위임형 작업(주로 단순 람다)의 적용을 허용합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.CommonExtensions.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})">
+            <summary>
+            전체 순서에 대해 위임형 작업(주로 단순 람다)의 적용을 허용합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.CommonExtensions.ForEach``1(System.Collections.Generic.IList{``0},System.Action{``0,System.Int32})">
+            <summary>
+            각 항목의 인덱스와 함께 전체 순서에 대해 위임형 작업(주로 단순 람다)의 적용을 허용합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.CommonExtensions.EnsureListCount``1(System.Collections.Generic.IList{``0},System.Int32,System.Func{``0})">
+            <summary>
+            지정한 개수에 대한 목록 개수를 확인합니다. 지정한 팩터리를 사용하여 만들거나 필요한 경우 항목을 제거합니다. Input IList가 List일 경우 팩터리가 없으면 AddRange 또는 RemoveRange가 사용됩니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.CommonExtensions.EnsureListCountAtLeast``1(System.Collections.Generic.IList{``0},System.Int32,System.Func{``0})">
+            <summary>
+            목록 개수가 최소한 지정한 개수인지 확인합니다. 지정한 팩터리를 사용하여 만듭니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.CommonExtensions.AddRange``1(System.Collections.Generic.ICollection{``0},System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            컬렉션 끝에 항목 범위를 추가합니다. 컬렉션이 목록일 경우 List.AddRange가 사용됩니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.CommonExtensions.Last``1(System.Collections.Generic.IList{``0})">
+            <summary>
+            지정된 목록의 마지막 항목을 가져옵니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.CommonExtensions.RemoveLast``1(System.Collections.Generic.IList{``0})">
+            <summary>
+            지정된 목록에서 마지막 항목을 제거합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.CommonExtensions.DeepCopy``1(``0)">
+            <summary>
+            모든 컬렉션 속성을 포함하여 obj 및 모든 공용 속성을 복사합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.CommonExtensions.SetIfDifferent(System.Windows.DependencyObject,System.Windows.DependencyProperty,System.Object)">
+            <summary>
+            다른 값을 설정합니다. 가능한 경우 로컬 값을 설정하지 마십시오. 값이 변경된 경우 true를 반환합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.CommonExtensions.ClearIfSet(System.Windows.DependencyObject,System.Windows.DependencyProperty)">
+            <summary>
+            지정한 종속성 개체에서 로컬로 설정한 경우 종속성 속성을 지웁니다. 종속성 속성을 로컬에서 설정하지 않은 경우 false를 반환합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.CommonExtensions.FindVisualDesendent``1(System.Windows.DependencyObject,System.Func{``0,System.Boolean})">
+            <summary>
+            BFS(깊이 우선 탐색)를 사용하여 지정한 유형 및 조건의 모든 시각적 하위 항목을 찾습니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.CommonExtensions.GetVisualChildren(System.Windows.DependencyObject)">
+            <summary>
+            IEnumerable 있는 시각적 자식 요소를 모두 가져옵니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Media.DrawingPropertyMetadata">
+            <summary>
+            WPF 및 Silverlight에서 PropertyMetadata의 인터페이스를 통합합니다. 렌더링, 정렬 또는 측정에 대한 필요한 알림을 제공합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.DrawingPropertyMetadata.#ctor(Microsoft.Expression.Media.DrawingPropertyMetadataOptions,System.Object)">
+            <summary>
+            AttachCallback에서 이 전용 생성자를 사용해야 합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.DrawingPropertyMetadata.AttachCallback(System.Object,Microsoft.Expression.Media.DrawingPropertyMetadataOptions,System.Windows.PropertyChangedCallback)">
+            <summary>
+            속성 콜백에 DrawingPropertyMetadata의 인스턴스를 추가하려면 InternalCallback()을 체인합니다. Silverlight에서는 설정 후 속성 메타데이터가 삭제됩니다. 콜백을 사용하여 이를 기억해야 합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.DrawingPropertyMetadata.InternalCallback(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            원래 콜백 체인 전에 DrawingPropertyChangedEvent를 트리거합니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Drawing.Core.GeometryHelper">
+            <summary>
+            기하 관련 데이터 구조의 확장 메서드(점/벡터/크기/사각형)입니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.GeometryHelper.Resize(System.Windows.Rect,System.Double)">
+            <summary>
+            가운데 고정을 유지하면서 사각형의 크기를 상대 크기로 조정합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.GeometryHelper.Subtract(System.Windows.Point,System.Windows.Point)">
+            <summary>
+            두 점 사이의 차이 벡터를 가져옵니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.GeometryHelper.Plus(System.Windows.Point,System.Windows.Point)">
+            <summary>
+            지점 memberwise 더하기.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.GeometryHelper.Minus(System.Windows.Point,System.Windows.Point)">
+            <summary>
+            지점 memberwise 빼기.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.GeometryHelper.ConvertToPathGeometry(System.String)">
+            <summary>
+            미니 언어 문자열을 <see cref="T:PathGeometry"/>로 변환합니다. 
+            </summary>
+            <remarks>참고: 경로 마크업 구문(http://msdn.microsoft.com/en-us/library/cc189041(VS.95).aspx)</remarks>
+            <param name="abbreviatedGeometry">기하 경로를 설명하기 위한 경로 미니 언어의 문자열입니다.</param>
+            <returns>경로 미니 언어에서 변환된 <see cref="T:PathGeometry"/>입니다.</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.GeometryHelper.FlattenFigure(System.Windows.Media.PathFigure,System.Collections.Generic.IList{System.Windows.Point},System.Double)">
+            <summary>
+            <see cref="T:PathFigure"/>을 결합하고 결과 점을 지정된 다음에 추가합니다. <paramref name="points"/>
+            </summary>
+            <param name="figure">입력 <see cref="T:PathFigure"/>입니다.</param>
+            <param name="points">결과 점이 추가되는 점 목록입니다.</param>
+            <param name="tolerance">결과 점에서 입력 패스 형상까지 허용된 최대 오류를 지정하는 양수입니다. 0 값을 사용하면 알고리즘에서 허용 한도를 자동으로 선택할 수 있습니다.</param>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.GeometryHelper.GetArcPoint(System.Double)">
+            <summary>
+            (0,0)(1,1) 상자에서 정규화된 호를 가져옵니다. 0도는 [0.5, 0](위)로 매핑되고 시계 방향입니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.GeometryHelper.GetArcPoint(System.Double,System.Windows.Rect)">
+            <summary>
+            지정한 상대 반경의 지정된 경계에 있는 절대 원호점을 가져옵니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.GeometryHelper.GetArcAngle(System.Windows.Point)">
+            <summary>
+            (0,0)(1,1) 상자에 상대적인 원호의 각도를 가져옵니다. 0도는 [0.5, 0](위)로 매핑되고 시계 방향입니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.GeometryHelper.GetArcAngle(System.Windows.Point,System.Windows.Rect)">
+            <summary>
+            경계에 대해 상대적인 지정된 절대 점에서 원호의 각도를 가져옵니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.GeometryHelper.RelativeTransform(System.Windows.Rect,System.Windows.Rect)">
+            <summary>
+            "Rect from"에서 "Rect to"로 이동하는 변형을 계산합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.GeometryHelper.RelativeTransform(System.Windows.UIElement,System.Windows.UIElement)">
+            <summary>
+            한 <c>UIElement</c>의 좌표 공간에서 다른 요소의 좌표 공간으로 변형을 계산합니다.
+            </summary>
+            <param name="from">원본 요소입니다.</param>
+            <param name="to">대상 요소입니다.</param>
+            <returns><c>UIElement</c> 사이의 변형이거나, 계산할 수 없는 경우 Null입니다.</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.GeometryHelper.RelativeToAbsolutePoint(System.Windows.Rect,System.Windows.Point)">
+            <summary>
+            지정한 경계에서 (0,0)(1,1) 상자로의 매핑을 사용하여 상대 점을 절대 점에 매핑합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.GeometryHelper.AbsoluteToRelativePoint(System.Windows.Rect,System.Windows.Point)">
+            <summary>
+            (0,0)(1,1) 상자에서 지정한 경계로의 매핑을 사용하여 절대 점을 상대 점에 매핑합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.GeometryHelper.GetStretchBound(System.Windows.Rect,System.Windows.Media.Stretch,System.Windows.Size)">
+            <summary>
+            지정한 로컬 경계 내에서 확장 후 경계를 계산합니다. 균일로 확장한 경우 지정한 aspectRatio를 사용하십시오. aspectRatio가 비어 있는 경우 Fill과 동일합니다. 확장이 None일 경우 Fill 또는 Uniform과 같습니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.GeometryHelper.Midpoint(System.Windows.Point,System.Windows.Point)">
+            <summary>
+            2개 점의 중간 지점을 반환합니다.
+            </summary>
+            <param name="lhs">첫 번째 점입니다.</param>
+            <param name="rhs">두 번째 점입니다.</param>
+            <returns>다음 사이의 중간 지점입니다. <paramref name="lhs"/> 및 <paramref name="rhs"/>.</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.GeometryHelper.Dot(Microsoft.Expression.Drawing.Core.Vector,Microsoft.Expression.Drawing.Core.Vector)">
+            <summary>
+            두 벡터의 내적을 반환합니다.
+            </summary>
+            <param name="lhs">첫 번째 벡터입니다.</param>
+            <param name="rhs">두 번째 벡터입니다.</param>
+            <returns>다음의 내적입니다. <paramref name="lhs"/> 및 <paramref name="rhs"/>.</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.GeometryHelper.Dot(System.Windows.Point,System.Windows.Point)">
+            <summary>
+            두 점의 내적을 반환합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.GeometryHelper.Distance(System.Windows.Point,System.Windows.Point)">
+            <summary>
+            두 점 사이의 거리를 반환합니다.
+            </summary>
+            <param name="lhs">첫 번째 점입니다.</param>
+            <param name="rhs">두 번째 점입니다.</param>
+            <returns>다음 사이의 거리입니다. <paramref name="lhs"/> 및 <paramref name="rhs"/>.</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.GeometryHelper.SquaredDistance(System.Windows.Point,System.Windows.Point)">
+            <summary>
+            두 점 사이의 거리로 된 사각형을 반환합니다.
+            </summary>
+            <param name="lhs">첫 번째 점입니다.</param>
+            <param name="rhs">두 번째 점입니다.</param>
+            <returns>다음 사이의 거리 사각형입니다. <paramref name="lhs"/> 및 <paramref name="rhs"/>.</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.GeometryHelper.Determinant(System.Windows.Point,System.Windows.Point)">
+            <summary>
+            교차 곱 행렬식입니다. 방향 영역에 해당합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.GeometryHelper.Normal(System.Windows.Point,System.Windows.Point)">
+            <summary>
+            지정한 선 세그먼트의 정규 분포 방향 벡터를 계산합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.GeometryHelper.Perpendicular(Microsoft.Expression.Drawing.Core.Vector)">
+            <summary>
+            시계 반대 방향으로 90도 수직인 벡터를 계산합니다. 오른쪽으로 수직인 벡터는 위로 벡터됩니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.GeometryHelper.GeometryEquals(System.Windows.Media.Geometry,System.Windows.Media.Geometry)">
+            <summary>
+            두 개의 기하가 동일한지 여부를 반환합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.GeometryHelper.EnsureGeometryType``1(``0@,System.Windows.Media.Geometry@,System.Func{``0})">
+            <summary>
+            값이 결과 유형(T)의 인스턴스인지 확인합니다. 그렇지 않으면 새로운 인스턴스 유형(T)으로 교체합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.GeometryHelper.EnsureSegmentType``1(``0@,System.Collections.Generic.IList{System.Windows.Media.PathSegment},System.Int32,System.Func{``0})">
+            <summary>
+            list[index]가 결과 유형(T)의 인스턴스인지 확인합니다. 그렇지 않으면 새로운 인스턴스 유형(T)으로 교체합니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Drawing.Core.MathHelper">
+            <summary>
+            부동 소수점 산술과 관련된 정적 속성 및 메서드를 제공하는 도우미 클래스.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Drawing.Core.MathHelper.Epsilon">
+            <summary>
+            두 값을 고려하기 위한 최소 거리는 동일합니다. 참고: MIL/SL의 내부 부동 소수점은 Double이 아니라 부동입니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Drawing.Core.MathHelper.TwoPI">
+            <summary>
+            완전한 원으로 된 각도 값입니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Drawing.Core.MathHelper.PentagramInnerRadius">
+            <summary>
+            오각형의 내부 반경으로 백분율 3자리 정밀도입니다. (1 - Sin36 * Sin72 / Sin54) / (Cos36) ^ 2, 값은 0.47210998990512996761913067272407입니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.MathHelper.IsVerySmall(System.Double)">
+            <summary>
+            <c>System.Double</c> 값을 0으로 간주할 수 있을 만큼 작은지 확인합니다.
+            </summary>
+            <param name="value"></param>
+            <returns>값이 <c>DoubleTolerance</c>보다 작을 경우 <c>True</c>, 그렇지 않으면 <c>False</c>입니다.</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.MathHelper.EnsureRange(System.Double,System.Nullable{System.Double},System.Nullable{System.Double})">
+            <summary>
+            지정한 범위 내에 있는 값을 반환합니다. 지정한 최소/최대가 null일 경우 한계가 없음을 의미합니다
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.MathHelper.Hypotenuse(System.Double,System.Double)">
+            <summary>
+            벡터 (x, y)의 Euclidean norm을 계산합니다.
+            </summary>
+            <param name="x">첫 번째 구성 요소입니다.</param>
+            <param name="y">두 번째 구성 요소입니다.</param>
+            <returns>벡터 (x, y)의 Euclidean norm입니다.</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.MathHelper.DoubleFromMantissaAndExponent(System.Double,System.Int32)">
+            <summary>
+            가수 및 지수에서 실수를 계산합니다.
+            </summary>
+            <param name="x"></param>
+            <param name="exp"></param>
+            <returns>성공한 경우 x * 2^exp 값입니다.</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.MathHelper.IsFiniteDouble(System.Double)">
+            <summary>
+            Double을 테스트합니다.
+            </summary>
+            <param name="x">테스트할 Double입니다.</param>
+            <returns>x가 NaN이 아니고 더하기 또는 빼기 infinity와 같지 않을 경우 <c>True</c>, 그렇지 않으면 <c>False</c>입니다.</returns>
+        </member>
+        <member name="T:Microsoft.Expression.Drawing.Core.PathFigureHelper">
+            <summary>
+            PathFigure와 함께 작동하는 도우미 클래스.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.PathFigureHelper.FlattenFigure(System.Windows.Media.PathFigure,System.Collections.Generic.IList{System.Windows.Point},System.Double,System.Boolean)">
+            <summary>
+            지정된 형상을 결합하고 결과 점을 지정된 점 목록에 추가합니다.
+            </summary>
+            <param name="tolerance">오류 허용입니다. 양수여야 합니다. 0도 가능한데 기본 허용으로 대체됩니다.</param>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.PathFigureHelper.AllSegments(System.Windows.Media.PathFigure)">
+            <summary>
+            지정된 형상 내 모든 세그먼트를 반복하고 각 세그먼트의 올바른 시작점을 반환합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.PathFigureHelper.SyncPolylineFigure(System.Windows.Media.PathFigure,System.Collections.Generic.IList{System.Windows.Point},System.Boolean,System.Boolean)">
+            <summary>
+            형상을 지정된 점 목록에 단일 폴리라인 세그먼트로 동기화합니다. 최소한으로 변경하고 아무 것도 변경하지 않은 경우 false를 반환합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.PathFigureHelper.SyncEllipseFigure(System.Windows.Media.PathFigure,System.Windows.Rect,System.Windows.Media.SweepDirection,System.Boolean)">
+            <summary>
+            지정된 형상이 2개 원호 세그먼트를 가진 닫힌 타원이 되게 동기화합니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Drawing.Core.PathSegmentData">
+            <summary>
+            PathSegment에 대한 Tuple 데이터 구조 및 해당하는 StartPoint입니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Drawing.Core.PolylineData">
+            <summary>
+            폴리라인을 나타내고 연결 점 목록으로 구성됩니다. 닫힌 다각형은 첫 번째 점을 끝에 반복하여 나타냅니다. 차이, 정규 분포, 각도 및 길이는 요청 시 계산됩니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.PolylineData.#ctor(System.Collections.Generic.IList{System.Windows.Point})">
+            <summary>
+            두 개 이상의 점이 있는 폴리라인을 생성합니다.
+            </summary>
+            <param name="points"></param>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.PolylineData.Difference(System.Int32)">
+            폴리라인의 정방향 차이 벡터입니다. 점[i] + 차이[i] = 점[i+1]
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.PolylineData.SmoothNormal(System.Int32,System.Double,System.Double)">
+            <summary>
+            지정한 위치의 정규 분포 벡터를 계산합니다(lerp(index, index+1, fraction). 위치가 cornerRadius 범위 내에 있는 경우 정규 분포 방향을 삽입합니다.
+            </summary>
+            <param name="cornerRadius">기본 다듬기의 범위입니다.  0일 경우 다듬기가 없고 인덱스의 정확한 정규 분포를 반환합니다.</param>
+        </member>
+        <member name="P:Microsoft.Expression.Drawing.Core.PolylineData.IsClosed">
+            <summary>
+            첫 번째 점과 마지막 점이 반복될 경우 폴리라인이 닫힙니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Drawing.Core.PolylineData.Count">
+            <summary>
+            이 폴리라인의 점 개수입니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Drawing.Core.PolylineData.TotalLength">
+            <summary>
+            이 폴리라인의 총 원호 길이입니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Drawing.Core.PolylineData.Points">
+            <summary>
+            이 폴리라인의 점 배열입니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Drawing.Core.PolylineData.Lengths">
+            <summary>
+            점[i]에서 점[i+1]까지 선 세그먼트 간의 길이입니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Drawing.Core.PolylineData.Normals">
+            <summary>
+            각 세그먼트에 대한 정규 분포 벡터 목록입니다. 정규 분포[i]는 세그먼트 p[i]에서 p[i+1]까지의 정규 분포입니다. 정규 분포[N-1] == 정규 분포[N-2].
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Drawing.Core.PolylineData.Angles">
+            <summary>
+            점 p[i]에서 2개 선 세그먼트 간의 Cos(angle) 목록입니다. 참고: 값은 cos(angle) = Dot(u, v)입니다. 각도가 아닙니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Drawing.Core.PolylineData.AccumulatedLength">
+            <summary>
+            점[i]에서 점[0]까지의 누적 길이 목록입니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Drawing.Core.MarchLocation">
+            <summary>
+            PathMarch 알고리즘을 사용하여 통신하는 데이터 구조입니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.MarchLocation.GetPoint(System.Collections.Generic.IList{System.Windows.Point})">
+            <summary>
+            지정된 점 목록에서 이 MarchLocation의 삽입된 위치를 가져옵니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.MarchLocation.GetNormal(Microsoft.Expression.Drawing.Core.PolylineData,System.Double)">
+            <summary>
+            지정된 정규 분포 벡터 목록에서 이 MarchLocation의 삽입된 정규 분포 방향을 가져옵니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.MarchLocation.GetArcLength(System.Collections.Generic.IList{System.Double})">
+            <summary>
+            전체 폴리라인 시작까지 이 MarchLocation의 원호 길이를 가져옵니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Drawing.Core.MarchLocation.Reason">
+            <summary>
+            이 위치가 샘플링된 이유입니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Drawing.Core.MarchLocation.Index">
+            <summary>
+            폴리라인 점 목록에서 점의 인덱스입니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Drawing.Core.MarchLocation.Ratio">
+            <summary>
+            비율: [0, 1], 항상 이전 / (이전 + 이후)입니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Drawing.Core.MarchLocation.Before">
+            <summary>
+            중단 점 앞의 호 길이입니다. 음수가 아니고 Length[index]보다 작습니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Drawing.Core.MarchLocation.After">
+            <summary>
+            중단 점 다음의 호 길이입니다. 음수가 아니고 Length[index]보다 작습니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Drawing.Core.MarchLocation.Remain">
+            <summary>
+            단계 내에서 다음 중단점까지의 남은 길이입니다. 앞으로 이동할 경우 양수입니다. 뒤로 이동할 경우 음수입니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Drawing.Core.PolylineHelper">
+            <summary>
+            점 목록에서 사용할 도우미 클래스
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.PolylineHelper.PathMarch(Microsoft.Expression.Drawing.Core.PolylineData,System.Double,System.Double,System.Func{Microsoft.Expression.Drawing.Core.MarchLocation,System.Double})">
+            <summary>
+            지정한 폴리라인을 지정한 간격으로 마칭하고 콜백을 통해 각 중단을 출력합니다.
+            </summary>
+            <param name="polyline">마칭시킬 폴리라인 점입니다.</param>
+            <param name="startArcLength">첫 번째 점에서 중단하기 전에 마칭시킬 원호 길이입니다.</param>
+            <param name="cornerThreshold">모서리 꼭짓점으로 간주되는 가장자리 간의 최대 각도입니다.</param>
+            <param name="stopCallback">한 점에서 마칭 알고리즘이 중단될 경우 콜백합니다. 콜백에서 다음 중단에 대한 원호 길이를 반환합니다. 요청한 길이가 음수일 경우 뒤로 마칭합니다. 콜백에서 NaN을 반환하면 마칭을 마칩니다.</param>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.PolylineHelper.GetWrappedPolylines(System.Collections.Generic.IList{Microsoft.Expression.Drawing.Core.PolylineData},System.Double@)">
+            <summary>
+            목록에서 지정한 원호 길이의 폴리라인이 최초 폴리라인이 되도록 지정된 폴리라인 목록의 순서를 정렬합니다. 이 선 앞에 오는 폴리라인은 목록 끝에 연결되고, 첫 번째 폴리라인은 맨 끝에 옵니다. 
+            </summary>
+            <param name="lines">폴리라인 목록입니다.</param>
+            <param name="startArcLength">시작 선을 찾을 폴리라인 전체 목록의 원호 길이입니다. 선이 이 변수로 반환되는 원호 길이입니다.</param>
+            <returns>재정렬 및 래핑된 목록입니다.</returns>
+        </member>
+        <member name="T:Microsoft.Expression.Drawing.Core.RandomEngine">
+            <summary>
+            균일 및 Gaussian 배포를 지원하는 난수 생성기입니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.RandomEngine.Gaussian">
+            <summary>
+            Box-Muller 변형의 극 형식을 사용하여 독립적인 표준의 정규 분포된 난수, 제로 기대, 단위 편차를 생성합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.SimpleSegment.#ctor">
+            <summary>
+            전용 생성자입니다. 팩터리 메서드를 사용해야 합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.SimpleSegment.Create(System.Windows.Point,System.Windows.Point)">
+            <summary>
+             선 세그먼트를 만듭니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.SimpleSegment.Create(System.Windows.Point,System.Windows.Point,System.Windows.Point)">
+            <summary>
+             정방형 곡선(3개 제어점)에서 입방형 베지어 세그먼트를 만듭니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.SimpleSegment.Create(System.Windows.Point,System.Windows.Point,System.Windows.Point,System.Windows.Point)">
+            <summary>
+             4개 제어점을 가진 입방형 베지어 세그먼트를 만듭니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Drawing.Core.SimpleSegment.Points">
+            <summary>
+            경로 세그먼트의 제어점입니다.  변형 길이입니다. 선 세그먼트에는 2개 점이 있고, 입방형 베지어에는 4개 점이 있습니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Drawing.Core.TransformExtensions.TransformEquals(System.Windows.Media.Transform,System.Windows.Media.Transform)">
+            <summary>
+            두 개의 변환이 정확하게 일치하는지 비교합니다. 값은 동일하지만 구조는 다른 변형입니다(예: Translate(0,0) 및 Rotate(0)은 동일하게 간주되지 않습니다).
+            </summary>
+            <param name="firstTransform">첫 번째 변형입니다.</param>
+            <param name="secondTransform">두 번째 변형입니다.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Microsoft.Expression.Media.UnitType">
+            <summary>
+            두께 단위를 지정합니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.UnitType.Pixel">
+            <summary>
+            픽셀 단위입니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.UnitType.Percent">
+            <summary>
+            경계 상자에 상대적인 단위(백분율)입니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Media.GeometrySource`1">
+            <summary>
+            기하 원본의 기본 클래스를 제공합니다. 입력 매개 변수 및 레이아웃 경계를 기반으로 기하를 생성 및 캐시합니다.
+            </summary>
+            <remarks>
+            일반 구현에서 UpdateCachedGeometry()를 확장하여 this.cachedGeometry를 업데이트합니다. 그런 다음 이 기본 클래스에서 무효화, 기하 효과에 대한 파이프라인 및 레이아웃 경계에 상대적인 캐시를 처리합니다. 구현에서 가능한 한 많은 캐시된 기하를 다시 사용하여 렌더링 스레드의 재구성을 방지해야 합니다. 구현에서 ComputeLogicalBounds를 확장하여 Stretch를 다르게 처리할 수 있습니다.
+            </remarks>
+            <typeparam name="TParameters">기본 클래스가 작동하는 기하 원본 매개 변수의 유형입니다.</typeparam>
+        </member>
+        <member name="T:Microsoft.Expression.Media.IGeometrySource">
+            <summary>
+            기하 원본을 설명하기 위한 인터페이스를 제공합니다.
+            </summary>
+            <remarks>
+            이 인터페이스는 기하 원본을 비일반적인 방법으로 노출하도록 설계되어 있습니다. 일반 구현에서는 이 인터페이스를 직접 구현하는 대신 GeometrySource 서브클래스를 구현해야 합니다.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Expression.Media.IGeometrySource.InvalidateGeometry(Microsoft.Expression.Media.InvalidateGeometryReasons)">
+            <summary>
+            외부적인 변경 사항 때문에 기하가 무효화되었음을 알리십시오.
+            </summary>
+            <remarks>
+            일반적으로 매개 변수가 변경되면 기하가 무효화됩니다. 기하가 외부적으로 무효화된 경우 레이아웃 경계가 변경되더라도 기하가 다시 계산됩니다
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Expression.Media.IGeometrySource.UpdateGeometry(Microsoft.Expression.Media.IGeometrySourceParameters,System.Windows.Rect)">
+            <summary>
+            지정된 매개 변수 및 레이아웃 경계를 사용하여 기하를 업데이트합니다. 업데이트된 내용이 없으면 false를 반환합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.IGeometrySource.Geometry">
+            <summary>
+            마지막 UpdateGeometry() 이후의 결과 기하를 가져오거나 설정합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.IGeometrySource.LogicalBounds">
+            <summary>
+            기하가 늘어나는 경계 상자를 가져옵니다. 실제 기하는 이보다 작거나 클 수 있습니다. <see cref="P:Microsoft.Expression.Media.IGeometrySource.LogicalBounds"/>에서 이미 스트로크 두께를 가져와서 늘렸을 수 있습니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.IGeometrySource.LayoutBounds">
+            <summary>
+            FrameworkElement의 실제 경계를 가져옵니다. <see cref="P:Microsoft.Expression.Media.IGeometrySource.LayoutBounds"/>에는 논리적 경계, 늘이기 및 스트로크 두께가 포함됩니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.GeometrySource`1.cachedGeometry">
+            <summary>
+            이전 기하 효과 프로세스의 기하를 지정합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.GeometrySource`1.InvalidateGeometry(Microsoft.Expression.Media.InvalidateGeometryReasons)">
+            <summary>
+            외부적인 변경 사항 때문에 기하가 무효화되었음을 알리십시오.
+            </summary>
+            <remarks>
+            일반적으로 매개 변수가 변경되면 기하가 무효화됩니다. 기하가 외부적으로 무효화된 경우 레이아웃 경계가 변경되더라도 기하가 다시 계산됩니다
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Expression.Media.GeometrySource`1.UpdateGeometry(Microsoft.Expression.Media.IGeometrySourceParameters,System.Windows.Rect)">
+            <summary>
+            지정한 매개 변수 및 layoutBounds를 기반으로 기하를 업데이트합니다. 기하가 변경되지 않은 경우 false를 반환합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.GeometrySource`1.UpdateCachedGeometry(`0)">
+            <summary>
+            이 함수를 구현하여 기하를 제공할 수 있는 방법을 확장합니다. 기하가 변경된 경우 true를 반환합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.GeometrySource`1.ComputeLogicalBounds(System.Windows.Rect,Microsoft.Expression.Media.IGeometrySourceParameters)">
+            <summary>
+            늘이기 모드를 처리할 수 있는 방법을 확장합니다. 기본값은 항상 Stretch.Fill과 가운데 스트로크를 사용하는 것입니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.GeometrySource`1.ApplyGeometryEffect(Microsoft.Expression.Media.IGeometrySourceParameters,System.Boolean)">
+            <summary>
+            필요한 경우 기하 효과를 적용하고, this.Geometry를 업데이트합니다. 그렇지 않으면 this.Geometry를 this.cachedGeometry로 보관합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.GeometrySource`1.Geometry">
+            <summary>
+            마지막 UpdateGeometry() 이후의 결과 기하를 가져오거나 설정합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.GeometrySource`1.LogicalBounds">
+            <summary>
+            기하가 늘어나는 경계 상자를 가져옵니다. 실제 기하는 이보다 작거나 클 수 있습니다. <see cref="P:Microsoft.Expression.Media.GeometrySource`1.LogicalBounds"/>에서 이미 스트로크 두께를 가져와서 늘렸을 수 있습니다.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Microsoft.Expression.Media.GeometrySource`1.LayoutBounds">
+            <summary>
+            FrameworkElement의 실제 경계를 가져옵니다. <see cref="P:Microsoft.Expression.Media.GeometrySource`1.LayoutBounds"/>에는 논리적 경계, 늘이기 및 스트로크 두께가 포함됩니다.
+            </summary>
+            <value></value>
+        </member>
+        <member name="M:Microsoft.Expression.Media.ArcGeometrySource.ComputeLogicalBounds(System.Windows.Rect,Microsoft.Expression.Media.IGeometrySourceParameters)">
+            <summary>
+            가로 세로 비율을 1:1로 가정할 경우 원호에서는 Stretch.None을 Stretch.Fill과 동일한 것으로 가정합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.ArcGeometrySource.NormalizeThickness(Microsoft.Expression.Media.IArcGeometrySourceParameters)">
+            <summary>
+            경계 상자 및 절대 픽셀 모두를 기준으로 두께를 정규화합니다 상대 두께 = 0 -&gt; 전체 원 반경 또는 고정됨. 상대 두께 = 1 -&gt; 점으로 축소 또는 변질됨.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.ArcGeometrySource.UpdateZeroAngleGeometry(System.Boolean,System.Double)">
+            <summary>
+            원호가 가운데/일반 내부를 가리키는 선으로 변질됩니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.ArcGeometrySource.ComputeAngleRanges(System.Double,System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            원호 샘플의 위치 범위를 정의하는 각도 쌍 목록을 계산합니다. 반환 값에는 2, 4 또는 6개의 Double 값이 있고, 각 쌍에서 범위를 지정하며 지정한 시작 각도에서 끝 각도까지 각도를 배치하는 순서로 되어 있습니다.  범위는 자체 교차 각도에서 중단됩니다. 입력 시작/끝이 자체 교차 각도 사이에서 올바르지 않은 범위 내에 있는 경우 인접한 자체 교차로 이동합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.ArcGeometrySource.EnsureFirstQuadrant(System.Double)">
+            <summary>
+            각도를 0-90 범위로 이동합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.ArcGeometrySource.SyncPieceWiseInnerCurves(System.Windows.Media.PathFigure,System.Int32,System.Windows.Point@,System.Double[])">
+            <summary>
+            입력 각도의 각 쌍으로 내부 곡선의 모든 조각을 계산하고, 폴리 베지어 세그먼트를 사용하여 각 조각을 연결합니다. 지정한 인덱스에서 지정한 figure.Segments 목록으로 새로운 세그먼트가 출력됩니다.  시작점은 별도로 출력됩니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.ArcGeometrySource.ComputeOneInnerCurve(System.Double,System.Double,System.Windows.Rect,System.Double)">
+            <summary>
+            지정한 각도 범위를 사용하여 내부 곡선을 한 조각 계산하고, 폴리 베지어 세그먼트 형식으로 다듬은 곡선 조각을 출력합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.ArcGeometrySource.InnerCurveSelfIntersect(System.Double,System.Double,System.Double)">
+            <summary>
+            지정한 두께의 지정한 타원에 대한 자체 교차점의 매개 변수(각도)를 계산합니다. 결과는 항상 첫 번째 4분면에 있고 자체 교차가 없음을 나타내는 0 또는 90일 수 있습니다. 기본 알고리즘은 샘플 점이 첫 번째 4분면에 없는 각도를 이진 검색하는 것입니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Media.ArrowOrientation">
+            <summary>
+            화살표가 가리키는 방향을 지정합니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.ArrowOrientation.Left">
+            <summary>
+            화살표가 왼쪽을 가리킵니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.ArrowOrientation.Right">
+            <summary>
+            화살표가 오른쪽을 가리킵니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.ArrowOrientation.Up">
+            <summary>
+            화살표가 위쪽을 가리킵니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.ArrowOrientation.Down">
+            <summary>
+            화살표가 아래쪽을 가리킵니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Media.BlockArrowGeometrySource.ArrowBuilder">
+            <summary>
+                 B /| / C--D A     | \ C--D \| B 알고리즘에서는 위쪽-왼쪽을 0,0으로 가정하고 너비/높이만 사용합니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Media.CalloutStyle">
+            <summary>
+            설명선 도형의 렌더링 스타일을 지정합니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.CalloutStyle.Rectangle">
+            <summary>
+            사각형 설명선입니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.CalloutStyle.RoundedRectangle">
+            <summary>
+            모퉁이가 둥근 사각형 설명선입니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.CalloutStyle.Oval">
+            <summary>
+            타원 모양의 설명선입니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.CalloutStyle.Cloud">
+            <summary>
+            구름 모양의 설명선입니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.CalloutGeometrySource.UpdateEdge(System.Windows.Media.PathSegmentCollection,System.Int32,System.Windows.Point,System.Windows.Point,System.Windows.Point,System.Double,System.Boolean)">
+            <summary>
+            가장자리 선을 업데이트하고 필요한 경우 앵커 지점에 연결합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.CalloutGeometrySource.UpdatePolylineSegment(System.Windows.Media.PathSegmentCollection,System.Int32,System.Windows.Point,System.Windows.Point,System.Windows.Point,System.Double)">
+            <summary>
+            폴리라인 세그먼트를 업데이트한 다음, 시작점, 앵커 지점 및 끝점을 설명선 스타일과 연결합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.CalloutGeometrySource.UpdateLineSegment(System.Windows.Media.PathSegmentCollection,System.Int32,System.Windows.Point)">
+            <summary>
+            선 세그먼트를 지정된 점으로 업데이트합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.CalloutGeometrySource.ComputeCorners(System.Double)">
+            <summary>
+            4개 모서리에 대한 8개의 모서리 점을 시계 방향으로 계산합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.CalloutGeometrySource.UpdateCornerArc(System.Windows.Media.PathSegmentCollection,System.Int32,System.Windows.Point,System.Windows.Point)">
+            <summary>
+            모서리 원호는 항상 90도 원호보다 작습니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Media.GeometryEffect">
+            <summary>
+            기하를 다른 기하로 변형하는 GeometryEffect의 기본 클래스를 제공합니다.
+            </summary>
+            <remarks>
+            이 클래스는 IShape의 렌더링된 기하를 렌더링으로 전달하기 전에 처리하는 기본 구현을 제공합니다. 일반 구현에서는 가상 함수 <see cref="F:ProcessGeometry"/>를 확장하여 입력된 기하를 변형합니다. <see cref="T:GeometryEffect"/>는 일반적으로 <see cref="T:IShape"/> 기하가 업데이트될 때 연결된 속성으로 <see cref="T:IShape"/>에 연결되고 활성화됩니다. <see cref="T:GeometryEffect"/>의 <see cref="P:OutputGeometry"/>가 <see cref="T:IShape"/>에서 렌더링된 기하를 대체합니다.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Expression.Media.GeometryEffect.GetGeometryEffect(System.Windows.DependencyObject)">
+            <summary>
+            지정된 종속성 개체의 연결된 속성으로 기하 효과를 가져옵니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.GeometryEffect.SetGeometryEffect(System.Windows.DependencyObject,Microsoft.Expression.Media.GeometryEffect)">
+            <summary>
+            지정된 종속성 개체의 연결된 속성으로 기하 효과를 설정합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.GeometryEffect.CloneCurrentValue">
+            <summary>
+            현재 값을 사용하여 <see cref="T:GeometryEffect"/>의 깊은 복사본을 만듭니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.GeometryEffect.DeepCopy">
+            <summary>
+            기하 효과의 깊은 복사본을 만듭니다. Silverlight 에서 CloneCurrentValue를 구현합니다.
+            </summary>
+            <returns>기하 효과의 현재 인스턴스 복제본입니다.</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Media.GeometryEffect.Equals(Microsoft.Expression.Media.GeometryEffect)">
+            <summary>
+            지정된 기하 효과가 현재 인스턴스와 동일한지 테스트합니다.
+            </summary>
+            <param name="geometryEffect">비교할 기하 효과입니다.</param>
+            <returns>두 개의 효과가 동일한 모양을 렌더링할 경우 true를 반환합니다.</returns>
+        </member>
+        <member name="F:Microsoft.Expression.Media.GeometryEffect.cachedGeometry">
+            <summary>
+            이전 기하 효과 프로세스의 기하를 지정합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.GeometryEffect.InvalidateGeometry(Microsoft.Expression.Media.InvalidateGeometryReasons)">
+            <summary>
+            기하를 실제로 계산하지 않고 기하 효과를 무효화합니다. 모든 부모 형상 또는 효과도 적절하게 무효화하도록 알립니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.GeometryEffect.ProcessGeometry(System.Windows.Media.Geometry)">
+            <summary>
+            지정한 입력된 기하에서 기하 효과를 처리합니다. 결과를 GeometryEffect.OutputGeometry에 저장합니다.
+            </summary>
+            <returns>변경된 내용이 없는 경우에는 false를 반환합니다.</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Media.GeometryEffect.UpdateCachedGeometry(System.Windows.Media.Geometry)">
+            <summary>
+            지정한 입력된 기하를 기반으로 cachedGeometry를 업데이트하는 방법을 확장합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.GeometryEffect.Detach">
+            <summary>
+            부모 체인에서 분리될 때 알려 줍니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.GeometryEffect.Attach(System.Windows.DependencyObject)">
+            <summary>
+            부모 체인에 연결할 때 알려 줍니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.GeometryEffect.InvalidateParent(System.Windows.DependencyObject)">
+            <summary>
+            개체가 유효한 부모 유형(IShape 또는 GeometryEffect)일 경우 지정된 종속성 개체의 기하를 무효화합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.GeometryEffect.DefaultGeometryEffect">
+            <summary>
+            입력된 기하를 통해서만 전달되는 기본 기하 효과입니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.GeometryEffect.OutputGeometry">
+            <summary>
+            이 기하 효과의 출력 기하를 가져옵니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.GeometryEffect.Parent">
+            <summary>
+            부모는 IShape 또는 GeometryEffectGroup일 수 있습니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Media.GeometryEffectConverter">
+            <summary>
+            문자열 및 기하 효과 사이의 변환을 제공합니다.
+            </summary>
+            <remarks>
+            이 클래스를 사용하면 다음과 같이 XAML에서 간단한 구문을 사용할 수 있습니다. <code>GeometryEffect="Sketch"</code>. 리소스로 사용할 수 있는 기하 효과의 인스턴스 복제본을 만듭니다.
+            </remarks>
+        </member>
+        <member name="F:Microsoft.Expression.Media.GeometryEffectConverter.registeredEffects">
+            <summary>
+            미리 설정된 지원되는 기하 효과 목록을 작성합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.GeometryEffectConverter.CanConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Type)">
+            <summary>
+            문자열 형식에서 변환할 수 있는 GeometryEffect입니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.GeometryEffectConverter.CanConvertTo(System.ComponentModel.ITypeDescriptorContext,System.Type)">
+            <summary>
+            문자열 형식으로 변환할 수 있는 GeometryEffect입니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.GeometryEffectConverter.ConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object)">
+            <summary>
+            문자열을 기하 효과로 변환합니다. 대체 값이 null입니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.GeometryEffectConverter.ConvertTo(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object,System.Type)">
+            <summary>
+            기하 효과를 문자열로 변환합니다.  대체 값이 null입니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Media.InvalidateGeometryReasons">
+            <summary>
+            <see cref="M:Microsoft.Expression.Media.InvalidateGeometry"/>가 호출되는 이유를 지정합니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.InvalidateGeometryReasons.PropertyChanged">
+            <summary>
+            속성이 변경되었기 때문에 기하가 무효화되었습니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.InvalidateGeometryReasons.IsAnimated">
+            <summary>
+            속성이 애니메이션되기 때문에 기하가 무효화되었습니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.InvalidateGeometryReasons.ChildInvalidated">
+            <summary>
+            자식이 무효화되었기 때문에 기하가 무효화되었습니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.InvalidateGeometryReasons.ParentInvalidated">
+            <summary>
+            부모가 무효화되었기 때문에 기하가 무효화되었습니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.InvalidateGeometryReasons.TemplateChanged">
+            <summary>
+            새 템플릿이 적용되었기 때문에 기하가 무효화되었습니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Media.IGeometrySourceExtensions">
+            <summary>
+            IGeometrySource 및 매개 변수에서 작동하는 도우미 확장 메서드를 제공합니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Media.ArrowType">
+            <summary>
+            화살표 머리 형식을 지정합니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.ArrowType.NoArrow">
+            <summary>
+            화살표 머리가 없습니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.ArrowType.Arrow">
+            <summary>
+            삼각형의 화살표 머리입니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.ArrowType.StealthArrow">
+            <summary>
+            스텔스 삼각형의 화살표 머리입니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.ArrowType.OpenArrow">
+            <summary>
+            열린 삼각형의 화살표 머리입니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.ArrowType.OvalArrow">
+            <summary>
+            타원형 화살표 머리입니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Media.CornerType">
+            <summary>
+            모서리 위치를 지정합니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.CornerType.TopLeft">
+            <summary>
+            경계 상자의 왼쪽 위입니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.CornerType.TopRight">
+            <summary>
+            경계 상자의 오른쪽 위입니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.CornerType.BottomRight">
+            <summary>
+            경계 상자의 오른쪽 아래입니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.CornerType.BottomLeft">
+            <summary>
+            경계 상자의 왼쪽 아래입니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.PolygonGeometrySource.ComputeLogicalBounds(System.Windows.Rect,Microsoft.Expression.Media.IGeometrySourceParameters)">
+            <summary>
+            다각형에서 Stretch.None을 Stretch.Fill과 동일하게 인식합니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Media.SketchGeometryEffect">
+            <summary>
+            SketchFlow처럼 기하를 스케치 스타일로 변형하는 기하 효과입니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.SketchGeometryEffect.DeepCopy">
+            <summary>
+            기하 효과의 깊은 복사본을 만듭니다.
+            </summary>
+            <returns>기하 효과의 현재 인스턴스 복제본입니다.</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Media.SketchGeometryEffect.Equals(Microsoft.Expression.Media.GeometryEffect)">
+            <summary>
+            지정된 기하 효과가 현재 인스턴스와 동일한지 테스트합니다.
+            </summary>
+            <param name="geometryEffect">비교할 기하 효과입니다.</param>
+            <returns>두 개의 효과가 동일한 모양을 렌더링할 경우 true를 반환합니다.</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Media.SketchGeometryEffect.UpdateCachedGeometry(System.Windows.Media.Geometry)">
+            <summary>
+            지정한 입력된 기하를 기반으로 cachedGeometry를 업데이트하고 있습니다.
+            </summary>
+            <param name="input">입력된 기하입니다.</param>
+            <returns>cachedGeometry에서 업데이트된 내용이 있으면 true를 반환합니다.</returns>
+        </member>
+        <member name="F:Microsoft.Expression.Media.SketchGeometryEffect.randomSeed">
+            <summary>
+            시각적 깜박임을 최소화하려면 만들 때 동일한 임의 시드를 사용합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.SketchGeometryEffect.GetEffectiveSegments(System.Windows.Media.PathFigure)">
+            <summary>
+            닫는 현을 포함하여 지정된 경로 형상에서 모든 단순 세그먼트를 반복합니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Shapes.Arc">
+            <summary>
+            ArcThickness로 제어되는 원호, 링 및 파이 모드를 지원하는 원호 형상을 렌더링합니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Shapes.PrimitiveShape">
+            <summary>
+            WPF:Shape 또는 SL:Path에서 추출되는 Shape의 플랫폼 중립 구현입니다.
+            </summary>
+            <summary>
+            플랫폼 경로에서 추출하는 PrimitiveShape의 Silverlight 구현을 제공합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Shapes.PrimitiveShape.CreateGeometrySource">
+            <summary>
+            기하 원본을 만들면서 도형을 그리는 방법을 확장합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Shapes.PrimitiveShape.InvalidateGeometry(Microsoft.Expression.Media.InvalidateGeometryReasons)">
+            <summary>
+            <see cref="T:Microsoft.Expression.Media.IShape"/>에 대한 기하를 무효화합니다.  무효화 후에 <see cref="T:Microsoft.Expression.Media.IShape"/>에서 기하를 다시 계산합니다. 이 작업은 비동기적으로 발생합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Shapes.PrimitiveShape.MeasureOverride(System.Windows.Size)">
+            <summary>Silverlight 레이아웃 패스의 측정 부분에 대한 동작을 제공합니다. 클래스에서 이 메서드를 재정의하여 고유한 측정 패스 동작을 정의할 수 있습니다.</summary>
+            <returns>하위 개체 할당 크기의 계산 또는 고정된 컨테이너 크기에 따라 레이아웃 중에 개체에 필요한 것으로 판별된 크기입니다.</returns>
+            <param name="availableSize">이 개체가 하위 개체에 제공할 수 있는 사용 가능한 크기입니다. 사용 가능한 콘텐츠에 따라 개체 크기가 조정됨을 나타내려면 값으로 Infinity(<see cref="F:System.Double.PositiveInfinity"/>)를 지정할 수 있습니다.</param>
+            <remarks>
+            WPF에서는 예상한 값이 아닐 수도 있는 Shape.DefiningGeometry의 작업을 측정을 통해 재정의합니다. 기본적으로 WPF가 잘못된 측정을 갖고 있는 경우에 대한 자세한 내용은 버그 99497을 참조하십시오.
+            
+            Silverlight에서는 경로에 대한 측정 재정의가 기본 도형 작업과 동일하게 작동하지 않습니다.
+            
+            클리핑하지 않고도 이 도형을 올바로 렌더링할 수 있는 가장 작은 크기를 반환해야 합니다. 기본적으로 도형은 점처럼 작게 렌더링할 수 있습니다. 이 경우 스트로크 두께가 반환됩니다.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Expression.Shapes.PrimitiveShape.ArrangeOverride(System.Windows.Size)">
+            <summary>Silverlight 레이아웃 패스의 정렬 부분에 대한 동작을 제공합니다. 클래스에서 이 메서드를 재정의하여 고유한 정렬 패스 동작을 정의할 수 있습니다.</summary>
+            <returns>레이아웃에서 요소를 정렬할 때 사용된 실제 크기입니다.</returns>
+            <param name="finalSize">이 개체가 자신과 하위 개체를 정렬할 때 사용해야 하는 상위 개체 내 최종 영역입니다.</param>
+            <remarks> 기하가 무효화된 경우 <see cref="T:Microsoft.Expression.Shapes.PrimitiveShape"/>에서 기하를 다시 계산하고 RenderedGeometry 및 GeometryMargin을 업데이트합니다.</remarks>
+        </member>
+        <member name="E:Microsoft.Expression.Shapes.PrimitiveShape.RenderedGeometryChanged">
+            <summary>
+            RenderedGeometry가 변경될 때 발생합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Shapes.PrimitiveShape.RenderedGeometry">
+            <summary>
+            Silverlight에서 <see cref="P:System.Windows.Shapes.Path.Data"/>에 매핑하여 기본 도형의 렌더링된 기하를 가져오거나 설정합니다.
+            </summary>
+            <remarks>
+            WPF의 Shape.RenderedGeometry에 해당하는 개념입니다.
+            </remarks>
+        </member>
+        <member name="P:Microsoft.Expression.Shapes.PrimitiveShape.GeometryMargin">
+            <summary>
+            논리적 영역과 실제 기하 영역 간의 여백을 가져옵니다. 양수(<see cref="T:Microsoft.Expression.Shapes.Arc"/>의 경우) 또는 음수(<see cref="T:Microsoft.Expression.Controls.Callout"/>의 경우)일 수 있습니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Shapes.PrimitiveShape.Data">
+            <summary>
+            그릴 도형을 지정하는 <see cref="T:System.Windows.Media.Geometry"/>를 가져오거나 설정합니다.
+            </summary>
+            <returns>그릴 도형의 설명입니다.</returns>
+            <remarks>
+            XAML에 직렬화되지 않도록 Path.Data 속성을 숨기기 위한 새로운 데이터 속성입니다. 이 속성은 DesignerSerializationVisibilityAttribute를 수행합니다.
+            </remarks>
+        </member>
+        <member name="P:Microsoft.Expression.Shapes.Arc.StartAngle">
+            <summary>
+            시작 각도를 가져오거나 설정합니다.
+            </summary>
+            <value>시작 각도(도 단위)입니다. 0도는 위쪽을 가리킵니다.</value>
+        </member>
+        <member name="P:Microsoft.Expression.Shapes.Arc.EndAngle">
+            <summary>
+            끝 각도를 가져오거나 설정합니다.
+            </summary>
+            <value>끝 각도(도 단위)입니다. 0도는 위쪽을 가리킵니다.</value>
+        </member>
+        <member name="P:Microsoft.Expression.Shapes.Arc.ArcThickness">
+            <summary>
+            원호 두께를 가져오거나 설정합니다.
+            </summary>
+            <value>원호 두께로 "ArcThicnessUnit"에 따라 픽셀 또는 백분율 단위입니다.</value>
+        </member>
+        <member name="P:Microsoft.Expression.Shapes.Arc.ArcThicknessUnit">
+            <summary>
+            원호 두께 단위를 가져오거나 설정합니다.
+            </summary>
+            <value>원호 두께 단위로 픽셀 또는 백분율입니다.</value>
+        </member>
+        <member name="T:Microsoft.Expression.Shapes.BlockArrow">
+            <summary>
+            크기 조정이 가능한 화살표 머리와 본문을 지지하는 블록 화살표 형상을 렌더링합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Shapes.BlockArrow.Orientation">
+            <summary>
+            방향을 가져오거나 설정합니다.
+            </summary>
+            <value>화살표가 가리키는 방향입니다.</value>
+        </member>
+        <member name="P:Microsoft.Expression.Shapes.BlockArrow.ArrowheadAngle">
+            <summary>
+            화살표 머리 각도를 가져오거나 설정합니다.
+            </summary>
+            <value>화살표 머리 각도(도 단위)입니다.</value>
+        </member>
+        <member name="P:Microsoft.Expression.Shapes.BlockArrow.ArrowBodySize">
+            <summary>
+            화살표 본문의 크기를 가져오거나 설정합니다.
+            </summary>
+            <value>화살표 본문 크기(픽셀 단위)입니다.</value>
+        </member>
+        <member name="T:Microsoft.Expression.Shapes.RegularPolygon">
+            <summary>
+            일반적인 다각형 도형이나 점 개수가 가변적인 해당하는 별 모양을 렌더링합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Shapes.RegularPolygon.PointCount">
+            <summary>
+            <see cref="T:Microsoft.Expression.Shapes.RegularPolygon"/>의 점 개수를 가져오거나 설정합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Shapes.RegularPolygon.InnerRadius">
+            <summary>
+            가운데 점과 가장 안쪽 점 사이의 거리를 가져오거나 설정합니다.
+            </summary>
+            <value>가운데 점과 가장 안쪽 점 사이의 거리입니다.</value>
+        </member>
+        <member name="T:Microsoft.Expression.Drawing.Core.Vector">
+            <summary>
+            이는 WPF 벡터 구현에서 이식된 것입니다.
+            </summary>
+        </member>
+    </members>
+</doc>

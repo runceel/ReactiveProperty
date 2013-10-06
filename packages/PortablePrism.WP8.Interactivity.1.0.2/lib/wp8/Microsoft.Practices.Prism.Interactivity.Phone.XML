@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.Practices.Prism.Interactivity.Phone</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.Practices.Prism.Interactivity.InteractionRequest.InteractionRequestTrigger">
+            <summary>
+            Custom event trigger for using with <see cref="T:Microsoft.Practices.Prism.Interactivity.InteractionRequest.IInteractionRequest"/> objects.
+            </summary>
+            <remarks>
+            The standard <see cref="T:System.Windows.Interactivity.EventTrigger"/> class can be used instead, as long as the 'Raised' event 
+            name is specified.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Interactivity.InteractionRequest.InteractionRequestTrigger.GetEventName">
+            <summary>
+            Specifies the name of the Event this EventTriggerBase is listening for.
+            </summary>
+            <returns>This implementation always returns the Raised event name for ease of connection with <see cref="T:Microsoft.Practices.Prism.Interactivity.InteractionRequest.IInteractionRequest"/>.</returns>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Interactivity.InteractionRequest.MessageBoxAction">
+            <summary>
+            Displays a message box with the content of the <see cref="T:Microsoft.Practices.Prism.Interactivity.InteractionRequest.InteractionRequestedEventArgs"/>
+            as the item.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Interactivity.InteractionRequest.MessageBoxAction.Invoke(System.Object)">
+            <summary>
+            Invokes the action.
+            </summary>
+            <param name="parameter">The parameter to the action. If the Action does not require a parameter, the parameter may be set to a null reference.</param>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Interactivity.InteractionRequest.ToastPopupAction">
+            <summary>
+            Displays a toast popup in response to a trigger event.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Practices.Prism.Interactivity.InteractionRequest.ToastPopupAction.PopupElementNameProperty">
+            <summary>
+            The element name of the <see cref="T:System.Windows.Controls.Primitives.Popup"/> to show upon the interaction request.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Interactivity.InteractionRequest.ToastPopupAction.Invoke(System.Object)">
+            <summary>
+            Invokes the action.
+            </summary>
+            <param name="parameter">The parameter to the action. If the Action does not require a parameter, the parameter may be set to a null reference.</param>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Interactivity.InteractionRequest.ToastPopupAction.PopupElementName">
+            <summary>
+            Gets or sets the name of the <see cref="T:System.Windows.Controls.Primitives.Popup"/> element to show when
+            an <see cref="T:Microsoft.Practices.Prism.Interactivity.InteractionRequest.IInteractionRequest"/> is received.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Interactivity.UpdatePasswordBindingOnPropertyChanged">
+            <summary>
+            Custom behavior that updates the source of a binding on a password box as the text changes.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Interactivity.UpdatePasswordBindingOnPropertyChanged.OnAttached">
+            <summary>
+            Called after the behavior is attached to an AssociatedObject.
+            </summary>
+            <remarks>
+            Override this to hook up functionality to the AssociatedObject.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Interactivity.UpdatePasswordBindingOnPropertyChanged.OnDetaching">
+            <summary>
+            Called when the behavior is being detached from its AssociatedObject, but before it has actually occurred.
+            </summary>
+            <remarks>
+            Override this to unhook functionality from the AssociatedObject.
+            </remarks>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Interactivity.UpdateTextBindingOnPropertyChanged">
+            <summary>
+            Custom behavior that updates the source of a binding on a text box as the text changes.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Interactivity.UpdateTextBindingOnPropertyChanged.OnAttached">
+            <summary>
+            Called after the behavior is attached to an AssociatedObject.
+            </summary>
+            <remarks>
+            Override this to hook up functionality to the AssociatedObject.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Interactivity.UpdateTextBindingOnPropertyChanged.OnDetaching">
+            <summary>
+            Called when the behavior is being detached from its AssociatedObject, but before it has actually occurred.
+            </summary>
+            <remarks>
+            Override this to unhook functionality from the AssociatedObject.
+            </remarks>
+        </member>
+    </members>
+</doc>

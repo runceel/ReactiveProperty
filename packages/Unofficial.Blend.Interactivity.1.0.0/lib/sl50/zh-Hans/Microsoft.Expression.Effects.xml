@@ -1,0 +1,1029 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.Expression.Effects</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.Expression.Media.Effects.BlindOrientation">
+            <summary>
+确定遮蔽的方向。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Media.Effects.BlindsTransitionEffect">
+            <summary>
+过渡着色器，用于模拟在视觉对象之间过渡时打开的遮蔽。 
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.BlindsTransitionEffect.OrientationProperty">
+            <summary>
+获取或设置遮蔽的方向。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.BlindsTransitionEffect.CountProperty">
+            <summary>
+获取或设置遮蔽数。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.BlindsTransitionEffect.ShaderOrientationProperty">
+            <summary>
+获取或设置着色器内的 Amplitude 变量。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.BlindsTransitionEffect.#ctor">
+            <summary>
+创建着色器的实例。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.BlindsTransitionEffect.DeepCopy">
+            <summary>
+对 BlindsTransitionEffect 效果进行深层复制。 
+            </summary>
+<returns>BlindsTransitionEffect 效果的当前实例的克隆。</returns>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.BlindsTransitionEffect.Orientation">
+            <summary>
+获取或设置遮蔽的方向。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.BlindsTransitionEffect.Count">
+            <summary>
+获取或设置要显示的遮蔽数。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.BlindsTransitionEffect.ShaderOrientation">
+            <summary>
+获取或设置遮蔽的方向。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Media.Effects.BloomEffect">
+            <summary>
+实现视觉对象光晕照明的效果。 
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.BloomEffect.InputProperty">
+            <summary>
+此像素着色器的显式输入。
+            </summary>
+            
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.BloomEffect.BloomIntensityProperty">
+            <summary>
+此属性被映射到像素着色器内的 BloomIntensity 变量。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.BloomEffect.BaseIntensityProperty">
+            <summary>
+此属性被映射到像素着色器内的 BaseIntensity 变量。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.BloomEffect.BloomSaturationProperty">
+            <summary>
+此属性被映射到像素着色器内的 BloomSaturation 变量。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.BloomEffect.BaseSaturationProperty">
+            <summary>
+此属性被映射到像素着色器内的 BaseSaturation 变量。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.BloomEffect.BaseBloomIntensityProperty">
+            <summary>
+此属性被映射到像素着色器内的 BloomIntensity 变量。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.BloomEffect.BaseBloomSaturationProperty">
+            <summary>
+此属性被映射到像素着色器内的 BloomSaturation 变量。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.BloomEffect.ThresholdProperty">
+            <summary>
+此属性被映射到像素着色器内的 BaseSaturation 变量。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.BloomEffect.#ctor">
+            <summary>
+创建一个实例，并将着色器的变量更新为默认值。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.BloomEffect.Threshold">
+            <summary>
+获取或设置将用于光晕的最低强度。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.BloomEffect.BaseIntensity">
+            <summary>
+获取或设置基强度。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.BloomEffect.BloomIntensity">
+            <summary>
+获取或设置光晕强度。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.BloomEffect.BaseSaturation">
+            <summary>
+获取或设置基饱和度。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.BloomEffect.BloomSaturation">
+            <summary>
+获取或设置光晕饱和度。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.BloomEffect.Input">
+            <summary>
+获取或设置输入着色器取样器。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.BloomEffect.BaseBloomIntensity">
+            <summary>
+获取或设置着色器内的 Base/BloomIntensity 变量。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.BloomEffect.BaseBloomSaturation">
+            <summary>
+获取或设置着色器内的 BaseBloomSaturation 变量。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Media.Effects.CircleRevealTransitionEffect">
+            <summary>
+通过发光/收缩的圆展示两种视觉对象的过渡效果。 
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.CircleRevealTransitionEffect.FeatherAmountProperty">
+            <summary>
+用于修改像素着色器内的羽化量变量的依赖属性。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.CircleRevealTransitionEffect.ReverseProperty">
+            <summary>
+用于修改圆位移的依赖属性。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.CircleRevealTransitionEffect.ReverseShaderProperty">
+            <summary>
+用于修改像素着色器内的 reverseShader 变量的依赖属性。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.CircleRevealTransitionEffect.#ctor">
+            <summary>
+创建一个实例，并将着色器的变量更新为默认值。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.CircleRevealTransitionEffect.DeepCopy">
+            <summary>
+对 CircleRevealTransitionEffect 效果进行深层复制。 
+            </summary>
+<returns>CircleRevealTransitionEffect 效果的当前实例的克隆。</returns>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.CircleRevealTransitionEffect.FeatherAmount">
+            <summary>
+获取或设置着色器内的 FuzzyAmount 变量。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.CircleRevealTransitionEffect.Reverse">
+            <summary>
+获取或设置向后播放圆展现的行为。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.CircleRevealTransitionEffect.ReverseShader">
+            <summary>
+获取或设置在着色器中向后播放圆展现的行为。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Media.Effects.CloudRevealTransitionEffect">
+            <summary>
+使用云纹理作为取样器阈值对两种视觉对象进行过渡的过渡效果。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Media.Effects.CloudyTransitionEffect">
+            <summary>
+定义一个过渡着色器效果，此效果使用图像作为取样器阈值在两种视觉对象之间内插像素值。 
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Media.Effects.RandomizedTransitionEffect">
+            <summary>
+定义一个提供随机值的过渡着色器效果，并允许此效果在每次运行时存在差异。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.RandomizedTransitionEffect.RandomSeedProperty">
+            <summary>
+用于修改像素着色器内的 RandomSeed 变量的依赖属性。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.RandomizedTransitionEffect.#ctor">
+            <summary>
+将着色器的变量更新为默认值。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.RandomizedTransitionEffect.RandomSeed">
+            <summary>
+获取或设置着色器内的 RandomSeed 变量。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.CloudyTransitionEffect.CloudImageProperty">
+            <summary>
+用于修改像素着色器内的 CloudImage 变量的依赖属性。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.CloudyTransitionEffect.#ctor">
+            <summary>
+创建一个实例，并将着色器的变量更新为默认值。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.CloudyTransitionEffect.CloudImage">
+            <summary>
+获取或设置着色器内用于取样的 CloudImage 变量。 
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.CloudRevealTransitionEffect.#ctor">
+            <summary>
+创建着色器的实例。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.CloudRevealTransitionEffect.DeepCopy">
+            <summary>
+对 CloudRevealTransitionEffect 效果进行深层复制。 
+            </summary>
+<returns>CloudRevealTransitionEffect 效果的当前实例的克隆。</returns>
+        </member>
+        <member name="T:Microsoft.Expression.Media.Effects.ColorToneEffect">
+            <summary>
+使用两种颜色作为取样来修改视觉对象色调的效果。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.ColorToneEffect.InputProperty">
+            <summary>
+此像素着色器的显式输入。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.ColorToneEffect.DesaturationProperty">
+            <summary>
+此属性被映射到像素着色器内的 Desaturation 变量。 
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.ColorToneEffect.ToneAmountProperty">
+            <summary>
+此属性被映射到像素着色器内的 Tone 变量。 
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.ColorToneEffect.LightColorProperty">
+            <summary>
+此属性被映射到像素着色器内的 LightColor 变量。 
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.ColorToneEffect.DarkColorProperty">
+            <summary>
+此属性被映射到像素着色器内的 DarkColor 变量。 
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.ColorToneEffect.#ctor">
+            <summary>
+创建一个实例，并将着色器的变量更新为默认值。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.ColorToneEffect.Desaturation">
+            <summary>
+获取或设置着色器内的 Desaturation 变量。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.ColorToneEffect.ToneAmount">
+            <summary>
+获取或设置着色器内的 Tone 变量。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.ColorToneEffect.LightColor">
+            <summary>
+获取或设置着色器内的 LightColor 变量。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.ColorToneEffect.DarkColor">
+            <summary>
+获取或设置着色器内的 DarkColor 变量。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.ColorToneEffect.Input">
+            <summary>
+获取或设置输入着色器取样器。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Media.Effects.EmbossedEffect">
+            <summary>
+模拟视觉对象浮雕外观的效果。 
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.EmbossedEffect.InputProperty">
+            <summary>
+此像素着色器的显式输入。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.EmbossedEffect.AmountProperty">
+            <summary>
+此属性被映射到像素着色器内的 Amount 变量。 
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.EmbossedEffect.HeightProperty">
+            <summary>
+此属性被映射到像素着色器内的 Height 变量。 
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.EmbossedEffect.ColorProperty">
+            <summary>
+此属性被映射到像素着色器内的 Color 变量。 
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.EmbossedEffect.#ctor">
+            <summary>
+创建一个实例，并将着色器的变量更新为默认值。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.EmbossedEffect.Amount">
+            <summary>
+获取或设置着色器内的 Amount 变量。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.EmbossedEffect.Height">
+            <summary>
+获取或设置着色器内的 Height 变量。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.EmbossedEffect.Color">
+            <summary>
+获取或设置着色器内的 Color 变量。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.EmbossedEffect.Input">
+            <summary>
+获取或设置输入着色器取样器。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Media.Effects.FadeTransitionEffect">
+            <summary>
+逐渐在视觉对象之间过渡的过渡效果。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.FadeTransitionEffect.#ctor">
+            <summary>
+创建着色器的实例。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.FadeTransitionEffect.DeepCopy">
+            <summary>
+对 FadeTransitionEffect 效果进行深层复制。 
+            </summary>
+<returns>FadeTransitionEffect 效果的当前实例的克隆。</returns>
+        </member>
+        <member name="T:Microsoft.Expression.Media.Effects.MagnifyEffect">
+            <summary>
+模拟放大镜的效果。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.MagnifyEffect.InnerRadiusProperty">
+            <summary>
+获取或设置着色器内的 InnerRadius 变量。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.MagnifyEffect.OuterRadiusProperty">
+            <summary>
+获取或设置着色器内的 OuterRadius 变量。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.MagnifyEffect.CenterProperty">
+            <summary>
+获取或设置着色器内的 Center 变量。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.MagnifyEffect.AmountProperty">
+            <summary>
+获取或设置着色器内的 Amount 变量。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.MagnifyEffect.InputProperty">
+            <summary>
+获取或设置在着色器中使用的输入。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.MagnifyEffect.generalTransform">
+            <summary>
+用于此着色器的转换。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.MagnifyEffect.#ctor">
+            <summary>
+创建一个实例，并将着色器的变量更新为默认值。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.MagnifyEffect.InnerRadius">
+            <summary>
+获取或设置着色器内的 InnerRadius 变量。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.MagnifyEffect.OuterRadius">
+            <summary>
+获取或设置着色器内的 OuterRadius 变量。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.MagnifyEffect.Center">
+            <summary>
+获取或设置着色器内的 Center 变量。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.MagnifyEffect.Amount">
+            <summary>
+获取或设置 ShrinkFactor。收缩系数越大，椭圆内的内容看起来就“越小”。 
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.MagnifyEffect.EffectMapping">
+            <summary>
+获取 EffectMapping。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.MagnifyEffect.Input">
+            <summary>
+获取或设置输入着色器取样器。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Media.Effects.MagnifyEffect.MagnifyGeneralTransform">
+            <summary>
+与放大效果相对应的 GeneralTransform。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.MagnifyEffect.MagnifyGeneralTransform.biasValue">
+            <summary>
+试图根据效果转换点。
+            </summary>
+<param name="targetPoint">要转换的点。</param>
+<param name="result">结果（如果可用）。</param>
+<returns>如果成功，则返回 true。</returns>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.MagnifyEffect.MagnifyGeneralTransform.effect">
+            <summary>
+效果实例。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.MagnifyEffect.MagnifyGeneralTransform.IsInverse">
+            <summary>
+如果转换为反转。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.MagnifyEffect.MagnifyGeneralTransform.inverseTransform">
+            <summary>
+特定于此效果的转换。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.MagnifyEffect.MagnifyGeneralTransform.#ctor(Microsoft.Expression.Media.Effects.MagnifyEffect)">
+            <summary>
+创建一个新实例。
+            </summary>
+<param name="fx">源效果。</param>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.MagnifyEffect.MagnifyGeneralTransform.TransformBounds(System.Windows.Rect)">
+            <summary>
+此特定效果会使轴平行线与轴平行，因此矩形转换只是其角点的转换。
+            </summary>
+<param name="rect">输入的矩形。</param>
+<returns>输出的矩形。</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.MagnifyEffect.MagnifyGeneralTransform.OutToIn(System.Windows.Point,System.Double,System.Double,System.Windows.Point,System.Double)">
+            <summary>
+对于着色器反转，如果给出了纹理输入 Pout（着色器反转），则需要查找作为像素输出的 Pin。但是，着色器算法取决于中心像素输出的半径，这是在计算反转时没有的一个变量。我们需要执行二等分以便使用以下公式进行聚合：PHatout = PHat_in*Scalar，其中 PHatout = Pout - Pcenter；pHatin = Pin -Pcenter
+            
+标量依赖于 Pin 的半径（尚无）。 
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.MagnifyEffect.MagnifyGeneralTransform.InToOut(System.Windows.Point,System.Double,System.Double,System.Windows.Point,System.Double)">
+            <summary>
+在给出像素输出 (Pin) 的情况下查找纹理输入 (Pout)。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.MagnifyEffect.MagnifyGeneralTransform.PointIsInCircle(System.Windows.Point,System.Windows.Point,System.Double)">
+            <summary>
+确定一个点是否在椭圆内。
+            </summary>
+<param name="pt">测试点。</param>
+<param name="center">椭圆的中心点。</param>
+<param name="radius">椭圆的半径。</param>
+<returns>如果成功，则返回 true。</returns>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.MagnifyEffect.MagnifyGeneralTransform.Inverse">
+            <summary>
+获取反转的转换。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Media.Effects.MonochromeEffect">
+             <summary>
+将视觉对象变为单色的效果。
+             </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.MonochromeEffect.ColorProperty">
+            <summary>
+获取或设置着色器内的 Color 变量。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.MonochromeEffect.InputProperty">
+            <summary>
+获取或设置着色器的输入。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.MonochromeEffect.#ctor">
+            <summary>
+创建一个实例，并将着色器的变量更新为默认值。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.MonochromeEffect.Color">
+            <summary>
+获取或设置着色器内的 Color 变量。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.MonochromeEffect.Input">
+            <summary>
+获取或设置在着色器中使用的输入。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Media.Effects.PixelateEffect">
+            <summary>
+对视觉对象进行像素化的效果。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.PixelateEffect.InputProperty">
+            <summary>
+此像素着色器的显式输入。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.PixelateEffect.PixelationProperty">
+            <summary>
+此属性被映射到像素着色器内的 Pixelation 变量。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.PixelateEffect.#ctor">
+            <summary>
+创建一个实例，并将着色器的变量更新为默认值。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.PixelateEffect.Pixelation">
+            <summary>
+获取或设置着色器内的像素化数量。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.PixelateEffect.Input">
+            <summary>
+获取或设置输入着色器取样器。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Media.Effects.PixelateTransitionEffect">
+            <summary>
+增大或减小两种视觉对象之间的像素化的过渡效果。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.PixelateTransitionEffect.#ctor">
+            <summary>
+创建着色器的实例。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.PixelateTransitionEffect.DeepCopy">
+            <summary>
+对 PixelateTransitionEffect 效果进行深层复制。 
+            </summary>
+<returns>PixelateTransitionEffect 效果的当前实例的克隆。</returns>
+        </member>
+        <member name="T:Microsoft.Expression.Media.Effects.RadialBlurTransitionEffect">
+            <summary>
+在引入新视觉对象时对当前视觉对象执行径向模糊的过渡效果。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.RadialBlurTransitionEffect.#ctor">
+            <summary>
+创建着色器的实例。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.RadialBlurTransitionEffect.DeepCopy">
+            <summary>
+对 RadialBlurTransitionEffect 效果进行深层复制。 
+            </summary>
+<returns>RadialBlurTransitionEffect 效果的当前实例的克隆。</returns>
+        </member>
+        <member name="T:Microsoft.Expression.Media.Effects.RippleEffect">
+            <summary>
+在视觉对象上模拟水波的效果。 
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.RippleEffect.CenterProperty">
+            <summary>
+获取或设置着色器内的 Center 变量。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.RippleEffect.MagnitudeProperty">
+            <summary>
+获取或设置着色器内的 Amplitude 变量。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.RippleEffect.FrequencyProperty">
+            <summary>
+获取或设置着色器内的 Frequency 变量。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.RippleEffect.PhaseProperty">
+            <summary>
+获取或设置着色器内的 Phase 变量。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.RippleEffect.InputProperty">
+            <summary>
+获取或设置在着色器中使用的输入画笔。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.RippleEffect.#ctor">
+            <summary>
+创建一个实例，并将着色器的变量更新为默认值。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.RippleEffect.Center">
+            <summary>
+获取或设置着色器内的 Center 变量。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.RippleEffect.Magnitude">
+            <summary>
+获取或设置着色器内的 Amplitude 变量。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.RippleEffect.Frequency">
+            <summary>
+获取或设置着色器内的 Frequency 变量。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.RippleEffect.Phase">
+            <summary>
+获取或设置着色器内的 Phase 变量。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.RippleEffect.Input">
+            <summary>
+获取或设置输入着色器取样器。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Media.Effects.RippleTransitionEffect">
+            <summary>
+过渡过程中模拟水波的过渡效果。 
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.RippleTransitionEffect.#ctor">
+            <summary>
+创建着色器的实例。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.RippleTransitionEffect.DeepCopy">
+            <summary>
+对 RippleTransitionEffect 效果进行深层复制。 
+            </summary>
+<returns>RippleTransitionEffect 效果的当前实例的克隆。</returns>
+        </member>
+        <member name="T:Microsoft.Expression.Media.Effects.SharpenEffect">
+            <summary>
+使视觉对象更加清晰和锐利的效果。 
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.SharpenEffect.InputProperty">
+            <summary>
+此像素着色器的显式输入。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.SharpenEffect.AmountProperty">
+            <summary>
+此属性被映射到像素着色器内的 Amount 变量。 
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.SharpenEffect.HeightProperty">
+            <summary>
+此属性被映射到像素着色器内的 Width 变量。 
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.SharpenEffect.#ctor">
+            <summary>
+创建一个实例，并将着色器的变量更新为默认值。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.SharpenEffect.Amount">
+            <summary>
+获取或设置着色器内的 Amount 变量。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.SharpenEffect.Height">
+            <summary>
+获取或设置着色器内的 Height 变量。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.SharpenEffect.Input">
+            <summary>
+获取或设置输入着色器取样器。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Media.Effects.SlideDirection">
+            <summary>
+定义幻灯片方向。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Media.Effects.SlideInTransitionEffect">
+            <summary>
+使当前视觉对象渐渐离开并显示新视觉对象的过渡效果。 
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.SlideInTransitionEffect.SlideDirectionProperty">
+            <summary>
+用于修改像素着色器内的 SlideAmount 变量的依赖属性。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.SlideInTransitionEffect.SlideNormalProperty">
+            <summary>
+用于修改像素着色器内的 SlideAmount 变量的依赖属性。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.SlideInTransitionEffect.#ctor">
+            <summary>
+创建一个实例，并将着色器的变量更新为默认值。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.SlideInTransitionEffect.DeepCopy">
+            <summary>
+对 SlideInTransitionEffect 效果进行深层复制。 
+            </summary>
+<returns>SlideInTransitionEffect 效果的当前实例的克隆。</returns>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.SlideInTransitionEffect.SlideDirection">
+            <summary>
+获取或设置着色器内的 SlideAmount 变量。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.SlideInTransitionEffect.SlideNormal">
+            <summary>
+获取或设置着色器内的 SlideAmount 变量。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Media.Effects.SmoothSwirlGridTransitionEffect">
+             <summary>
+在引入新视觉对象时使当前视觉对象旋转的过渡效果。
+             </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.SmoothSwirlGridTransitionEffect.TwistAmountProperty">
+            <summary>
+用于修改像素着色器内的 TwistAmount 变量的依赖属性。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.SmoothSwirlGridTransitionEffect.CellCountProperty">
+            <summary>
+用于修改像素将发生扭曲的单元格的数目的依赖属性。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.SmoothSwirlGridTransitionEffect.#ctor(System.Double)">
+            <summary>
+创建一个实例，并将着色器的扭曲变量设置为指定值。
+            </summary>
+<param name="twist">扭转的级别。</param>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.SmoothSwirlGridTransitionEffect.#ctor">
+            <summary>
+创建一个实例，并将着色器的变量更新为默认值。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.SmoothSwirlGridTransitionEffect.DeepCopy">
+            <summary>
+对 SmoothSwirlGridTransitionEffect 效果进行深层复制。 
+            </summary>
+<returns>SmoothSwirlGridTransitionEffect 效果的当前实例的克隆。</returns>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.SmoothSwirlGridTransitionEffect.TwistAmount">
+            <summary>
+获取或设置着色器内的 TwistAmount 变量。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.SmoothSwirlGridTransitionEffect.CellCount">
+            <summary>
+获取或设置着色器内的 CellCount 变量。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Media.Effects.SwirlEffect">
+            <summary>
+旋转当前视觉对象的效果。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.SwirlEffect.InputProperty">
+            <summary>
+此像素着色器的显式输入。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.SwirlEffect.CenterProperty">
+            <summary>
+此属性被映射到像素着色器内的 Center 变量。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.SwirlEffect.TwistAmountProperty">
+            <summary>
+此属性被映射到像素着色器内的 TwistAmount 变量。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.SwirlEffect.AngleFrequencyProperty">
+            <summary>
+此属性被映射到像素着色器内的 AngleFrequency 变量。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.SwirlEffect.generalTransform">
+            <summary>
+应用此效果时使用的转换。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.SwirlEffect.#ctor">
+            <summary>
+创建一个实例，并将着色器的变量更新为默认值。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.SwirlEffect.Center">
+            <summary>
+获取或设置着色器内的 Center 变量。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.SwirlEffect.TwistAmount">
+            <summary>
+获取或设置着色器内的 TwistAmount 变量。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.SwirlEffect.AngleFrequency">
+            <summary>
+获取或设置着色器内的 AngleFrequency 变量。此属性不会被公开。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.SwirlEffect.Input">
+            <summary>
+获取或设置输入着色器取样器。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.SwirlEffect.EffectMapping">
+            <summary>
+获取此效果的 GeneralTransform。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Media.Effects.SwirlEffect.SwirlGeneralTransform">
+            <summary>
+用于转换输入和树转换。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.SwirlEffect.SwirlGeneralTransform.theEffect">
+            <summary>
+效果的实例。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.SwirlEffect.SwirlGeneralTransform.thisIsInverse">
+            <summary>
+转换的反转。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.SwirlEffect.SwirlGeneralTransform.inverseTransform">
+            <summary>
+此 GeneralTransform 的反转。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.SwirlEffect.SwirlGeneralTransform.#ctor(Microsoft.Expression.Media.Effects.SwirlEffect)">
+            <summary>
+创建此类的实例。
+            </summary>
+<param name="eff">效果本身。</param>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.SwirlEffect.SwirlGeneralTransform.TransformBounds(System.Windows.Rect)">
+            <summary>
+对于此操作，边界是四个转换点的范围框。需要转换其中的每一项，然后进行外接。这适用于前进和反转。
+            </summary>
+<param name="rect">输入的矩形。</param>
+<returns>转换的矩形。</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.SwirlEffect.SwirlGeneralTransform.TryTransform(System.Windows.Point,System.Windows.Point@)">
+            <summary>
+试图用旋转效果转换 inPoint。
+            </summary>
+<param name="targetPoint">输入的点。</param>
+<param name="result">使用旋转效果转换后输出的点。</param>
+<returns>返回 true，但如果为 false，则会引起异常。</returns>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.SwirlEffect.SwirlGeneralTransform.Inverse">
+            <summary>
+获取当前转换的反转的克隆。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Media.Effects.WaveTransitionEffect">
+            <summary>
+在引入新视觉对象时使当前视觉对象产生波动的过渡效果。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.WaveTransitionEffect.MagnitudeProperty">
+            <summary>
+用于修改像素着色器内的 Magnitude 变量的依赖属性。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.WaveTransitionEffect.PhaseProperty">
+            <summary>
+用于修改像素着色器内的 Phase 变量的依赖属性。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.WaveTransitionEffect.FrequencyProperty">
+            <summary>
+用于修改像素着色器内的 Frequency 变量的依赖属性。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.WaveTransitionEffect.#ctor">
+            <summary>
+创建着色器的实例。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.WaveTransitionEffect.DeepCopy">
+            <summary>
+对 WaveTransitionEffect 效果进行深层复制。 
+            </summary>
+<returns>WaveTransitionEffect 效果的当前实例的克隆。</returns>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.WaveTransitionEffect.Magnitude">
+            <summary>
+获取或设置波形量。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.WaveTransitionEffect.Phase">
+            <summary>
+获取或设置波形阶段。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.WaveTransitionEffect.Frequency">
+            <summary>
+获取或设置波形量。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Media.Effects.WipeDirection">
+            <summary>
+定义擦除方向。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Media.Effects.WipeTransitionEffect">
+            <summary>
+在引入新视觉对象时擦除当前视觉对象的过渡效果。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.WipeTransitionEffect.WipeDirectionProperty">
+            <summary>
+用于修改像素着色器内的 WipeDirection 变量的依赖属性。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.WipeTransitionEffect.FeatherAmountProperty">
+            <summary>
+用于修改像素着色器内的 FeatherAmount 变量的依赖属性。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.WipeTransitionEffect.LineOriginProperty">
+            <summary>
+用于修改像素着色器内的 LineOrigin 变量的依赖属性。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.WipeTransitionEffect.LineNormalProperty">
+            <summary>
+用于修改像素着色器内的 LineNormal 变量的依赖属性。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.WipeTransitionEffect.LineOffsetProperty">
+            <summary>
+用于修改像素着色器内的 LineOffset 变量的依赖属性。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.WipeTransitionEffect.#ctor">
+            <summary>
+创建一个实例，并将着色器的变量更新为默认值。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.WipeTransitionEffect.DeepCopy">
+            <summary>
+对 WipeTransitionEffec 效果进行深层复制。 
+            </summary>
+<returns>WipeTransitionEffect 效果的当前实例的克隆。</returns>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.WipeTransitionEffect.WipeDirection">
+            <summary>
+获取或设置擦除的方向。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.WipeTransitionEffect.FeatherAmount">
+            <summary>
+获取或设置着色器内的 FeatherAmount 变量。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.WipeTransitionEffect.LineOrigin">
+            <summary>
+获取或设置着色器内的 LineOrigin 变量。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.WipeTransitionEffect.LineNormal">
+            <summary>
+获取或设置着色器内的 LineNormal 变量。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.WipeTransitionEffect.LineOffset">
+            <summary>
+获取或设置着色器内的 LineOffset 变量。
+            </summary>
+        </member>
+    </members>
+</doc>

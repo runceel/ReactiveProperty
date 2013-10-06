@@ -1,0 +1,1046 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>System.Windows.Interactivity</name>
+    </assembly>
+    <members>
+        <member name="T:System.Windows.Interactivity.AttachableCollection`1">
+            <summary>
+            공유된 AssociatedObject가 있는 IAttachedObject의 컬렉션을 나타내고 해당 AssociatedObject가 변경될 때 해당 컬렉션의 콘텐츠에 변경 알림을 제공합니다.
+            </summary>
+        </member>
+        <member name="T:System.Windows.Interactivity.IAttachedObject">
+            <summary>
+            다른 개체에 연결될 수 있는 개체의 인터페이스입니다.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.IAttachedObject.Attach(System.Windows.DependencyObject)">
+            <summary>
+            지정된 개체에 연결합니다.
+            </summary>
+            <param name="dependencyObject">연결할 개체입니다.</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.IAttachedObject.Detach">
+            <summary>
+            연결된 개체에서 이 인스턴스를 분리합니다.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.IAttachedObject.AssociatedObject">
+            <summary>
+            연결된 개체를 가져옵니다.
+            </summary>
+            <value>연결된 개체입니다.</value>
+            <remarks>인스턴스가 연결된 개체를 나타냅니다.</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.AttachableCollection`1.#ctor">
+            <summary>
+            <see cref="T:System.Windows.Interactivity.AttachableCollection`1"/> 클래스의 새 인스턴스를 초기화합니다.
+            </summary>
+            <remarks>이것은 이 어셈블리 외부에서 상속되어선 안 되므로 내부적으로 수행합니다.</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.AttachableCollection`1.OnAttached">
+            <summary>
+            컬렉션이 AssociatedObject에 연결된 후 즉시 호출됩니다.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.AttachableCollection`1.OnDetaching">
+            <summary>
+            AssociatedObject에서 컬렉션이 분리될 때 호출되나 실제로 컬렉션이 발생하기 전에 호출됩니다.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.AttachableCollection`1.ItemAdded(`0)">
+            <summary>
+            새 항목이 컬렉션에 추가될 때 호출됩니다.
+            </summary>
+            <param name="item">새 항목입니다.</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.AttachableCollection`1.ItemRemoved(`0)">
+            <summary>
+            컬렉션에서 항목이 제거될 때 호출됩니다.
+            </summary>
+            <param name="item">제거된 항목입니다.</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.AttachableCollection`1.VerifyAdd(`0)">
+            <exception cref="T:System.InvalidOperationException">컬렉션에 인스턴스를 두 번 이상 추가할 수 없습니다.</exception>
+        </member>
+        <member name="M:System.Windows.Interactivity.AttachableCollection`1.Attach(System.Windows.DependencyObject)">
+            <summary>
+            지정된 개체에 연결합니다.
+            </summary>
+            <param name="dependencyObject">연결할 개체입니다.</param>
+            <exception cref="T:System.InvalidOperationException">IAttachedObject가 다른 개체에 이미 연결되었습니다.</exception>
+        </member>
+        <member name="M:System.Windows.Interactivity.AttachableCollection`1.Detach">
+            <summary>
+            연결된 개체에서 이 인스턴스를 분리합니다.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.AttachableCollection`1.AssociatedObject">
+            <summary>
+            컬렉션을 호스트하는 개체입니다.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.AttachableCollection`1.System#Windows#Interactivity#IAttachedObject#AssociatedObject">
+            <summary>
+            연결된 개체를 가져옵니다.
+            </summary>
+            <value>연결된 개체입니다.</value>
+        </member>
+        <member name="T:System.Windows.Interactivity.Behavior`1">
+            <summary>
+            상태 정보와 0개 이상의 ICommands를 연결 가능한 개체에 캡슐화합니다.
+            </summary>
+            <typeparam name="T"><see cref="T:System.Windows.Interactivity.Behavior`1"/>를 연결할 수 있는 형식입니다.</typeparam>
+            <remarks>
+            	Behavior는 연결 가능한 상태 및 명령을 개체에 제공하기 위한 기본 클래스입니다. Behavior를 연결할 수 있는 형식은 일반 매개 변수로 제어할 수 있습니다. OnAttached() 및 OnDetaching() 메서드를 다시 정의하여 AssociatedObject에서 필수 처리기를 연결 및 분리합니다.
+            </remarks>
+        </member>
+        <member name="T:System.Windows.Interactivity.Behavior">
+            <summary>
+            상태 정보와 0개 이상의 ICommands를 연결 가능한 개체에 캡슐화합니다.
+            </summary>
+            <remarks>이것은 인프라 클래스입니다. Behavior작성자는 이 클래스 대신 Behavior&lt;T&gt;에서 파생되어야 합니다.</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.Behavior.OnAttached">
+            <summary>
+            동작이 AssociatedObject에 연결된 후 호출됩니다.
+            </summary>
+            <remarks>이 동작을 다시 정의하여 기능을 AssociatedObject에 연결합니다.</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.Behavior.OnDetaching">
+            <summary>
+            AssociatedObject에서 동작이 분리될 때 호출되나 실제로 동작이 발생하기 전에 호출됩니다.
+            </summary>
+            <remarks>이 동작을 다시 정의하여 AssociatedObject에서 기능을 분리합니다.</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.Behavior.Attach(System.Windows.DependencyObject)">
+            <summary>
+            지정된 개체에 연결합니다.
+            </summary>
+            <param name="dependencyObject">연결할 개체입니다.</param>
+            <exception cref="T:System.InvalidOperationException">Behavior를 다른 요소에서 이미 호스트합니다.</exception>
+            <exception cref="T:System.InvalidOperationException">dependencyObject가 Behavior 형식 제약 조건을 만족하지 않습니다.</exception>
+        </member>
+        <member name="M:System.Windows.Interactivity.Behavior.Detach">
+            <summary>
+            연결된 개체에서 이 인스턴스를 분리합니다.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.Behavior.AssociatedType">
+            <summary>
+            이 동작을 연결할 수 있는 형식입니다.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.Behavior.AssociatedObject">
+            <summary>
+            이 동작이 연결되는 개체를 가져옵니다.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.Behavior.System#Windows#Interactivity#IAttachedObject#AssociatedObject">
+            <summary>
+            연결된 개체를 가져옵니다.
+            </summary>
+            <value>연결된 개체입니다.</value>
+        </member>
+        <member name="M:System.Windows.Interactivity.Behavior`1.#ctor">
+            <summary>
+            <see cref="T:System.Windows.Interactivity.Behavior`1"/> 클래스의 새 인스턴스를 초기화합니다.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.Behavior`1.AssociatedObject">
+            <summary>
+            이 <see cref="T:System.Windows.Interactivity.Behavior`1"/>가 연결되는 개체를 가져옵니다.
+            </summary>
+        </member>
+        <member name="T:System.Windows.Interactivity.BehaviorCollection">
+            <summary>
+            공유된 AssociatedObject가 있는 동작의 컬렉션을 나타내고 해당 AssociatedObject가 변경될 때 해당 컬렉션의 콘텐츠에 변경 알림을 제공합니다.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.BehaviorCollection.#ctor">
+            <summary>
+            <see cref="T:System.Windows.Interactivity.BehaviorCollection"/> 클래스의 새 인스턴스를 초기화합니다.
+            </summary>
+            <remarks>이것은 이 어셈블리 외부에서 상속되어선 안 되므로 내부적으로 수행합니다.</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.BehaviorCollection.OnAttached">
+            <summary>
+            컬렉션이 AssociatedObject에 연결된 후 즉시 호출됩니다.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.BehaviorCollection.OnDetaching">
+            <summary>
+            AssociatedObject에서 컬렉션이 분리될 때 호출되나 실제로 컬렉션이 발생하기 전에 호출됩니다.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.BehaviorCollection.ItemAdded(System.Windows.Interactivity.Behavior)">
+            <summary>
+            새 항목이 컬렉션에 추가될 때 호출됩니다.
+            </summary>
+            <param name="item">새 항목입니다.</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.BehaviorCollection.ItemRemoved(System.Windows.Interactivity.Behavior)">
+            <summary>
+            컬렉션에서 항목이 제거될 때 호출됩니다.
+            </summary>
+            <param name="item">제거된 항목입니다.</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.BehaviorCollection.CreateInstanceCore">
+            <summary>
+            BehaviorCollection의 새 인스턴스를 만듭니다.
+            </summary>
+            <returns>새 인스턴스.</returns>
+        </member>
+        <member name="T:System.Windows.Interactivity.CustomPropertyValueEditor">
+            <summary>
+            다시 사용 가능한 속성 값 편집기의 가능한 값을 열거합니다.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Interactivity.CustomPropertyValueEditor.Element">
+            <summary>
+            지원되는 경우 요소 선택기를 사용하여 디자인 시 이 속성을 편집합니다.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Interactivity.CustomPropertyValueEditor.Storyboard">
+            <summary>
+            지원되는 경우 스토리보드 선택기를 사용하여 디자인 시 이 속성을 편집합니다.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Interactivity.CustomPropertyValueEditor.StateName">
+            <summary>
+            지원되는 경우 상태 선택기를 사용하여 디자인 시 이 속성을 편집합니다.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Interactivity.CustomPropertyValueEditor.ElementBinding">
+            <summary>
+            지원되는 경우 요소 바인딩 선택기를 사용하여 디자인 시 이 속성을 편집합니다.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Interactivity.CustomPropertyValueEditor.PropertyBinding">
+            <summary>
+            지원되는 경우 속성 바인딩 선택기를 사용하여 디자인 시 이 속성을 편집합니다.
+            </summary>
+        </member>
+        <member name="T:System.Windows.Interactivity.CustomPropertyValueEditorAttribute">
+            <summary>
+            지정된 편집기 형식을 CustomPropertyValueEditor가 적용되는 속성과 연결합니다.
+            </summary>
+            <remarks>이 특성을 사용하여 요소(이름별), 스토리보드 또는 상태(이름별)를 표시하는 속성에 대한 향상된 디자인 타임 편집 기능을 가져옵니다.</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.CustomPropertyValueEditorAttribute.#ctor(System.Windows.Interactivity.CustomPropertyValueEditor)">
+            <summary>
+            <see cref="T:System.Windows.Interactivity.CustomPropertyValueEditorAttribute"/> 클래스의 새 인스턴스를 초기화합니다.
+            </summary>
+            <param name="customPropertyValueEditor">사용자 지정 속성 값 편집기입니다.</param>
+        </member>
+        <member name="P:System.Windows.Interactivity.CustomPropertyValueEditorAttribute.CustomPropertyValueEditor">
+            <summary>
+            사용자 지정 속성 값 편집기를 가져오거나 설정합니다.
+            </summary>
+            <value>사용자 지정 속성 값 편집기입니다.</value>
+        </member>
+        <member name="T:System.Windows.Interactivity.DefaultTriggerAttribute">
+            <summary>
+            지정된 작업 또는 명령에 인스턴스화할 <see cref="T:System.Windows.Interactivity.TriggerBase"/>에 대한 디자인 도구 정보를 제공합니다.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.DefaultTriggerAttribute.#ctor(System.Type,System.Type,System.Object)">
+            <summary>
+            <see cref="T:System.Windows.Interactivity.DefaultTriggerAttribute"/> 클래스의 새 인스턴스를 초기화합니다.
+            </summary>
+            <param name="targetType">이 특성이 적용되는 형식입니다.</param>
+            <param name="triggerType">인스턴스화할 <see cref="T:System.Windows.Interactivity.TriggerBase"/>의 형식입니다.</param>
+            <param name="parameters">지정된 <see cref="T:System.Windows.Interactivity.TriggerBase"/>에 대한 단일 인수입니다.</param>
+            <exception cref="T:System.ArgumentException"><c cref="F:System.Windows.Interactivity.DefaultTriggerAttribute.triggerType"/>는 TriggerBase에서 파생되지 않습니다.</exception>
+            <remarks>이 생성자는 지정된 <see cref="T:System.Windows.Interactivity.TriggerBase"/>에 단일 인수가 있을 경우 유용합니다. 결과 코드는 CLS 규격이 됩니다.</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.DefaultTriggerAttribute.#ctor(System.Type,System.Type,System.Object[])">
+            <summary>
+            <see cref="T:System.Windows.Interactivity.DefaultTriggerAttribute"/> 클래스의 새 인스턴스를 초기화합니다.
+            </summary>
+            <param name="targetType">이 특성이 적용되는 형식입니다.</param>
+            <param name="triggerType">인스턴스화할 <see cref="T:System.Windows.Interactivity.TriggerBase"/>의 형식입니다.</param>
+            <param name="parameters">지정된 <see cref="T:System.Windows.Interactivity.TriggerBase"/>에 대한 생성자 인수입니다.</param>
+            <exception cref="T:System.ArgumentException"><c cref="F:System.Windows.Interactivity.DefaultTriggerAttribute.triggerType"/>는 TriggerBase에서 파생되지 않습니다.</exception>
+        </member>
+        <member name="M:System.Windows.Interactivity.DefaultTriggerAttribute.Instantiate">
+            <summary>
+            이 인스턴스를 인스턴스화합니다.
+            </summary>
+            <returns>DefaultTriggerAttribute로 지정된 <see cref="T:System.Windows.Interactivity.TriggerBase"/>입니다.</returns>
+        </member>
+        <member name="P:System.Windows.Interactivity.DefaultTriggerAttribute.TargetType">
+            <summary>
+            이 DefaultTriggerAttribute가 적용되는 형식을 가져옵니다.
+            </summary>
+            <value>이 DefaultTriggerAttribute가 적용되는 형식입니다.</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.DefaultTriggerAttribute.TriggerType">
+            <summary>
+            인스턴스화할 <see cref="T:System.Windows.Interactivity.TriggerBase"/>의 형식을 가져옵니다.
+            </summary>
+            <value>인스턴스화할 <see cref="T:System.Windows.Interactivity.TriggerBase"/>의 형식입니다.</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.DefaultTriggerAttribute.Parameters">
+            <summary>
+            <see cref="T:System.Windows.Interactivity.TriggerBase"/> 생성자로 전달할 매개 변수를 가져옵니다.
+            </summary>
+            <value><see cref="T:System.Windows.Interactivity.TriggerBase"/> 생성자로 전달할 매개 변수입니다.</value>
+        </member>
+        <member name="M:System.Windows.Interactivity.DependencyObjectHelper.GetSelfAndAncestors(System.Windows.DependencyObject)">
+            <summary>
+            시각적 트리를 처음으로 깊게 검색하고 개체 자체를 포함하여 지정된 개체의 모든 조상을 반환하기 위해 이 메서드에서는 VisualTreeHelper.GetParent 메서드를 사용합니다.
+            </summary>
+            <param name="dependencyObject">조상을 찾기 위한 시각적 트리의 개체입니다.</param>
+            <returns>시각적 트리의 모든 조상과 해당 개체를 반환합니다.</returns>
+        </member>
+        <member name="T:System.Windows.Interactivity.EventObserver">
+            <summary>
+            EventObserver는 삭제 시 분리하여 이벤트 처리기를 관리할 수 있도록 설계되어 있습니다. 이 개체를 만들면 생성자에서도 연결됩니다.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventObserver.#ctor(System.Reflection.EventInfo,System.Object,System.Delegate)">
+            <summary>
+            EventObserver의 인스턴스를 만들고 제공된 대상의 제공된 이벤트에 연결합니다. 분리하려면 dispose를 호출하십시오.
+            </summary>
+            <param name="eventInfo">연결 및 분리하는 이벤트입니다.</param>
+            <param name="target">이벤트가 정의되어 있는 대상 개체입니다. 메서드가 정적일 경우 null입니다.</param>
+            <param name="handler">이벤트에 연결할 대리자입니다.</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventObserver.Dispose">
+            <summary>
+            이벤트에서 처리기를 분리합니다.
+            </summary>
+        </member>
+        <member name="T:System.Windows.Interactivity.EventTrigger">
+            <summary>
+            원본에서 지정된 이벤트를 수신 대기하고 해당 이벤트가 발생될 때 발생하는 트리거입니다.
+            </summary>
+        </member>
+        <member name="T:System.Windows.Interactivity.EventTriggerBase`1">
+            <summary>
+            AssociatedObject가 아닌 다른 요소를 수신 대기할 수 있는 트리거를 나타냅니다.
+            </summary>
+            <typeparam name="T">이 트리거를 연결할 수 있는 형식입니다.</typeparam>
+            <remarks>
+            	EventTriggerBase는 TriggerBase를 확장하여 연결된 개체가 아닌 다른 개체의 정보를 추가합니다. 이를 통해 사용자는 Trigger/Action 쌍을 한 요소에 연결하고 다른 곳에서 다른 개체가 변경될 때 그에 대한 응답으로 Action을 호출할 수 있습니다. 원본 요소의 처리기를 연결 또는 분리하려면 OnSourceChanged를 다시 정의하고 연결된 요소에 대해서는 OnAttached/OnDetaching을 다시 정의합니다. Source 요소의 형식은 일반 형식 매개 변수로 제한할 수 있습니다. AssociatedObject의 형식을 제어해야 하는 경우에는 파생된 형식에 TypeConstraintAttribute를 설정합니다.
+            </remarks>
+        </member>
+        <member name="T:System.Windows.Interactivity.EventTriggerBase">
+            <summary>
+            AssociatedObject가 아닌 다른 개체를 수신 대기할 수 있는 트리거를 나타냅니다.
+            </summary>
+            <remarks>이것은 인프라 클래스입니다. Trigger 작성자는 이 클래스 대신 EventTriggerBase&lt;T&gt;에서 파생되어야 합니다.</remarks>
+        </member>
+        <member name="T:System.Windows.Interactivity.TriggerBase">
+            <summary>
+            조건에 따라 Action을 호출할 수 있는 개체를 나타냅니다.
+            </summary>
+            <remarks>이것은 인프라 클래스입니다. Trigger 작성자는 이 클래스 대신 Trigger&lt;T&gt;에서 파생되어야 합니다.</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerBase.InvokeActions(System.Object)">
+            <summary>
+            이 트리거와 연결된 모든 작업을 호출합니다.
+            </summary>
+            <remarks>파생된 클래스는 트리거를 발생시키려면 이 작업을 호출해야 합니다.</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerBase.OnAttached">
+            <summary>
+            트리거가 AssociatedObject에 연결된 후 호출됩니다.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerBase.OnDetaching">
+            <summary>
+            AssociatedObject에서 트리거가 분리될 때 호출되나 실제로 트리거가 발생하기 전에 호출됩니다.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerBase.CreateInstanceCore">
+            <summary>
+            TriggerBase 파생된 클래스의 새 인스턴스를 만듭니다.
+            </summary>
+            <returns>새 인스턴스.</returns>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerBase.Attach(System.Windows.DependencyObject)">
+            <summary>
+            지정된 개체에 연결합니다.
+            </summary>
+            <param name="dependencyObject">연결할 개체입니다.</param>
+            <exception cref="T:System.InvalidOperationException">동일한 트리거를 한 번에 두 개 이상의 개체에서 호스트할 수 없습니다.</exception>
+            <exception cref="T:System.InvalidOperationException">dependencyObject가 트리거 형식 제약 조건을 만족하지 않습니다.</exception>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerBase.Detach">
+            <summary>
+            연결된 개체에서 이 인스턴스를 분리합니다.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerBase.AssociatedObject">
+            <summary>
+            트리거가 연결되는 개체를 가져옵니다.
+            </summary>
+            <value>연결된 개체입니다.</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerBase.AssociatedObjectTypeConstraint">
+            <summary>
+            연결된 개체의 형식 제약 조건을 가져옵니다.
+            </summary>
+            <value>연결된 개체 형식 제약 조건입니다.</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerBase.Actions">
+            <summary>
+            이 트리거와 연결된 작업을 가져옵니다.
+            </summary>
+            <value>이 트리거와 연결된 작업입니다.</value>
+        </member>
+        <member name="E:System.Windows.Interactivity.TriggerBase.PreviewInvoke">
+            <summary>
+            PreviewInvoke에 등록하기 위한 이벤트 처리기.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerBase.System#Windows#Interactivity#IAttachedObject#AssociatedObject">
+            <summary>
+            연결된 개체를 가져옵니다.
+            </summary>
+            <value>연결된 개체입니다.</value>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventTriggerBase.GetEventName">
+            <summary>
+            이 EventTriggerBase가 수신 대기 중인 이벤트의 이름을 지정합니다.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventTriggerBase.OnEvent(System.EventArgs)">
+            <summary>
+            이 EventTriggerBase와 연결된 이벤트가 발생될 때 호출됩니다. 기본적으로 이것은 트리거의 모든 작업을 호출합니다.
+            </summary>
+            <param name="eventArgs">이벤트 데이터를 포함하는 <see cref="T:System.EventArgs"/> 인스턴스입니다.</param>
+            <remarks>이 인스턴스를 다시 정의하여 이 트리거와 연결된 작업이 호출될 때 더 세부적으로 제어합니다.</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventTriggerBase.OnSourceChangedImpl(System.Object,System.Object)">
+            <summary>
+            원본이 변경될 때 호출됩니다.
+            </summary>
+            <param name="oldSource">이전 원본입니다.</param>
+            <param name="newSource">새 원본입니다.</param>
+            <remarks>변경 중인 원본 개체에 기능을 연결하거나 반대로 기능을 분리하려면 파생된 클래스에서 이 기능을 다시 정의해야 합니다.</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventTriggerBase.OnAttached">
+            <summary>
+            트리거가 AssociatedObject에 연결된 후 호출됩니다.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventTriggerBase.OnDetaching">
+            <summary>
+            AssociatedObject에서 트리거가 분리될 때 호출되나 실제로 트리거가 발생하기 전에 호출됩니다.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventTriggerBase.RegisterEvent(System.Object,System.String)">
+            <exception cref="T:System.ArgumentException">대상에서 eventName을 찾을 수 없습니다.</exception>
+        </member>
+        <member name="P:System.Windows.Interactivity.EventTriggerBase.AssociatedObjectTypeConstraint">
+            <summary>
+            연결된 개체의 형식 제약 조건을 가져옵니다.
+            </summary>
+            <value>연결된 개체 형식 제약 조건입니다.</value>
+            <remarks>파생된 형식에 TypeConstraintAttribute를 정의하여 연결할 수 있는 형식을 제한합니다.</remarks>
+        </member>
+        <member name="P:System.Windows.Interactivity.EventTriggerBase.SourceTypeConstraint">
+            <summary>
+            원본 형식 제약 조건을 가져옵니다.
+            </summary>
+            <value>원본 형식 제약 조건입니다.</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.EventTriggerBase.SourceObject">
+            <summary>
+            대상 개체를 가져오거나 설정합니다. TargetObject가 설정되지 않은 경우 대상은 TargetName으로 지정된 개체를 찾습니다. TargetName으로 참조되는 요소를 찾을 수 없는 경우 대상은 AssociatedObject로 기본 설정됩니다. 이것은 종속성 속성입니다.
+            </summary>
+            <value>대상 개체입니다.</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.EventTriggerBase.SourceName">
+            <summary>
+            이 EventTriggerBase가 원본으로 수신 대기하는 요소의 이름을 가져오거나 설정합니다. 이름을 설정하지 않았거나 확인할 수 없으면 AssociatedObject가 사용됩니다.  이것은 종속성 속성입니다.
+            </summary>
+            <value>원본 요소의 이름입니다.</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.EventTriggerBase.Source">
+            <summary>
+            확인된 원본을 가져옵니다. <c ref="SourceName"/>을 설정하지 않거나 확인할 수 없으면 AssociatedObject로 기본 설정됩니다.
+            </summary>
+            <value>확인된 원본 개체입니다.</value>
+            <remarks>일반적으로 이 속성은 파생된 클래스에서 AssociatedObject 대신 사용되어야 합니다.</remarks>
+            <exception cref="T:System.InvalidOperationException"><c cref="P:System.Windows.Interactivity.EventTriggerBase.Source"/>에서 가리키는 요소가 형식 제약 조건을 만족하지 않습니다.</exception>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventTriggerBase`1.#ctor">
+            <summary>
+            <see cref="T:System.Windows.Interactivity.EventTriggerBase`1"/> 클래스의 새 인스턴스를 초기화합니다.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventTriggerBase`1.OnSourceChanged(`0,`0)">
+            <summary>
+            원본 속성이 변경될 때 호출됩니다.
+            </summary>
+            <remarks>이 속성을 다시 정의하여 AssociatedObject가 아닌 지정된 원본에 기능을 연결하거나 반대로 기능을 분리합니다.</remarks>
+            <param name="oldSource">이전 원본입니다.</param>
+            <param name="newSource">새 원본입니다.</param>
+        </member>
+        <member name="P:System.Windows.Interactivity.EventTriggerBase`1.Source">
+            <summary>
+            확인된 원본을 가져옵니다. <c ref="SourceName"/>을 설정하지 않거나 확인할 수 없으면 AssociatedObject로 기본 설정됩니다.
+            </summary>
+            <value>확인된 원본 개체입니다.</value>
+            <remarks>일반적으로 이 속성은 파생된 클래스에서 AssociatedObject 대신 사용되어야 합니다.</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventTrigger.#ctor">
+            <summary>
+            <see cref="T:System.Windows.Interactivity.EventTrigger"/> 클래스의 새 인스턴스를 초기화합니다.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventTrigger.#ctor(System.String)">
+            <summary>
+            <see cref="T:System.Windows.Interactivity.EventTrigger"/> 클래스의 새 인스턴스를 초기화합니다.
+            </summary>
+            <param name="eventName">이벤트의 이름입니다.</param>
+        </member>
+        <member name="P:System.Windows.Interactivity.EventTrigger.EventName">
+            <summary>
+            수신 대기할 이벤트의 이름을 가져오거나 설정합니다. 이것은 종속성 속성입니다.
+            </summary>
+            <value>이벤트의 이름입니다.</value>
+        </member>
+        <member name="T:System.Windows.Interactivity.Interaction">
+            <summary>
+            Trigger 및 Behavior 연결 속성을 소유하는 정적 클래스입니다. AssociatedObject 변경 알림의 전파를 처리합니다.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Interactivity.Interaction.TriggersProperty">
+            <summary>
+            이 속성은 공용 Trigger 연결 속성의 내부 보조 저장소로 사용됩니다.
+            </summary>
+            <remarks>
+            이 속성은 공개적으로 노출되지 않습니다. 이것은 클라이언트가 컬렉션에 액세스하도록 GetTriggers 및 SetTriggers 메서드를 강제로 사용하게 하여, 컬렉션을 사용하기 전에 컬렉션이 존재하고 설정되었음을 확인합니다.
+            </remarks>
+        </member>
+        <member name="F:System.Windows.Interactivity.Interaction.BehaviorsProperty">
+            <summary>
+            이 속성은 공용 Behavior 연결 속성의 내부 보조 저장소로 사용됩니다.
+            </summary>
+            <remarks>
+            이 속성은 공개적으로 노출되지 않습니다. 이것은 클라이언트가 컬렉션에 액세스하도록 GetBehaviors 및 SetBehaviors 메서드를 강제로 사용하게 하여, 컬렉션을 사용하기 전에 컬렉션이 존재하고 설정되었음을 확인합니다.
+            </remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.Interaction.GetTriggers(System.Windows.DependencyObject)">
+            <summary>
+            지정된 개체와 연결된 트리거를 포함하는 TriggerCollection을 가져옵니다.
+            </summary>
+            <param name="obj">트리거를 검색할 개체입니다.</param>
+            <returns>지정된 개체와 연결된 트리거를 포함하는 TriggerCollection입니다.</returns>
+        </member>
+        <member name="M:System.Windows.Interactivity.Interaction.GetBehaviors(System.Windows.DependencyObject)">
+            <summary>
+            지정된 개체와 연결된 <see cref="T:System.Windows.Interactivity.BehaviorCollection"/>을 가져옵니다.
+            </summary>
+            <param name="obj"><see cref="T:System.Windows.Interactivity.BehaviorCollection"/>을 검색할 개체입니다.</param>
+            <returns>지정된 개체와 연결된 동작을 포함하는 <see cref="T:System.Windows.Interactivity.BehaviorCollection"/>입니다.</returns>
+        </member>
+        <member name="M:System.Windows.Interactivity.Interaction.OnBehaviorsChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <exception cref="T:System.InvalidOperationException">동일한 BehaviorCollection을 한 번에 두 개 이상의 개체에서 호스트할 수 없습니다.</exception>
+        </member>
+        <member name="M:System.Windows.Interactivity.Interaction.OnTriggersChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <exception cref="T:System.InvalidOperationException">동일한 TriggerCollection을 한 번에 두 개 이상의 개체에서 호스트할 수 없습니다.</exception>
+        </member>
+        <member name="M:System.Windows.Interactivity.Interaction.IsElementLoaded(System.Windows.FrameworkElement)">
+            <summary>
+            Silverlight에는 FrameworkElement.IsLoaded와 같은 속성이 없기 때문에 이 속성을 대신하는 도우미 기능입니다.
+            </summary>
+            <param name="element">관심 요소입니다.</param>
+            <returns>요소가 로드되었으면 True이고, 그렇지 않으면 False입니다.</returns>
+        </member>
+        <member name="P:System.Windows.Interactivity.Interaction.ShouldRunInDesignMode">
+            <summary>
+            디자인 모드에 있는 경우처럼 실행할 지 여부를 나타내는 값을 가져오거나 설정합니다.
+            </summary>
+            <value>
+            	[디자인 모드에서 실행해야] 하는 경우 <c>True</c>이고, 그렇지 않으면 <c>False</c>입니다.
+            </value>
+            <remarks>단위 테스트 외부에서는 사용되지 않습니다.</remarks>
+        </member>
+        <member name="T:System.Windows.Interactivity.InvokeCommandAction">
+            <summary>
+            호출될 때 지정된 ICommand를 실행합니다.
+            </summary>
+        </member>
+        <member name="T:System.Windows.Interactivity.TriggerAction`1">
+            <summary>
+            기능 단위를 캡슐화하는 연결 가능 개체를 나타냅니다.
+            </summary>
+            <typeparam name="T">이 작업을 연결할 수 있는 형식입니다.</typeparam>
+        </member>
+        <member name="T:System.Windows.Interactivity.TriggerAction">
+            <summary>
+            기능 단위를 캡슐화하는 연결 가능 개체를 나타냅니다.
+            </summary>
+            <remarks>이것은 인프라 클래스입니다. Action 작성자는 이 클래스 대신 TriggerAction&lt;T&gt;에서 파생되어야 합니다.</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerAction.CallInvoke(System.Object)">
+            <summary>
+            작업 호출을 시도합니다.
+            </summary>
+            <param name="parameter">작업에 대한 매개 변수입니다. 작업에 매개 변수가 필요하지 않은 경우 매개 변수를 Null 참조로 설정할 수 있습니다.</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerAction.Invoke(System.Object)">
+            <summary>
+            작업을 호출합니다.
+            </summary>
+            <param name="parameter">작업에 대한 매개 변수입니다. 작업에 매개 변수가 필요하지 않은 경우 매개 변수를 Null 참조로 설정할 수 있습니다.</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerAction.OnAttached">
+            <summary>
+            작업이 AssociatedObject에 연결된 후 호출됩니다.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerAction.OnDetaching">
+            <summary>
+            AssociatedObject에서 작업이 분리될 때 호출되나 실제로 작업이 발생하기 전에 호출됩니다.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerAction.CreateInstanceCore">
+            <summary>
+            파생된 클래스에 구현되었을 때 <see cref="T:System.Windows.Freezable"/> 파생된 클래스의 새 인스턴스를 만듭니다.
+            </summary>
+            <returns>새 인스턴스.</returns>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerAction.Attach(System.Windows.DependencyObject)">
+            <summary>
+            지정된 개체에 연결합니다.
+            </summary>
+            <param name="dependencyObject">연결할 개체입니다.</param>
+            <exception cref="T:System.InvalidOperationException">동일한 TriggerAction을 한 번에 두 개 이상의 개체에서 호스트할 수 없습니다.</exception>
+            <exception cref="T:System.InvalidOperationException">dependencyObject가 TriggerAction 형식 제약 조건을 만족하지 않습니다.</exception>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerAction.Detach">
+            <summary>
+            연결된 개체에서 이 인스턴스를 분리합니다.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerAction.IsEnabled">
+            <summary>
+            호출 시 이 작업을 실행할지 여부를 나타내는 값을 가져오거나 설정합니다. 이것은 종속성 속성입니다.
+            </summary>
+            <value>
+            	호출 시 이 작업이 실행될 경우 <c>True</c>이고, 그렇지 않으면 <c>False</c>입니다.
+            </value>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerAction.AssociatedObject">
+            <summary>
+            이 작업이 연결되는 개체를 가져옵니다.
+            </summary>
+            <value>연결된 개체입니다.</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerAction.AssociatedObjectTypeConstraint">
+            <summary>
+            연결된 개체 형식 제약 조건을 가져옵니다.
+            </summary>
+            <value>연결된 개체 형식 제약 조건입니다.</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerAction.IsHosted">
+            <summary>
+            이 인스턴스의 연결 여부를 나타내는 값을 가져오거나 설정합니다.
+            </summary>
+            <value>이 인스턴스가 연결되었으면 <c>True</c>이고, 그렇지 않으면 <c>False</c>입니다.</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerAction.System#Windows#Interactivity#IAttachedObject#AssociatedObject">
+            <summary>
+            연결된 개체를 가져옵니다.
+            </summary>
+            <value>연결된 개체입니다.</value>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerAction`1.#ctor">
+            <summary>
+            <see cref="T:System.Windows.Interactivity.TriggerAction`1"/> 클래스의 새 인스턴스를 초기화합니다.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerAction`1.AssociatedObject">
+            <summary>
+            이 <see cref="T:System.Windows.Interactivity.TriggerAction`1"/>가 연결되는 개체를 가져옵니다.
+            </summary>
+            <value>연결된 개체입니다.</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerAction`1.AssociatedObjectTypeConstraint">
+            <summary>
+            연결된 개체 형식 제약 조건을 가져옵니다.
+            </summary>
+            <value>연결된 개체 형식 제약 조건입니다.</value>
+        </member>
+        <member name="M:System.Windows.Interactivity.InvokeCommandAction.Invoke(System.Object)">
+            <summary>
+            작업을 호출합니다.
+            </summary>
+            <param name="parameter">작업에 대한 매개 변수입니다. 작업에 매개 변수가 필요하지 않은 경우 매개 변수를 Null 참조로 설정할 수 있습니다.</param>
+        </member>
+        <member name="P:System.Windows.Interactivity.InvokeCommandAction.CommandName">
+            <summary>
+            이 작업이 호출해야 하는 명령의 이름을 가져오거나 설정합니다.
+            </summary>
+            <value>이 작업이 호출해야 하는 명령의 이름입니다.</value>
+            <remarks>이 속성과 Command 속성이 모두 설정된 경우 Command 속성이 이 속성을 대신합니다.</remarks>
+        </member>
+        <member name="P:System.Windows.Interactivity.InvokeCommandAction.Command">
+            <summary>
+            이 작업이 호출해야 할 명령을 가져오거나 설정합니다. 이것은 종속성 속성입니다.
+            </summary>
+            <value>실행할 명령입니다.</value>
+            <remarks>이 속성과 CommandName 속성이 모두 설정된 경우 이 속성이 CommandName 속성보다 우선합니다.</remarks>
+        </member>
+        <member name="P:System.Windows.Interactivity.InvokeCommandAction.CommandParameter">
+            <summary>
+            명령 매개 변수를 가져오거나 설정합니다. 이것은 종속성 속성입니다.
+            </summary>
+            <value>명령 매개 변수입니다.</value>
+            <remarks>이것은 ICommand.CanExecute 및 ICommand.Execute로 전달된 값입니다.</remarks>
+        </member>
+        <member name="T:System.Windows.Interactivity.NameResolvedEventArgs">
+            <summary>
+            이름 변경을 확인할 때 영향을 받은 개체에 대한 데이터를 제공합니다.
+            </summary>
+        </member>
+        <member name="T:System.Windows.Interactivity.NameResolver">
+            <summary>
+            TargetName을 호스트 요소에 의해 제공된 컨텍스트에 따라 대상 요소로 확인하는 논리를 처리하는 도우미 클래스입니다.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.NameResolver.UpdateObjectFromName(System.Windows.DependencyObject)">
+            <summary>
+            namescope 참조 요소의 컨텍스트 내 이름에서 확인된 개체를 업데이트하려고 시도합니다.
+            </summary>
+            <param name="oldObject">이전의 확인된 개체입니다.</param>
+            <remarks>
+            기존 대상을 다시 설정하고 현재 호스트 컨텍스트에서 현재 TargetName을 확인하려고 합니다. 호스트의 컨텍스트에서 요소를 확인할 수 없으면 확인될 때까지 가시적 트리를 계속 탐색합니다. 루트에 도달할 때까지 확인하지 못했으면 대상을 Null로 설정하고 디버그 출력에 경고 메시지를 작성합니다.
+            </remarks>
+        </member>
+        <member name="E:System.Windows.Interactivity.NameResolver.ResolvedElementChanged">
+            <summary>
+            확인된 요소가 변경되었을 때 발생합니다.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.NameResolver.Name">
+            <summary>
+            확인하려는 요소의 이름을 가져오거나 설정합니다.
+            </summary>
+            <value>확인하려는 이름입니다.</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.NameResolver.Object">
+            <summary>
+            확인된 개체입니다. TargetName이 Null이거나 비어 있거나, 확인을 시도되지 않은 경우 참조 요소를 반환합니다.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.NameResolver.NameScopeReferenceElement">
+            <summary>
+            이름 확인을 수행할 참조 요소를 가져오거나 설정합니다.
+            </summary>
+            <value>참조 요소입니다.</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.NameResolver.PendingReferenceElementLoad">
+            <summary>
+            참조 요소 로드가 보류 중인지 여부를 나타내는 값을 가져오거나 설정합니다.
+            </summary>
+            <value>
+            	[참조 요소 로드를 보류 중]인 경우 <c>True</c>이고, 그렇지 않으면 <c>False</c>입니다.
+            </value>
+            <remarks>
+            호스트가 로드되지 않은 경우 이름은 확인되지 않습니다. 이 경우에는 확인을 지연하고 이 속성으로 해당 사실을 추적합니다.
+            </remarks>
+        </member>
+        <member name="T:System.Windows.Interactivity.TargetedTriggerAction`1">
+            <summary>
+            AssociatedObject가 아닌 다른 개체에 영향을 주기 위해 대상으로 지정할 수 있는 작업을 나타냅니다.
+            </summary>
+            <typeparam name="T">대상의 형식 제약 조건입니다.</typeparam>
+            <remarks>
+            	TargetedTriggerAction은 TriggerAction을 확장하여 연결된 요소가 아닌 다른 요소의 정보를 추가합니다. 따라서 사용자는 트리거 발생에 대한 응답으로 연결된 요소가 아닌 다른 요소에서 작업을 호출할 수 있습니다. OnTargetChanged를 다시 정의하여 대상 요소의 처리기를 연결 또는 분리하고 연결된 요소에 대해서는 OnAttached/OnDetaching을 다시 정의합니다. 대상 요소의 형식은 일반 형식 매개 변수로 제한할 수 있습니다. AssociatedObject의 형식을 제어해야 하는 경우에는 파생된 형식에 TypeConstraintAttribute를 설정합니다.
+            </remarks>
+        </member>
+        <member name="T:System.Windows.Interactivity.TargetedTriggerAction">
+            <summary>
+            AssociatedObject가 아닌 다른 개체에 영향을 주기 위해 대상으로 지정할 수 있는 작업을 나타냅니다.
+            </summary>
+            <remarks>이것은 인프라 클래스입니다. Action 작성자는 이 클래스 대신 TargetedTriggerAction&lt;T&gt;에서 파생되어야 합니다.</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.TargetedTriggerAction.OnTargetChangedImpl(System.Object,System.Object)">
+            <summary>
+            대상이 변경될 때 호출됩니다.
+            </summary>
+            <param name="oldTarget">이전 대상입니다.</param>
+            <param name="newTarget">새 대상입니다.</param>
+            <remarks>변경 중인 원본 개체에 기능을 연결하거나 반대로 기능을 분리하려면 파생된 클래스에서 이 기능을 다시 정의해야 합니다.</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.TargetedTriggerAction.OnAttached">
+            <summary>
+            작업이 AssociatedObject에 연결된 후 호출됩니다.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TargetedTriggerAction.OnDetaching">
+            <summary>
+            AssociatedObject에서 작업이 분리될 때 호출되나 실제로 작업이 발생하기 전에 호출됩니다.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.TargetedTriggerAction.TargetObject">
+            <summary>
+            대상 개체를 가져오거나 설정합니다. TargetObject가 설정되지 않은 경우 대상은 TargetName으로 지정된 개체를 찾습니다. TargetName으로 참조되는 요소를 찾을 수 없는 경우 대상은 AssociatedObject로 기본 설정됩니다. 이것은 종속성 속성입니다.
+            </summary>
+            <value>대상 개체입니다.</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.TargetedTriggerAction.TargetName">
+            <summary>
+            이 작업이 대상으로 지정하는 개체의 이름을 가져오거나 설정합니다. Target이 설정되어 있으면 이 속성은 무시됩니다. Target이 설정되어 있지 않고 TargetName을 설정하지 않았거나 확인할 수 없으면 대상이 AssociatedObject로 기본 설정됩니다. 이것은 종속성 속성입니다.
+            </summary>
+            <value>대상 개체의 이름입니다.</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.TargetedTriggerAction.Target">
+            <summary>
+            대상 개체를 가져옵니다. TargetObject를 설정한 경우 TargetObject를 반환합니다. 그렇지 않으면 TargetName을 설정하지 않거나 확인할 수 없는 경우 AssociatedObject로 기본 설정됩니다.
+            </summary>
+            <value>대상 개체입니다.</value>
+            <remarks>일반적으로 이 속성은 파생된 클래스에서 AssociatedObject 대신 사용되어야 합니다.</remarks>
+            <exception cref="T:System.InvalidOperationException">대상 요소가 형식 제약 조건을 만족하지 않습니다.</exception>
+        </member>
+        <member name="P:System.Windows.Interactivity.TargetedTriggerAction.AssociatedObjectTypeConstraint">
+            <summary>
+            연결된 개체 형식 제약 조건을 가져옵니다.
+            </summary>
+            <value>연결된 개체 형식 제약 조건입니다.</value>
+            <remarks>파생된 형식에 TypeConstraintAttribute를 정의하여 연결할 수 있는 형식을 제한합니다.</remarks>
+        </member>
+        <member name="P:System.Windows.Interactivity.TargetedTriggerAction.TargetTypeConstraint">
+            <summary>
+            대상 형식 제약 조건을 가져옵니다.
+            </summary>
+            <value>대상 형식 제약 조건입니다.</value>
+        </member>
+        <member name="M:System.Windows.Interactivity.TargetedTriggerAction`1.#ctor">
+            <summary>
+            <see cref="T:System.Windows.Interactivity.TargetedTriggerAction`1"/> 클래스의 새 인스턴스를 초기화합니다.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TargetedTriggerAction`1.OnTargetChanged(`0,`0)">
+            <summary>
+            대상 속성이 변경될 때 호출됩니다.
+            </summary>
+            <remarks>이 속성을 다시 정의하여 AssociatedObject가 아닌 지정된 대상에 기능을 연결하거나 반대로 기능을 분리합니다.</remarks>
+            <param name="oldTarget">이전 대상입니다.</param>
+            <param name="newTarget">새 대상입니다.</param>
+        </member>
+        <member name="P:System.Windows.Interactivity.TargetedTriggerAction`1.Target">
+            <summary>
+            대상 개체를 가져옵니다. 그렇지 않으면 TargetName을 설정하지 않거나 확인할 수 없는 경우 AssociatedObject로 기본 설정됩니다.
+            </summary>
+            <value>대상입니다.</value>
+            <remarks>일반적으로 이 속성은 파생된 클래스에서 AssociatedObject 대신 사용되어야 합니다.</remarks>
+        </member>
+        <member name="T:System.Windows.Interactivity.TriggerActionCollection">
+            <summary>
+            공유된 AssociatedObject가 있는 작업의 컬렉션을 나타내고 해당 AssociatedObject가 변경될 때 해당 컬렉션의 콘텐츠에 변경 알림을 제공합니다.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerActionCollection.#ctor">
+            <summary>
+            <see cref="T:System.Windows.Interactivity.TriggerActionCollection"/> 클래스의 새 인스턴스를 초기화합니다.
+            </summary>
+            <remarks>이것은 이 어셈블리 외부에서 상속되어선 안 되므로 내부적으로 수행합니다.</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerActionCollection.OnAttached">
+            <summary>
+            컬렉션이 AssociatedObject에 연결된 후 즉시 호출됩니다.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerActionCollection.OnDetaching">
+            <summary>
+            AssociatedObject에서 컬렉션이 분리될 때 호출되나 실제로 컬렉션이 발생하기 전에 호출됩니다.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerActionCollection.ItemAdded(System.Windows.Interactivity.TriggerAction)">
+            <summary>
+            새 항목이 컬렉션에 추가될 때 호출됩니다.
+            </summary>
+            <param name="item">새 항목입니다.</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerActionCollection.ItemRemoved(System.Windows.Interactivity.TriggerAction)">
+            <summary>
+            컬렉션에서 항목이 제거될 때 호출됩니다.
+            </summary>
+            <param name="item">제거된 항목입니다.</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerActionCollection.CreateInstanceCore">
+            <summary>
+            TriggerActionCollection의 새 인스턴스를 만듭니다.
+            </summary>
+            <returns>새 인스턴스.</returns>
+        </member>
+        <member name="T:System.Windows.Interactivity.TriggerBase`1">
+            <summary>
+            조건에 따라 작업을 호출할 수 있는 개체를 나타냅니다.
+            </summary>
+            <typeparam name="T">이 트리거를 연결할 수 있는 형식입니다.</typeparam>
+            <remarks>
+            	TriggerBase는 작업을 제어하기 위한 기본 클래스입니다. OnAttached() 및 OnDetaching()을 다시 정의하여 AssociatedObject에서 처리기를 연결 및 분리합니다. 일반 매개 변수를 지정하여 파생된 TriggerBase를 연결할 수 있는 형식을 제한할 수 있습니다. InvokeActions()을 호출하여 이 TriggerBase와 연결된 모든 Action을 발생시킵니다.
+            </remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerBase`1.#ctor">
+            <summary>
+            <see cref="T:System.Windows.Interactivity.TriggerBase`1"/> 클래스의 새 인스턴스를 초기화합니다.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerBase`1.AssociatedObject">
+            <summary>
+            트리거가 연결되는 개체를 가져옵니다.
+            </summary>
+            <value>연결된 개체입니다.</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerBase`1.AssociatedObjectTypeConstraint">
+            <summary>
+            연결된 개체의 형식 제약 조건을 가져옵니다.
+            </summary>
+            <value>연결된 개체 형식 제약 조건입니다.</value>
+        </member>
+        <member name="T:System.Windows.Interactivity.PreviewInvokeEventArgs">
+            <summary>
+            PreviewInvoke 이벤트에 전달할 인수입니다. Cancelling을 true로 지정하면 트리거의 호출이 취소됩니다.
+            </summary>
+            <remarks>이것은 인프라 클래스입니다. 트리거 기본 개체에 연결된 동작이 자신의 동작을 리스너로 TriggerBase.PreviewInvoke에 추가할 수 있습니다.</remarks>
+        </member>
+        <member name="T:System.Windows.Interactivity.TriggerCollection">
+            <summary>
+             공유된 AssociatedObject가 있는 트리거의 컬렉션을 나타내고 해당 AssociatedObject가 변경될 때 해당 컬렉션의 콘텐츠에 변경 알림을 제공합니다.
+             </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerCollection.#ctor">
+            <summary>
+            <see cref="T:System.Windows.Interactivity.TriggerCollection"/> 클래스의 새 인스턴스를 초기화합니다.
+            </summary>
+            <remarks>이것은 이 어셈블리 외부에서 상속되어선 안 되므로 내부적으로 수행합니다.</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerCollection.OnAttached">
+            <summary>
+            컬렉션이 AssociatedObject에 연결된 후 즉시 호출됩니다.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerCollection.OnDetaching">
+            <summary>
+            AssociatedObject에서 컬렉션이 분리될 때 호출되나 실제로 컬렉션이 발생하기 전에 호출됩니다.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerCollection.ItemAdded(System.Windows.Interactivity.TriggerBase)">
+            <summary>
+            새 항목이 컬렉션에 추가될 때 호출됩니다.
+            </summary>
+            <param name="item">새 항목입니다.</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerCollection.ItemRemoved(System.Windows.Interactivity.TriggerBase)">
+            <summary>
+            컬렉션에서 항목이 제거될 때 호출됩니다.
+            </summary>
+            <param name="item">제거된 항목입니다.</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerCollection.CreateInstanceCore">
+            <summary>
+            <see cref="T:System.Windows.Interactivity.TriggerCollection"/>의 새 인스턴스를 만듭니다.
+            </summary>
+            <returns>새 인스턴스.</returns>
+        </member>
+        <member name="T:System.Windows.Interactivity.TypeConstraintAttribute">
+            <summary>
+            TargetedTriggerAction 및 EventTriggerBase의 AssociatedObject에 형식 제약 조건을 지정합니다.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TypeConstraintAttribute.#ctor(System.Type)">
+            <summary>
+            <see cref="T:System.Windows.Interactivity.TypeConstraintAttribute"/> 클래스의 새 인스턴스를 초기화합니다.
+            </summary>
+            <param name="constraint">제약 조건 형식입니다.</param>
+        </member>
+        <member name="P:System.Windows.Interactivity.TypeConstraintAttribute.Constraint">
+            <summary>
+            제약 조건 형식을 가져옵니다.
+            </summary>
+            <value>제약 조건 형식입니다.</value>
+        </member>
+        <member name="T:ExceptionStringTable">
+            <summary>
+              지역화된 문자열 등을 검색하기 위한 강력한 형식의 리소스 클래스입니다.
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.ResourceManager">
+            <summary>
+              이 클래스에 사용된 캐시된 ResourceManager 인스턴스를 반환합니다.
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.Culture">
+            <summary>
+              이 강력한 형식의 리소스 클래스를 사용하여 모든 리소스를 검색할 경우 현재 스레드의 CurrentUICulture 속성을 다시 정의합니다.
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.CannotHostBehaviorCollectionMultipleTimesExceptionMessage">
+            <summary>
+              [여러 개체에 동일한 BehaviorCollection을 설정할 수 없습니다.]와 유사한 지역화된 문자열을 찾습니다.
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.CannotHostBehaviorMultipleTimesExceptionMessage">
+            <summary>
+              [한 번에 둘 이상의 개체에 동작 인스턴스를 연결할 수 없습니다]와 유사한 지역화된 문자열을 찾습니다.
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.CannotHostTriggerActionMultipleTimesExceptionMessage">
+            <summary>
+              [TriggerAction 인스턴스를 여러 TriggerCollections에서 동시에 호스팅할 수 없습니다. 다른 TriggerCollection에 추가하기 전에 한 TriggerCollection에서 TriggerAction 인스턴스를 제거하십시오.]와 유사한 지역화된 문자열을 찾습니다.
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.CannotHostTriggerCollectionMultipleTimesExceptionMessage">
+            <summary>
+              [여러 개체에 동일한 TriggerCollection을 설정할 수 없습니다.]와 유사한 지역화된 문자열을 찾습니다.
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.CannotHostTriggerMultipleTimesExceptionMessage">
+            <summary>
+              [한 번에 둘 이상의 개체에 트리거 인스턴스를 연결할 수 없습니다.]와 유사한 지역화된 문자열을 찾습니다.
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.CommandDoesNotExistOnBehaviorWarningMessage">
+            <summary>
+              ["{0}" 명령이 없거나 {1}에 공개적으로 노출되어 있지 않습니다.]와 유사한 지역화된 문자열을 찾습니다.
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.DefaultTriggerAttributeInvalidTriggerTypeSpecifiedExceptionMessage">
+            <summary>
+              ["{0}"은(는) TriggerType 매개 변수에 유효한 형식이 아닙니다. "{0}"이(가) TriggerBase에서 파생되었는지 확인하십시오.]와 유사한 지역화된 문자열을 찾습니다.
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.DuplicateItemInCollectionExceptionMessage">
+            <summary>
+              [동일한 "{0}" 인스턴스를 "{1}"에 두 번 이상 추가할 수 없습니다.]와 유사한 지역화된 문자열을 찾습니다.
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.EventTriggerBaseInvalidEventExceptionMessage">
+            <summary>
+              ["{1}" 형식의 "{0}" 이벤트에 호환되지 않는 서명이 있습니다.]와 유사한 지역화된 문자열을 찾습니다. 이벤트가 공용이고 EventHandler 대리자를 충족하는지 확인합니다.
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.EventTriggerCannotFindEventNameExceptionMessage">
+            <summary>
+              ["{1}" 형식에서 "{0}" 이벤트를 찾을 수 없습니다.]와 유사한 지역화된 문자열을 찾습니다.
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.RetargetedTypeConstraintViolatedExceptionMessage">
+            <summary>
+              ["{0}" 형식의 개체에는 "{1}" 형식의 {3} 속성이 있을 수 없습니다. "{0}" 형식의 인스턴스에는 "{2}" 형식의 {3} 속성만 있을 수 있습니다.]와 유사한 지역화된 문자열을 찾습니다.
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.TypeConstraintViolatedExceptionMessage">
+            <summary>
+              ["{0}" 형식을 "{1}" 형식에 연결할 수 없습니다. "{0}" 형식의 인스턴스는 "{2}" 형식의 개체에만 연결할 수 있습니다.]와 유사한 지역화된 문자열을 찾습니다.
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.UnableToResolveTargetNameWarningMessage">
+            <summary>
+              [TargetName "{0}"을(를) 확인할 수 없습니다.]와 유사한 지역화된 문자열을 찾습니다.
+            </summary>
+        </member>
+    </members>
+</doc>

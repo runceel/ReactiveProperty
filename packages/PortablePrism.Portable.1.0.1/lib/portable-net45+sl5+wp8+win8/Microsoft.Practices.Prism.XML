@@ -1,0 +1,2627 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.Practices.Prism</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.Practices.Prism.CollectionExtensions">
+            <summary>
+            Class that provides extension methods to Collection
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.CollectionExtensions.AddRange``1(System.Collections.ObjectModel.Collection{``0},System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Add a range of items to a collection.
+            </summary>
+            <typeparam name="T">Type of objects within the collection.</typeparam>
+            <param name="collection">The collection to add items to.</param>
+            <param name="items">The items to add to the collection.</param>
+            <returns>The collection.</returns>
+            <exception cref="T:System.ArgumentNullException">An <see cref="T:System.ArgumentNullException"/> is thrown if <paramref name="collection"/> or <paramref name="items"/> is <see langword="null"/>.</exception>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Commands.CompositeCommand">
+            <summary>
+            The CompositeCommand composes one or more ICommands.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Commands.CompositeCommand.#ctor">
+            <summary>
+            Initializes a new instance of <see cref="T:Microsoft.Practices.Prism.Commands.CompositeCommand"/>.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Commands.CompositeCommand.#ctor(System.Boolean)">
+            <summary>
+            Initializes a new instance of <see cref="T:Microsoft.Practices.Prism.Commands.CompositeCommand"/>.
+            </summary>
+            <param name="monitorCommandActivity">Indicates when the command activity is going to be monitored.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Commands.CompositeCommand.RegisterCommand(System.Windows.Input.ICommand)">
+            <summary>
+            Adds a command to the collection and signs up for the <see cref="E:System.Windows.Input.ICommand.CanExecuteChanged"/> event of it.
+            </summary>
+             <remarks>
+            If this command is set to monitor command activity, and <paramref name="command"/>
+            implements the <see cref="T:Microsoft.Practices.Prism.IActiveAware"/> interface, this method will subscribe to its
+            <see cref="E:Microsoft.Practices.Prism.IActiveAware.IsActiveChanged"/> event.
+            </remarks>
+            <param name="command">The command to register.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Commands.CompositeCommand.UnregisterCommand(System.Windows.Input.ICommand)">
+            <summary>
+            Removes a command from the collection and removes itself from the <see cref="E:System.Windows.Input.ICommand.CanExecuteChanged"/> event of it.
+            </summary>
+            <param name="command">The command to unregister.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Commands.CompositeCommand.CanExecute(System.Object)">
+            <summary>
+            Forwards <see cref="M:System.Windows.Input.ICommand.CanExecute(System.Object)"/> to the registered commands and returns
+            <see langword="true"/> if all of the commands return <see langword="true"/>.
+            </summary>
+            <param name="parameter">Data used by the command.
+            If the command does not require data to be passed, this object can be set to <see langword="null"/>.
+            </param>
+            <returns><see langword="true"/> if all of the commands return <see langword="true"/>; otherwise, <see langword="false"/>.</returns>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Commands.CompositeCommand.Execute(System.Object)">
+            <summary>
+            Forwards <see cref="M:System.Windows.Input.ICommand.Execute(System.Object)"/> to the registered commands.
+            </summary>
+            <param name="parameter">Data used by the command.
+            If the command does not require data to be passed, this object can be set to <see langword="null"/>.
+            </param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Commands.CompositeCommand.ShouldExecute(System.Windows.Input.ICommand)">
+            <summary>
+            Evaluates if a command should execute.
+            </summary>
+            <param name="command">The command to evaluate.</param>
+            <returns>A <see cref="T:System.Boolean"/> value indicating whether the command should be used
+            when evaluating <see cref="M:Microsoft.Practices.Prism.Commands.CompositeCommand.CanExecute(System.Object)"/> and <see cref="M:Microsoft.Practices.Prism.Commands.CompositeCommand.Execute(System.Object)"/>.</returns>
+            <remarks>
+            If this command is set to monitor command activity, and <paramref name="command"/>
+            implements the <see cref="T:Microsoft.Practices.Prism.IActiveAware"/> interface,
+            this method will return <see langword="false"/> if the command's <see cref="P:Microsoft.Practices.Prism.IActiveAware.IsActive"/>
+            property is <see langword="false"/>; otherwise it always returns <see langword="true"/>.</remarks>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Commands.CompositeCommand.OnCanExecuteChanged">
+            <summary>
+            Raises <see cref="E:System.Windows.Input.ICommand.CanExecuteChanged"/> on the UI thread so every
+            command invoker can requery <see cref="M:System.Windows.Input.ICommand.CanExecute(System.Object)"/> to check if the
+            <see cref="T:Microsoft.Practices.Prism.Commands.CompositeCommand"/> can execute.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Commands.CompositeCommand.Command_IsActiveChanged(System.Object,System.EventArgs)">
+            <summary>
+            Handler for IsActiveChanged events of registered commands.
+            </summary>
+            <param name="sender">The sender.</param>
+            <param name="e">EventArgs to pass to the event.</param>
+        </member>
+        <member name="E:Microsoft.Practices.Prism.Commands.CompositeCommand.CanExecuteChanged">
+            <summary>
+            Occurs when any of the registered commands raise <see cref="E:System.Windows.Input.ICommand.CanExecuteChanged"/>. You must keep a hard
+            reference to the handler to avoid garbage collection and unexpected results. See remarks for more information.
+            </summary>
+            <remarks>
+            When subscribing to the <see cref="E:System.Windows.Input.ICommand.CanExecuteChanged"/> event using
+            code (not when binding using XAML) will need to keep a hard reference to the event handler. This is to prevent
+            garbage collection of the event handler because the command implements the Weak Event pattern so it does not have
+            a hard reference to this handler. An example implementation can be seen in the CompositeCommand and CommandBehaviorBase
+            classes. In most scenarios, there is no reason to sign up to the CanExecuteChanged event directly, but if you do, you
+            are responsible for maintaining the reference.
+            </remarks>
+            <example>
+            The following code holds a reference to the event handler. The myEventHandlerReference value should be stored
+            in an instance member to avoid it from being garbage collected.
+            <code>
+            EventHandler myEventHandlerReference = new EventHandler(this.OnCanExecuteChanged);
+            command.CanExecuteChanged += myEventHandlerReference;
+            </code>
+            </example>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Commands.CompositeCommand.RegisteredCommands">
+            <summary>
+            Gets the list of all the registered commands.
+            </summary>
+            <value>A list of registered commands.</value>
+            <remarks>This returns a copy of the commands subscribed to the CompositeCommand.</remarks>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Commands.DelegateCommand`1">
+            <summary>
+            An <see cref="T:System.Windows.Input.ICommand"/> whose delegates can be attached for <see cref="M:Microsoft.Practices.Prism.Commands.DelegateCommand`1.Execute(`0)"/> and <see cref="M:Microsoft.Practices.Prism.Commands.DelegateCommand`1.CanExecute(`0)"/>.
+            It also implements the <see cref="T:Microsoft.Practices.Prism.IActiveAware"/> interface, which is useful when registering this command in a <see cref="T:Microsoft.Practices.Prism.Commands.CompositeCommand"/> that monitors command's activity.
+            </summary>
+            <typeparam name="T">Parameter type.</typeparam>
+            <remarks>
+            The constructor deliberately prevent the use of value types.
+            Because ICommand takes an object, having a value type for T would cause unexpected behavior when CanExecute(null) is called during XAML initialization for command bindings.
+            Using default(T) was considered and rejected as a solution because the implementor would not be able to distinguish between a valid and defaulted values.
+            <para/>
+            Instead, callers should support a value type by using a nullable value type and checking the HasValue property before using the Value property.
+            <example>
+                <code>
+            public MyClass()
+            {
+                this.submitCommand = new DelegateCommand&lt;int?&gt;(this.Submit, this.CanSubmit);
+            }
+            
+            private bool CanSubmit(int? customerId)
+            {
+                return (customerId.HasValue &amp;&amp; customers.Contains(customerId.Value));
+            }
+                </code>
+            </example>
+            </remarks>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Commands.DelegateCommandBase">
+            <summary>
+            An <see cref="T:System.Windows.Input.ICommand"/> whose delegates can be attached for <see cref="M:Microsoft.Practices.Prism.Commands.DelegateCommandBase.Execute(System.Object)"/> and <see cref="M:Microsoft.Practices.Prism.Commands.DelegateCommandBase.CanExecute(System.Object)"/>.
+            It also implements the <see cref="T:Microsoft.Practices.Prism.IActiveAware"/> interface, which is
+            useful when registering this command in a <see cref="T:Microsoft.Practices.Prism.Commands.CompositeCommand"/>
+            that monitors command's activity.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.IActiveAware">
+            <summary>
+            Interface that defines if the object instance is active
+            and notifies when the activity changes.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.IActiveAware.IsActive">
+            <summary>
+            Gets or sets a value indicating whether the object is active.
+            </summary>
+            <value><see langword="true" /> if the object is active; otherwise <see langword="false" />.</value>
+        </member>
+        <member name="E:Microsoft.Practices.Prism.IActiveAware.IsActiveChanged">
+            <summary>
+            Notifies that the value for <see cref="P:Microsoft.Practices.Prism.IActiveAware.IsActive"/> property has changed.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Commands.DelegateCommandBase.#ctor(System.Action{System.Object},System.Func{System.Object,System.Boolean})">
+            <summary>
+            Createse a new instance of a <see cref="T:Microsoft.Practices.Prism.Commands.DelegateCommandBase"/>, specifying both the execute action and the can execute function.
+            </summary>
+            <param name="executeMethod">The <see cref="T:System.Action"/> to execute when <see cref="M:System.Windows.Input.ICommand.Execute(System.Object)"/> is invoked.</param>
+            <param name="canExecuteMethod">The <see cref="T:System.Func`2"/> to invoked when <see cref="M:System.Windows.Input.ICommand.CanExecute(System.Object)"/> is invoked.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Commands.DelegateCommandBase.OnCanExecuteChanged">
+            <summary>
+            Raises <see cref="E:System.Windows.Input.ICommand.CanExecuteChanged"/> on the UI thread so every
+            command invoker can requery <see cref="M:System.Windows.Input.ICommand.CanExecute(System.Object)"/> to check if the
+            <see cref="T:Microsoft.Practices.Prism.Commands.CompositeCommand"/> can execute.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Commands.DelegateCommandBase.RaiseCanExecuteChanged">
+            <summary>
+            Raises <see cref="E:Microsoft.Practices.Prism.Commands.DelegateCommandBase.CanExecuteChanged"/> on the UI thread so every command invoker
+            can requery to check if the command can execute.
+            <remarks>Note that this will trigger the execution of <see cref="M:Microsoft.Practices.Prism.Commands.DelegateCommandBase.CanExecute(System.Object)"/> once for each invoker.</remarks>
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Commands.DelegateCommandBase.OnIsActiveChanged">
+            <summary>
+            This raises the <see cref="E:Microsoft.Practices.Prism.Commands.DelegateCommandBase.IsActiveChanged"/> event.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Commands.DelegateCommandBase.Execute(System.Object)">
+            <summary>
+            Executes the command with the provided parameter by invoking the <see cref="T:System.Action`1"/> supplied during construction.
+            </summary>
+            <param name="parameter"></param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Commands.DelegateCommandBase.CanExecute(System.Object)">
+            <summary>
+            Determines if the command can execute with the provided parameter by invoing the <see cref="T:System.Func`2"/> supplied during construction.
+            </summary>
+            <param name="parameter">The parameter to use when determining if this command can execute.</param>
+            <returns>Returns <see langword="true"/> if the command can execute.  <see langword="False"/> otherwise.</returns>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Commands.DelegateCommandBase.IsActive">
+            <summary>
+            Gets or sets a value indicating whether the object is active.
+            </summary>
+            <value><see langword="true" /> if the object is active; otherwise <see langword="false" />.</value>
+        </member>
+        <member name="E:Microsoft.Practices.Prism.Commands.DelegateCommandBase.IsActiveChanged">
+            <summary>
+            Fired if the <see cref="P:Microsoft.Practices.Prism.Commands.DelegateCommandBase.IsActive"/> property changes.
+            </summary>
+        </member>
+        <member name="E:Microsoft.Practices.Prism.Commands.DelegateCommandBase.CanExecuteChanged">
+            <summary>
+            Occurs when changes occur that affect whether or not the command should execute.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Commands.DelegateCommand`1.#ctor(System.Action{`0})">
+            <summary>
+            Initializes a new instance of <see cref="T:Microsoft.Practices.Prism.Commands.DelegateCommand`1"/>.
+            </summary>
+            <param name="executeMethod">Delegate to execute when Execute is called on the command.  This can be null to just hook up a CanExecute delegate.</param>
+            <remarks><seealso cref="M:Microsoft.Practices.Prism.Commands.DelegateCommand`1.CanExecute(`0)"/> will always return true.</remarks>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Commands.DelegateCommand`1.#ctor(System.Action{`0},System.Func{`0,System.Boolean})">
+            <summary>
+            Initializes a new instance of <see cref="T:Microsoft.Practices.Prism.Commands.DelegateCommand`1"/>.
+            </summary>
+            <param name="executeMethod">Delegate to execute when Execute is called on the command.  This can be null to just hook up a CanExecute delegate.</param>
+            <param name="canExecuteMethod">Delegate to execute when CanExecute is called on the command.  This can be null.</param>
+            <exception cref="T:System.ArgumentNullException">When both <paramref name="executeMethod"/> and <paramref name="canExecuteMethod"/> ar <see langword="null"/>.</exception>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Commands.DelegateCommand`1.CanExecute(`0)">
+            <summary>
+            Determines if the command can execute by invoked the <see cref="T:System.Func`2"/> provided during construction.
+            </summary>
+            <param name="parameter">Data used by the command to determine if it can execute.</param>
+            <returns>
+            <see langword="true"/> if this command can be executed; otherwise, <see langword="false"/>.
+            </returns>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Commands.DelegateCommand`1.Execute(`0)">
+            <summary>
+            Executes the command and invokes the <see cref="T:System.Action`1"/> provided during construction.
+            </summary>
+            <param name="parameter">Data used by the command.</param>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Commands.DelegateCommand">
+            <summary>
+            An <see cref="T:System.Windows.Input.ICommand"/> whose delegates do not take any parameters for <see cref="M:Microsoft.Practices.Prism.Commands.DelegateCommand.Execute"/> and <see cref="M:Microsoft.Practices.Prism.Commands.DelegateCommand.CanExecute"/>.
+            </summary>
+            <seealso cref="T:Microsoft.Practices.Prism.Commands.DelegateCommandBase"/>
+            <seealso cref="T:Microsoft.Practices.Prism.Commands.DelegateCommand`1"/>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Commands.DelegateCommand.#ctor(System.Action)">
+            <summary>
+            Creates a new instance of <see cref="T:Microsoft.Practices.Prism.Commands.DelegateCommand"/> with the <see cref="T:System.Action"/> to invoke on execution.
+            </summary>
+            <param name="executeMethod">The <see cref="T:System.Action"/> to invoke when <see cref="M:System.Windows.Input.ICommand.Execute(System.Object)"/> is called.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Commands.DelegateCommand.#ctor(System.Action,System.Func{System.Boolean})">
+            <summary>
+            Creates a new instance of <see cref="T:Microsoft.Practices.Prism.Commands.DelegateCommand"/> with the <see cref="T:System.Action"/> to invoke on execution
+            and a <see langword="Func"/> to query for determining if the command can execute.
+            </summary>
+            <param name="executeMethod">The <see cref="T:System.Action"/> to invoke when <see cref="M:System.Windows.Input.ICommand.Execute(System.Object)"/> is called.</param>
+            <param name="canExecuteMethod">The <see cref="T:System.Func`1"/> to invoke when <see cref="M:System.Windows.Input.ICommand.CanExecute(System.Object)"/> is called</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Commands.DelegateCommand.Execute">
+            <summary>
+             Executes the command.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Commands.DelegateCommand.CanExecute">
+            <summary>
+            Determines if the command can be executed.
+            </summary>
+            <returns>Returns <see langword="true"/> if the command can execute,otherwise returns <see langword="false"/>.</returns>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Commands.IEventHandlerManager">
+            <summary>
+            Handles management and dispatching of EventHandlers in a weak way.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Commands.IEventHandlerManager.CallReferenceHandlers(System.Object,System.Collections.Generic.List{System.WeakReference})">
+            <summary>
+             Invokes the handlers 
+            </summary>
+            <param name="sender"></param>
+            <param name="handlers"></param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Commands.IEventHandlerManager.AddReferenceHandler(System.Collections.Generic.List{System.WeakReference}@,System.EventHandler,System.Int32)">
+            <summary>
+             Adds a handler to the supplied list in a weak way.
+            </summary>
+            <param name="handlers">Existing handler list.  It will be created if null.</param>
+            <param name="handler">Handler to add.</param>
+            <param name="defaultListSize">Default list size.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Commands.IEventHandlerManager.RemoveReferenceHandler(System.Collections.Generic.List{System.WeakReference},System.EventHandler)">
+            <summary>
+             Removes an event handler from the reference list.
+            </summary>
+            <param name="handlers">Handler list to remove reference from.</param>
+            <param name="handler">Handler to remove.</param>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Events.BackgroundEventSubscription`1">
+            <summary>
+            Extends <see cref="T:Microsoft.Practices.Prism.Events.EventSubscription`1"/> to invoke the <see cref="P:Microsoft.Practices.Prism.Events.EventSubscription`1.Action"/> delegate in a background thread.
+            </summary>
+            <typeparam name="TPayload">The type to use for the generic <see cref="T:System.Action`1"/> and <see cref="T:System.Predicate`1"/> types.</typeparam>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Events.EventSubscription`1">
+            <summary>
+            Provides a way to retrieve a <see cref="T:System.Delegate"/> to execute an action depending
+            on the value of a second filter predicate that returns true if the action should execute.
+            </summary>
+            <typeparam name="TPayload">The type to use for the generic <see cref="T:System.Action`1"/> and <see cref="T:System.Predicate`1"/> types.</typeparam>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Events.IEventSubscription">
+            <summary>
+             Defines a contract for an event subscription to be used by <see cref="T:Microsoft.Practices.Prism.Events.EventBase"/>.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Events.IEventSubscription.GetExecutionStrategy">
+            <summary>
+            Gets the execution strategy to publish this event.
+            </summary>
+            <returns>An <see cref="T:System.Action`1"/> with the execution strategy, or <see langword="null"/> if the <see cref="T:Microsoft.Practices.Prism.Events.IEventSubscription"/> is no longer valid.</returns>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Events.IEventSubscription.SubscriptionToken">
+            <summary>
+            Gets or sets a <see cref="T:Microsoft.Practices.Prism.Events.SubscriptionToken"/> that identifies this <see cref="T:Microsoft.Practices.Prism.Events.IEventSubscription"/>.
+            </summary>
+            <value>A token that identifies this <see cref="T:Microsoft.Practices.Prism.Events.IEventSubscription"/>.</value>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Events.EventSubscription`1.#ctor(Microsoft.Practices.Prism.Events.IDelegateReference,Microsoft.Practices.Prism.Events.IDelegateReference)">
+            <summary>
+             Creates a new instance of <see cref="T:Microsoft.Practices.Prism.Events.EventSubscription`1"/>.
+            </summary>
+            <param name="actionReference">A reference to a delegate of type <see cref="T:System.Action`1"/>.</param>
+            <param name="filterReference">A reference to a delegate of type <see cref="T:System.Predicate`1"/>.</param>
+            <exception cref="T:System.ArgumentNullException">When <paramref name="actionReference"/> or <see paramref="filterReference"/> are <see langword="null"/>.</exception>
+            <exception cref="T:System.ArgumentException">When the target of <paramref name="actionReference"/> is not of type <see cref="T:System.Action`1"/>,
+            or the target of <paramref name="filterReference"/> is not of type <see cref="T:System.Predicate`1"/>.</exception>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Events.EventSubscription`1.GetExecutionStrategy">
+            <summary>
+            Gets the execution strategy to publish this event.
+            </summary>
+            <returns>An <see cref="T:System.Action`1"/> with the execution strategy, or <see langword="null"/> if the <see cref="T:Microsoft.Practices.Prism.Events.IEventSubscription"/> is no longer valid.</returns>
+            <remarks>
+            If <see cref="P:Microsoft.Practices.Prism.Events.EventSubscription`1.Action"/> or <see cref="P:Microsoft.Practices.Prism.Events.EventSubscription`1.Filter"/> are no longer valid because they were
+            garbage collected, this method will return <see langword="null"/>.
+            Otherwise it will return a delegate that evaluates the <see cref="P:Microsoft.Practices.Prism.Events.EventSubscription`1.Filter"/> and if it
+            returns <see langword="true"/> will then call <see cref="M:Microsoft.Practices.Prism.Events.EventSubscription`1.InvokeAction(System.Action{`0},`0)"/>. The returned
+            delegate holds hard references to the <see cref="P:Microsoft.Practices.Prism.Events.EventSubscription`1.Action"/> and <see cref="P:Microsoft.Practices.Prism.Events.EventSubscription`1.Filter"/> target
+            <see cref="T:System.Delegate">delegates</see>. As long as the returned delegate is not garbage collected,
+            the <see cref="P:Microsoft.Practices.Prism.Events.EventSubscription`1.Action"/> and <see cref="P:Microsoft.Practices.Prism.Events.EventSubscription`1.Filter"/> references delegates won't get collected either.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Events.EventSubscription`1.InvokeAction(System.Action{`0},`0)">
+            <summary>
+            Invokes the specified <see cref="T:System.Action`1"/> synchronously when not overriden.
+            </summary>
+            <param name="action">The action to execute.</param>
+            <param name="argument">The payload to pass <paramref name="action"/> while invoking it.</param>
+            <exception cref="T:System.ArgumentNullException">An <see cref="T:System.ArgumentNullException"/> is thrown if <paramref name="action"/> is null.</exception>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Events.EventSubscription`1.Action">
+            <summary>
+            Gets the target <see cref="T:System.Action`1"/> that is referenced by the <see cref="T:Microsoft.Practices.Prism.Events.IDelegateReference"/>.
+            </summary>
+            <value>An <see cref="T:System.Action`1"/> or <see langword="null"/> if the referenced target is not alive.</value>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Events.EventSubscription`1.Filter">
+            <summary>
+            Gets the target <see cref="T:System.Predicate`1"/> that is referenced by the <see cref="T:Microsoft.Practices.Prism.Events.IDelegateReference"/>.
+            </summary>
+            <value>An <see cref="T:System.Predicate`1"/> or <see langword="null"/> if the referenced target is not alive.</value>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Events.EventSubscription`1.SubscriptionToken">
+            <summary>
+            Gets or sets a <see cref="T:Microsoft.Practices.Prism.Events.SubscriptionToken"/> that identifies this <see cref="T:Microsoft.Practices.Prism.Events.IEventSubscription"/>.
+            </summary>
+            <value>A token that identifies this <see cref="T:Microsoft.Practices.Prism.Events.IEventSubscription"/>.</value>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Events.BackgroundEventSubscription`1.#ctor(Microsoft.Practices.Prism.Events.IDelegateReference,Microsoft.Practices.Prism.Events.IDelegateReference)">
+            <summary>
+            Creates a new instance of <see cref="T:Microsoft.Practices.Prism.Events.BackgroundEventSubscription`1"/>.
+            </summary>
+            <param name="actionReference">A reference to a delegate of type <see cref="T:System.Action`1"/>.</param>
+            <param name="filterReference">A reference to a delegate of type <see cref="T:System.Predicate`1"/>.</param>
+            <exception cref="T:System.ArgumentNullException">When <paramref name="actionReference"/> or <see paramref="filterReference"/> are <see langword="null"/>.</exception>
+            <exception cref="T:System.ArgumentException">When the target of <paramref name="actionReference"/> is not of type <see cref="T:System.Action`1"/>,
+            or the target of <paramref name="filterReference"/> is not of type <see cref="T:System.Predicate`1"/>.</exception>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Events.BackgroundEventSubscription`1.InvokeAction(System.Action{`0},`0)">
+            <summary>
+            Invokes the specified <see cref="T:System.Action`1"/> in an asynchronous thread by using a <see cref="T:System.Threading.ThreadPool"/>.
+            </summary>
+            <param name="action">The action to execute.</param>
+            <param name="argument">The payload to pass <paramref name="action"/> while invoking it.</param>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Events.CompositePresentationEvent`1">
+            <summary>
+            Defines a class that manages publication and subscription to events.
+            </summary>
+            <typeparam name="TPayload">The type of message that will be passed to the subscribers.</typeparam>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Events.EventBase">
+            <summary>
+             Defines a base class to publish and subscribe to events.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Events.EventBase.InitializeDispatcher(System.Lazy{Microsoft.Practices.Prism.Events.IDispatcherFacade})">
+            <summary>
+            Initializes Dispatcher.
+            </summary>
+            <remarks>Can be run only once.</remarks>
+            <param name="dispatcher"></param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Events.EventBase.InternalSubscribe(Microsoft.Practices.Prism.Events.IEventSubscription)">
+            <summary>
+            Adds the specified <see cref="T:Microsoft.Practices.Prism.Events.IEventSubscription"/> to the subscribers' collection.
+            </summary>
+            <param name="eventSubscription">The subscriber.</param>
+            <returns>The <see cref="T:Microsoft.Practices.Prism.Events.SubscriptionToken"/> that uniquely identifies every subscriber.</returns>
+            <remarks>
+            Adds the subscription to the internal list and assigns it a new <see cref="T:Microsoft.Practices.Prism.Events.SubscriptionToken"/>.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Events.EventBase.InternalPublish(System.Object[])">
+            <summary>
+            Calls all the execution strategies exposed by the list of <see cref="T:Microsoft.Practices.Prism.Events.IEventSubscription"/>.
+            </summary>
+            <param name="arguments">The arguments that will be passed to the listeners.</param>
+            <remarks>Before executing the strategies, this class will prune all the subscribers from the
+            list that return a <see langword="null"/> <see cref="T:System.Action`1"/> when calling the
+            <see cref="M:Microsoft.Practices.Prism.Events.IEventSubscription.GetExecutionStrategy"/> method.</remarks>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Events.EventBase.Unsubscribe(Microsoft.Practices.Prism.Events.SubscriptionToken)">
+            <summary>
+            Removes the subscriber matching the <seealso cref="T:Microsoft.Practices.Prism.Events.SubscriptionToken"/>.
+            </summary>
+            <param name="token">The <see cref="T:Microsoft.Practices.Prism.Events.SubscriptionToken"/> returned by <see cref="T:Microsoft.Practices.Prism.Events.EventBase"/> while subscribing to the event.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Events.EventBase.Contains(Microsoft.Practices.Prism.Events.SubscriptionToken)">
+            <summary>
+            Returns <see langword="true"/> if there is a subscriber matching <see cref="T:Microsoft.Practices.Prism.Events.SubscriptionToken"/>.
+            </summary>
+            <param name="token">The <see cref="T:Microsoft.Practices.Prism.Events.SubscriptionToken"/> returned by <see cref="T:Microsoft.Practices.Prism.Events.EventBase"/> while subscribing to the event.</param>
+            <returns><see langword="true"/> if there is a <see cref="T:Microsoft.Practices.Prism.Events.SubscriptionToken"/> that matches; otherwise <see langword="false"/>.</returns>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Events.EventBase.IsDispatcherInitialized">
+            <summary>
+            Gets if dispatcher is initialized for EventBase class or not
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Events.EventBase.UIDispatcher">
+            <summary>
+            Gets the <see cref="!:Dispatcher"/> that is bound to the UI elements.
+            </summary>
+            <value>The <see cref="!:Dispatcher"/> to use when subscribing using <see cref="F:Microsoft.Practices.Prism.Events.ThreadOption.UIThread"/>.</value>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Events.EventBase.Subscriptions">
+            <summary>
+            Gets the list of current subscriptions.
+            </summary>
+            <value>The current subscribers.</value>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Events.CompositePresentationEvent`1.Subscribe(System.Action{`0})">
+            <summary>
+            Subscribes a delegate to an event that will be published on the <see cref="F:Microsoft.Practices.Prism.Events.ThreadOption.PublisherThread"/>.
+            <see cref="T:Microsoft.Practices.Prism.Events.CompositePresentationEvent`1"/> will maintain a <seealso cref="T:System.WeakReference"/> to the target of the supplied <paramref name="action"/> delegate.
+            </summary>
+            <param name="action">The delegate that gets executed when the event is published.</param>
+            <returns>A <see cref="T:Microsoft.Practices.Prism.Events.SubscriptionToken"/> that uniquely identifies the added subscription.</returns>
+            <remarks>
+            The CompositePresentationEvent collection is thread-safe.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Events.CompositePresentationEvent`1.Subscribe(System.Action{`0},Microsoft.Practices.Prism.Events.ThreadOption)">
+            <summary>
+            Subscribes a delegate to an event.
+            CompositePresentationEvent will maintain a <seealso cref="T:System.WeakReference"/> to the Target of the supplied <paramref name="action"/> delegate.
+            </summary>
+            <param name="action">The delegate that gets executed when the event is raised.</param>
+            <param name="threadOption">Specifies on which thread to receive the delegate callback.</param>
+            <returns>A <see cref="T:Microsoft.Practices.Prism.Events.SubscriptionToken"/> that uniquely identifies the added subscription.</returns>
+            <remarks>
+            The CompositePresentationEvent collection is thread-safe.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Events.CompositePresentationEvent`1.Subscribe(System.Action{`0},System.Boolean)">
+            <summary>
+            Subscribes a delegate to an event that will be published on the <see cref="F:Microsoft.Practices.Prism.Events.ThreadOption.PublisherThread"/>.
+            </summary>
+            <param name="action">The delegate that gets executed when the event is published.</param>
+            <param name="keepSubscriberReferenceAlive">When <see langword="true"/>, the <seealso cref="T:Microsoft.Practices.Prism.Events.CompositePresentationEvent`1"/> keeps a reference to the subscriber so it does not get garbage collected.</param>
+            <returns>A <see cref="T:Microsoft.Practices.Prism.Events.SubscriptionToken"/> that uniquely identifies the added subscription.</returns>
+            <remarks>
+            If <paramref name="keepSubscriberReferenceAlive"/> is set to <see langword="false"/>, <see cref="T:Microsoft.Practices.Prism.Events.CompositePresentationEvent`1"/> will maintain a <seealso cref="T:System.WeakReference"/> to the Target of the supplied <paramref name="action"/> delegate.
+            If not using a WeakReference (<paramref name="keepSubscriberReferenceAlive"/> is <see langword="true"/>), the user must explicitly call Unsubscribe for the event when disposing the subscriber in order to avoid memory leaks or unexepcted behavior.
+            <para/>
+            The CompositePresentationEvent collection is thread-safe.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Events.CompositePresentationEvent`1.Subscribe(System.Action{`0},Microsoft.Practices.Prism.Events.ThreadOption,System.Boolean)">
+            <summary>
+            Subscribes a delegate to an event.
+            </summary>
+            <param name="action">The delegate that gets executed when the event is published.</param>
+            <param name="threadOption">Specifies on which thread to receive the delegate callback.</param>
+            <param name="keepSubscriberReferenceAlive">When <see langword="true"/>, the <seealso cref="T:Microsoft.Practices.Prism.Events.CompositePresentationEvent`1"/> keeps a reference to the subscriber so it does not get garbage collected.</param>
+            <returns>A <see cref="T:Microsoft.Practices.Prism.Events.SubscriptionToken"/> that uniquely identifies the added subscription.</returns>
+            <remarks>
+            If <paramref name="keepSubscriberReferenceAlive"/> is set to <see langword="false"/>, <see cref="T:Microsoft.Practices.Prism.Events.CompositePresentationEvent`1"/> will maintain a <seealso cref="T:System.WeakReference"/> to the Target of the supplied <paramref name="action"/> delegate.
+            If not using a WeakReference (<paramref name="keepSubscriberReferenceAlive"/> is <see langword="true"/>), the user must explicitly call Unsubscribe for the event when disposing the subscriber in order to avoid memory leaks or unexepcted behavior.
+            <para/>
+            The CompositePresentationEvent collection is thread-safe.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Events.CompositePresentationEvent`1.Subscribe(System.Action{`0},Microsoft.Practices.Prism.Events.ThreadOption,System.Boolean,System.Predicate{`0})">
+            <summary>
+            Subscribes a delegate to an event.
+            </summary>
+            <param name="action">The delegate that gets executed when the event is published.</param>
+            <param name="threadOption">Specifies on which thread to receive the delegate callback.</param>
+            <param name="keepSubscriberReferenceAlive">When <see langword="true"/>, the <seealso cref="T:Microsoft.Practices.Prism.Events.CompositePresentationEvent`1"/> keeps a reference to the subscriber so it does not get garbage collected.</param>
+            <param name="filter">Filter to evaluate if the subscriber should receive the event.</param>
+            <returns>A <see cref="T:Microsoft.Practices.Prism.Events.SubscriptionToken"/> that uniquely identifies the added subscription.</returns>
+            <remarks>
+            If <paramref name="keepSubscriberReferenceAlive"/> is set to <see langword="false"/>, <see cref="T:Microsoft.Practices.Prism.Events.CompositePresentationEvent`1"/> will maintain a <seealso cref="T:System.WeakReference"/> to the Target of the supplied <paramref name="action"/> delegate.
+            If not using a WeakReference (<paramref name="keepSubscriberReferenceAlive"/> is <see langword="true"/>), the user must explicitly call Unsubscribe for the event when disposing the subscriber in order to avoid memory leaks or unexepcted behavior.
+            
+            The CompositePresentationEvent collection is thread-safe.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Events.CompositePresentationEvent`1.Publish(`0)">
+            <summary>
+            Publishes the <see cref="T:Microsoft.Practices.Prism.Events.CompositePresentationEvent`1"/>.
+            </summary>
+            <param name="payload">Message to pass to the subscribers.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Events.CompositePresentationEvent`1.Unsubscribe(System.Action{`0})">
+            <summary>
+            Removes the first subscriber matching <seealso cref="T:System.Action`1"/> from the subscribers' list.
+            </summary>
+            <param name="subscriber">The <see cref="T:System.Action`1"/> used when subscribing to the event.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Events.CompositePresentationEvent`1.Contains(System.Action{`0})">
+            <summary>
+            Returns <see langword="true"/> if there is a subscriber matching <seealso cref="T:System.Action`1"/>.
+            </summary>
+            <param name="subscriber">The <see cref="T:System.Action`1"/> used when subscribing to the event.</param>
+            <returns><see langword="true"/> if there is an <seealso cref="T:System.Action`1"/> that matches; otherwise <see langword="false"/>.</returns>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Events.DataEventArgs`1">
+            <summary>
+            Generic arguments class to pass to event handlers that need to receive data.
+            </summary>
+            <typeparam name="TData">The type of data to pass.</typeparam>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Events.DataEventArgs`1.#ctor(`0)">
+            <summary>
+            Initializes the DataEventArgs class.
+            </summary>
+            <param name="value">Information related to the event.</param>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Events.DataEventArgs`1.Value">
+            <summary>
+            Gets the information related to the event.
+            </summary>
+            <value>Information related to the event.</value>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Events.DelegateReference">
+            <summary>
+            Represents a reference to a <see cref="T:System.Delegate"/> that may contain a
+            <see cref="T:System.WeakReference"/> to the target. This class is used
+            internally by the Composite Application Library.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Events.IDelegateReference">
+            <summary>
+            Represents a reference to a <see cref="T:System.Delegate"/>.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Events.IDelegateReference.Target">
+            <summary>
+            Gets the referenced <see cref="T:System.Delegate"/> object.
+            </summary>
+            <value>A <see cref="T:System.Delegate"/> instance if the target is valid; otherwise <see langword="null"/>.</value>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Events.DelegateReference.#ctor(System.Object,System.Boolean)">
+            <summary>
+            Initializes a new instance of <see cref="T:Microsoft.Practices.Prism.Events.DelegateReference"/>.
+            </summary>
+            <param name="delegate">The original <see cref="T:System.Delegate"/> to create a reference for.</param>
+            <param name="keepReferenceAlive">If <see langword="false"/> the class will create a weak reference to the delegate, allowing it to be garbage collected. Otherwise it will keep a strong reference to the target.</param>
+            <exception cref="T:System.ArgumentNullException">If the passed <paramref name="delegate"/> is not assignable to <see cref="T:System.Delegate"/>.</exception>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Events.DelegateReference.Target">
+            <summary>
+            Gets the <see cref="T:System.Delegate"/> (the target) referenced by the current <see cref="T:Microsoft.Practices.Prism.Events.DelegateReference"/> object.
+            </summary>
+            <value><see langword="null"/> if the object referenced by the current <see cref="T:Microsoft.Practices.Prism.Events.DelegateReference"/> object has been garbage collected; otherwise, a reference to the <see cref="T:System.Delegate"/> referenced by the current <see cref="T:Microsoft.Practices.Prism.Events.DelegateReference"/> object.</value>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Events.DispatcherEventSubscription`1">
+            <summary>
+             Extends <see cref="T:Microsoft.Practices.Prism.Events.EventSubscription`1"/> to invoke the <see cref="P:Microsoft.Practices.Prism.Events.EventSubscription`1.Action"/> delegate
+             in a specific <see cref="!:Dispatcher"/>.
+            </summary>
+             <typeparam name="TPayload">The type to use for the generic <see cref="T:System.Action`1"/> and <see cref="T:System.Predicate`1"/> types.</typeparam>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Events.DispatcherEventSubscription`1.#ctor(Microsoft.Practices.Prism.Events.IDelegateReference,Microsoft.Practices.Prism.Events.IDelegateReference,Microsoft.Practices.Prism.Events.IDispatcherFacade)">
+            <summary>
+             Creates a new instance of <see cref="T:Microsoft.Practices.Prism.Events.BackgroundEventSubscription`1"/>.
+            </summary>
+            <param name="actionReference">A reference to a delegate of type <see cref="T:System.Action`1"/>.</param>
+            <param name="filterReference">A reference to a delegate of type <see cref="T:System.Predicate`1"/>.</param>
+            <param name="dispatcher">The dispatcher to use when executing the <paramref name="actionReference"/> delegate.</param>
+            <exception cref="T:System.ArgumentNullException">When <paramref name="actionReference"/> or <see paramref="filterReference"/> are <see langword="null"/>.</exception>
+            <exception cref="T:System.ArgumentException">When the target of <paramref name="actionReference"/> is not of type <see cref="T:System.Action`1"/>,
+            or the target of <paramref name="filterReference"/> is not of type <see cref="T:System.Predicate`1"/>.</exception>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Events.DispatcherEventSubscription`1.InvokeAction(System.Action{`0},`0)">
+            <summary>
+            Invokes the specified <see cref="T:System.Action`1"/> asynchronously in the specified <see cref="!:Dispatcher"/>.
+            </summary>
+            <param name="action">The action to execute.</param>
+            <param name="argument">The payload to pass <paramref name="action"/> while invoking it.</param>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Events.EventAggregator">
+            <summary>
+            Implements <see cref="T:Microsoft.Practices.Prism.Events.IEventAggregator"/>.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Events.IEventAggregator">
+            <summary>
+            Defines an interface to get instances of an event type.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Events.IEventAggregator.GetEvent``1">
+            <summary>
+            Gets an instance of an event type.
+            </summary>
+            <typeparam name="TEventType">The type of event to get.</typeparam>
+            <returns>An instance of an event object of type <typeparamref name="TEventType"/>.</returns>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Events.EventAggregator.GetEvent``1">
+            <summary>
+            Gets the single instance of the event managed by this EventAggregator. Multiple calls to this method with the same <typeparamref name="TEventType"/> returns the same event instance.
+            </summary>
+            <typeparam name="TEventType">The type of event to get. This must inherit from <see cref="T:Microsoft.Practices.Prism.Events.EventBase"/>.</typeparam>
+            <returns>A singleton instance of an event object of type <typeparamref name="TEventType"/>.</returns>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Events.IDispatcherFacade">
+            <summary>
+            Defines the interface for invoking methods through a Dispatcher Facade
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Events.IDispatcherFacade.BeginInvoke(System.Delegate,System.Object[])">
+            <summary>
+            Dispatches an invocation to the method received as parameter.
+            </summary>
+            <param name="method">Method to be invoked.</param>
+            <param name="args">Arguments to pass to the invoked method.</param>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Events.EventAggregatorContract">
+            <summary>
+            Defines contract for IEventAggregator interface
+            </summary>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Events.SubscriptionToken">
+            <summary>
+            Subscription token returned from <see cref="T:Microsoft.Practices.Prism.Events.EventBase"/> on subscribe.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Events.SubscriptionToken.#ctor(System.Action{Microsoft.Practices.Prism.Events.SubscriptionToken})">
+            <summary>
+            Initializes a new instance of <see cref="T:Microsoft.Practices.Prism.Events.SubscriptionToken"/>.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Events.SubscriptionToken.Equals(Microsoft.Practices.Prism.Events.SubscriptionToken)">
+            <summary>
+            Indicates whether the current object is equal to another object of the same type.
+            </summary>
+            <returns>
+            <see langword="true"/> if the current object is equal to the <paramref name="other" /> parameter; otherwise, <see langword="false"/>.
+            </returns>
+            <param name="other">An object to compare with this object.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Events.SubscriptionToken.Equals(System.Object)">
+            <summary>
+            Determines whether the specified <see cref="T:System.Object" /> is equal to the current <see cref="T:System.Object" />.
+            </summary>
+            <returns>
+            true if the specified <see cref="T:System.Object" /> is equal to the current <see cref="T:System.Object" />; otherwise, false.
+            </returns>
+            <param name="obj">The <see cref="T:System.Object" /> to compare with the current <see cref="T:System.Object" />. </param>
+            <exception cref="T:System.NullReferenceException">The <paramref name="obj" /> parameter is null.</exception><filterpriority>2</filterpriority>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Events.SubscriptionToken.GetHashCode">
+            <summary>
+            Serves as a hash function for a particular type. 
+            </summary>
+            <returns>
+            A hash code for the current <see cref="T:System.Object" />.
+            </returns>
+            <filterpriority>2</filterpriority>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Events.SubscriptionToken.Dispose">
+            <summary>
+            Disposes the SubscriptionToken, removing the subscription from the corresponding <see cref="T:Microsoft.Practices.Prism.Events.EventBase"/>.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Events.ThreadOption">
+            <summary>
+            Specifies on which thread a <see cref="T:Microsoft.Practices.Prism.Events.CompositePresentationEvent`1"/> subscriber will be called.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Practices.Prism.Events.ThreadOption.PublisherThread">
+            <summary>
+            The call is done on the same thread on which the <see cref="T:Microsoft.Practices.Prism.Events.CompositePresentationEvent`1"/> was published.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Practices.Prism.Events.ThreadOption.UIThread">
+            <summary>
+            The call is done on the UI thread.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Practices.Prism.Events.ThreadOption.BackgroundThread">
+            <summary>
+            The call is done asynchronously on a background thread.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.ExceptionExtensions">
+            <summary>
+            Class that provides extension methods for the Exception class. These extension methods provide
+            a mechanism for developers to get more easily to the root cause of an exception, especially in combination with 
+            DI-containers such as Unity. 
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.ExceptionExtensions.RegisterFrameworkExceptionType(System.Type)">
+            <summary>
+            Register the type of an Exception that is thrown by the framework. The <see cref="M:Microsoft.Practices.Prism.ExceptionExtensions.GetRootException(System.Exception)"/> method uses
+            this list of Exception types to find out if something has gone wrong.  
+            </summary>
+            <param name="frameworkExceptionType">The type of exception to register.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.ExceptionExtensions.IsFrameworkExceptionRegistered(System.Type)">
+            <summary>
+            Determines whether the exception type is already registered using the <see cref="M:Microsoft.Practices.Prism.ExceptionExtensions.RegisterFrameworkExceptionType(System.Type)"/> 
+            method
+            </summary>
+            <param name="frameworkExceptionType">The type of framework exception to find.</param>
+            <returns>
+            	<c>true</c> if the exception type is already registered; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.ExceptionExtensions.GetRootException(System.Exception)">
+            <summary>
+            Looks at all the inner exceptions of the <paramref name="exception"/> parameter to find the 
+            most likely root cause of the exception. This works by skipping all registered exception types.
+            </summary>
+            <remarks>
+            This method is not 100% accurate and should only be used to point a developer into the most likely direction.
+            It should not be used to replace the Inner Exception stack of an exception, because this might hide required exception
+            information. 
+            </remarks>
+            <param name="exception">The exception that will provide the list of inner exeptions to examine.</param>
+            <returns>
+            The exception that most likely caused the exception to occur. If it can't find the root exception, it will return the 
+            <paramref name="exception"/> value itself.
+            </returns>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Modularity.CyclicDependencyFoundException">
+            <summary>
+            Represents the exception that is thrown when there is a circular dependency
+            between modules during the module loading process.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Modularity.ModularityException">
+            <summary>
+            Base class for exceptions that are thrown because of a problem with modules. 
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModularityException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Practices.Prism.Modularity.ModularityException"/> class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModularityException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Practices.Prism.Modularity.ModularityException"/> class.
+            </summary>
+            <param name="message">The exception message.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModularityException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Practices.Prism.Modularity.ModularityException"/> class.
+            </summary>
+            <param name="message">The exception message.</param>
+            <param name="innerException">The inner exception.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModularityException.#ctor(System.String,System.String)">
+            <summary>
+            Initializes the exception with a particular module and error message.
+            </summary>
+            <param name="moduleName">The name of the module.</param>
+            <param name="message">The error message that explains the reason for the exception.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModularityException.#ctor(System.String,System.String,System.Exception)">
+            <summary>
+            Initializes the exception with a particular module, error message and inner exception that happened.
+            </summary>
+            <param name="moduleName">The name of the module.</param>
+            <param name="message">The error message that explains the reason for the exception.</param>
+            <param name="innerException">The exception that is the cause of the current exception, 
+            or a <see langword="null"/> reference if no inner exception is specified.</param>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Modularity.ModularityException.ModuleName">
+            <summary>
+            Gets or sets the name of the module that this exception refers to.
+            </summary>
+            <value>The name of the module.</value>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.CyclicDependencyFoundException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Practices.Prism.Modularity.CyclicDependencyFoundException"/> class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.CyclicDependencyFoundException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Practices.Prism.Modularity.CyclicDependencyFoundException"/> class
+            with the specified error message.
+            </summary>
+            <param name="message">The message that describes the error.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.CyclicDependencyFoundException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Practices.Prism.Modularity.CyclicDependencyFoundException"/> class
+            with the specified error message and inner exception.
+            </summary>
+            <param name="message">The error message that explains the reason for the exception.</param>
+            <param name="innerException">The exception that is the cause of the current exception.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.CyclicDependencyFoundException.#ctor(System.String,System.String,System.Exception)">
+            <summary>
+            Initializes the exception with a particular module, error message and inner exception that happened.
+            </summary>
+            <param name="moduleName">The name of the module.</param>
+            <param name="message">The error message that explains the reason for the exception.</param>
+            <param name="innerException">The exception that is the cause of the current exception, 
+            or a <see langword="null"/> reference if no inner exception is specified.</param>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Modularity.DuplicateModuleException">
+            <summary>
+            Exception thrown when a module is declared twice in the same catalog.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.DuplicateModuleException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Practices.Prism.Modularity.DuplicateModuleException"/> class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.DuplicateModuleException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Practices.Prism.Modularity.DuplicateModuleException"/> class.
+            </summary>
+            <param name="message">The exception message.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.DuplicateModuleException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Practices.Prism.Modularity.DuplicateModuleException"/> class.
+            </summary>
+            <param name="message">The exception message.</param>
+            <param name="innerException">The inner exception.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.DuplicateModuleException.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Practices.Prism.Modularity.DuplicateModuleException"/> class with a specified error message.
+            </summary>
+            <param name="moduleName">The name of the module.</param>
+            <param name="message">The message that describes the error.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.DuplicateModuleException.#ctor(System.String,System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Practices.Prism.Modularity.DuplicateModuleException"/> class with a specified error message and a reference to the inner exception that is the cause of this exception.
+            </summary>
+            <param name="moduleName">The name of the module.</param>
+            <param name="message">The error message that explains the reason for the exception.</param>
+            <param name="innerException">The exception that is the cause of the current exception, or a null reference (Nothing in Visual Basic) if no inner exception is specified.</param>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Modularity.ModuleInitializeException">
+            <summary>
+            Exception thrown by <see cref="T:Microsoft.Practices.Prism.Modularity.IModuleInitializer"/> implementations whenever 
+            a module fails to load.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleInitializeException.#ctor">
+            <summary>
+            Initializes a new instance.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleInitializeException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInitializeException"/> class.
+            </summary>
+            <param name="message">The exception message.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleInitializeException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInitializeException"/> class.
+            </summary>
+            <param name="message">The exception message.</param>
+            <param name="innerException">The inner exception.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleInitializeException.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Initializes the exception with a particular module and error message.
+            </summary>
+            <param name="moduleName">The name of the module.</param>
+            <param name="moduleAssembly">The assembly where the module is located.</param>
+            <param name="message">The error message that explains the reason for the exception.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleInitializeException.#ctor(System.String,System.String,System.String,System.Exception)">
+            <summary>
+            Initializes the exception with a particular module, error message and inner exception 
+            that happened.
+            </summary>
+            <param name="moduleName">The name of the module.</param>
+            <param name="moduleAssembly">The assembly where the module is located.</param>
+            <param name="message">The error message that explains the reason for the exception.</param>
+            <param name="innerException">The exception that is the cause of the current exception, 
+            or a <see langword="null"/> reference if no inner exception is specified.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleInitializeException.#ctor(System.String,System.String,System.Exception)">
+            <summary>
+            Initializes the exception with a particular module, error message and inner exception that happened.
+            </summary>
+            <param name="moduleName">The name of the module.</param>
+            <param name="message">The error message that explains the reason for the exception.</param>
+            <param name="innerException">The exception that is the cause of the current exception, 
+            or a <see langword="null"/> reference if no inner exception is specified.</param>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Modularity.ModuleNotFoundException">
+            <summary>
+            Exception thrown when a requested <see cref="F:Microsoft.Practices.Prism.Modularity.InitializationMode.OnDemand"/> <see cref="T:Microsoft.Practices.Prism.Modularity.IModule"/> was not found.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleNotFoundException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleNotFoundException"/> class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleNotFoundException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleNotFoundException"/> class with a specified error message.
+            </summary>
+            <param name="message">
+            The message that describes the error. 
+            </param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleNotFoundException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleNotFoundException"/> class with a specified error message.
+            </summary>
+            <param name="message">
+            The message that describes the error. 
+            </param>
+            <param name="innerException">The inner exception</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleNotFoundException.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleNotFoundException"/> class with a specified error message and a reference to the inner exception that is the cause of this exception.
+            </summary>
+            <param name="moduleName">The name of the module.</param>
+            <param name="message">The error message that explains the reason for the exception.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleNotFoundException.#ctor(System.String,System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleNotFoundException"/> class with a specified error message and a reference to the inner exception that is the cause of this exception.
+            </summary>
+            <param name="moduleName">The name of the module.</param>
+            <param name="message">The error message that explains the reason for the exception.</param>
+            <param name="innerException">The exception that is the cause of the current exception, or a null reference if no inner exception is specified.</param>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Modularity.IModuleCatalogItem">
+            <summary>
+            Marker interface that allows both <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup"/>s and <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfo"/>s to be
+            added to the <see cref="T:Microsoft.Practices.Prism.Modularity.IModuleCatalog"/> from code and XAML. 
+            </summary>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.ListDictionary`2">
+            <summary>
+            A dictionary of lists.
+            </summary>
+            <typeparam name="TKey">The key to use for lists.</typeparam>
+            <typeparam name="TValue">The type of the value held by lists.</typeparam>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.ListDictionary`2.Add(`0)">
+            <summary>
+            If a list does not already exist, it will be created automatically.
+            </summary>
+            <param name="key">The key of the list that will hold the value.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.ListDictionary`2.Add(`0,`1)">
+            <summary>
+            Adds a value to a list with the given key. If a list does not already exist,
+            it will be created automatically.
+            </summary>
+            <param name="key">The key of the list that will hold the value.</param>
+            <param name="value">The value to add to the list under the given key.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.ListDictionary`2.Clear">
+            <summary>
+            Removes all entries in the dictionary.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.ListDictionary`2.ContainsValue(`1)">
+            <summary>
+            Determines whether the dictionary contains the specified value.
+            </summary>
+            <param name="value">The value to locate.</param>
+            <returns>true if the dictionary contains the value in any list; otherwise, false.</returns>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.ListDictionary`2.ContainsKey(`0)">
+            <summary>
+            Determines whether the dictionary contains the given key.
+            </summary>
+            <param name="key">The key to locate.</param>
+            <returns>true if the dictionary contains the given key; otherwise, false.</returns>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.ListDictionary`2.FindAllValuesByKey(System.Predicate{`0})">
+            <summary>
+            Retrieves the all the elements from the list which have a key that matches the condition
+            defined by the specified predicate.
+            </summary>
+            <param name="keyFilter">The filter with the condition to use to filter lists by their key.</param>
+            <returns>The elements that have a key that matches the condition defined by the specified predicate.</returns>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.ListDictionary`2.FindAllValues(System.Predicate{`1})">
+            <summary>
+            Retrieves all the elements that match the condition defined by the specified predicate.
+            </summary>
+            <param name="valueFilter">The filter with the condition to use to filter values.</param>
+            <returns>The elements that match the condition defined by the specified predicate.</returns>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.ListDictionary`2.Remove(`0)">
+            <summary>
+            Removes a list by key.
+            </summary>
+            <param name="key">The key of the list to remove.</param>
+            <returns><see langword="true" /> if the element was removed.</returns>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.ListDictionary`2.Remove(`0,`1)">
+            <summary>
+            Removes a value from the list with the given key.
+            </summary>
+            <param name="key">The key of the list where the value exists.</param>
+            <param name="value">The value to remove.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.ListDictionary`2.Remove(`1)">
+            <summary>
+            Removes a value from all lists where it may be found.
+            </summary>
+            <param name="value">The value to remove.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.ListDictionary`2.System#Collections#Generic#IDictionary{TKey@System#Collections#Generic#IList{TValue}}#Add(`0,System.Collections.Generic.IList{`1})">
+            <summary>
+            See <see cref="M:System.Collections.Generic.IDictionary`2.Add(`0,`1)"/> for more information.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.ListDictionary`2.System#Collections#Generic#IDictionary{TKey@System#Collections#Generic#IList{TValue}}#TryGetValue(`0,System.Collections.Generic.IList{`1}@)">
+            <summary>
+            See <see cref="M:System.Collections.Generic.IDictionary`2.TryGetValue(`0,`1@)"/> for more information.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.ListDictionary`2.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{TKey@System#Collections#Generic#IList{TValue}}}#Add(System.Collections.Generic.KeyValuePair{`0,System.Collections.Generic.IList{`1}})">
+            <summary>
+            See <see cref="M:System.Collections.Generic.ICollection`1.Add(`0)"/> for more information.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.ListDictionary`2.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{TKey@System#Collections#Generic#IList{TValue}}}#Contains(System.Collections.Generic.KeyValuePair{`0,System.Collections.Generic.IList{`1}})">
+            <summary>
+            See <see cref="M:System.Collections.Generic.ICollection`1.Contains(`0)"/> for more information.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.ListDictionary`2.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{TKey@System#Collections#Generic#IList{TValue}}}#CopyTo(System.Collections.Generic.KeyValuePair{`0,System.Collections.Generic.IList{`1}}[],System.Int32)">
+            <summary>
+            See <see cref="M:System.Collections.Generic.ICollection`1.CopyTo(`0[],System.Int32)"/> for more information.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.ListDictionary`2.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{TKey@System#Collections#Generic#IList{TValue}}}#Remove(System.Collections.Generic.KeyValuePair{`0,System.Collections.Generic.IList{`1}})">
+            <summary>
+            See <see cref="M:System.Collections.Generic.ICollection`1.Remove(`0)"/> for more information.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.ListDictionary`2.System#Collections#Generic#IEnumerable{System#Collections#Generic#KeyValuePair{TKey@System#Collections#Generic#IList{TValue}}}#GetEnumerator">
+            <summary>
+            See <see cref="M:System.Collections.Generic.IEnumerable`1.GetEnumerator"/> for more information.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.ListDictionary`2.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            See <see cref="M:System.Collections.IEnumerable.GetEnumerator"/> for more information.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.ListDictionary`2.Values">
+            <summary>
+            Gets a shallow copy of all values in all lists.
+            </summary>
+            <value>List of values.</value>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.ListDictionary`2.Keys">
+            <summary>
+            Gets the list of keys in the dictionary.
+            </summary>
+            <value>Collection of keys.</value>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.ListDictionary`2.Item(`0)">
+            <summary>
+            Gets or sets the list associated with the given key. The
+            access always succeeds, eventually returning an empty list.
+            </summary>
+            <param name="key">The key of the list to access.</param>
+            <returns>The list associated with the key.</returns>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.ListDictionary`2.Count">
+            <summary>
+            Gets the number of lists in the dictionary.
+            </summary>
+            <value>Value indicating the values count.</value>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.ListDictionary`2.System#Collections#Generic#IDictionary{TKey@System#Collections#Generic#IList{TValue}}#Values">
+            <summary>
+            See <see cref="P:System.Collections.Generic.IDictionary`2.Values"/> for more information.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.ListDictionary`2.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{TKey@System#Collections#Generic#IList{TValue}}}#IsReadOnly">
+            <summary>
+            See <see cref="P:System.Collections.Generic.ICollection`1.IsReadOnly"/> for more information.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Logging.Category">
+            <summary>
+            Defines values for the categories used by <see cref="T:Microsoft.Practices.Prism.Logging.ILoggerFacade"/>.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Practices.Prism.Logging.Category.Debug">
+            <summary>
+            Debug category.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Practices.Prism.Logging.Category.Exception">
+            <summary>
+            Exception category.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Practices.Prism.Logging.Category.Info">
+            <summary>
+            Informational category.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Practices.Prism.Logging.Category.Warn">
+            <summary>
+            Warning category.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Logging.EmptyLogger">
+            <summary>
+            Implementation of <see cref="T:Microsoft.Practices.Prism.Logging.ILoggerFacade"/> that does nothing. This
+            implementation is useful when the application does not need logging
+            but there are infrastructure pieces that assume there is a logger.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Logging.ILoggerFacade">
+            <summary>
+            Defines a simple logger façade to be used by the Composite Application Library.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Logging.ILoggerFacade.Log(System.String,Microsoft.Practices.Prism.Logging.Category,Microsoft.Practices.Prism.Logging.Priority)">
+            <summary>
+            Write a new log entry with the specified category and priority.
+            </summary>
+            <param name="message">Message body to log.</param>
+            <param name="category">Category of the entry.</param>
+            <param name="priority">The priority of the entry.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Logging.EmptyLogger.Log(System.String,Microsoft.Practices.Prism.Logging.Category,Microsoft.Practices.Prism.Logging.Priority)">
+            <summary>
+            This method does nothing.
+            </summary>
+            <param name="message">Message body to log.</param>
+            <param name="category">Category of the entry.</param>
+            <param name="priority">The priority of the entry.</param>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Logging.Priority">
+            <summary>
+            Defines values for the priorities used by <see cref="T:Microsoft.Practices.Prism.Logging.ILoggerFacade"/>.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Practices.Prism.Logging.Priority.None">
+            <summary>
+            No priority specified.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Practices.Prism.Logging.Priority.High">
+            <summary>
+            High priority entry.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Practices.Prism.Logging.Priority.Medium">
+            <summary>
+            Medium priority entry.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Practices.Prism.Logging.Priority.Low">
+            <summary>
+            Low priority entry.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Logging.TextLogger">
+            <summary>
+            Implementation of <see cref="T:Microsoft.Practices.Prism.Logging.ILoggerFacade"/> that logs into a <see cref="T:System.IO.TextWriter"/>.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Logging.TextLogger.#ctor">
+            <summary>
+            Initializes a new instance of <see cref="T:Microsoft.Practices.Prism.Logging.TextLogger"/> that writes to
+            the console output.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Logging.TextLogger.#ctor(System.IO.TextWriter)">
+            <summary>
+            Initializes a new instance of <see cref="T:Microsoft.Practices.Prism.Logging.TextLogger"/>.
+            </summary>
+            <param name="writer">The writer to use for writing log entries.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Logging.TextLogger.Log(System.String,Microsoft.Practices.Prism.Logging.Category,Microsoft.Practices.Prism.Logging.Priority)">
+            <summary>
+            Write a new log entry with the specified category and priority.
+            </summary>
+            <param name="message">Message body to log.</param>
+            <param name="category">Category of the entry.</param>
+            <param name="priority">The priority of the entry.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Logging.TextLogger.Dispose(System.Boolean)">
+            <summary>
+            Disposes the associated <see cref="T:System.IO.TextWriter"/>.
+            </summary>
+            <param name="disposing">When <see langword="true"/>, disposes the associated <see cref="T:System.IO.TextWriter"/>.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Logging.TextLogger.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+             <remarks>Calls <see cref="M:Microsoft.Practices.Prism.Logging.TextLogger.Dispose(System.Boolean)"/></remarks>.
+            <filterpriority>2</filterpriority>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Modularity.IModule">
+            <summary>
+            Defines the contract for the modules deployed in the application.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.IModule.Initialize">
+            <summary>
+            Notifies the module that it has be initialized.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Modularity.IModuleCatalog">
+            <summary>
+            This is the expected catalog definition for the ModuleManager. 
+            The ModuleCatalog holds information about the modules that can be used by the 
+            application. Each module is described in a ModuleInfo class, that records the 
+            name, type and location of the module. 
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.IModuleCatalog.GetDependentModules(Microsoft.Practices.Prism.Modularity.ModuleInfo)">
+            <summary>
+            Return the list of <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfo"/>s that <paramref name="moduleInfo"/> depends on.
+            </summary>
+            <param name="moduleInfo">The <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfo"/> to get the </param>
+            <returns>An enumeration of <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfo"/> that <paramref name="moduleInfo"/> depends on.</returns>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.IModuleCatalog.CompleteListWithDependencies(System.Collections.Generic.IEnumerable{Microsoft.Practices.Prism.Modularity.ModuleInfo})">
+            <summary>
+            Returns the collection of <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfo"/>s that contain both the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfo"/>s in 
+            <paramref name="modules"/>, but also all the modules they depend on. 
+            </summary>
+            <param name="modules">The modules to get the dependencies for.</param>
+            <returns>
+            A collection of <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfo"/> that contains both all <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfo"/>s in <paramref name="modules"/>
+            and also all the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfo"/> they depend on.
+            </returns>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.IModuleCatalog.Initialize">
+            <summary>
+            Initializes the catalog, which may load and validate the modules.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.IModuleCatalog.AddModule(Microsoft.Practices.Prism.Modularity.ModuleInfo)">
+            <summary>
+            Adds a <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfo"/> to the <see cref="!:ModuleCatalog"/>.
+            </summary>
+            <param name="moduleInfo">The <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfo"/> to add.</param>
+            <returns>The <see cref="!:ModuleCatalog"/> for easily adding multiple modules.</returns>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Modularity.IModuleCatalog.Modules">
+            <summary>
+            Gets all the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfo"/> classes that are in the <see cref="!:ModuleCatalog"/>.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Modularity.IModuleCatalogContract">
+            <summary>
+            Defines contract for IModuleCatalog interface
+            </summary>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Modularity.IModuleInitializer">
+            <summary>
+            Declares a service which initializes the modules into the application.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.IModuleInitializer.Initialize(Microsoft.Practices.Prism.Modularity.ModuleInfo)">
+            <summary>
+            Initializes the specified module.
+            </summary>
+            <param name="moduleInfo">The module to initialize</param>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Modularity.IModuleInitializerContract">
+            <summary>
+            Defines contrct for IModuleInitializer interface
+            </summary>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Modularity.IModuleManager">
+            <summary>
+            Defines the interface for the service that will retrieve and initialize the application's modules.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.IModuleManager.Run">
+            <summary>
+            Initializes the modules marked as <see cref="F:Microsoft.Practices.Prism.Modularity.InitializationMode.WhenAvailable"/> on the <see cref="!:ModuleCatalog"/>.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.IModuleManager.LoadModule(System.String)">
+            <summary>
+            Loads and initializes the module on the <see cref="!:ModuleCatalog"/> with the name <paramref name="moduleName"/>.
+            </summary>
+            <param name="moduleName">Name of the module requested for initialization.</param>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Modularity.IModuleTypeLoader">
+            <summary>
+            Defines the interface for moduleTypeLoaders
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.IModuleTypeLoader.CanLoadModuleType(Microsoft.Practices.Prism.Modularity.ModuleInfo)">
+            <summary>
+            Evaluates the <see cref="P:Microsoft.Practices.Prism.Modularity.ModuleInfo.Ref"/> property to see if the current typeloader will be able to retrieve the <paramref name="moduleInfo"/>.
+            </summary>
+            <param name="moduleInfo">Module that should have it's type loaded.</param>
+            <returns><see langword="true"/> if the current typeloader is able to retrieve the module, otherwise <see langword="false"/>.</returns>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.IModuleTypeLoader.LoadModuleType(Microsoft.Practices.Prism.Modularity.ModuleInfo)">
+            <summary>
+            Retrieves the <paramref name="moduleInfo"/>.
+            </summary>
+            <param name="moduleInfo">Module that should have it's type loaded.</param>
+        </member>
+        <member name="E:Microsoft.Practices.Prism.Modularity.IModuleTypeLoader.ModuleDownloadProgressChanged">
+            <summary>
+            Raised repeatedly to provide progress as modules are downloaded in the background.
+            </summary>
+        </member>
+        <member name="E:Microsoft.Practices.Prism.Modularity.IModuleTypeLoader.LoadModuleCompleted">
+            <summary>
+            Raised when a module is loaded or fails to load.
+            </summary>
+            <remarks>
+            This event is raised once per ModuleInfo instance requested in <see cref="M:Microsoft.Practices.Prism.Modularity.IModuleTypeLoader.LoadModuleType(Microsoft.Practices.Prism.Modularity.ModuleInfo)"/>.
+            </remarks>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Modularity.IModuleTypeLoaderContract">
+            <summary>
+            Defines contrct for IModuleTypeLoader interface
+            </summary>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Modularity.InitializationMode">
+            <summary>
+            Specifies on which stage the Module group will be initialized.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Practices.Prism.Modularity.InitializationMode.WhenAvailable">
+            <summary>
+            The module will be initialized when it is available on application start-up.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Practices.Prism.Modularity.InitializationMode.OnDemand">
+            <summary>
+            The module will be initialized when requested, and not automatically on application start-up.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Modularity.LoadModuleCompletedEventArgs">
+            <summary>
+            Provides completion information after a module is loaded, or fails to load.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.LoadModuleCompletedEventArgs.#ctor(Microsoft.Practices.Prism.Modularity.ModuleInfo,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Practices.Prism.Modularity.LoadModuleCompletedEventArgs"/> class.
+            </summary>
+            <param name="moduleInfo">The module info.</param>
+            <param name="error">Any error that occurred during the call.</param>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Modularity.LoadModuleCompletedEventArgs.ModuleInfo">
+            <summary>
+            Gets the module info.
+            </summary>
+            <value>The module info.</value>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Modularity.LoadModuleCompletedEventArgs.Error">
+            <summary>
+            Gets any error that occurred
+            </summary>
+            <value>The exception if an error occurred; otherwise null.</value>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Modularity.LoadModuleCompletedEventArgs.IsErrorHandled">
+            <summary>
+            Gets or sets a value indicating whether the error has been handled by the event subscriber.
+            </summary>
+            <value><c>true</c>if the error is handled; otherwise, <c>false</c>.</value>
+            <remarks>
+            If there is an error on this event and no event subscriber sets this to true, an exception will be thrown by the event publisher.
+            </remarks>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Modularity.ModuleDependencySolver">
+            <summary>
+            Used by <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInitializer"/> to get the load sequence
+            for the modules to load according to their dependencies.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleDependencySolver.#ctor">
+            <summary>
+            Initializes a new instance of the ModuleDependencySolver class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleDependencySolver.AddModule(System.String)">
+            <summary>
+            Adds a module to the solver.
+            </summary>
+            <param name="name">The name that uniquely identifies the module.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleDependencySolver.AddDependency(System.String,System.String)">
+            <summary>
+            Adds a module dependency between the modules specified by dependingModule and
+            dependentModule.
+            </summary>
+            <param name="dependingModule">The name of the module with the dependency.</param>
+            <param name="dependentModule">The name of the module dependingModule
+            depends on.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleDependencySolver.Solve">
+            <summary>
+            Calculates an ordered vector according to the defined dependencies.
+            Non-dependant modules appears at the beginning of the resulting array.
+            </summary>
+            <returns>The resulting ordered list of modules.</returns>
+            <exception cref="T:Microsoft.Practices.Prism.Modularity.CyclicDependencyFoundException">This exception is thrown
+            when a cycle is found in the defined depedency graph.</exception>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Modularity.ModuleDependencySolver.ModuleCount">
+            <summary>
+            Gets the number of modules added to the solver.
+            </summary>
+            <value>The number of modules.</value>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Modularity.ModuleDownloadProgressChangedEventArgs">
+            <summary>
+            Provides progress information as a module downloads.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleDownloadProgressChangedEventArgs.#ctor(Microsoft.Practices.Prism.Modularity.ModuleInfo,System.Int64,System.Int64)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleDownloadProgressChangedEventArgs"/> class.
+            </summary>
+            <param name="moduleInfo">The module info.</param>
+            <param name="bytesReceived">The bytes received.</param>
+            <param name="totalBytesToReceive">The total bytes to receive.</param>        
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Modularity.ModuleDownloadProgressChangedEventArgs.ModuleInfo">
+            <summary>
+            Getsthe module info.
+            </summary>
+            <value>The module info.</value>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Modularity.ModuleDownloadProgressChangedEventArgs.BytesReceived">
+            <summary>
+            Gets the bytes received.
+            </summary>
+            <value>The bytes received.</value>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Modularity.ModuleDownloadProgressChangedEventArgs.TotalBytesToReceive">
+            <summary>
+            Gets the total bytes to receive.
+            </summary>
+            <value>The total bytes to receive.</value>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Modularity.ModuleInfo">
+            <summary>
+            Defines the metadata that describes a module.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleInfo.#ctor">
+            <summary>
+            Initializes a new empty instance of <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfo"/>.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleInfo.#ctor(System.String,System.String,System.String[])">
+            <summary>
+            Initializes a new instance of <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfo"/>.
+            </summary>
+            <param name="name">The module's name.</param>
+            <param name="type">The module <see cref="T:System.Type"/>'s AssemblyQualifiedName.</param>
+            <param name="dependsOn">The modules this instance depends on.</param>
+            <exception cref="T:System.ArgumentNullException">An <see cref="T:System.ArgumentNullException"/> is thrown if <paramref name="dependsOn"/> is <see langword="null"/>.</exception>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleInfo.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfo"/>.
+            </summary>
+            <param name="name">The module's name.</param>
+            <param name="type">The module's type.</param>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Modularity.ModuleInfo.ModuleName">
+            <summary>
+            Gets or sets the name of the module.
+            </summary>
+            <value>The name of the module.</value>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Modularity.ModuleInfo.ModuleType">
+            <summary>
+            Gets or sets the module <see cref="T:System.Type"/>'s AssemblyQualifiedName.
+            </summary>
+            <value>The type of the module.</value>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Modularity.ModuleInfo.DependsOn">
+            <summary>
+            Gets or sets the list of modules that this module depends upon.
+            </summary>
+            <value>The list of modules that this module depends upon.</value>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Modularity.ModuleInfo.InitializationMode">
+            <summary>
+            Specifies on which stage the Module will be initialized.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Modularity.ModuleInfo.Ref">
+            <summary>
+            Reference to the location of the module assembly.
+            <example>The following are examples of valid <see cref="P:Microsoft.Practices.Prism.Modularity.ModuleInfo.Ref"/> values:
+            http://myDomain/ClientBin/MyModules.xap for remote module in Silverlight
+            file://c:/MyProject/Modules/MyModule.dll for a loose DLL in WPF.
+            </example>
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Modularity.ModuleInfo.State">
+            <summary>
+            Gets or sets the state of the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfo"/> with regards to the module loading and initialization process.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup">
+            <summary>
+            Represents a group of <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfo"/> instances that are usually deployed together. <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup"/>s 
+            are also used by the <see cref="!:ModuleCatalog"/> to prevent common deployment problems such as having a module that's required 
+            at startup that depends on modules that will only be downloaded on demand. 
+            
+            The group also forwards <see cref="P:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup.Ref"/> and <see cref="P:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup.InitializationMode"/> values to the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfo"/>s that it
+            contains. 
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup.Add(Microsoft.Practices.Prism.Modularity.ModuleInfo)">
+            <summary>
+            Adds an <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfo"/> moduleInfo to the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup"/>.
+            </summary>
+            <param name="item">The <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfo"/> to the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup"/>.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup.ForwardValues(Microsoft.Practices.Prism.Modularity.ModuleInfo)">
+            <summary>
+            Forwards <see cref="P:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup.InitializationMode"/> and <see cref="P:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup.Ref"/> properties from this <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup"/>
+            to <paramref name="moduleInfo"/>.
+            </summary>
+            <param name="moduleInfo">The module info to forward values to.</param>
+            <exception cref="T:System.ArgumentNullException">An <see cref="T:System.ArgumentNullException"/> is thrown if <paramref name="moduleInfo"/> is <see langword="null"/>.</exception>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup.Clear">
+            <summary>
+            Removes all <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfo"/>s from the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup"/>.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup.Contains(Microsoft.Practices.Prism.Modularity.ModuleInfo)">
+            <summary>
+            Determines whether the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup"/> contains a specific value.
+            </summary>
+            <param name="item">The object to locate in the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup"/>.</param>
+            <returns>
+            true if <paramref name="item"/> is found in the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup"/>; otherwise, false.
+            </returns>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup.CopyTo(Microsoft.Practices.Prism.Modularity.ModuleInfo[],System.Int32)">
+            <summary>
+            Copies the elements of the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup"/> to an <see cref="T:System.Array"/>, starting at a particular <see cref="T:System.Array"/> index.
+            </summary>
+            <param name="array">The one-dimensional <see cref="T:System.Array"/> that is the destination of the elements copied from <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup"/>. The <see cref="T:System.Array"/> must have zero-based indexing.</param>
+            <param name="arrayIndex">The zero-based index in <paramref name="array"/> at which copying begins.</param>
+            <exception cref="T:System.ArgumentNullException">
+            	<paramref name="array"/> is null.
+            </exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            	<paramref name="arrayIndex"/> is less than 0.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            	<paramref name="array"/> is multidimensional.
+            -or-
+            <paramref name="arrayIndex"/> is equal to or greater than the length of <paramref name="array"/>.
+            -or-
+            The number of elements in the source <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup"/> is greater than the available space from <paramref name="arrayIndex"/> to the end of the destination <paramref name="array"/>.
+            </exception>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup.Remove(Microsoft.Practices.Prism.Modularity.ModuleInfo)">
+            <summary>
+            Removes the first occurrence of a specific object from the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup"/>.
+            </summary>
+            <param name="item">The object to remove from the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup"/>.</param>
+            <returns>
+            true if <paramref name="item"/> was successfully removed from the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup"/>; otherwise, false. This method also returns false if <paramref name="item"/> is not found in the original <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup"/>.
+            </returns>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup.GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through the collection.
+            </summary>
+            <returns>
+            A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
+            </returns>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through a collection.
+            </summary>
+            <returns>
+            An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
+            </returns>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup.System#Collections#IList#Add(System.Object)">
+            <summary>
+            Adds an item to the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup"/>.
+            </summary>
+            <param name="value">
+            The <see cref="T:System.Object"/> to add to the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup"/>.
+            Must be of type <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfo"/>
+            </param>
+            <returns>
+            The position into which the new element was inserted.
+            </returns>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup.System#Collections#IList#Contains(System.Object)">
+            <summary>
+            Determines whether the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup"/> contains a specific value.
+            </summary>
+            <param name="value">
+            The <see cref="T:System.Object"/> to locate in the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup"/>.
+            Must be of type <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfo"/>
+            </param>
+            <returns>
+            true if the <see cref="T:System.Object"/> is found in the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup"/>; otherwise, false.
+            </returns>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup.IndexOf(System.Object)">
+            <summary>
+            Determines the index of a specific item in the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup"/>.
+            </summary>
+            <param name="value">
+            The <see cref="T:System.Object"/> to locate in the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup"/>.
+            Must be of type <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfo"/>
+            </param>
+            <returns>
+            The index of <paramref name="value"/> if found in the list; otherwise, -1.
+            </returns>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup.Insert(System.Int32,System.Object)">
+            <summary>
+            Inserts an item to the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup"/> at the specified index.
+            </summary>
+            <param name="index">The zero-based index at which <paramref name="value"/> should be inserted.</param>
+            <param name="value">
+            The <see cref="T:System.Object"/> to insert into the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup"/>.
+            Must be of type <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfo"/>
+            </param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            	<paramref name="index"/> is not a valid index in the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup"/>.
+            </exception>
+            <exception cref="T:System.ArgumentNullException">
+            If <paramref name="value"/> is null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            If <paramref name="value"/> is not of type <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfo"/>
+            </exception>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup.System#Collections#IList#Remove(System.Object)">
+            <summary>
+            Removes the first occurrence of a specific object from the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup"/>.
+            </summary>
+            <param name="value">
+            The <see cref="T:System.Object"/> to remove from the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup"/>. 
+            Must be of type <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfo"/>
+            </param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup.RemoveAt(System.Int32)">
+            <summary>
+            Removes the <see cref="T:System.Collections.Generic.IList`1"/> item at the specified index.
+            </summary>
+            <param name="index">The zero-based index of the item to remove.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            	<paramref name="index"/> is not a valid index in the <see cref="T:System.Collections.Generic.IList`1"/>.
+            </exception>
+            <exception cref="T:System.NotSupportedException">
+            The <see cref="T:System.Collections.Generic.IList`1"/> is read-only.
+            </exception>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup.System#Collections#ICollection#CopyTo(System.Array,System.Int32)">
+            <summary>
+            Copies the elements of the <see cref="T:System.Collections.ICollection"/> to an <see cref="T:System.Array"/>, starting at a particular <see cref="T:System.Array"/> index.
+            </summary>
+            <param name="array">The one-dimensional <see cref="T:System.Array"/> that is the destination of the elements copied from <see cref="T:System.Collections.ICollection"/>. The <see cref="T:System.Array"/> must have zero-based indexing.</param>
+            <param name="index">The zero-based index in <paramref name="array"/> at which copying begins.</param>
+            <exception cref="T:System.ArgumentNullException">
+            	<paramref name="array"/> is null.
+            </exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            	<paramref name="index"/> is less than zero.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            	<paramref name="array"/> is multidimensional.
+            -or-
+            <paramref name="index"/> is equal to or greater than the length of <paramref name="array"/>.
+            -or-
+            The number of elements in the source <see cref="T:System.Collections.ICollection"/> is greater than the available space from <paramref name="index"/> to the end of the destination <paramref name="array"/>.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            The type of the source <see cref="T:System.Collections.ICollection"/> cannot be cast automatically to the type of the destination <paramref name="array"/>.
+            </exception>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup.IndexOf(Microsoft.Practices.Prism.Modularity.ModuleInfo)">
+            <summary>
+            Determines the index of a specific item in the <see cref="T:System.Collections.Generic.IList`1"/>.
+            </summary>
+            <param name="item">The object to locate in the <see cref="T:System.Collections.Generic.IList`1"/>.</param>
+            <returns>
+            The index of <paramref name="item"/> if found in the list; otherwise, -1.
+            </returns>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup.Insert(System.Int32,Microsoft.Practices.Prism.Modularity.ModuleInfo)">
+            <summary>
+            Inserts an item to the <see cref="T:System.Collections.Generic.IList`1"/> at the specified index.
+            </summary>
+            <param name="index">The zero-based index at which <paramref name="item"/> should be inserted.</param>
+            <param name="item">The object to insert into the <see cref="T:System.Collections.Generic.IList`1"/>.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            	<paramref name="index"/> is not a valid index in the <see cref="T:System.Collections.Generic.IList`1"/>.
+            </exception>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup.InitializationMode">
+            <summary>
+            Gets or sets the <see cref="P:Microsoft.Practices.Prism.Modularity.ModuleInfo.InitializationMode"/> for the whole group. Any <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfo"/> classes that are
+            added after setting this value will also get this <see cref="P:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup.InitializationMode"/>.
+            </summary>
+            <seealso cref="P:Microsoft.Practices.Prism.Modularity.ModuleInfo.InitializationMode"/>
+            <value>The initialization mode.</value>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup.Ref">
+            <summary>
+            Gets or sets the <see cref="P:Microsoft.Practices.Prism.Modularity.ModuleInfo.Ref"/> value for the whole group. Any <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfo"/> classes that are
+            added after setting this value will also get this <see cref="P:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup.Ref"/>.
+            
+            The ref value will also be used by the <see cref="T:Microsoft.Practices.Prism.Modularity.IModuleManager"/> to determine which  <see cref="T:Microsoft.Practices.Prism.Modularity.IModuleTypeLoader"/> to use. 
+            For example, if the ref property can be converted to an URL, it the XapModuleTypeLoader will be used 
+            (Only available in the Silverlight version of CAL).
+            For example, using an "file://" prefix with a valid URL will cause the FileModuleTypeLoader to be used
+            (Only available in the desktop version of CAL).
+            </summary>
+            <seealso cref="P:Microsoft.Practices.Prism.Modularity.ModuleInfo.Ref"/>
+            <value>The ref value that will be used.</value>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup.Count">
+            <summary>
+            Gets the number of elements contained in the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup"/>.
+            </summary>
+            <value></value>
+            <returns>
+            The number of elements contained in the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup"/>.
+            </returns>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup.IsReadOnly">
+            <summary>
+            Gets a value indicating whether the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup"/> is read-only.
+            </summary>
+            <value></value>
+            <returns>false, because the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup"/> is not Read-Only.
+            </returns>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup.IsFixedSize">
+            <summary>
+            Gets a value indicating whether the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup"/> has a fixed size.
+            </summary>
+            <returns>false, because the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup"/> does not have a fixed length.
+            </returns>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup.System#Collections#IList#Item(System.Int32)">
+            <summary>
+            Gets or sets the <see cref="T:System.Object"/> at the specified index.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup.IsSynchronized">
+            <summary>
+            Gets a value indicating whether access to the <see cref="T:System.Collections.ICollection"/> is synchronized (thread safe).
+            </summary>
+            <value></value>
+            <returns>true if access to the <see cref="T:System.Collections.ICollection"/> is synchronized (thread safe); otherwise, false.
+            </returns>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup.SyncRoot">
+            <summary>
+            Gets an object that can be used to synchronize access to the <see cref="T:System.Collections.ICollection"/>.
+            </summary>
+            <value></value>
+            <returns>
+            An object that can be used to synchronize access to the <see cref="T:System.Collections.ICollection"/>.
+            </returns>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup.Item(System.Int32)">
+            <summary>
+            Gets or sets the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfo"/> at the specified index.
+            </summary>
+            <value>The <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfo"/> at the specified index </value>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Modularity.ModuleInfoGroupExtensions">
+            <summary>
+            Defines extension methods for the <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfoGroup"/> class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleInfoGroupExtensions.AddModule(Microsoft.Practices.Prism.Modularity.ModuleInfoGroup,System.String,System.Type,System.String[])">
+            <summary>
+            Adds a new module that is statically referenced to the specified module info group.
+            </summary>
+            <param name="moduleInfoGroup">The group where to add the module info in.</param>
+            <param name="moduleName">The name for the module.</param>
+            <param name="moduleType">The type for the module. This type should be a descendant of <see cref="T:Microsoft.Practices.Prism.Modularity.IModule"/>.</param>
+            <param name="dependsOn">The names for the modules that this module depends on.</param>
+            <returns>Returns the instance of the passed in module info group, to provide a fluid interface.</returns>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleInfoGroupExtensions.AddModule(Microsoft.Practices.Prism.Modularity.ModuleInfoGroup,System.Type,System.String[])">
+            <summary>
+            Adds a new module that is statically referenced to the specified module info group.
+            </summary>
+            <param name="moduleInfoGroup">The group where to add the module info in.</param>
+            <param name="moduleType">The type for the module. This type should be a descendant of <see cref="T:Microsoft.Practices.Prism.Modularity.IModule"/>.</param>
+            <param name="dependsOn">The names for the modules that this module depends on.</param>
+            <returns>Returns the instance of the passed in module info group, to provide a fluid interface.</returns>
+            <remarks>The name of the module will be the type name.</remarks>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Modularity.ModuleInitializer">
+            <summary>
+            Implements the <see cref="T:Microsoft.Practices.Prism.Modularity.IModuleInitializer"/> interface. Handles loading of a module based on a type.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleInitializer.#ctor(Microsoft.Practices.ServiceLocation.IServiceLocator,Microsoft.Practices.Prism.Logging.ILoggerFacade)">
+            <summary>
+            Initializes a new instance of <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInitializer"/>.
+            </summary>
+            <param name="serviceLocator">The container that will be used to resolve the modules by specifying its type.</param>
+            <param name="loggerFacade">The logger to use.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleInitializer.Initialize(Microsoft.Practices.Prism.Modularity.ModuleInfo)">
+            <summary>
+            Initializes the specified module.
+            </summary>
+            <param name="moduleInfo">The module to initialize</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleInitializer.HandleModuleInitializationError(Microsoft.Practices.Prism.Modularity.ModuleInfo,System.String,System.Exception)">
+            <summary>
+            Handles any exception ocurred in the module Initialization process,
+            logs the error using the <seealso cref="T:Microsoft.Practices.Prism.Logging.ILoggerFacade"/> and throws a <seealso cref="T:Microsoft.Practices.Prism.Modularity.ModuleInitializeException"/>.
+            This method can be overriden to provide a different behavior. 
+            </summary>
+            <param name="moduleInfo">The module metadata where the error happenened.</param>
+            <param name="assemblyName">The assembly name.</param>
+            <param name="exception">The exception thrown that is the cause of the current error.</param>
+            <exception cref="T:Microsoft.Practices.Prism.Modularity.ModuleInitializeException"></exception>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleInitializer.CreateModule(Microsoft.Practices.Prism.Modularity.ModuleInfo)">
+            <summary>
+            Uses the container to resolve a new <see cref="T:Microsoft.Practices.Prism.Modularity.IModule"/> by specifying its <see cref="T:System.Type"/>.
+            </summary>
+            <param name="moduleInfo">The module to create.</param>
+            <returns>A new instance of the module specified by <paramref name="moduleInfo"/>.</returns>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Modularity.ModuleInitializer.CreateModule(System.String)">
+            <summary>
+            Uses the container to resolve a new <see cref="T:Microsoft.Practices.Prism.Modularity.IModule"/> by specifying its <see cref="T:System.Type"/>.
+            </summary>
+            <param name="typeName">The type name to resolve. This type must implement <see cref="T:Microsoft.Practices.Prism.Modularity.IModule"/>.</param>
+            <returns>A new instance of <paramref name="typeName"/>.</returns>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Modularity.ModuleState">
+            <summary>
+            Defines the states a <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfo"/> can be in, with regards to the module loading and initialization process. 
+            </summary>
+        </member>
+        <member name="F:Microsoft.Practices.Prism.Modularity.ModuleState.NotStarted">
+            <summary>
+            Initial state for <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfo"/>s. The <see cref="T:Microsoft.Practices.Prism.Modularity.ModuleInfo"/> is defined, 
+            but it has not been loaded, retrieved or initialized yet. 
+            </summary>
+        </member>
+        <member name="F:Microsoft.Practices.Prism.Modularity.ModuleState.LoadingTypes">
+            <summary>
+            The assembly that contains the type of the module is currently being loaded by an instance of a
+            <see cref="T:Microsoft.Practices.Prism.Modularity.IModuleTypeLoader"/>. 
+            </summary>
+        </member>
+        <member name="F:Microsoft.Practices.Prism.Modularity.ModuleState.ReadyForInitialization">
+            <summary>
+            The assembly that holds the Module is present. This means the type of the <see cref="T:Microsoft.Practices.Prism.Modularity.IModule"/> can be instantiated and initialized. 
+            </summary>
+        </member>
+        <member name="F:Microsoft.Practices.Prism.Modularity.ModuleState.Initializing">
+            <summary>
+            The module is currently Initializing, by the <see cref="T:Microsoft.Practices.Prism.Modularity.IModuleInitializer"/>
+            </summary>
+        </member>
+        <member name="F:Microsoft.Practices.Prism.Modularity.ModuleState.Initialized">
+            <summary>
+            The module is initialized and ready to be used. 
+            </summary>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Navigation.INavigationAware">
+            <summary>
+            Implementing this interface allows viewmodel be notified about navigation by <see cref="!:ViewModelAwarePage"/>.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Navigation.INavigationAware.OnNavigatedTo(Microsoft.Practices.Prism.Navigation.NavigationContext)">
+            <summary>
+            Invoked when the Page is loaded and becomes the current source of a parent
+            Frame.
+            </summary>
+            <param name="context">Navigation context.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Navigation.INavigationAware.OnNavigatingFrom(Microsoft.Practices.Prism.Navigation.NavigatingCancelContext)">
+            <summary>
+            Invoked immediately before the Page is unloaded and is no longer the current
+            source of a parent Frame.
+            </summary>
+            <param name="context">
+            Navigating context. The navigation can potentially be canceled by setting 
+            Cancel.
+            </param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Navigation.INavigationAware.OnNavigatedFrom(Microsoft.Practices.Prism.Navigation.NavigationContext)">
+            <summary>
+            Invoked immediately after the Page is unloaded and is no longer the current
+            source of a parent Frame.
+            </summary>
+            <param name="context">Navigaion context.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Navigation.NavigatingCancelContext.#ctor(System.Boolean,Microsoft.Practices.Prism.Navigation.NavigationMode,System.Func{System.Boolean},System.Action{System.Boolean})">
+            <summary>
+            Initializes a new instance of the NavigatingCancelContext class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Navigation.NavigatingCancelContext.IsCancelable">
+            <summary>
+            Gets a value that indicates whether you can cancel the navigation.
+            </summary>
+            <returns>true if you can cancel the navigation; otherwise, false.</returns>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Navigation.NavigatingCancelContext.NavigationMode">
+            <summary>
+            Gets a value that indicates the direction of movement during navigation
+            </summary>
+            <returns>A value of the enumeration.</returns>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Navigation.NavigatingCancelContext.Cancel">
+            <summary>
+            Specifies whether a pending navigation should be canceled.
+            </summary>
+            <returns>
+            True to cancel the pending cancelable navigation; false to continue with
+            navigation.
+            </returns>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.Navigation.NavigationContext.#ctor(System.Object,System.Uri,Microsoft.Practices.Prism.Navigation.NavigationMode,System.Object)">
+            <summary>
+            Initializes a new instance of the NavigationContext class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Navigation.NavigationContext.Content">
+            <summary>
+            Gets the root node of the target page's content.
+            </summary>
+            <returns>The root node of the target page's content.</returns>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Navigation.NavigationContext.NavigationMode">
+            <summary>
+            Gets a value that indicates the direction of movement during navigation
+            </summary>
+            <returns>A value of the enumeration.</returns>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Navigation.NavigationContext.Parameter">
+            <summary>
+            Gets any Parameter object passed to the target page for the navigation.
+            </summary>
+            <returns>
+            An object that potentially passes parameters to the navigation target. May
+            be null.
+            </returns>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Navigation.NavigationContext.Uri">
+            <summary>
+            Gets the Uniform Resource Identifier (URI) of the target.
+            </summary>
+            <returns>A value that represents the .</returns>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Navigation.NavigationMode">
+            <summary>
+            Specifies the navigation stack characteristics of a navigation.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Practices.Prism.Navigation.NavigationMode.New">
+            <summary>
+            Navigation is to a new instance of a page (not going forward or backward
+            in the stack).
+            </summary>
+        </member>
+        <member name="F:Microsoft.Practices.Prism.Navigation.NavigationMode.Back">
+            <summary>
+            Navigation is going backward in the stack.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Practices.Prism.Navigation.NavigationMode.Forward">
+            <summary>
+            Navigation is going forward in the stack.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Practices.Prism.Navigation.NavigationMode.Refresh">
+            <summary>
+            Navigation is to the current page (perhaps with different data).
+            </summary>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.AdapterInvalidTypeException">
+            <summary>
+              Looks up a localized string similar to The object must be of type &apos;{0}&apos; in order to use the current region adapter..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.CannotChangeRegionNameException">
+            <summary>
+              Looks up a localized string similar to Cannot change the region name once is set. The current region name is &apos;{0}&apos;..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.CannotCreateNavigationTarget">
+            <summary>
+              Looks up a localized string similar to Cannot create navigation target &apos;{0}&apos;..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.CannotRegisterCompositeCommandInItself">
+            <summary>
+              Looks up a localized string similar to Cannot register a CompositeCommand in itself..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.CannotRegisterSameCommandTwice">
+            <summary>
+              Looks up a localized string similar to Cannot register the same command twice in the same CompositeCommand..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.CanOnlyAddTypesThatInheritIFromRegionBehavior">
+            <summary>
+              Looks up a localized string similar to Type &apos;{0}&apos; does not implement from IRegionBehavior..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.ConfigurationStoreCannotBeNull">
+            <summary>
+              Looks up a localized string similar to The ConfigurationStore cannot contain a null value. .
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.ContentControlHasContentException">
+            <summary>
+              Looks up a localized string similar to ContentControl&apos;s Content property is not empty. 
+               This control is being associated with a region, but the control is already bound to something else. 
+               If you did not explicitly set the control&apos;s Content property, 
+               this exception may be caused by a change in the value of the inherited RegionManager attached property..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.CyclicDependencyFound">
+            <summary>
+              Looks up a localized string similar to At least one cyclic dependency has been found in the module catalog. Cycles in the module dependencies must be avoided..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.DeactiveNotPossibleException">
+            <summary>
+              Looks up a localized string similar to Deactivation is not possible in this type of region..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.DefaultTextLoggerPattern">
+            <summary>
+              Looks up a localized string similar to {1}: {2}. Priority: {3}. Timestamp:{0:u}..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.DelegateCommandDelegatesCannotBeNull">
+            <summary>
+              Looks up a localized string similar to Neither the executeMethod nor the canExecuteMethod delegates can be null..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.DelegateCommandInvalidGenericPayloadType">
+            <summary>
+              Looks up a localized string similar to T for DelegateCommand&lt;T&gt; is not an object nor Nullable..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.DependencyForUnknownModule">
+            <summary>
+              Looks up a localized string similar to Cannot add dependency for unknown module {0}.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.DependencyOnMissingModule">
+            <summary>
+              Looks up a localized string similar to A module declared a dependency on another module which is not declared to be loaded. Missing module(s): {0}.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.DirectoryNotFound">
+            <summary>
+              Looks up a localized string similar to Directory {0} was not found..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.DuplicatedModule">
+            <summary>
+              Looks up a localized string similar to A duplicated module with name {0} has been found by the loader..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.DuplicatedModuleGroup">
+            <summary>
+              Looks up a localized string similar to A duplicated module group with name {0} has been found by the loader..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.FailedToGetType">
+            <summary>
+              Looks up a localized string similar to Unable to retrieve the module type {0} from the loaded assemblies.  You may need to specify a more fully-qualified type name..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.FailedToLoadModule">
+            <summary>
+              Looks up a localized string similar to An exception occurred while initializing module &apos;{0}&apos;. 
+               - The exception message was: {2}
+               - The Assembly that the module was trying to be loaded from was:{1}
+               Check the InnerException property of the exception for more information. If the exception occurred while creating an object in a DI container, you can exception.GetRootException() to help locate the root cause of the problem. 
+             .
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.FailedToLoadModuleNoAssemblyInfo">
+            <summary>
+              Looks up a localized string similar to An exception occurred while initializing module &apos;{0}&apos;. 
+               - The exception message was: {1}
+               Check the InnerException property of the exception for more information. If the exception occurred 
+               while creating an object in a DI container, you can exception.GetRootException() to help locate the 
+               root cause of the problem. .
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.FailedToRetrieveModule">
+             <summary>
+               Looks up a localized string similar to Failed to load type for module {0}. 
+            
+            If this error occurred when using MEF in a Silverlight application, please ensure that the CopyLocal property of the reference to the MefExtensions assembly is set to true in the main application/shell and false in all other assemblies. 
+            
+            Error was: {1}..
+             </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.HostControlCannotBeNull">
+            <summary>
+              Looks up a localized string similar to HostControl cannot have null value when behavior attaches. .
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.HostControlCannotBeSetAfterAttach">
+            <summary>
+              Looks up a localized string similar to The HostControl property cannot be set after Attach method has been called..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.HostControlMustBeATabControl">
+            <summary>
+              Looks up a localized string similar to HostControl type must be a TabControl..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.IEnumeratorObsolete">
+            <summary>
+              Looks up a localized string similar to The IModuleEnumerator interface is no longer used and has been replaced by ModuleCatalog..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.InvalidArgumentAssemblyUri">
+            <summary>
+              Looks up a localized string similar to The argument must be a valid absolute Uri to an assembly file..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.InvalidDelegateRerefenceTypeException">
+            <summary>
+              Looks up a localized string similar to The Target of the IDelegateReference should be of type {0}..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.ItemsControlHasItemsSourceException">
+            <summary>
+              Looks up a localized string similar to ItemsControl&apos;s ItemsSource property is not empty. 
+               This control is being associated with a region, but the control is already bound to something else. 
+               If you did not explicitly set the control&apos;s ItemSource property, 
+               this exception may be caused by a change in the value of the inherited RegionManager attached property..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.MappingExistsException">
+            <summary>
+              Looks up a localized string similar to Mapping with the given type is already registered: {0}..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.ModuleDependenciesNotMetInGroup">
+            <summary>
+              Looks up a localized string similar to Module {0} depends on other modules that don&apos;t belong to the same group..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.ModuleNotFound">
+            <summary>
+              Looks up a localized string similar to Module {0} was not found in the catalog..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.ModulePathCannotBeNullOrEmpty">
+            <summary>
+              Looks up a localized string similar to The ModulePath cannot contain a null value or be empty.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.ModuleTypeNotFound">
+            <summary>
+              Looks up a localized string similar to Failed to load type &apos;{0}&apos; from assembly &apos;{1}&apos;..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.NavigationInProgress">
+            <summary>
+              Looks up a localized string similar to Navigation is already in progress on region with name &apos;{0}&apos;..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.NavigationServiceHasNoRegion">
+            <summary>
+              Looks up a localized string similar to Navigation cannot proceed until a region is set for the RegionNavigationService..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.NoRegionAdapterException">
+            <summary>
+              Looks up a localized string similar to The IRegionAdapter for the type {0} is not registered in the region adapter mappings. You can register an IRegionAdapter for this control by overriding the ConfigureRegionAdapterMappings method in the bootstrapper..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.NoRetrieverCanRetrieveModule">
+            <summary>
+              Looks up a localized string similar to There is currently no moduleTypeLoader in the ModuleManager that can retrieve the specified module..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.OnViewRegisteredException">
+            <summary>
+              Looks up a localized string similar to An exception has occurred while trying to add a view to region &apos;{0}&apos;. 
+               - The most likely causing exception was was: &apos;{1}&apos;.
+               But also check the InnerExceptions for more detail or call .GetRootException(). .
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.PropertySupport_ExpressionNotProperty_Exception">
+            <summary>
+              Looks up a localized string similar to The member access expression does not access a property..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.PropertySupport_NotMemberAccessExpression_Exception">
+            <summary>
+              Looks up a localized string similar to The expression is not a member access expression..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.PropertySupport_StaticExpression_Exception">
+            <summary>
+              Looks up a localized string similar to The referenced property is a static property..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.RegionBehaviorAttachCannotBeCallWithNullRegion">
+            <summary>
+              Looks up a localized string similar to The Attach method cannot be called when Region property is null..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.RegionBehaviorRegionCannotBeSetAfterAttach">
+            <summary>
+              Looks up a localized string similar to The Region property cannot be set after Attach method has been called..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.RegionCreationException">
+            <summary>
+              Looks up a localized string similar to An exception occurred while creating a region with name &apos;{0}&apos;. The exception was: {1}. .
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.RegionManagerWithDifferentNameException">
+            <summary>
+              Looks up a localized string similar to The region being added already has a name of &apos;{0}&apos; and cannot be added to the region manager with a different name (&apos;{1}&apos;)..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.RegionNameCannotBeEmptyException">
+            <summary>
+              Looks up a localized string similar to The region name cannot be null or empty..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.RegionNameExistsException">
+            <summary>
+              Looks up a localized string similar to Region with the given name is already registered: {0}.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.RegionNotFound">
+            <summary>
+              Looks up a localized string similar to This RegionManager does not contain a Region with the name &apos;{0}&apos;..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.RegionNotInRegionManagerException">
+            <summary>
+              Looks up a localized string similar to The region manager does not contain the {0} region..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.RegionViewExistsException">
+            <summary>
+              Looks up a localized string similar to View already exists in region..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.RegionViewNameExistsException">
+            <summary>
+              Looks up a localized string similar to View with name &apos;{0}&apos; already exists in the region..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.StartupModuleDependsOnAnOnDemandModule">
+            <summary>
+              Looks up a localized string similar to Module {0} is marked for automatic initialization when the application starts, but it depends on modules that are marked as OnDemand initialization. To fix this error, mark the dependency modules for InitializationMode=WhenAvailable, or remove this validation by extending the ModuleCatalog class..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.StringCannotBeNullOrEmpty">
+            <summary>
+              Looks up a localized string similar to The provided String argument {0} must not be null or empty..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.StringCannotBeNullOrEmpty1">
+            <summary>
+              Looks up a localized string similar to The provided String argument {0} must not be null or empty..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.TypeWithKeyNotRegistered">
+            <summary>
+              Looks up a localized string similar to No BehaviorType with key &apos;{0}&apos; was registered..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.UpdateRegionException">
+            <summary>
+              Looks up a localized string similar to An exception occurred while trying to create region objects. 
+               - The most likely causing exception was: &apos;{0}&apos;.
+               But also check the InnerExceptions for more detail or call .GetRootException(). .
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.ValueMustBeOfTypeModuleInfo">
+            <summary>
+              Looks up a localized string similar to The value must be of type ModuleInfo..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.ValueNotFound">
+            <summary>
+              Looks up a localized string similar to {0} not found..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.Properties.Resources.ViewNotInRegionException">
+            <summary>
+              Looks up a localized string similar to The region does not contain the specified view..
+            </summary>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.ServiceLocatorExtensions">
+            <summary>
+            Defines extension methods for the <see cref="T:Microsoft.Practices.ServiceLocation.ServiceLocator"/> class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.ServiceLocatorExtensions.TryResolve(Microsoft.Practices.ServiceLocation.IServiceLocator,System.Type)">
+            <summary>
+            Attempts to resolve specified type from the underlying <see cref="T:Microsoft.Practices.ServiceLocation.IServiceLocator"/>.
+            </summary>
+            <remarks>
+            This will return null on any <see cref="T:Microsoft.Practices.ServiceLocation.ActivationException"/>.</remarks>
+            <param name="locator">Locator to use in resolving.</param>
+            <param name="type">Type to resolve.</param>
+            <returns>T or null</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="locator"/> is <see langword="null"/>.</exception>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.ServiceLocatorExtensions.TryResolve``1(Microsoft.Practices.ServiceLocation.IServiceLocator)">
+            <summary>
+            Attempts to resolve specified type from the underlying <see cref="T:Microsoft.Practices.ServiceLocation.IServiceLocator"/>.
+            </summary>
+            <remarks>
+            This will return null on any <see cref="T:Microsoft.Practices.ServiceLocation.ActivationException"/>.</remarks>
+            <typeparam name="T">Type to resolve.</typeparam>
+            <param name="locator">Locator to use in resolving.</param>
+            <returns>T or null</returns>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.UriParsingHelper">
+            <summary>
+            Helper class for parsing <see cref="T:System.Uri"/> instances.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.UriParsingHelper.GetQuery(System.Uri)">
+            <summary>
+            Gets the query part of <paramref name="uri"/>.
+            </summary>
+            <param name="uri">The Uri.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.UriParsingHelper.GetAbsolutePath(System.Uri)">
+            <summary>
+            Gets the AbsolutePath part of <paramref name="uri"/>.
+            </summary>
+            <param name="uri">The Uri.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.UriParsingHelper.ParseQuery(System.Uri)">
+            <summary>
+            Parses the query of <paramref name="uri"/> into a dictionary.
+            </summary>
+            <param name="uri">The URI.</param>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.UriQuery">
+            <summary>
+            Represents a query in a Uri.
+            </summary>
+            <remarks>
+            This class can be used to parse a query string to access 
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.UriQuery.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Practices.Prism.UriQuery"/> class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.UriQuery.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Practices.Prism.UriQuery"/> class with a query string.
+            </summary>
+            <param name="query">The query string.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.UriQuery.GetEnumerator">
+            <summary>
+            Gets the enumerator.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.UriQuery.Add(System.String,System.String)">
+            <summary>
+            Adds the specified key and value.
+            </summary>
+            <param name="key">The name.</param>
+            <param name="value">The value.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.UriQuery.ToString">
+            <summary>
+            Returns a <see cref="T:System.String"/> that represents this instance as a query string.
+            </summary>
+            <returns>
+            A <see cref="T:System.String"/> that represents this instance.
+            </returns>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.UriQuery.Item(System.String)">
+            <summary>
+            Gets the <see cref="T:System.String"/> with the specified key.
+            </summary>
+            <returns>The value for the specified key, or <see langword="null"/> if the query does not contain such a key.</returns>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.ViewModel.ErrorsContainer`1">
+            <summary>
+            Manages validation errors for an object, notifying when the error state changes.
+            </summary>
+            <typeparam name="T">The type of the error object.</typeparam>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.ViewModel.ErrorsContainer`1.#ctor(System.Action{System.String})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Practices.Prism.ViewModel.ErrorsContainer`1"/> class.
+            </summary>
+            <param name="raiseErrorsChanged">The action that invoked if when errors are added for an object./&gt;
+            event.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.ViewModel.ErrorsContainer`1.GetErrors(System.String)">
+            <summary>
+            Gets the validation errors for a specified property.
+            </summary>
+            <param name="propertyName">The name of the property.</param>
+            <returns>The validation errors of type <typeparamref name="T"/> for the property.</returns>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.ViewModel.ErrorsContainer`1.ClearErrors``1(System.Linq.Expressions.Expression{System.Func{``0}})">
+            <summary>
+            Clears the errors for the property indicated by the property expression.
+            </summary>
+            <typeparam name="TProperty">The property type.</typeparam>
+            <param name="propertyExpression">The expression indicating a property.</param>
+            <example>
+                container.ClearErrors(()=>SomeProperty);
+            </example>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.ViewModel.ErrorsContainer`1.ClearErrors(System.String)">
+            <summary>
+            Clears the errors for a property.
+            </summary>
+            <param name="propertyName">The name of th property for which to clear errors.</param>
+            <example>
+                container.ClearErrors("SomeProperty");
+            </example>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.ViewModel.ErrorsContainer`1.SetErrors``1(System.Linq.Expressions.Expression{System.Func{``0}},System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Sets the validation errors for the specified property.
+            </summary>
+            <typeparam name="TProperty">The property type for which to set errors.</typeparam>
+            <param name="propertyExpression">The <see cref="T:System.Linq.Expressions.Expression"/> indicating the property.</param>
+            <param name="propertyErrors">The list of errors to set for the property.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.ViewModel.ErrorsContainer`1.SetErrors(System.String,System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Sets the validation errors for the specified property.
+            </summary>
+            <remarks>
+            If a change is detected then the errors changed event is raised.
+            </remarks>
+            <param name="propertyName">The name of the property.</param>
+            <param name="newValidationResults">The new validation errors.</param>
+        </member>
+        <member name="P:Microsoft.Practices.Prism.ViewModel.ErrorsContainer`1.HasErrors">
+            <summary>
+            Gets a value indicating whether the object has validation errors. 
+            </summary>
+        </member>
+        <member name="T:Microsoft.Practices.Prism.ViewModel.NotificationObject">
+            <summary>
+            Base class for items that support property notification.
+            </summary>
+            <remarks>
+            This class provides basic support for implementing the <see cref="T:System.ComponentModel.INotifyPropertyChanged"/> interface and for
+            marshalling execution to the UI thread.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.ViewModel.NotificationObject.RaisePropertyChanged(System.String)">
+            <summary>
+            Raises this object's PropertyChanged event.
+            </summary>
+            <param name="propertyName">The property that has a new value.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.ViewModel.NotificationObject.RaisePropertyChanged(System.String[])">
+            <summary>
+            Raises this object's PropertyChanged event for each of the properties.
+            </summary>
+            <param name="propertyNames">The properties that have a new value.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.ViewModel.NotificationObject.RaisePropertyChanged``1(System.Linq.Expressions.Expression{System.Func{``0}})">
+            <summary>
+            Raises this object's PropertyChanged event.
+            </summary>
+            <typeparam name="T">The type of the property that has a new value</typeparam>
+            <param name="propertyExpression">A Lambda expression representing the property that has a new value.</param>
+        </member>
+        <member name="E:Microsoft.Practices.Prism.ViewModel.NotificationObject.PropertyChanged">
+            <summary>
+            Raised when a property on this object has a new value.
+            </summary>        
+        </member>
+        <member name="T:Microsoft.Practices.Prism.ViewModel.PropertySupport">
+            <summary>
+             Provides support for extracting property information based on a property expression.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Prism.ViewModel.PropertySupport.ExtractPropertyName``1(System.Linq.Expressions.Expression{System.Func{``0}})">
+            <summary>
+            Extracts the property name from a property expression.
+            </summary>
+            <typeparam name="T">The object type containing the property specified in the expression.</typeparam>
+            <param name="propertyExpression">The property expression (e.g. p =&gt; p.PropertyName)</param>
+            <returns>The name of the property.</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown if the <paramref name="propertyExpression"/> is null.</exception>
+            <exception cref="T:System.ArgumentException">Thrown when the expression is:<br/>
+                Not a <see cref="T:System.Linq.Expressions.MemberExpression"/><br/>
+                The <see cref="T:System.Linq.Expressions.MemberExpression"/> does not represent a property.<br/>
+                Or, the property is static.
+            </exception>
+        </member>
+    </members>
+</doc>

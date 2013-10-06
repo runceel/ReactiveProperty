@@ -1,0 +1,1001 @@
+﻿<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>System.Windows.Interactivity</name>
+    </assembly>
+    <members>
+        <member name="T:System.Windows.Interactivity.AttachableCollection`1">
+            <summary>
+            共有される AssociatedObject と共に IAttachedObject のコレクションを表し、AssociatedObject に変更が発生すると変更通知をコンテンツに提供します。
+            </summary>
+        </member>
+        <member name="T:System.Windows.Interactivity.IAttachedObject">
+            <summary>
+            別のオブジェクトにアタッチ可能なオブジェクトのインターフェイスです。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.IAttachedObject.Attach(System.Windows.DependencyObject)">
+            <summary>
+            指定されたオブジェクトにアタッチします。
+            </summary>
+            <param name="dependencyObject">アタッチするオブジェクト。</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.IAttachedObject.Detach">
+            <summary>
+            このインスタンスを関連オブジェクトからデタッチします。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.IAttachedObject.AssociatedObject">
+            <summary>
+            関連オブジェクトを取得します。
+            </summary>
+            <value>関連オブジェクト。</value>
+            <remarks>インスタンスがアタッチされているオブジェクトを表します。</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.AttachableCollection`1.#ctor">
+            <summary>
+            <see cref="T:System.Windows.Interactivity.AttachableCollection`1"/> クラスの新しいインスタンスを初期化します。
+            </summary>
+            <remarks>アセンブリの外部で継承すべきではないため、内部とします。</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.AttachableCollection`1.OnAttached">
+            <summary>
+            コレクションが AssociatedObject にアタッチされる直後に呼び出されます。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.AttachableCollection`1.OnDetaching">
+            <summary>
+            コレクションが AssociatedObject からデタッチされるとき、その前に呼び出されます。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.AttachableCollection`1.ItemAdded(`0)">
+            <summary>
+            新しい項目がコレクションに追加されるときに呼び出されます。
+            </summary>
+            <param name="item">新しい項目。</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.AttachableCollection`1.ItemRemoved(`0)">
+            <summary>
+            項目がコレクションから削除されるときに呼び出されます。
+            </summary>
+            <param name="item">削除される項目。</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.AttachableCollection`1.VerifyAdd(`0)">
+            <exception cref="T:System.InvalidOperationException">インスタンスをコレクションに再度追加することはできません。</exception>
+        </member>
+        <member name="M:System.Windows.Interactivity.AttachableCollection`1.Attach(System.Windows.DependencyObject)">
+            <summary>
+            指定されたオブジェクトにアタッチします。
+            </summary>
+            <param name="dependencyObject">アタッチするオブジェクト。</param>
+            <exception cref="T:System.InvalidOperationException">IAttachedObject は既に別のオブジェクトにアタッチされています。</exception>
+        </member>
+        <member name="M:System.Windows.Interactivity.AttachableCollection`1.Detach">
+            <summary>
+            このインスタンスを関連オブジェクトからデタッチします。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.AttachableCollection`1.AssociatedObject">
+            <summary>
+            コレクションがホストされるオブジェクト。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.AttachableCollection`1.System#Windows#Interactivity#IAttachedObject#AssociatedObject">
+            <summary>
+            関連オブジェクトを取得します。
+            </summary>
+            <value>関連オブジェクト。</value>
+        </member>
+        <member name="T:System.Windows.Interactivity.Behavior`1">
+            <summary>
+            状態情報および 0 以上の ICommands をアタッチ可能なオブジェクトにカプセル化します。
+            </summary>
+            <typeparam name="T"><see cref="T:System.Windows.Interactivity.Behavior`1"/> をアタッチできる型。</typeparam>
+            <remarks>
+            	Behavior とは、アタッチ可能な状態およびコマンドをオブジェクトに提供するための基本クラスです。 Behavior をアタッチできる型は、ジェネリック パラメーターで制御可能です。 OnAttached() および OnDetaching() メソッドをオーバーライドし、必要なハンドラーを AssociatedObject にフックしたり、アンフックします。
+            </remarks>
+        </member>
+        <member name="T:System.Windows.Interactivity.Behavior">
+            <summary>
+            状態情報および 0 以上の ICommands をアタッチ可能なオブジェクトにカプセル化します。
+            </summary>
+            <remarks>これはインフラストラクチャ クラスです。 Behavior 作成者は、このクラスの代わりに Behavior&lt;T&gt; から派生する必要があります。</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.Behavior.OnAttached">
+            <summary>
+            ビヘイビアーが AssociatedObject にアタッチされた後で呼び出されます。
+            </summary>
+            <remarks>これをオーバーライドし、AssociatedObject に機能をフックアップします。</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.Behavior.OnDetaching">
+            <summary>
+            ビヘイビアーが AssociatedObject からデタッチされるとき、その前に呼び出されます。
+            </summary>
+            <remarks>これをオーバーライドし、機能を AssociatedObject からアンフックします。</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.Behavior.Attach(System.Windows.DependencyObject)">
+            <summary>
+            指定されたオブジェクトにアタッチします。
+            </summary>
+            <param name="dependencyObject">アタッチするオブジェクト。</param>
+            <exception cref="T:System.InvalidOperationException">Behavior は既に別の要素上でホストされています。</exception>
+            <exception cref="T:System.InvalidOperationException">dependencyObject は、Behavior の型制約を満たしていません。</exception>
+        </member>
+        <member name="M:System.Windows.Interactivity.Behavior.Detach">
+            <summary>
+            このインスタンスを関連オブジェクトからデタッチします。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.Behavior.AssociatedType">
+            <summary>
+            このビヘイビアーをアタッチできる型。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.Behavior.AssociatedObject">
+            <summary>
+            このビヘイビアーがアタッチされるオブジェクトを取得します。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.Behavior.System#Windows#Interactivity#IAttachedObject#AssociatedObject">
+            <summary>
+            関連オブジェクトを取得します。
+            </summary>
+            <value>関連オブジェクト。</value>
+        </member>
+        <member name="M:System.Windows.Interactivity.Behavior`1.#ctor">
+            <summary>
+            <see cref="T:System.Windows.Interactivity.Behavior`1"/> クラスの新しいインスタンスを初期化します。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.Behavior`1.AssociatedObject">
+            <summary>
+            この <see cref="T:System.Windows.Interactivity.Behavior`1"/> がアタッチされるオブジェクトを取得します。
+            </summary>
+        </member>
+        <member name="T:System.Windows.Interactivity.BehaviorCollection">
+            <summary>
+            共有される AssociatedObject と共にビヘイビアーのコレクションを表し、AssociatedObject に変更が発生すると変更通知をコンテンツに提供します。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.BehaviorCollection.#ctor">
+            <summary>
+            <see cref="T:System.Windows.Interactivity.BehaviorCollection"/> クラスの新しいインスタンスを初期化します。
+            </summary>
+            <remarks>アセンブリの外部で継承すべきではないため、内部とします。</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.BehaviorCollection.OnAttached">
+            <summary>
+            コレクションが AssociatedObject にアタッチされる直後に呼び出されます。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.BehaviorCollection.OnDetaching">
+            <summary>
+            コレクションが AssociatedObject からデタッチされるとき、その前に呼び出されます。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.BehaviorCollection.ItemAdded(System.Windows.Interactivity.Behavior)">
+            <summary>
+            新しい項目がコレクションに追加されるときに呼び出されます。
+            </summary>
+            <param name="item">新しい項目。</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.BehaviorCollection.ItemRemoved(System.Windows.Interactivity.Behavior)">
+            <summary>
+            項目がコレクションから削除されるときに呼び出されます。
+            </summary>
+            <param name="item">削除される項目。</param>
+        </member>
+        <member name="T:System.Windows.Interactivity.CustomPropertyValueEditor">
+            <summary>
+            再利用可能なプロパティ値エディターに対し可能な値をカプセル化します。
+            </summary>
+        </member>
+        <member name="F:System.Windows.Interactivity.CustomPropertyValueEditor.Element">
+            <summary>
+            デザイン時に、サポートされている場合は要素ピッカーを使用してこのプロパティを編集します。
+            </summary>
+        </member>
+        <member name="F:System.Windows.Interactivity.CustomPropertyValueEditor.Storyboard">
+            <summary>
+            デザイン時に、サポートされている場合はストーリーボード ピッカーを使用してこのプロパティを編集します。
+            </summary>
+        </member>
+        <member name="F:System.Windows.Interactivity.CustomPropertyValueEditor.StateName">
+            <summary>
+            デザイン時に、サポートされている場合は状態ピッカーを使用してこのプロパティを編集します。
+            </summary>
+        </member>
+        <member name="F:System.Windows.Interactivity.CustomPropertyValueEditor.ElementBinding">
+            <summary>
+            デザイン時に、サポートされている場合は要素バインド ピッカーを使用してこのプロパティを編集します。
+            </summary>
+        </member>
+        <member name="F:System.Windows.Interactivity.CustomPropertyValueEditor.PropertyBinding">
+            <summary>
+            デザイン時に、サポートされている場合は要素バインド ピッカーを使用してこのプロパティを編集します。
+            </summary>
+        </member>
+        <member name="T:System.Windows.Interactivity.CustomPropertyValueEditorAttribute">
+            <summary>
+            特定のエディターの種類を CustomPropertyValueEditor が適用されるプロパティに関連付けます。
+            </summary>
+            <remarks>この属性を使用して、要素 (名前別)、ストーリーボード、または状態 (名前別) を示すプロパティ用にデザイン時の編集を強化します。</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.CustomPropertyValueEditorAttribute.#ctor(System.Windows.Interactivity.CustomPropertyValueEditor)">
+            <summary>
+            <see cref="T:System.Windows.Interactivity.CustomPropertyValueEditorAttribute"/> クラスの新しいインスタンスを初期化します。
+            </summary>
+            <param name="customPropertyValueEditor">カスタム プロパティ値エディター。</param>
+        </member>
+        <member name="P:System.Windows.Interactivity.CustomPropertyValueEditorAttribute.CustomPropertyValueEditor">
+            <summary>
+            カスタム プロパティ値エディターを取得または設定します。
+            </summary>
+            <value>カスタム プロパティ値エディター。</value>
+        </member>
+        <member name="T:System.Windows.Interactivity.DefaultTriggerAttribute">
+            <summary>
+            特定のアクションまたはコマンドに対してどの<see cref="T:System.Windows.Interactivity.TriggerBase"/>をインスタンス化するかについてデザイン ツールの情報を提供します。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.DefaultTriggerAttribute.#ctor(System.Type,System.Type,System.Object)">
+            <summary>
+            <see cref="T:System.Windows.Interactivity.DefaultTriggerAttribute"/> クラスの新しいインスタンスを初期化します。
+            </summary>
+            <param name="targetType">この属性が適用される型。</param>
+            <param name="triggerType">インスタンス化する<see cref="T:System.Windows.Interactivity.TriggerBase"/>の型。</param>
+            <param name="parameters">指定された<see cref="T:System.Windows.Interactivity.TriggerBase"/>用の単一の引数。</param>
+            <exception cref="T:System.ArgumentException"><c cref="F:System.Windows.Interactivity.DefaultTriggerAttribute.triggerType"/> は TriggerBase から派生しません。</exception>
+            <remarks>このコンストラクターは、指定された<see cref="T:System.Windows.Interactivity.TriggerBase"/>に単一の引数がある場合に役立ちます。 結果コードは CLS に準拠します。</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.DefaultTriggerAttribute.#ctor(System.Type,System.Type,System.Object[])">
+            <summary>
+            <see cref="T:System.Windows.Interactivity.DefaultTriggerAttribute"/> クラスの新しいインスタンスを初期化します。
+            </summary>
+            <param name="targetType">この属性が適用される型。</param>
+            <param name="triggerType">インスタンス化する<see cref="T:System.Windows.Interactivity.TriggerBase"/>の型。</param>
+            <param name="parameters">指定された<see cref="T:System.Windows.Interactivity.TriggerBase"/>用のコンストラクター引数。</param>
+            <exception cref="T:System.ArgumentException"><c cref="F:System.Windows.Interactivity.DefaultTriggerAttribute.triggerType"/> は TriggerBase から派生したものではありません。</exception>
+        </member>
+        <member name="M:System.Windows.Interactivity.DefaultTriggerAttribute.Instantiate">
+            <summary>
+            このインスタンスをインスタンス化します。
+            </summary>
+            <returns>DefaultTriggerAttribute により指定された<see cref="T:System.Windows.Interactivity.TriggerBase"/>。</returns>
+        </member>
+        <member name="P:System.Windows.Interactivity.DefaultTriggerAttribute.TargetType">
+            <summary>
+            この DefaultTriggerAttribute が適用される型を取得します。
+            </summary>
+            <value>この DefaultTriggerAttribute が適用される型。</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.DefaultTriggerAttribute.TriggerType">
+            <summary>
+            インスタンス化する<see cref="T:System.Windows.Interactivity.TriggerBase"/>の型を取得します。
+            </summary>
+            <value>インスタンス化する<see cref="T:System.Windows.Interactivity.TriggerBase"/>の型。</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.DefaultTriggerAttribute.Parameters">
+            <summary>
+            <see cref="T:System.Windows.Interactivity.TriggerBase"/> コンストラクターに渡すパラメーターを取得します。
+            </summary>
+            <value><see cref="T:System.Windows.Interactivity.TriggerBase"/> コンストラクターに渡すパラメーター。</value>
+        </member>
+        <member name="M:System.Windows.Interactivity.DependencyObjectHelper.GetSelfAndAncestors(System.Windows.DependencyObject)">
+            <summary>
+            このメソッドは、VisualTreeHelper.GetParent メソッドを使用して、ビジュアル ツリーの上位階層の初期検索を行い、指定オブジェクトの先祖をすべて (オブジェクト自体も含めて) 返します。
+            </summary>
+            <param name="dependencyObject">ビジュアル ツリー内で先祖を見つけるオブジェクト。</param>
+            <returns>オブジェクト自体とビジュアル ツリー内のそのすべての先祖を返します。</returns>
+        </member>
+        <member name="T:System.Windows.Interactivity.EventObserver">
+            <summary>
+            EventObserver は、イベント ハンドラーが破棄されるとデタッチして、その管理を支援するようにデザインされています。 このオブジェクトを作成すると、コンストラクターにアタッチされます。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventObserver.#ctor(System.Reflection.EventInfo,System.Object,System.Delegate)">
+            <summary>
+            EventObserver のインスタンスを作成し、提供されるイベントとターゲットにアタッチします。 dispose を呼び出してデタッチします。
+            </summary>
+            <param name="eventInfo">アタッチおよびデタッチするイベント。</param>
+            <param name="target">イベントが定義されるターゲット オブジェクト。 メソッドが静的な場合は Null です。</param>
+            <param name="handler">イベントにアタッチするデリゲート。</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventObserver.Dispose">
+            <summary>
+            イベントからハンドラーをデタッチします。
+            </summary>
+        </member>
+        <member name="T:System.Windows.Interactivity.EventTrigger">
+            <summary>
+            ソース上の指定イベントをリッスンし、そのイベントが発生すると起動されるトリガー。
+            </summary>
+        </member>
+        <member name="T:System.Windows.Interactivity.EventTriggerBase`1">
+            <summary>
+            その AssociatedObject 以外の要素をリッスンできるトリガーを表します。
+            </summary>
+            <typeparam name="T">このトリガーを関連付けられる型。</typeparam>
+            <remarks>
+            	EventTriggerBase は TriggerBase を拡張し、アタッチしているオブジェクトとは別のオブジェクトのナレッジを追加します。 これによりユーザーは Trigger/Action のペアを 1 つの要素にアタッチし、別の場所にある別のオブジェクトの変化に応じて Action を呼び出すことができます。 ソース要素にハンドラーをフック/アンフックするには OnSourceChanged を、また関連要素に対しては OnAttached/OnDetaching をオーバーライドします。 Source 要素の型はジェネリック型パラメーターによって制約できます。 AssociatedObject の型を制御する必要がある場合は、派生型上で TypeConstraintAttribute を設定します。
+            </remarks>
+        </member>
+        <member name="T:System.Windows.Interactivity.EventTriggerBase">
+            <summary>
+            その AssociatedObject 以外のオブジェクトをリッスンできるトリガーを表します。
+            </summary>
+            <remarks>これはインフラストラクチャ クラスです。 Trigger 作成者は、このクラスの代わりに EventTriggerBase&lt;T&gt; から派生する必要があります。</remarks>
+        </member>
+        <member name="T:System.Windows.Interactivity.TriggerBase">
+            <summary>
+            条件付きで Action を呼び出せるオブジェクトを表します。
+            </summary>
+            <remarks>これはインフラストラクチャ クラスです。 Trigger 作成者は、このクラスの代わりに Trigger&lt;T&gt; から派生する必要があります。</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerBase.InvokeActions(System.Object)">
+            <summary>
+            このトリガーに関連するすべてのアクションを呼び出します。
+            </summary>
+            <remarks>派生クラスはトリガーを起動するには、これを呼び出す必要があります。</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerBase.OnAttached">
+            <summary>
+            トリガーが AssociatedObject にアタッチされた後で呼び出されます。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerBase.OnDetaching">
+            <summary>
+            トリガーが AssociatedObject からからデタッチされるとき、その前に呼び出されます。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerBase.Attach(System.Windows.DependencyObject)">
+            <summary>
+            指定されたオブジェクトにアタッチします。
+            </summary>
+            <param name="dependencyObject">アタッチするオブジェクト。</param>
+            <exception cref="T:System.InvalidOperationException">同じトリガーを一度に複数のオブジェクトにホストすることはできません。</exception>
+            <exception cref="T:System.InvalidOperationException">dependencyObject は、トリガー型制約を満たしていません。</exception>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerBase.Detach">
+            <summary>
+            このインスタンスを関連オブジェクトからデタッチします。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerBase.AssociatedObject">
+            <summary>
+            トリガーがアタッチされるオブジェクトを取得します。
+            </summary>
+            <value>関連オブジェクト。</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerBase.AssociatedObjectTypeConstraint">
+            <summary>
+            関連オブジェクトの型制約を取得します。
+            </summary>
+            <value>関連オブジェクトの型制約。</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerBase.Actions">
+            <summary>
+            このトリガーに関連付けられているアクションを取得します。
+            </summary>
+            <value>このトリガーに関連付けられているアクション。</value>
+        </member>
+        <member name="E:System.Windows.Interactivity.TriggerBase.PreviewInvoke">
+            <summary>
+            PreviewInvoke に登録するためのイベント ハンドラー。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerBase.System#Windows#Interactivity#IAttachedObject#AssociatedObject">
+            <summary>
+            関連オブジェクトを取得します。
+            </summary>
+            <value>関連オブジェクト。</value>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventTriggerBase.GetEventName">
+            <summary>
+            この EventTriggerBase がリッスンする Event の名前を指定します。
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventTriggerBase.OnEvent(System.EventArgs)">
+            <summary>
+            この EventTriggerBase に関連付けられたイベントの発生時に呼び出されます。 既定では、これはトリガー上のすべてのアクションを呼び出します。
+            </summary>
+            <param name="eventArgs">イベント データを含む<see cref="T:System.EventArgs"/>インスタンス。</param>
+            <remarks>これをオーバーライドして、このトリガーに関連付けられたアクションがいつ呼び出されるかをより詳細なレベルで制御します。</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventTriggerBase.OnSourceChangedImpl(System.Object,System.Object)">
+            <summary>
+            ソースが変化すると呼び出されます。
+            </summary>
+            <param name="oldSource">古いソース。</param>
+            <param name="newSource">新しいソース。</param>
+            <remarks>変化するソース オブジェクトに機能をフックしたり、アンフックするために、この機能を派生クラス内でオーバーライドする必要があります。</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventTriggerBase.OnAttached">
+            <summary>
+            トリガーが AssociatedObject にアタッチされた後で呼び出されます。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventTriggerBase.OnDetaching">
+            <summary>
+            トリガーが AssociatedObject からからデタッチされるとき、その前に呼び出されます。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventTriggerBase.RegisterEvent(System.Object,System.String)">
+            <exception cref="T:System.ArgumentException">Target 上に eventName が見つかりませんでした。</exception>
+        </member>
+        <member name="P:System.Windows.Interactivity.EventTriggerBase.AssociatedObjectTypeConstraint">
+            <summary>
+            関連オブジェクトの型制約を取得します。
+            </summary>
+            <value>関連オブジェクトの型制約。</value>
+            <remarks>アタッチすることのできる型を制約する派生型で TypeConstraintAttribute を定義します。</remarks>
+        </member>
+        <member name="P:System.Windows.Interactivity.EventTriggerBase.SourceTypeConstraint">
+            <summary>
+            ソースの型制約を取得します。
+            </summary>
+            <value>ソースの型制約。</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.EventTriggerBase.SourceObject">
+            <summary>
+            ターゲット オブジェクトを取得または設定します。 TargetObject が未設定の場合、ターゲットは TargetName で指定されたオブジェクトを探します。 TargetName で参照される要素が見つからない場合は、ターゲットに既定の AssociatedObject が使用されます。 これは依存関係プロパティです。
+            </summary>
+            <value>ターゲット オブジェクト。</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.EventTriggerBase.SourceName">
+            <summary>
+            この EventTriggerBase がソースとしてリッスンする要素の名前を取得または設定します。 名前が未設定であるか解決できない場合は、AssociatedObject が使用されます。  これは依存関係プロパティです。
+            </summary>
+            <value>ソース要素の名前。</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.EventTriggerBase.Source">
+            <summary>
+解決されたソースを取得します。 <c ref="SourceName"/> が未設定であるか解決できない場合は、既定の AssociatedObject が使用されます。
+            </summary>
+            <value>解決されたソース オブジェクト。</value>
+            <remarks>通常、派生クラスでは、このプロパティを AssociatedObject の代わりに使用する必要があります。</remarks>
+            <exception cref="T:System.InvalidOperationException"><c cref="P:System.Windows.Interactivity.EventTriggerBase.Source"/>で指された要素が型制約を満たしていません。</exception>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventTriggerBase`1.#ctor">
+            <summary>
+            <see cref="T:System.Windows.Interactivity.EventTriggerBase`1"/> クラスの新しいインスタンスを初期化します。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventTriggerBase`1.OnSourceChanged(`0,`0)">
+            <summary>
+            ソース プロパティが変化すると呼び出されます。
+            </summary>
+            <remarks>これをオーバーライドし、AssociatedObject ではなく、指定された Source に機能をフックまたはアンフックします。</remarks>
+            <param name="oldSource">古いソース。</param>
+            <param name="newSource">新しいソース。</param>
+        </member>
+        <member name="P:System.Windows.Interactivity.EventTriggerBase`1.Source">
+            <summary>
+            解決されたソースを取得します。 <c ref="SourceName"/> が未設定であるか解決できない場合は、既定の AssociatedObject が使用されます。
+            </summary>
+            <value>解決されたソース オブジェクト。</value>
+            <remarks>通常、派生クラスでは、このプロパティを AssociatedObject の代わりに使用する必要があります。</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventTrigger.#ctor">
+            <summary>
+            <see cref="T:System.Windows.Interactivity.EventTrigger"/> クラスの新しいインスタンスを初期化します。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventTrigger.#ctor(System.String)">
+            <summary>
+            <see cref="T:System.Windows.Interactivity.EventTrigger"/> クラスの新しいインスタンスを初期化します。
+            </summary>
+            <param name="eventName">イベントの名前。</param>
+        </member>
+        <member name="P:System.Windows.Interactivity.EventTrigger.EventName">
+            <summary>
+            リッスンするイベントの名前を取得または設定します。 これは依存関係プロパティです。
+            </summary>
+            <value>イベントの名前。</value>
+        </member>
+        <member name="T:System.Windows.Interactivity.Interaction">
+            <summary>
+            プロパティにアタッチされた Trigger および Behavior を所有する静的クラス。 AssociatedObject 変更通知の伝達を処理します。
+            </summary>
+        </member>
+        <member name="F:System.Windows.Interactivity.Interaction.TriggersProperty">
+            <summary>
+            このプロパティは、パブリックの Trigger がアタッチされたプロパティ用の内部バッキング ストアとして使用されます。
+            </summary>
+        </member>
+        <member name="F:System.Windows.Interactivity.Interaction.BehaviorsProperty">
+            <summary>
+            このプロパティは、パブリックの Behavior がアタッチされたプロパティ用の内部バッキング ストアとして使用されます。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.Interaction.GetTriggers(System.Windows.DependencyObject)">
+            <summary>
+            指定したオブジェクトに関連付けられたトリガーを含む TriggerCollection を取得します。
+            </summary>
+            <param name="obj">トリガーの取得元オブジェクト。</param>
+            <returns>指定したオブジェクトに関連付けられた Trigger を含む TriggerCollection。</returns>
+        </member>
+        <member name="M:System.Windows.Interactivity.Interaction.GetBehaviors(System.Windows.DependencyObject)">
+            <summary>
+            指定したオブジェクトに関連付けられた<see cref="T:System.Windows.Interactivity.BehaviorCollection"/>を取得します。
+            </summary>
+            <param name="obj"><see cref="T:System.Windows.Interactivity.BehaviorCollection"/> の取得元オブジェクト。</param>
+            <returns>指定したオブジェクトに関連付けられたビヘイビアーを含む<see cref="T:System.Windows.Interactivity.BehaviorCollection"/>。</returns>
+        </member>
+        <member name="M:System.Windows.Interactivity.Interaction.OnBehaviorsChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <exception cref="T:System.InvalidOperationException">同じ BehaviorCollection を一度に複数のオブジェクトにホストすることはできません。</exception>
+        </member>
+        <member name="M:System.Windows.Interactivity.Interaction.OnTriggersChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <exception cref="T:System.InvalidOperationException">同じ TriggerCollection を一度に複数のオブジェクトにホストすることはできません。</exception>
+        </member>
+        <member name="M:System.Windows.Interactivity.Interaction.IsElementLoaded(System.Windows.FrameworkElement)">
+            <summary>
+            Silverlight では FrameworkElement.IsLoaded が利用できないため、このプロパティの代わりに使用されるヘルパー関数。
+            </summary>
+            <param name="element">関心の要素。</param>
+            <returns>要素が読み込まれている場合は True、それ以外の場合は False。</returns>
+        </member>
+        <member name="T:System.Windows.Interactivity.InvokeCommandAction">
+            <summary>
+            呼び出されると、指定の ICommand を実行します。
+            </summary>
+        </member>
+        <member name="T:System.Windows.Interactivity.TriggerAction`1">
+            <summary>
+            機能単位をカプセル化する、アタッチ可能なオブジェクトを表します。
+            </summary>
+            <typeparam name="T">このアクションをアタッチできる型。</typeparam>
+        </member>
+        <member name="T:System.Windows.Interactivity.TriggerAction">
+            <summary>
+            機能単位をカプセル化する、アタッチ可能なオブジェクトを表します。
+            </summary>
+            <remarks>これはインフラストラクチャ クラスです。 Action 作成者は、このクラスの代わりに TriggerAction&lt;T&gt; から派生する必要があります。</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerAction.CallInvoke(System.Object)">
+            <summary>
+            アクションの呼び出しを試行します。
+            </summary>
+            <param name="parameter">アクションへのパラメーター。 アクションがパラメーターを要求しない場合、パラメーターを null 参照に設定できます。</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerAction.Invoke(System.Object)">
+            <summary>
+            アクションを呼び出します。
+            </summary>
+            <param name="parameter">アクションへのパラメーター。 アクションがパラメーターを要求しない場合、パラメーターを null 参照に設定できます。</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerAction.OnAttached">
+            <summary>
+            アクションが AssociatedObject にアタッチされた後で呼び出されます。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerAction.OnDetaching">
+            <summary>
+            アクションが AssociatedObject からデタッチされるとき、その前に呼び出されます。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerAction.Attach(System.Windows.DependencyObject)">
+            <summary>
+            指定されたオブジェクトにアタッチします。
+            </summary>
+            <param name="dependencyObject">アタッチするオブジェクト。</param>
+            <exception cref="T:System.InvalidOperationException">同じ TriggerAction を一度に複数のオブジェクトにホストすることはできません。</exception>
+            <exception cref="T:System.InvalidOperationException">dependencyObject は、TriggerAction 型制約を満たしていません。</exception>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerAction.Detach">
+            <summary>
+            このインスタンスを関連オブジェクトからデタッチします。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerAction.IsEnabled">
+            <summary>
+            呼び出されたときに、このアクションを実行するかどうかを示す値を取得または設定します。 これは依存関係プロパティです。
+            </summary>
+            <value>
+            	呼び出されたときにこのアクションを実行する場合は <c>True</c>、それ以外の場合は <c>False</c>。
+            </value>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerAction.AssociatedObject">
+            <summary>
+            このアクションがアタッチされるオブジェクトを取得します。
+            </summary>
+            <value>関連オブジェクト。</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerAction.AssociatedObjectTypeConstraint">
+            <summary>
+            関連のオブジェクト型制約を取得します。
+            </summary>
+            <value>関連オブジェクトの型制約。</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerAction.IsHosted">
+            <summary>
+            このインスタンスがアタッチされているかどうかを示す値を取得または設定します。
+            </summary>
+            <value>インスタンスがアタッチされている場合は <c>True</c>、それ以外の場合は <c>False</c>。</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerAction.System#Windows#Interactivity#IAttachedObject#AssociatedObject">
+            <summary>
+            関連オブジェクトを取得します。
+            </summary>
+            <value>関連オブジェクト。</value>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerAction`1.#ctor">
+            <summary>
+            <see cref="T:System.Windows.Interactivity.TriggerAction`1"/> クラスの新しいインスタンスを初期化します。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerAction`1.AssociatedObject">
+            <summary>
+            この <see cref="T:System.Windows.Interactivity.TriggerAction`1"/> がアタッチされるオブジェクトを取得します。
+            </summary>
+            <value>関連オブジェクト。</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerAction`1.AssociatedObjectTypeConstraint">
+            <summary>
+            関連のオブジェクト型制約を取得します。
+            </summary>
+            <value>関連オブジェクトの型制約。</value>
+        </member>
+        <member name="M:System.Windows.Interactivity.InvokeCommandAction.Invoke(System.Object)">
+            <summary>
+            アクションを呼び出します。
+            </summary>
+            <param name="parameter">アクションへのパラメーター。 アクションがパラメーターを要求しない場合、パラメーターを null 参照に設定できます。</param>
+        </member>
+        <member name="P:System.Windows.Interactivity.InvokeCommandAction.CommandName">
+            <summary>
+            このアクションが呼び出すコマンドの名前を取得または設定します。
+            </summary>
+            <value>このアクションが呼び出すコマンドの名前。</value>
+            <remarks>両方とも設定されている場合は、このプロパティは Command プロパティで置き換えられます。</remarks>
+        </member>
+        <member name="P:System.Windows.Interactivity.InvokeCommandAction.Command">
+            <summary>
+            このアクションが呼び出すコマンドを取得または設定します。 これは依存関係プロパティです。
+            </summary>
+            <value>実行するコマンド。</value>
+            <remarks>両方とも設定されている場合は、このプロパティを Command プロパティに優先します。</remarks>
+        </member>
+        <member name="P:System.Windows.Interactivity.InvokeCommandAction.CommandParameter">
+            <summary>
+            コマンド パラメーターを取得または設定します。 これは依存関係プロパティです。
+            </summary>
+            <value>コマンド パラメーター。</value>
+            <remarks>これは、ICommand.CanExecute および ICommand.Execute に渡される値です。</remarks>
+        </member>
+        <member name="T:System.Windows.Interactivity.NameResolvedEventArgs">
+            <summary>
+            名前の変更の解決時にどのオブジェクトが影響を受けるかについてのデータを提供します。
+            </summary>
+        </member>
+        <member name="T:System.Windows.Interactivity.NameResolver">
+            <summary>
+            ホスト要素によって提供されるコンテキストに基づき、TargetName を Target 要素に解決するロジックを処理するヘルパー クラス。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.NameResolver.UpdateObjectFromName(System.Windows.DependencyObject)">
+            <summary>
+            名前空間の参照要素のコンテキスト内で名前から解決済みオブジェクトの更新を試行します。
+            </summary>
+            <param name="oldObject">古い解決済みオブジェクト。</param>
+            <remarks>
+            既存のターゲットをリセットし、現在のホストのコンテキストから現在の TargetName の解決を試行します。 ホストのコンテキストから解決できない場合、解決されるまでビジュアル ツリーを上方に探索します。 ルートに到達しても解決されない場合、Target を null に設定し、Debug 出力に警告メッセージを書き込みます。
+            </remarks>
+        </member>
+        <member name="E:System.Windows.Interactivity.NameResolver.ResolvedElementChanged">
+            <summary>
+            解決済み要素が変更されたときに発生します。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.NameResolver.Name">
+            <summary>
+            解決を試行するための要素の名前を取得または設定します。
+            </summary>
+            <value>解決を試行する名前。</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.NameResolver.Object">
+            <summary>
+            解決済みオブジェクト。 TargetName が null または空の場合、または解決が試行されていない場合は、参照要素を返します。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.NameResolver.NameScopeReferenceElement">
+            <summary>
+            名前の解決が実行される参照要素を取得または設定します。
+            </summary>
+            <value>参照要素。</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.NameResolver.PendingReferenceElementLoad">
+            <summary>
+            参照要素の読み込みが保留中かどうかを示す値を取得または設定します。
+            </summary>
+            <value>
+            	[参照要素の読み込みを保留中]の場合は<c>True</c>、それ以外の場合は<c>False</c>。
+            </value>
+            <remarks>
+            ホストが読み込まれていない場合、名前は解決されません。 その場合、解決を遅らせてこのプロパティを使用して情報を追跡します。
+            </remarks>
+        </member>
+        <member name="T:System.Windows.Interactivity.TargetedTriggerAction`1">
+            <summary>
+            AssociatedObject 以外のオブジェクトに影響を与えるために対象となり得るアクションを表します。
+            </summary>
+            <typeparam name="T">ターゲット上の型制約。</typeparam>
+            <remarks>
+            	TargetedTriggerAction は TriggerAction を拡張し、アタッチしている要素とは別の要素のナレッジを追加します。 これによりユーザーはトリガーの起動に応じて、アタッチされている以外の要素にアクションを呼び出すことができます。 ターゲット要素上のハンドラーをフック/アンフックするには OnTargetChanged を、また関連要素に対しては OnAttached/OnDetaching をオーバーライドします。 Target 要素の型はジェネリック型パラメーターにより制約できます。 AssociatedObject の型を制御する必要がある場合は、派生型上で TypeConstraintAttribute を設定します。
+            </remarks>
+        </member>
+        <member name="T:System.Windows.Interactivity.TargetedTriggerAction">
+            <summary>
+            AssociatedObject 以外のオブジェクトに影響を与えるために対象となり得るアクションを表します。
+            </summary>
+            <remarks>これはインフラストラクチャ クラスです。 Action 作成者は、このクラスの代わりに TargetedTriggerAction&lt;T&gt; から派生する必要があります。</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.TargetedTriggerAction.OnTargetChangedImpl(System.Object,System.Object)">
+            <summary>
+            ターゲットが変化すると呼び出されます。
+            </summary>
+            <param name="oldTarget">古いターゲット。</param>
+            <param name="newTarget">新しいターゲット。</param>
+            <remarks>変化するソース オブジェクトに機能をフックしたり、アンフックするために、この機能を派生クラス内でオーバーライドする必要があります。</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.TargetedTriggerAction.OnAttached">
+            <summary>
+            アクションが AssociatedObject にアタッチされた後で呼び出されます。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TargetedTriggerAction.OnDetaching">
+            <summary>
+            アクションが AssociatedObject からデタッチされるとき、その前に呼び出されます。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.TargetedTriggerAction.TargetObject">
+            <summary>
+            ターゲット オブジェクトを取得または設定します。 TargetObject が未設定の場合、ターゲットは TargetName で指定されたオブジェクトを探します。 TargetName で参照される要素が見つからない場合は、ターゲットに既定の AssociatedObject が使用されます。 これは依存関係プロパティです。
+            </summary>
+            <value>ターゲット オブジェクト。</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.TargetedTriggerAction.TargetName">
+            <summary>
+            このアクションがターゲットとするオブジェクトの名前を取得または設定します。 Target が設定されている場合は、このプロパティは無視されます。 Target が未設定で、TargetName が未設定であるか解決できない場合は、既定の AssociatedObject が使用されます。 これは依存関係プロパティです。
+            </summary>
+            <value>ターゲット オブジェクトの名前。</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.TargetedTriggerAction.Target">
+            <summary>
+            ターゲット オブジェクトを取得します。 TargetObject が未設定の場合は、TargetObject を返します。 それ以外で、TargetName が未設定であるか解決できない場合は、既定の AssociatedObject が使用されます。
+            </summary>
+            <value>ターゲット オブジェクト。</value>
+            <remarks>通常、派生クラスでは、このプロパティを AssociatedObject の代わりに使用する必要があります。</remarks>
+            <exception cref="T:System.InvalidOperationException">Target 要素が型制約を満たしていません。</exception>
+        </member>
+        <member name="P:System.Windows.Interactivity.TargetedTriggerAction.AssociatedObjectTypeConstraint">
+            <summary>
+            関連のオブジェクト型制約を取得します。
+            </summary>
+            <value>関連オブジェクトの型制約。</value>
+            <remarks>アタッチすることのできる型を制約するために、派生型の TypeConstraintAttribute を定義します。</remarks>
+        </member>
+        <member name="P:System.Windows.Interactivity.TargetedTriggerAction.TargetTypeConstraint">
+            <summary>
+            ターゲット型制約を取得します。
+            </summary>
+            <value>ターゲット型制約。</value>
+        </member>
+        <member name="M:System.Windows.Interactivity.TargetedTriggerAction`1.#ctor">
+            <summary>
+            <see cref="T:System.Windows.Interactivity.TargetedTriggerAction`1"/> クラスの新しいインスタンスを初期化します。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TargetedTriggerAction`1.OnTargetChanged(`0,`0)">
+            <summary>
+            ターゲット プロパティが変更されると呼び出されます。
+            </summary>
+            <remarks>これをオーバーライドし、AssociatedObject 以外の指定されたターゲットに機能をフックまたはアンフックします。</remarks>
+            <param name="oldTarget">古いターゲット。</param>
+            <param name="newTarget">新しいターゲット。</param>
+        </member>
+        <member name="P:System.Windows.Interactivity.TargetedTriggerAction`1.Target">
+            <summary>
+            ターゲット オブジェクトを取得します。 TargetName が未設定であるか解決できない場合は、既定の AssociatedObject が使用されます。
+            </summary>
+            <value>ターゲット。</value>
+            <remarks>通常、派生クラスでは、このプロパティを AssociatedObject の代わりに使用する必要があります。</remarks>
+        </member>
+        <member name="T:System.Windows.Interactivity.TriggerActionCollection">
+            <summary>
+            共有される AssociatedObject と共にアクションのコレクションを表し、AssociatedObject に変更が発生すると変更通知をコンテンツに提供します。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerActionCollection.#ctor">
+            <summary>
+            <see cref="T:System.Windows.Interactivity.TriggerActionCollection"/> クラスの新しいインスタンスを初期化します。
+            </summary>
+            <remarks>アセンブリの外部で継承すべきでないため、内部とします。</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerActionCollection.OnAttached">
+            <summary>
+            コレクションが AssociatedObject にアタッチされる直後に呼び出されます。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerActionCollection.OnDetaching">
+            <summary>
+            コレクションが AssociatedObject からデタッチされるとき、その前に呼び出されます。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerActionCollection.ItemAdded(System.Windows.Interactivity.TriggerAction)">
+            <summary>
+            新しい項目がコレクションに追加されるときに呼び出されます。
+            </summary>
+            <param name="item">新しい項目。</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerActionCollection.ItemRemoved(System.Windows.Interactivity.TriggerAction)">
+            <summary>
+            項目がコレクションから削除されるときに呼び出されます。
+            </summary>
+            <param name="item">削除される項目。</param>
+        </member>
+        <member name="T:System.Windows.Interactivity.TriggerBase`1">
+            <summary>
+            条件付きでアクションを呼び出すことのできるオブジェクトを表します。
+            </summary>
+            <typeparam name="T">このトリガーをアタッチできる型。</typeparam>
+            <remarks>
+            	TriggerBase はアクションを制御するための基本クラスです。 OnAttached() および OnDetaching() をオーバーライドし、ハンドラーを AssociatedObject にフックしたり、アンフックします。 ジェネリック パラメーターを指定することによって、派生の TriggerBase をアタッチすることが可能な型を制約できます。 InvokeActions() を呼び出して、この TriggerBase に関連付けられるすべての Action を起動します。
+            </remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerBase`1.#ctor">
+            <summary>
+            <see cref="T:System.Windows.Interactivity.TriggerBase`1"/> クラスの新しいインスタンスを初期化します。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerBase`1.AssociatedObject">
+            <summary>
+            トリガーがアタッチされるオブジェクトを取得します。
+            </summary>
+            <value>関連オブジェクト。</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerBase`1.AssociatedObjectTypeConstraint">
+            <summary>
+            関連オブジェクトの型制約を取得します。
+            </summary>
+            <value>関連オブジェクトの型制約。</value>
+        </member>
+        <member name="T:System.Windows.Interactivity.PreviewInvokeEventArgs">
+            <summary>
+            PreviewInvoke イベントに渡される引数。 Cancelling に True を指定すると、トリガーの呼び出しが取り消されます。
+            </summary>
+            <remarks>これはインフラストラクチャ クラスです。 トリガー ベース オブジェクトにアタッチされたビヘイビアーは、そのビヘイビアーをリスナーとして TriggerBase.PreviewInvoke に追加することができます。</remarks>
+        </member>
+        <member name="T:System.Windows.Interactivity.TriggerCollection">
+            <summary>
+             共有される AssociatedObject と共にトリガーのコレクションを表し、AssociatedObject に変更が発生すると変更通知をコンテンツに提供します。
+             </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerCollection.#ctor">
+            <summary>
+            <see cref="T:System.Windows.Interactivity.TriggerCollection"/> クラスの新しいインスタンスを初期化します。
+            </summary>
+            <remarks>アセンブリの外部で継承すべきではないため、内部とします。</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerCollection.OnAttached">
+            <summary>
+            コレクションが AssociatedObject にアタッチされる直後に呼び出されます。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerCollection.OnDetaching">
+            <summary>
+            コレクションが AssociatedObject からデタッチされるとき、その前に呼び出されます。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerCollection.ItemAdded(System.Windows.Interactivity.TriggerBase)">
+            <summary>
+            新しい項目がコレクションに追加されるときに呼び出されます。
+            </summary>
+            <param name="item">新しい項目。</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerCollection.ItemRemoved(System.Windows.Interactivity.TriggerBase)">
+            <summary>
+            項目がコレクションから削除されるときに呼び出されます。
+            </summary>
+            <param name="item">削除される項目。</param>
+        </member>
+        <member name="T:System.Windows.Interactivity.TypeConstraintAttribute">
+            <summary>
+            TargetedTriggerAction および EventTriggerBase の AssociatedObject の型制約を指定します。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TypeConstraintAttribute.#ctor(System.Type)">
+            <summary>
+            <see cref="T:System.Windows.Interactivity.TypeConstraintAttribute"/> クラスの新しいインスタンスを初期化します。
+            </summary>
+            <param name="constraint">制約型。</param>
+        </member>
+        <member name="P:System.Windows.Interactivity.TypeConstraintAttribute.Constraint">
+            <summary>
+            制約型を取得します。
+            </summary>
+            <value>制約型。</value>
+        </member>
+        <member name="T:System.Windows.Interactivity.ExceptionStringTable">
+            <summary>
+              ローカライズされた文字列などを調べるために、厳密に型指定されたリソース クラス。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.ExceptionStringTable.ResourceManager">
+            <summary>
+              このクラスで使用される、キャッシュされた ResourceManager インスタンスに戻ります。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.ExceptionStringTable.Culture">
+            <summary>
+              この厳密に型指定されたリソース クラスを使用して、すべてのリソース ルックアップに対して現在のスレッドの CurrentUICulture プロパティをオーバーライドします。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.ExceptionStringTable.CannotHostBehaviorCollectionMultipleTimesExceptionMessage">
+            <summary>
+              「複数オブジェクトに同じ BehaviorCollection を設定することはできません。」に類似したローカライズされた文字列を検索します。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.ExceptionStringTable.CannotHostBehaviorMultipleTimesExceptionMessage">
+            <summary>
+              「Behavior のインスタンスを一度に複数のオブジェクトにアタッチすることはできません。」に類似したローカライズされた文字列を検索します。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.ExceptionStringTable.CannotHostTriggerActionMultipleTimesExceptionMessage">
+            <summary>
+              「1 つの TriggerAction のインスタンスを複数の TriggerCollections で同時にホストすることはできません。インスタンスを TriggerCollection から削除してから、別の TriggerCollection に追加してください。」に類似したローカライズされた文字列を検索します。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.ExceptionStringTable.CannotHostTriggerCollectionMultipleTimesExceptionMessage">
+            <summary>
+              「複数オブジェクトに同じ TriggerCollection を設定することはできません。」に類似したローカライズされた文字列を検索します。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.ExceptionStringTable.CannotHostTriggerMultipleTimesExceptionMessage">
+            <summary>
+              「トリガーのインスタンスを一度に複数のオブジェクトにアタッチすることはできません。」に類似したローカライズされた文字列を検索します。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.ExceptionStringTable.CommandDoesNotExistOnBehaviorWarningMessage">
+            <summary>
+              「コマンド &quot;{0}&quot; は存在しないか、{1} で公開されていません。」に類似したローカライズされた文字列を検索します。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.ExceptionStringTable.DefaultTriggerAttributeInvalidTriggerTypeSpecifiedExceptionMessage">
+            <summary>
+              「&quot;{0}&quot; は TriggerType パラメーターには無効な型です。&quot;{0}&quot; が TriggerBase から派生していることを確認してください。」に類似したローカライズされた文字列を検索します。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.ExceptionStringTable.DuplicateItemInCollectionExceptionMessage">
+            <summary>
+              「同じ &quot;{0}&quot; のインスタンスを一度以上 &quot;{1}&quot; に追加できません。」に類似したローカライズされた文字列を検索します。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.ExceptionStringTable.EventTriggerBaseInvalidEventExceptionMessage">
+            <summary>
+              「型 &quot;{1}&quot; の &quot;{0}&quot; というイベントの署名に互換性がありません。このイベントがパブリックで、EventHandler デリゲートの条件を満たしていることを確認してください。」に類似したローカライズされた文字列を検索します。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.ExceptionStringTable.EventTriggerCannotFindEventNameExceptionMessage">
+            <summary>
+              「型 &quot;{1}&quot; に &quot;{0}&quot; という名前のイベントは見つかりません。」に類似したローカライズされた文字列を検索します。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.ExceptionStringTable.RetargetedTypeConstraintViolatedExceptionMessage">
+            <summary>
+              「型 &quot;{0}&quot; にオブジェクトに型 &quot;{1}&quot;の {3} プロパティを設定することはできません。型 &quot;{0}&quot; のインスタンスには、型 &quot;{2}&quot; の {3} プロパティしか設定できません。」に類似したローカライズされた文字列を検索します。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.ExceptionStringTable.TypeConstraintViolatedExceptionMessage">
+            <summary>
+「型 &quot;{0}&quot; を型 &quot;{1}&quot; に添付することはできません。」に類似したローカライズされた文字列を検索します。型 &quot;{0}&quot; のインスタンスは、型 &quot;{2}&quot; のオブジェクトにのみ添付できます。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.ExceptionStringTable.UnableToResolveTargetNameWarningMessage">
+            <summary>
+              「TargetName &quot;{0}&quot; を解決できません。」に類似したローカライズされた文字列を検索します。
+            </summary>
+        </member>
+    </members>
+</doc>

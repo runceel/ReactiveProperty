@@ -1,0 +1,1118 @@
+﻿<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.Expression.Interactions</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.Expression.Interactivity.Core.ActionCommand">
+            <summary>
+            ICommand 的基本实现，它包装无参数或具有一个参数的方法。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ActionCommand.#ctor(System.Action)">
+            <summary>
+            初始化 <see cref="T:Microsoft.Expression.Interactivity.Core.ActionCommand"/> 类的新实例。
+            </summary>
+            <param name="action">操作本身。</param>
+            <remarks>使用此构造函数提供忽略 ICommand 参数的操作。</remarks>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ActionCommand.#ctor(System.Action{System.Object})">
+            <summary>
+            初始化 <see cref="T:Microsoft.Expression.Interactivity.Core.ActionCommand"/> 类的新实例。
+            </summary>
+            <param name="objectAction">具有一个对象参数的操作。</param>
+            <remarks>使用此构造函数提供一项操作，该操作使用 Execute 方法传递的对象参数。</remarks>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ActionCommand.System#Windows#Input#ICommand#CanExecute(System.Object)">
+            <summary>
+            定义方法，该方法确定此命令能否在其当前状态下执行。
+            </summary>
+            <param name="parameter">此命令使用的数据。  如果此命令不要求传递数据，则可以将该对象设置为 null。</param>
+            <returns>
+            始终返回 true。
+            </returns>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ActionCommand.Execute(System.Object)">
+            <summary>
+            定义在调用此命令时要调用的方法。
+            </summary>
+            <param name="parameter">此命令使用的数据。  如果此命令不要求传递数据，则可以将该对象设置为 null。</param>
+        </member>
+        <member name="E:Microsoft.Expression.Interactivity.Core.ActionCommand.System#Windows#Input#ICommand#CanExecuteChanged">
+            <summary>
+            在出现影响到是否应执行此命令的更改时发生。 将不会由 ActionCommand 触发。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.CallMethodAction">
+            <summary>
+            调用时对指定的对象调用方法。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.CallMethodAction.Invoke(System.Object)">
+            <summary>
+            调用操作。
+            </summary>
+            <param name="parameter">操作的参数。 如果操作不需要参数，则可以将参数设置为空引用。</param>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.CallMethodAction.OnAttached">
+            <summary>
+            在操作附加到 AssociatedObject 后调用。
+            </summary>
+            <remarks>替代它以便将功能挂钩到 AssociatedObject。</remarks>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.CallMethodAction.OnDetaching">
+            <summary>
+            在操作与其 AssociatedObject 分离时（但在它实际发生之前）调用。
+            </summary>
+            <remarks>替代它以便将功能从 AssociatedObject 中解除挂钩。</remarks>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.CallMethodAction.TargetObject">
+            <summary>
+            公开感兴趣的方法的对象。 这是依赖属性。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.CallMethodAction.MethodName">
+            <summary>
+            要调用的方法的名称。 这是依赖属性。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.ChangePropertyAction">
+            <summary>
+            一项操作，它在被调用时会将指定的属性更改为指定的值。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ChangePropertyAction.#ctor">
+            <summary>
+            初始化 <see cref="T:Microsoft.Expression.Interactivity.Core.ChangePropertyAction"/> 类的新实例。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ChangePropertyAction.Invoke(System.Object)">
+            <summary>
+            调用操作。
+            </summary>
+            <param name="parameter">操作的参数。 如果操作不需要参数，则可以将参数设置为空引用。</param>
+            <exception cref="T:System.ArgumentException">无法在目标上找到名称为 <c cref="P:Microsoft.Expression.Interactivity.Core.ChangePropertyAction.PropertyName"/> 的属性。</exception>
+            <exception cref="T:System.ArgumentException">无法将 <c cref="P:Microsoft.Expression.Interactivity.Core.ChangePropertyAction.PropertyName"/> 设置为 <c cref="P:Microsoft.Expression.Interactivity.Core.ChangePropertyAction.Value"/> 指定的值。</exception>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.ChangePropertyAction.PropertyName">
+            <summary>
+            获得或设置要更改的属性的名称。 这是依赖属性。
+            </summary>
+            <value>要更改的属性的名称。</value>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.ChangePropertyAction.Value">
+            <summary>
+            获得或设置要设置的值。 这是依赖属性。
+            </summary>
+            <value>要设置的值。</value>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.ChangePropertyAction.Duration">
+            <summary>
+            获得或设置将在调用 ChangePropertyAction 时出现的动画的持续时间。  这是依赖属性。 如果未设置持续时间，则将不会应用动画。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.ChangePropertyAction.Increment">
+            <summary>
+            如果为 true，则按值进行递增；否则，直接设置值。 如果无法对属性进行递增，则将改为尝试直接设置该值。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.ChangePropertyAction.Ease">
+            <summary>
+            获得或设置在调用 ChangePropertyAction 时与动画一起使用的缓动函数。  这是依赖属性。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.ComparisonCondition">
+            <summary>
+            表示一个三元条件。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ComparisonCondition.Evaluate">
+            <summary>
+            计算条件的方法。 请注意，如果运算符与类型不兼容，则此方法可能会引发 ArgumentException。 例如，运算符 LessThan、LessThanOrEqual、GreaterThan 和 GreaterThanOrEqual 需要两个运算符来实现 IComparable。 
+            </summary>
+            <returns>如果已满足条件，则返回 true；否则返回 false。</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ComparisonCondition.EnsureBindingUpToDate">
+            <summary>
+            确保 DP 操作数上的任何绑定都是最新的。  
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.ComparisonCondition.LeftOperand">
+            <summary>
+            获取或设置左操作数。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.ComparisonCondition.RightOperand">
+            <summary>
+            获取或设置右操作数。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.ComparisonCondition.Operator">
+            <summary>
+            获取或设置比较运算符。 
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.ComparisonConditionType">
+            <summary>
+            不同比较运算符的枚举。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.ComparisonLogic.EvaluateImpl(System.Object,Microsoft.Expression.Interactivity.Core.ComparisonConditionType,System.Object)">
+            <summary>
+            此方法计算操作数。 
+            </summary>
+            <param name="leftOperand">LeftOperand 属性的左操作数。</param>
+            <param name="operatorType">Operator 属性的运算符。</param>
+            <param name="rightOperand">RightOperand 属性的右操作数。</param>
+            <returns>如果满足条件，则返回 true；否则返回 false。</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.ComparisonLogic.EvaluateComparable(System.IComparable,Microsoft.Expression.Interactivity.Core.ComparisonConditionType,System.IComparable)">
+            <summary>
+            计算两个实现 IComparable 接口的操作数。
+            </summary>
+            <param name="leftOperand">LeftOperand 属性的左操作数。</param>
+            <param name="operatorType">Operator 属性的运算符。</param>
+            <param name="rightOperand">RightOperand 属性的右操作数。</param>
+            <returns>如果满足条件，则返回 true；否则返回 false。</returns>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.ForwardChaining">
+            <summary>
+            前向链接。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.ConditionalExpression">
+            <summary>
+            表示针对 ConditionBehavior.Condition 属性设置的条件表达式。 包含条件列表，将会对这些条件进行计算以针对 ICondition.Evaluate() 返回 true 或 false。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.ICondition">
+            <summary>
+            给定对象必须实现才能针对 ConditionBehavior.Condition 属性进行设置的接口。 
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ConditionalExpression.#ctor">
+            <summary>
+            初始化 <see cref="T:Microsoft.Expression.Interactivity.Core.ConditionalExpression"/> 类的新实例。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ConditionalExpression.Evaluate">
+            <summary>
+            全面检查条件集合并根据 ForwardChaining 属性计算每个条件。
+            </summary>
+            <returns>如果满足条件，则返回 true；否则返回 false。</returns>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.ConditionalExpression.ForwardChaining">
+            <summary>
+            获取或设置条件的前向链接。 如果前向链接设置为 ForwardChaining.And，则必须满足所有条件。 如果前向链接设置为 ForwardChaining.Or，则只须满足一个条件。		
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.ConditionalExpression.Conditions">
+            <summary>
+            返回条件集合。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.ConditionBehavior">
+            <summary>
+            附加到触发器并控制触发操作的条件的行为。 
+            </summary>
+            
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ConditionBehavior.#ctor">
+            <summary>
+            初始化 <see cref="T:Microsoft.Expression.Interactivity.Core.ConditionBehavior"/> 类的新实例。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ConditionBehavior.OnPreviewInvoke(System.Object,System.Windows.Interactivity.PreviewInvokeEventArgs)">
+            <summary>
+            侦听触发器触发的预览调用事件的事件处理程序。 如果将 PreviewInvokeEventArgs.Cancelling 设置为 True，则会取消调用。
+            </summary>
+            <param name="sender">触发器基对象。</param>
+            <param name="e">一个 e.Cancelling 可设置为 True 的 PreviewInvokeEventArgs 类型的对象。</param>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.ConditionBehavior.Condition">
+            <summary>
+            针对行为获取或设置 IConditon 对象。
+            </summary>
+            <value>要更改的条件的名称。</value>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.DataBindingHelper">
+            <summary>
+            用于管理依赖对象绑定表达式的帮助程序类。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.DataBindingHelper.EnsureDataBindingUpToDateOnMembers(System.Windows.DependencyObject)">
+            <summary>
+            确保带绑定表达式的操作上的所有 DP 都是最新的。 在数据绑定阶段将触发 DataTrigger。 由于操作是触发器的子项，所以操作上的任何绑定可能不是最新的。 在调用操作之前将调用此例程，以便保证所有绑定都是最新的，并且具有最新数据。 
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.DataBindingHelper.EnsureDataBindingOnActionsUpToDate(System.Windows.Interactivity.TriggerBase{System.Windows.DependencyObject})">
+            <summary>
+            确保操作上的所有绑定表达式都是最新的
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.DataBindingHelper.EnsureBindingUpToDate(System.Windows.DependencyObject,System.Windows.DependencyProperty)">
+            <summary>
+             此帮助程序函数可确保在依赖对象的依赖属性具有绑定表达式的情况下，绑定表达式是最新的。 
+            </summary>
+            <param name="target"></param>
+            <param name="dp"></param>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.DataStateBehavior">
+            <summary>
+            根据条件语句在两种状态之间切换。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.DataStateBehavior.OnAttached">
+            <summary>
+            在行为附加到 AssociatedObject 后调用。
+            </summary>
+            <remarks>替代它以便将功能挂钩到 AssociatedObject。</remarks>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.DataStateBehavior.IsElementLoaded(System.Windows.FrameworkElement)">
+            <summary>
+            帮助程序函数，用来取代 FrameworkElement.IsLoaded，因为此属性在 Silverlight 中不可用。
+            </summary>
+            <param name="element">所关注的元素。</param>
+            <returns>如果已加载元素，则返回 true；否则返回 false。</returns>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.DataStateBehavior.Binding">
+            <summary>
+            获取或设置生成数据对象的属性值的绑定。 这是依赖属性。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.DataStateBehavior.Value">
+            <summary>
+            获取或设置要与数据对象的属性值进行比较的值。 这是依赖属性。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.DataStateBehavior.TrueState">
+            <summary>
+            获取或设置在满足条件时要切换到的视觉状态的名称。 这是依赖属性。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.DataStateBehavior.FalseState">
+            <summary>
+            获取或设置在未满足条件时要切换到的视觉状态的名称。 这是依赖属性。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.DataStoreChangedTrigger">
+            <summary>
+            旨在绑定到数据存储属性的触发器。 在该属性更改时触发。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.PropertyChangedTrigger">
+             <summary>
+             表示在绑定数据发生了更改时执行操作的触发器。 
+             </summary>
+            UA_REVIEW:chabiss
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.PropertyChangedTrigger.EvaluateBindingChange(System.Object)">
+            <summary>
+            在绑定属性发生更改时调用。 UA_REVIEW:chabiss
+            </summary>
+            <param name="args"><see cref="T:System.Windows.DependencyPropertyChangedEventArgs"/> 参数。</param>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.PropertyChangedTrigger.OnAttached">
+            <summary>
+            在触发器附加到 AssociatedObject 后调用。 UA_REVIEW:chabiss
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.PropertyChangedTrigger.OnDetaching">
+            <summary>
+            在触发器与其 AssociatedObject 分离时（但在它实际发生之前）调用。 UA_REVIEW:chabiss
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.PropertyChangedTrigger.Binding">
+             <summary>
+             触发器将侦听的绑定对象，该对象发生更改时会导致触发器触发。
+             </summary>
+            UA_REVIEW:chabiss
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.DataTrigger">
+            <summary>
+            表示在绑定数据满足指定条件时执行操作的触发器。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.DataTrigger.EvaluateBindingChange(System.Object)">
+            <summary>
+            在绑定属性发生更改时调用。 UA_REVIEW:chabiss
+            </summary>
+            <param name="args"><see cref="T:System.Windows.DependencyPropertyChangedEventArgs"/> 参数。</param>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.DataTrigger.Value">
+            <summary>
+            获取或设置要与数据对象的属性值进行比较的值。 这是依赖属性。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.DataTrigger.Comparison">
+            <summary>
+            获取或设置要在指定值之间执行的比较的类型。 这是依赖属性。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager">
+            <summary>
+            ExtendedVisualStateManager 是自定义 VisualStateManager，可以使布局属性的动画变得平滑。 利用此自定义 VisualStateManager，状态可以包含对属性（如 Grid.Column）的更改，可以将元素高度更改为 Auto 或从 Auto 更改为某个值，等等。 将使用相应切换的 GeneratedDuration 和 GeneratedEasingFunction 使这些更改随着时间推移而变得平滑。 请参阅下面的“VisualStateManager 替代”区域以了解此算法的概述。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.UseFluidLayoutProperty">
+            <summary>
+            VisualStateGroup 可以使用或不使用流动布局。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.RuntimeVisibilityPropertyProperty">
+            <summary>
+            可见性在运行时通过自定义的附加属性被隐藏。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.OriginalLayoutValuesProperty">
+            <summary>
+            VisualStateGroup 在一个附加属性中保存这些原始值的列表。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.LayoutStoryboardProperty">
+            <summary>
+            对于每种状态，会提取特定于布局的属性，然后将它们附加到状态。 会从状态本身中删除这些属性。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.CurrentStateProperty">
+            <summary>
+            记住当前状态。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.MovingElements">
+            <summary>
+            这是当前在运动中的元素的集合。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.LayoutTransitionStoryboard">
+            <summary>
+            这是正动态显示切换的情节提要。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.LayoutProperties">
+            <summary>
+            此列表包含所有已知的布局属性。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.PathToPropertyMap">
+            <summary>
+            Silverlight 未提供直接从 PropertyPath 获取 DependencyProperty 的方法，因此，使用此结构来查找所跟踪的路径。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.StopAnimations">
+            <summary>
+            停止动画，并替换为了支持该动画而做出的布局更改。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.FindTransition(System.Windows.VisualStateGroup,System.Windows.VisualState,System.Windows.VisualState)">
+            <summary>
+            查找 VisualStateManager 将用于动态显示更改的切换，以便布局动画可以匹配持续时间和渐变。
+            </summary>
+<param name="group">正在其中发生切换的组</param>
+<param name="previousState">您的源状态</param>
+<param name="state">您的目标状态</param>
+<returns>切换</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.ExtractLayoutStoryboard(System.Windows.VisualState)">
+            <summary>
+从状态的情节提要中删除所有影响布局的属性，然后将这些属性缓存到一个附加属性中。
+            </summary>
+<param name="state">您的目标状态</param>
+<returns>包含该状态下的布局属性的情节提要</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.FindTargetElements(System.Windows.Controls.Control,System.Windows.FrameworkElement,System.Windows.Media.Animation.Storyboard,System.Collections.Generic.List{Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.OriginalLayoutValueRecord},System.Collections.Generic.List{System.Windows.FrameworkElement})">
+            <summary>
+            目标元素的集合是指在布局切换中可能已移动的所有元素的集合。 此集合汇合了：- 具有在该状态下动态显示的布局属性的元素。 - 集合中的元素的同级。 - 集合中的元素的父级。
+             
+            后续代码将在布局更改之前和之后检查这些矩形。
+            </summary>
+<param name="control">其布局正在改变状态的控件</param>
+<param name="layoutStoryboard">包含布局更改的情节提要</param>
+            <param name="originalValueRecords">来自以前的状态导航（可能可以还原）的任何以前值</param>
+            <param name="movingElements">当前在运动中的元素的集合（如果正在进行状态更改切换的话）</param>
+<returns>其布局可能已更改的元素的完整集合</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.GetRectsOfTargets(System.Collections.Generic.List{System.Windows.FrameworkElement},System.Collections.Generic.List{System.Windows.FrameworkElement})">
+            <summary>
+            获得目标列表中所有元素的矩形的集合。
+            </summary>
+<param name="targets">要考虑的元素的集合</param>
+<param name="movingElements">当前在运动中的元素的集合</param>
+<returns>将元素映射到其矩形的字典</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.GetLayoutRect(System.Windows.FrameworkElement)">
+            <summary>
+            获取布局槽，然后算出正使用槽的哪个部分，从而获取元素的布局矩形。
+            </summary>
+<param name="element">我们要获得其矩形的元素</param>
+<returns>该元素的布局矩形</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.GetOldOpacities(System.Windows.Controls.Control,System.Windows.FrameworkElement,System.Windows.Media.Animation.Storyboard,System.Collections.Generic.List{Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.OriginalLayoutValueRecord},System.Collections.Generic.List{System.Windows.FrameworkElement})">
+            <summary>
+            获得在状态更改时元素的不透明度，而不是获得可见性，原因是状态更改可能在进行中，而且当前值最重要。
+            </summary>
+<param name="control">其状态正在更改的控件</param>
+<param name="layoutStoryboard">具有布局属性的情节提要</param>
+<param name="originalValueRecords">原始值的集合</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.SetLayoutStoryboardProperties(System.Windows.Controls.Control,System.Windows.FrameworkElement,System.Windows.Media.Animation.Storyboard,System.Collections.Generic.List{Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.OriginalLayoutValueRecord})">
+            <summary>
+            检查布局情节提要，并使用 SetValue 设置所有属性，以允许不标记时间线刻度就调用 UpdateLayout（这将导致呈现行为）。 覆盖的所有值均将存储在 OriginalValueRecords 的集合中，因此，可以在以后替换这些值。
+            </summary>
+<param name="control">其状态正在更改的控件</param>
+<param name="layoutStoryboard">具有布局属性的情节提要</param>
+<param name="originalValueRecords">原始值的存储区</param>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.WrapMovingElementsInCanvases(System.Collections.Generic.List{System.Windows.FrameworkElement},System.Collections.Generic.Dictionary{System.Windows.FrameworkElement,System.Windows.Rect},System.Collections.Generic.Dictionary{System.Windows.FrameworkElement,System.Windows.Rect})">
+            <summary>
+            获取由于布局动画的缘故而将会移动的所有元素，然后将它们包装在画布中，以便它们不会影响其同级元素。
+            </summary>
+<param name="movingElements">将会移动的元素的集合</param>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.UnwrapMovingElementsFromCanvases(System.Collections.Generic.List{System.Windows.FrameworkElement})">
+            <summary>
+            获取由于布局动画的缘故而一直移动的所有元素，然后将它们从其画布中解包。
+            </summary>
+<param name="movingElements">一直移动的元素的集合</param>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.CopyLayoutProperties(System.Windows.FrameworkElement,System.Windows.FrameworkElement,System.Boolean)">
+            <summary>
+            将布局属性从源元素复制到目标元素，并从源中清除这些属性。
+            </summary>
+<param name="source">布局属性的源</param>
+<param name="target">布局属性的目标</param>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.CreateLayoutTransitionStoryboard(System.Windows.VisualTransition,System.Collections.Generic.List{System.Windows.FrameworkElement},System.Collections.Generic.Dictionary{System.Windows.FrameworkElement,System.Double})">
+            <summary>
+            创建将用于动态显示切换的实际情节提要。 使用所有以前计算的结果。
+            </summary>
+<param name="duration">动画的持续时间</param>
+<param name="ease">将在动画中使用的缓动函数</param>
+<param name="movingElements">将会移动的元素的集合</param>
+<param name="oldOpacities">其可见性正发生改变的元素的旧不透明度</param>
+<returns>情节提要</returns>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.OriginalLayoutValueRecord">
+            <summary>
+            OriginalValueRecord 会记住在某个状态下被更改的属性的原始值。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Layout.FluidMoveScope">
+            <summary>
+            此枚举类型指示是将 FluidMoveBehavior 应用于它附加到的元素，还是应用于该元素的子元素。 如果存在着行为方式特殊的单个元素，则“Self”很有用；如果相同的行为要应用于 WrapPanel 的所有子项或 ItemsControl 的 ItemsHost 面板，则“Children”很有用。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Layout.TagType">
+            <summary>
+            此枚举的类型指明元素是自行标识还是通过其 DataContext 来标识。 DataContext 标识允许从一个数据驱动的位置移动到另一个位置。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehaviorBase.AppliesToProperty">
+            <summary>
+            与行为的范围对应的依赖属性。 有关更多详细信息，请参阅 FluidMoveScope。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehaviorBase.IsActiveProperty">
+            <summary>
+            与行为的活动状态对应的依赖属性。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehaviorBase.TagProperty">
+            <summary>
+            依赖属性，能够将元素用作其自己的标记或元素绑定。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehaviorBase.TagPathProperty">
+            <summary>
+            UsaBindingAsTag 为 true 时要添加到绑定的额外路径的依赖属性。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehaviorBase.IdentityTagProperty">
+            <summary>
+            用于检测容器之间的元素运动的标识标记。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.FluidMoveBehaviorBase.AppliesTo">
+            <summary>
+            指示行为是只应用于此元素，还是应用于此元素的所有子元素（如果此元素是面板的话）。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.FluidMoveBehaviorBase.IsActive">
+            <summary>
+            指示行为当前是否处于活动状态。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.FluidMoveBehaviorBase.Tag">
+            <summary>
+            指明是将元素用作其自己的标记，还是将元素绑定用作该标记。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.FluidMoveBehaviorBase.TagPath">
+            <summary>
+            当指定 TagType 时要添加到绑定的额外路径。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Layout.FluidMoveBehaviorBase.TagData">
+            <summary>
+            用于存储属于标记项目的所有相关数据的专用结构。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior">
+            <summary>
+            一种行为，此行为监视一个或一组元素的布局更改，并在必要时将元素平滑地移到新位置。 此行为并不动态显示元素的大小或可见性；它仅动态显示元素在其父容器中的偏移。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.DurationProperty">
+            <summary>
+            与移动的持续时间对应的依赖属性。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.InitialTagProperty">
+            <summary>
+            与即将加载对象时使用的标记类型相对应的依赖属性。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.InitialTagPathProperty">
+            <summary>
+            UsaBindingAsTag 为 true 时要添加到绑定的额外路径的依赖属性。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.InitialIdentityTagProperty">
+            <summary>
+            用于检测容器之间的元素运动的标识标记。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.FloatAboveProperty">
+            <summary>
+            FloatAbove 标志的依赖属性。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.EaseXProperty">
+            <summary>
+            与要用于移动的水平分量的 EasingFunction 对应的依赖属性。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.EaseYProperty">
+            <summary>
+            与要用于移动的垂直分量的 EasingFunction 对应的依赖属性。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.OverlayProperty">
+            <summary>
+            记住所使用的弹出菜单/修饰工具，以防 FloatAbove 为 true 时元素在容器间运动。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.CacheDuringOverlayProperty">
+            <summary>
+            浮动弹出菜单时使用的不透明度高速缓存。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.HasTransformWrapperProperty">
+            <summary>
+            标记动画转换。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.Duration">
+            <summary>
+            移动的持续时间。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.InitialTag">
+            <summary>
+            生成该项目的点。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.InitialTagPath">
+            <summary>
+            当指定 TagType 时要添加到绑定的额外路径。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.FloatAbove">
+            <summary>
+            一个指明更改容器时是否允许元素在其容器（在弹出菜单或修饰工具中）上方浮动的标志。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.EaseX">
+            <summary>
+            用于移动的水平分量的 EasingFunction。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.EaseY">
+            <summary>
+            用于移动的垂直分量的 EasingFunction。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.GoToStateAction">
+            <summary>
+            一项操作，它在被调用时会将 FrameworkElement 转换为指定的 VisualState。
+            </summary>
+            <remarks>
+            如果设置 TargetName 属性，则此操作将尝试更改目标元素的状态。 否则，它将遍历元素树，以尝试查找定义状态的另一个目标。 ControlTemplate 和 UserControl 是两种常见的可能性。
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.GoToStateAction.OnTargetChanged(System.Windows.FrameworkElement,System.Windows.FrameworkElement)">
+            <summary>
+            在目标更改时被调用。 如果未设置 TargetName 属性，则此操作具有自定义行为。
+            </summary>
+            <param name="oldTarget"></param>
+            <param name="newTarget"></param>
+            <exception cref="T:System.InvalidOperationException">无法找到具有状态的合适 FrameworkElement。</exception>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.GoToStateAction.Invoke(System.Object)">
+            <summary>
+            在满足某些条件并且调用该操作时，会调用此方法。
+            </summary>
+            <param name="parameter"></param>
+            <exception cref="T:System.InvalidOperationException">无法将目标更改为指定的 StateName。</exception>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.GoToStateAction.UseTransitions">
+            <summary>
+            确定是否使用 VisualTransition 在状态之间进行切换。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.GoToStateAction.StateName">
+            <summary>
+            VisualState 的名称。  
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Input.KeyTrigger">
+            <summary>
+            由键盘事件触发的触发器。  如果检测到目标按键和修改键，它将触发。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Input.KeyTrigger.Key">
+            <summary>
+            必须按下以便让触发器触发的按键。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Input.KeyTrigger.Modifiers">
+            <summary>
+            必须处于活动状态以便让触发器触发的修改键（默认为未按下任何修改键）。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Input.KeyTrigger.FiredOn">
+            <summary>
+            确定是否侦听 KeyDown 或 KeyUp 事件。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior">
+            <summary>
+            重定位附加的元素，以响应鼠标在元素上的拖动姿势。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.XProperty">
+            <summary>
+            与拖动的元素的 X 位置（相对于根元素的左侧）对应的依赖属性。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.YProperty">
+            <summary>
+            与拖动的元素的 Y 位置（相对于根元素的顶部）对应的依赖属性。
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.ConstrainToParentBoundsProperty">
+            <summary>
+            与 ConstrainToParentBounds 属性对应的依赖属性。 如果为 true，则拖动的元素将被约束为停留在其父容器的边界内。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.UpdatePosition(System.Windows.Point)">
+            <summary>
+            尝试将关联元素的位置更新为指定的坐标。
+            </summary>
+            <param name="point">在根坐标中所需的元素位置。</param>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.ApplyTranslation(System.Double,System.Double)">
+            <summary>
+            将相对位置转换应用于关联的元素。
+            </summary>
+            <param name="x">所需的转换在根坐标中的 X 分量。</param>
+            <param name="y">所需的转换在根坐标中的 Y 分量。</param>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.ApplyTranslationTransform(System.Double,System.Double)">
+            <summary>
+            将给定的转换应用于关联元素的 RenderTransform。
+            </summary>
+            <param name="x">转换在父坐标中的 X 分量。</param>
+            <param name="y">转换在父坐标中的 Y 分量。</param>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.CloneTransform(System.Windows.Media.Transform)">
+            <summary>
+            对指定的转换进行递归深层复制。
+            </summary>
+            <param name="transform">要克隆的转换。</param>
+            <returns>指定的转换的深层复制，如果指定的转换为 null，则为 null。</returns>
+            <exception cref="T:System.ArgumentException">在不能识别转换类型的情况下引发。</exception>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.UpdatePosition">
+            <summary>
+            根据当前呈现的关联元素位置更新 X 和 Y 属性。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.RectContainsRect(System.Windows.Rect,System.Windows.Rect)">
+            <summary>
+            检查一个矩形是否包含另一个矩形。
+            </summary>
+            <param name="rect1">包含另一个矩形的矩形。</param>
+            <param name="rect2">被包含的矩形。</param>
+            <returns>如果矩形 1 包含矩形 2，则为 <c>True</c>；否则为 <c>False</c>。</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.TransformAsVector(System.Windows.Media.GeneralTransform,System.Double,System.Double)">
+            <summary>
+            作为矢量转换。
+            </summary>
+            <param name="transform">转换本身。</param>
+            <param name="x">矢量的 X 分量。</param>
+            <param name="y">矢量的 Y 分量。</param>
+            <returns>一个点，它包含被转换作为矢量转换的 X 和 Y 的值。</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.GetTransformOffset(System.Windows.Media.GeneralTransform)">
+            <summary>
+            获得转换偏移。
+            </summary>
+            <param name="transform">转换本身。</param>
+            <returns>转换的偏移。</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.OnAttached">
+            <summary>
+            在行为附加到 AssociatedObject 后调用。
+            </summary>
+            <remarks>替代它以便将功能挂钩到 AssociatedObject。</remarks>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.OnDetaching">
+            <summary>
+            在行为与其 AssociatedObject 分离时（但在它实际发生之前）调用。
+            </summary>
+            <remarks>替代它以便将功能从 AssociatedObject 中解除挂钩。</remarks>
+        </member>
+        <member name="E:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.DragBegun">
+            <summary>
+            在开始拖动姿势时发生。
+            </summary>
+        </member>
+        <member name="E:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.Dragging">
+            <summary>
+            在处理拖动姿势的更新时发生。
+            </summary>
+        </member>
+        <member name="E:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.DragFinished">
+            <summary>
+            在完成拖动姿势时发生。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.X">
+            <summary>
+            获得或设置拖动的元素的 X 位置（相对于根元素的左侧）。 这是依赖属性。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.Y">
+            <summary>
+            获得或设置拖动的元素的 Y 位置（相对于根元素的顶部）。 这是依赖属性。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.ConstrainToParentBounds">
+            <summary>
+            获取或设置一个值，此值指示是否将拖动的元素约束为停留在其父容器的边界内。 这是依赖属性。
+            </summary>
+            <value>
+            	如果应将拖动的元素约束为停留在其父容器的边界内，则为 <c>True</c>，否则为 <c>False</c>。
+            </value>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.ActualPosition">
+            <summary>
+            获取关联的元素在屏幕上的位置（在根坐标中）。
+            </summary>
+            <value>关联的元素在屏幕上的位置（在根坐标中）。</value>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.ElementBounds">
+            <summary>
+            获得在元素坐标中的元素边界。
+            </summary>
+            <value>在元素坐标中的元素边界。</value>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.ParentElement">
+            <summary>
+            获得关联对象的父元素。
+            </summary>
+            <value>关联对象的父元素。</value>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.RootElement">
+            <summary>
+            获得关联的对象所在的场景的根元素。
+            </summary>
+            <value>关联的对象所在的场景的根元素。</value>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.RenderTransform">
+            <summary>
+            获取和设置关联的元素的 RenderTransform。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.NavigateToPageAction">
+            <summary>
+在被单击时使附加的元素切换到不同的 XAML 页面。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.NavigateToPageAction.Invoke(System.Object)">
+            <summary>
+调用导航操作。
+            </summary>
+            <param name="parameter">操作的参数。 如果操作不需要参数，则可以将参数设置为空引用。</param>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.NavigateToPageAction.TargetPage">
+            <summary>
+获取或设置要导航到的 XAML 文件。 这是依赖属性。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Media.PlaySoundAction">
+            <summary>
+            一项将播放表示完成的声音的操作。
+            </summary>
+            <remarks>
+            此操作旨在与无需停止或控制的短暂声音效果配合使用。 如果您尝试创建音乐播放器或游戏，它可能无法满足您的需求。
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Media.PlaySoundAction.#ctor">
+            <summary>
+            初始化 <see cref="T:Microsoft.Expression.Interactivity.Media.PlaySoundAction"/> 类的新实例。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Media.PlaySoundAction.SetMediaElementProperties(System.Windows.Controls.MediaElement)">
+            <summary>
+            在调用该操作时，此方法用于自定义动态创建的 MediaElement。
+            </summary>
+            <remarks>
+            此方法对于想扩展 PlaySoundAction 的操作设计者可能很有用。 如果您想控制 MediaElement Balance 属性，则可以从 PlaySoundAction 继承并替代此方法。
+            </remarks>
+            <param name="mediaElement"></param>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Media.PlaySoundAction.Invoke(System.Object)">
+            <summary>
+            在满足一些条件并且应调用该操作时，会调用此方法。 
+            </summary>
+            <remarks>
+            每次调用该操作都会播放新的声音。 虽然此实现可能会有更改，但调用者应预计到这将创建新的 MediaElement，该元素在声音播放完毕或媒体未能播放时将被清除。
+            </remarks>
+            <param name="parameter"></param>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Media.PlaySoundAction.Source">
+            <summary>
+            定义声音文件位置的 Uri。 这用于设置 MediaElement 的源属性。 这是依赖属性。
+            </summary>
+            <remarks>
+            声音可以是 MediaElement 支持的任何文件格式。 对于视频，它将只播放音频部分。
+            </remarks>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Media.PlaySoundAction.Volume">
+            <summary>
+            控制音量。 这用于设置 MediaElement 的 Volume 属性。 这是依赖属性。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.RemoveElementAction">
+            <summary>
+            一项操作，它在被调用时将从树中删除目标元素。
+            </summary>
+            <remarks>
+            此操作可能失败。 此操作了解如何从公共父级中删除元素，但不了解如何从自定义集合中删除元素，也不了解可视化树的直接操作。
+            </remarks>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.SetDataStoreValueAction">
+            <summary>
+            一项将更改数据存储对象中的属性值的操作。 此类与 ChangePropertyAction 相同。 唯一的差别就是会为此操作加载数据存储选取器。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Media.StoryboardAction">
+            <summary>
+            一个提供将情节提要确定为目标的能力的抽象类。
+            </summary>
+            <remarks>
+对于操作设计者，此类提供将情节提要确定为目标的标准方法。设计工具可能会选择为从此操作继承的类提供特别的编辑体验，从而改善设计者的体验。
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Media.StoryboardAction.OnStoryboardChanged(System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            在更改 Storyboard 属性时会调用此方法。
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Media.StoryboardAction.Storyboard">
+            <summary>
+            目标情节提要。 这是依赖属性。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Media.ControlStoryboardAction">
+            <summary>
+            一项操作，它在被调用时将更改目标情节提要的状态。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Media.ControlStoryboardAction.Invoke(System.Object)">
+            <summary>
+            在满足一些条件并且应调用该操作时，会调用此方法。 此方法将尝试按照 ControlStoryboardOption 定义的方式更改目标情节提要。
+            </summary>
+            <param name="parameter"></param>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Media.StoryboardTrigger">
+            <summary>
+            一个提供将情节提要确定为目标的能力的抽象类。
+            </summary>
+            <remarks>
+            对于触发器设计者，此类提供将情节提要确定为目标的标准方法。 设计工具可能会选择为从此触发器继承的类提供特别的编辑体验，从而改善设计者的体验。 
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Media.StoryboardTrigger.OnStoryboardChanged(System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            在更改 Storyboard 属性时会调用此方法。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Media.StoryboardTrigger.Storyboard">
+            <summary>
+            目标情节提要。 这是依赖属性。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Media.StoryboardCompletedTrigger">
+            <summary>
+            侦听情节提要完成状态的触发器。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Media.StoryboardCompletedTrigger.#ctor">
+            <summary>
+            初始化 <see cref="T:Microsoft.Expression.Interactivity.Media.StoryboardCompletedTrigger"/> 类的新实例。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.TimerTrigger">
+            <summary>
+            一个触发器，它由在其源上发生的指定事件触发，并且在触发该事件后延迟一段时间才触发。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.TimerTrigger.#ctor">
+            <summary>
+            初始化 <see cref="T:Microsoft.Expression.Interactivity.Core.TimerTrigger"/> 类的新实例。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.TimerTrigger.MillisecondsPerTick">
+            <summary>
+            获得或设置在刻度线之间等待的毫秒数。 这是依赖属性。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.TimerTrigger.TotalTicks">
+            <summary>
+            获取或设置在完成触发器之前要触发的刻度线总数。  这是依赖属性。
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.VisualStateUtilities">
+            <summary>
+            此类为使用 VisualStateManager 提供各种平台不可知的标准操作。
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.VisualStateUtilities.GoToState(System.Windows.FrameworkElement,System.String,System.Boolean)">
+            <summary>
+            在控件的两种状态之间切换。
+            </summary>
+            <param name="element">要在状态之间进行切换的元素。</param>
+            <param name="stateName">要切换到的状态。</param>
+            <param name="useTransitions">如果要使用 System.Windows.VisualTransition 在状态之间进行切换，则为 true；否则为 false。</param>
+            <returns>如果控件已成功切换为新状态，则为 true；否则为 false。</returns>
+            <exception cref="T:System.ArgumentNullException">控件为 null。</exception>
+            <exception cref="T:System.ArgumentNullException">StateName 为 null。</exception>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.VisualStateUtilities.GetVisualStateGroups(System.Windows.FrameworkElement)">
+            <summary>
+            获取 VisualStateManager.VisualStateGroups 附加属性的值。
+            </summary>
+            <param name="targetObject">要从中获取 VisualStateManager.VisualStateGroups 的元素。</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.VisualStateUtilities.TryFindNearestStatefulControl(System.Windows.FrameworkElement,System.Windows.FrameworkElement@)">
+            <summary>
+            查找包含可视状态的最近的父项。
+            </summary>
+            <param name="contextElement">要从中查找最近的状态控件的元素。</param>
+            <param name="resolvedControl">如果为 true，则为最近的状态控件；否则为 null。</param>
+            <returns>如果父项包含可视状态，则为 true；否则为 false。</returns>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.ExceptionStringTable">
+            <summary>
+              强类型的资源类，用于查找本地化的字符串等。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.ExceptionStringTable.ResourceManager">
+            <summary>
+              返回此类使用的已缓存 ResourceManager 实例。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.ExceptionStringTable.Culture">
+            <summary>
+              为使用此强类型资源类进行的所有资源查找替代当前线程的 CurrentUICulture 属性。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.ExceptionStringTable.CallMethodActionValidMethodNotFoundExceptionMessage">
+            <summary>
+              查找类似于以下内容且与预期签名匹配的本地化字符串：在类型“{1}”的对象上找不到名为“{0}”的方法。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.ExceptionStringTable.ChangePropertyActionAmbiguousAdditionOperationExceptionMessage">
+            <summary>
+              查找类似于以下内容的本地化字符串：在类型“{0}”上找到了多个可能的加法运算符。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.ExceptionStringTable.ChangePropertyActionCannotAnimateTargetTypeExceptionMessage">
+            <summary>
+              查找类似于以下内容的本地化字符串：无法针对类型为“{0}”的目标动态显示属性更改。 只能针对从 DependencyObject 中派生的类型动态显示属性更改。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.ExceptionStringTable.ChangePropertyActionCannotFindPropertyNameExceptionMessage">
+            <summary>
+              查找类似于以下内容的本地化字符串：在类型“{1}”上找不到名为“{0}”的属性。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.ExceptionStringTable.ChangePropertyActionCannotIncrementAnimatedPropertyChangeExceptionMessage">
+            <summary>
+              查找类似于以下内容的本地化字符串：如果设置 Duration 属性，则无法将 Increment 属性设置为 True。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.ExceptionStringTable.ChangePropertyActionCannotIncrementWriteOnlyPropertyExceptionMessage">
+            <summary>
+              查找类似于以下内容的本地化字符串：属性“{0}”无法递增，因为无法读取其值。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.ExceptionStringTable.ChangePropertyActionCannotSetValueExceptionMessage">
+            <summary>
+              查找类似于以下内容的本地化字符串：无法将类型“{0}”的值分配到类型“{2}”的属性“{1}”。 只能将类型“{2}”的值分配给“{1}”属性。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.ExceptionStringTable.ChangePropertyActionPropertyIsReadOnlyExceptionMessage">
+            <summary>
+              查找类似于以下内容的本地化字符串：类型“{1}”所定义的属性“{0}”不公开设置方法，因此无法修改。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.ExceptionStringTable.DataStateBehaviorStateNameNotFoundExceptionMessage">
+            <summary>
+              查找类似于以下内容的本地化字符串：在类型“{1}”上找不到名为“{0}”的状态。 请确保该状态存在并且可以从此上下文中被访问。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.ExceptionStringTable.GoToStateActionTargetHasNoStateGroups">
+            <summary>
+              查找类似于以下内容的本地化字符串：目标 {0} 不定义任何 VisualStateGroups。 .
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.ExceptionStringTable.InvalidLeftOperand">
+            <summary>
+              查找类似于以下内容的本地化字符串：类型为“{0}”的 LeftOperand 无法与运算符“{1}”结合使用。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.ExceptionStringTable.InvalidOperands">
+            <summary>
+              查找类似于以下内容的本地化字符串：类型为“{1}”的 LeftOperand 和类型为“{0}”的 RightOperand 无法与运算符“{2}”结合使用。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.ExceptionStringTable.InvalidRightOperand">
+            <summary>
+              查找类似于以下内容的本地化字符串：类型为“{0}”的 RightOperand 无法与运算符“{1}”结合使用。
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.ExceptionStringTable.UnsupportedRemoveTargetExceptionMessage">
+            <summary>
+              查找类似于以下内容的本地化字符串：不支持 RemoveElementAction 的目标。
+            </summary>
+        </member>
+    </members>
+</doc>

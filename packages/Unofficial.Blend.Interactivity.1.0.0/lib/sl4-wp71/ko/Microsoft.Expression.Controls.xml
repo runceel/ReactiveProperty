@@ -1,0 +1,543 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.Expression.Controls</name>
+    </assembly>
+    <members>
+        <member name="M:Microsoft.Expression.Controls.DistributionStrategy.Initialize">
+            <summary>
+            폴리라인이 루프되기 전에 호출됩니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Controls.DistributionStrategy.ComputeAutoCapacity">
+            <summary>
+            LayoutPath.Capacity가 Auto로 설정되어 있는 경우 사용된 값을 계산합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Controls.DistributionStrategy.ShouldBreak(System.Int32)">
+            <summary>
+            폴리라인을 계속 루프해야 하는지 여부를 확인합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Controls.DistributionStrategy.OnPolylineBegin(Microsoft.Expression.Drawing.Core.PolylineData)">
+            <summary>
+            새 폴리라인이 마칭되기 전에 호출됩니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Controls.DistributionStrategy.OnPolylineCompleted(System.Double)">
+            <summary>
+            폴리라인이 완료되면 호출됩니다.
+            </summary>
+            <param name="remaingLength">폴리라인의 나머지 호 길이입니다.</param>
+        </member>
+        <member name="M:Microsoft.Expression.Controls.DistributionStrategy.OnStepCompleted(System.Double)">
+            <summary>
+            단계가 완료되면 호출됩니다.
+            </summary>
+            <param name="actualStepDistance">실제 단계 거리입니다. 다른 폴리라인이 래핑된 경우 Step과 다를 수 있습니다.</param>
+        </member>
+        <member name="M:Microsoft.Expression.Controls.DistributionStrategy.Distribute(Microsoft.Expression.Controls.PathPanel,System.Int32,System.Int32)">
+            <summary>
+            지정된 레이아웃 경로를 따라 경로 패널의 자식을 배포합니다.
+            </summary>
+            <param name="pathPanel">경로 패널입니다.</param>
+            <param name="pathIndex">pathPanel.LayoutPaths 경로 인덱스입니다.</param>
+            <param name="childIndex">이 경로에 배치될 첫 번째 자식의 인덱스입니다.</param>
+            <returns>배포할 다음 자식의 인덱스입니다. childIndex가 반환될 경우 이 기능에서 아무 작업도 수행하지 않은 것입니다.</returns>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.DistributionStrategy.ChildIndex">
+            <summary>
+            정렬할 다음 자식의 인덱스입니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.DistributionStrategy.Span">
+            <summary>
+            레이아웃에 사용될 호 길이의 거리입니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.DistributionStrategy.Step">
+            <summary>
+            현재 폴리라인을 따라가는 호 길이의 거리입니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.DistributionStrategy.Capacity">
+            <summary>
+            LayoutPath에 정렬할 요소의 총 개수입니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Controls.EvenDistributionStrategy">
+            <summary>
+            레이아웃 경로를 따라 경로 패널의 자식을 배포합니다. 고른 배포란 경로에 있는 모든 요소의 중심 사이에 있는 호 길이가 동일함을 의미합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Controls.PathStrategy.HaveStartPointsChanged">
+            <summary>
+            Silverlight에서는 StartPoint를 변경해도 LayoutUpdated가 발생하지 않습니다. 이 경우 전체 기하를 비교하지 않고도 StartPoint 변경 사항을 확인할 수 있습니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Controls.ChangedPathLayoutProperties">
+            <summary>
+            변경된 경로 레이아웃 속성을 지정합니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Controls.PathLayoutUpdatedEventArgs">
+            <summary>
+            <see cref="E:Microsoft.Expression.Controls.IPathLayoutItem.PathLayoutUpdated"/> 이벤트에 대한 데이터를 제공합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Controls.PathLayoutUpdatedEventArgs.#ctor(Microsoft.Expression.Controls.ChangedPathLayoutProperties)">
+            <summary>
+            <see cref="T:Microsoft.Expression.Controls.PathLayoutUpdatedEventArgs"/> 클래스의 새 인스턴스를 초기화합니다.
+            </summary>
+            <param name="changedProperties">이벤트 데이터입니다.</param>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.PathLayoutUpdatedEventArgs.ChangedProperties">
+            <summary>
+            <see cref="E:Microsoft.Expression.Controls.IPathLayoutItem.PathLayoutUpdated"/> 이벤트에서 변경된 속성을 가져옵니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Controls.PathLayoutData">
+            <summary>
+            <see cref="T:Microsoft.Expression.Controls.IPathLayoutItem"/>을 업데이트하는 데 필요한 데이터를 캡슐화합니다. 
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.PathLayoutData.LayoutPathIndex">
+            <summary>
+            요소가 정렬된 경로의 인덱스를 가져오거나 설정합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.PathLayoutData.GlobalIndex">
+            <summary>
+            요소 컬렉션의 요소 인덱스를 가져오거나 설정합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.PathLayoutData.LocalIndex">
+            <summary>
+            경로에 있는 요소의 인덱스를 가져오거나 설정합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.PathLayoutData.GlobalOffset">
+            <summary>
+            경로 컬렉션의 총 길이에 비례하는 요소의 오프셋을 가져오거나 설정합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.PathLayoutData.LocalOffset">
+            <summary>
+            경로 길이에 비례하는 요소의 오프셋을 가져오거나 설정합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.PathLayoutData.NormalAngle">
+            <summary>
+            요소 위치의 경로에 수직인 각도를 가져오거나 설정합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.PathLayoutData.OrientationAngle">
+            <summary>
+            요소 방향이 경로를 향하는 경우 요소 위치의 경로에 수직인 각도를 가져오거나 설정합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.PathLayoutData.IsArranged">
+            <summary>
+            요소가 경로에 정렬되어 있는지 여부를 가져오거나 설정합니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Controls.IPathLayoutItem">
+            <summary>
+            <see cref="T:Microsoft.Expression.Controls.PathPanel"/>에 의해 정렬된 요소를 나타냅니다.
+            </summary>
+            <remarks>
+            이 인터페이스를 구현하면 요소를 정렬할 때 <see cref="T:Microsoft.Expression.Controls.PathPanel"/>에서 이 속성을 설정할 수 있습니다. 이 인터페이스는 일반적인 구현을 위한 것이 아닙니다.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Expression.Controls.IPathLayoutItem.Update(Microsoft.Expression.Controls.PathLayoutData)">
+            <summary>
+            지정된 <see cref="T:Microsoft.Expression.Controls.PathLayoutData"/>를 기반으로 <see cref="T:Microsoft.Expression.Controls.IPathLayoutItem"/> 속성을 업데이트하고 <see cref="E:Microsoft.Expression.Controls.IPathLayoutItem.PathLayoutUpdated"/> 이벤트를 발행합니다.
+            </summary>
+            <param name="data"><see cref="T:Microsoft.Expression.Controls.IPathLayoutItem"/>을 업데이트하는 데 필요한 데이터입니다. </param>
+        </member>
+        <member name="E:Microsoft.Expression.Controls.IPathLayoutItem.PathLayoutUpdated">
+            <summary>
+            <see cref="T:Microsoft.Expression.Controls.IPathLayoutItem"/> 속성 중 하나 이상이 변경될 때 발생합니다.
+            </summary>
+            <remarks>
+            경로를 따라 있는 항목 위치가 업데이트될 때마다 이 이벤트가 발생합니다. <see cref="T:Microsoft.Expression.Controls.LayoutPath"/>의 속성 변경 또는 <see cref="P:Microsoft.Expression.Controls.LayoutPath.SourceElement"/>에 대한 변경때문에 이 항목이 발생할 수 있습니다.
+            </remarks>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.IPathLayoutItem.LayoutPathIndex">
+            <summary>
+            항목이 정렬되는 경로의 인덱스를 가져옵니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.IPathLayoutItem.GlobalIndex">
+            <summary>
+            항목 컬렉션의 항목 인덱스를 가져옵니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.IPathLayoutItem.LocalIndex">
+            <summary>
+            항목이 정렬되는 경로의 항목 인덱스를 가져옵니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.IPathLayoutItem.GlobalOffset">
+            <summary>
+            경로 컬렉션의 총 길이에 비례하는 항목의 오프셋을 가져옵니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.IPathLayoutItem.LocalOffset">
+            <summary>
+            항목이 정렬되는 경로 길이에 비례한 항목의 오프셋을 가져옵니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.IPathLayoutItem.NormalAngle">
+            <summary>
+            항목 위치의 경로에 수직인 각도를 가져옵니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.IPathLayoutItem.OrientationAngle">
+            <summary>
+            항목이 경로를 향하는 경우 항목 위치의 경로에 수직인 각도를 가져옵니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.IPathLayoutItem.IsArranged">
+            <summary>
+            항목이 경로에 정렬되어 있는지 여부를 가져오거나 설정합니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Controls.IsArrangedToScaleConverter">
+            <summary>
+            요소가 정렬되어 있는지 여부를 나타내는 <see cref="T:System.Boolean"/>을 요소 크기를 조정하는 데 사용된 <see cref="T:System.Double"/> 값으로 변환합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Controls.IsArrangedToScaleConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            모든 경우에 <see cref="T:System.NotImplementedException"/> 예외를 발생시킵니다.
+            </summary>
+            <param name="value">원본에 전달할 대상 데이터입니다.</param>
+            <param name="targetType">원본 개체에서 예상하는 데이터의 <see cref="T:System.Type"/>입니다.</param>
+            <param name="parameter">변환기 논리에서 사용할 선택적 매개 변수입니다.</param>
+            <param name="culture">변환의 culture입니다.</param>
+            <returns>원본 개체에 전달될 값입니다.</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Controls.IsArrangedToScaleConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            지정된 <see cref="T:System.Boolean"/>을 <see cref="T:System.Double"/>로 변환합니다. 
+            </summary>		
+            <param name="value">대상에 전달할 원본 데이터입니다.</param>
+            <param name="targetType">대상 종속성 속성에서 예상하는 데이터의 <see cref="T:System.Type"/>입니다.</param>
+            <param name="parameter">변환기 논리에서 사용할 선택적 매개 변수입니다.</param>
+            <param name="culture">변환의 culture입니다.</param>
+            <returns><see cref="T:System.Boolean"/>이 true일 경우 1이 반환됩니다. 그렇지 않으면 0이 반환됩니다.</returns>
+        </member>
+        <member name="T:Microsoft.Expression.Controls.Distribution">
+            <summary>
+            <see cref="T:Microsoft.Expression.Controls.LayoutPath"/>의 배포를 지정합니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Controls.Orientation">
+            <summary>
+            <see cref="T:Microsoft.Expression.Controls.LayoutPath"/>에서 요소의 방향을 지정합니다. 
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Controls.FillBehavior">
+            <summary>
+            열린 경로에서 <see cref="P:Microsoft.Expression.Controls.LayoutPath.Span"/>를 변경하기 위한 메서드를 지정합니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Controls.LayoutPath">
+            <summary>
+            요소가 정렬되는 경로를 설명합니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Controls.LayoutPath.transformedPolylines">
+            <summary>
+            변형이 결합에 영향을 미치기 때문에 결합 전에 베지어 곡선을 캐시하고자 할 수 있습니다. 이 경우 지원하지 않는 곡선을 캐시해야 합니다.  대신 배포 전략에서 병합 점을 캐시하고 필요 시 변형합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.LayoutPath.SourceElement">
+            <summary>
+            경로를 정의하는 요소를 가져오거나 설정합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.LayoutPath.Distribution">
+            <summary>
+            항목이 고르게 배포되어 있는지 또는 고정 여백이 있는지 여부를 가져오거나 설정합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.LayoutPath.Capacity">
+            <summary>
+            <see cref="T:Microsoft.Expression.Controls.LayoutPath"/>에 표시된 최대 항목 수를 가져오거나 설정합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.LayoutPath.Padding">
+            <summary>
+            두 항목 사이에서 <see cref="T:Microsoft.Expression.Controls.LayoutPath"/>의 호 길이를 따라 있는 거리(픽셀 단위)를 가져오거나 설정합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.LayoutPath.Orientation">
+            <summary>
+            항목의 방향을 가져오거나 설정합니다.
+            </summary>
+            <remarks>
+            이 속성은 <see cref="T:Microsoft.Expression.Controls.PathListBox"/>에서는 지원되지만 <see cref="T:Microsoft.Expression.Controls.PathPanel"/>에서는 지원되지 않습니다.
+            </remarks>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.LayoutPath.Start">
+            <summary>
+            첫 번째 항목을 배치하기 위해 <see cref="T:Microsoft.Expression.Controls.LayoutPath"/>의 시작으로부터의 거리를 가져오거나 설정합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.LayoutPath.Span">
+            <summary>
+            레이아웃에 참여하는 <see cref="T:Microsoft.Expression.Controls.LayoutPath"/>의 백분율을 가져오거나 설정합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.LayoutPath.FillBehavior">
+            <summary>
+            열린 경로에서 <see cref="P:Microsoft.Expression.Controls.LayoutPath.Span"/>를 변경하기 위한 메서드를 가져오거나 설정합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.LayoutPath.ActualCapacity">
+            <summary>
+            계산된 용량을 가져옵니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.LayoutPath.IsValid">
+            <summary>
+            <see cref="P:Microsoft.Expression.Controls.LayoutPath.SourceElement"/>가 컨텍스트에서 유효한지 여부를 가져옵니다. <see cref="P:Microsoft.Expression.Controls.LayoutPath.SourceElement"/>가 사용된 <see cref="T:Microsoft.Expression.Controls.PathPanel"/>의 하위 항목일 경우 올바르지 않습니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Controls.PaddedDistributionStrategy">
+            <summary>
+            자식 크기와 자식 간의 지정된 여백을 기반으로 레이아웃 경로의 자식을 배포합니다. 자식 간 호 길이의 거리는 여백과 자식 경계 상자의 반경 합계를 더하여 결정됩니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Controls.PathListBox">
+            <summary>
+            하나 이상의 경로를 따라 배치된 항목 목록이 포함되어 있습니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Controls.PathListBox.#ctor">
+            <summary>
+            <see cref="T:Microsoft.Expression.Controls.PathListBox"/> 클래스의 새 인스턴스를 초기화합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Controls.PathListBox.GetContainerForItemOverride">
+            <summary>
+            지정된 항목을 표시하기 위해 사용된 요소를 만듭니다.
+            </summary>
+            <returns>지정된 항목에 해당하는 <see cref="T:Microsoft.Expression.Controls.PathListBoxItem"/>입니다.</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Controls.PathListBox.IsItemItsOwnContainerOverride(System.Object)">
+            <summary>
+            지정된 항목이 고유 항목 컨테이너이거나 가능한 경우를 확인합니다.
+            </summary>
+            <returns>항목이 해당하는 고유한 항목 컨테이너일 경우 true, 그렇지 않으면 false입니다.</returns>
+            <param name="item">지정된 항목입니다.</param>
+        </member>
+        <member name="M:Microsoft.Expression.Controls.PathListBox.ArrangeOverride(System.Windows.Size)">
+            <summary>
+            자식 요소의 위치를 지정합니다.
+            </summary>
+            <param name="finalSize">자식 요소를 정렬하기 위해 이 개체에서 사용할 크기입니다.</param>
+            <returns>사용된 실제 크기입니다.</returns>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.PathListBox.LayoutPaths">
+            <summary>
+            레이아웃에 사용된 경로를 정의하는 개체 컬렉션을 가져오거나 설정합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.PathListBox.StartItemIndex">
+            <summary>
+            항목 목록 내에서 사용할 인덱스를 가져오거나 설정합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.PathListBox.WrapItems">
+            <summary>
+            StartItemIndex가 0보다 클 경우 컬렉션의 시작에 항목 인덱스를 래핑할지 여부를 가져오거나 설정합니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Controls.PathListBoxItem">
+            <summary>
+            <see cref="T:Microsoft.Expression.Controls.PathListBox"/>의 항목을 나타냅니다. 
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Controls.PathListBoxItem.#ctor">
+            <summary>
+            <see cref="T:Microsoft.Expression.Controls.PathListBoxItem"/> 클래스의 새 인스턴스를 초기화합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Controls.PathListBoxItem.Update(Microsoft.Expression.Controls.PathLayoutData)">
+            <summary>
+            이 멤버에 대한 설명은 <see cref="M:Microsoft.Expression.Controls.IPathLayoutItem.Update(Microsoft.Expression.Controls.PathLayoutData)"/>를 참조하십시오. 
+            </summary>
+        </member>
+        <member name="E:Microsoft.Expression.Controls.PathListBoxItem.PathLayoutUpdated">
+            <summary>
+            이 멤버에 대한 설명은 <see cref="E:Microsoft.Expression.Controls.IPathLayoutItem.PathLayoutUpdated"/>를 참조하십시오. 
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.PathListBoxItem.LayoutPathIndex">
+            <summary>
+            이 멤버에 대한 설명은 <see cref="P:Microsoft.Expression.Controls.IPathLayoutItem.LayoutPathIndex"/>를 참조하십시오. 
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.PathListBoxItem.GlobalIndex">
+            <summary>
+            이 멤버에 대한 설명은 <see cref="P:Microsoft.Expression.Controls.IPathLayoutItem.GlobalIndex"/>를 참조하십시오. 
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.PathListBoxItem.LocalIndex">
+            <summary>
+            이 멤버에 대한 설명은 <see cref="P:Microsoft.Expression.Controls.IPathLayoutItem.LocalIndex"/>를 참조하십시오. 
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.PathListBoxItem.GlobalOffset">
+            <summary>
+            이 멤버에 대한 설명은 <see cref="P:Microsoft.Expression.Controls.IPathLayoutItem.GlobalOffset"/>를 참조하십시오. 
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.PathListBoxItem.LocalOffset">
+            <summary>
+            이 멤버에 대한 설명은 <see cref="P:Microsoft.Expression.Controls.IPathLayoutItem.LocalOffset"/>를 참조하십시오. 
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.PathListBoxItem.NormalAngle">
+            <summary>
+            이 멤버에 대한 설명은 <see cref="P:Microsoft.Expression.Controls.IPathLayoutItem.NormalAngle"/>를 참조하십시오. 
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.PathListBoxItem.OrientationAngle">
+            <summary>
+            이 멤버에 대한 설명은 <see cref="P:Microsoft.Expression.Controls.IPathLayoutItem.OrientationAngle"/>를 참조하십시오. 
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.PathListBoxItem.IsArranged">
+            <summary>
+            이 멤버에 대한 설명은 <see cref="P:Microsoft.Expression.Controls.IPathLayoutItem.IsArranged"/>를 참조하십시오. 
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Controls.PathPanel">
+            <summary>
+            하나 이상의 경로를 따라 자식 요소를 정렬합니다.
+            </summary>
+            <remarks>
+            선택할 필요가 없는 경우 <see cref="T:Microsoft.Expression.Controls.PathPanel"/>을 <see cref="T:Microsoft.Expression.Controls.PathListBox"/> 대안으로 사용할 수 있습니다. <see cref="P:Microsoft.Expression.Controls.LayoutPath.Orientation"/> 속성은 <see cref="T:Microsoft.Expression.Controls.PathPanel"/>에서 지원되지 않습니다. 
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Expression.Controls.PathPanel.#ctor">
+            <summary>
+            <see cref="T:Microsoft.Expression.Controls.PathPanel"/> 클래스의 새 인스턴스를 초기화합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Controls.PathPanel.MeasureOverride(System.Windows.Size)">
+            <summary>
+            자식 요소에 필요한 크기를 측정합니다.
+            </summary>
+            <param name="availableSize">이 요소가 자식 요소에 제공할 수 있는 사용 가능한 크기입니다. </param>
+            <returns>자식 요소 크기 계산을 기반으로 이 요소의 크기에 의해 레이아웃 중에 필요한 크기가 결정합니다.</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Controls.PathPanel.ArrangeOverride(System.Windows.Size)">
+            <summary>
+            자식 요소의 위치를 지정합니다.
+            </summary>
+            <param name="finalSize">자식 요소를 정렬하기 위해 이 개체에서 사용할 크기입니다.</param>
+            <returns>사용된 실제 크기입니다.</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Controls.PathPanel.ArrangeChild(System.Int32,System.Int32,Microsoft.Expression.Drawing.Core.PolylineData,Microsoft.Expression.Drawing.Core.MarchLocation,System.Int32)">
+            <summary>
+            LayoutPath에서 특정 위치에 있는 지정된 인덱스에서 자식을 정렬합니다.
+            </summary>
+            <param name="indirectIndex">인덱스 범위는 0에서 PathPanel.Count까지입니다.</param>
+            <param name="pathIndex">자식을 정렬할 레이아웃 경로의 인덱스입니다.</param>
+            <param name="polyline">레이아웃 경로의 폴리라인입니다.</param>
+            <param name="location">폴리라인 상의 위치입니다.</param>
+            <param name="localIndex">LayoutPath에서 해당 자식의 인덱스입니다.</param>
+        </member>
+        <member name="M:Microsoft.Expression.Controls.PathPanel.GetChildRadius(System.Int32)">
+            <summary>
+            지정한 인덱스의 자식에 대한 경계 원의 반경을 계산합니다.
+            </summary>
+            <param name="indirectIndex">인덱스 범위는 0에서 PathPanel.Count까지입니다.</param>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.PathPanel.LayoutPaths">
+            <summary>
+            레이아웃에 사용된 경로를 정의하는 개체 컬렉션을 가져오거나 설정합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.PathPanel.StartItemIndex">
+            <summary>
+            항목 목록 내에서 사용할 인덱스를 가져오거나 설정합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.PathPanel.WrapItems">
+            <summary>
+            <see cref="P:Microsoft.Expression.Controls.PathPanel.StartItemIndex"/>가 0보다 클 경우 컬렉션의 시작에 항목 인덱스를 래핑할지 여부를 가져오거나 설정합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.PathPanel.ValidPaths">
+            <summary>
+            연결되고 축소되지 않은 LayoutPaths의 하위 집합입니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Controls.PathPanel.Count">
+            <summary>
+            Count는 PathPanel에 레이아웃되는 자식 수입니다. StartItemIndex &gt; 0이고 WrapItems가 false일 경우 PathPanel.Children.Count보다 작을 수 있습니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Controls.Utilities.GetItemsHost(System.Windows.Controls.ItemsControl)">
+            <summary>
+            ItemsControl의 컨테이너가 포함된 패널을 가져옵니다.
+            </summary>
+            <param name="control">ItemsControl입니다.</param>
+            <returns>
+            ItemsControl의 컨테이너가 포함된 패널이거나, 패널을 찾을 수 없는 경우 null입니다.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="control"/> null 입니다.
+            </exception>
+        </member>
+        <member name="M:Microsoft.Expression.Controls.Utilities.TraverseBreadthFirst``1(``0,System.Func{``0,System.Collections.Generic.IEnumerable{``0}},System.Func{``0,System.Boolean})">
+            <summary>
+            초기 값과 노드의 자식 노드를 검색하는 기능을 허용하여 트리를 통과합니다.
+            </summary>
+            <typeparam name="T">스트림 형식입니다.</typeparam>
+            <param name="initialNode">초기 노드입니다.</param>
+            <param name="getChildNodes">노드의 자식 노드를 검색하는 기능입니다.</param>
+            <param name="traversePredicate">노드를 평가하고 노드 및 노드의 자식을 통과해야 하는지 여부를 나타내는 값을 반환하는 조건자입니다.</param>
+            <returns>노드 스트림입니다.</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Controls.Utilities.GetVisualChildren(System.Windows.DependencyObject)">
+            <summary>
+            요소의 시각적 트리 자식을 가져옵니다.
+            </summary>
+            <param name="element">요소입니다.</param>
+            <returns>요소의 시각적 트리 자식입니다.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="element"/> null 입니다.
+            </exception>
+        </member>
+        <member name="M:Microsoft.Expression.Controls.Utilities.GetVisualChildrenAndSelfIterator(System.Windows.DependencyObject)">
+            <summary>
+            요소의 시각적 트리 자식과 요소 자체를 가져옵니다.
+            </summary>
+            <param name="element">요소입니다.</param>
+            <returns>
+            요소의 시각적 트리 자식과 요소 자체입니다.
+            </returns>
+        </member>
+        <member name="M:Microsoft.Expression.Controls.Utilities.GetLogicalChildren(System.Windows.FrameworkElement)">
+            <summary>
+            BFS(깊이 우선 탐색)를 사용하여 프레임워크 요소의 모든 논리 자식을 검색합니다. 성능상 이유 때문에 이 메서드에서는 재귀를 사용하는 대신 스택을 수동으로 관리합니다.
+            </summary>
+            <param name="parent">부모 프레임워크 요소입니다.</param>
+            <returns>프레임워크 요소의 논리 자식입니다.</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Controls.Utilities.GetLogicalDescendents(System.Windows.FrameworkElement)">
+            <summary>
+            BFS(깊이 우선 탐색)를 사용하여 프레임워크 요소의 모든 논리 하위를 검색합니다. 성능상 이유 때문에 이 메서드에서는 재귀를 사용하는 대신 스택을 수동으로 관리합니다.
+            </summary>
+            <param name="parent">부모 프레임워크 요소입니다.</param>
+            <returns>프레임워크 요소의 논리 자식입니다.</returns>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,1046 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>System.Windows.Interactivity</name>
+    </assembly>
+    <members>
+        <member name="T:System.Windows.Interactivity.AttachableCollection`1">
+            <summary>
+代表含有共用 AssociatedObject 的 IAttachedObject 集合，並在該 AssociatedObject 變更時提供變更通知給其內容。
+            </summary>
+        </member>
+        <member name="T:System.Windows.Interactivity.IAttachedObject">
+            <summary>
+可附加到其他物件之物件的介面。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.IAttachedObject.Attach(System.Windows.DependencyObject)">
+            <summary>
+附加到指定的物件。
+            </summary>
+<param name="dependencyObject">要附加到的物件。</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.IAttachedObject.Detach">
+            <summary>
+將此例項從其關聯的物件卸離。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.IAttachedObject.AssociatedObject">
+            <summary>
+取得關聯的物件。
+            </summary>
+<value>關聯的物件。</value>
+<remarks>代表例項要附加到的物件。</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.AttachableCollection`1.#ctor">
+            <summary>
+初始化 <see cref="T:System.Windows.Interactivity.AttachableCollection`1"/> 類別的新例項。
+            </summary>
+<remarks>內部，因為這不應該在此組譯碼以外被繼承。</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.AttachableCollection`1.OnAttached">
+            <summary>
+在集合附加到 AssociatedObject 後立即呼叫。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.AttachableCollection`1.OnDetaching">
+            <summary>
+當集合正要從其 AssociatedObject 卸離但尚未實際發生前呼叫。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.AttachableCollection`1.ItemAdded(`0)">
+            <summary>
+當新增項目至集合時呼叫。
+            </summary>
+<param name="item">新項目。</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.AttachableCollection`1.ItemRemoved(`0)">
+            <summary>
+從集合移除項目時呼叫。
+            </summary>
+<param name="item">移除的項目。</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.AttachableCollection`1.VerifyAdd(`0)">
+<exception cref="T:System.InvalidOperationException">無法將例項多次新增到集合。</exception>
+        </member>
+        <member name="M:System.Windows.Interactivity.AttachableCollection`1.Attach(System.Windows.DependencyObject)">
+            <summary>
+附加到指定的物件。
+            </summary>
+<param name="dependencyObject">要附加到的物件。</param>
+<exception cref="T:System.InvalidOperationException">已將 IAttachedObject 附加到不同的物件。</exception>
+        </member>
+        <member name="M:System.Windows.Interactivity.AttachableCollection`1.Detach">
+            <summary>
+將此例項從其關聯的物件卸離。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.AttachableCollection`1.AssociatedObject">
+            <summary>
+主控集合的物件。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.AttachableCollection`1.System#Windows#Interactivity#IAttachedObject#AssociatedObject">
+            <summary>
+取得關聯的物件。
+            </summary>
+<value>關聯的物件。</value>
+        </member>
+        <member name="T:System.Windows.Interactivity.Behavior`1">
+            <summary>
+將狀態資訊及零或多個 ICommands 封裝到可附加的物件中。
+            </summary>
+<typeparam name="T">可將 <see cref="T:System.Windows.Interactivity.Behavior`1"/> 附加到的類型。</typeparam>
+            <remarks>
+	Behavior 是將可附加的狀態及命令提供給物件的基底類別。Behavior 可以附加到的類型可由泛型參數來控制。覆寫 OnAttached() 和 OnDetaching() 方法，以便從 AssociatedObject 連接及取消連接任何必要的處理常式。
+            </remarks>
+        </member>
+        <member name="T:System.Windows.Interactivity.Behavior">
+            <summary>
+將狀態資訊及零或多個 ICommands 封裝到可附加的物件中。
+            </summary>
+<remarks>這是基礎結構類別。行為撰寫者應從 Behavior&lt;T&gt; 衍生，而不是從這個類別衍生。</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.Behavior.OnAttached">
+            <summary>
+在行為附加到 AssociatedObject 後呼叫。
+            </summary>
+<remarks>覆寫此設定以便將功能連接至 AssociatedObject。</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.Behavior.OnDetaching">
+            <summary>
+當行為正要從其 AssociatedObject 卸離但尚未實際發生前呼叫。
+            </summary>
+<remarks>覆寫此設定以便從 AssociatedObject 取消連接功能。</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.Behavior.Attach(System.Windows.DependencyObject)">
+            <summary>
+附加到指定的物件。
+            </summary>
+<param name="dependencyObject">要附加到的物件。</param>
+<exception cref="T:System.InvalidOperationException">已在不同的元素上主控 Behavior。</exception>
+<exception cref="T:System.InvalidOperationException">dependencyObject 不符合 Behavior 類型限制。</exception>
+        </member>
+        <member name="M:System.Windows.Interactivity.Behavior.Detach">
+            <summary>
+將此例項從其關聯的物件卸離。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.Behavior.AssociatedType">
+            <summary>
+此行為可附加到的類型。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.Behavior.AssociatedObject">
+            <summary>
+取得此行為附加到的物件。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.Behavior.System#Windows#Interactivity#IAttachedObject#AssociatedObject">
+            <summary>
+取得關聯的物件。
+            </summary>
+<value>關聯的物件。</value>
+        </member>
+        <member name="M:System.Windows.Interactivity.Behavior`1.#ctor">
+            <summary>
+初始化 <see cref="T:System.Windows.Interactivity.Behavior`1"/> 類別的新例項。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.Behavior`1.AssociatedObject">
+            <summary>
+取得此 <see cref="T:System.Windows.Interactivity.Behavior`1"/> 附加到的物件。
+            </summary>
+        </member>
+        <member name="T:System.Windows.Interactivity.BehaviorCollection">
+            <summary>
+代表含有共用 AssociatedObject 的行為集合，並在該 AssociatedObject 變更時提供變更通知給其內容。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.BehaviorCollection.#ctor">
+            <summary>
+初始化 <see cref="T:System.Windows.Interactivity.BehaviorCollection"/> 類別的新例項。
+            </summary>
+<remarks>內部，因為這不應該在此組譯碼以外被繼承。</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.BehaviorCollection.OnAttached">
+            <summary>
+在集合附加到 AssociatedObject 後立即呼叫。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.BehaviorCollection.OnDetaching">
+            <summary>
+當集合正要從其 AssociatedObject 卸離但尚未實際發生前呼叫。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.BehaviorCollection.ItemAdded(System.Windows.Interactivity.Behavior)">
+            <summary>
+當新增項目至集合時呼叫。
+            </summary>
+<param name="item">新項目。</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.BehaviorCollection.ItemRemoved(System.Windows.Interactivity.Behavior)">
+            <summary>
+從集合移除項目時呼叫。
+            </summary>
+<param name="item">移除的項目。</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.BehaviorCollection.CreateInstanceCore">
+            <summary>
+建立 BehaviorCollection 的新例項。
+            </summary>
+<returns>新例項。</returns>
+        </member>
+        <member name="T:System.Windows.Interactivity.CustomPropertyValueEditor">
+            <summary>
+為可重複使用的屬性值編輯器列舉可能的值。
+            </summary>
+        </member>
+        <member name="F:System.Windows.Interactivity.CustomPropertyValueEditor.Element">
+            <summary>
+使用元素選擇器 (如果有支援) 在設計階段編輯此屬性。
+            </summary>
+        </member>
+        <member name="F:System.Windows.Interactivity.CustomPropertyValueEditor.Storyboard">
+            <summary>
+使用腳本選擇器 (如果有支援) 在設計階段編輯此屬性。
+            </summary>
+        </member>
+        <member name="F:System.Windows.Interactivity.CustomPropertyValueEditor.StateName">
+            <summary>
+使用狀態選擇器 (如果有支援) 在設計階段編輯此屬性。
+            </summary>
+        </member>
+        <member name="F:System.Windows.Interactivity.CustomPropertyValueEditor.ElementBinding">
+            <summary>
+使用元素繫結選擇器 (如果有支援) 在設計階段編輯此屬性。
+            </summary>
+        </member>
+        <member name="F:System.Windows.Interactivity.CustomPropertyValueEditor.PropertyBinding">
+            <summary>
+使用屬性繫結選擇器 (如果有支援) 在設計階段編輯此屬性。
+            </summary>
+        </member>
+        <member name="T:System.Windows.Interactivity.CustomPropertyValueEditorAttribute">
+            <summary>
+讓指定編輯器類型與套用 CustomPropertyValueEditor 的屬性產生關聯。
+            </summary>
+<remarks>使用這個屬性，為代表元素 (依名稱)、腳本或狀態 (依名稱) 的屬性改善設計階段編輯。</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.CustomPropertyValueEditorAttribute.#ctor(System.Windows.Interactivity.CustomPropertyValueEditor)">
+            <summary>
+初始化 <see cref="T:System.Windows.Interactivity.CustomPropertyValueEditorAttribute"/> 類別的新例項。
+            </summary>
+<param name="customPropertyValueEditor">自訂屬性值編輯器。</param>
+        </member>
+        <member name="P:System.Windows.Interactivity.CustomPropertyValueEditorAttribute.CustomPropertyValueEditor">
+            <summary>
+取得或設定自訂屬性值編輯器。
+            </summary>
+<value>自訂屬性值編輯器。</value>
+        </member>
+        <member name="T:System.Windows.Interactivity.DefaultTriggerAttribute">
+            <summary>
+提供有關要為指定動作或命令具現化什麼 <see cref="T:System.Windows.Interactivity.TriggerBase"/> 的設計工具資訊。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.DefaultTriggerAttribute.#ctor(System.Type,System.Type,System.Object)">
+            <summary>
+初始化 <see cref="T:System.Windows.Interactivity.DefaultTriggerAttribute"/> 類別的新例項。
+            </summary>
+<param name="targetType">此屬性套用到的類型。</param>
+<param name="triggerType">要具現化的 <see cref="T:System.Windows.Interactivity.TriggerBase"/> 類型。</param>
+<param name="parameters">指定之 <see cref="T:System.Windows.Interactivity.TriggerBase"/> 的單一引數。</param>
+<exception cref="T:System.ArgumentException"><c cref="F:System.Windows.Interactivity.DefaultTriggerAttribute.triggerType"/> 不是從 TriggerBase 衍生。</exception>
+<remarks>如果指定的 <see cref="T:System.Windows.Interactivity.TriggerBase"/> 具有單一引數，則此建構函式會很有用。產生的程式碼將符合 CLS 標準。</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.DefaultTriggerAttribute.#ctor(System.Type,System.Type,System.Object[])">
+            <summary>
+初始化 <see cref="T:System.Windows.Interactivity.DefaultTriggerAttribute"/> 類別的新例項。
+            </summary>
+<param name="targetType">此屬性套用到的類型。</param>
+<param name="triggerType">要具現化的 <see cref="T:System.Windows.Interactivity.TriggerBase"/> 類型。</param>
+<param name="parameters">指定之 <see cref="T:System.Windows.Interactivity.TriggerBase"/> 的建構函式引數。</param>
+<exception cref="T:System.ArgumentException"><c cref="F:System.Windows.Interactivity.DefaultTriggerAttribute.triggerType"/> 不是從 TriggerBase 衍生。</exception>
+        </member>
+        <member name="M:System.Windows.Interactivity.DefaultTriggerAttribute.Instantiate">
+            <summary>
+具現化此例項。
+            </summary>
+<returns>DefaultTriggerAttribute 指定的 <see cref="T:System.Windows.Interactivity.TriggerBase"/>。</returns>
+        </member>
+        <member name="P:System.Windows.Interactivity.DefaultTriggerAttribute.TargetType">
+            <summary>
+取得此 DefaultTriggerAttribute 套用到的類型。
+            </summary>
+<value>此 DefaultTriggerAttribute 套用到的類型。</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.DefaultTriggerAttribute.TriggerType">
+            <summary>
+要具現化的 <see cref="T:System.Windows.Interactivity.TriggerBase"/> 類型。
+            </summary>
+<value>要具現化的 <see cref="T:System.Windows.Interactivity.TriggerBase"/> 類型。</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.DefaultTriggerAttribute.Parameters">
+            <summary>
+取得傳送至 <see cref="T:System.Windows.Interactivity.TriggerBase"/> 建構函式的參數。
+            </summary>
+<value>傳送至 <see cref="T:System.Windows.Interactivity.TriggerBase"/> 建構函式的參數。</value>
+        </member>
+        <member name="M:System.Windows.Interactivity.DependencyObjectHelper.GetSelfAndAncestors(System.Windows.DependencyObject)">
+            <summary>
+此方法會使用 VisualTreeHelper.GetParent 方法執行深度優先回溯到視覺化樹狀目錄的頂端，然後傳回指定物件的所有上階 (包括物件本身)。
+            </summary>
+<param name="dependencyObject">視覺化樹狀目錄中要尋找上階的物件。</param>
+<returns>傳回本身及視覺化樹狀目錄中的所有上階。</returns>
+        </member>
+        <member name="T:System.Windows.Interactivity.EventObserver">
+            <summary>
+EventObserver 設計成可透過在處置時卸離，協助管理事件處理常式。建立此物件也會附加到建構函式中。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventObserver.#ctor(System.Reflection.EventInfo,System.Object,System.Delegate)">
+            <summary>
+建立 EventObserver 的例項，並附加到指定目標上的指定事件。呼叫要卸離的處置。
+            </summary>
+<param name="eventInfo">要附加和卸離的事件。</param>
+<param name="target">定義事件的所在目標物件。若為靜態方法則為 Null。</param>
+<param name="handler">要附加到事件的委派。</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventObserver.Dispose">
+            <summary>
+使處理常式和事件卸離。
+            </summary>
+        </member>
+        <member name="T:System.Windows.Interactivity.EventTrigger">
+            <summary>
+在其來源聆聽指定的事件並在該事件觸發時觸發的觸發程序。
+            </summary>
+        </member>
+        <member name="T:System.Windows.Interactivity.EventTriggerBase`1">
+            <summary>
+代表可聆聽其 AssociatedObject 以外之元素的觸發程序。
+            </summary>
+<typeparam name="T">此觸發程序可以產生關聯的類型。</typeparam>
+            <remarks>
+	EventTriggerBase 會延伸 TriggerBase 以新增另一個物件 (而不是它所附加到的物件) 的知識。這可讓使用者將一對觸發程序/動作附加到一個物件並叫用動作，以回應他處另一個物件的變更。覆寫 OnSourceChanged 以便在來源元素上連接或取消連接處理常式，以及關聯元素的 OnAttached/OnDetaching。來源元素的類型可受到泛型型別參數的限制。如果您需要控制 AssociatedObject 的類型，請在衍生類型上設定 TypeConstraintAttribute。
+            </remarks>
+        </member>
+        <member name="T:System.Windows.Interactivity.EventTriggerBase">
+            <summary>
+代表可聆聽其 AssociatedObject 以外之物件的觸發程序。
+            </summary>
+<remarks>這是基礎結構類別。觸發程序撰寫者應從 EventTriggerBase&lt;T&gt; 衍生，而不是從這個類別衍生。</remarks>
+        </member>
+        <member name="T:System.Windows.Interactivity.TriggerBase">
+            <summary>
+代表可以有條件地叫用動作的物件。
+            </summary>
+<remarks>這是基礎結構類別。觸發程序撰寫者應從 Trigger&lt;T&gt; 衍生，而不是從這個類別衍生。</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerBase.InvokeActions(System.Object)">
+            <summary>
+叫用所有與此觸發程序關聯的動作。
+            </summary>
+<remarks>衍生的類別應呼叫此項目以使觸發程序觸發。</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerBase.OnAttached">
+            <summary>
+在觸發程序附加到 AssociatedObject 後呼叫。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerBase.OnDetaching">
+            <summary>
+當觸發程序正要從其 AssociatedObject 卸離但尚未實際發生前呼叫。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerBase.CreateInstanceCore">
+            <summary>
+建立 TriggerBase 衍生類別的新例項。
+            </summary>
+<returns>新例項。</returns>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerBase.Attach(System.Windows.DependencyObject)">
+            <summary>
+附加到指定的物件。
+            </summary>
+<param name="dependencyObject">要附加到的物件。</param>
+<exception cref="T:System.InvalidOperationException">無法同時在多個物件上主控相同的觸發程序。</exception>
+<exception cref="T:System.InvalidOperationException">dependencyObject 不符合觸發程序類型限制。</exception>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerBase.Detach">
+            <summary>
+將此例項從其關聯的物件卸離。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerBase.AssociatedObject">
+            <summary>
+取得觸發程序附加到的物件。
+            </summary>
+<value>關聯的物件。</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerBase.AssociatedObjectTypeConstraint">
+            <summary>
+取得關聯物件的類型限制。
+            </summary>
+<value>關聯物件類型限制。</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerBase.Actions">
+            <summary>
+取得與此觸發程序關聯的動作。
+            </summary>
+<value>與此觸發程序關聯的動作。</value>
+        </member>
+        <member name="E:System.Windows.Interactivity.TriggerBase.PreviewInvoke">
+            <summary>
+用來註冊 PreviewInvoke 的事件處理常式。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerBase.System#Windows#Interactivity#IAttachedObject#AssociatedObject">
+            <summary>
+取得關聯的物件。
+            </summary>
+<value>關聯的物件。</value>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventTriggerBase.GetEventName">
+            <summary>
+指定此 EventTriggerBase 正在聆聽之事件的名稱。
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventTriggerBase.OnEvent(System.EventArgs)">
+            <summary>
+當觸發與此 EventTriggerBase 關聯的事件時呼叫。根據預設，這會叫用觸發程序上的所有動作。
+            </summary>
+<param name="eventArgs">包含事件資料的 <see cref="T:System.EventArgs"/> 例項。</param>
+<remarks>覆寫此例項以便在叫用與此觸發程序關聯的動作時，提供更精細的控制。</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventTriggerBase.OnSourceChangedImpl(System.Object,System.Object)">
+            <summary>
+當來源變更時呼叫。
+            </summary>
+<param name="oldSource">舊來源。</param>
+<param name="newSource">新來源。</param>
+<remarks>應該在衍生類別中覆寫此函數，以便從變更的來源物件連接或取消連接功能。</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventTriggerBase.OnAttached">
+            <summary>
+在觸發程序附加到 AssociatedObject 後呼叫。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventTriggerBase.OnDetaching">
+            <summary>
+當觸發程序正要從其 AssociatedObject 卸離但尚未實際發生前呼叫。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventTriggerBase.RegisterEvent(System.Object,System.String)">
+<exception cref="T:System.ArgumentException">在目標上找不到 eventName。</exception>
+        </member>
+        <member name="P:System.Windows.Interactivity.EventTriggerBase.AssociatedObjectTypeConstraint">
+            <summary>
+取得關聯物件的類型限制。
+            </summary>
+<value>關聯物件類型限制。</value>
+<remarks>在衍生的類型上定義 TypeConstraintAttribute，以限制它可附加到的類型。</remarks>
+        </member>
+        <member name="P:System.Windows.Interactivity.EventTriggerBase.SourceTypeConstraint">
+            <summary>
+取得來源類型限制。
+            </summary>
+<value>來源類型限制。</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.EventTriggerBase.SourceObject">
+            <summary>
+取得或設定目標物件。如果未設定 TargetObject，目標會尋找 TargetName 指定的物件。如果找不到 TargetName 參照的元素，目標會預設為 AssociatedObject。這是相依性屬性。
+            </summary>
+<value>目標物件。</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.EventTriggerBase.SourceName">
+            <summary>
+取得或設定此 EventTriggerBase 當作來源聆聽的元素名稱。如果未設定或無法解析名稱，將會使用 AssociatedObject。這是相依性屬性。
+            </summary>
+<value>來源元素的名稱。</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.EventTriggerBase.Source">
+            <summary>
+取得解析的來源。如果未設定或無法解析 <c ref="SourceName"/>，則會預設為 AssociatedObject。
+            </summary>
+<value>解析的來源物件。</value>
+<remarks>一般而言，此屬性應該用於取代衍生類別中的 AssociatedObject。</remarks>
+<exception cref="T:System.InvalidOperationException"><c cref="P:System.Windows.Interactivity.EventTriggerBase.Source"/> 指向的元素不符合類型限制。</exception>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventTriggerBase`1.#ctor">
+            <summary>
+初始化 <see cref="T:System.Windows.Interactivity.EventTriggerBase`1"/> 類別的新例項。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventTriggerBase`1.OnSourceChanged(`0,`0)">
+            <summary>
+當來源屬性變更時呼叫。
+            </summary>
+<remarks>覆寫此項目以便從指定的來源 (而非 AssociatedObject) 連接或取消連接功能。</remarks>
+<param name="oldSource">舊來源。</param>
+<param name="newSource">新來源。</param>
+        </member>
+        <member name="P:System.Windows.Interactivity.EventTriggerBase`1.Source">
+            <summary>
+取得解析的來源。如果未設定或無法解析 <c ref="SourceName"/>，則會預設為 AssociatedObject。
+            </summary>
+<value>解析的來源物件。</value>
+<remarks>一般而言，此屬性應該用於取代衍生類別中的 AssociatedObject。</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventTrigger.#ctor">
+            <summary>
+初始化 <see cref="T:System.Windows.Interactivity.EventTrigger"/> 類別的新例項。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventTrigger.#ctor(System.String)">
+            <summary>
+初始化 <see cref="T:System.Windows.Interactivity.EventTrigger"/> 類別的新例項。
+            </summary>
+<param name="eventName">事件的名稱。</param>
+        </member>
+        <member name="P:System.Windows.Interactivity.EventTrigger.EventName">
+            <summary>
+取得或設定要聆聽的事件名稱。這是相依性屬性。
+            </summary>
+<value>事件的名稱。</value>
+        </member>
+        <member name="T:System.Windows.Interactivity.Interaction">
+            <summary>
+擁有 Triggers 和 Behaviors 附加屬性的靜態類別。處理 AssociatedObject 變更通知的傳播。
+            </summary>
+        </member>
+        <member name="F:System.Windows.Interactivity.Interaction.TriggersProperty">
+            <summary>
+此屬性是當作公用 Triggers 附加屬性的內部備份儲存區使用。
+            </summary>
+            <remarks>
+此屬性並未公開。這會強制用戶端使用 GetTriggers 和 SetTriggers 方法來存取集合，以便在使用集合前確保它存在並已設定。
+            </remarks>
+        </member>
+        <member name="F:System.Windows.Interactivity.Interaction.BehaviorsProperty">
+            <summary>
+此屬性是當作公用 Behaviors 附加屬性的內部備份儲存區使用。
+            </summary>
+            <remarks>
+此屬性並未公開。這會強制用戶端使用 GetBehaviors 和 SetBehaviors 方法來存取集合，以便在使用集合前確保它存在並已設定。
+            </remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.Interaction.GetTriggers(System.Windows.DependencyObject)">
+            <summary>
+取得包含與指定物件關聯之觸發程序的 TriggerCollection。
+            </summary>
+<param name="obj">要從中擷取觸發程序的物件。</param>
+<returns>包含與指定物件關聯之觸發程序的 TriggerCollection。</returns>
+        </member>
+        <member name="M:System.Windows.Interactivity.Interaction.GetBehaviors(System.Windows.DependencyObject)">
+            <summary>
+取得與指定物件關聯的 <see cref="T:System.Windows.Interactivity.BehaviorCollection"/>。
+            </summary>
+<param name="obj">要從中擷取 <see cref="T:System.Windows.Interactivity.BehaviorCollection"/> 的物件。</param>
+<returns>包含與指定物件關聯之行為的 <see cref="T:System.Windows.Interactivity.BehaviorCollection"/>。</returns>
+        </member>
+        <member name="M:System.Windows.Interactivity.Interaction.OnBehaviorsChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+<exception cref="T:System.InvalidOperationException">無法同時在多個物件上主控相同的 BehaviorCollection。</exception>
+        </member>
+        <member name="M:System.Windows.Interactivity.Interaction.OnTriggersChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+<exception cref="T:System.InvalidOperationException">無法同時在多個物件上主控相同的 TriggerCollection。</exception>
+        </member>
+        <member name="M:System.Windows.Interactivity.Interaction.IsElementLoaded(System.Windows.FrameworkElement)">
+            <summary>
+取代 FrameworkElement.IsLoaded 的 Helper 函式，因為 Silverlight 沒有這個屬性。
+            </summary>
+<param name="element">相關的元素。</param>
+<returns>如果元素已載入則為 True，否則為 False。</returns>
+        </member>
+        <member name="P:System.Windows.Interactivity.Interaction.ShouldRunInDesignMode">
+            <summary>
+取得或設定指出是否要如同在設計模式中一樣執行的值。
+            </summary>
+            <value>
+	如果 [應該在設計模式中執行] 則為 <c>True</c>，否則為 <c>False</c>。
+            </value>
+<remarks>無法在單元測試以外使用。</remarks>
+        </member>
+        <member name="T:System.Windows.Interactivity.InvokeCommandAction">
+            <summary>
+在叫用時執行指定的 ICommand。
+            </summary>
+        </member>
+        <member name="T:System.Windows.Interactivity.TriggerAction`1">
+            <summary>
+代表封裝功能單元的可附加物件。
+            </summary>
+<typeparam name="T">此動作可附加到的類型。</typeparam>
+        </member>
+        <member name="T:System.Windows.Interactivity.TriggerAction">
+            <summary>
+代表封裝功能單元的可附加物件。
+            </summary>
+<remarks>這是基礎結構類別。動作撰寫者應從 TriggerAction&lt;T&gt; 衍生，而不是從這個類別衍生。</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerAction.CallInvoke(System.Object)">
+            <summary>
+嘗試叫用動作。
+            </summary>
+<param name="parameter">動作的參數。如果動作不需要參數，可將參數設為 Null 參照。</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerAction.Invoke(System.Object)">
+            <summary>
+叫用動作。
+            </summary>
+<param name="parameter">動作的參數。如果動作不需要參數，可將參數設為 Null 參照。</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerAction.OnAttached">
+            <summary>
+在動作附加到 AssociatedObject 後呼叫。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerAction.OnDetaching">
+            <summary>
+當動作正要從其 AssociatedObject 卸離但尚未實際發生前呼叫。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerAction.CreateInstanceCore">
+            <summary>
+在衍生的類別中實作時，建立 <see cref="T:System.Windows.Freezable"/> 衍生類別的新例項。
+            </summary>
+<returns>新例項。</returns>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerAction.Attach(System.Windows.DependencyObject)">
+            <summary>
+附加到指定的物件。
+            </summary>
+<param name="dependencyObject">要附加到的物件。</param>
+<exception cref="T:System.InvalidOperationException">無法同時在多個物件上主控相同的 TriggerAction。</exception>
+<exception cref="T:System.InvalidOperationException">dependencyObject 不符合 TriggerAction 類型限制。</exception>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerAction.Detach">
+            <summary>
+將此例項從其關聯的物件卸離。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerAction.IsEnabled">
+            <summary>
+取得或設定指出此動作是否會在叫用時執行的值。這是相依性屬性。
+            </summary>
+            <value>
+	如果此動作會在叫用時執行則為 <c>True</c>，否則為 <c>False</c>。
+            </value>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerAction.AssociatedObject">
+            <summary>
+取得此動作附加到的物件。
+            </summary>
+<value>關聯的物件。</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerAction.AssociatedObjectTypeConstraint">
+            <summary>
+取得關聯物件類型限制。
+            </summary>
+<value>關聯物件類型限制。</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerAction.IsHosted">
+            <summary>
+取得或設定指出是否附加此例項的值。
+            </summary>
+<value>如果附加此例項則為 <c>True</c>，否則為 <c>False</c>。</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerAction.System#Windows#Interactivity#IAttachedObject#AssociatedObject">
+            <summary>
+取得關聯的物件。
+            </summary>
+<value>關聯的物件。</value>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerAction`1.#ctor">
+            <summary>
+初始化 <see cref="T:System.Windows.Interactivity.TriggerAction`1"/> 類別的新例項。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerAction`1.AssociatedObject">
+            <summary>
+取得此 <see cref="T:System.Windows.Interactivity.TriggerAction`1"/> 附加到的物件。
+            </summary>
+<value>關聯的物件。</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerAction`1.AssociatedObjectTypeConstraint">
+            <summary>
+取得關聯物件類型限制。
+            </summary>
+<value>關聯物件類型限制。</value>
+        </member>
+        <member name="M:System.Windows.Interactivity.InvokeCommandAction.Invoke(System.Object)">
+            <summary>
+叫用動作。
+            </summary>
+<param name="parameter">動作的參數。如果動作不需要參數，可將參數設為 Null 參照。</param>
+        </member>
+        <member name="P:System.Windows.Interactivity.InvokeCommandAction.CommandName">
+            <summary>
+取得或設定此動作應叫用的命令名稱。
+            </summary>
+<value>此動作應叫用的命令名稱。</value>
+<remarks>如果此屬性和 Command 屬性均已設定，Command 屬性會取代此屬性。</remarks>
+        </member>
+        <member name="P:System.Windows.Interactivity.InvokeCommandAction.Command">
+            <summary>
+取得或設定此動作應叫用的命令。這是相依性屬性。
+            </summary>
+<value>要執行的命令。</value>
+<remarks>如果此屬性和 CommandName 屬性均已設定，此屬性的優先順序高於 CommandName 屬性。</remarks>
+        </member>
+        <member name="P:System.Windows.Interactivity.InvokeCommandAction.CommandParameter">
+            <summary>
+取得或設定命令參數。這是相依性屬性。
+            </summary>
+<value>命令參數。</value>
+<remarks>這是傳送至 ICommand.CanExecute 和 ICommand.Execute 的值。</remarks>
+        </member>
+        <member name="T:System.Windows.Interactivity.NameResolvedEventArgs">
+            <summary>
+提供有關哪些物件會在解析名稱變更時受影響的資料。
+            </summary>
+        </member>
+        <member name="T:System.Windows.Interactivity.NameResolver">
+            <summary>
+Helper 類別，用來處理根據主機元素所提供的內容，將 TargetName 解析為目標元素的邏輯 。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.NameResolver.UpdateObjectFromName(System.Windows.DependencyObject)">
+            <summary>
+嘗試以名稱範圍參照元素之內容中的名稱，來更新解析的物件。
+            </summary>
+<param name="oldObject">舊的解析物件。</param>
+            <remarks>
+重設現有的目標，並嘗試從目前主機的內容解析目前的 TargetName。如果無法從主機的內容解析，則會在視覺化樹狀目錄中繼續往上，直到解析為止。如果到達根時仍無法解析，則會將目標設為 Null，並在偵錯輸出中寫入警告訊息。
+            </remarks>
+        </member>
+        <member name="E:System.Windows.Interactivity.NameResolver.ResolvedElementChanged">
+            <summary>
+在解析的元素已變更時發生。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.NameResolver.Name">
+            <summary>
+取得或設定要嘗試解析的元素名稱。
+            </summary>
+<value>要嘗試解析的名稱。</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.NameResolver.Object">
+            <summary>
+解析的物件。如果 TargetName 為 Null 或空白，或尚未嘗試進行解析，將傳回參照元素。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.NameResolver.NameScopeReferenceElement">
+            <summary>
+取得或設定要從中執行名稱解析的參照元素。
+            </summary>
+<value>參照元素。</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.NameResolver.PendingReferenceElementLoad">
+            <summary>
+取得或設定指出參照元素載入是否擱置的值。
+            </summary>
+            <value>
+	如果 [擱置參照元素載入] 則為 <c>True</c>，否則為 <c>False</c>。
+            </value>
+            <remarks>
+如果尚未載入主機，將不會解析名稱。在這種情況下，請延遲解析並使用此屬性來追蹤該事實。
+            </remarks>
+        </member>
+        <member name="T:System.Windows.Interactivity.TargetedTriggerAction`1">
+            <summary>
+代表可作為目標來影響其 AssociatedObject 以外之物件的動作。
+            </summary>
+<typeparam name="T">對目標的類型限制。</typeparam>
+            <remarks>
+	TargetedTriggerAction 會延伸 TriggerAction 以新增另一個元素 (而不是它所附加到的元素) 的知識。這可讓使用者在不是所附加到的元素上叫用動作，以回應觸發程序的觸發。覆寫 OnTargetChanged 以便在目標元素上連接或取消連接處理常式，以及關聯元素的 OnAttached/OnDetaching。目標元素的類型可受到泛型型別參數的限制。如果您需要控制 AssociatedObject 的類型，請在衍生類型上設定 TypeConstraintAttribute。
+            </remarks>
+        </member>
+        <member name="T:System.Windows.Interactivity.TargetedTriggerAction">
+            <summary>
+代表可作為目標來影響其 AssociatedObject 以外之物件的動作。
+            </summary>
+<remarks>這是基礎結構類別。動作撰寫者應從 TargetedTriggerAction&lt;T&gt; 衍生，而不是從這個類別衍生。</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.TargetedTriggerAction.OnTargetChangedImpl(System.Object,System.Object)">
+            <summary>
+當目標變更時呼叫。
+            </summary>
+<param name="oldTarget">舊目標。</param>
+<param name="newTarget">新目標。</param>
+<remarks>應該在衍生類別中覆寫此函數，以便從變更的來源物件連接或取消連接功能。</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.TargetedTriggerAction.OnAttached">
+            <summary>
+在動作附加到 AssociatedObject 後呼叫。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TargetedTriggerAction.OnDetaching">
+            <summary>
+當動作正要從其 AssociatedObject 卸離但尚未實際發生前呼叫。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.TargetedTriggerAction.TargetObject">
+            <summary>
+取得或設定目標物件。如果未設定 TargetObject，目標會尋找 TargetName 指定的物件。如果找不到 TargetName 參照的元素，目標會預設為 AssociatedObject。這是相依性屬性。
+            </summary>
+<value>目標物件。</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.TargetedTriggerAction.TargetName">
+            <summary>
+取得或設定此動作的目標物件名稱。如果已設定 Target，則會忽略此屬性。如果未設定 Target，而且未設定或無法解析 TargetName，目標會預設為 AssociatedObject。這是相依性屬性。
+            </summary>
+<value>目標物件的名稱。</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.TargetedTriggerAction.Target">
+            <summary>
+取得目標物件。如果已設定 TargetObject，則傳回 TargetObject。反之，如果未設定或無法解析 TargetName，則會預設為 AssociatedObject。
+            </summary>
+<value>目標物件。</value>
+<remarks>一般而言，此屬性應該用於取代衍生類別中的 AssociatedObject。</remarks>
+<exception cref="T:System.InvalidOperationException">目標元素不符合類型限制。</exception>
+        </member>
+        <member name="P:System.Windows.Interactivity.TargetedTriggerAction.AssociatedObjectTypeConstraint">
+            <summary>
+取得關聯物件類型限制。
+            </summary>
+<value>關聯物件類型限制。</value>
+<remarks>在衍生的類型上定義 TypeConstraintAttribute，以限制它可附加到的類型。</remarks>
+        </member>
+        <member name="P:System.Windows.Interactivity.TargetedTriggerAction.TargetTypeConstraint">
+            <summary>
+取得目標類型限制。
+            </summary>
+<value>目標類型限制。</value>
+        </member>
+        <member name="M:System.Windows.Interactivity.TargetedTriggerAction`1.#ctor">
+            <summary>
+初始化 <see cref="T:System.Windows.Interactivity.TargetedTriggerAction`1"/> 類別的新例項。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TargetedTriggerAction`1.OnTargetChanged(`0,`0)">
+            <summary>
+當目標屬性變更時呼叫。
+            </summary>
+<remarks>覆寫此項目以便在指定的目標 (而非 AssociatedObject) 上連接或取消連接功能。</remarks>
+<param name="oldTarget">舊目標。</param>
+<param name="newTarget">新目標。</param>
+        </member>
+        <member name="P:System.Windows.Interactivity.TargetedTriggerAction`1.Target">
+            <summary>
+取得目標物件。如果未設定或無法解析 TargetName，則會預設為 AssociatedObject。
+            </summary>
+<value>目標。</value>
+<remarks>一般而言，此屬性應該用於取代衍生類別中的 AssociatedObject。</remarks>
+        </member>
+        <member name="T:System.Windows.Interactivity.TriggerActionCollection">
+            <summary>
+代表含有共用 AssociatedObject 的動作集合，並在該 AssociatedObject 變更時提供變更通知給其內容。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerActionCollection.#ctor">
+            <summary>
+初始化 <see cref="T:System.Windows.Interactivity.TriggerActionCollection"/> 類別的新例項。
+            </summary>
+<remarks>內部，因為這不應該在此組譯碼以外被繼承。</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerActionCollection.OnAttached">
+            <summary>
+在集合附加到 AssociatedObject 後立即呼叫。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerActionCollection.OnDetaching">
+            <summary>
+當集合正要從其 AssociatedObject 卸離但尚未實際發生前呼叫。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerActionCollection.ItemAdded(System.Windows.Interactivity.TriggerAction)">
+            <summary>
+當新增項目至集合時呼叫。
+            </summary>
+<param name="item">新項目。</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerActionCollection.ItemRemoved(System.Windows.Interactivity.TriggerAction)">
+            <summary>
+從集合移除項目時呼叫。
+            </summary>
+<param name="item">移除的項目。</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerActionCollection.CreateInstanceCore">
+            <summary>
+建立 TriggerActionCollection 的新例項。
+            </summary>
+<returns>新例項。</returns>
+        </member>
+        <member name="T:System.Windows.Interactivity.TriggerBase`1">
+            <summary>
+代表可以有條件地叫用動作的物件。
+            </summary>
+<typeparam name="T">此觸發程序可附加到的類型。</typeparam>
+            <remarks>
+	TriggerBase 是用來控制動作的基底類別。覆寫 OnAttached() 和 OnDetaching()，以便在 AssociatedObject 上連接及取消連接處理常式。您可以透過指定泛型參數，來限制衍生 TriggerBase 可附加到的類型。呼叫 InvokeActions() 以觸發所有與此 TriggerBase 關聯的動作。
+            </remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerBase`1.#ctor">
+            <summary>
+初始化 <see cref="T:System.Windows.Interactivity.TriggerBase`1"/> 類別的新例項。
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerBase`1.AssociatedObject">
+            <summary>
+取得觸發程序附加到的物件。
+            </summary>
+<value>關聯的物件。</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerBase`1.AssociatedObjectTypeConstraint">
+            <summary>
+取得關聯物件的類型限制。
+            </summary>
+<value>關聯物件類型限制。</value>
+        </member>
+        <member name="T:System.Windows.Interactivity.PreviewInvokeEventArgs">
+            <summary>
+傳遞給 PreviewInvoke 事件的引數。將 Cancelling 指定為 True 可取消觸發程序的叫用。
+            </summary>
+<remarks>這是基礎結構類別。附加到觸發程序基底物件的行為可將其行為新增為 TriggerBase.PreviewInvoke 的接聽程式。</remarks>
+        </member>
+        <member name="T:System.Windows.Interactivity.TriggerCollection">
+            <summary>
+代表含有共用 AssociatedObject 的觸發程序集合，並在該 AssociatedObject 變更時提供變更通知給其內容。
+             </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerCollection.#ctor">
+            <summary>
+初始化 <see cref="T:System.Windows.Interactivity.TriggerCollection"/> 類別的新例項。
+            </summary>
+<remarks>內部，因為這不應該在此組譯碼以外被繼承。</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerCollection.OnAttached">
+            <summary>
+在集合附加到 AssociatedObject 後立即呼叫。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerCollection.OnDetaching">
+            <summary>
+當集合正要從其 AssociatedObject 卸離但尚未實際發生前呼叫。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerCollection.ItemAdded(System.Windows.Interactivity.TriggerBase)">
+            <summary>
+當新增項目至集合時呼叫。
+            </summary>
+<param name="item">新項目。</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerCollection.ItemRemoved(System.Windows.Interactivity.TriggerBase)">
+            <summary>
+從集合移除項目時呼叫。
+            </summary>
+<param name="item">移除的項目。</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerCollection.CreateInstanceCore">
+            <summary>
+建立 <see cref="T:System.Windows.Interactivity.TriggerCollection"/> 的新例項。
+            </summary>
+<returns>新例項。</returns>
+        </member>
+        <member name="T:System.Windows.Interactivity.TypeConstraintAttribute">
+            <summary>
+在 TargetedTriggerAction 和 EventTriggerBase 的 AssociatedObject 上指定類型限制。
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TypeConstraintAttribute.#ctor(System.Type)">
+            <summary>
+初始化 <see cref="T:System.Windows.Interactivity.TypeConstraintAttribute"/> 類別的新例項。
+            </summary>
+<param name="constraint">限制類型。</param>
+        </member>
+        <member name="P:System.Windows.Interactivity.TypeConstraintAttribute.Constraint">
+            <summary>
+取得限制類型。
+            </summary>
+<value>限制類型。</value>
+        </member>
+        <member name="T:ExceptionStringTable">
+            <summary>
+強型別資源類別，用於查詢當地語系化字串等等。
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.ResourceManager">
+            <summary>
+傳回此類別所使用的快取 ResourceManager 例項。
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.Culture">
+            <summary>
+使用此強型別資源類別，為所有資源查閱覆寫目前執行緒的 CurrentUICulture 屬性。
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.CannotHostBehaviorCollectionMultipleTimesExceptionMessage">
+            <summary>
+查詢類似「無法在多個物件上設定相同的 BehaviorCollection。」的當地語系化字串。
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.CannotHostBehaviorMultipleTimesExceptionMessage">
+            <summary>
+查詢類似「無法將 Behavior 的例項同時附加到一個以上的物件。」的當地語系化字串。
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.CannotHostTriggerActionMultipleTimesExceptionMessage">
+            <summary>
+查詢類似「無法同時在多個 TriggerCollections 中主控 TriggerAction 的例項。請先將它從其中一個 TriggerCollection 移除，然後再新增到另外一個。」的當地語系化字串。
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.CannotHostTriggerCollectionMultipleTimesExceptionMessage">
+            <summary>
+查詢類似「無法在多個物件上設定相同的 TriggerCollection。」的當地語系化字串。
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.CannotHostTriggerMultipleTimesExceptionMessage">
+            <summary>
+查詢類似「無法將觸發程序的例項同時附加到一個以上的物件。」的當地語系化字串。
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.CommandDoesNotExistOnBehaviorWarningMessage">
+            <summary>
+查詢類似「命令 "{0}" 不存在或是未於 {1} 上公開。」的當地語系化字串。
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.DefaultTriggerAttributeInvalidTriggerTypeSpecifiedExceptionMessage">
+            <summary>
+查詢類似「"{0}" 不是 TriggerType 參數的有效類型。請確認 "{0}" 是衍生自 TriggerBase。」的當地語系化字串。
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.DuplicateItemInCollectionExceptionMessage">
+            <summary>
+查詢類似「無法將相同的 "{0}" 例項多次新增到 "{1}"。」的當地語系化字串。
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.EventTriggerBaseInvalidEventExceptionMessage">
+            <summary>
+查詢類似「類型 "{1}" 上的事件 "{0}" 具有不相容的簽章。請確認該事件為公用事件，且符合 EventHandler 委派。」的當地語系化字串。
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.EventTriggerCannotFindEventNameExceptionMessage">
+            <summary>
+查詢類似「在類型 "{1}" 上找不到名為 "{0}" 的事件。」的當地語系化字串。
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.RetargetedTypeConstraintViolatedExceptionMessage">
+            <summary>
+查詢類似「類型 "{0}" 的物件不能有類型 "{1}" 的 {3} 屬性。類型 "{0}" 的例項只能有類型 "{2}" 的 {3} 屬性。」的當地語系化字串。
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.TypeConstraintViolatedExceptionMessage">
+            <summary>
+查詢類似「無法將類型 "{0}" 附加到類型 "{1}"。類型 "{0}" 的例項只能附加到類型 "{2}" 的物件。」的當地語系化字串。
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.UnableToResolveTargetNameWarningMessage">
+            <summary>
+查詢類似「無法解析 TargetName "{0}"。」的當地語系化字串。
+            </summary>
+        </member>
+    </members>
+</doc>

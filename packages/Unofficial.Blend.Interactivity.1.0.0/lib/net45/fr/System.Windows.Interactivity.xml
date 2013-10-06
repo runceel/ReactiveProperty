@@ -1,0 +1,1046 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>System.Windows.Interactivity</name>
+    </assembly>
+    <members>
+        <member name="T:System.Windows.Interactivity.AttachableCollection`1">
+            <summary>
+            Représente une collection de IAttachedObject avec un AssociatedObject partagé et fournit des notifications de modification à son contenu lorsque cet AssociatedObject change.
+            </summary>
+        </member>
+        <member name="T:System.Windows.Interactivity.IAttachedObject">
+            <summary>
+            Interface pour un objet pouvant être attaché à un autre objet.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.IAttachedObject.Attach(System.Windows.DependencyObject)">
+            <summary>
+            S'attache à l'objet spécifié.
+            </summary>
+            <param name="dependencyObject">Objet auquel attacher.</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.IAttachedObject.Detach">
+            <summary>
+            Détache cette instance de son objet associé.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.IAttachedObject.AssociatedObject">
+            <summary>
+            Obtient l'objet associé.
+            </summary>
+            <value>Objet associé.</value>
+            <remarks>Représente l'objet auquel l'instance est attachée.</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.AttachableCollection`1.#ctor">
+            <summary>
+            Initialise une nouvelle instance de la classe <see cref="T:System.Windows.Interactivity.AttachableCollection`1"/>.
+            </summary>
+            <remarks>Interne, car elle ne doit pas être héritée en dehors de cet assembly.</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.AttachableCollection`1.OnAttached">
+            <summary>
+            Appelé immédiatement une fois que la collection est attachée à un AssociatedObject.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.AttachableCollection`1.OnDetaching">
+            <summary>
+            Appelé lorsque la collection est détachée de son AssociatedObject, mais avant qu'il ne se soit produit réellement.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.AttachableCollection`1.ItemAdded(`0)">
+            <summary>
+            Appelé lorsqu'un nouvel élément est ajouté à la collection.
+            </summary>
+            <param name="item">Nouvel élément.</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.AttachableCollection`1.ItemRemoved(`0)">
+            <summary>
+            Appelé lorsqu'un élément est supprimé de la collection.
+            </summary>
+            <param name="item">Élément supprimé.</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.AttachableCollection`1.VerifyAdd(`0)">
+            <exception cref="T:System.InvalidOperationException">Impossible d'ajouter plusieurs fois l'instance à une collection.</exception>
+        </member>
+        <member name="M:System.Windows.Interactivity.AttachableCollection`1.Attach(System.Windows.DependencyObject)">
+            <summary>
+            S'attache à l'objet spécifié.
+            </summary>
+            <param name="dependencyObject">Objet auquel attacher.</param>
+            <exception cref="T:System.InvalidOperationException">Le IAttachedObject est déjà attaché à un autre objet.</exception>
+        </member>
+        <member name="M:System.Windows.Interactivity.AttachableCollection`1.Detach">
+            <summary>
+            Détache cette instance de son objet associé.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.AttachableCollection`1.AssociatedObject">
+            <summary>
+            Objet sur lequel la collection est hébergée.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.AttachableCollection`1.System#Windows#Interactivity#IAttachedObject#AssociatedObject">
+            <summary>
+            Obtient l'objet associé.
+            </summary>
+            <value>Objet associé.</value>
+        </member>
+        <member name="T:System.Windows.Interactivity.Behavior`1">
+            <summary>
+            Encapsule des informations d'état et zéro ou plusieurs ICommands dans un objet attachable.
+            </summary>
+            <typeparam name="T">Type auquel le <see cref="T:System.Windows.Interactivity.Behavior`1"/> peut être attaché.</typeparam>
+            <remarks>
+            	Le comportement est la classe de base permettant de fournir un état attachable et des commandes à un objet. Le paramètre générique peut contrôler les types auxquels le comportement peut être attaché. Remplacez les méthodes OnAttached() et OnDetaching() pour connecter et déconnecter tous les gestionnaires nécessaires à partir de l'AssociatedObject.
+            </remarks>
+        </member>
+        <member name="T:System.Windows.Interactivity.Behavior">
+            <summary>
+            Encapsule des informations d'état et zéro ou plusieurs ICommands dans un objet attachable.
+            </summary>
+            <remarks>Il s'agit d'une classe d'infrastructure. Les auteurs de comportements doivent dériver de Behavior&lt;T&gt; plutôt que de cette classe.</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.Behavior.OnAttached">
+            <summary>
+            Appelé une fois que le comportement est attaché à un AssociatedObject.
+            </summary>
+            <remarks>Substituez-le pour connecter la fonctionnalité à l'AssociatedObject.</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.Behavior.OnDetaching">
+            <summary>
+            Appelé lorsque le comportement est détaché de son AssociatedObject, mais avant qu'il ne se soit produit réellement.
+            </summary>
+            <remarks>Substituez-le pour déconnecter la fonctionnalité de l'AssociatedObject.</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.Behavior.Attach(System.Windows.DependencyObject)">
+            <summary>
+            S'attache à l'objet spécifié.
+            </summary>
+            <param name="dependencyObject">Objet auquel attacher.</param>
+            <exception cref="T:System.InvalidOperationException">Le comportement est déjà hébergé sur un autre élément.</exception>
+            <exception cref="T:System.InvalidOperationException">dependencyObject ne satisfait pas la contrainte de type de comportement.</exception>
+        </member>
+        <member name="M:System.Windows.Interactivity.Behavior.Detach">
+            <summary>
+            Détache cette instance de son objet associé.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.Behavior.AssociatedType">
+            <summary>
+            Type auquel ce comportement peut être attaché.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.Behavior.AssociatedObject">
+            <summary>
+            Obtient l'objet auquel ce comportement est attaché.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.Behavior.System#Windows#Interactivity#IAttachedObject#AssociatedObject">
+            <summary>
+            Obtient l'objet associé.
+            </summary>
+            <value>Objet associé.</value>
+        </member>
+        <member name="M:System.Windows.Interactivity.Behavior`1.#ctor">
+            <summary>
+            Initialise une nouvelle instance de la classe <see cref="T:System.Windows.Interactivity.Behavior`1"/>.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.Behavior`1.AssociatedObject">
+            <summary>
+            Obtient l'objet auquel ce <see cref="T:System.Windows.Interactivity.Behavior`1"/> est attaché.
+            </summary>
+        </member>
+        <member name="T:System.Windows.Interactivity.BehaviorCollection">
+            <summary>
+            Représente une collection de comportements avec un AssociatedObject partagé et fournit des notifications de modification à son contenu lorsque cet AssociatedObject change.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.BehaviorCollection.#ctor">
+            <summary>
+            Initialise une nouvelle instance de la classe <see cref="T:System.Windows.Interactivity.BehaviorCollection"/>.
+            </summary>
+            <remarks>Interne, car elle ne doit pas être héritée en dehors de cet assembly.</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.BehaviorCollection.OnAttached">
+            <summary>
+            Appelé immédiatement une fois que la collection est attachée à un AssociatedObject.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.BehaviorCollection.OnDetaching">
+            <summary>
+            Appelé lorsque la collection est détachée de son AssociatedObject, mais avant qu'il ne se soit produit réellement.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.BehaviorCollection.ItemAdded(System.Windows.Interactivity.Behavior)">
+            <summary>
+            Appelé lorsqu'un nouvel élément est ajouté à la collection.
+            </summary>
+            <param name="item">Nouvel élément.</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.BehaviorCollection.ItemRemoved(System.Windows.Interactivity.Behavior)">
+            <summary>
+            Appelé lorsqu'un élément est supprimé de la collection.
+            </summary>
+            <param name="item">Élément supprimé.</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.BehaviorCollection.CreateInstanceCore">
+            <summary>
+            Crée une nouvelle instance de la BehaviorCollection.
+            </summary>
+            <returns>Nouvelle instance.</returns>
+        </member>
+        <member name="T:System.Windows.Interactivity.CustomPropertyValueEditor">
+            <summary>
+            Énumère les valeurs possibles pour les éditeurs de valeurs de propriétés réutilisables.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Interactivity.CustomPropertyValueEditor.Element">
+            <summary>
+            Utilise le sélecteur d'éléments, s'il est pris en charge, pour modifier cette propriété au moment du design.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Interactivity.CustomPropertyValueEditor.Storyboard">
+            <summary>
+            Utilise le sélecteur de tables de montage séquentiel, s'il est pris en charge, pour modifier cette propriété au moment du design.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Interactivity.CustomPropertyValueEditor.StateName">
+            <summary>
+            Utilise le sélecteur d'états, s'il est pris en charge, pour modifier cette propriété au moment du design.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Interactivity.CustomPropertyValueEditor.ElementBinding">
+            <summary>
+            Utilise le sélecteur de liaisons d'éléments, s'il est pris en charge, pour modifier cette propriété au moment du design.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Interactivity.CustomPropertyValueEditor.PropertyBinding">
+            <summary>
+            Utilise le sélecteur de liaisons de propriétés, s'il est pris en charge, pour modifier cette propriété au moment du design.
+            </summary>
+        </member>
+        <member name="T:System.Windows.Interactivity.CustomPropertyValueEditorAttribute">
+            <summary>
+            Associe le type d'éditeur donné à la propriété à laquelle le CustomPropertyValueEditor est appliqué.
+            </summary>
+            <remarks>Utilisez cet attribut pour améliorer l'édition au moment du design pour les propriétés qui indiquent des éléments (par nom), des tables de montage séquentiel ou des états (par nom).</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.CustomPropertyValueEditorAttribute.#ctor(System.Windows.Interactivity.CustomPropertyValueEditor)">
+            <summary>
+            Initialise une nouvelle instance de la classe <see cref="T:System.Windows.Interactivity.CustomPropertyValueEditorAttribute"/>.
+            </summary>
+            <param name="customPropertyValueEditor">Éditeur de valeur de propriété personnalisé.</param>
+        </member>
+        <member name="P:System.Windows.Interactivity.CustomPropertyValueEditorAttribute.CustomPropertyValueEditor">
+            <summary>
+            Obtient ou définit l'éditeur de valeur de propriété personnalisé.
+            </summary>
+            <value>Éditeur de valeur de propriété personnalisé.</value>
+        </member>
+        <member name="T:System.Windows.Interactivity.DefaultTriggerAttribute">
+            <summary>
+            Fournit des informations d'outils de conception sur le <see cref="T:System.Windows.Interactivity.TriggerBase"/> à instancier pour une action ou commande donnée.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.DefaultTriggerAttribute.#ctor(System.Type,System.Type,System.Object)">
+            <summary>
+            Initialise une nouvelle instance de la classe <see cref="T:System.Windows.Interactivity.DefaultTriggerAttribute"/>.
+            </summary>
+            <param name="targetType">Type auquel cet attribut s'applique.</param>
+            <param name="triggerType">Type de <see cref="T:System.Windows.Interactivity.TriggerBase"/> à instancier.</param>
+            <param name="parameters">Argument unique pour le <see cref="T:System.Windows.Interactivity.TriggerBase"/> spécifié.</param>
+            <exception cref="T:System.ArgumentException"><c cref="F:System.Windows.Interactivity.DefaultTriggerAttribute.triggerType"/> n'est pas dérivé de TriggerBase.</exception>
+            <remarks>Ce constructeur s'avère utile si le <see cref="T:System.Windows.Interactivity.TriggerBase"/> spécifié possède un seul argument. Le code obtenu sera conforme CLS.</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.DefaultTriggerAttribute.#ctor(System.Type,System.Type,System.Object[])">
+            <summary>
+            Initialise une nouvelle instance de la classe <see cref="T:System.Windows.Interactivity.DefaultTriggerAttribute"/>.
+            </summary>
+            <param name="targetType">Type auquel cet attribut s'applique.</param>
+            <param name="triggerType">Type de <see cref="T:System.Windows.Interactivity.TriggerBase"/> à instancier.</param>
+            <param name="parameters">Argument du constructeur pour le <see cref="T:System.Windows.Interactivity.TriggerBase"/> spécifié.</param>
+            <exception cref="T:System.ArgumentException"><c cref="F:System.Windows.Interactivity.DefaultTriggerAttribute.triggerType"/> n'est pas dérivé de TriggerBase.</exception>
+        </member>
+        <member name="M:System.Windows.Interactivity.DefaultTriggerAttribute.Instantiate">
+            <summary>
+            Instancie cette instance.
+            </summary>
+            <returns><see cref="T:System.Windows.Interactivity.TriggerBase"/> spécifié par le DefaultTriggerAttribute.</returns>
+        </member>
+        <member name="P:System.Windows.Interactivity.DefaultTriggerAttribute.TargetType">
+            <summary>
+            Obtient le type auquel ce DefaultTriggerAttribute s'applique.
+            </summary>
+            <value>Type auquel ce DefaultTriggerAttribute s'applique.</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.DefaultTriggerAttribute.TriggerType">
+            <summary>
+            Obtient le type de <see cref="T:System.Windows.Interactivity.TriggerBase"/> à instancier.
+            </summary>
+            <value>Type de <see cref="T:System.Windows.Interactivity.TriggerBase"/> à instancier.</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.DefaultTriggerAttribute.Parameters">
+            <summary>
+            Obtient les paramètres à passer au constructeur <see cref="T:System.Windows.Interactivity.TriggerBase"/>.
+            </summary>
+            <value>Paramètres à passer au constructeur <see cref="T:System.Windows.Interactivity.TriggerBase"/>.</value>
+        </member>
+        <member name="M:System.Windows.Interactivity.DependencyObjectHelper.GetSelfAndAncestors(System.Windows.DependencyObject)">
+            <summary>
+            Cette méthode utilisera la méthode VisualTreeHelper.GetParent pour effectuer un premier parcours en profondeur en remontant l'arborescence visuelle et renvoyer tous les ancêtres de l'objet spécifié, y compris l'objet lui-même.
+            </summary>
+            <param name="dependencyObject">Objet dans l'arborescence visuelle pour rechercher les ancêtres de.</param>
+            <returns>Renvoie lui-même et tous les ancêtres situés dans l'arborescence visuelle.</returns>
+        </member>
+        <member name="T:System.Windows.Interactivity.EventObserver">
+            <summary>
+            EventObserver est conçu pour faciliter la gestion des gestionnaires d'événements en les détachant lorsqu'ils sont supprimés. Créer cet objet attache également dans le constructeur.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventObserver.#ctor(System.Reflection.EventInfo,System.Object,System.Delegate)">
+            <summary>
+            Crée une instance de EventObserver et attache à l'événement fourni sur la cible fournie. Appelez la suppression pour détacher.
+            </summary>
+            <param name="eventInfo">Événement auquel attacher et détacher.</param>
+            <param name="target">Objet cible sur lequel l'événement est défini. Null si la méthode est statique.</param>
+            <param name="handler">Délégué à attacher à l'événement.</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventObserver.Dispose">
+            <summary>
+            Détache le Gestionnaire de l'événement.
+            </summary>
+        </member>
+        <member name="T:System.Windows.Interactivity.EventTrigger">
+            <summary>
+            Déclencheur qui écoute un événement spécifié sur sa source et qui se déclenche lorsque cet événement est déclenché.
+            </summary>
+        </member>
+        <member name="T:System.Windows.Interactivity.EventTriggerBase`1">
+            <summary>
+            Représente un déclencheur capable d'écouter un élément autre que son AssociatedObject.
+            </summary>
+            <typeparam name="T">Type auquel ce déclencheur peut être associé.</typeparam>
+            <remarks>
+            	EventTriggerBase étend TriggerBase pour ajouter les connaissances d'un autre objet que celui auquel il est attaché. Cela permet à l'utilisateur d'attacher une paire Déclencheur/Action à un seul élément et d'invoquer l'action en réponse à une modification dans un autre objet ailleurs. Remplacez OnSourceChanged pour connecter ou déconnecter des gestionnaires sur l'élément source, et OnAttached/OnDetaching pour l'élément associé. Le paramètre de type générique peut contraindre le type de l'élément Source. Si vous avez besoin de contrôler le type de l'AssociatedObject, définissez un TypeConstraintAttribute sur votre type dérivé.
+            </remarks>
+        </member>
+        <member name="T:System.Windows.Interactivity.EventTriggerBase">
+            <summary>
+            Représente un déclencheur capable d'écouter un objet autre que son AssociatedObject.
+            </summary>
+            <remarks>Il s'agit d'une classe d'infrastructure. Les auteurs de déclencheurs doivent dériver d'EventTriggerBase&lt;T&gt; plutôt que de cette classe.</remarks>
+        </member>
+        <member name="T:System.Windows.Interactivity.TriggerBase">
+            <summary>
+            Représente un objet capable d'invoquer des actions de manière conditionnelle.
+            </summary>
+            <remarks>Il s'agit d'une classe d'infrastructure. Les auteurs de déclencheurs doivent dériver de Trigger&lt;T&gt; plutôt que de cette classe.</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerBase.InvokeActions(System.Object)">
+            <summary>
+            Invoque toutes les actions associées à ce déclencheur.
+            </summary>
+            <remarks>Des classes dérivées doivent l'appeler pour déclencher le déclencheur.</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerBase.OnAttached">
+            <summary>
+            Appelé une fois que le déclencheur est attaché à un AssociatedObject.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerBase.OnDetaching">
+            <summary>
+            Appelé lorsque le déclencheur est détaché de son AssociatedObject, mais avant qu'il ne se soit produit réellement.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerBase.CreateInstanceCore">
+            <summary>
+            Crée une nouvelle instance de la classe dérivée TriggerBase.
+            </summary>
+            <returns>Nouvelle instance.</returns>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerBase.Attach(System.Windows.DependencyObject)">
+            <summary>
+            S'attache à l'objet spécifié.
+            </summary>
+            <param name="dependencyObject">Objet auquel attacher.</param>
+            <exception cref="T:System.InvalidOperationException">Impossible d'héberger le même déclencheur sur plusieurs objets en même temps.</exception>
+            <exception cref="T:System.InvalidOperationException">dependencyObject ne satisfait pas la contrainte de type de déclencheur.</exception>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerBase.Detach">
+            <summary>
+            Détache cette instance de son objet associé.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerBase.AssociatedObject">
+            <summary>
+            Obtient l'objet auquel le déclencheur est attaché.
+            </summary>
+            <value>Objet associé.</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerBase.AssociatedObjectTypeConstraint">
+            <summary>
+            Obtient la contrainte de type de l'objet associé.
+            </summary>
+            <value>Contrainte de type d'objet associé.</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerBase.Actions">
+            <summary>
+            Obtient les actions associées à ce déclencheur.
+            </summary>
+            <value>Actions associées à ce déclencheur.</value>
+        </member>
+        <member name="E:System.Windows.Interactivity.TriggerBase.PreviewInvoke">
+            <summary>
+            Gestionnaire d'événements pour l'enregistrement dans PreviewInvoke.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerBase.System#Windows#Interactivity#IAttachedObject#AssociatedObject">
+            <summary>
+            Obtient l'objet associé.
+            </summary>
+            <value>Objet associé.</value>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventTriggerBase.GetEventName">
+            <summary>
+            Spécifie le nom de l'événement que cet EventTriggerBase écoute.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventTriggerBase.OnEvent(System.EventArgs)">
+            <summary>
+            Appelé lorsque l'événement associé à cet EventTriggerBase se déclenche. Par défaut, il invoque toutes les actions sur le déclencheur.
+            </summary>
+            <param name="eventArgs">Instance <see cref="T:System.EventArgs"/> contenant les données d'événement.</param>
+            <remarks>Remplacez-la pour fournir un contrôle plus précis sur le moment auquel les actions associées à ce déclencheur sont invoquées.</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventTriggerBase.OnSourceChangedImpl(System.Object,System.Object)">
+            <summary>
+            Appelé lorsque la source change.
+            </summary>
+            <param name="oldSource">Ancienne source.</param>
+            <param name="newSource">Nouvelle source.</param>
+            <remarks>Cette fonction doit être remplacée dans des classes dérivées pour connecter la fonctionnalité et la déconnecter des objets source modifiés.</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventTriggerBase.OnAttached">
+            <summary>
+            Appelé une fois que le déclencheur est attaché à un AssociatedObject.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventTriggerBase.OnDetaching">
+            <summary>
+            Appelé lorsque le déclencheur est détaché de son AssociatedObject, mais avant qu'il ne se soit produit réellement.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventTriggerBase.RegisterEvent(System.Object,System.String)">
+            <exception cref="T:System.ArgumentException">Impossible de trouver eventName sur la cible.</exception>
+        </member>
+        <member name="P:System.Windows.Interactivity.EventTriggerBase.AssociatedObjectTypeConstraint">
+            <summary>
+            Obtient la contrainte de type de l'objet associé.
+            </summary>
+            <value>Contrainte de type d'objet associé.</value>
+            <remarks>Définissez un TypeConstraintAttribute sur un type dérivé pour contraindre les types auxquels il peut être attaché.</remarks>
+        </member>
+        <member name="P:System.Windows.Interactivity.EventTriggerBase.SourceTypeConstraint">
+            <summary>
+            Obtient la contrainte de type de source.
+            </summary>
+            <value>Contrainte de type de source.</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.EventTriggerBase.SourceObject">
+            <summary>
+            Obtient ou définit l'objet cible. Si TargetObject n'est pas défini, la cible va rechercher l'objet spécifié par TargetName. Si un élément auquel il a été fait référence par TargetName ne peut pas être trouvé, la cible par défaut sera le AssociatedObject. Il s'agit d'une propriété de dépendance.
+            </summary>
+            <value>Objet cible.</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.EventTriggerBase.SourceName">
+            <summary>
+            Obtient ou définit le nom de l'élément que cet EventTriggerBase écoute en tant que source. Si le nom n'est pas défini ou ne peut pas être résolu, l'AssociatedObject est utilisé.  Il s'agit d'une propriété de dépendance.
+            </summary>
+            <value>Nom de l'élément source.</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.EventTriggerBase.Source">
+            <summary>
+            Obtient la source résolue. Si <c ref="SourceName"/> n'est pas défini ou ne peut pas être résolu, AssociatedObject est utilisé par défaut.
+            </summary>
+            <value>Objet source résolue.</value>
+            <remarks>En général, cette propriété doit être utilisée à la place de l'AssociatedObject dans des classes dérivées.</remarks>
+            <exception cref="T:System.InvalidOperationException">L'élément vers lequel pointe <c cref="P:System.Windows.Interactivity.EventTriggerBase.Source"/> ne satisfait pas la contrainte de type.</exception>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventTriggerBase`1.#ctor">
+            <summary>
+            Initialise une nouvelle instance de la classe <see cref="T:System.Windows.Interactivity.EventTriggerBase`1"/>.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventTriggerBase`1.OnSourceChanged(`0,`0)">
+            <summary>
+            Appelé lorsque la propriété de la source change.
+            </summary>
+            <remarks>Remplacez-le pour connecter la fonctionnalité et la déconnecter de la source spécifiée, plutôt que de l'AssociatedObject.</remarks>
+            <param name="oldSource">Ancienne source.</param>
+            <param name="newSource">Nouvelle source.</param>
+        </member>
+        <member name="P:System.Windows.Interactivity.EventTriggerBase`1.Source">
+            <summary>
+            Obtient la source résolue. Si <c ref="SourceName"/> n'est pas défini ou ne peut pas être résolu, AssociatedObject est utilisé par défaut.
+            </summary>
+            <value>Objet source résolue.</value>
+            <remarks>En général, cette propriété doit être utilisée à la place de l'AssociatedObject dans des classes dérivées.</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventTrigger.#ctor">
+            <summary>
+            Initialise une nouvelle instance de la classe <see cref="T:System.Windows.Interactivity.EventTrigger"/>.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.EventTrigger.#ctor(System.String)">
+            <summary>
+            Initialise une nouvelle instance de la classe <see cref="T:System.Windows.Interactivity.EventTrigger"/>.
+            </summary>
+            <param name="eventName">Nom de l'événement.</param>
+        </member>
+        <member name="P:System.Windows.Interactivity.EventTrigger.EventName">
+            <summary>
+            Obtient ou définit le nom de l'événement à écouter. Il s'agit d'une propriété de dépendance.
+            </summary>
+            <value>Nom de l'événement.</value>
+        </member>
+        <member name="T:System.Windows.Interactivity.Interaction">
+            <summary>
+            Classe statique qui possède les propriétés jointes des déclencheurs et comportements. Gère la propagation des notifications de modification de l'AssociatedObject.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Interactivity.Interaction.TriggersProperty">
+            <summary>
+            Cette propriété est utilisée en tant que magasin de stockage interne pour la propriété jointe des déclencheurs publics.
+            </summary>
+            <remarks>
+            Cette propriété n'est pas exposée publiquement. Cela force les clients à utiliser les méthodes GetTriggers et SetTriggers pour accéder à la collection, afin de veiller à ce qu'elle existe et qu'elle soit définie avant d'être utilisée.
+            </remarks>
+        </member>
+        <member name="F:System.Windows.Interactivity.Interaction.BehaviorsProperty">
+            <summary>
+            Cette propriété est utilisée en tant que magasin de stockage interne pour la propriété jointe des comportements publics.
+            </summary>
+            <remarks>
+            Cette propriété n'est pas exposée publiquement. Cela force les clients à utiliser les méthodes GetBehaviors et SetBehaviors pour accéder à la collection, afin de veiller à ce qu'elle existe et qu'elle soit définie avant d'être utilisée.
+            </remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.Interaction.GetTriggers(System.Windows.DependencyObject)">
+            <summary>
+            Obtient la TriggerCollection contenant les déclencheurs associés à l'objet spécifié.
+            </summary>
+            <param name="obj">Objet à partir duquel récupérer les déclencheurs.</param>
+            <returns>TriggerCollection contenant les déclencheurs associés à l'objet spécifié.</returns>
+        </member>
+        <member name="M:System.Windows.Interactivity.Interaction.GetBehaviors(System.Windows.DependencyObject)">
+            <summary>
+            Obtient la <see cref="T:System.Windows.Interactivity.BehaviorCollection"/> associée à l'objet spécifié.
+            </summary>
+            <param name="obj">Objet à partir duquel récupérer la <see cref="T:System.Windows.Interactivity.BehaviorCollection"/>.</param>
+            <returns><see cref="T:System.Windows.Interactivity.BehaviorCollection"/> contenant les comportements associés à l'objet spécifié.</returns>
+        </member>
+        <member name="M:System.Windows.Interactivity.Interaction.OnBehaviorsChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <exception cref="T:System.InvalidOperationException">Impossible d'héberger la même BehaviorCollection sur plusieurs objets en même temps.</exception>
+        </member>
+        <member name="M:System.Windows.Interactivity.Interaction.OnTriggersChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <exception cref="T:System.InvalidOperationException">Impossible d'héberger la même TriggerCollection sur plusieurs objets en même temps.</exception>
+        </member>
+        <member name="M:System.Windows.Interactivity.Interaction.IsElementLoaded(System.Windows.FrameworkElement)">
+            <summary>
+            Fonction d'assistance qui se sustitue à FrameworkElement.IsLoaded, étant donné que cette propriété n'est pas disponible dans Silverlight.
+            </summary>
+            <param name="element">Élément d'intérêt.</param>
+            <returns>True si l'élément a été chargé ; sinon, False.</returns>
+        </member>
+        <member name="P:System.Windows.Interactivity.Interaction.ShouldRunInDesignMode">
+            <summary>
+            Obtient ou définit une valeur qui indique s'il convient de procéder à l'exécution comme en mode design.
+            </summary>
+            <value>
+            	<c>True</c> si [l'exécution doit être en mode design] ; sinon, <c>False</c>.
+            </value>
+            <remarks>À ne pas utiliser en dehors des tests unitaires.</remarks>
+        </member>
+        <member name="T:System.Windows.Interactivity.InvokeCommandAction">
+            <summary>
+            Exécute une ICommand spécifiée en cas d'appel.
+            </summary>
+        </member>
+        <member name="T:System.Windows.Interactivity.TriggerAction`1">
+            <summary>
+            Représente un objet attachable qui encapsule une unité de fonctionnalité.
+            </summary>
+            <typeparam name="T">Type auquel cette action peut être attachée.</typeparam>
+        </member>
+        <member name="T:System.Windows.Interactivity.TriggerAction">
+            <summary>
+            Représente un objet attachable qui encapsule une unité de fonctionnalité.
+            </summary>
+            <remarks>Il s'agit d'une classe d'infrastructure. Les auteurs d'actions doivent dériver de TriggerAction&lt;T&gt; plutôt que de cette classe.</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerAction.CallInvoke(System.Object)">
+            <summary>
+            Tentatives d'appel de l'action.
+            </summary>
+            <param name="parameter">Paramètre de l'action. Si l'action ne nécessite pas de paramètre, le paramètre peut être défini sur une référence null.</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerAction.Invoke(System.Object)">
+            <summary>
+            Invoque l'action.
+            </summary>
+            <param name="parameter">Paramètre de l'action. Si l'action ne nécessite pas de paramètre, le paramètre peut être défini sur une référence null.</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerAction.OnAttached">
+            <summary>
+            Appelé une fois que l'action est attachée à un AssociatedObject.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerAction.OnDetaching">
+            <summary>
+            Appelé lorsque l'action est détachée de son AssociatedObject, mais avant qu'il ne se soit produit réellement.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerAction.CreateInstanceCore">
+            <summary>
+            Dans le cadre d'une implémentation dans une classe dérivée, crée une nouvelle instance de la classe dérivée <see cref="T:System.Windows.Freezable"/>.
+            </summary>
+            <returns>Nouvelle instance.</returns>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerAction.Attach(System.Windows.DependencyObject)">
+            <summary>
+            S'attache à l'objet spécifié.
+            </summary>
+            <param name="dependencyObject">Objet auquel attacher.</param>
+            <exception cref="T:System.InvalidOperationException">Impossible d'héberger la même TriggerAction sur plusieurs objets en même temps.</exception>
+            <exception cref="T:System.InvalidOperationException">dependencyObject ne satisfait pas la contrainte de type de TriggerAction.</exception>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerAction.Detach">
+            <summary>
+            Détache cette instance de son objet associé.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerAction.IsEnabled">
+            <summary>
+            Obtient ou définit une valeur qui indique si cette action s'exécute lorsqu'elle est invoquée. Il s'agit d'une propriété de dépendance.
+            </summary>
+            <value>
+            	<c>True</c> si cette action est exécutée lorsqu'elle est invoquée ; sinon, <c>False</c>.
+            </value>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerAction.AssociatedObject">
+            <summary>
+            Obtient l'objet auquel cette action est attachée.
+            </summary>
+            <value>Objet associé.</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerAction.AssociatedObjectTypeConstraint">
+            <summary>
+            Obtient la contrainte de type d'objet associé.
+            </summary>
+            <value>Contrainte de type d'objet associé.</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerAction.IsHosted">
+            <summary>
+            Obtient ou définit une valeur qui indique si cette instance est attachée.
+            </summary>
+            <value><c>True</c> si cette instance est attachée ; sinon, <c>False</c>.</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerAction.System#Windows#Interactivity#IAttachedObject#AssociatedObject">
+            <summary>
+            Obtient l'objet associé.
+            </summary>
+            <value>Objet associé.</value>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerAction`1.#ctor">
+            <summary>
+            Initialise une nouvelle instance de la classe <see cref="T:System.Windows.Interactivity.TriggerAction`1"/>.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerAction`1.AssociatedObject">
+            <summary>
+            Obtient l'objet auquel ce <see cref="T:System.Windows.Interactivity.TriggerAction`1"/> est attaché.
+            </summary>
+            <value>Objet associé.</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerAction`1.AssociatedObjectTypeConstraint">
+            <summary>
+            Obtient la contrainte de type d'objet associé.
+            </summary>
+            <value>Contrainte de type d'objet associé.</value>
+        </member>
+        <member name="M:System.Windows.Interactivity.InvokeCommandAction.Invoke(System.Object)">
+            <summary>
+            Invoque l'action.
+            </summary>
+            <param name="parameter">Paramètre de l'action. Si l'action ne nécessite pas de paramètre, le paramètre peut être défini sur une référence null.</param>
+        </member>
+        <member name="P:System.Windows.Interactivity.InvokeCommandAction.CommandName">
+            <summary>
+            Obtient ou définit le nom de la commande que cette action doit invoquer.
+            </summary>
+            <value>Nom de la commande que cette action doit invoquer.</value>
+            <remarks>Cette propriété va être remplacée par la propriété Command si elles sont toutes les deux définies.</remarks>
+        </member>
+        <member name="P:System.Windows.Interactivity.InvokeCommandAction.Command">
+            <summary>
+            Obtient ou définit la commande que cette action doit appeler. Il s'agit d'une propriété de dépendance.
+            </summary>
+            <value>Commande à exécuter.</value>
+            <remarks>Cette propriété va remplacer la propriété CommandName si elles sont toutes les deux définies.</remarks>
+        </member>
+        <member name="P:System.Windows.Interactivity.InvokeCommandAction.CommandParameter">
+            <summary>
+            Obtient ou définit le paramètre de la commande. Il s'agit d'une propriété de dépendance.
+            </summary>
+            <value>Paramètre de la commande.</value>
+            <remarks>Il s'agit de la valeur passée à ICommand.CanExecute et ICommand.Execute.</remarks>
+        </member>
+        <member name="T:System.Windows.Interactivity.NameResolvedEventArgs">
+            <summary>
+            Fournit des données sur les objets qui ont été affectés lors de la résolution d'un changement de nom.
+            </summary>
+        </member>
+        <member name="T:System.Windows.Interactivity.NameResolver">
+            <summary>
+            Classe d'application auxiliaire permettant de gérer la logique de résolution d'un TargetName en élément Target en fonction du contexte fourni par un élément hôte.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.NameResolver.UpdateObjectFromName(System.Windows.DependencyObject)">
+            <summary>
+            Tentatives de mise à jour de l'objet résolu à partir du nom dans le contexte de l'élément de référence NameScope.
+            </summary>
+            <param name="oldObject">Ancien objet résolu.</param>
+            <remarks>
+            Réinitialise la cible existante et tente de résoudre le TargetName actuel à partir du contexte de l'hôte actuel. S'il ne parvient pas à effectuer la résolution à partir du contexte de l'hôte, il continue à remonter l'arborescence d'éléments visuels jusqu'à ce qu'il y parvienne. Si la résolution n'est pas effectuée lorsqu'il atteint la racine, il définit la cible sur null et écrit un message d'avertissement dans la sortie de débogage.
+            </remarks>
+        </member>
+        <member name="E:System.Windows.Interactivity.NameResolver.ResolvedElementChanged">
+            <summary>
+            Se produit lorsque l'élément résolu a changé.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.NameResolver.Name">
+            <summary>
+            Obtient ou définit le nom de l'élément à essayer de résoudre.
+            </summary>
+            <value>Nom à essayer de résoudre.</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.NameResolver.Object">
+            <summary>
+            Objet résolu. Renvoie l'élément de référence si TargetName est nul ou vide, ou si aucune résolution n'a été tentée.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.NameResolver.NameScopeReferenceElement">
+            <summary>
+            Obtient ou définit l'élément de référence à partir duquel effectuer la résolution de nom.
+            </summary>
+            <value>Élément de référence.</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.NameResolver.PendingReferenceElementLoad">
+            <summary>
+            Obtient ou définit une valeur qui indique si le chargement de l'élément de référence est en attente.
+            </summary>
+            <value>
+            	<c>True</c> si [chargement de l'élément de référence en attente] ; sinon, <c>False</c>.
+            </value>
+            <remarks>
+            Si l'hôte n'a pas été chargé, le nom n'est pas résolu. Le cas échéant, reportez la résolution et suivez ce fait à l'aide de cette propriété.
+            </remarks>
+        </member>
+        <member name="T:System.Windows.Interactivity.TargetedTriggerAction`1">
+            <summary>
+            Représente une action pouvant être ciblée pour affecter un objet autre que son AssociatedObject.
+            </summary>
+            <typeparam name="T">Contrainte de type sur la cible.</typeparam>
+            <remarks>
+            	TargetedTriggerAction étend TriggerAction pour ajouter les connaissances d'un autre élément que celui auquel il est attaché. Cela permet à l'utilisateur d'invoquer l'action sur un élément autre que celui auquel elle est attachée en réponse à un déclenchement de déclencheur. Remplacez OnTargetChanged pour connecter ou déconnecter des gestionnaires sur l'élément cible, et OnAttached/OnDetaching pour l'élément associé. Le paramètre de type générique peut contraindre le type de l'élément cible. Si vous avez besoin de contrôler le type de l'AssociatedObject, définissez un TypeConstraintAttribute sur votre type dérivé.
+            </remarks>
+        </member>
+        <member name="T:System.Windows.Interactivity.TargetedTriggerAction">
+            <summary>
+            Représente une action pouvant être ciblée pour affecter un objet autre que son AssociatedObject.
+            </summary>
+            <remarks>Il s'agit d'une classe d'infrastructure. Les auteurs d'actions doivent dériver de TargetedTriggerAction&lt;T&gt; plutôt que de cette classe.</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.TargetedTriggerAction.OnTargetChangedImpl(System.Object,System.Object)">
+            <summary>
+            Appelé lorsque la cible change.
+            </summary>
+            <param name="oldTarget">Ancienne cible.</param>
+            <param name="newTarget">Nouvelle cible.</param>
+            <remarks>Cette fonction doit être remplacée dans des classes dérivées pour connecter la fonctionnalité et la déconnecter des objets source modifiés.</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.TargetedTriggerAction.OnAttached">
+            <summary>
+            Appelé une fois que l'action est attachée à un AssociatedObject.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TargetedTriggerAction.OnDetaching">
+            <summary>
+            Appelé lorsque l'action est détachée de son AssociatedObject, mais avant qu'il ne se soit produit réellement.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.TargetedTriggerAction.TargetObject">
+            <summary>
+            Obtient ou définit l'objet cible. Si TargetObject n'est pas défini, la cible va rechercher l'objet spécifié par TargetName. Si un élément auquel il a été fait référence par TargetName ne peut pas être trouvé, la cible par défaut sera le AssociatedObject. Il s'agit d'une propriété de dépendance.
+            </summary>
+            <value>Objet cible.</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.TargetedTriggerAction.TargetName">
+            <summary>
+            Obtient ou définit le nom de l'objet que cette action cible. Si la cible est définie, cette propriété est ignorée. Si la cible n'est pas définie et si TargetName n'est pas défini ou ne peut pas être résolu, la cible par défaut est AssociatedObject. Il s'agit d'une propriété de dépendance.
+            </summary>
+            <value>Nom de l'objet cible.</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.TargetedTriggerAction.Target">
+            <summary>
+            Obtient l'objet cible. Si TargetObject est défini, renvoie TargetObject. Sinon, si TargetName n'est pas défini ou ne peut pas être résolu, AssociatedObject est utilisé par défaut.
+            </summary>
+            <value>Objet cible.</value>
+            <remarks>En général, cette propriété doit être utilisée à la place de l'AssociatedObject dans des classes dérivées.</remarks>
+            <exception cref="T:System.InvalidOperationException">L'élément cible ne satisfait pas la contrainte de type.</exception>
+        </member>
+        <member name="P:System.Windows.Interactivity.TargetedTriggerAction.AssociatedObjectTypeConstraint">
+            <summary>
+            Obtient la contrainte de type d'objet associé.
+            </summary>
+            <value>Contrainte de type d'objet associé.</value>
+            <remarks>Définissez un TypeConstraintAttribute sur un type dérivé pour contraindre les types auxquels il peut être attaché.</remarks>
+        </member>
+        <member name="P:System.Windows.Interactivity.TargetedTriggerAction.TargetTypeConstraint">
+            <summary>
+            Obtient la contrainte de type de cible.
+            </summary>
+            <value>Contrainte de type de cible.</value>
+        </member>
+        <member name="M:System.Windows.Interactivity.TargetedTriggerAction`1.#ctor">
+            <summary>
+            Initialise une nouvelle instance de la classe <see cref="T:System.Windows.Interactivity.TargetedTriggerAction`1"/>.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TargetedTriggerAction`1.OnTargetChanged(`0,`0)">
+            <summary>
+            Appelé lorsque la propriété de la cible change.
+            </summary>
+            <remarks>Remplacez-le pour connecter la fonctionnalité et la déconnecter de la cible spécifiée, plutôt que l'AssociatedObject.</remarks>
+            <param name="oldTarget">Ancienne cible.</param>
+            <param name="newTarget">Nouvelle cible.</param>
+        </member>
+        <member name="P:System.Windows.Interactivity.TargetedTriggerAction`1.Target">
+            <summary>
+            Obtient l'objet cible. Si TargetName n'est pas défini ou ne peut pas être résolu, AssociatedObject est utilisé par défaut.
+            </summary>
+            <value>Cible.</value>
+            <remarks>En général, cette propriété doit être utilisée à la place de l'AssociatedObject dans des classes dérivées.</remarks>
+        </member>
+        <member name="T:System.Windows.Interactivity.TriggerActionCollection">
+            <summary>
+            Représente une collection d'actions avec un AssociatedObject partagé et fournit des notifications de modification à son contenu lorsque cet AssociatedObject change.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerActionCollection.#ctor">
+            <summary>
+            Initialise une nouvelle instance de la classe <see cref="T:System.Windows.Interactivity.TriggerActionCollection"/>.
+            </summary>
+            <remarks>Interne, car elle ne doit pas être héritée en dehors de cet assembly.</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerActionCollection.OnAttached">
+            <summary>
+            Appelé immédiatement une fois que la collection est attachée à un AssociatedObject.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerActionCollection.OnDetaching">
+            <summary>
+            Appelé lorsque la collection est détachée de son AssociatedObject, mais avant qu'il ne se soit produit réellement.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerActionCollection.ItemAdded(System.Windows.Interactivity.TriggerAction)">
+            <summary>
+            Appelé lorsqu'un nouvel élément est ajouté à la collection.
+            </summary>
+            <param name="item">Nouvel élément.</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerActionCollection.ItemRemoved(System.Windows.Interactivity.TriggerAction)">
+            <summary>
+            Appelé lorsqu'un élément est supprimé de la collection.
+            </summary>
+            <param name="item">Élément supprimé.</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerActionCollection.CreateInstanceCore">
+            <summary>
+            Crée une nouvelle instance de la TriggerActionCollection.
+            </summary>
+            <returns>Nouvelle instance.</returns>
+        </member>
+        <member name="T:System.Windows.Interactivity.TriggerBase`1">
+            <summary>
+            Représente un objet capable d'invoquer des actions de manière conditionnelle.
+            </summary>
+            <typeparam name="T">Type auquel ce déclencheur peut être attaché.</typeparam>
+            <remarks>
+            	TriggerBase est la classe de base pour contrôler les actions. Remplacez OnAttached() et OnDetaching() pour connecter et déconnecter les gestionnaires sur l'AssociatedObject. Vous pouvez contraindre les types auxquels un TriggerBase dérivé peut être attaché en spécifiant le paramètre générique. Invoque InvokeActions() pour déclencher toutes les actions associées à ce TriggerBase.
+            </remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerBase`1.#ctor">
+            <summary>
+            Initialise une nouvelle instance de la classe <see cref="T:System.Windows.Interactivity.TriggerBase`1"/>.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerBase`1.AssociatedObject">
+            <summary>
+            Obtient l'objet auquel le déclencheur est attaché.
+            </summary>
+            <value>Objet associé.</value>
+        </member>
+        <member name="P:System.Windows.Interactivity.TriggerBase`1.AssociatedObjectTypeConstraint">
+            <summary>
+            Obtient la contrainte de type de l'objet associé.
+            </summary>
+            <value>Contrainte de type d'objet associé.</value>
+        </member>
+        <member name="T:System.Windows.Interactivity.PreviewInvokeEventArgs">
+            <summary>
+            Argument passé à l'événement PreviewInvoke. L'affectation de la valeur True à Cancelling annulera l'appel du déclencheur.
+            </summary>
+            <remarks>Il s'agit d'une classe d'infrastructure. Un comportement attaché à un objet de base de déclencheur peut ajouter son comportement en tant qu'écouteur à TriggerBase.PreviewInvoke.</remarks>
+        </member>
+        <member name="T:System.Windows.Interactivity.TriggerCollection">
+            <summary>
+             Représente une collection de déclencheurs avec un AssociatedObject partagé et fournit des notifications de modification à son contenu lorsque cet AssociatedObject change.
+             </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerCollection.#ctor">
+            <summary>
+            Initialise une nouvelle instance de la classe <see cref="T:System.Windows.Interactivity.TriggerCollection"/>.
+            </summary>
+            <remarks>Interne, car elle ne doit pas être héritée en dehors de cet assembly.</remarks>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerCollection.OnAttached">
+            <summary>
+            Appelé immédiatement une fois que la collection est attachée à un AssociatedObject.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerCollection.OnDetaching">
+            <summary>
+            Appelé lorsque la collection est détachée de son AssociatedObject, mais avant qu'il ne se soit produit réellement.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerCollection.ItemAdded(System.Windows.Interactivity.TriggerBase)">
+            <summary>
+            Appelé lorsqu'un nouvel élément est ajouté à la collection.
+            </summary>
+            <param name="item">Nouvel élément.</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerCollection.ItemRemoved(System.Windows.Interactivity.TriggerBase)">
+            <summary>
+            Appelé lorsqu'un élément est supprimé de la collection.
+            </summary>
+            <param name="item">Élément supprimé.</param>
+        </member>
+        <member name="M:System.Windows.Interactivity.TriggerCollection.CreateInstanceCore">
+            <summary>
+            Crée une nouvelle instance de la <see cref="T:System.Windows.Interactivity.TriggerCollection"/>.
+            </summary>
+            <returns>Nouvelle instance.</returns>
+        </member>
+        <member name="T:System.Windows.Interactivity.TypeConstraintAttribute">
+            <summary>
+            Spécifie des contraintes de type sur l'AssociatedObject de TargetedTriggerAction et EventTriggerBase.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Interactivity.TypeConstraintAttribute.#ctor(System.Type)">
+            <summary>
+            Initialise une nouvelle instance de la classe <see cref="T:System.Windows.Interactivity.TypeConstraintAttribute"/>.
+            </summary>
+            <param name="constraint">Type de contrainte.</param>
+        </member>
+        <member name="P:System.Windows.Interactivity.TypeConstraintAttribute.Constraint">
+            <summary>
+            Obtient le type de contrainte.
+            </summary>
+            <value>Type de contrainte.</value>
+        </member>
+        <member name="T:ExceptionStringTable">
+            <summary>
+              Classe de ressource fortement typée pour rechercher des chaînes localisées, etc.
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.ResourceManager">
+            <summary>
+              Renvoie l'instance ResourceManager mise en cache utilisée par cette classe.
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.Culture">
+            <summary>
+              Remplace la propriété CurrentUICulture du thread actuel pour toutes les recherches de ressources à l'aide de cette classe de ressource fortement typée.
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.CannotHostBehaviorCollectionMultipleTimesExceptionMessage">
+            <summary>
+              Recherche une chaîne localisée semblable à Impossible de définir la même BehaviorCollection sur plusieurs objets.
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.CannotHostBehaviorMultipleTimesExceptionMessage">
+            <summary>
+              Recherche une chaîne localisée semblable à Une instance d'un comportement ne peut pas être attachée à plus d'un objet à la fois.
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.CannotHostTriggerActionMultipleTimesExceptionMessage">
+            <summary>
+              Recherche une chaîne localisée semblable à Impossible d'héberger simultanément une instance d'une TriggerAction dans plusieurs TriggerCollections. Supprimez-la d'une TriggerCollection avant de l'ajouter à une autre.
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.CannotHostTriggerCollectionMultipleTimesExceptionMessage">
+            <summary>
+              Recherche une chaîne localisée semblable à Impossible de définir la même TriggerCollection sur plusieurs objets.
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.CannotHostTriggerMultipleTimesExceptionMessage">
+            <summary>
+              Recherche une chaîne localisée semblable à Une instance d'un déclencheur ne peut pas être attachée à plus d'un objet à la fois.
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.CommandDoesNotExistOnBehaviorWarningMessage">
+            <summary>
+              Recherche une chaîne localisée semblable à La commande « {0} » n'existe pas ou n'est pas exposée publiquement sur {1}.
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.DefaultTriggerAttributeInvalidTriggerTypeSpecifiedExceptionMessage">
+            <summary>
+              Recherche une chaîne localisée semblable à « {0} » n'est pas un type valide pour le paramètre TriggerType. Vérifiez que « {0} » provient de TriggerBase.
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.DuplicateItemInCollectionExceptionMessage">
+            <summary>
+              Recherche une chaîne localisée semblable à Impossible d'ajouter la même instance de « {0} » à « {1} » plus d'une fois.
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.EventTriggerBaseInvalidEventExceptionMessage">
+            <summary>
+              Recherche une chaîne localisée semblable à L'événement « {0} » sur le type « {1} » comporte une signature incompatible. Vérifiez que l'événement est public et satisfait le délégué EventHandler.
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.EventTriggerCannotFindEventNameExceptionMessage">
+            <summary>
+              Recherche une chaîne localisée semblable à Impossible de trouver un événement nommé « {0} » sur le type « {1} ».
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.RetargetedTypeConstraintViolatedExceptionMessage">
+            <summary>
+              Recherche une chaîne localisée semblable à Un type d'objet « {0} » ne peut pas avoir une propriété {3} de type « {1} ». Des instances du type « {0} » ne peuvent avoir qu'une propriété {3} du type « {2} ».
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.TypeConstraintViolatedExceptionMessage">
+            <summary>
+              Recherche une chaîne localisée semblable à Impossible d'attacher le type « {0} » au type « {1} ». Des instances du type « {0} » ne peuvent être attachées qu'à des objets de type « {2} ».
+            </summary>
+        </member>
+        <member name="P:ExceptionStringTable.UnableToResolveTargetNameWarningMessage">
+            <summary>
+              Recherche une chaîne localisée semblable à Impossible de résoudre TargetName « {0} ».
+            </summary>
+        </member>
+    </members>
+</doc>

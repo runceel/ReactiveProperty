@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Unofficial.Blend.Interactivity</id>
+    <version>1.0.0</version>
+    <title>Unofficial.Blend.Interactivity</title>
+    <authors>onovotny</authors>
+    <owners>onovotny</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Unofficial package of all Blend 5's Interactivity libraries</description>
+    <summary>Unofficial package of all Blend 5's Interactivity libraries</summary>
+  </metadata>
+</package>

@@ -1,0 +1,1202 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.Expression.Interactions</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.Expression.Interactivity.Core.ActionCommand">
+            <summary>
+            매개 변수를 갖지 않는 메서드 또는 한 개의 매개 변수를 갖는 메서드를 줄 바꿈하는 ICommand의 기본 구현입니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ActionCommand.#ctor(System.Action)">
+            <summary>
+            <see cref="T:Microsoft.Expression.Interactivity.Core.ActionCommand"/> 클래스의 새 인스턴스를 초기화합니다.
+            </summary>
+            <param name="action">작업입니다.</param>
+            <remarks>이 생성자를 사용하여 ICommand 매개 변수를 무시하는 작업을 제공합니다.</remarks>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ActionCommand.#ctor(System.Action{System.Object})">
+            <summary>
+            <see cref="T:Microsoft.Expression.Interactivity.Core.ActionCommand"/> 클래스의 새 인스턴스를 초기화합니다.
+            </summary>
+            <param name="objectAction">개체 매개 변수를 갖는 작업입니다.</param>
+            <remarks>이 생성자를 사용하여 Execute 메서드를 통해 전달된 개체 매개 변수를 사용하는 작업을 제공합니다.</remarks>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ActionCommand.System#Windows#Input#ICommand#CanExecute(System.Object)">
+            <summary>
+            명령을 현재 상태에서 실행할 수 있는지 여부를 결정하는 메서드를 정의합니다.
+            </summary>
+            <param name="parameter">명령에 사용된 데이터.  명령에서 데이터를 전달할 필요가 없으면 이 개체를 Null로 설정할 수 있습니다.</param>
+            <returns>
+            항상 true를 반환합니다.
+            </returns>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ActionCommand.Execute(System.Object)">
+            <summary>
+            명령이 호출될 때 호출될 메서드를 정의합니다.
+            </summary>
+            <param name="parameter">명령에 사용된 데이터.  명령에서 데이터를 전달할 필요가 없으면 이 개체를 Null로 설정할 수 있습니다.</param>
+        </member>
+        <member name="E:Microsoft.Expression.Interactivity.Core.ActionCommand.System#Windows#Input#ICommand#CanExecuteChanged">
+            <summary>
+            명령 실행 여부에 영향을 미치는 변경 내용이 있는 경우에 발생합니다. ActionCommand로 발생되지 않습니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.CallMethodAction">
+            <summary>
+            호출 시 지정된 개체에서 메서드를 호출합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.CallMethodAction.Invoke(System.Object)">
+            <summary>
+            작업을 호출합니다.
+            </summary>
+            <param name="parameter">작업의 매개 변수입니다. 작업에 매개 변수가 필요하지 않은 경우 매개 변수를 Null 참조로 설정할 수 있습니다.</param>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.CallMethodAction.OnAttached">
+            <summary>
+            작업이 AssociatedObject에 연결된 후 호출됩니다.
+            </summary>
+            <remarks>이 동작을 다시 정의하여 기능을 AssociatedObject에 연결합니다.</remarks>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.CallMethodAction.OnDetaching">
+            <summary>
+            AssociatedObject에서 동작이 분리될 때 호출되나 실제로 동작이 발생하기 전에 호출됩니다.
+            </summary>
+            <remarks>이 동작을 다시 정의하여 AssociatedObject에서 기능을 분리합니다.</remarks>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.CallMethodAction.TargetObject">
+            <summary>
+            관심 있는 메서드를 제공하는 개체입니다. 이것은 종속성 속성입니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.CallMethodAction.MethodName">
+            <summary>
+            호출할 메서드의 이름입니다. 이것은 종속성 속성입니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.ChangePropertyAction">
+            <summary>
+            호출 시 지정된 속성을 지정된 값으로 변경하는 작업입니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ChangePropertyAction.#ctor">
+            <summary>
+            <see cref="T:Microsoft.Expression.Interactivity.Core.ChangePropertyAction"/> 클래스의 새 인스턴스를 초기화합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ChangePropertyAction.Invoke(System.Object)">
+            <summary>
+            작업을 호출합니다.
+            </summary>
+            <param name="parameter">작업의 매개 변수입니다. 작업에 매개 변수가 필요하지 않은 경우 매개 변수를 Null 참조로 설정할 수 있습니다.</param>
+            <exception cref="T:System.ArgumentException"><c cref="P:Microsoft.Expression.Interactivity.Core.ChangePropertyAction.PropertyName"/>가 있는 속성을 대상에서 찾을 수 없습니다.</exception>
+            <exception cref="T:System.ArgumentException"><c cref="P:Microsoft.Expression.Interactivity.Core.ChangePropertyAction.PropertyName"/>를 <c cref="P:Microsoft.Expression.Interactivity.Core.ChangePropertyAction.Value"/>에 의해 지정된 값으로 설정할 수 없습니다.</exception>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.ChangePropertyAction.PropertyName">
+            <summary>
+            변경할 속성의 이름을 가져오거나 설정합니다. 이것은 종속성 속성입니다.
+            </summary>
+            <value>변경할 속성의 이름입니다.</value>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.ChangePropertyAction.Value">
+            <summary>
+            설정할 값을 가져오거나 설정합니다. 이것은 종속성 속성입니다.
+            </summary>
+            <value>설정할 값입니다.</value>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.ChangePropertyAction.Duration">
+            <summary>
+            ChangePropertyAction을 호출할 때 발생할 애니메이션 지속 시간을 가져오거나 설정합니다.  이것은 종속성 속성입니다. 지속 시간을 설정하지 않으면 애니메이션이 적용되지 않습니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.ChangePropertyAction.Increment">
+            <summary>
+            true일 경우 Value만큼 증가하고, 그렇지 않으면 값을 직접 설정합니다. 속성을 증가할 수 없는 경우 대신 값을 직접 설정해봅니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.ChangePropertyAction.Ease">
+            <summary>
+            ChangePropertyAction을 호출할 때 애니메이션과 함께 사용할 감속/가속 기능을 가져오거나 설정합니다.  이것은 종속성 속성입니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.ComparisonCondition">
+            <summary>
+            삼항 조건을 나타냅니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ComparisonCondition.Evaluate">
+            <summary>
+            조건을 평가하는 메서드입니다. 연산자가 형식과 호환되지 않을 경우 이 메서드에서 ArgumentException을 발행할 수 있습니다. 예를 들어, LessThan, LessThanOrEqual, GreaterThan, GreaterThanOrEqual 연산자의 경우 두 연산자에서 IComparable을 구현해야 합니다. 
+            </summary>
+            <returns>조건이 충족될 경우 true를 반환하고, 그렇지 않으면 false를 반환합니다.</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ComparisonCondition.EnsureBindingUpToDate">
+            <summary>
+            DP 피연산자의 모든 바인딩이 최신인지 확인합니다.  
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.ComparisonCondition.LeftOperand">
+            <summary>
+            왼쪽 피연산자를 가져오거나 설정합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.ComparisonCondition.RightOperand">
+            <summary>
+            오른쪽 피연산자를 가져오거나 설정합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.ComparisonCondition.Operator">
+            <summary>
+            비교 연산자를 가져오거나 설정합니다. 
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.ComparisonConditionType">
+            <summary>
+            다른 비교 연산자의 열거.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.ComparisonLogic.EvaluateImpl(System.Object,Microsoft.Expression.Interactivity.Core.ComparisonConditionType,System.Object)">
+            <summary>
+            이 메서드는 피연산자를 평가합니다. 
+            </summary>
+            <param name="leftOperand">LeftOperand 속성의 왼쪽 피연산자.</param>
+            <param name="operatorType">Operator 속성의 연산자.</param>
+            <param name="rightOperand">RightOperand 속성의 오른쪽 피연산자.</param>
+            <returns>조건이 충족될 경우 true를 반환하고, 그렇지 않으면 false를 반환합니다.</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.ComparisonLogic.EvaluateComparable(System.IComparable,Microsoft.Expression.Interactivity.Core.ComparisonConditionType,System.IComparable)">
+            <summary>
+            IComparable 인터페이스를 구현하는 피연산자를 둘 다 평가합니다.
+            </summary>
+            <param name="leftOperand">LeftOperand 속성의 왼쪽 피연산자.</param>
+            <param name="operatorType">Operator 속성의 연산자.</param>
+            <param name="rightOperand">RightOperand 속성의 오른쪽 피연산자.</param>
+            <returns>조건이 충족될 경우 true를 반환하고, 그렇지 않으면 false를 반환합니다.</returns>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.ForwardChaining">
+            <summary>
+            전달 체인.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.ConditionalExpression">
+            <summary>
+            ConditionBehavior.Condition 속성에 설정된 조건 식을 나타냅니다. ICondition.Evaluate()에 대한 true 또는 false를 반환하기 위해 평가되는 조건 목록이 포함되어 있습니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.ICondition">
+            <summary>
+            ConditionBehavior.Condition 속성에 설정하기 위해 지정된 개체에서 구현해야 하는 인터페이스입니다. 
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ConditionalExpression.#ctor">
+            <summary>
+            <see cref="T:Microsoft.Expression.Interactivity.Core.ConditionalExpression"/> 클래스의 새 인스턴스를 초기화합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ConditionalExpression.Evaluate">
+            <summary>
+            Conditions 컬렉션을 검사하여 ForwardChaining 속성에 따라 각 조건을 평가합니다.
+            </summary>
+            <returns>조건이 충족될 경우 true를 반환하고, 그렇지 않으면 false를 반환합니다.</returns>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.ConditionalExpression.ForwardChaining">
+            <summary>
+            조건에 대한 전달 체인을 가져오거나 설정합니다. 전달 체인이 ForwardChaining.And로 설정된 경우 모든 조건이 충족되어야 합니다. 전달 체인이 ForwardChaining.Or로 설정된 경우 하나의 조건만 충족되어야 합니다.		
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.ConditionalExpression.Conditions">
+            <summary>
+            Condition 컬렉션을 반환합니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.ConditionBehavior">
+            <summary>
+            트리거에 연결되고 작업을 발생시키는 조건을 제어하는 동작입니다. 
+            </summary>
+            
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ConditionBehavior.#ctor">
+            <summary>
+            <see cref="T:Microsoft.Expression.Interactivity.Core.ConditionBehavior"/> 클래스의 새 인스턴스를 초기화합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ConditionBehavior.OnPreviewInvoke(System.Object,System.Windows.Interactivity.PreviewInvokeEventArgs)">
+            <summary>
+            트리거에서 발생시킨 미리 보기 호출 이벤트를 수신 대기하는 이벤트 처리기입니다. PreviewInvokeEventArgs.Cancelling을 True로 설정하면 호출이 취소됩니다.
+            </summary>
+            <param name="sender">트리거 기본 개체입니다.</param>
+            <param name="e">e.Cancelling을 True로 설정할 수 있는 PreviewInvokeEventArgs 유형의 개체입니다.</param>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.ConditionBehavior.Condition">
+            <summary>
+            동작의 IConditon 개체를 가져오거나 설정합니다.
+            </summary>
+            <value>변경할 조건의 이름입니다.</value>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.DataBindingHelper">
+            <summary>
+            종속성 개체의 바인딩 식을 관리하기 위한 도우미 클래스.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.DataBindingHelper.EnsureDataBindingUpToDateOnMembers(System.Windows.DependencyObject)">
+            <summary>
+            바인딩 식이 있는 작업의 모든 DP가 최신인지 확인합니다. 데이터 바인딩 단계 중에 DataTrigger가 발생합니다. 작업은 트리거의 자식이기 때문에 작업의 바인딩이 최신이 아닐 수도 있습니다. 가장 최근 데이터를 사용하여 모든 바인딩을 최신 상태로 유지하기 위해 작업을 호출하기 전에 이 루틴이 호출됩니다. 
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.DataBindingHelper.EnsureDataBindingOnActionsUpToDate(System.Windows.Interactivity.TriggerBase{System.Windows.DependencyObject})">
+            <summary>
+            작업의 모든 바인딩 식이 최신인지 확인합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.DataBindingHelper.EnsureBindingUpToDate(System.Windows.DependencyObject,System.Windows.DependencyProperty)">
+            <summary>
+             이 도우미 기능을 통해 종속성 개체의 종속성 속성에 바인딩 식이 있는 경우 바인딩 식을 최신 상태로 유지할 수 있습니다. 
+            </summary>
+            <param name="target"></param>
+            <param name="dp"></param>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.DataStateBehavior">
+            <summary>
+            조건부 문에 따라 두 상태 사이를 전환합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.DataStateBehavior.OnAttached">
+            <summary>
+            동작이 AssociatedObject에 연결된 후 호출됩니다.
+            </summary>
+            <remarks>이 동작을 다시 정의하여 기능을 AssociatedObject에 연결합니다.</remarks>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.DataStateBehavior.IsElementLoaded(System.Windows.FrameworkElement)">
+            <summary>
+            Silverlight에는 FrameworkElement.IsLoaded와 같은 속성이 없기 때문에 이 속성을 대신하는 도우미 기능입니다.
+            </summary>
+            <param name="element">관심 요소입니다.</param>
+            <returns>요소가 로드된 경우 true를 반환하고, 그렇지 않으면 false를 반환합니다.</returns>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.DataStateBehavior.Binding">
+            <summary>
+            데이터 개체의 속성 값을 생성하는 바인딩을 가져오거나 설정합니다. 이것은 종속성 속성입니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.DataStateBehavior.Value">
+            <summary>
+            데이터 개체의 속성 값과 비교할 값을 가져오거나 설정합니다. 이것은 종속성 속성입니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.DataStateBehavior.TrueState">
+            <summary>
+            조건이 충족될 경우 전환되는 시각적 상태 이름을 가져오거나 설정합니다. 이것은 종속성 속성입니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.DataStateBehavior.FalseState">
+            <summary>
+            조건이 충족되지 않을 경우 전환되는 시각적 상태 이름을 가져오거나 설정합니다. 이것은 종속성 속성입니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.DataStoreChangedTrigger">
+            <summary>
+            데이터 저장소 속성에 바인딩되도록 설계된 트리거. 해당 속성이 변경될 때 발생합니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.PropertyChangedTrigger">
+             <summary>
+             바인딩된 데이터가 변경된 경우 작업을 수행하는 트리거를 나타냅니다. 
+             </summary>
+            UA_REVIEW:chabiss
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.PropertyChangedTrigger.EvaluateBindingChange(System.Object)">
+            <summary>
+            바인딩 속성이 변경될 때 호출됩니다. UA_REVIEW:chabiss
+            </summary>
+            <param name="args"><see cref="T:System.Windows.DependencyPropertyChangedEventArgs"/> 인수입니다. </param>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.PropertyChangedTrigger.OnAttached">
+            <summary>
+            트리거가 AssociatedObject에 연결된 후 호출됩니다. UA_REVIEW:chabiss
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.PropertyChangedTrigger.OnDetaching">
+            <summary>
+            AssociatedObject에서 트리거가 분리될 때 호출되나 실제로 트리거가 발생하기 전에 호출됩니다. UA_REVIEW:chabiss
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.PropertyChangedTrigger.Binding">
+             <summary>
+             트리거가 수신 대기하고, 변경될 때 트리거가 발생하는 바인딩 개체입니다.
+             </summary>
+            UA_REVIEW:chabiss
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.DataTrigger">
+            <summary>
+            바인딩된 데이터가 지정된 조건을 충족할 경우 작업을 수행하는 트리거를 나타냅니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.DataTrigger.EvaluateBindingChange(System.Object)">
+            <summary>
+            바인딩 속성이 변경될 때 호출됩니다. UA_REVIEW:chabiss
+            </summary>
+            <param name="args"><see cref="T:System.Windows.DependencyPropertyChangedEventArgs"/> 인수입니다. </param>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.DataTrigger.Value">
+            <summary>
+            데이터 개체의 속성 값과 비교할 값을 가져오거나 설정합니다. 이것은 종속성 속성입니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.DataTrigger.Comparison">
+            <summary>
+            지정된 값 사이에서 수행할 비교 유형을 가져오거나 설정합니다. 이것은 종속성 속성입니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager">
+            <summary>
+            ExtendedVisualStateManager는 레이아웃 속성의 애니메이션을 부드럽게 할 수 있는 사용자 지정 VisualStateManager입니다. 이 사용자 지정 VisualStateManager로 상태는 Grid.Column과 같은 속성의 변경 내용을 포함하고 요소 높이를 자동 등으로 변경할 수 있습니다. 이러한 변경 내용은 해당 전환의 GeneratedDuration과 GeneratedEasingFunction을 사용하여 시간이 경과되면서 부드럽게 됩니다. 알고리즘에 대한 일반적인 설명은 아래 "VisualStateManager 다시 정의" 영역을 참조하십시오.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.UseFluidLayoutProperty">
+            <summary>
+            FluidLayout을 사용하거나 사용하지 않을 수 있는 VisualStateGroup입니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.RuntimeVisibilityPropertyProperty">
+            <summary>
+            런타임 시 사용자가 지정한 연결된 속성에 의해 표시에 그림자가 나타납니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.OriginalLayoutValuesProperty">
+            <summary>
+            VisualStateGroup은 연결된 속성에 이러한 원래 값의 목록을 보존합니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.LayoutStoryboardProperty">
+            <summary>
+            모든 상태의 경우 레이아웃 특정 속성이 추출된 다음 해당 상태에 연결됩니다. 이러한 속성은 상태 자체에서는 제거됩니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.CurrentStateProperty">
+            <summary>
+            현재 상태를 기억하십시오.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.TransitionEffectProperty">
+            <summary>
+            상태가 변경될 때 사용할 TransitionEffect입니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.TransitionEffectStoryboardProperty">
+            <summary>
+            상태 변경 중에 사용되는 TransitionEffectStoryboard입니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.DidCacheBackgroundProperty">
+            <summary>
+            상태 변경 중에 사용되는 캐시된 배경입니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.CachedBackgroundProperty">
+            <summary>
+            상태 변경 중에 사용되는 캐시된 배경입니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.CachedEffectProperty">
+            <summary>
+            상태 변경 중에 사용되는 캐시된 배경입니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.MovingElements">
+            <summary>
+            이는 현재 동작 중인 요소의 집합입니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.LayoutTransitionStoryboard">
+            <summary>
+            이는 전환에 애니메이션 효과를 주는 스토리보드입니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.LayoutProperties">
+            <summary>
+            이 목록은 레이아웃 속성을 모두 포함합니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.PathToPropertyMap">
+            <summary>
+            Silverlight는 PropertyPath에서 DependencyProperty를 가져오는 직접적인 수단을 제공하지 않으므로 이 구조를 사용하여 추적된 경로를 찾습니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.StopAnimations">
+            <summary>
+            애니메이션을 중지하고 해당 애니메이션을 지원하기 위한 레이아웃 변경 내용을 바꿉니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.FindTransition(System.Windows.VisualStateGroup,System.Windows.VisualState,System.Windows.VisualState)">
+            <summary>
+            VisualStateManager가 변경 내용에 애니메이션 효과를 주는 데 사용할 전환을 찾아 레이아웃 애니메이션을 지속 시간 및 감속/가속 설정과 일치시킬 수 있습니다.
+            </summary>
+            <param name="group">전환이 발생하는 그룹.</param>
+            <param name="previousState">현재 상태.</param>
+            <param name="state">이동할 상태.</param>
+            <returns>전환</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.ExtractLayoutStoryboard(System.Windows.VisualState)">
+            <summary>
+            스토리보드에서 해당 상태의 모든 레이아웃 관련 속성을 제거하고 이 속성을 연결된 속성에 캐시합니다.
+            </summary>
+            <param name="state">이동할 상태.</param>
+            <returns>해당 상태의 레이아웃 속성을 포함하는 스토리보드.</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.FindTargetElements(System.Windows.FrameworkElement,System.Windows.FrameworkElement,System.Windows.Media.Animation.Storyboard,System.Collections.Generic.List{Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.OriginalLayoutValueRecord},System.Collections.Generic.List{System.Windows.FrameworkElement})">
+            <summary>
+            대상 요소의 집합은 레이아웃 전환에서 이동했을 수 있는 모든 요소의 집합입니다. 이 집합은 다음에 대한 종결입니다. - 해당 상태에서 애니메이션 효과를 준 레이아웃 속성을 포함한 요소. - 집합의 요소 형제. - 집합의 요소 부모.
+             
+            후속 코드는 레이아웃 변경 전과 후에 해당 사각형을 확인합니다.
+            </summary>
+            <param name="control">레이아웃의 상태를 변경하는 컨트롤.</param>
+            <param name="layoutStoryboard">레이아웃 변경 내용을 포함하는 스토리보드.</param>
+            <param name="originalValueRecords">되돌릴 수 있는 이전 상태 탐색의 모든 이전 값.</param>
+            <param name="movingElements">진행 중인 상태 변경 전환이 있는 경우 현재 동작 중인 요소의 집합.</param>
+            <returns>레이아웃을 변경했을 수 있는 요소의 전체 집합.</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.GetRectsOfTargets(System.Collections.Generic.List{System.Windows.FrameworkElement},System.Collections.Generic.List{System.Windows.FrameworkElement})">
+            <summary>
+            대상 목록의 모든 요소에 대한 사각형의 집합을 가져옵니다.
+            </summary>
+            <param name="targets">고려할 요소의 집합.</param>
+            <param name="movingElements">현재 동작 중인 요소의 집합.</param>
+            <returns>요소를 해당 사각형에 매핑하는 사전.</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.GetLayoutRect(System.Windows.FrameworkElement)">
+            <summary>
+            레이아웃 슬롯을 가져온 다음 사용 중인 슬롯 부분을 계산하여 요소의 레이아웃 사각형을 가져옵니다.
+            </summary>
+            <param name="element">레이아웃 사각형을 검색하는 요소.</param>
+            <returns>해당 요소의 레이아웃 사각형.</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.GetOldOpacities(System.Windows.FrameworkElement,System.Windows.FrameworkElement,System.Windows.Media.Animation.Storyboard,System.Collections.Generic.List{Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.OriginalLayoutValueRecord},System.Collections.Generic.List{System.Windows.FrameworkElement})">
+            <summary>
+            상태 변경이 진행 중일 수 있고 현재 값이 가장 중요하기 때문에, 상태 변경 시 표시 유형 대신 요소의 불투명도를 가져옵니다.
+            </summary>
+            <param name="control">상태가 변경 중인 컨트롤.</param>
+            <param name="layoutStoryboard">레이아웃 속성이 있는 스토리보드.</param>
+            <param name="originalValueRecords">원래 값의 집합.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.SetLayoutStoryboardProperties(System.Windows.FrameworkElement,System.Windows.FrameworkElement,System.Windows.Media.Animation.Storyboard,System.Collections.Generic.List{Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.OriginalLayoutValueRecord})">
+            <summary>
+            레이아웃 스토리보드를 끝까지 진행하며, 타임라인을 표시하지 않고 렌더링을 실행하는 UpdateLayout을 호출할 수 있도록 SetValue를 사용하여 모든 속성을 설정합니다. 덮어쓰여진 모든 값은 OriginalValueRecords 컬렉션에 저장되므로 나중에 바꿀 수 있습니다.
+            </summary>
+            <param name="control">상태가 변경 중인 컨트롤.</param>
+            <param name="layoutStoryboard">레이아웃 속성을 보유하는 스토리보드.</param>
+            <param name="originalValueRecords">원래 값의 저장소.</param>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.WrapMovingElementsInCanvases(System.Collections.Generic.List{System.Windows.FrameworkElement},System.Collections.Generic.Dictionary{System.Windows.FrameworkElement,System.Windows.Rect},System.Collections.Generic.Dictionary{System.Windows.FrameworkElement,System.Windows.Rect})">
+            <summary>
+            레이아웃 애니메이션의 결과로 이동할 모든 요소를 가져와 형제 요소에 영향을 주지 않도록 캔버스 패널에서 줄 바꿈합니다.
+            </summary>
+            <param name="movingElements">이동되는 요소의 집합.</param>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.UnwrapMovingElementsFromCanvases(System.Collections.Generic.List{System.Windows.FrameworkElement})">
+            <summary>
+            레이아웃 애니메이션의 결과로 이동 중이었던 모든 요소를 가져와 캔버스 패널에서 줄 바꿈하지 않습니다.
+            </summary>
+            <param name="movingElements">이동 중이었던 요소의 집합.</param>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.CopyLayoutProperties(System.Windows.FrameworkElement,System.Windows.FrameworkElement,System.Boolean)">
+            <summary>
+            원본 요소에서 대상 요소로 레이아웃 속성을 복사하고, 원본에서 지웁니다.
+            </summary>
+            <param name="source">레이아웃 속성의 원본.</param>
+            <param name="target">레이아웃 속성의 대상.</param>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.CreateLayoutTransitionStoryboard(System.Windows.VisualTransition,System.Collections.Generic.List{System.Windows.FrameworkElement},System.Collections.Generic.Dictionary{System.Windows.FrameworkElement,System.Double})">
+            <summary>
+            전환에 애니메이션 효과를 주는 데 사용될 실제 스토리보드를 만듭니다. 이전에 계산된 모든 결과를 사용합니다.
+            </summary>
+            <param name="duration">애니메이션 지속 시간.</param>
+            <param name="ease">애니메이션에 사용될 감속/가속 기능.</param>
+            <param name="movingElements">이동되는 요소의 집합.</param>
+            <param name="oldOpacities">표시 속성이 변경 중인 요소의 이전 불투명도.</param>
+            <returns>스토리보드.</returns>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.ExtendedVisualStateManager.OriginalLayoutValueRecord">
+            <summary>
+            OriginalValueRecord는 상태에서 변경된 속성의 원래 값을 기억합니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Layout.FluidMoveScope">
+            <summary>
+            열거된 이 형식은 FluidMoveBehavior가 연결된 요소 또는 해당 요소의 자식에 적용될지 여부를 나타냅니다. "Self"는 특수한 방식으로 작동해야 하는 단일 요소가 있을 때 유용하고, "Children"은 동일한 동작을 WrapPanel의 모든 자식 또는 ItemsControl의 ItemsHost 패널에 적용해야 할 때 유용합니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Layout.TagType">
+            <summary>
+            이 열거된 유형은 요소가 스스로 확인되거나 DataContext에 의해 확인되는지 여부를 나타냅니다. DataContext 확인을 사용하면 하나의 데이터 기반 위치에서 다른 위치로 이동할 수 있습니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehaviorBase.AppliesToProperty">
+            <summary>
+            동작 범위에 대한 종속성 속성입니다. 자세한 내용은 FluidMoveScope를 참조하십시오.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehaviorBase.IsActiveProperty">
+            <summary>
+            동작의 활성 상태에 대한 종속성 속성입니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehaviorBase.TagProperty">
+            <summary>
+            요소를 고유 태그로 사용하거나 요소의 바인딩으로 사용할 수 있는 기능을 제공하는 종속성 속성입니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehaviorBase.TagPathProperty">
+            <summary>
+            UsaBindingAsTag가 true일 경우 바인딩에 추가할 추가 경로에 대한 종속성 속성입니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehaviorBase.IdentityTagProperty">
+            <summary>
+            컨테이너 간의 요소 동작을 검색하기 위해 사용된 ID 태그입니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.FluidMoveBehaviorBase.AppliesTo">
+            <summary>
+            동작이 이 요소에만 또는 요소의 모든 자식에(요소가 패널인 경우) 적용되는지 여부를 나타냅니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.FluidMoveBehaviorBase.IsActive">
+            <summary>
+            동작이 현재 활성 상태인지 여부를 나타냅니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.FluidMoveBehaviorBase.Tag">
+            <summary>
+            요소를 고유한 태그로 사용할지 또는 요소의 바인딩을 태그로 사용할지 여부를 나타냅니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.FluidMoveBehaviorBase.TagPath">
+            <summary>
+            TagType을 지정한 경우 바인딩에 추가할 추가 경로입니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Layout.FluidMoveBehaviorBase.TagData">
+            <summary>
+            태그가 지정된 항목에 관한 모든 관련 데이터를 저장하는 전용 구조입니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior">
+            <summary>
+            요소(또는 요소의 집합)의 레이아웃 변경 내용을 확인하고 필요한 경우 요소를 새 위치로 부드럽게 이동하는 동작입니다. 이 동작은 요소의 크기나 표시 유형에 애니메이션 효과를 주지 않고 부모 컨테이너 내에서 해당 요소의 오프셋에만 애니메이션 효과를 줍니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.DurationProperty">
+            <summary>
+            이동 지속 시간에 대한 종속성 속성입니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.InitialTagProperty">
+            <summary>
+            개체를 로드하기 전에 사용할 태그 유형에 대한 종속성 속성입니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.InitialTagPathProperty">
+            <summary>
+            UsaBindingAsTag가 true일 경우 바인딩에 추가할 추가 경로에 대한 종속성 속성입니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.InitialIdentityTagProperty">
+            <summary>
+            컨테이너 간의 요소 동작을 검색하기 위해 사용된 ID 태그입니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.FloatAboveProperty">
+            <summary>
+            FloatAbove 플래그에 대한 종속성 속성입니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.EaseXProperty">
+            <summary>
+            이동의 가로 구성 요소에 사용할 EasingFunction에 대한 종속성 속성입니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.EaseYProperty">
+            <summary>
+            이동의 세로 구성 요소에 사용할 EasingFunction에 대한 종속성 속성입니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.OverlayProperty">
+            <summary>
+            FloatAbove가 true 상태에서 컨테이너 간에 요소 이동 시 사용되는 팝업/표시기를 기억하십시오.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.CacheDuringOverlayProperty">
+            <summary>
+            팝업 부동 시 사용되는 불투명도 캐시입니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.HasTransformWrapperProperty">
+            <summary>
+            애니메이션 변환을 표시합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.Duration">
+            <summary>
+            이동 지속 시간입니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.InitialTag">
+            <summary>
+            이 항목에 대한 생성 점입니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.InitialTagPath">
+            <summary>
+            TagType을 지정한 경우 바인딩에 추가할 추가 경로입니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.FloatAbove">
+            <summary>
+            컨테이너를 변경할 때 팝업 또는 표시기에서 요소를 해당 컨테이너 위에 부동할 수 있는지 여부를 나타내는 플래그입니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.EaseX">
+            <summary>
+            이동의 수평 구성 요소에 사용할 EasingFunction입니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.FluidMoveBehavior.EaseY">
+            <summary>
+            이동의 수직 구성 요소에 사용할 EasingFunction입니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.GoToStateAction">
+            <summary>
+            호출 시 FrameworkElement를 지정된 VisualState로 전환할 작업입니다.
+            </summary>
+            <remarks>
+            TargetName 속성을 설정하면 이 작업은 대상 요소의 상태를 변경하려고 합니다. 그렇지 않으면 요소 트리를 살펴보고 상태를 정의하는 다른 대상을 찾습니다. 가능한 두 개의 공통된 항목이 ControlTemplate 및 UserControl입니다.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.GoToStateAction.OnTargetChanged(System.Windows.FrameworkElement,System.Windows.FrameworkElement)">
+            <summary>
+            대상이 변경될 때 호출됩니다. TargetName 속성을 설정하지 않으면 이 작업은 사용자 지정 동작을 갖습니다.
+            </summary>
+            <param name="oldTarget"></param>
+            <param name="newTarget"></param>
+            <exception cref="T:System.InvalidOperationException">상태를 통해 적절한 FrameworkElement를 찾을 수 없습니다.</exception>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.GoToStateAction.Invoke(System.Object)">
+            <summary>
+            일부 기준이 충족되고 작업이 호출될 때 이 메서드가 호출됩니다.
+            </summary>
+            <param name="parameter"></param>
+            <exception cref="T:System.InvalidOperationException">대상을 지정된 StateName으로 변경할 수 없습니다.</exception>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.GoToStateAction.UseTransitions">
+            <summary>
+            상태 간 전환에 VisualTransition을 사용할지 여부를 나타냅니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.GoToStateAction.StateName">
+            <summary>
+            VisualState의 이름입니다.  
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.HyperlinkAction">
+            <summary>
+            지정된 하이퍼링크로 이동할 작업입니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.HyperlinkAction.Invoke(System.Object)">
+            <summary>
+            일부 기준이 충족되고 작업이 호출될 때 이 메서드가 호출됩니다.
+            </summary>
+            <param name="parameter"></param>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.HyperlinkAction.NavigateUri">
+            <summary>
+            열려는 페이지의 URI입니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.HyperlinkAction.TargetWindow">
+            <summary>
+            NavigateUri가 열려야 할 창 또는 탭의 이름입니다. 
+            </summary>
+            <remarks>
+            여러 가지 값은 특별한 의미를 갖습니다. 즉, "_blank"는 새 브라우저 창에서 로드되고, "_parent"는 부모 프레임에서 로드되려고 하며, "_self"는 현재 페이지 또는 프레임을 대상으로 지정합니다. 
+            </remarks>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Input.KeyTrigger">
+            <summary>
+            키보드 이벤트로 트리거되는 Trigger입니다.  대상 키 및 수정자가 검색될 때 발생됩니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Input.KeyTrigger.Key">
+            <summary>
+            트리거를 발생시키기 위해 눌러야 하는 키입니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Input.KeyTrigger.Modifiers">
+            <summary>
+            트리거를 발생시키기 위해 활성 상태여야 하는 수정자입니다(기본값은 수정자를 누르지 않는 것임).
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Input.KeyTrigger.FiredOn">
+            <summary>
+            KeyDown 또는 KeyUp 이벤트 수신 대기 여부를 결정합니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior">
+            <summary>
+            요소에서의 마우스 끌기 제스처에 대한 응답으로 연결된 요소의 위치를 변경합니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.XProperty">
+            <summary>
+            루트 요소의 왼쪽을 기준으로 끌린 요소의 X 위치에 대한 종속성 속성입니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.YProperty">
+            <summary>
+            루트 요소의 위쪽을 기준으로 끌린 요소의 Y 위치에 대한 종속성 속성입니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.ConstrainToParentBoundsProperty">
+            <summary>
+            ConstrainToParentBounds 속성에 대한 종속성 속성입니다. true이면 끌린 요소는 부모 컨테이너의 경계 이내로 제한됩니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.UpdatePosition(System.Windows.Point)">
+            <summary>
+            연결된 요소의 위치를 지정된 좌표로 업데이트하려는 시도입니다.
+            </summary>
+            <param name="point">루트 좌표에서 요소의 원하는 위치입니다.</param>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.ApplyTranslation(System.Double,System.Double)">
+            <summary>
+            상대적 위치 좌표 이동을 연결된 요소에 적용합니다.
+            </summary>
+            <param name="x">루트 좌표에서 원하는 좌표 이동의 X 구성 요소입니다.</param>
+            <param name="y">루트 좌표에서 원하는 좌표 이동의 Y 구성 요소입니다.</param>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.ApplyTranslationTransform(System.Double,System.Double)">
+            <summary>
+            지정된 좌표 이동을 연결된 요소의 RenderTransform에 적용합니다.
+            </summary>
+            <param name="x">부모 좌표에서 좌표 이동의 X 구성 요소입니다.</param>
+            <param name="y">부모 좌표에서 좌표 이동의 Y 구성 요소입니다.</param>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.CloneTransform(System.Windows.Media.Transform)">
+            <summary>
+            지정된 변형의 재귀적 깊은 복사를 수행합니다.
+            </summary>
+            <param name="transform">복제할 변형입니다.</param>
+            <returns>지정된 변형의 깊은 복사이거나, 지정된 변형이 null일 경우 null입니다.</returns>
+            <exception cref="T:System.ArgumentException">변형 유형을 인식할 수 없는 경우 발생합니다.</exception>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.UpdatePosition">
+            <summary>
+            연결된 요소의 현재 렌더링 위치에 따라 X 및 Y 속성을 업데이트합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.RectContainsRect(System.Windows.Rect,System.Windows.Rect)">
+            <summary>
+            한 사각형이 다른 사각형에 포함되는지 확인합니다.
+            </summary>
+            <param name="rect1">포함하는 사각형입니다.</param>
+            <param name="rect2">포함되는 사각형입니다.</param>
+            <returns>rect1이 rect2를 포함하는 경우 <c>True</c>, 그렇지 않으면 <c>False</c>입니다.</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.TransformAsVector(System.Windows.Media.GeneralTransform,System.Double,System.Double)">
+            <summary>
+            벡터로 변형합니다.
+            </summary>
+            <param name="transform">변형입니다.</param>
+            <param name="x">벡터의 X 구성 요소입니다.</param>
+            <param name="y">벡터의 Y 구성 요소입니다.</param>
+            <returns>벡터로 변형을 통해 변형된 X 및 Y 값을 포함하는 점입니다.</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.GetTransformOffset(System.Windows.Media.GeneralTransform)">
+            <summary>
+            변형 오프셋을 가져옵니다.
+            </summary>
+            <param name="transform">변형입니다.</param>
+            <returns>변형 오프셋입니다.</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.OnAttached">
+            <summary>
+            동작이 AssociatedObject에 연결된 후 호출됩니다.
+            </summary>
+            <remarks>이 동작을 다시 정의하여 기능을 AssociatedObject에 연결합니다.</remarks>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.OnDetaching">
+            <summary>
+            AssociatedObject에서 동작이 분리될 때 호출되나 실제로 동작이 발생하기 전에 호출됩니다.
+            </summary>
+            <remarks>이 동작을 다시 정의하여 AssociatedObject에서 기능을 분리합니다.</remarks>
+        </member>
+        <member name="E:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.DragBegun">
+            <summary>
+            끌기 제스처가 시작될 때 발생합니다.
+            </summary>
+        </member>
+        <member name="E:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.Dragging">
+            <summary>
+            끌기 제스처 업데이트가 처리될 때 발생합니다.
+            </summary>
+        </member>
+        <member name="E:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.DragFinished">
+            <summary>
+            끌기 제스처가 완료될 때 발생합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.X">
+            <summary>
+            루트 요소의 왼쪽을 기준으로 끌린 요소의 X 위치를 가져오거나 설정합니다. 이것은 종속성 속성입니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.Y">
+            <summary>
+            루트 요소의 위쪽을 기준으로 끌린 요소의 Y 위치를 가져오거나 설정합니다. 이것은 종속성 속성입니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.ConstrainToParentBounds">
+            <summary>
+            끌린 요소가 부모 컨테이너의 경계 이내로 제한되는지 여부를 나타내는 값을 가져오거나 설정합니다. 이것은 종속성 속성입니다.
+            </summary>
+            <value>
+            	끌린 요소를 부모 경계로 제한해야 하면 <c>True</c>이고, 그렇지 않으면 <c>False</c>입니다.
+            </value>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.ActualPosition">
+            <summary>
+            루트 좌표에서 연결된 요소의 화면 위치를 가져옵니다.
+            </summary>
+            <value>루트 좌표에서 연결된 요소의 화면 위치.</value>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.ElementBounds">
+            <summary>
+            요소 좌표의 요소 경계를 가져옵니다.
+            </summary>
+            <value>요소 좌표의 요소 경계입니다.</value>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.ParentElement">
+            <summary>
+            연결된 개체의 부모 요소를 가져옵니다.
+            </summary>
+            <value>연결된 개체의 부모 요소입니다.</value>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.RootElement">
+            <summary>
+            연결된 개체가 있는 장면의 루트 요소를 가져옵니다.
+            </summary>
+            <value>연결된 개체가 있는 장면의 루트 요소입니다.</value>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Layout.MouseDragElementBehavior.RenderTransform">
+            <summary>
+            연결된 요소의 RenderTransform을 가져오거나 설정합니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Media.PlaySoundAction">
+            <summary>
+            완료 시 소리를 재생하는 작업입니다.
+            </summary>
+            <remarks>
+            이 작업은 중지하거나 제어할 필요가 없는 짧은 소리 효과와 함께 사용하기 위한 것입니다. 음악 플레이어 또는 게임을 만들려는 경우 요구 사항을 충족하지 못할 수 있습니다.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Media.PlaySoundAction.#ctor">
+            <summary>
+            <see cref="T:Microsoft.Expression.Interactivity.Media.PlaySoundAction"/> 클래스의 새 인스턴스를 초기화합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Media.PlaySoundAction.SetMediaElementProperties(System.Windows.Controls.MediaElement)">
+            <summary>
+            Action이 호출될 때 이 메서드는 동적으로 만들어진 MediaElement를 사용자 지정하는 데 사용합니다.
+            </summary>
+            <remarks>
+            이 메서드는 PlaySoundAction을 확장하려는 Action 작성자에게 유용할 수 있습니다. MediaElement Balance 속성을 제어하려는 경우 PlaySoundAction에서 상속하고 이 메서드를 다시 정의할 수 있습니다.
+            </remarks>
+            <param name="mediaElement"></param>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Media.PlaySoundAction.Invoke(System.Object)">
+            <summary>
+            일부 기준이 충족되고 작업이 호출되어야 할 때 이 메서드가 호출됩니다. 
+            </summary>
+            <remarks>
+            Action을 호출할 때마다 소리가 새로 재생됩니다. 구현이 변경될 수 있더라도, 호출자는 이 호출로 새 MediaElement가 만들어질 것으로 예상해야 합니다. 소리가 끝나거나 미디어가 재생되지 않으면 이 요소는 삭제됩니다.
+            </remarks>
+            <param name="parameter"></param>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Media.PlaySoundAction.Source">
+            <summary>
+            소리 파일의 위치를 정의하는 URI입니다. 이것은 MediaElement의 원본 속성을 설정하는 데 사용됩니다. 이것은 종속성 속성입니다.
+            </summary>
+            <remarks>
+            소리는 MediaElement에서 지원하는 모든 파일 형식이 될 수 있습니다. 비디오의 경우에는 오디오 부분만 재생합니다.
+            </remarks>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Media.PlaySoundAction.Volume">
+            <summary>
+            소리 볼륨을 제어합니다. 이것은 MediaElement의 Volume 속성을 설정하는 데 사용됩니다. 이것은 종속성 속성입니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.RemoveElementAction">
+            <summary>
+            호출 시 트리에서 대상 요소를 제거하는 작업입니다.
+            </summary>
+            <remarks>
+            이 작업은 실패할 수 있습니다. 작업으로 공통 부모에서 요소를 제거하는 방법을 이해하지만 사용자 지정 컬렉션에서 또는 시각적 트리의 직접 조작으로 요소를 제거하는 방법은 아닙니다.
+            </remarks>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.SetDataStoreValueAction">
+            <summary>
+            데이터 저장소 개체에서 속성값을 변경하는 작업입니다. 이 클래스는 ChangePropertyAction과 동일합니다. 이 작업을 위한 데이터 저장소 선택기를 로드하는 것이 유일한 차이입니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Media.StoryboardAction">
+            <summary>
+            스토리보드를 대상으로 지정하는 기능을 제공하는 추상 클래스입니다.
+            </summary>
+            <remarks>
+            Action 작성자에게 이 클래스는 스토리보드를 대상으로 지정하는 표준 방법을 제공합니다. 디자인 도구를 통해 이 작업에서 상속되는 클래스에 대한 특별한 편집 경험을 제공하도록 선택할 수 있므로 설계자 작업을 향상시킬 수 있습니다. 
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Media.StoryboardAction.OnStoryboardChanged(System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            스토리보드 속성이 변경될 때 이 메서드가 호출됩니다.
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Media.StoryboardAction.Storyboard">
+            <summary>
+            대상 스토리보드입니다. 이것은 종속성 속성입니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Media.ControlStoryboardAction">
+            <summary>
+            호출 시 대상 스토리보드의 상태를 변경할 작업입니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Media.ControlStoryboardAction.Invoke(System.Object)">
+            <summary>
+            일부 기준이 충족되고 작업이 호출되어야 할 때 이 메서드가 호출됩니다. 이 메서드는 ControlStoryboardOption으로 정의된 방법으로 대상 스토리보드를 변경하려고 합니다.
+            </summary>
+            <param name="parameter"></param>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Media.StoryboardTrigger">
+            <summary>
+            스토리보드를 대상으로 지정하는 기능을 제공하는 추상 클래스입니다.
+            </summary>
+            <remarks>
+            Trigger 작성자에게 이 클래스는 스토리보드를 대상으로 지정하는 표준 방법을 제공합니다. 디자인 도구를 통해 이 트리거에서 상속되는 클래스에 대한 특별한 편집 경험을 제공하도록 선택할 수 있므로 디자이너 경험을 향상시킬 수 있습니다. 
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Media.StoryboardTrigger.OnStoryboardChanged(System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            스토리보드 속성이 변경될 때 이 메서드가 호출됩니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Media.StoryboardTrigger.Storyboard">
+            <summary>
+            대상 스토리보드입니다. 이것은 종속성 속성입니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Media.StoryboardCompletedTrigger">
+            <summary>
+            스토리보드를 완료하기 위해 수신 대기하는 트리거입니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Media.StoryboardCompletedTrigger.#ctor">
+            <summary>
+            <see cref="T:Microsoft.Expression.Interactivity.Media.StoryboardCompletedTrigger"/> 클래스의 새 인스턴스를 초기화합니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.Core.TimerTrigger">
+            <summary>
+            원본에서 발생하는 지정된 이벤트로 트리거되고 해당 이벤트 발생 시 잠시 후 발생되는 트리거입니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.Core.TimerTrigger.#ctor">
+            <summary>
+            <see cref="T:Microsoft.Expression.Interactivity.Core.TimerTrigger"/> 클래스의 새 인스턴스를 초기화합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.TimerTrigger.MillisecondsPerTick">
+            <summary>
+            눈금 간 대기 시간(밀리초)을 가져오거나 설정합니다. 이것은 종속성 속성입니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.Core.TimerTrigger.TotalTicks">
+            <summary>
+            트리거가 완료되기 전에 발생될 총 눈금 수를 가져오거나 설정합니다.  이것은 종속성 속성입니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Media.Effects.TransitionEffect">
+            <summary>
+            0과 1 사이의 삽입된 값을 사용하여 비주얼 간에 전환되는 전환 효과 셰이더를 정의합니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.TransitionEffect.InputProperty">
+            <summary>
+            셰이더의 샘플러 속성으로 변환되는 브러시 값 속성입니다. 전환의 최종 상태에 있는 이미지를 나타냅니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.TransitionEffect.OldImageProperty">
+            <summary>
+            셰이더의 샘플러 속성으로 변환되는 브러시 값 속성입니다. 전환의 초기 상태에 있는 이미지를 나타냅니다.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Expression.Media.Effects.TransitionEffect.ProgressProperty">
+            <summary>
+            Progress의 보조 저장소로 사용되는 종속성 속성입니다. 시작부터 끝까지 전환의 상태를 나타내는 데 사용되기도 합니다. 범위는 0과 1 사이입니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.TransitionEffect.CloneCurrentValue">
+            <summary>
+            해당하는 현재 값을 사용하여 <see cref="T:TransitionEffect"/>의 수정 가능한 복제본(깊은 복사)을 만듭니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.TransitionEffect.DeepCopy">
+            <summary>
+            변환 효과의 깊은 복사본을 만듭니다. Silverlight 에서 CloneCurrentValue를 구현합니다.
+            </summary>
+            <returns>변환 효과의 현재 인스턴스 복제본입니다.</returns>
+        </member>
+        <member name="M:Microsoft.Expression.Media.Effects.TransitionEffect.#ctor">
+            <summary>
+            셰이더 변수를 기본값으로 업데이트합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.TransitionEffect.Input">
+            <summary>
+            셰이더 내 Input 변수를 가져오거나 설정합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.TransitionEffect.OldImage">
+            <summary>
+            셰이더 내 OldImage 변수를 가져오거나 설정합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Media.Effects.TransitionEffect.Progress">
+            <summary>
+            셰이더 내 Progress 변수를 가져오거나 설정합니다.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.VisualStateUtilities">
+            <summary>
+            이 클래스는 VisualStateManager와 작업하기 위한 다양한 플랫폼과 상관없는 표준 작업을 제공합니다.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.VisualStateUtilities.GoToState(System.Windows.FrameworkElement,System.String,System.Boolean)">
+            <summary>
+            두 상태 간의 컨트롤을 전환합니다.
+            </summary>
+            <param name="element">상태 간에 전환되는 요소입니다.</param>
+            <param name="stateName">전환되는 상태입니다.</param>
+            <param name="useTransitions">System.Windows.VisualTransition을 사용하여 상태 간에 전환할 경우 true, 그렇지 않으면 false입니다.</param>
+            <returns>컨트롤이 새로운 상태로 전환된 경우 true, 그렇지 않으면 false입니다.</returns>
+            <exception cref="T:System.ArgumentNullException">컨트롤이 null입니다.</exception>
+            <exception cref="T:System.ArgumentNullException">stateName이 null입니다.</exception>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.VisualStateUtilities.GetVisualStateGroups(System.Windows.FrameworkElement)">
+            <summary>
+            연결된 VisualStateManager.VisualStateGroups 속성의 값을 가져옵니다.
+            </summary>
+            <param name="targetObject">해당 VisualStateManager.VisualStateGroups를 가져올 요소입니다.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Expression.Interactivity.VisualStateUtilities.TryFindNearestStatefulControl(System.Windows.FrameworkElement,System.Windows.FrameworkElement@)">
+            <summary>
+            시각적 상태를 포함하는 가장 가까운 부모를 찾습니다.
+            </summary>
+            <param name="contextElement">가장 가까운 안정된 컨트롤을 찾을 요소입니다.</param>
+            <param name="resolvedControl">true인 경우 가장 가까운 안정된 컨트롤이고, 그렇지 않으면 null입니다.</param>
+            <returns>부모에 시각적 상태가 포함된 경우 true이고, 그렇지 않으면 false입니다.</returns>
+        </member>
+        <member name="T:Microsoft.Expression.Interactivity.ExceptionStringTable">
+            <summary>
+              지역화된 문자열 등을 검색하기 위한 강력한 형식의 리소스 클래스입니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.ExceptionStringTable.ResourceManager">
+            <summary>
+              이 클래스에 사용된 캐시된 ResourceManager 인스턴스를 반환합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.ExceptionStringTable.Culture">
+            <summary>
+              이 강력한 형식의 리소스 클래스를 사용하여 모든 리소스를 검색할 경우 현재 스레드의 CurrentUICulture 속성을 다시 정의합니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.ExceptionStringTable.CallMethodActionValidMethodNotFoundExceptionMessage">
+            <summary>
+              [예상한 서명과 일치하는 '{1}' 형식의 개체에서 '{0}'(이)라는 메서드를 찾을 수 없습니다.]와 유사한 지역화된 문자열을 찾습니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.ExceptionStringTable.ChangePropertyActionAmbiguousAdditionOperationExceptionMessage">
+            <summary>
+              ['{0}' 형식에 더하기 연산자가 둘 이상 있을 수 있습니다.]와 유사한 지역화된 문자열을 찾습니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.ExceptionStringTable.ChangePropertyActionCannotAnimateTargetTypeExceptionMessage">
+            <summary>
+              [형식 '{0}' 대상에서 속성 변경을 애니메이션할 수 없습니다.]와 유사한 지역화된 문자열을 찾습니다. 속성 변경은 DependencyObject에서 파생된 형식에서만 애니메이션할 수 있습니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.ExceptionStringTable.ChangePropertyActionCannotFindPropertyNameExceptionMessage">
+            <summary>
+              ["{1}" 형식에서 "{0}" 속성을 찾을 수 없습니다.]와 유사한 지역화된 문자열을 찾습니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.ExceptionStringTable.ChangePropertyActionCannotIncrementAnimatedPropertyChangeExceptionMessage">
+            <summary>
+              [Duration 속성을 설정한 경우 Increment 속성을 Ture로 설정할 수 없습니다.]와 유사한 지역화된 문자열을 찾습니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.ExceptionStringTable.ChangePropertyActionCannotIncrementWriteOnlyPropertyExceptionMessage">
+            <summary>
+              [값을 읽을 수 없기 때문에 '{0}' 속성을 증가할 수 없습니다.]와 유사한 지역화된 문자열을 찾습니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.ExceptionStringTable.ChangePropertyActionCannotSetValueExceptionMessage">
+            <summary>
+              ["{0}" 형식의 값을 "{2}" 형식의 "{1}" 속성에 할당할 수 없습니다. "{1}" 속성에는 "{2}" 형식의 값만 할당할 수 있습니다.]와 유사한 지역화된 문자열을 찾습니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.ExceptionStringTable.ChangePropertyActionPropertyIsReadOnlyExceptionMessage">
+            <summary>
+              ["{1}" 형식에 의해 정의된 "{0}" 속성이 Set 메서드를 노출하지 않으므로 해당 속성을 수정할 수 없습니다.]와 유사한 지역화된 문자열을 찾습니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.ExceptionStringTable.DataStateBehaviorStateNameNotFoundExceptionMessage">
+            <summary>
+              ["{1}" 형식에서 "{0}" 상태를 찾을 수 없습니다.]와 유사한 지역화된 문자열을 찾습니다. 상태가 있고 이 컨텍스트에서 액세스할 수 있는지 확인하십시오.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.ExceptionStringTable.GoToStateActionTargetHasNoStateGroups">
+            <summary>
+              [대상 {0}이(가) VisualStateGroups를 정의하지 않았습니다.]와 유사한 지역화된 문자열을 찾습니다. .
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.ExceptionStringTable.InvalidLeftOperand">
+            <summary>
+              ["{0}" 형식의 LeftOperand를 "{1}" 연산자와 같이 사용할 수 없습니다.]와 유사한 지역화된 문자열을 찾습니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.ExceptionStringTable.InvalidOperands">
+            <summary>
+              ["{1}" 형식의 LeftOperand 및 "{0}" 형식의 RightOperand를 "{2}" 연산자와 같이 사용할 수 없습니다.]와 유사한 지역화된 문자열을 찾습니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.ExceptionStringTable.InvalidRightOperand">
+            <summary>
+              ["{0}" 형식의 RightOperand를 "{1}" 연산자와 같이 사용할 수 없습니다.]와 유사한 지역화된 문자열을 찾습니다.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Expression.Interactivity.ExceptionStringTable.UnsupportedRemoveTargetExceptionMessage">
+            <summary>
+              [RemoveElementAction의 대상이 지원되지 않습니다.]와 유사한 지역화된 문자열을 찾습니다.
+            </summary>
+        </member>
+    </members>
+</doc>
