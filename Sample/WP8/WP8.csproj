@@ -246,10 +246,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Sample.ViewModels.WP8\Sample.ViewModels.WP8.csproj">
-      <Project>{76FA0E23-EDE4-481D-9DAE-ABD955E15FC5}</Project>
-      <Name>Sample.ViewModels.WP8</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Source\ReactiveProperty.Portable-NET45+WINRT+WP8\ReactiveProperty.Portable.csproj">
       <Project>{D5FCE62E-0718-43C4-A103-69C155D8D402}</Project>
       <Name>ReactiveProperty.Portable</Name>
@@ -257,6 +253,10 @@
     <ProjectReference Include="..\..\Source\ReactiveProperty.WP8\ReactiveProperty.Platform.WP8.csproj">
       <Project>{D534328B-496E-4F76-ACB1-2EB29BA990CF}</Project>
       <Name>ReactiveProperty.Platform.WP8</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sample.ViewModels.WP8\Sample.ViewModels.WP8.csproj">
+      <Project>{76FA0E23-EDE4-481D-9DAE-ABD955E15FC5}</Project>
+      <Name>Sample.ViewModels.WP8</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sample.ViewModels\Sample.ViewModels.csproj">
       <Project>{4AA39C19-6571-4A9F-8722-2D7240D425D1}</Project>
