@@ -5,8 +5,12 @@ using System.Reactive.Linq;
 using System.Xml.Linq;
 using Codeplex.Reactive;
 using Codeplex.Reactive.Notifiers;
-using Codeplex.Reactive.Asynchronous; // namespace for Asynchronous Extension Methods
-using Codeplex.Reactive.Extensions;   // namespace for Extensions(OnErroRetry etc...)
+using Codeplex.Reactive.Extensions;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using System.Text;
+using System.IO;   // namespace for Extensions(OnErroRetry etc...)
 
 namespace WPF.ViewModels
 {
@@ -23,7 +27,7 @@ namespace WPF.ViewModels
             // Notifier of network connecitng status/count
             var connect = new CountNotifier();
             // Notifier of network progress report
-            var progress = new ScheduledNotifier<DownloadProgressChangedEventArgs>();
+            var progress = new ScheduledNotifier<Tuple<long, long>>(); // current, total
 
             // skip initialValue on subscribe
             SearchTerm = new ReactiveProperty<string>(mode: ReactivePropertyMode.DistinctUntilChanged);
@@ -32,14 +36,15 @@ namespace WPF.ViewModels
             // if network error, use OnErroRetry
             // that catch exception and do action and resubscript.
             SearchResults = SearchTerm
-                .Select(term =>
+                .Select(async term =>
                 {
-                    connect.Increment(); // network open
-                    return WikipediaModel.SearchTermAsync(term, progress)
-                        .Finally(() => connect.Decrement()); // network close
+                    using (connect.Increment()) // network open
+                    {
+                        return await WikipediaModel.SearchTermAsync(term, progress);
+                    }
                 })
                 .Switch() // flatten
-                .OnErrorRetry((WebException ex) => ProgressStatus.Value = "error occured")
+                .OnErrorRetry((HttpRequestException ex) => ProgressStatus.Value = "error occured")
                 .ToReactiveProperty();
 
             // CountChangedStatus : Increment(network open), Decrement(network close), Empty(all complete)
@@ -48,7 +53,7 @@ namespace WPF.ViewModels
                 .ToReactiveProperty();
 
             ProgressStatus = progress
-                .Select(x => string.Format("{0}/{1} {2}%", x.BytesReceived, x.TotalBytesToReceive, x.ProgressPercentage))
+                .Select(x => string.Format("{0}/{1} {2}%", x.Item1, x.Item2, ((double)x.Item1 / x.Item2) * 100))
                 .ToReactiveProperty();
         }
     }
@@ -68,14 +73,26 @@ namespace WPF.ViewModels
             Description = (string)item.Element(ns + "Description");
         }
 
-        // ***ObservableAsync Extensions Methods for WebClient
-        // others, WebRequest/WebResponse/Stream Extensio Methods exists.
-        public static IObservable<WikipediaModel[]> SearchTermAsync(string term, IProgress<DownloadProgressChangedEventArgs> progress)
+        public static async Task<WikipediaModel[]> SearchTermAsync(string term, IProgress<Tuple<long, long>> progress)
         {
-            var clinet = new WebClient();
-            clinet.Headers[HttpRequestHeader.UserAgent] = "ReactiveProperty Sample";
-            return clinet.DownloadStringObservableAsync(new Uri(string.Format(ApiFormat, term)), progress)
-                .Select(Parse);
+            var client = new HttpClient();
+            client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("ReactivePropertySample", "1.0"));
+            var r = await client.GetAsync(new Uri(string.Format(ApiFormat, term)));
+            var length = r.Content.Headers.ContentLength ?? -1L;
+            var buffer = new byte[1024]; // 1KB
+            var stream = await r.Content.ReadAsStreamAsync();
+            var memory = new MemoryStream();
+
+            int size = 0;
+            while ((size = await stream.ReadAsync(buffer, 0, buffer.Length)) != 0)
+            {
+                await memory.WriteAsync(buffer, 0, size);
+                progress.Report(Tuple.Create(memory.Length, length));
+                // if you want to see progress this line uncomment.
+                // await Task.Delay(100); 
+            }
+
+            return Parse(Encoding.UTF8.GetString(memory.ToArray()));
         }
 
         static WikipediaModel[] Parse(string rawXmlText)

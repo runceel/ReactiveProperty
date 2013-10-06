@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>ChainingAssertion</id>
+    <version>1.5.0.0</version>
+    <title>Chaining Assertion for MSTest</title>
+    <authors>neuecc</authors>
+    <owners>neuecc</owners>
+    <licenseUrl>http://chainingassertion.codeplex.com/license</licenseUrl>
+    <projectUrl>http://chainingassertion.codeplex.com/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Method Chaining base UnitTesting Extension Methods and Dynamic Private Accessor for MSTest. This provides only single .cs file.</description>
+    <summary>Method Chaining base UnitTesting Extension Methods and Dynamic Private Accessor for MSTest. This provides only single .cs file.</summary>
+    <tags>test unittest mstest</tags>
+  </metadata>
+</package>

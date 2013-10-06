@@ -91,12 +91,6 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Source\NET40\ReactiveProperty.csproj">
-      <Project>{1FA4492A-829D-4CD6-86E0-D224AB19377E}</Project>
-      <Name>ReactiveProperty</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4 %28x86 および x64%29</ProductName>

@@ -30,12 +30,12 @@ namespace WPF.ViewModels
             // IDataErrorInfo, call SetValidateError and set validate condition
             // null is success(have no error), string is error message
             ValidationData = new ReactiveProperty<string>()
-                .SetValidateError(s => s.All(Char.IsUpper) ? null : "not all uppercase");
+                .SetValidateNotifyError(s => string.IsNullOrEmpty(s) ? null : s.All(Char.IsUpper) ? null : "not all uppercase");
 
             // Can set both validation
             ValidationBoth = new ReactiveProperty<string>()
                 .SetValidateAttribute(() => ValidationBoth)
-                .SetValidateError(s => s.All(Char.IsLower) ? null : "not all lowercase");
+                .SetValidateNotifyError(s => string.IsNullOrEmpty(s) ? null : s.All(Char.IsLower) ? null : "not all lowercase");
 
             // Validation result is pushed to ObserveErrorChanged
             var errors = Observable.Merge(

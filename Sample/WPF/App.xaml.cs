@@ -11,6 +11,10 @@ namespace WPF
     {
         public App()
         {
+        }
+
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
             // Initialize UIDispatcherScheduler
             Codeplex.Reactive.UIDispatcherScheduler.Initialize();
         }
