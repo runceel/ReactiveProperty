@@ -1,7 +1,7 @@
 ﻿<Window x:Class="WPF.Views.Serialization"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="clr-namespace:WPF.ViewModels"
+        xmlns:vm="clr-namespace:Sample.ViewModels;assembly=Sample.ViewModels"
         Title="Serialization" Height="500" Width="500">
     <Window.DataContext>
         <vm:SerializationViewModel />
