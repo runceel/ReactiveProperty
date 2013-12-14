@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows;
-#if WINRT
+#if NETFX_CORE
 using Windows.UI.Xaml;
 #else
 using System.Windows.Interactivity;
