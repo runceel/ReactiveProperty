@@ -9,3 +9,5 @@ Bin/*
 release/*
 Binary/System.*
 TestResults*
+syntax: glob
+BuildTools/*.nupkg
