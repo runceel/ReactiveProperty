@@ -1,8 +1,8 @@
 ﻿/*--------------------------------------------------------------------------
  * ReactiveProperty
- * ver 0.3.2.0 (Nov. 25th, 2011)
+ * ver 0.4.0.0 (Dec. 15th, 2013)
  *
- * created and maintained by neuecc <ils@neue.cc - @neuecc/Twitter>
+ * created and maintained by neuecc <ils@neue.cc - @neuecc/Twitter>, xin9le<@xin9le/Twitter>, okazuki<@okazuki/Twitter>
  * licensed under Microsoft Public License(Ms-PL)
  * http://reactiveproperty.codeplex.com/
  *--------------------------------------------------------------------------*/
@@ -24,35 +24,25 @@ ReactiveProperty no provides ViewModelBase, Messenger, etc.
 I recommend that use MVVM Framework together.
 
 ---Bin/Assembly---
-
-Rx_Stable/Rx_Experimental
-|-NET40 - .NET 4.0 Client Profile
-|-SL4 - Silverlight 4
-|-SL5 - Silverlight 5
-|-WP7.Rx-Main - Windows Phone 7.1
-
-WP7
-|- Windows Phone 7.1(no requires Rx-Main. This depends Microsoft.Phone.Reactive)
+Rx-Main
+|-net45 - .NET 4.5, .NET 4.5.1
+|-netcore451 - Windows store app(Windows 8.1)
+|-portable-net45+win81 - Portable Class Library .NET 4.5, .NET 4.5.1, Windows store app(Windows 8.1)
+|-portable-net45+wp8-win81 - Portable Class Library .NET 4.5, .NET 4.5.1, Windows Phone 8, Windows store app(Windows 8.1)
+|-wp8 - Windows Phone 8
 
 ---Dependency---
 
 Currently target Rx version is
-Build 1.0.10621(Stable, Rx-Main on NuGet),
-Build 1.1.11111(Experimental, Rx_Experimental-Main on NuGet)
-or WP7(Microsoft.Phone.Reactive)
-Codeplex.Reactive.Interactivity namespace and under classes,
-depends System.Windows.Interactivity(Blend SDK)
+Build Rx-Main 2.2.0 on NuGet.
+ReactiveProperty.Platform.* depends
+Unofficial.Blend.Interactivity 1.0.0 on NuGet(WP8, .NET 4.5),
+Behaviors SDK (XAML)(Windows store app(Windows 8.1)).
 
 ---NuGet Installation---
 
-Install-Package ReactiveProperty
--> NET40, SL4, SL5, WP7.Rx-Main | dependencies Rx-Main
-
-Install-Package ReactiveProperty-Experimental
--> NET40, SL4, SL5, WP7.Rx-Main | dependencies Rx_Experimental-Main
-
-Install-Package ReactiveProperty-WP7
--> WP7(Microsoft.Phone.Reactive)
+Install-Package ReactiveProperty-PCL
+-> NET45, WP8, WinRT8.1 | dependencies Rx-Main, Unofficial.Blend.Interactivity
 
 ---Snippet---
 
@@ -77,9 +67,6 @@ Codeplex.Reactive
 -> ReactiveTimer - Schedulable and hot(stoppable/continuable) timer.
 -> UIDispatcherScheduler - Schedule on UIDispatcher, if access same thread schedule immediately.
 
-Codeplex.Reactive.Asynchronous
--> Extension Methods for asynchronous operation(WebClient, WebRequest, WebResponse, Stream)
-
 Codeplex.Reactive.Extensions
 -> Extension Methods for interface(IObservble<T>, INotifyPropertyChanged, etc...)
 
@@ -98,12 +85,10 @@ Standard usage and all API references details, see project home.
 
 ---Source Info---
 
-Solution file is for Visual Studio 2010.
+Solution file is for Visual Studio 2013.
 Version control under Mercurial.
 External library reference under NuGet.
-Using Code Contracts(except WP7) binary rewrite.
-Unit test using MSTest and mock library is Moles.
-Auto generate unit test using Pex.
+Unit test using MSTest and mock library is Fakes.
 Assert helper using ChainingAssertion http://chainingassertion.codeplex.com/
 
 ---Special Thanks---
@@ -111,6 +96,12 @@ Assert helper using ChainingAssertion http://chainingassertion.codeplex.com/
 Icon design by @ocazuco.
 
 ---History---
+
+2013-12-15 ver 0.4.0.0 preview
+	Change
+		Portable Class Library(Supported platform .NET45, WP8, Windows store app(Windows 8.1)).
+	Remove
+		Codeplex.Reactive.Asynchronous.
 
 2011-11-25 ver 0.3.2.0
     Add

@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>ReactiveProperty</id>
-    <version>0.4.0</version>
+    <version>0.4.0.0</version>
     <title>ReactiveProperty Portable</title>
     <authors>neuecc xin9le okazuki</authors>
     <owners>neuecc xin9le okazuki</owners>
@@ -10,13 +10,14 @@
     <projectUrl>http://reactiveproperty.codeplex.com/</projectUrl>
     <iconUrl>http://neue.cc/ReactivePropertyIcon_100x100.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>ReactiveProperty is MVVM and Asynchronous Extensions for Reactive Extensions. Target is .NET 4.5, WP8, Windows store apps(Win8).</description>
+    <description>ReactiveProperty is MVVM and Asynchronous Extensions for Reactive Extensions. Target is .NET 4.5, WP8, Windows store apps(Win8.1).</description>
     <summary />
     <language>en-US</language>
     <tags>rx mvvm async</tags>
     <dependencies>
       <group>
         <dependency id="Rx-Main" version="2.2.2" />
+        <dependency id="Microsoft.Bcl.Async" version="1.0.165" />
       </group>
       <group targetFramework=".NETFramework4.5">
         <dependency id="Unofficial.Blend.Interactivity" version="1.0.0" />
@@ -37,15 +38,36 @@
     </frameworkAssemblies>
   </metadata>
   <files>
-    <file src="..\Binary\NET45\ReactiveProperty.NET45.dll" target="lib\net45\ReactiveProperty.NET45.dll" />
-    <file src="..\Binary\NET45\ReactiveProperty.NET45.XML" target="lib\net45\ReactiveProperty.NET45.XML" />
-    <file src="..\Binary\WinRT\ReactiveProperty.WinRT.dll" target="lib\netcore451\ReactiveProperty.WinRT.dll" />
-    <file src="..\Binary\WinRT\ReactiveProperty.WinRT.XML" target="lib\netcore451\ReactiveProperty.WinRT.XML" />
-    <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.dll" target="lib\portable-net45+win81\ReactiveProperty.DataAnnotations.dll" />
-    <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.XML" target="lib\portable-net45+win81\ReactiveProperty.DataAnnotations.XML" />
-    <file src="..\Binary\PCL\ReactiveProperty.dll" target="lib\portable-net45+wp8+win81\ReactiveProperty.dll" />
-    <file src="..\Binary\PCL\ReactiveProperty.XML" target="lib\portable-net45+wp8+win81\ReactiveProperty.XML" />
-    <file src="..\Binary\WP8\ReactiveProperty.WP8.dll" target="lib\wp8\ReactiveProperty.WP8.dll" />
-    <file src="..\Binary\WP8\ReactiveProperty.WP8.XML" target="lib\wp8\ReactiveProperty.WP8.XML" />
+    <file src="..\Snippet\*.snippet" target="Snippet\" />
+    <file src="..\Docs\ReadMe.txt" target="Docs\" />
+    
+    <file src="..\Binary\NET45\ReactiveProperty.NET45.dll" target="lib\net45" />
+    <file src="..\Binary\NET45\ReactiveProperty.NET45.XML" target="lib\net45" />
+    <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.dll" target="lib\net45" />
+    <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.XML" target="lib\net45" />
+    <file src="..\Binary\PCL\ReactiveProperty.dll" target="lib\net45" />
+    <file src="..\Binary\PCL\ReactiveProperty.XML" target="lib\net45" />
+    
+    <file src="..\Binary\WinRT\ReactiveProperty.WinRT.dll" target="lib\netcore451" />
+    <file src="..\Binary\WinRT\ReactiveProperty.WinRT.XML" target="lib\netcore451" />
+    <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.dll" target="lib\netcore451" />
+    <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.XML" target="lib\netcore451" />
+    <file src="..\Binary\PCL\ReactiveProperty.dll" target="lib\netcore451" />
+    <file src="..\Binary\PCL\ReactiveProperty.XML" target="lib\netcore451" />
+    
+    <file src="..\Binary\WP8\ReactiveProperty.WP8.dll" target="lib\wp8" />
+    <file src="..\Binary\WP8\ReactiveProperty.WP8.XML" target="lib\wp8" />
+    <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.dll" target="lib\wp8" />
+    <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.XML" target="lib\wp8" />
+    <file src="..\Binary\PCL\ReactiveProperty.dll" target="lib\wp8" />
+    <file src="..\Binary\PCL\ReactiveProperty.XML" target="lib\wp8" />
+  
+    <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.dll" target="lib\portable-net45+win8" />
+    <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.XML" target="lib\portable-net45+win8" />
+    <file src="..\Binary\PCL\ReactiveProperty.dll" target="lib\portable-net45+win8" />
+    <file src="..\Binary\PCL\ReactiveProperty.XML" target="lib\portable-net45+win8" />
+
+    <file src="..\Binary\PCL\ReactiveProperty.dll" target="lib\portable-net45+wp8+win8" />
+    <file src="..\Binary\PCL\ReactiveProperty.XML" target="lib\portable-net45+wp8+win8" />
   </files>
 </package>
