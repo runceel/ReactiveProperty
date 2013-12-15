@@ -185,9 +185,9 @@ Global
 		{3C18CC28-8A46-4697-AA6F-63AB7624B77F}.Release|ARM.ActiveCfg = Release|ARM
 		{3C18CC28-8A46-4697-AA6F-63AB7624B77F}.Release|ARM.Build.0 = Release|ARM
 		{3C18CC28-8A46-4697-AA6F-63AB7624B77F}.Release|ARM.Deploy.0 = Release|ARM
-		{3C18CC28-8A46-4697-AA6F-63AB7624B77F}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{3C18CC28-8A46-4697-AA6F-63AB7624B77F}.Release|Mixed Platforms.Build.0 = Release|x86
-		{3C18CC28-8A46-4697-AA6F-63AB7624B77F}.Release|Mixed Platforms.Deploy.0 = Release|x86
+		{3C18CC28-8A46-4697-AA6F-63AB7624B77F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{3C18CC28-8A46-4697-AA6F-63AB7624B77F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{3C18CC28-8A46-4697-AA6F-63AB7624B77F}.Release|Mixed Platforms.Deploy.0 = Release|Any CPU
 		{3C18CC28-8A46-4697-AA6F-63AB7624B77F}.Release|x64.ActiveCfg = Release|Any CPU
 		{3C18CC28-8A46-4697-AA6F-63AB7624B77F}.Release|x86.ActiveCfg = Release|x86
 		{3C18CC28-8A46-4697-AA6F-63AB7624B77F}.Release|x86.Build.0 = Release|x86
@@ -205,8 +205,8 @@ Global
 		{D534328B-496E-4F76-ACB1-2EB29BA990CF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D534328B-496E-4F76-ACB1-2EB29BA990CF}.Release|ARM.ActiveCfg = Release|ARM
 		{D534328B-496E-4F76-ACB1-2EB29BA990CF}.Release|ARM.Build.0 = Release|ARM
-		{D534328B-496E-4F76-ACB1-2EB29BA990CF}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{D534328B-496E-4F76-ACB1-2EB29BA990CF}.Release|Mixed Platforms.Build.0 = Release|x86
+		{D534328B-496E-4F76-ACB1-2EB29BA990CF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{D534328B-496E-4F76-ACB1-2EB29BA990CF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{D534328B-496E-4F76-ACB1-2EB29BA990CF}.Release|x64.ActiveCfg = Release|Any CPU
 		{D534328B-496E-4F76-ACB1-2EB29BA990CF}.Release|x86.ActiveCfg = Release|x86
 		{D534328B-496E-4F76-ACB1-2EB29BA990CF}.Release|x86.Build.0 = Release|x86
@@ -224,8 +224,8 @@ Global
 		{6DE1AF3C-394A-47D2-B869-1BC6DB8CF000}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6DE1AF3C-394A-47D2-B869-1BC6DB8CF000}.Release|ARM.ActiveCfg = Release|ARM
 		{6DE1AF3C-394A-47D2-B869-1BC6DB8CF000}.Release|ARM.Build.0 = Release|ARM
-		{6DE1AF3C-394A-47D2-B869-1BC6DB8CF000}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{6DE1AF3C-394A-47D2-B869-1BC6DB8CF000}.Release|Mixed Platforms.Build.0 = Release|x86
+		{6DE1AF3C-394A-47D2-B869-1BC6DB8CF000}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{6DE1AF3C-394A-47D2-B869-1BC6DB8CF000}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{6DE1AF3C-394A-47D2-B869-1BC6DB8CF000}.Release|x64.ActiveCfg = Release|x64
 		{6DE1AF3C-394A-47D2-B869-1BC6DB8CF000}.Release|x64.Build.0 = Release|x64
 		{6DE1AF3C-394A-47D2-B869-1BC6DB8CF000}.Release|x86.ActiveCfg = Release|x86
@@ -279,9 +279,9 @@ Global
 		{EA3C1DA6-60F4-4937-B947-3DD9F822DD4E}.Release|ARM.ActiveCfg = Release|ARM
 		{EA3C1DA6-60F4-4937-B947-3DD9F822DD4E}.Release|ARM.Build.0 = Release|ARM
 		{EA3C1DA6-60F4-4937-B947-3DD9F822DD4E}.Release|ARM.Deploy.0 = Release|ARM
-		{EA3C1DA6-60F4-4937-B947-3DD9F822DD4E}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{EA3C1DA6-60F4-4937-B947-3DD9F822DD4E}.Release|Mixed Platforms.Build.0 = Release|x86
-		{EA3C1DA6-60F4-4937-B947-3DD9F822DD4E}.Release|Mixed Platforms.Deploy.0 = Release|x86
+		{EA3C1DA6-60F4-4937-B947-3DD9F822DD4E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{EA3C1DA6-60F4-4937-B947-3DD9F822DD4E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{EA3C1DA6-60F4-4937-B947-3DD9F822DD4E}.Release|Mixed Platforms.Deploy.0 = Release|Any CPU
 		{EA3C1DA6-60F4-4937-B947-3DD9F822DD4E}.Release|x64.ActiveCfg = Release|x64
 		{EA3C1DA6-60F4-4937-B947-3DD9F822DD4E}.Release|x64.Build.0 = Release|x64
 		{EA3C1DA6-60F4-4937-B947-3DD9F822DD4E}.Release|x64.Deploy.0 = Release|x64
@@ -322,8 +322,8 @@ Global
 		{76FA0E23-EDE4-481D-9DAE-ABD955E15FC5} = {6356D836-36AA-4CD9-8EB2-BF037115D329}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		BuildVersion_UseGlobalSettings = True
 		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
+		BuildVersion_UseGlobalSettings = True
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = ReactiveProperty.vsmdi
