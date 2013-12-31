@@ -1,1 +1,1 @@
-nuget pack ReactiveProperty-PCL.nuspec
+nuget pack ReactiveProperty.nuspec

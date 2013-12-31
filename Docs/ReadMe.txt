@@ -95,7 +95,7 @@ Assert helper using ChainingAssertion http://chainingassertion.codeplex.com/
 Icon design by @ocazuco.
 
 ---History---
-2014-XX-XX ver 0.4.0.rc2
+2014-01-01 ver 0.4.0.1
 	Change
 		ReactiveProperty not implements IDataErrorInfo.
 		UIDispatcherHelper's infrastructure changed Dispatcher to SynchronizationContext.
