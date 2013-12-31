@@ -118,13 +118,9 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Asynchronous\StreamExtensionsTest.Ignore.cs" />
-    <Compile Include="Asynchronous\ProgressStatusTest.Ignore.cs" />
-    <Compile Include="Asynchronous\WebClientExtensionsTest.Ignore.cs" />
     <Compile Include="ChainingAssertion.MSTest.cs" />
     <Compile Include="Extensions\CombineLatestEnumerableExtensionsTest.cs" />
     <Compile Include="Extensions\INotifyPropertyChangedExtensionsTest.cs" />
-    <Compile Include="Extensions\INotifyPropertyChangingExtensionsTest.Ignore.cs" />
     <Compile Include="Extensions\OldNewPairTest.cs" />
     <Compile Include="Extensions\PairwiseTest.cs" />
     <Compile Include="Extensions\RetryObservableExtensionsTest.cs" />
@@ -136,7 +132,6 @@
     <Compile Include="Notifiers\CountNotifierTest.cs" />
     <Compile Include="ReactiveCommandTest.cs" />
     <Compile Include="Helpers\SerializeHelperTest.cs" />
-    <Compile Include="ReactivePropertyTest.Validation.Ignore.cs" />
     <Compile Include="ReactiveTimerTest.cs" />
     <Compile Include="ReactivePropertyTest.Static.cs" />
   </ItemGroup>
