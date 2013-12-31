@@ -11,3 +11,4 @@ Binary/System.*
 TestResults*
 syntax: glob
 BuildTools/*.nupkg
+Binary/*
