@@ -39,7 +39,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildTools", "BuildTools", 
 		BuildTools\NuGet.exe = BuildTools\NuGet.exe
 		BuildTools\pack.bat = BuildTools\pack.bat
 		BuildTools\push.bat = BuildTools\push.bat
-		BuildTools\ReactiveProperty-PCL.nuspec = BuildTools\ReactiveProperty-PCL.nuspec
+		BuildTools\ReactiveProperty.nuspec = BuildTools\ReactiveProperty.nuspec
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPF", "Sample\WPF\WPF.csproj", "{5894EB9D-270B-41E4-B57A-4F3A48062D20}"
@@ -322,8 +322,8 @@ Global
 		{76FA0E23-EDE4-481D-9DAE-ABD955E15FC5} = {6356D836-36AA-4CD9-8EB2-BF037115D329}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
 		BuildVersion_UseGlobalSettings = True
+		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = ReactiveProperty.vsmdi

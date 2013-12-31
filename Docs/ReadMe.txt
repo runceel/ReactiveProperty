@@ -13,7 +13,6 @@ ReactiveProperty is MVVM and Asynchronous Extensions for Reactive Extensions.
 
 * ReactiveProperty - Two-way bindable IObservable, from V to VM and VM to V
 * ReactiveCommand - Convert observable condition sequence to ICommand
-* Easy to use asynchronous extension for WebClient/WebRequest/WebResponse/Stream
 * Typesafe convert INotifyPropertyChanged to ReactiveProperty
 * Event to ReactiveProperty Blend behavior
 * There means V -> VM -> M -> VM -> V completely connected in Reactive.
@@ -96,8 +95,17 @@ Assert helper using ChainingAssertion http://chainingassertion.codeplex.com/
 Icon design by @ocazuco.
 
 ---History---
+2014-XX-XX ver 0.4.0.rc2
+	Change
+		ReactiveProperty not implements IDataErrorInfo.
+		UIDispatcherHelper's infrastructure changed Dispatcher to SynchronizationContext.
+	Remove
+		ReactiveProperty.ForceValidate method.
+		ReactiveProperty.Error property.
+		ReactiveProperty.SetValidateError method.
+		ObservePropertyChanging method.
 
-2013-12-15 ver 0.4.0.0 preview
+2013-12-15 ver 0.4.0.rc1 preview
 	Change
 		Portable Class Library(Supported platform .NET45, WP8, Windows store app(Windows 8.1)).
 	Remove

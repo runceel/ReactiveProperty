@@ -15,8 +15,8 @@ namespace Codeplex.Reactive
     /// </summary>
     public static class UIDispatcherScheduler
     {
-        private static readonly SynchronizationContextScheduler defaultScheduler = new SynchronizationContextScheduler(
-            SynchronizationContext.Current);
+        private static readonly Lazy<SynchronizationContextScheduler> defaultScheduler =
+            new Lazy<SynchronizationContextScheduler>(() => new SynchronizationContextScheduler(SynchronizationContext.Current));
 
         /// <summary>
         /// <para>If call Schedule on UIThread then schedule immediately else dispatch BeginInvoke.</para>
@@ -25,7 +25,10 @@ namespace Codeplex.Reactive
         /// </summary>
         public static IScheduler Default
         {
-            get { return defaultScheduler; }
+            get 
+            {
+                return defaultScheduler.Value; 
+            }
         }
 
         /// <summary>
@@ -33,7 +36,7 @@ namespace Codeplex.Reactive
         /// </summary>
         public static void Initialize()
         {
-            var _ = defaultScheduler; // initialize
+            var _ = defaultScheduler.Value;
         }
 
     }

@@ -45,6 +45,11 @@ namespace Codeplex.Reactive.Notifiers
         /// </summary>
         public CountNotifier(int max = int.MaxValue)
         {
+            if (max <= 0)
+            {
+                throw new ArgumentException("max");
+            }
+
             this.max = max;
         }
 
@@ -53,6 +58,11 @@ namespace Codeplex.Reactive.Notifiers
         /// </summary>
         public IDisposable Increment(int incrementCount = 1)
         {
+            if (incrementCount < 0)
+            {
+                throw new ArgumentException("incrementCount");
+            }
+
             lock (lockObject)
             {
                 if (Count == Max) return Disposable.Empty;
@@ -71,6 +81,11 @@ namespace Codeplex.Reactive.Notifiers
         /// </summary>
         public void Decrement(int decrementCount = 1)
         {
+            if (decrementCount < 0)
+            {
+                throw new ArgumentException("decrementCount");
+            }
+
             lock (lockObject)
             {
                 if (Count == 0) return;

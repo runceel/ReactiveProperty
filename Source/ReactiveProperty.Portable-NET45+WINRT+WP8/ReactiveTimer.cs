@@ -32,8 +32,6 @@ namespace Codeplex.Reactive
         /// <summary>Operate scheduler is argument's scheduler.</summary>
         public ReactiveTimer(TimeSpan interval, IScheduler scheduler)
         {
-            Contract.Requires<ArgumentNullException>(scheduler != null);
-
             Interval = interval;
             this.scheduler = scheduler;
         }

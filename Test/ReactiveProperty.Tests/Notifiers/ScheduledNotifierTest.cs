@@ -107,9 +107,8 @@ namespace ReactiveProperty.Tests
         [TestMethod]
         public void Subscribe()
         {
-            var e = AssertEx.Catch<Exception>(() =>
+            var e = AssertEx.Throws<ArgumentNullException>(() =>
                 new ScheduledNotifier<int>().Subscribe(null));
-            e.GetType().Name.Is("ContractException");
         }
     }
 }

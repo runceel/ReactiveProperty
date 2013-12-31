@@ -32,6 +32,11 @@ namespace Codeplex.Reactive.Notifiers
         /// </summary>
         public ScheduledNotifier(IScheduler scheduler)
         {
+            if (scheduler == null)
+            {
+                throw new ArgumentNullException("scheduler");
+            }
+
             this.scheduler = scheduler;
         }
 
@@ -66,6 +71,11 @@ namespace Codeplex.Reactive.Notifiers
         /// </summary>
         public IDisposable Subscribe(IObserver<T> observer)
         {
+            if (observer == null)
+            {
+                throw new ArgumentNullException("observer");
+            }
+
             return trigger.Subscribe(observer);
         }
     }

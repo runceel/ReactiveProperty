@@ -1,6 +1,6 @@
 ﻿/*--------------------------------------------------------------------------
- * Chaining Assertion for MSTest
- * ver 1.6.1.0 (Oct. 24th, 2011)
+ * Chaining Assertion
+ * ver 1.7.1.0 (Apr. 29th, 2013)
  *
  * created and maintained by neuecc <ils@neue.cc - @neuecc on Twitter>
  * licensed under Microsoft Public License(Ms-PL)
@@ -26,8 +26,8 @@
  * 
  * var array = new[] { 1, 3, 7, 8 };
  * array.Count().Is(4);
- * array.Contains(8).Is(true);
- * array.All(i => i < 5).Is(false);
+ * array.Contains(8).IsTrue(); // IsTrue() == Is(true)
+ * array.All(i => i < 5).IsFalse(); // IsFalse() == Is(false)
  * array.Any().Is(true);
  * new int[] { }.Any().Is(false);   // IsEmpty
  * array.OrderBy(x => x).Is(array); // IsOrdered
@@ -63,6 +63,22 @@
  *
  * // or you can use Linq to Objects - SequenceEqual
  * lower.SequenceEqual(upper, StringComparer.InvariantCultureIgnoreCase).Is(true);
+ * 
+ * | StructuralEqual
+ * 
+ * class MyClass
+ * {
+ *     public int IntProp { get; set; }
+ *     public string StrField;
+ * }
+ * 
+ * var mc1 = new MyClass() { IntProp = 10, StrField = "foo" };
+ * var mc2 = new MyClass() { IntProp = 10, StrField = "foo" };
+ * 
+ * mc1.IsStructuralEqual(mc2); // deep recursive value equality compare
+ * 
+ * mc1.IntProp = 20;
+ * mc1.IsNotStructuralEqual(mc2);
  * 
  * | DynamicAccessor
  * 
@@ -168,16 +184,17 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Dynamic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Diagnostics.Contracts;
 
 namespace Microsoft.VisualStudio.TestTools.UnitTesting
 {
     #region Extensions
 
+    [System.Diagnostics.DebuggerStepThroughAttribute]
     [ContractVerification(false)]
     public static partial class AssertEx
     {
@@ -291,6 +308,18 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting
             Assert.IsNotNull(value, message);
         }
 
+        /// <summary>Is(true)</summary>
+        public static void IsTrue(this bool value, string message = "")
+        {
+            value.Is(true, message);
+        }
+
+        /// <summary>Is(false)</summary>
+        public static void IsFalse(this bool value, string message = "")
+        {
+            value.Is(false, message);
+        }
+
         /// <summary>Assert.AreSame</summary>
         public static void IsSameReferenceAs<T>(this T actual, T expected, string message = "")
         {
@@ -304,9 +333,10 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting
         }
 
         /// <summary>Assert.IsInstanceOfType</summary>
-        public static void IsInstanceOf<TExpected>(this object value, string message = "")
+        public static TExpected IsInstanceOf<TExpected>(this object value, string message = "")
         {
             Assert.IsInstanceOfType(value, typeof(TExpected), message);
+            return (TExpected)value;
         }
 
         /// <summary>Assert.IsNotInstanceOfType</summary>
@@ -439,6 +469,154 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting
                 throw new ArgumentException(string.Format("\"{0}\" not found : Type <{1}>", name, typeof(T).Name));
             }
         }
+
+        #region StructuralEqual
+
+        /// <summary>Assert by deep recursive value equality compare</summary>
+        public static void IsStructuralEqual(this object actual, object expected, string message = "")
+        {
+            message = (string.IsNullOrEmpty(message) ? "" : ", " + message);
+            if (object.ReferenceEquals(actual, expected)) return;
+
+            if (actual == null) throw new AssertFailedException("actual is null" + message);
+            if (expected == null) throw new AssertFailedException("actual is not null" + message);
+            if (actual.GetType() != expected.GetType())
+            {
+                var msg = string.Format("expected type is {0} but actual type is {1}{2}",
+                    expected.GetType().Name, actual.GetType().Name, message);
+                throw new AssertFailedException(msg);
+            }
+
+            var r = StructuralEqual(actual, expected, new[] { actual.GetType().Name }); // root type
+            if (!r.IsEquals)
+            {
+                var msg = string.Format("is not structural equal, failed at {0}, actual = {1} expected = {2}{3}",
+                    string.Join(".", r.Names), r.Left, r.Right, message);
+                throw new AssertFailedException(msg);
+            }
+        }
+
+        /// <summary>Assert by deep recursive value equality compare</summary>
+        public static void IsNotStructuralEqual(this object actual, object expected, string message = "")
+        {
+            message = (string.IsNullOrEmpty(message) ? "" : ", " + message);
+            if (object.ReferenceEquals(actual, expected)) throw new AssertFailedException("actual is same reference" + message); ;
+
+            if (actual == null) return;
+            if (expected == null) return;
+            if (actual.GetType() != expected.GetType())
+            {
+                return;
+            }
+
+            var r = StructuralEqual(actual, expected, new[] { actual.GetType().Name }); // root type
+            if (r.IsEquals)
+            {
+                throw new AssertFailedException("is structural equal" + message);
+            }
+        }
+
+        static EqualInfo SequenceEqual(IEnumerable leftEnumerable, IEnumerable rightEnumarable, IEnumerable<string> names)
+        {
+            var le = leftEnumerable.GetEnumerator();
+            using (le as IDisposable)
+            {
+                var re = rightEnumarable.GetEnumerator();
+
+                using (re as IDisposable)
+                {
+                    var index = 0;
+                    while (true)
+                    {
+                        object lValue = null;
+                        object rValue = null;
+                        var lMove = le.MoveNext();
+                        var rMove = re.MoveNext();
+                        if (lMove) lValue = le.Current;
+                        if (rMove) rValue = re.Current;
+
+                        if (lMove && rMove)
+                        {
+                            var result = StructuralEqual(lValue, rValue, names.Concat(new[] { "[" + index + "]" }));
+                            if (!result.IsEquals)
+                            {
+                                return result;
+                            }
+                        }
+
+                        if ((lMove == true && rMove == false) || (lMove == false && rMove == true))
+                        {
+                            return new EqualInfo { IsEquals = false, Left = lValue, Right = rValue, Names = names.Concat(new[] { "[" + index + "]" }) };
+                        }
+                        if (lMove == false && rMove == false) break;
+                        index++;
+                    }
+                }
+            }
+            return new EqualInfo { IsEquals = true, Left = leftEnumerable, Right = rightEnumarable, Names = names };
+        }
+
+        static EqualInfo StructuralEqual(object left, object right, IEnumerable<string> names)
+        {
+            // type and basic checks
+            if (object.ReferenceEquals(left, right)) return new EqualInfo { IsEquals = true, Left = left, Right = right, Names = names };
+            if (left == null || right == null) return new EqualInfo { IsEquals = false, Left = left, Right = right, Names = names };
+            var lType = left.GetType();
+            var rType = right.GetType();
+            if (lType != rType) return new EqualInfo { IsEquals = false, Left = left, Right = right, Names = names };
+
+            var type = left.GetType();
+
+            // not object(int, string, etc...)
+            if (Type.GetTypeCode(type) != TypeCode.Object)
+            {
+                return new EqualInfo { IsEquals = left.Equals(right), Left = left, Right = right, Names = names };
+            }
+
+            // is sequence
+            if (typeof(IEnumerable).IsAssignableFrom(type))
+            {
+                return SequenceEqual((IEnumerable)left, (IEnumerable)right, names);
+            }
+
+            // IEquatable<T>
+            var equatable = typeof(IEquatable<>).MakeGenericType(type);
+            if (equatable.IsAssignableFrom(type))
+            {
+                var result = (bool)equatable.GetMethod("Equals").Invoke(left, new[] { right });
+                return new EqualInfo { IsEquals = result, Left = left, Right = right, Names = names };
+            }
+
+            // is object
+            var fields = left.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public);
+            var properties = left.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(x => x.GetGetMethod(false) != null);
+            var members = fields.Cast<MemberInfo>().Concat(properties);
+
+            foreach (dynamic mi in fields.Cast<MemberInfo>().Concat(properties))
+            {
+                var concatNames = names.Concat(new[] { (string)mi.Name });
+
+                object lv = mi.GetValue(left);
+                object rv = mi.GetValue(right);
+                var result = StructuralEqual(lv, rv, concatNames);
+                if (!result.IsEquals)
+                {
+                    return result;
+                }
+            }
+
+            return new EqualInfo { IsEquals = true, Left = left, Right = right, Names = names };
+        }
+
+        private class EqualInfo
+        {
+            public object Left;
+            public object Right;
+            public bool IsEquals;
+            public IEnumerable<string> Names;
+        }
+
+        #endregion
 
         #region DynamicAccessor
 
