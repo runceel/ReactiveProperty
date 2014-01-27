@@ -124,6 +124,7 @@
     <Compile Include="Extensions\OldNewPairTest.cs" />
     <Compile Include="Extensions\PairwiseTest.cs" />
     <Compile Include="Extensions\RetryObservableExtensionsTest.cs" />
+    <Compile Include="Extensions\AccessorCacheTest.cs" />
     <Compile Include="Init.cs" />
     <Compile Include="Interactivity\EventToReactiveTest.cs" />
     <Compile Include="Notifiers\ScheduledNotifierTest.cs" />

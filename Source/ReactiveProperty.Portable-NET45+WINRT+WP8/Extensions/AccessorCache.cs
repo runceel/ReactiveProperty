@@ -8,8 +8,8 @@ namespace Codeplex.Reactive.Extensions
 {
     internal static class AccessorCache<TType>
     {
-        static Dictionary<string, Delegate> getCache = new Dictionary<string, Delegate>();
-        static Dictionary<string, Delegate> setCache = new Dictionary<string, Delegate>();
+        private static readonly Dictionary<string, Delegate> getCache = new Dictionary<string, Delegate>();
+        private static readonly Dictionary<string, Delegate> setCache = new Dictionary<string, Delegate>();
 
         public static Func<TType, TProperty> LookupGet<TProperty>(Expression<Func<TType, TProperty>> propertySelector, out string propertyName)
         {
@@ -28,7 +28,8 @@ namespace Codeplex.Reactive.Extensions
             return (Func<TType, TProperty>)accessor;
         }
 
-        public static Action<TType, TProperty> LookupSet<TProperty>(Expression<Func<TType, TProperty>> propertySelector, out string propertyName)
+        public static Action<TType, TProperty> 
+            LookupSet<TProperty>(Expression<Func<TType, TProperty>> propertySelector, out string propertyName)
         {
             propertyName = ((MemberExpression)propertySelector.Body).Member.Name;
             Delegate accessor;
@@ -37,13 +38,22 @@ namespace Codeplex.Reactive.Extensions
             {
                 if (!setCache.TryGetValue(propertyName, out accessor))
                 {
-                    var propertyInfo = (PropertyInfo)((MemberExpression)propertySelector.Body).Member;
-                    accessor = new Action<TType, TProperty>((type, property) => propertyInfo.SetValue(type, property));
+                    accessor = CreateSetAccessor(propertySelector);
                     setCache.Add(propertyName, accessor);
                 }
             }
 
             return (Action<TType, TProperty>)accessor;
+        }
+
+        private static Delegate CreateSetAccessor<TProperty>(Expression<Func<TType, TProperty>> propertySelector)
+        {
+            var propertyInfo = (PropertyInfo)((MemberExpression)propertySelector.Body).Member;
+            var selfParameter = Expression.Parameter(typeof(TType), "self");
+            var valueParameter = Expression.Parameter(typeof(TProperty), "value");
+            var body = Expression.Assign(Expression.Property(selfParameter, propertyInfo), valueParameter);
+            var lambda = Expression.Lambda<Action<TType, TProperty>>(body, selfParameter, valueParameter);
+            return lambda.Compile();
         }
     }
 }

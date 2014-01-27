@@ -16,6 +16,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCulture("")]
 [assembly: NeutralResourcesLanguage("ja")]
 
+[assembly: InternalsVisibleTo("ReactiveProperty.Tests")]
+
 // アセンブリのバージョン情報は、以下の 4 つの値で構成されています:
 //
 //      メジャー バージョン
