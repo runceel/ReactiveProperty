@@ -100,7 +100,7 @@ namespace Codeplex.Reactive
         }
     }
 
-    public static class ReactiveCollectionObservableExtensions
+    public static partial class ReactiveCollectionObservableExtensions
     {
         /// <summary>Source sequence as ObservableCollection. Operate scheduler is UIDispatcherScheduler.</summary>
         public static ReactiveCollection<T> ToReactiveCollection<T>(this IObservable<T> source)

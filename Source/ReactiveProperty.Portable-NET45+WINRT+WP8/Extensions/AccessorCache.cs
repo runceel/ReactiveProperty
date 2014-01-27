@@ -28,8 +28,7 @@ namespace Codeplex.Reactive.Extensions
             return (Func<TType, TProperty>)accessor;
         }
 
-        public static Action<TType, TProperty> 
-            LookupSet<TProperty>(Expression<Func<TType, TProperty>> propertySelector, out string propertyName)
+        public static Action<TType, TProperty> LookupSet<TProperty>(Expression<Func<TType, TProperty>> propertySelector, out string propertyName)
         {
             propertyName = ((MemberExpression)propertySelector.Body).Member.Name;
             Delegate accessor;
