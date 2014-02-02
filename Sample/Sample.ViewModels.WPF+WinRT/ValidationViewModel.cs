@@ -6,16 +6,17 @@ using System.Reactive.Linq;
 using System.Windows;
 using Codeplex.Reactive;
 using Codeplex.Reactive.Extensions;
+using System.Diagnostics;
 
 namespace Sample.ViewModels
 {
     public class ValidationViewModel
     {
-        [Required]
-        [Range(0, 100)]
+        [Required(ErrorMessage = "Required")]
+        [Range(0, 100, ErrorMessage = "Range 0...100")]
         public ReactiveProperty<string> ValidationAttr { get; private set; }
         public ReactiveProperty<string> ValidationData { get; private set; }
-        [StringLength(5)]
+        [StringLength(5, ErrorMessage = "Length < 5")]
         public ReactiveProperty<string> ValidationBoth { get; private set; }
         public ReactiveProperty<string> ErrorInfo { get; private set; }
         public ReactiveCommand NextCommand { get; private set; }
@@ -42,7 +43,7 @@ namespace Sample.ViewModels
             // Can set both validation
             ValidationBoth = new ReactiveProperty<string>()
                 .SetValidateAttribute(() => ValidationBoth)
-                .SetValidateNotifyError((string s) => string.IsNullOrEmpty(s) ? 
+                .AddValidateNotifyError((string s) => string.IsNullOrEmpty(s) ? 
                     "required" : 
                     s.Cast<char>().All(Char.IsLower) ? 
                         null : 
@@ -57,8 +58,7 @@ namespace Sample.ViewModels
             // Use OfType, choose error source
             ErrorInfo = Observable.Merge(
                     errors.Where(o => o == null).Select(_ => ""), // success
-                    errors.OfType<Exception>().Select(e => e.Message), // from attribute
-                    errors.OfType<string>()) // from IDataErrorInfo
+                    errors.OfType<string>()) // from DataAnnotations and SetValidationNotifyError
                 .ToReactiveProperty();
 
             // Validation is view initialized not run in default.

@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>ReactiveProperty</id>
-    <version>0.4.0.1</version>
+    <version>0.4.1.0</version>
     <title>ReactiveProperty Portable</title>
     <authors>neuecc xin9le okazuki</authors>
     <owners>neuecc xin9le okazuki</owners>
@@ -10,7 +10,7 @@
     <projectUrl>http://reactiveproperty.codeplex.com/</projectUrl>
     <iconUrl>http://neue.cc/ReactivePropertyIcon_100x100.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>ReactiveProperty is MVVM and Asynchronous Extensions for Reactive Extensions. Target is .NET 4.5, WP8, Windows store apps(Win8.1).</description>
+    <description>ReactiveProperty is MVVM and Asynchronous Extensions for Reactive Extensions(Rx-Main). Target is .NET 4.5, WP8, Windows store apps(Win8.1).</description>
     <summary />
     <language>en-US</language>
     <tags>rx mvvm async</tags>

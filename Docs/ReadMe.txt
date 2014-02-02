@@ -95,6 +95,12 @@ Assert helper using ChainingAssertion http://chainingassertion.codeplex.com/
 Icon design by @ocazuco.
 
 ---History---
+2014-02-02 ver 0.4.1.0
+    Change
+        ReactiveProperty ObserveErrorChanged property OnNext value type change Exception[] to string at DataAnnotations validation error.
+    Add
+        ReactiveProperty add AddValidateNotifyError method.
+		ReactiveProperty add AddValidateAttribute extesion method.
 2014-01-01 ver 0.4.0.1
 	Change
 		ReactiveProperty not implements IDataErrorInfo.

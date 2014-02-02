@@ -8,6 +8,7 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Reactive.Disposables;
 using System.Reactive.Concurrency;
+using System.Collections.Generic;
 
 namespace Codeplex.Reactive
 {
@@ -57,6 +58,7 @@ namespace Codeplex.Reactive
         bool isValueChanged = false;
         readonly SerialDisposable validateNotifyErrorSubscription = new SerialDisposable();
         readonly Subject<object> errorsTrigger = new Subject<object>();
+        List<IObservable<IEnumerable>> errors = new List<IObservable<IEnumerable>>();
 
         /// <summary>PropertyChanged raise on UIDispatcherScheduler</summary>
         public ReactiveProperty(T initialValue = default(T), ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
@@ -178,19 +180,8 @@ namespace Codeplex.Reactive
         /// <param name="validate">Argument is self. If success return IO&lt;null&gt;, failure return IO&lt;IEnumerable&gt;(Errors).</param>
         public ReactiveProperty<T> SetValidateNotifyError(Func<IObservable<T>, IObservable<IEnumerable>> validate)
         {
-            validateNotifyErrorSubscription.Disposable = validate(source)
-                .Subscribe(xs =>
-                {
-                    currentErrors = xs;
-                    var handler = ErrorsChanged;
-                    if (handler != null)
-                    {
-                        raiseEventScheduler.Schedule(() =>
-                            handler(this, SingletonDataErrorsChangedEventArgs.Value));
-                    }
-                    errorsTrigger.OnNext(currentErrors);
-                });
-
+            errors.Clear();
+            AddValidateNotifyError(validate);
             return this;
         }
 
@@ -202,11 +193,49 @@ namespace Codeplex.Reactive
                         {
                             return source.Subscribe(value =>
                             {
-                                var errors = validate(value);
-                                o.OnNext(errors);
+                                currentErrors = validate(value);
+                                o.OnNext(currentErrors);
                             });
                         });
                 });
+        }
+
+        /// <summary>
+        /// <para>Add INotifyDataErrorInfo's asynchronous validation, return value is self.</para>
+        /// </summary>
+        /// <param name="validate">Argument is self. If success return IO&lt;null&gt;, failure return IO&lt;IEnumerable&gt;(Errors).</param>
+        public ReactiveProperty<T> AddValidateNotifyError(Func<IObservable<T>, IObservable<IEnumerable>> validate)
+        {
+            errors.Add(validate(source));
+            validateNotifyErrorSubscription.Disposable = Observable.CombineLatest(errors)
+                .Select(e => e.FirstOrDefault(errorInfo => errorInfo != null))
+                .Subscribe(xs =>
+                {
+                    currentErrors = xs;
+                    var handler = ErrorsChanged;
+                    if (handler != null)
+                    {
+                        raiseEventScheduler.Schedule(() =>
+                            handler(this, SingletonDataErrorsChangedEventArgs.Value));
+                    }
+                    errorsTrigger.OnNext(currentErrors);
+                });
+            return this;
+        }
+
+        public ReactiveProperty<T> AddValidateNotifyError(Func<T, IEnumerable> validate)
+        {
+            return this.AddValidateNotifyError(source =>
+            {
+                return Observable.Create<IEnumerable>(o =>
+                {
+                    return source.Subscribe(value =>
+                    {
+                        currentErrors = validate(value);
+                        o.OnNext(currentErrors);
+                    });
+                });
+            });
         }
 
 

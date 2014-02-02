@@ -101,8 +101,9 @@
     <Reference Include="System.Reactive.Linq">
       <HintPath>..\..\packages\Rx-Linq.2.2.2\lib\net40\System.Reactive.Linq.dll</HintPath>
     </Reference>
-    <Reference Include="System.Reactive.PlatformServices">
-      <HintPath>..\..\packages\Rx-PlatformServices.2.2.2\lib\net40\System.Reactive.PlatformServices.dll</HintPath>
+    <Reference Include="System.Reactive.PlatformServices, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Rx-PlatformServices.2.2.3\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -126,6 +127,7 @@
     <Compile Include="Extensions\RetryObservableExtensionsTest.cs" />
     <Compile Include="Extensions\AccessorCacheTest.cs" />
     <Compile Include="Extensions\ReactiveCollectionTest.cs" />
+    <Compile Include="Extensions\ReadOnlyReactiveCollectionTest.cs" />
     <Compile Include="Init.cs" />
     <Compile Include="Interactivity\EventToReactiveTest.cs" />
     <Compile Include="Notifiers\ScheduledNotifierTest.cs" />
@@ -136,6 +138,7 @@
     <Compile Include="Helpers\SerializeHelperTest.cs" />
     <Compile Include="ReactiveTimerTest.cs" />
     <Compile Include="ReactivePropertyTest.Static.cs" />
+    <Compile Include="ReactivePropertyValidationTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
@@ -160,9 +163,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Moles Include="mscorlib.moles" />
     <None Include="packages.config" />
-    <Moles Include="System.moles" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Source\ReactiveProperty.NET45\ReactiveProperty.Platform.NET45.csproj">
