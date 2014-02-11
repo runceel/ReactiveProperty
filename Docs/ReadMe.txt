@@ -85,7 +85,7 @@ Standard usage and all API references details, see project home.
 ---Source Info---
 
 Solution file is for Visual Studio 2013.
-Version control under Mercurial.
+Version control under Git.
 External library reference under NuGet.
 Unit test using MSTest and mock library is Fakes.
 Assert helper using ChainingAssertion http://chainingassertion.codeplex.com/
@@ -101,6 +101,7 @@ Icon design by @ocazuco.
     Add
         ReactiveProperty add AddValidateNotifyError method.
 		ReactiveProperty add AddValidateAttribute extesion method.
+
 2014-01-01 ver 0.4.0.1
 	Change
 		ReactiveProperty not implements IDataErrorInfo.
