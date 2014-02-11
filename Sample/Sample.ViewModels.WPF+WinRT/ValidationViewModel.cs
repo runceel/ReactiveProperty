@@ -7,6 +7,7 @@ using System.Windows;
 using Codeplex.Reactive;
 using Codeplex.Reactive.Extensions;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace Sample.ViewModels
 {
@@ -43,11 +44,29 @@ namespace Sample.ViewModels
             // Can set both validation
             ValidationBoth = new ReactiveProperty<string>()
                 .SetValidateAttribute(() => ValidationBoth)
-                .AddValidateNotifyError((string s) => string.IsNullOrEmpty(s) ? 
+                .SetValidateNotifyError(s => string.IsNullOrEmpty(s) ? 
                     "required" : 
                     s.Cast<char>().All(Char.IsLower) ? 
                         null : 
-                        "not all lowercase");
+                        "not all lowercase")
+                .SetValidateNotifyError(async x =>
+                {
+                    await Task.Delay(500);
+                    if (x == null)          return null;
+                    if (x.Contains("a"))    return "'a' shouldn't be contained";
+                    return null;
+                })
+                .SetValidateNotifyError((IObservable<string> xs) =>
+                {
+                    return  xs.Delay(TimeSpan.FromSeconds(1))
+                            .Select(x =>
+                            {
+                                if (x == null)          return null;
+                                if (x.Contains("b"))    return "'b' shouldn't be contained";
+                                return null;
+                            });
+                });
+
 
             // Validation result is pushed to ObserveErrorChanged
             var errors = Observable.Merge(

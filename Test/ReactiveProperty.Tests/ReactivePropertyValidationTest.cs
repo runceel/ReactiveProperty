@@ -80,7 +80,7 @@ namespace ReactiveProperty.Tests
 
             this.BothProperty = new ReactiveProperty<string>()
                 .SetValidateAttribute(() => BothProperty)
-                .AddValidateNotifyError(s => string.IsNullOrWhiteSpace(s) ? "required" : null);
+                .SetValidateNotifyError(s => string.IsNullOrWhiteSpace(s) ? "required" : null);
         }
     }
 }
