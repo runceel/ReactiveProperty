@@ -46,8 +46,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPF", "Sample\WPF\WPF.cspro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.Tests", "Test\ReactiveProperty.Tests\ReactiveProperty.Tests.csproj", "{9B3C2CF3-0AFD-4FB8-BAB1-2B7931C2AF18}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.Tests.Pex", "Test\ReactiveProperty.Tests.Pex\ReactiveProperty.Tests.Pex.csproj", "{6A3C066B-46A4-4928-80B4-89C32D651277}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.Portable", "Source\ReactiveProperty.Portable-NET45+WINRT+WP8\ReactiveProperty.Portable.csproj", "{D5FCE62E-0718-43C4-A103-69C155D8D402}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.DataAnnotations", "Source\ReactiveProperty.Portable-NET45+WINRT\ReactiveProperty.DataAnnotations.csproj", "{B2E97BFE-1956-4688-9486-C78D3A8F20E1}"
@@ -118,20 +116,6 @@ Global
 		{9B3C2CF3-0AFD-4FB8-BAB1-2B7931C2AF18}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{9B3C2CF3-0AFD-4FB8-BAB1-2B7931C2AF18}.Release|x64.ActiveCfg = Release|Any CPU
 		{9B3C2CF3-0AFD-4FB8-BAB1-2B7931C2AF18}.Release|x86.ActiveCfg = Release|Any CPU
-		{6A3C066B-46A4-4928-80B4-89C32D651277}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6A3C066B-46A4-4928-80B4-89C32D651277}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6A3C066B-46A4-4928-80B4-89C32D651277}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{6A3C066B-46A4-4928-80B4-89C32D651277}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{6A3C066B-46A4-4928-80B4-89C32D651277}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{6A3C066B-46A4-4928-80B4-89C32D651277}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{6A3C066B-46A4-4928-80B4-89C32D651277}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{6A3C066B-46A4-4928-80B4-89C32D651277}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6A3C066B-46A4-4928-80B4-89C32D651277}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6A3C066B-46A4-4928-80B4-89C32D651277}.Release|ARM.ActiveCfg = Release|Any CPU
-		{6A3C066B-46A4-4928-80B4-89C32D651277}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{6A3C066B-46A4-4928-80B4-89C32D651277}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{6A3C066B-46A4-4928-80B4-89C32D651277}.Release|x64.ActiveCfg = Release|Any CPU
-		{6A3C066B-46A4-4928-80B4-89C32D651277}.Release|x86.ActiveCfg = Release|Any CPU
 		{D5FCE62E-0718-43C4-A103-69C155D8D402}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D5FCE62E-0718-43C4-A103-69C155D8D402}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5FCE62E-0718-43C4-A103-69C155D8D402}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -321,7 +305,6 @@ Global
 		{D534328B-496E-4F76-ACB1-2EB29BA990CF} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
 		{6DE1AF3C-394A-47D2-B869-1BC6DB8CF000} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
 		{9B3C2CF3-0AFD-4FB8-BAB1-2B7931C2AF18} = {6B13388E-F781-4F55-AF8B-2E991EA59DB8}
-		{6A3C066B-46A4-4928-80B4-89C32D651277} = {6B13388E-F781-4F55-AF8B-2E991EA59DB8}
 		{5894EB9D-270B-41E4-B57A-4F3A48062D20} = {6356D836-36AA-4CD9-8EB2-BF037115D329}
 		{3C18CC28-8A46-4697-AA6F-63AB7624B77F} = {6356D836-36AA-4CD9-8EB2-BF037115D329}
 		{4AA39C19-6571-4A9F-8722-2D7240D425D1} = {6356D836-36AA-4CD9-8EB2-BF037115D329}
@@ -330,8 +313,8 @@ Global
 		{76FA0E23-EDE4-481D-9DAE-ABD955E15FC5} = {6356D836-36AA-4CD9-8EB2-BF037115D329}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		BuildVersion_UseGlobalSettings = True
 		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
+		BuildVersion_UseGlobalSettings = True
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = ReactiveProperty.vsmdi
