@@ -107,8 +107,6 @@ namespace ReactiveProperty.Tests
             p.ObserveErrorChanged
                 .OfType<string>()
                 .Subscribe(errors.Add);
-
-            p.Value = "a"; // fire validation logic;
             p.HasErrors.IsFalse();
             errors.Count.Is(0);
 
@@ -135,8 +133,6 @@ namespace ReactiveProperty.Tests
             p.ObserveErrorChanged
                 .OfType<string>()
                 .Subscribe(errors.Add);
-
-            p.Value = "a"; // fire validation logic;
             p.HasErrors.IsFalse();
             errors.Count.Is(0);
 
