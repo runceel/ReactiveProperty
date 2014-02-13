@@ -7,6 +7,7 @@ using System.Reactive.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Collections;
+using Microsoft.Reactive.Testing;
 
 namespace ReactiveProperty.Tests
 {
@@ -146,6 +147,34 @@ namespace ReactiveProperty.Tests
                 errors[0].Is("error message");
                 p.GetErrors("Value").Is("error message");
             });
+        }
+
+        [TestMethod]
+        public void AsyncValidation_ThrottleTest()
+        {
+            var scheduler = new TestScheduler();
+            var p = new ReactiveProperty<string>(scheduler)
+                .SetValidateNotifyError(
+                    o => o.Throttle(TimeSpan.FromSeconds(1)) // wait 1sec
+                        .Select(s => string.IsNullOrEmpty(s) ? "required" : null));
+
+            var errors = new List<string>();
+            p.ObserveErrorChanged
+                .OfType<string>()
+                .Subscribe(errors.Add);
+
+            p.Value = ""; // ng
+            scheduler.AdvanceTo(300);
+            p.Value = "a";
+            scheduler.AdvanceTo(300);
+            p.Value = "a";
+            scheduler.AdvanceTo(300);
+            p.Value = ""; // ng
+            scheduler.AdvanceTo(1100);
+
+            p.HasErrors.IsTrue();
+            errors.Count.Is(1);
+            errors[0].Is("required");
         }
 
     }
