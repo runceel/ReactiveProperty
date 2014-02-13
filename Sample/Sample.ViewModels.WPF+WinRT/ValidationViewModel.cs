@@ -51,14 +51,15 @@ namespace Sample.ViewModels
                         "not all lowercase")
                 .SetValidateNotifyError(async x =>
                 {
-                    await Task.Delay(500);
+                    await Task.Delay(2000);
                     if (x == null)          return null;
                     if (x.Contains("a"))    return "'a' shouldn't be contained";
                     return null;
                 })
-                .SetValidateNotifyError((IObservable<string> xs) =>
+                .SetValidateNotifyError(xs =>
                 {
-                    return  xs.Delay(TimeSpan.FromSeconds(1))
+                    return  xs
+							.Throttle(TimeSpan.FromMilliseconds(500))
                             .Select(x =>
                             {
                                 if (x == null)          return null;

@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
@@ -59,7 +60,7 @@ namespace Codeplex.Reactive
         bool isValueChanged = false;
         readonly SerialDisposable validateNotifyErrorSubscription = new SerialDisposable();
         readonly Subject<object> errorsTrigger = new Subject<object>();
-        List<Func<T, Task<IEnumerable>>> validatorStore = new List<Func<T,Task<IEnumerable>>>();
+		List<Func<IObservable<T>, IObservable<IEnumerable>>> validatorStore = new List<Func<IObservable<T>, IObservable<IEnumerable>>>();
 
         /// <summary>PropertyChanged raise on UIDispatcherScheduler</summary>
         public ReactiveProperty(T initialValue = default(T), ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
@@ -180,10 +181,24 @@ namespace Codeplex.Reactive
         /// </summary>
         /// <param name="validator">If success return IO&lt;null&gt;, failure return IO&lt;IEnumerable&gt;(Errors).</param>
         /// <returns>Self.</returns>
-        [Obsolete("This overload will be removed for the next version. Please consider using other overloads.")]
         public ReactiveProperty<T> SetValidateNotifyError(Func<IObservable<T>, IObservable<IEnumerable>> validator)
         {
-            return this.SetValidateNotifyError(x => validator(Observable.Return(x)).ToTask());
+            this.validatorStore.Add(validator);		//--- cache validation functions
+            var validators	= this.validatorStore
+							.Select(x => x(this.source))
+							.ToArray();		//--- use copy
+            this.validateNotifyErrorSubscription.Disposable
+                = Observable.CombineLatest(validators)
+				.Select(xs => xs.FirstOrDefault(x => x != null))
+                .Subscribe(x =>
+                {
+                    this.currentErrors = x;
+                    var handler = this.ErrorsChanged;
+                    if (handler != null)
+                        this.raiseEventScheduler.Schedule(() => handler(this, SingletonDataErrorsChangedEventArgs.Value));
+                    this.errorsTrigger.OnNext(x);
+                });
+            return this;
         }
 
         /// <summary>
@@ -193,26 +208,7 @@ namespace Codeplex.Reactive
         /// <returns>Self.</returns>
         public ReactiveProperty<T> SetValidateNotifyError(Func<T, Task<IEnumerable>> validator)
         {
-            this.validatorStore.Add(validator);             //--- cache validation functions
-            var validators = this.validatorStore.ToArray(); //--- use copy
-            this.validateNotifyErrorSubscription.Disposable
-                = this.source
-                .SelectMany(x =>
-                {
-                    return  validators
-                            .ToObservable()
-                            .SelectMany(y => y(x))
-                            .FirstOrDefaultAsync(y => y != null);
-                })
-                .Subscribe(x =>
-                {
-                    this.currentErrors = x;
-                    var handler = this.ErrorsChanged;
-                    if (handler != null)
-                        raiseEventScheduler.Schedule(() => handler(this, SingletonDataErrorsChangedEventArgs.Value));
-                    errorsTrigger.OnNext(x);
-                });
-            return this;
+			return this.SetValidateNotifyError(xs => xs.SelectMany(x => validator(x)));
         }
 
         /// <summary>
@@ -222,7 +218,7 @@ namespace Codeplex.Reactive
         /// <returns>Self.</returns>
         public ReactiveProperty<T> SetValidateNotifyError(Func<T, IEnumerable> validator)
         {
-            return this.SetValidateNotifyError(x => Task.FromResult(validator(x)));
+			return this.SetValidateNotifyError(xs => xs.Select(x => validator(x)));
         }
 
         /// <summary>Get INotifyDataErrorInfo's error store</summary>

@@ -47,7 +47,7 @@
 					Text="{Binding ValidationData.Value, ValidatesOnDataErrors=True}"/>
 				<TextBlock Grid.Column="0" Grid.Row="2"><Run Text="All Lower, Length 5"/></TextBlock>
 				<TextBox  Grid.Column="1" Grid.Row="2"
-					Text="{Binding ValidationBoth.Value, ValidatesOnDataErrors=True}"/>
+					Text="{Binding ValidationBoth.Value, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
 			</Grid>
 			<TextBlock Text="{Binding ErrorInfo.Value}" Foreground="Red" />
 			<Button Command="{Binding NextCommand}" Content="Next"/>
