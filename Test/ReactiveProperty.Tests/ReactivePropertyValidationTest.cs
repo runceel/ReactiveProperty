@@ -37,51 +37,55 @@ namespace ReactiveProperty.Tests
         [TestMethod]
         public void AnnotationTest()
         {
-            var errors = new List<string>();
+            var errors = new List<IEnumerable>();
             target.RequiredProperty
                 .ObserveErrorChanged
-                .OfType<string>()
+                .Where(x => x != null)
                 .Subscribe(errors.Add);
-            errors.Any().IsFalse();
+            errors.Count.Is(0);
 
             target.RequiredProperty.Value = "a";
-            errors.Any().IsFalse();
+            errors.Count.Is(0);
             target.RequiredProperty.HasErrors.IsFalse();
 
             target.RequiredProperty.Value = null;
             errors.Count.Is(1);
-            errors[0].Is("error!");
+            errors[0].Cast<string>().Is("error!");
             target.RequiredProperty.HasErrors.IsTrue();
         }
 
         [TestMethod]
         public void BothTest()
         {
-            var errors = new List<string>();
+            IEnumerable error = null;
             target.BothProperty
                 .ObserveErrorChanged
-                .OfType<string>()
-                .Subscribe(errors.Add);
+                .Subscribe(x => error = x);
 
             target.BothProperty.HasErrors.IsTrue();
-            errors.Count.Is(0);
+            error.IsNull();
 
             target.BothProperty.Value = "a";
             target.BothProperty.HasErrors.IsFalse();
-            errors.Count.Is(0);
+            error.IsNull();
 
             target.BothProperty.Value = "aaaaaa";
             target.BothProperty.HasErrors.IsTrue();
-            errors.Count.Is(1);
+            error.IsNotNull();
+            error.Cast<string>().Is("5over");
+
+            target.BothProperty.Value = null;
+            target.BothProperty.HasErrors.IsTrue();
+            error.Cast<string>().Is("required");
         }
 
         [TestMethod]
         public void TaskTest()
         {
-            var errors = new List<string>();
+            var errors = new List<IEnumerable>();
             target.TaskValidationTestProperty
                 .ObserveErrorChanged
-                .OfType<string>()
+                .Where(x => x != null)
                 .Subscribe(errors.Add);
             errors.Count.Is(0);
 
@@ -97,86 +101,86 @@ namespace ReactiveProperty.Tests
         [TestMethod]
         public async Task AsyncValidation_SuccessCase()
         {
-            var source = new TaskCompletionSource<IEnumerable>();
-            var p = new ReactiveProperty<string>()
-                .SetValidateNotifyError(_ =>
-                {
-                    return source.Task;
-                });
+            var tcs     = new TaskCompletionSource<string>();
+            var rprop   = new ReactiveProperty<string>().SetValidateNotifyError(_ => tcs.Task);
 
-            var errors = new List<string>();
-            p.ObserveErrorChanged
-                .OfType<string>()
-                .Subscribe(errors.Add);
-            p.HasErrors.IsFalse();
-            errors.Count.Is(0);
+            IEnumerable error = null;
+            rprop.ObserveErrorChanged.Subscribe(x => error = x);
+            
+            rprop.HasErrors.IsFalse();
+            error.IsNull();
 
-            source.SetResult(null); // validation success!
+            rprop.Value = "dummy";  //--- push value
+            tcs.SetResult(null);    //--- validation success!
+            await Task.Yield();
 
-            await Task.Run(() => 
-            {
-                p.HasErrors.IsFalse();
-                errors.Count.Is(0);
-            });
+            rprop.HasErrors.IsFalse();
+            error.IsNull();
         }
 
         [TestMethod]
         public async Task AsyncValidation_FailedCase()
         {
-            var source = new TaskCompletionSource<IEnumerable>();
-            var p = new ReactiveProperty<string>()
-                .SetValidateNotifyError(_ =>
-                {
-                    return source.Task;
-                });
+            var tcs     = new TaskCompletionSource<string>();
+            var rprop   = new ReactiveProperty<string>().SetValidateNotifyError(_ => tcs.Task);
 
-            var errors = new List<string>();
-            p.ObserveErrorChanged
-                .OfType<string>()
-                .Subscribe(errors.Add);
-            p.HasErrors.IsFalse();
-            errors.Count.Is(0);
+            IEnumerable error = null;
+            rprop.ObserveErrorChanged.Subscribe(x => error = x);
+            
+            rprop.HasErrors.IsFalse();
+            error.IsNull();
 
-            source.SetResult("error message"); // validation error!
+            var errorMessage    = "error occured!!";
+            rprop.Value         = "dummy";  //--- push value
+            tcs.SetResult(errorMessage);    //--- validation error!
+            await Task.Yield();
 
-            await Task.Run(() => 
-            {
-                // check state
-                p.HasErrors.IsTrue();
-                errors.Count.Is(1, "error count is 1");
-                errors[0].Is("error message");
-                p.GetErrors("Value").Is("error message");
-            });
+            rprop.HasErrors.IsTrue();
+            error.IsNotNull();
+            error.Cast<string>().Is(errorMessage);
+            rprop.GetErrors("Value").Cast<string>().Is(errorMessage);
         }
 
         [TestMethod]
         public void AsyncValidation_ThrottleTest()
         {
-            var scheduler = new TestScheduler();
-            var p = new ReactiveProperty<string>(scheduler)
-                .SetValidateNotifyError(
-                    o => o.Throttle(TimeSpan.FromSeconds(1)) // wait 1sec
-                        .Select(s => string.IsNullOrEmpty(s) ? "required" : null));
+            var scheduler   = new TestScheduler();
+            var rprop       = new ReactiveProperty<string>()
+                            .SetValidateNotifyError(xs =>
+                            {
+                                return  xs
+                                        .Throttle(TimeSpan.FromSeconds(1), scheduler)
+                                        .Select(x => string.IsNullOrEmpty(x) ? "required" : null);
+                            });
 
-            var errors = new List<string>();
-            p.ObserveErrorChanged
-                .OfType<string>()
-                .Subscribe(errors.Add);
+            IEnumerable error = null;
+            rprop.ObserveErrorChanged.Subscribe(x => error = x);
 
-            p.Value = ""; // ng
-            scheduler.AdvanceTo(300);
-            p.Value = "a";
-            scheduler.AdvanceTo(300);
-            p.Value = "a";
-            scheduler.AdvanceTo(300);
-            p.Value = ""; // ng
-            scheduler.AdvanceTo(1100);
+            scheduler.AdvanceTo(TimeSpan.FromMilliseconds(0).Ticks);
+            rprop.Value = string.Empty;
+            rprop.HasErrors.IsFalse();
+            error.IsNull();
 
-            p.HasErrors.IsTrue();
-            errors.Count.Is(1);
-            errors[0].Is("required");
+            scheduler.AdvanceTo(TimeSpan.FromMilliseconds(300).Ticks);
+            rprop.Value = "a";
+            rprop.HasErrors.IsFalse();
+            error.IsNull();
+            
+            scheduler.AdvanceTo(TimeSpan.FromMilliseconds(700).Ticks);
+            rprop.Value = "b";
+            rprop.HasErrors.IsFalse();
+            error.IsNull();
+            
+            scheduler.AdvanceTo(TimeSpan.FromMilliseconds(1100).Ticks);
+            rprop.Value = string.Empty;
+            rprop.HasErrors.IsFalse();
+            error.IsNull();
+            
+            scheduler.AdvanceTo(TimeSpan.FromMilliseconds(2500).Ticks);
+            rprop.HasErrors.IsTrue();
+            error.IsNotNull();
+            error.Cast<string>().Is("required");
         }
-
     }
 
     class TestTarget

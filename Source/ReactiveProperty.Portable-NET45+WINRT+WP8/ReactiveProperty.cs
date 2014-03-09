@@ -37,7 +37,7 @@ namespace Codeplex.Reactive
     public interface IReactiveProperty
     {
         object Value { get; set; }
-        IObservable<object> ObserveErrorChanged { get; }
+        IObservable<IEnumerable> ObserveErrorChanged { get; }
     }
 
     /// <summary>
@@ -59,7 +59,7 @@ namespace Codeplex.Reactive
         // for Validation
         bool isValueChanged = false;
         readonly SerialDisposable validateNotifyErrorSubscription = new SerialDisposable();
-        readonly Subject<object> errorsTrigger = new Subject<object>();
+        readonly Subject<IEnumerable> errorsTrigger = new Subject<IEnumerable>();
 		List<Func<IObservable<T>, IObservable<IEnumerable>>> validatorStore = new List<Func<IObservable<T>, IObservable<IEnumerable>>>();
 
         /// <summary>PropertyChanged raise on UIDispatcherScheduler</summary>
@@ -163,10 +163,8 @@ namespace Codeplex.Reactive
 
         /// <summary>
         /// <para>Checked validation, raised value. If success return value is null.</para>
-        /// <para>From Attribute is Exception, from IDataErrorInfo is string, from IDataNotifyErrorInfo is Enumerable.</para>
-        /// <para>If you want to assort type, please choose OfType. For example: ErrorsChanged.OfType&lt;string&gt;().</para>
         /// </summary>
-        public IObservable<object> ObserveErrorChanged
+        public IObservable<IEnumerable> ObserveErrorChanged
         {
             get { return errorsTrigger.AsObservable(); }
         }
@@ -189,7 +187,20 @@ namespace Codeplex.Reactive
 							.ToArray();		//--- use copy
             this.validateNotifyErrorSubscription.Disposable
                 = Observable.CombineLatest(validators)
-				.Select(xs => xs.FirstOrDefault(x => x != null))
+				.Select(xs =>
+                {
+                    if (xs.Count == 0)          return null;
+                    if (xs.All(x => x == null)) return null;
+
+                    var strings = xs
+                                .OfType<string>()
+                                .Where(x => x != null);
+                    var others  = xs
+                                .Where(x => !(x is string))
+                                .Where(x => x != null)
+                                .SelectMany(x => x.Cast<object>());
+                    return strings.Concat(others);
+                })
                 .Subscribe(x =>
                 {
                     this.currentErrors = x;
@@ -199,6 +210,16 @@ namespace Codeplex.Reactive
                     this.errorsTrigger.OnNext(x);
                 });
             return this;
+        }
+
+        /// <summary>
+        /// <para>Set INotifyDataErrorInfo's asynchronous validation, return value is self.</para>
+        /// </summary>
+        /// <param name="validator">If success return IO&lt;null&gt;, failure return IO&lt;IEnumerable&gt;(Errors).</param>
+        /// <returns>Self.</returns>
+        public ReactiveProperty<T> SetValidateNotifyError(Func<IObservable<T>, IObservable<string>> validator)
+        {
+            return this.SetValidateNotifyError(xs => validator(xs).Cast<IEnumerable>());
         }
 
         /// <summary>
@@ -212,11 +233,31 @@ namespace Codeplex.Reactive
         }
 
         /// <summary>
+        /// Set INotifyDataErrorInfo's asynchronous validation.
+        /// </summary>
+        /// <param name="validator">Validation logic</param>
+        /// <returns>Self.</returns>
+        public ReactiveProperty<T> SetValidateNotifyError(Func<T, Task<string>> validator)
+        {
+			return this.SetValidateNotifyError(xs => xs.SelectMany(x => validator(x)));
+        }
+
+        /// <summary>
         /// Set INofityDataErrorInfo validation.
         /// </summary>
         /// <param name="validator">Validation logic</param>
         /// <returns>Self.</returns>
         public ReactiveProperty<T> SetValidateNotifyError(Func<T, IEnumerable> validator)
+        {
+			return this.SetValidateNotifyError(xs => xs.Select(x => validator(x)));
+        }
+
+        /// <summary>
+        /// Set INofityDataErrorInfo validation.
+        /// </summary>
+        /// <param name="validator">Validation logic</param>
+        /// <returns>Self.</returns>
+        public ReactiveProperty<T> SetValidateNotifyError(Func<T, string> validator)
         {
 			return this.SetValidateNotifyError(xs => xs.Select(x => validator(x)));
         }

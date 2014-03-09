@@ -44,10 +44,10 @@ namespace Sample.ViewModels
             // Can set both validation
             ValidationBoth = new ReactiveProperty<string>()
                 .SetValidateAttribute(() => ValidationBoth)
-                .SetValidateNotifyError(s => string.IsNullOrEmpty(s) ? 
-                    "required" : 
-                    s.Cast<char>().All(Char.IsLower) ? 
-                        null : 
+                .SetValidateNotifyError(s => string.IsNullOrEmpty(s) ?
+                    "required" :
+                    s.Cast<char>().All(Char.IsLower) ?
+                        null :
                         "not all lowercase")
                 .SetValidateNotifyError(async x =>
                 {
@@ -76,10 +76,9 @@ namespace Sample.ViewModels
                 ValidationBoth.ObserveErrorChanged);
 
             // Use OfType, choose error source
-            ErrorInfo = Observable.Merge(
-                    errors.Where(o => o == null).Select(_ => ""), // success
-                    errors.OfType<string>()) // from DataAnnotations and SetValidationNotifyError
-                .ToReactiveProperty();
+            ErrorInfo   = errors
+                        .Select(x => x == null ? null : x.OfType<string>().FirstOrDefault())
+                        .ToReactiveProperty();
 
             // Validation is view initialized not run in default.
             // If want to validate on view initialize,
