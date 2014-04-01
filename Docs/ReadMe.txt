@@ -95,6 +95,12 @@ Assert helper using ChainingAssertion http://chainingassertion.codeplex.com/
 Icon design by @ocazuco.
 
 ---History---
+2014-04-02 ver 0.4.2.beta
+	Change
+		ReactiveProperty SetValidationNotifyError methods behavior. ObserveErrorChanges property change IO<object> to IO<IE>.
+	Add
+		ReactiveProperty add string-specific SetValidationNotifyError methods.
+
 2014-02-02 ver 0.4.1.0
     Change
         ReactiveProperty ObserveErrorChanged property OnNext value type change Exception[] to string at DataAnnotations validation error.
