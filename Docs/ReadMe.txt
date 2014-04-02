@@ -100,6 +100,7 @@ Icon design by @ocazuco.
 		ReactiveProperty SetValidationNotifyError methods behavior. ObserveErrorChanges property change IO<object> to IO<IE>.
 	Add
 		ReactiveProperty add string-specific SetValidationNotifyError methods.
+		ReactiveProperty add Task base SetValidationNotifyError methods.
 
 2014-02-02 ver 0.4.1.0
     Change
