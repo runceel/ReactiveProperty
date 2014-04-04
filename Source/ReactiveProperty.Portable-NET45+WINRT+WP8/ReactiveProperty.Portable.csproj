@@ -40,6 +40,8 @@
     <DocumentationFile>..\..\Binary\PCL\ReactiveProperty.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Binding\RxBindingExtensions.cs" />
+    <Compile Include="Binding\RxCommandExtensions.cs" />
     <Compile Include="Extensions\AccessorCache.cs" />
     <Compile Include="Extensions\CatchIgnoreObservableExtensions.cs" />
     <Compile Include="Extensions\CombineLatestEnumerableExtensions.cs" />
@@ -52,6 +54,7 @@
     <Compile Include="Extensions\OldNewPair.cs" />
     <Compile Include="Extensions\PairwiseObservableExtensions.cs" />
     <Compile Include="Extensions\RetryObservableExtensions.cs" />
+    <Compile Include="Extensions\ToUnitObservableExtensions.cs" />
     <Compile Include="Extensions\UIDispatcherSchedulerObservableExtensions.cs" />
     <Compile Include="Helpers\SerializeHelper.cs" />
     <Compile Include="Notifiers\BooleanNotifier.cs" />

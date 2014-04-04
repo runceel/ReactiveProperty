@@ -95,6 +95,11 @@ Assert helper using ChainingAssertion http://chainingassertion.codeplex.com/
 Icon design by @ocazuco.
 
 ---History---
+2014-04-04 ver 0.4.2.beta3
+	Add
+		Codeplex.Reactive.Binding namespace. Bind to ReactiveProperty to POCO property.
+		ReactiveCommand add ToEventHandler method.
+
 2014-04-04 ver 0.4.2.beta2
 	Add
 		Xamarin Android and iOS support.

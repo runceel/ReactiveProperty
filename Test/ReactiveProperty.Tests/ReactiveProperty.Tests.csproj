@@ -121,6 +121,8 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Binding\RxBindingExtensionsTest.cs" />
+    <Compile Include="Binding\RxCommandExtensionsTest.cs" />
     <Compile Include="ChainingAssertion.MSTest.cs" />
     <Compile Include="Extensions\CombineLatestEnumerableExtensionsTest.cs" />
     <Compile Include="Extensions\INotifyPropertyChangedExtensionsTest.cs" />
