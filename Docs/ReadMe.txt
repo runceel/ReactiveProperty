@@ -95,6 +95,10 @@ Assert helper using ChainingAssertion http://chainingassertion.codeplex.com/
 Icon design by @ocazuco.
 
 ---History---
+2014-04-04 ver 0.4.2.beta2
+	Add
+		Xamarin Android and iOS support.
+
 2014-04-02 ver 0.4.2.beta
 	Change
 		ReactiveProperty SetValidationNotifyError methods behavior. ObserveErrorChanges property change IO<object> to IO<IE>.
