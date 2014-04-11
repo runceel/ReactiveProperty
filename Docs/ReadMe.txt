@@ -98,6 +98,9 @@ Assert helper using ChainingAssertion http://chainingassertion.codeplex.com/
 Icon design by @ocazuco.
 
 ---History---
+2014-04-11 ver 0.4.2
+    no change.
+
 2014-04-11 ver 0.4.2.beta5
 	Change
 		target platform WPA81 library.
