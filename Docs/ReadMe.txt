@@ -95,6 +95,11 @@ Assert helper using ChainingAssertion http://chainingassertion.codeplex.com/
 Icon design by @ocazuco.
 
 ---History---
+2014-04-04 ver 0.4.2.beta4
+	Change
+		Remove System.Runtime.InteropServices.WindowsRuntime.dll from Xamarin.Android(please use alpha channel)
+		Remove System.Runtime.InteropServices.WindowsRuntime.dll and System.Dynamic.Runtime.dll from Xamarin.iOS(please use alpha channel)
+
 2014-04-04 ver 0.4.2.beta3
 	Add
 		Codeplex.Reactive.Binding namespace. Bind to ReactiveProperty to POCO property.

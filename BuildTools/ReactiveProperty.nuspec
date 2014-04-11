@@ -68,33 +68,38 @@
     <file src="..\Binary\WP8\ReactiveProperty.WP8.dll" target="lib\wp8" />
     <file src="..\Binary\WP8\ReactiveProperty.WP8.XML" target="lib\wp8" />
     <!-- WP8 PCL -->
+    <file src="..\Binary\PCL\ReactiveProperty.dll" target="lib\wp8" />
+    <file src="..\Binary\PCL\ReactiveProperty.XML" target="lib\wp8" />
+        
+    <!-- WP8 -->
+    <file src="..\Binary\WP8\ReactiveProperty.WP8.dll" target="lib\wp8" />
+    <file src="..\Binary\WP8\ReactiveProperty.WP8.XML" target="lib\wp8" />
+    <!-- WP8 PCL -->
     <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.dll" target="lib\wp8" />
     <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.XML" target="lib\wp8" />
     <file src="..\Binary\PCL\ReactiveProperty.dll" target="lib\wp8" />
     <file src="..\Binary\PCL\ReactiveProperty.XML" target="lib\wp8" />
+    
     
     <!-- Mono.Android -->
     <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.dll" target="lib\MonoAndroid" />
     <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.XML" target="lib\MonoANdroid" />
     <file src="..\Binary\PCL\ReactiveProperty.dll" target="lib\MonoAndroid" />
     <file src="..\Binary\PCL\ReactiveProperty.XML" target="lib\MonoANdroid" />
-    <file src="..\ext\WindowsFacades\MonoAndroid\System.Runtime.InteropServices.WindowsRuntime.dll" target="lib\MonoAndroid" />
     
     <!-- Mono.Touch -->
     <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.dll" target="lib\MonoTouch" />
     <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.XML" target="lib\MonoTouch" />
     <file src="..\Binary\PCL\ReactiveProperty.dll" target="lib\MonoTouch" />
     <file src="..\Binary\PCL\ReactiveProperty.XML" target="lib\MonoTouch" />
-    <file src="..\ext\WindowsFacades\MonoTouch\System.Runtime.InteropServices.WindowsRuntime.dll" target="lib\MonoTouch" />
-    <file src="..\ext\WindowsFacades\MonoTouch\System.Dynamic.Runtime.dll" target="lib\MonoTouch" />
   
     <!-- PCL -->
-    <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.dll" target="lib\portable-net45+win8+MonoAndroid+MonoTOuch" />
-    <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.XML" target="lib\portable-net45+win8+MonoAndroid+MonoTouch" />
-    <file src="..\Binary\PCL\ReactiveProperty.dll" target="lib\portable-net45+win8+MonoAndroid+MonoTouch" />
-    <file src="..\Binary\PCL\ReactiveProperty.XML" target="lib\portable-net45+win8+MonoAndroid+MonoTouch" />
+    <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.dll" target="lib\portable-net45+win8+wpa81+MonoAndroid+MonoTOuch" />
+    <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.XML" target="lib\portable-net45+win8+wpa81+MonoAndroid+MonoTouch" />
+    <file src="..\Binary\PCL\ReactiveProperty.dll" target="lib\portable-net45+win8+wpa81+MonoAndroid+MonoTouch" />
+    <file src="..\Binary\PCL\ReactiveProperty.XML" target="lib\portable-net45+win8+wpa81+MonoAndroid+MonoTouch" />
 
-    <file src="..\Binary\PCL\ReactiveProperty.dll" target="lib\portable-net45+wp8+win8+MonoAndroid+MonoTouch" />
-    <file src="..\Binary\PCL\ReactiveProperty.XML" target="lib\portable-net45+wp8+win8+MonoAndroid+MonoTouch" />
+    <file src="..\Binary\PCL\ReactiveProperty.dll" target="lib\portable-net45+wp8+win8+wpa81+MonoAndroid+MonoTouch" />
+    <file src="..\Binary\PCL\ReactiveProperty.XML" target="lib\portable-net45+wp8+win8+wpa81+MonoAndroid+MonoTouch" />
   </files>
 </package>
