@@ -1,0 +1,31 @@
+﻿<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WP81.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="using:Microsoft.Practices.Prism.StoreApps"
+    xmlns:ViewModels="using:WP81.ViewModels"
+    x:Class="WP81.Views.ReactivePropertyBasicsPage"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" d:DataContext="{d:DesignInstance ViewModels:ReactivePropertyBasicsPageViewModel}">
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton Icon="Refresh" Label="Replace text" Command="{Binding ReplaceTextCommand}"/>
+        </CommandBar>
+    </Page.BottomAppBar>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock TextWrapping="Wrap" Text="ReactivePropertyBasics" Style="{StaticResource SubheaderTextBlockStyle}"/>
+        <StackPanel Grid.Row="1" Margin="10">
+            <TextBox Margin="0" TextWrapping="Wrap" Text="{Binding InputText.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Stretch"/>
+            <TextBlock TextWrapping="Wrap" Text="{Binding DisplayText.Value}" Style="{StaticResource BodyTextBlockStyle}"/>
+        </StackPanel>
+
+    </Grid>
+</Page>

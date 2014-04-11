@@ -1,0 +1,25 @@
+﻿<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WP81.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="using:Microsoft.Practices.Prism.StoreApps"
+    xmlns:ViewModels="using:WP81.ViewModels"
+    x:Class="WP81.Views.MainPage"
+    mc:Ignorable="d"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" d:DataContext="{d:DesignInstance ViewModels:MainPageViewModel, IsDesignTimeCreatable=True}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock Style="{StaticResource SubheaderTextBlockStyle}" Text="Reactive Property Sample" Margin="0" />
+        <StackPanel Grid.Row="1" Margin="10">
+            <Button Content="ReactivePropertyBasics" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding NavigateReactivePropertyBasicsCommand, Mode=OneWay}"/>
+        </StackPanel>
+
+    </Grid>
+</Page>

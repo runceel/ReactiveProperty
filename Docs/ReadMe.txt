@@ -29,6 +29,9 @@ Rx-Main
 |-portable-net45+win81 - Portable Class Library .NET 4.5, .NET 4.5.1, Windows store app(Windows 8.1)
 |-portable-net45+wp8-win81 - Portable Class Library .NET 4.5, .NET 4.5.1, Windows Phone 8, Windows store app(Windows 8.1)
 |-wp8 - Windows Phone 8
+|-Xamarin.Android
+|-Xamarin.iOS
+|-wpa81 - Windows Phone 8.1
 
 ---Dependency---
 
@@ -96,6 +99,8 @@ Icon design by @ocazuco.
 
 ---History---
 2014-04-04 ver 0.4.2.beta4
+	Add
+		Windows Phone Runtime support.
 	Change
 		Remove System.Runtime.InteropServices.WindowsRuntime.dll from Xamarin.Android(please use alpha channel)
 		Remove System.Runtime.InteropServices.WindowsRuntime.dll and System.Dynamic.Runtime.dll from Xamarin.iOS(please use alpha channel)
