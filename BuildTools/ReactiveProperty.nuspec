@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>ReactiveProperty</id>
-    <version>0.4.2</version>
+    <version>0.4.2.1</version>
     <title>ReactiveProperty Portable</title>
     <authors>neuecc xin9le okazuki</authors>
     <owners>neuecc xin9le okazuki</owners>
@@ -15,17 +15,17 @@
     <language>en-US</language>
     <tags>rx mvvm async rx-main</tags>
     <dependencies>
-      <group targetFramework="Xamarin.iOS">
+      <group>
         <dependency id="Rx-Main" version="2.2.2" />
       </group>
-      <group targetFramework="Windows8.0">
+      <group targetFramework="win81">
         <dependency id="Rx-WindowStoreApps" version="2.2.2" />
       </group>
-      <group targetFramework=".NETFramework4.5">
+      <group targetFramework="net45">
         <dependency id="Rx-Xaml" version="2.2.2" />
         <dependency id="Unofficial.Blend.Interactivity" version="1.0.0" />
       </group>
-      <group targetFramework="WindowsPhone8.0">
+      <group targetFramework="wp8">
         <dependency id="Rx-Xaml" version="2.2.2" />
         <dependency id="Microsoft.Bcl.Async" version="1.0.165" />
         <dependency id="Unofficial.Blend.Interactivity" version="1.0.0" />

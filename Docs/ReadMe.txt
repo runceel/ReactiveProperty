@@ -1,6 +1,6 @@
 ﻿/*--------------------------------------------------------------------------
  * ReactiveProperty
- * ver 0.4.0.0 (Dec. 15th, 2013)
+ * ver 0.4.2.1 (Apr. 12th, 2014)
  *
  * created and maintained by neuecc <ils@neue.cc - @neuecc/Twitter>, xin9le<@xin9le/Twitter>, okazuki<@okazuki/Twitter>
  * licensed under Microsoft Public License(Ms-PL)
@@ -43,7 +43,7 @@ Behaviors SDK (XAML)(Windows store app(Windows 8.1)).
 
 ---NuGet Installation---
 
-Install-Package ReactiveProperty-PCL
+Install-Package ReactiveProperty
 -> NET45, WP8, WinRT8.1 | dependencies Rx-Main, Unofficial.Blend.Interactivity
 
 ---Snippet---
@@ -69,6 +69,9 @@ Codeplex.Reactive
 -> ReactiveTimer - Schedulable and hot(stoppable/continuable) timer.
 -> UIDispatcherScheduler - Schedule on UIDispatcher, if access same thread schedule immediately.
 
+Codeplex.Reactive.Binding
+-> Extension Methods for ReactiveProperty<T>. Code based data binding.
+
 Codeplex.Reactive.Extensions
 -> Extension Methods for interface(IObservble<T>, INotifyPropertyChanged, etc...)
 
@@ -87,7 +90,7 @@ Standard usage and all API references details, see project home.
 
 ---Source Info---
 
-Solution file is for Visual Studio 2013.
+Solution file is for Visual Studio 2013 Update 2 RC.
 Version control under Git.
 External library reference under NuGet.
 Unit test using MSTest and mock library is Fakes.
@@ -98,11 +101,17 @@ Assert helper using ChainingAssertion http://chainingassertion.codeplex.com/
 Icon design by @ocazuco.
 
 ---History---
+2014-04-12 ver 0.4.2.1
+    Info
+		Xamarin.Android and Xamarin.iOS 4.12.3 or highter. detail.
+			http://docs.xamarin.com/releases/android/xamarin.android_4/xamarin.android_4.12/#3
+			https://bugzilla.xamarin.com/show_bug.cgi?id=18024
+
 2014-04-11 ver 0.4.2
     no change.
 
 2014-04-11 ver 0.4.2.beta5
-	Change
+	Fix
 		target platform WPA81 library.
 
 2014-04-11 ver 0.4.2.beta4
