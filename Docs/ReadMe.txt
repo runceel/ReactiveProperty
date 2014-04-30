@@ -101,6 +101,10 @@ Assert helper using ChainingAssertion http://chainingassertion.codeplex.com/
 Icon design by @ocazuco.
 
 ---History---
+2014/04/30 ver 0.4.3.0
+	Info
+		Universal Windows app support.
+
 2014-04-12 ver 0.4.2.1
     Info
 		Xamarin.Android and Xamarin.iOS 4.12.3 or highter. detail.
