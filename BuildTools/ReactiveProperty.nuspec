@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>ReactiveProperty</id>
-    <version>0.4.4.0</version>
+    <version>0.4.4.1</version>
     <title>ReactiveProperty Portable</title>
     <authors>neuecc xin9le okazuki</authors>
     <owners>neuecc xin9le okazuki</owners>

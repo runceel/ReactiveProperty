@@ -203,4 +203,30 @@ namespace Codeplex.Reactive
         public NotifyCollectionChangedAction Action { get; set; }
 
     }
+
+    public static class ReadOnlyReactiveCollection
+    {
+        /// <summary>
+        /// Create ReadOnlyReactiveCollection
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this IObservable<CollectionChanged<T>> self)
+        {
+            return new ReadOnlyReactiveCollection<T>(self);
+        }
+
+        /// <summary>
+        /// Create ReadOnlyReactiveCollection
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="self"></param>
+        /// <param name="onReset"></param>
+        /// <returns></returns>
+        public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this IObservable<T> self, IObservable<Unit> onReset = null)
+        {
+            return new ReadOnlyReactiveCollection<T>(self, onReset);
+        }
+    }
 }
