@@ -147,6 +147,7 @@
     <Compile Include="ReactiveTimerTest.cs" />
     <Compile Include="ReactivePropertyTest.Static.cs" />
     <Compile Include="ReactivePropertyValidationTest.cs" />
+    <Compile Include="ReadOnlyReactiveCollectionTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
