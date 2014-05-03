@@ -101,6 +101,10 @@ Assert helper using ChainingAssertion http://chainingassertion.codeplex.com/
 Icon design by @ocazuco.
 
 ---History---
+2014/05/03 ver 0.4.4.0
+	Add
+		ReadOnlyReactiveCollection.
+
 2014/04/30 ver 0.4.3.0
 	Info
 		Universal Windows app support.
