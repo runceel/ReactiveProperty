@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -14,9 +15,9 @@ namespace Codeplex.Reactive
     /// ReadOnly ReactiveCollection
     /// </summary>
     /// <typeparam name="T">collection item type</typeparam>
-    public class ReadOnlyReactiveCollection<T> : IReadOnlyCollection<T>, INotifyCollectionChanged, IDisposable
+    public class ReadOnlyReactiveCollection<T> : ReadOnlyObservableCollection<T>, IDisposable
     {
-        private ObservableCollection<T> source = new ObservableCollection<T>();
+        private ObservableCollection<T> source;
         private CompositeDisposable token = new CompositeDisposable();
 
         /// <summary>
@@ -25,12 +26,17 @@ namespace Codeplex.Reactive
         public event NotifyCollectionChangedEventHandler CollectionChanged;
 
         /// <summary>
+        /// PropertyChanged event
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
         /// Construct RxCollection from CollectionChanged.
         /// </summary>
         /// <param name="ox"></param>
-        public ReadOnlyReactiveCollection(IObservable<CollectionChanged<T>> ox)
+        public ReadOnlyReactiveCollection(IObservable<CollectionChanged<T>> ox, ObservableCollection<T> source) : base(source)
         {
-            this.InitializeNotifyCollectionChanged();
+            this.source = source;
 
             ox.Where(v => v.Action == NotifyCollectionChangedAction.Add)
                 .Subscribe(v =>
@@ -66,9 +72,9 @@ namespace Codeplex.Reactive
         /// </summary>
         /// <param name="ox">Add</param>
         /// <param name="onReset">Clear</param>
-        public ReadOnlyReactiveCollection(IObservable<T> ox, IObservable<Unit> onReset = null)
+        public ReadOnlyReactiveCollection(IObservable<T> ox, ObservableCollection<T> source, IObservable<Unit> onReset = null) : base(source)
         {
-            this.InitializeNotifyCollectionChanged();
+            this.source = source;
 
             ox.Subscribe(value =>
             {
@@ -83,45 +89,6 @@ namespace Codeplex.Reactive
         }
 
         /// <summary>
-        /// get collection count.
-        /// </summary>
-        public int Count
-        {
-            get { return this.source.Count; }
-        }
-
-        /// <summary>
-        /// Get IEnumerable
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerator<T> GetEnumerator()
-        {
-            return this.source.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
-        }
-
-        private void InitializeNotifyCollectionChanged()
-        {
-            this.source.CollectionChanged += this.OnCollectionChanged;
-            Disposable.Create(() =>
-                this.source.CollectionChanged -= this.OnCollectionChanged).AddTo(this.token);
-        }
-
-        private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            var h = this.CollectionChanged;
-            if (h != null)
-            {
-                h(this, e);
-            }
-        }
-
-
-        /// <summary>
         /// Dispose managed resource.
         /// </summary>
         public void Dispose()
@@ -133,6 +100,7 @@ namespace Codeplex.Reactive
 
             this.token.Dispose();
         }
+
     }
 
     /// <summary>
@@ -214,7 +182,7 @@ namespace Codeplex.Reactive
         /// <returns></returns>
         public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this IObservable<CollectionChanged<T>> self)
         {
-            return new ReadOnlyReactiveCollection<T>(self);
+            return new ReadOnlyReactiveCollection<T>(self, new ObservableCollection<T>());
         }
 
         /// <summary>
@@ -226,7 +194,7 @@ namespace Codeplex.Reactive
         /// <returns></returns>
         public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this IObservable<T> self, IObservable<Unit> onReset = null)
         {
-            return new ReadOnlyReactiveCollection<T>(self, onReset);
+            return new ReadOnlyReactiveCollection<T>(self, new ObservableCollection<T>(), onReset);
         }
     }
 }

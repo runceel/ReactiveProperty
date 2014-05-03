@@ -3,6 +3,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Reactive.Subjects;
 using System.Reactive;
 using Codeplex.Reactive;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace ReactiveProperty.Tests
 {
@@ -15,7 +17,7 @@ namespace ReactiveProperty.Tests
             var s = new Subject<int>();
             var reset = new Subject<Unit>();
 
-            var target = new ReadOnlyReactiveCollection<int>(s, reset);
+            var target = s.ToReadOnlyReactiveCollection(reset);
             target.Count.Is(0);
 
             s.OnNext(10);
@@ -31,7 +33,7 @@ namespace ReactiveProperty.Tests
         {
             var s = new Subject<CollectionChanged<int>>();
 
-            var target = new ReadOnlyReactiveCollection<int>(s);
+            var target = s.ToReadOnlyReactiveCollection();
             target.Count.Is(0);
             s.OnNext(CollectionChanged<int>.Add(0, 10));
             s.OnNext(CollectionChanged<int>.Add(1, 2));
@@ -47,5 +49,6 @@ namespace ReactiveProperty.Tests
             s.OnNext(CollectionChanged<int>.Reset);
             target.Count.Is(0);
         }
+
     }
 }
