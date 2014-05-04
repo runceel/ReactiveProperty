@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Linq;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -195,6 +196,56 @@ namespace Codeplex.Reactive
         public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this IObservable<T> self, IObservable<Unit> onReset = null)
         {
             return new ReadOnlyReactiveCollection<T>(self, new ObservableCollection<T>(), onReset);
+        }
+
+        /// <summary>
+        /// convert ObservableCollection to IO&lt;CollectionChanged&gt;
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static IObservable<CollectionChanged<T>> ToCollectionChanged<T>(this ObservableCollection<T> self)
+        {
+            return Observable.Create<CollectionChanged<T>>(ox =>
+            {
+                var d = new CompositeDisposable();
+                self.CollectionChangedAsObservable()
+                    .Where(e => e.Action == NotifyCollectionChangedAction.Add)
+                    .Select(e => CollectionChanged<T>.Add(e.NewStartingIndex, e.NewItems.Cast<T>().First()))
+                    .Subscribe(c => ox.OnNext(c))
+                    .AddTo(d);
+
+                self.CollectionChangedAsObservable()
+                    .Where(e => e.Action == NotifyCollectionChangedAction.Remove)
+                    .Select(e => CollectionChanged<T>.Remove(e.OldStartingIndex))
+                    .Subscribe(c => ox.OnNext(c))
+                    .AddTo(d);
+
+                self.CollectionChangedAsObservable()
+                    .Where(e => e.Action == NotifyCollectionChangedAction.Replace)
+                    .Select(e => CollectionChanged<T>.Replace(e.NewStartingIndex, e.NewItems.Cast<T>().First()))
+                    .Subscribe(c => ox.OnNext(c))
+                    .AddTo(d);
+
+                self.CollectionChangedAsObservable()
+                    .Where(e => e.Action == NotifyCollectionChangedAction.Reset)
+                    .Select(_ => CollectionChanged<T>.Reset)
+                    .Subscribe(c => ox.OnNext(c))
+                    .AddTo(d);
+
+                return d;
+            });
+        }
+
+        /// <summary>
+        /// convert ObservableCollection to ReadOnlyReactiveCollection
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this ObservableCollection<T> self)
+        {
+            return self.ToCollectionChanged().ToReadOnlyReactiveCollection();
         }
     }
 }
