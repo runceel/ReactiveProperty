@@ -22,20 +22,12 @@ namespace Codeplex.Reactive
         private CompositeDisposable token = new CompositeDisposable();
 
         /// <summary>
-        /// CollectionChanged event
-        /// </summary>
-        public event NotifyCollectionChangedEventHandler CollectionChanged;
-
-        /// <summary>
-        /// PropertyChanged event
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
         /// Construct RxCollection from CollectionChanged.
         /// </summary>
         /// <param name="ox"></param>
-        public ReadOnlyReactiveCollection(IObservable<CollectionChanged<T>> ox, ObservableCollection<T> source) : base(source)
+        /// <param name="source"></param>
+        public ReadOnlyReactiveCollection(IObservable<CollectionChanged<T>> ox, ObservableCollection<T> source)
+            : base(source)
         {
             this.source = source;
 
