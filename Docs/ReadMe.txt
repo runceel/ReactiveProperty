@@ -1,6 +1,6 @@
 ﻿/*--------------------------------------------------------------------------
  * ReactiveProperty
- * ver 0.4.2.1 (Apr. 12th, 2014)
+ * ver 0.4.5-beta1 (May. 06th, 2014)
  *
  * created and maintained by neuecc <ils@neue.cc - @neuecc/Twitter>, xin9le<@xin9le/Twitter>, okazuki<@okazuki/Twitter>
  * licensed under Microsoft Public License(Ms-PL)
@@ -24,6 +24,7 @@ I recommend that use MVVM Framework together.
 
 ---Bin/Assembly---
 Rx-Main
+|-net4 - .NET 4
 |-net45 - .NET 4.5, .NET 4.5.1
 |-netcore451 - Windows store app(Windows 8.1)
 |-portable-net45+win81 - Portable Class Library .NET 4.5, .NET 4.5.1, Windows store app(Windows 8.1)
@@ -101,6 +102,10 @@ Assert helper using ChainingAssertion http://chainingassertion.codeplex.com/
 Icon design by @ocazuco.
 
 ---History---
+2014/05/06 ver 0.4.5-beta1
+	Add
+		Support platform .NET Framework 4 Client Profile.
+
 2014/05/03 ver 0.4.4.0
 	Add
 		ReadOnlyReactiveCollection.

@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>ReactiveProperty</id>
-    <version>0.4.5.beta1</version>
+    <version>0.4.5-beta1</version>
     <title>ReactiveProperty Portable</title>
     <authors>neuecc xin9le okazuki</authors>
     <owners>neuecc xin9le okazuki</owners>
@@ -10,14 +10,14 @@
     <projectUrl>http://reactiveproperty.codeplex.com/</projectUrl>
     <iconUrl>http://neue.cc/ReactivePropertyIcon_100x100.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>ReactiveProperty is MVVM and Asynchronous Extensions for Reactive Extensions(Rx-Main). Target is .NET 4.5, WP8, Windows store apps(Win8.1), Windows Phone 8.1.</description>
+    <description>ReactiveProperty is MVVM and Asynchronous Extensions for Reactive Extensions(Rx-Main). Target is .NET 4, WP8, Windows store apps(Win8.1), Windows Phone 8.1.</description>
     <summary />
     <language>en-US</language>
     <tags>rx mvvm async rx-main</tags>
     <dependencies>
       <group>
         <dependency id="Rx-Main" version="2.2.4" />
-        <dependency id="Microsoft.Bcl.Async" version="1.0" />
+        <dependency id="Microsoft.Bcl.Async" />
       </group>
     </dependencies>
     <frameworkAssemblies>
@@ -37,8 +37,8 @@
 
     <!-- platform -->
     <!-- WPF NET4 -->
-    <file src="..\Binary\NET4\ReactiveProperty.NET4.dll" target="lib\net45" />
-    <file src="..\Binary\NET4\ReactiveProperty.NET4.XML" target="lib\net45" />
+    <file src="..\Binary\NET4\ReactiveProperty.NET4.dll" target="lib\net4" />
+    <file src="..\Binary\NET4\ReactiveProperty.NET4.XML" target="lib\net4" />
 
     <!-- WPF NET45 -->
     <file src="..\Binary\NET45\ReactiveProperty.NET45.dll" target="lib\net45" />
