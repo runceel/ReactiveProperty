@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>ReactiveProperty</id>
-    <version>0.4.4.2</version>
+    <version>0.4.5.beta1</version>
     <title>ReactiveProperty Portable</title>
     <authors>neuecc xin9le okazuki</authors>
     <owners>neuecc xin9le okazuki</owners>
@@ -17,6 +17,7 @@
     <dependencies>
       <group>
         <dependency id="Rx-Main" version="2.2.4" />
+        <dependency id="Microsoft.Bcl.Async" version="1.0" />
       </group>
     </dependencies>
     <frameworkAssemblies>
@@ -35,7 +36,11 @@
     <file src="..\Docs\ReadMe.txt" target="Docs\" />
 
     <!-- platform -->
-    <!-- WPF -->
+    <!-- WPF NET4 -->
+    <file src="..\Binary\NET4\ReactiveProperty.NET4.dll" target="lib\net45" />
+    <file src="..\Binary\NET4\ReactiveProperty.NET4.XML" target="lib\net45" />
+
+    <!-- WPF NET45 -->
     <file src="..\Binary\NET45\ReactiveProperty.NET45.dll" target="lib\net45" />
     <file src="..\Binary\NET45\ReactiveProperty.NET45.XML" target="lib\net45" />
     <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.dll" target="lib\net45" />
