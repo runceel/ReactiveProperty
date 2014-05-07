@@ -38,14 +38,11 @@ namespace ReactiveProperty.Tests.Serialization
             var s = new XmlSerializer(typeof(Person));
 
             var ms = new MemoryStream();
-            // serialize normal property value
+            // serialize
             s.Serialize(ms, p);
-            // serialize rx property value
-            var packedData = SerializeHelper.PackReactivePropertyValue(p);
-
             ms.Seek(0, SeekOrigin.Begin);
+            // deserialize
             var restored = s.Deserialize(ms) as Person;
-            SerializeHelper.UnpackReactivePropertyValue(restored, packedData);
             restored.Is(o => o.Name == "tanaka" && o.Age.Value == 10 && o.Profile.Value == "tanaka 10");
         }
     }
@@ -80,6 +77,7 @@ namespace ReactiveProperty.Tests.Serialization
         public ReactiveProperty<int> Age { get; private set; }
 
         [XmlIgnore]
+        [IgnoreDataMember]
         public ReactiveProperty<string> Profile { get; private set; }
 
         public Person()
@@ -88,6 +86,19 @@ namespace ReactiveProperty.Tests.Serialization
             this.Profile = this.Age
                 .Select(i => string.Format("{0} {1}", this.Name, i))
                 .ToReactiveProperty();
+        }
+
+        // use serialize only
+        public string PackValue
+        {
+            get
+            {
+                return SerializeHelper.PackReactivePropertyValue(this);
+            }
+            set
+            {
+                SerializeHelper.UnpackReactivePropertyValue(this, value);
+            }
         }
     }
 }
