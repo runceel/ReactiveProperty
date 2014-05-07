@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Reactive.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Codeplex.Reactive;
 using Codeplex.Reactive.Helpers;
 using System.Runtime.Serialization;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace ReactiveProperty.Tests.Serialization
 {
@@ -14,7 +17,7 @@ namespace ReactiveProperty.Tests.Serialization
     {
         [Ignore] // currently not supported recursive serialize
         [TestMethod]
-        public void SerializeTest()
+        public void RecursiveSerializeTest()
         {
             var p = new Parent();
             p.Child.Value = new Child();
@@ -22,6 +25,28 @@ namespace ReactiveProperty.Tests.Serialization
 
             var data = SerializeHelper.PackReactivePropertyValue(p);
             data.IsNotNull();
+        }
+
+        [TestMethod]
+        public void FlatClassSerializeTest()
+        {
+            var p = new Person();
+            p.Name = "tanaka";
+            p.Age.Value = 10;
+            p.Is(o => o.Name == "tanaka" && o.Age.Value == 10 && o.Profile.Value == "tanaka 10");
+
+            var s = new XmlSerializer(typeof(Person));
+
+            var ms = new MemoryStream();
+            // serialize normal property value
+            s.Serialize(ms, p);
+            // serialize rx property value
+            var packedData = SerializeHelper.PackReactivePropertyValue(p);
+
+            ms.Seek(0, SeekOrigin.Begin);
+            var restored = s.Deserialize(ms) as Person;
+            SerializeHelper.UnpackReactivePropertyValue(restored, packedData);
+            restored.Is(o => o.Name == "tanaka" && o.Age.Value == 10 && o.Profile.Value == "tanaka 10");
         }
     }
 
@@ -45,5 +70,24 @@ namespace ReactiveProperty.Tests.Serialization
         }
 
         public ReactiveProperty<string> Name { get; private set; }
+    }
+
+    public class Person
+    {
+        public string Name { get; set; }
+
+        [XmlIgnore]
+        public ReactiveProperty<int> Age { get; private set; }
+
+        [XmlIgnore]
+        public ReactiveProperty<string> Profile { get; private set; }
+
+        public Person()
+        {
+            this.Age = new ReactiveProperty<int>();
+            this.Profile = this.Age
+                .Select(i => string.Format("{0} {1}", this.Name, i))
+                .ToReactiveProperty();
+        }
     }
 }
