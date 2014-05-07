@@ -64,6 +64,12 @@ namespace Codeplex.Reactive
 		List<Func<IObservable<T>, IObservable<IEnumerable>>> validatorStore = new List<Func<IObservable<T>, IObservable<IEnumerable>>>();
 
         /// <summary>PropertyChanged raise on UIDispatcherScheduler</summary>
+        public ReactiveProperty()
+            : this(default(T), ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe)
+        {
+        }
+
+        /// <summary>PropertyChanged raise on UIDispatcherScheduler</summary>
         public ReactiveProperty(T initialValue = default(T), ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
             : this(UIDispatcherScheduler.Default, initialValue, mode)
         { }
