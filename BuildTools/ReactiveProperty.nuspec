@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>ReactiveProperty</id>
-    <version>0.4.5-beta2</version>
+    <version>0.4.5-beta3</version>
     <title>ReactiveProperty Portable</title>
     <authors>neuecc xin9le okazuki</authors>
     <owners>neuecc xin9le okazuki</owners>
@@ -15,28 +15,32 @@
     <language>en-US</language>
     <tags>rx mvvm async rx-main</tags>
     <dependencies>
-      <group>
-        <dependency id="Rx-Main" version="2.2.4" />
-      </group>
       <group targetFramework="net4">
+        <dependency id="Rx-Main" version="2.2.4" />
         <dependency id="Microsoft.Bcl.Async" />
       </group>
       <group targetFramework="net45">
+        <dependency id="Rx-Main" version="2.2.4" />
         <dependency id="Microsoft.Bcl.Async" />
       </group>
       <group targetFramework="wp8">
+        <dependency id="Rx-Main" version="2.2.4" />
         <dependency id="Microsoft.Bcl.Async" />
       </group>
       <group targetFramework="wpa81">
+        <dependency id="Rx-Main" version="2.2.4" />
         <dependency id="Microsoft.Bcl.Async" />
       </group>
       <group targetFramework="win81">
+        <dependency id="Rx-Main" version="2.2.4" />
         <dependency id="Microsoft.Bcl.Async" />
       </group>
-      <group targetFramework="Mono.Android">
+      <group targetFramework="MonoAndroid">
+        <dependency id="Rx-Main" version="2.2.4" />
       </group>
-      <group targetFramework="Mono.iOS">
-      </group>
+      <group targetFramework="MonoTouch">
+        <dependency id="Rx-Main" version="2.2.4" />
+     </group>
     </dependencies>
     <frameworkAssemblies>
       <frameworkAssembly assemblyName="System" targetFramework=".NETFramework4.5" />
