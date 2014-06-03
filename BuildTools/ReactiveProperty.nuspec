@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>ReactiveProperty</id>
-    <version>0.4.5.0</version>
+    <version>0.4.5.1</version>
     <title>ReactiveProperty Portable</title>
     <authors>neuecc xin9le okazuki</authors>
     <owners>neuecc xin9le okazuki</owners>
@@ -21,7 +21,6 @@
       </group>
       <group targetFramework="net45">
         <dependency id="Rx-Main" version="2.2.4" />
-        <dependency id="Microsoft.Bcl.Async" />
       </group>
       <group targetFramework="wp8">
         <dependency id="Rx-Main" version="2.2.4" />
@@ -29,11 +28,9 @@
       </group>
       <group targetFramework="wpa81">
         <dependency id="Rx-Main" version="2.2.4" />
-        <dependency id="Microsoft.Bcl.Async" />
       </group>
       <group targetFramework="win81">
         <dependency id="Rx-Main" version="2.2.4" />
-        <dependency id="Microsoft.Bcl.Async" />
       </group>
       <group targetFramework="MonoAndroid">
         <dependency id="Rx-Main" version="2.2.4" />
