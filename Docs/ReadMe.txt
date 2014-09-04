@@ -1,6 +1,6 @@
 ﻿/*--------------------------------------------------------------------------
  * ReactiveProperty
- * ver 0.4.5.0 (May. 07th, 2014)
+ * ver 1.0.0.0 (Sep. 04th, 2014)
  *
  * created and maintained by neuecc <ils@neue.cc - @neuecc/Twitter>, xin9le<@xin9le/Twitter>, okazuki<@okazuki/Twitter>
  * licensed under Microsoft Public License(Ms-PL)
@@ -102,6 +102,11 @@ Assert helper using ChainingAssertion http://chainingassertion.codeplex.com/
 Icon design by @ocazuco.
 
 ---History---
+2014/05/07 ver 1.0.0.0
+	Info
+		Update dependency libraries.
+		Release v 1.0.
+
 2014/05/07 ver 0.4.5.0
 	Add
 		Default constructor at ReactiveProperty.
