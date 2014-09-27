@@ -105,6 +105,9 @@ Assert helper using ChainingAssertion http://chainingassertion.codeplex.com/
 Icon design by @ocazuco.
 
 ---History---
+2014/09/28 ver 1.0.2.0
+	Change
+		IDisposableExtensions.AddTo method return first argument value.
 2014/09/27 ver 1.0.1.0
     Add
 	    Add ToReadOnlyCollection override.
