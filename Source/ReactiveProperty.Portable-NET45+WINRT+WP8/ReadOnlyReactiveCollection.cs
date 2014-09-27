@@ -239,5 +239,29 @@ namespace Codeplex.Reactive
         {
             return self.ToCollectionChanged().ToReadOnlyReactiveCollection();
         }
+
+        /// <summary>
+        /// convert ObservableCollection to ReadOnlyReactiveCollection
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="U"></typeparam>
+        /// <param name="self"></param>
+        /// <param name="converter"></param>
+        /// <returns></returns>
+        public static ReadOnlyReactiveCollection<U> ToReadOnlyReactiveCollection<T, U>(this ObservableCollection<T> self, Func<T, U> converter)
+            where T : class
+            where U : class
+        {
+            var source = new ObservableCollection<U>(self.Select(converter));
+            var collectionChanged = self
+                .ToCollectionChanged()
+                .Select(c => new CollectionChanged<U>
+                {
+                    Action = c.Action,
+                    Index = c.Index,
+                    Value = c.Value == null ? null : converter(c.Value)
+                });
+            return new ReadOnlyReactiveCollection<U>(collectionChanged, source);
+        }
     }
 }

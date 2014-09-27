@@ -37,7 +37,7 @@ Rx-Main
 ---Dependency---
 
 Currently target Rx version is
-Build Rx-Main 2.2.0 on NuGet.
+Build Rx-Main 2.2.4 on NuGet.
 ReactiveProperty.Platform.* depends
 Unofficial.Blend.Interactivity 1.0.0 on NuGet(WP8, .NET 4.5),
 Behaviors SDK (XAML)(Windows store app(Windows 8.1)).
@@ -60,6 +60,9 @@ rcommg ReactiveCommandGeneric.snippet
 
 rcoll ReactiveCollection.snippet
 -> ReactiveCollection<T> CollectionName { get; private set; }
+
+rrcoll ReadOnlyReactiveCollection.snippet
+-> ReadOnlyReactiveCollection<T> CollectionName { get; private set; }
 
 ---Namespace and Description---
 
@@ -102,6 +105,10 @@ Assert helper using ChainingAssertion http://chainingassertion.codeplex.com/
 Icon design by @ocazuco.
 
 ---History---
+2014/09/27 ver 1.0.1.0
+    Add
+	    Add ToReadOnlyCollection override.
+
 2014/05/07 ver 1.0.0.0
 	Info
 		Update dependency libraries.
