@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30324.0
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{592AA479-AD7F-476B-AEF8-2B0268EA3BD8}"
 EndProject
@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		Local.testsettings = Local.testsettings
 		ReactiveProperty.vsmdi = ReactiveProperty.vsmdi
+		README.md = README.md
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 	EndProjectSection
 EndProject
@@ -79,6 +80,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.Platform.WPA81", "Source\ReactiveProperty.Platform.WPA81\ReactiveProperty.Platform.WPA81.csproj", "{43B1B5E4-FFF6-4A61-8C63-3C85C3BA3E98}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.Platform.NET4", "Source\ReactiveProperty.Platform.NET4\ReactiveProperty.Platform.NET4.csproj", "{1F4DEECC-84CE-4DCF-9D88-518CE8DA7DE3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{97EC2EDF-8B92-4DB1-B2D7-09E4124B9DE0}"
+	ProjectSection(SolutionItems) = preProject
+		Images\basics.png = Images\basics.png
+		Images\eventtoreactive.PNG = Images\eventtoreactive.PNG
+		Images\rpsummary.png = Images\rpsummary.png
+		Images\validation.PNG = Images\validation.PNG
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
