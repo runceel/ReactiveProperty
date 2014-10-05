@@ -2,11 +2,11 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>ReactiveProperty</id>
-    <version>1.0.2.1</version>
+    <version>1.0.2.2</version>
     <title>ReactiveProperty</title>
     <authors>neuecc xin9le okazuki</authors>
     <owners>neuecc xin9le okazuki</owners>
-    <licenseUrl></licenseUrl>
+    <licenseUrl>https://github.com/runceel/ReactiveProperty/blob/master/LICENSE.txt</licenseUrl>
     <projectUrl>https://github.com/runceel/ReactiveProperty</projectUrl>
     <iconUrl>http://neue.cc/ReactivePropertyIcon_100x100.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -55,6 +55,7 @@
   <files>
     <file src="..\Snippet\*.snippet" target="Snippet\" />
     <file src="..\Docs\ReadMe.txt" target="Docs\" />
+    <file src="..\LICENSE.txt" target="\" />
 
     <!-- platform -->
     <!-- WPF NET4 -->
