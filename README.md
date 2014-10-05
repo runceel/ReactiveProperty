@@ -76,7 +76,7 @@ ReactiveProperty's direct binding is very simple and clear syntax.
 
 ## Event to ReactiveProperty
 
-![Basics](Images/eventtoreactive.png)
+![Basics](Images/eventtoreactive.PNG)
 
 ```xml
 <Window.Resources>
@@ -165,7 +165,7 @@ public class Converters
 
 ## Validation
 
-![Basics](Images/validation.png)
+![Basics](Images/validation.PNG)
 
 ```cs
 public class ValidationViewModel
