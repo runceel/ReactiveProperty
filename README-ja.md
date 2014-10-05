@@ -1,36 +1,40 @@
-ReactiveProperty
+﻿ReactiveProperty
 ================
 
 ![ReactiveProperty overview](Images/rpsummary.png)
 
-ReactiveProperty is MVVM and Asynchronous Extensions for Reactive Extensions.
-Target Framework is .NET 4.0 Client Profile, .NET 4.5, Windows Phone 8.0/8.1, Windows store app 8.0/8.1, Xamarin.iOS, Xamarin.Android.
+ReactivePropertyは、Reactive ExtensionsをMVVMパターンと非同期用に拡張したものです。
+動作環境は、以下の通りです。
 
-## Features
+- .NET 4.0 Client Profile/.NET 4.5
+- Windows Phone 8.0/8.1
+- Windows ストアアプリ 8.0/8.1
+- Xamarin.iOS, Xamarin.Android
 
-- ReactiveProperty - Two-way bindable IObservable, from V to VM and VM to V.
-- ReactiveCommand - Convert observable condition sequence to ICommand
-- Typesafe convert INotifyPropertyChanged to ReactiveProperty
-- Event to ReactiveProperty Blend trigger
-- There means V -> VM -> M -> VM -> V completely connected in reactive, everything is asynchronous
-- NuGet installation support.
-- PM > Install-Package ReactiveProperty
-- <b>ReactiveProperty makes viewmodel extermely clean</b>
+## ReactivePropertyの機能
 
-> Note:
-> ReactiveProperty is not replace existing MVVM Framework.
-> ReactiveProperty no provides ViewModelBase, Messenger, etc.
-> I recommend that use MVVM Framework together.
+- ReactiveProperty - ViewとViewModel、ViewModelとViewの双方向バインド可能なIObservable。
+- ReactiveCommand - IObservable&lt;bool&gt;のシーケンスをICommandに変換できます。
+- タイプセーフな変換機能 - INotifyPropertyChangedインターフェースを実装したクラスをReactivePropertyに変換できます。
+- イベントをReactivePropertyへ伝搬可能なBlendのTriggerがあります。
+- 非同期に、リアクティブにView -> ViewModel -> Model -> ViewModel -> Viewを接続可能です。
+- NuGetによるインストールができます。
+    - PM > Install-Package ReactiveProperty
+- <b>ReactivePropertyは、ViewModelに対して基本クラスが不要です。継承関係をクリーンに保てます。</b>
 
-## Install
+> ノート: ReactivePropertyは、他のMVVMフレームワークを置き換えるものではありません。
+> ReactivePropertyは、ViewModelの基本クラスやメッセンジャーなどを提供しません。
+> 他のMVVMライブラリと共に利用することをお勧めします。
 
-Install NuGet.
+## インストール方法
+
+NuGetを使ってインストールします。
 
 ```
 PM > Install-Package ReactiveProperty
 ```
 
-## ReactiveProperty & ReactiveCommand Basics
+## ReactivePropertyとReactiveCommandの基本的な使い方
 
 ![Basics](Images/basics.png)
 
@@ -80,9 +84,10 @@ public class ReactivePropertyBasicsViewModel
 }
 ```
 
-ReactiveProperty's direct binding is very simple and clear syntax.
+ReactivePropertyは、とても簡単に直感的にバインド出来ます。
 
-## Event to ReactiveProperty
+
+## イベントをReactivePropertyに設定する
 
 ![Basics](Images/eventtoreactive.PNG)
 
@@ -294,11 +299,11 @@ public class ValidationViewModel
 </Grid>
 ```
 
-Supporting three types validation. more details, see Sample/Validation.
+3通りのValidationの方法をサポートしています。詳細はSample/Validationを参照してください。
 
-## Synchronize existing models
+## 既存のModelとの同期
 
-models.
+以下のようなModelがあるとします。
 ```cs
 public class ObservableObject : INotifyPropertyChanged
 {
@@ -322,7 +327,7 @@ public class PlainObject
 }
 ```
 
-Synchronize existing models.
+以下のようにViewModelと同期をとります。
 ```cs
 // Synchroinize exsiting models.
 public class SynchronizeObjectViewModel
@@ -357,8 +362,8 @@ public class SynchronizeObjectViewModel
 }
 ```
 
-using with existing MVVM Framework, auto generated models, etc.
- more details see sample/SynchronizeObject.
+既存のMVVMフレームワークと共に使用したり、自動生成されたモデルと使用したりできます。
+詳細は、Sample/SynchronizeObjectを参照してください。
 
 ## Serialization
 
@@ -389,10 +394,10 @@ protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventA
 }
 ```
 
-Supporting serialize ignore and deserialize order by DataAnnotations.
- more details, see Sample/Serialization.
+DataAnnotationsを使ってIgnoreやシリアライズの順番を制御することができます。
+詳細は、Sample/Serializationを参照してください。
 
-## Author info
+## コミッターの情報
 
 Yoshifumi Kawai a.k.a. neuecc is software developer in Tokyo, Japan.
 Awarded Microsoft MVP for Visual C# since April, 2011.
@@ -402,6 +407,3 @@ Awarded Microsoft MVP for Visual C# since July, 2012.
 
 Kazuki Ota a.k.a. okazuki software developer in Tokyo, Japan.
 Awarded Microsoft MVP for Windows Platform Developer since July, 2011.
-
-
-
