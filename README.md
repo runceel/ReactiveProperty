@@ -22,6 +22,14 @@ Target Framework is .NET 4.0 Client Profile, .NET 4.5, Windows Phone 8.0/8.1, Wi
 > ReactiveProperty no provides ViewModelBase, Messenger, etc.
 > I recommend that use MVVM Framework together.
 
+## Install
+
+Install NuGet.
+
+```
+PM > Install-Package ReactiveProperty
+```
+
 ## ReactiveProperty & ReactiveCommand Basics
 
 ![Basics](Images/basics.png)
