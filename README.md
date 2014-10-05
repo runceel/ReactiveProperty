@@ -398,7 +398,7 @@ Yoshifumi Kawai a.k.a. neuecc is software developer in Tokyo, Japan.
 Awarded Microsoft MVP for Visual C# since April, 2011.
 
 Takaaki Suzuki a.k.a. xin9le software devleoper in Fukui, Japan.
-Awarded Microsoft MVP for Visual C# since 2011.
+Awarded Microsoft MVP for Visual C# since July, 2012.
 
 Kazuki Ota a.k.a. okazuki software developer in Tokyo, Japan.
 Awarded Microsoft MVP for Windows Platform Developer since July, 2011.
