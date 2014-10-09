@@ -154,6 +154,7 @@
     <Compile Include="Notifiers\CountNotifierTest.cs" />
     <Compile Include="ReactiveCommandTest.cs" />
     <Compile Include="Helpers\SerializeHelperTest.cs" />
+    <Compile Include="ReactivePropertyTest.cs" />
     <Compile Include="ReactiveTimerTest.cs" />
     <Compile Include="ReactivePropertyTest.Static.cs" />
     <Compile Include="ReactivePropertyValidationTest.cs" />

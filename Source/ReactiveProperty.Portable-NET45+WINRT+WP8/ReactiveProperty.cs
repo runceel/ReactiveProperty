@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -279,6 +280,42 @@ namespace Codeplex.Reactive
         public bool HasErrors
         {
             get { return currentErrors != null; }
+        }
+
+        /// <summary>
+        /// Observe GetErrors(null) value.
+        /// </summary>
+        public IObservable<IEnumerable> ObserveErrors
+        {
+            get 
+            {
+                return Observable.Merge(
+                    Observable.Return<Unit>(Unit.Default),
+                    this.ObserveErrorChanged.ToUnit())
+                    .Select(_ => this.GetErrors(null));
+            }
+        }
+
+        /// <summary>
+        /// Observe HasErrors value.
+        /// </summary>
+        public IObservable<bool> ObserveHasError
+        {
+            get 
+            {
+                return Observable.Merge(
+                    Observable.Return<Unit>(Unit.Default),
+                    this.ObserveErrorChanged.ToUnit())
+                    .Select(_ => this.HasErrors);
+            }
+        }
+
+        /// <summary>
+        /// Observe not HasErrors value.
+        /// </summary>
+        public IObservable<bool> ObserveHasNoError
+        {
+            get { return this.ObserveHasError.Select(b => !b); }
         }
     }
 
