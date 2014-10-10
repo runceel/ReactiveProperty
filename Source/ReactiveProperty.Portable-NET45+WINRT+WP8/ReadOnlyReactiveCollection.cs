@@ -236,8 +236,9 @@ namespace Codeplex.Reactive
         /// <param name="self"></param>
         /// <returns></returns>
         public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this ObservableCollection<T> self)
+            where T : class
         {
-            return self.ToCollectionChanged().ToReadOnlyReactiveCollection();
+            return self.ToReadOnlyReactiveCollection(x => x);
         }
 
         /// <summary>

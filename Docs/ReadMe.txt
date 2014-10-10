@@ -105,6 +105,9 @@ Assert helper using ChainingAssertion http://chainingassertion.codeplex.com/
 Icon design by @ocazuco.
 
 ---History---
+2014/10/09 ver 1.0.3.1
+    Change
+	    ToReadOnlyReactiveCollection extension method, include self collection values.
 2014/10/09 ver 1.0.3.0
     Add
 	    ObserveErrors, ObserveHasError, ObserveHasNoError method.
