@@ -290,8 +290,8 @@ namespace Codeplex.Reactive
             get 
             {
                 return Observable.Merge(
-                    Observable.Return<Unit>(Unit.Default),
-                    this.ObserveErrorChanged.ToUnit())
+                    Observable.Return<IEnumerable>(null),
+                    this.ObserveErrorChanged)
                     .Select(_ => this.GetErrors(null));
             }
         }
@@ -301,13 +301,7 @@ namespace Codeplex.Reactive
         /// </summary>
         public IObservable<bool> ObserveHasError
         {
-            get 
-            {
-                return Observable.Merge(
-                    Observable.Return<Unit>(Unit.Default),
-                    this.ObserveErrorChanged.ToUnit())
-                    .Select(_ => this.HasErrors);
-            }
+            get{ return this.ObserveErrors.Select(_ => this.HasErrors); }
         }
 
         /// <summary>
@@ -315,7 +309,7 @@ namespace Codeplex.Reactive
         /// </summary>
         public IObservable<bool> ObserveHasNoError
         {
-            get { return this.ObserveHasError.Select(b => !b); }
+            get { return this.ObserveErrors.Select(_ => !this.HasErrors); }
         }
     }
 
