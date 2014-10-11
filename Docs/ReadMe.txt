@@ -105,9 +105,11 @@ Assert helper using ChainingAssertion http://chainingassertion.codeplex.com/
 Icon design by @ocazuco.
 
 ---History---
-2014/10/11 ver 1.1.0-beta1
+2014/10/11 ver 1.1.0.0
 	Change
-		ObserveErrorChanged default behavior. Raise last errors value when Subscribed. When set errorChangedMode None preview version behavior.
+		Change ObserveErrorChanged behavior. Raise last errors value when Subscribed.
+	Remove
+		ObserveErrors, ObserveHasNoError property.
 2014/10/09 ver 1.0.3.1
     Change
 	    ToReadOnlyReactiveCollection extension method, include self collection values.

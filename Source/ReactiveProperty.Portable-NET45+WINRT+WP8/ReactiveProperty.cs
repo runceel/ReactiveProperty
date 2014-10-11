@@ -35,20 +35,12 @@ namespace Codeplex.Reactive
         RaiseLatestValueOnSubscribe = 0x02
     }
 
-    public enum ReactivePropertyErrorChangedMode
-    {
-        None,
-        /// <summary>
-        /// Push notify on subscribed.
-        /// </summary>
-        RaiseLatestValueOnSubscribe
-    }
-
     // for EventToReactive and Serialization
     public interface IReactiveProperty
     {
         object Value { get; set; }
         IObservable<IEnumerable> ObserveErrorChanged { get; }
+        IObservable<bool> ObserveHasError { get; }
     }
 
     /// <summary>
@@ -70,30 +62,28 @@ namespace Codeplex.Reactive
         // for Validation
         bool isValueChanged = false;
         readonly SerialDisposable validateNotifyErrorSubscription = new SerialDisposable();
-        readonly ISubject<IEnumerable> errorsTrigger;
+        readonly BehaviorSubject<IEnumerable> errorsTrigger;
         List<Func<IObservable<T>, IObservable<IEnumerable>>> validatorStore = new List<Func<IObservable<T>, IObservable<IEnumerable>>>();
 
         /// <summary>PropertyChanged raise on UIDispatcherScheduler</summary>
         public ReactiveProperty()
-            : this(default(T), ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe, ReactivePropertyErrorChangedMode.RaiseLatestValueOnSubscribe)
+            : this(default(T), ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe)
         {
         }
 
         /// <summary>PropertyChanged raise on UIDispatcherScheduler</summary>
         public ReactiveProperty(
             T initialValue = default(T), 
-            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe, 
-            ReactivePropertyErrorChangedMode errorChangedMode = ReactivePropertyErrorChangedMode.RaiseLatestValueOnSubscribe)
-            : this(UIDispatcherScheduler.Default, initialValue, mode, errorChangedMode)
+            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
+            : this(UIDispatcherScheduler.Default, initialValue, mode)
         { }
 
         /// <summary>PropertyChanged raise on selected scheduler</summary>
         public ReactiveProperty(
             IScheduler raiseEventScheduler, 
             T initialValue = default(T), 
-            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe,
-            ReactivePropertyErrorChangedMode errorChangedMode = ReactivePropertyErrorChangedMode.RaiseLatestValueOnSubscribe)
-            : this(Observable.Never<T>(), raiseEventScheduler, initialValue, mode, errorChangedMode)
+            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
+            : this(Observable.Never<T>(), raiseEventScheduler, initialValue, mode)
         {
         }
 
@@ -101,8 +91,7 @@ namespace Codeplex.Reactive
         internal ReactiveProperty(
             IObservable<T> source, 
             T initialValue = default(T), 
-            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe, 
-            ReactivePropertyErrorChangedMode errorChangedMode = ReactivePropertyErrorChangedMode.RaiseLatestValueOnSubscribe)
+            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
             : this(source, UIDispatcherScheduler.Default, initialValue, mode)
         {
         }
@@ -111,8 +100,7 @@ namespace Codeplex.Reactive
             IObservable<T> source, 
             IScheduler raiseEventScheduler, 
             T initialValue = default(T), 
-            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe,
-            ReactivePropertyErrorChangedMode errorChangedMode = ReactivePropertyErrorChangedMode.RaiseLatestValueOnSubscribe)
+            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
         {
             this.latestValue = initialValue;
             this.raiseEventScheduler = raiseEventScheduler;
@@ -144,9 +132,7 @@ namespace Codeplex.Reactive
 
             // start source
             this.sourceDisposable = connectable.Connect();
-            this.errorsTrigger = errorChangedMode == ReactivePropertyErrorChangedMode.RaiseLatestValueOnSubscribe ?
-                (ISubject<IEnumerable>)new BehaviorSubject<IEnumerable>(this.GetErrors(null)) :
-                new Subject<IEnumerable>();
+            this.errorsTrigger = new BehaviorSubject<IEnumerable>(this.GetErrors(null));
         }
 
         /// <summary>
@@ -185,7 +171,7 @@ namespace Codeplex.Reactive
             sourceDisposable.Dispose();
             validateNotifyErrorSubscription.Dispose();
             errorsTrigger.OnCompleted();
-            ((IDisposable)errorsTrigger).Dispose();
+            errorsTrigger.Dispose();
         }
 
         public override string ToString()
@@ -332,10 +318,9 @@ namespace Codeplex.Reactive
         public static ReactiveProperty<TProperty> FromObject<TTarget, TProperty>(
             TTarget target,
             Expression<Func<TTarget, TProperty>> propertySelector,
-            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe,
-            ReactivePropertyErrorChangedMode errorChangedMode = ReactivePropertyErrorChangedMode.RaiseLatestValueOnSubscribe)
+            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
         {
-            return FromObject(target, propertySelector, UIDispatcherScheduler.Default, mode, errorChangedMode);
+            return FromObject(target, propertySelector, UIDispatcherScheduler.Default, mode);
         }
 
         /// <summary>
@@ -347,14 +332,13 @@ namespace Codeplex.Reactive
             TTarget target,
             Expression<Func<TTarget, TProperty>> propertySelector,
             IScheduler raiseEventScheduler,
-            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe,
-            ReactivePropertyErrorChangedMode errorChangedMode = ReactivePropertyErrorChangedMode.RaiseLatestValueOnSubscribe)
+            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
         {
             string propertyName; // no use
             var getter = AccessorCache<TTarget>.LookupGet(propertySelector, out propertyName);
             var setter = AccessorCache<TTarget>.LookupSet(propertySelector, out propertyName);
 
-            var result = new ReactiveProperty<TProperty>(raiseEventScheduler, initialValue: getter(target), mode: mode, errorChangedMode: errorChangedMode);
+            var result = new ReactiveProperty<TProperty>(raiseEventScheduler, initialValue: getter(target), mode: mode);
             result.Subscribe(x => setter(target, x));
 
             return result;
@@ -370,10 +354,9 @@ namespace Codeplex.Reactive
             Expression<Func<TTarget, TProperty>> propertySelector,
             Func<TProperty, TResult> convert,
             Func<TResult, TProperty> convertBack,
-            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe,
-            ReactivePropertyErrorChangedMode errorChangedMode = ReactivePropertyErrorChangedMode.RaiseLatestValueOnSubscribe)
+            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
         {
-            return FromObject(target, propertySelector, convert, convertBack, UIDispatcherScheduler.Default, mode, errorChangedMode);
+            return FromObject(target, propertySelector, convert, convertBack, UIDispatcherScheduler.Default, mode);
         }
 
         /// <summary>
@@ -387,14 +370,13 @@ namespace Codeplex.Reactive
             Func<TProperty, TResult> convert,
             Func<TResult, TProperty> convertBack,
             IScheduler raiseEventScheduler,
-            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe,
-            ReactivePropertyErrorChangedMode errorChangedMode = ReactivePropertyErrorChangedMode.RaiseLatestValueOnSubscribe)
+            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
         {
             string propertyName; // no use
             var getter = AccessorCache<TTarget>.LookupGet(propertySelector, out propertyName);
             var setter = AccessorCache<TTarget>.LookupSet(propertySelector, out propertyName);
 
-            var result = new ReactiveProperty<TResult>(raiseEventScheduler, initialValue: convert(getter(target)), mode: mode, errorChangedMode: errorChangedMode);
+            var result = new ReactiveProperty<TResult>(raiseEventScheduler, initialValue: convert(getter(target)), mode: mode);
             result.Select(convertBack).Subscribe(x => setter(target, x));
 
             return result;
@@ -407,10 +389,9 @@ namespace Codeplex.Reactive
         /// </summary>
         public static ReactiveProperty<T> ToReactiveProperty<T>(this IObservable<T> source,
             T initialValue = default(T),
-            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe,
-            ReactivePropertyErrorChangedMode errorChangedMode = ReactivePropertyErrorChangedMode.RaiseLatestValueOnSubscribe)
+            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
         {
-            return new ReactiveProperty<T>(source, initialValue, mode, errorChangedMode);
+            return new ReactiveProperty<T>(source, initialValue, mode);
         }
 
         /// <summary>
@@ -420,10 +401,9 @@ namespace Codeplex.Reactive
         public static ReactiveProperty<T> ToReactiveProperty<T>(this IObservable<T> source,
             IScheduler raiseEventScheduler,
             T initialValue = default(T),
-            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe,
-            ReactivePropertyErrorChangedMode errorChangedMode = ReactivePropertyErrorChangedMode.RaiseLatestValueOnSubscribe)
+            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
         {
-            return new ReactiveProperty<T>(source, raiseEventScheduler, initialValue, mode, errorChangedMode);
+            return new ReactiveProperty<T>(source, raiseEventScheduler, initialValue, mode);
         }
     }
 }

@@ -189,9 +189,10 @@ namespace ReactiveProperty.Tests
         public void ErrorChangedNonePattern()
         {
             var errors = new List<IEnumerable>();
-            var rprop = new ReactiveProperty<string>(errorChangedMode: ReactivePropertyErrorChangedMode.None)
+            var rprop = new ReactiveProperty<string>()
                 .SetValidateNotifyError(x => string.IsNullOrWhiteSpace(x) ? "error" : null);
-            rprop.ObserveErrorChanged.Subscribe(errors.Add);
+            // old version behavior
+            rprop.ObserveErrorChanged.Skip(1).Subscribe(errors.Add);
 
             errors.Count.Is(0);
 
