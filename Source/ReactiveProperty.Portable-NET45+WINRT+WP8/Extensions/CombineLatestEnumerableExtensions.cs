@@ -21,9 +21,17 @@ namespace Codeplex.Reactive.Extensions
         public static IObservable<bool> CombineLatestValuesAreAllTrue(
             this IEnumerable<IObservable<bool>> sources)
         {
-            var result = sources.Aggregate((xs, ys) =>
-                xs.CombineLatest(ys, (x, y) => x && y));
-            return result;
+            return sources.CombineLatest(xs => xs.All(x => x));
+        }
+
+
+        /// <summary>
+        /// Lastest values of each sequence are all false.
+        /// </summary>
+        public static IObservable<bool> CombineLatestValuesAreAllFalse(
+            this IEnumerable<IObservable<bool>> sources)
+        {
+            return sources.CombineLatest(xs => xs.All(x => !x));
         }
     }
 }

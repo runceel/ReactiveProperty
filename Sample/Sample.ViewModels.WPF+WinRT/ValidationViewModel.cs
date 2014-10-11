@@ -71,9 +71,9 @@ namespace Sample.ViewModels
             // Validation result is pushed to ObserveErrors
             var errors = new[]
                 {
-                    ValidationData.ObserveErrors,
-                    ValidationBoth.ObserveErrors,
-                    ValidationAttr.ObserveErrors
+                    ValidationData.ObserveErrorChanged,
+                    ValidationBoth.ObserveErrorChanged,
+                    ValidationAttr.ObserveErrorChanged
                 }
                 .CombineLatest(x =>
                 {
@@ -94,11 +94,11 @@ namespace Sample.ViewModels
             NextCommand =
                 new[]
                 {
-                    ValidationData.ObserveHasNoError,
-                    ValidationBoth.ObserveHasNoError,
-                    ValidationAttr.ObserveHasNoError
+                    ValidationData.ObserveHasError,
+                    ValidationBoth.ObserveHasError,
+                    ValidationAttr.ObserveHasError
                 }
-                .CombineLatestValuesAreAllTrue()
+                .CombineLatestValuesAreAllFalse()
                 .ToReactiveCommand();
             this.AlertMessage = this.NextCommand.Select(_ => "Can go to next!")
                 .ToReactiveProperty(mode: ReactivePropertyMode.None);

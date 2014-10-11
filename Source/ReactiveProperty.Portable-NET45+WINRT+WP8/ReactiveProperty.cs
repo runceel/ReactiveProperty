@@ -61,8 +61,8 @@ namespace Codeplex.Reactive
         // for Validation
         bool isValueChanged = false;
         readonly SerialDisposable validateNotifyErrorSubscription = new SerialDisposable();
-        readonly Subject<IEnumerable> errorsTrigger = new Subject<IEnumerable>();
-		List<Func<IObservable<T>, IObservable<IEnumerable>>> validatorStore = new List<Func<IObservable<T>, IObservable<IEnumerable>>>();
+        readonly BehaviorSubject<IEnumerable> errorsTrigger = null;
+        List<Func<IObservable<T>, IObservable<IEnumerable>>> validatorStore = new List<Func<IObservable<T>, IObservable<IEnumerable>>>();
 
         /// <summary>PropertyChanged raise on UIDispatcherScheduler</summary>
         public ReactiveProperty()
@@ -119,6 +119,7 @@ namespace Codeplex.Reactive
 
             // start source
             this.sourceDisposable = connectable.Connect();
+            this.errorsTrigger = new BehaviorSubject<IEnumerable>(this.GetErrors(null));
         }
 
         /// <summary>
@@ -189,13 +190,13 @@ namespace Codeplex.Reactive
         /// <returns>Self.</returns>
         public ReactiveProperty<T> SetValidateNotifyError(Func<IObservable<T>, IObservable<IEnumerable>> validator)
         {
-            this.validatorStore.Add(validator);		//--- cache validation functions
-            var validators	= this.validatorStore
-							.Select(x => x(this.source))
-							.ToArray();		//--- use copy
+            this.validatorStore.Add(validator);     //--- cache validation functions
+            var validators  = this.validatorStore
+                            .Select(x => x(this.source))
+                            .ToArray();     //--- use copy
             this.validateNotifyErrorSubscription.Disposable
                 = Observable.CombineLatest(validators)
-				.Select(xs =>
+                .Select(xs =>
                 {
                     if (xs.Count == 0)          return null;
                     if (xs.All(x => x == null)) return null;
@@ -237,7 +238,7 @@ namespace Codeplex.Reactive
         /// <returns>Self.</returns>
         public ReactiveProperty<T> SetValidateNotifyError(Func<T, Task<IEnumerable>> validator)
         {
-			return this.SetValidateNotifyError(xs => xs.SelectMany(x => validator(x)));
+            return this.SetValidateNotifyError(xs => xs.SelectMany(x => validator(x)));
         }
 
         /// <summary>
@@ -247,7 +248,7 @@ namespace Codeplex.Reactive
         /// <returns>Self.</returns>
         public ReactiveProperty<T> SetValidateNotifyError(Func<T, Task<string>> validator)
         {
-			return this.SetValidateNotifyError(xs => xs.SelectMany(x => validator(x)));
+            return this.SetValidateNotifyError(xs => xs.SelectMany(x => validator(x)));
         }
 
         /// <summary>
@@ -257,7 +258,7 @@ namespace Codeplex.Reactive
         /// <returns>Self.</returns>
         public ReactiveProperty<T> SetValidateNotifyError(Func<T, IEnumerable> validator)
         {
-			return this.SetValidateNotifyError(xs => xs.Select(x => validator(x)));
+            return this.SetValidateNotifyError(xs => xs.Select(x => validator(x)));
         }
 
         /// <summary>
@@ -267,7 +268,7 @@ namespace Codeplex.Reactive
         /// <returns>Self.</returns>
         public ReactiveProperty<T> SetValidateNotifyError(Func<T, string> validator)
         {
-			return this.SetValidateNotifyError(xs => xs.Select(x => validator(x)));
+            return this.SetValidateNotifyError(xs => xs.Select(x => validator(x)));
         }
 
         /// <summary>Get INotifyDataErrorInfo's error store</summary>
@@ -283,33 +284,11 @@ namespace Codeplex.Reactive
         }
 
         /// <summary>
-        /// Observe GetErrors(null) value.
-        /// </summary>
-        public IObservable<IEnumerable> ObserveErrors
-        {
-            get 
-            {
-                return Observable.Merge(
-                    Observable.Return<IEnumerable>(null),
-                    this.ObserveErrorChanged)
-                    .Select(_ => this.GetErrors(null));
-            }
-        }
-
-        /// <summary>
         /// Observe HasErrors value.
         /// </summary>
         public IObservable<bool> ObserveHasError
         {
-            get{ return this.ObserveErrors.Select(_ => this.HasErrors); }
-        }
-
-        /// <summary>
-        /// Observe not HasErrors value.
-        /// </summary>
-        public IObservable<bool> ObserveHasNoError
-        {
-            get { return this.ObserveErrors.Select(_ => !this.HasErrors); }
+            get{ return this.ObserveErrorChanged.Select(_ => this.HasErrors); }
         }
     }
 
