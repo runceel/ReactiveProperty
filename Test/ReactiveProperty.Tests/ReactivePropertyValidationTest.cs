@@ -42,15 +42,17 @@ namespace ReactiveProperty.Tests
                 .ObserveErrorChanged
                 .Where(x => x != null)
                 .Subscribe(errors.Add);
-            errors.Count.Is(0);
+            errors.Count.Is(1);
+            errors[0].Cast<string>().Is("error!");
+            target.RequiredProperty.HasErrors.IsTrue();
 
             target.RequiredProperty.Value = "a";
-            errors.Count.Is(0);
+            errors.Count.Is(1);
             target.RequiredProperty.HasErrors.IsFalse();
 
             target.RequiredProperty.Value = null;
-            errors.Count.Is(1);
-            errors[0].Cast<string>().Is("error!");
+            errors.Count.Is(2);
+            errors[1].Cast<string>().Is("error!");
             target.RequiredProperty.HasErrors.IsTrue();
         }
 
@@ -63,7 +65,7 @@ namespace ReactiveProperty.Tests
                 .Subscribe(x => error = x);
 
             target.BothProperty.HasErrors.IsTrue();
-            error.IsNull();
+            error.OfType<string>().Is("required");
 
             target.BothProperty.Value = "a";
             target.BothProperty.HasErrors.IsFalse();
@@ -87,15 +89,16 @@ namespace ReactiveProperty.Tests
                 .ObserveErrorChanged
                 .Where(x => x != null)
                 .Subscribe(errors.Add);
-            errors.Count.Is(0);
+            errors.Count.Is(1);
+            errors[0].OfType<string>().Is("required");
 
             target.TaskValidationTestProperty.Value = "a";
             target.TaskValidationTestProperty.HasErrors.IsFalse();
-            errors.Count.Is(0);
+            errors.Count.Is(1);
 
             target.TaskValidationTestProperty.Value = null;
             target.TaskValidationTestProperty.HasErrors.IsTrue();
-            errors.Count.Is(1);
+            errors.Count.Is(2);
         }
 
         [TestMethod]
@@ -181,7 +184,27 @@ namespace ReactiveProperty.Tests
             error.IsNotNull();
             error.Cast<string>().Is("required");
         }
+
+        [TestMethod]
+        public void ErrorChangedNonePattern()
+        {
+            var errors = new List<IEnumerable>();
+            var rprop = new ReactiveProperty<string>(errorChangedMode: ReactivePropertyErrorChangedMode.None)
+                .SetValidateNotifyError(x => string.IsNullOrWhiteSpace(x) ? "error" : null);
+            rprop.ObserveErrorChanged.Subscribe(errors.Add);
+
+            errors.Count.Is(0);
+
+            rprop.Value = "OK";
+            errors.Count.Is(1);
+            errors.Last().IsNull();
+
+            rprop.Value = null;
+            errors.Count.Is(2);
+            errors.Last().OfType<string>().Is("error");
+        }
     }
+
 
     class TestTarget
     {
