@@ -24,7 +24,7 @@ namespace Codeplex.Reactive.Extensions
             return sources.CombineLatest(xs => xs.All(x => x));
         }
 
-
+        
         /// <summary>
         /// Lastest values of each sequence are all false.
         /// </summary>
