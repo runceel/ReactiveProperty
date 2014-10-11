@@ -289,10 +289,7 @@ namespace Codeplex.Reactive
         {
             get 
             {
-                return Observable.Merge(
-                    Observable.Return<IEnumerable>(null),
-                    this.ObserveErrorChanged)
-                    .Select(_ => this.GetErrors(null));
+                return this.ObserveErrorChanged.StartWith(this.GetErrors(null));
             }
         }
 
