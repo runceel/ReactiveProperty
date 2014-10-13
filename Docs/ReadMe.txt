@@ -105,7 +105,7 @@ Assert helper using ChainingAssertion http://chainingassertion.codeplex.com/
 Icon design by @ocazuco.
 
 ---History---
-2014/10/11 ver 1.1.0.0
+2014/10/13 ver 1.1.0.0
 	Change
 		Change ObserveErrorChanged behavior. Raise last errors value when Subscribed.
 	Remove

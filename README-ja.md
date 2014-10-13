@@ -1,4 +1,4 @@
-﻿ReactiveProperty
+ReactiveProperty
 ================
 
 ![ReactiveProperty overview](Images/rpsummary.png)
@@ -201,7 +201,6 @@ public class ValidationViewModel
         ValidationAttr = new ReactiveProperty<string>()
             .SetValidateAttribute(() => ValidationAttr);
 
-        // IDataErrorInfo, call SetValidateError and set validate condition
         // null is success(have no error), string is error message
         ValidationData = new ReactiveProperty<string>()
             .SetValidateNotifyError((string s) => 
@@ -228,38 +227,49 @@ public class ValidationViewModel
             })
             .SetValidateNotifyError(xs =>
             {
-                return  xs
-						.Throttle(TimeSpan.FromMilliseconds(500))
-                        .Select(x =>
-                        {
-                            if (x == null)          return null;
-                            if (x.Contains("b"))    return "'b' shouldn't be contained";
-                            return null;
-                        });
+                return xs
+				    .Throttle(TimeSpan.FromMilliseconds(500))
+                    .Select(x =>
+                    {
+                        if (x == null)          return null;
+                        if (x.Contains("b"))    return "'b' shouldn't be contained";
+                        return null;
+                    });
             });
 
 
-        // Validation result is pushed to ObserveErrorChanged
-        var errors = Observable.Merge(
-            ValidationAttr.ObserveErrorChanged,
-            ValidationData.ObserveErrorChanged,
-            ValidationBoth.ObserveErrorChanged);
+        // Validation result is pushed to ObserveErrors
+        var errors = new[]
+            {
+                ValidationData.ObserveErrorChanged,
+                ValidationBoth.ObserveErrorChanged,
+                ValidationAttr.ObserveErrorChanged
+            }
+            .CombineLatest(x =>
+            {
+                var result = x.Where(y => y != null)
+                    .Select(y => y.OfType<string>())
+                    .Where(y => y.Any())
+                    .FirstOrDefault();
+                return result == null ? null : result.FirstOrDefault();
+            });
 
         // Use OfType, choose error source
-        ErrorInfo   = errors
-                    .Select(x => x == null ? null : x.OfType<string>().FirstOrDefault())
-                    .ToReactiveProperty();
+        ErrorInfo = errors.ToReactiveProperty();
 
         // Validation is view initialized not run in default.
         // If want to validate on view initialize,
         // use ReactivePropertyMode.RaiseLatestValueOnSubscribe to ReactiveProperty
         // that mode is validate values on initialize.
-        NextCommand = ValidationAttr.ObserveErrorChanged
-            .CombineLatest(
-                ValidationData.ObserveErrorChanged,
-                ValidationBoth.ObserveErrorChanged, 
-                (a, b, c) => new[] { a, b, c }.All(x => x == null))
-            .ToReactiveCommand(initialValue: false);
+        NextCommand =
+            new[]
+            {
+                ValidationData.ObserveHasError,
+                ValidationBoth.ObserveHasError,
+                ValidationAttr.ObserveHasError
+            }
+            .CombineLatestValuesAreAllFalse()
+            .ToReactiveCommand();
         this.AlertMessage = this.NextCommand.Select(_ => "Can go to next!")
             .ToReactiveProperty(mode: ReactivePropertyMode.None);
     }
