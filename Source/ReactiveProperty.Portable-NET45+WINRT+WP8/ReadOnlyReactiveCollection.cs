@@ -185,7 +185,18 @@ namespace Codeplex.Reactive
         /// <typeparam name="T"></typeparam>
         /// <param name="self"></param>
         /// <returns></returns>
-        public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this IObservable<CollectionChanged<T>> self, IScheduler scheduler = null)
+        public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this IObservable<CollectionChanged<T>> self)
+        {
+            return new ReadOnlyReactiveCollection<T>(self, new ObservableCollection<T>());
+        }
+
+        /// <summary>
+        /// Create ReadOnlyReactiveCollection
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this IObservable<CollectionChanged<T>> self, IScheduler scheduler)
         {
             return new ReadOnlyReactiveCollection<T>(self, new ObservableCollection<T>(), scheduler);
         }
