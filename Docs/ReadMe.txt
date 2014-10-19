@@ -105,6 +105,9 @@ Assert helper using ChainingAssertion http://chainingassertion.codeplex.com/
 Icon design by @ocazuco.
 
 ---History---
+2014/10/19 ver 1.1.1.0
+    Change
+	    Add Scheduler parameter to ReadOnlyReactiveCollection constructor and factory method.
 2014/10/13 ver 1.1.0.0
 	Change
 		Change ObserveErrorChanged behavior. Raise last errors value when Subscribed.

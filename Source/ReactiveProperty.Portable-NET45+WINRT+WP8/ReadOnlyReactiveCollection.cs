@@ -7,6 +7,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Reactive;
+using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 
@@ -19,6 +20,7 @@ namespace Codeplex.Reactive
     public class ReadOnlyReactiveCollection<T> : ReadOnlyObservableCollection<T>, IDisposable
     {
         private ObservableCollection<T> source;
+        private IScheduler scheduler;
         private CompositeDisposable token = new CompositeDisposable();
 
         /// <summary>
@@ -26,12 +28,14 @@ namespace Codeplex.Reactive
         /// </summary>
         /// <param name="ox"></param>
         /// <param name="source"></param>
-        public ReadOnlyReactiveCollection(IObservable<CollectionChanged<T>> ox, ObservableCollection<T> source)
+        public ReadOnlyReactiveCollection(IObservable<CollectionChanged<T>> ox, ObservableCollection<T> source, IScheduler scheduler = null)
             : base(source)
         {
             this.source = source;
+            this.scheduler = scheduler ?? UIDispatcherScheduler.Default;
 
             ox.Where(v => v.Action == NotifyCollectionChangedAction.Add)
+                .ObserveOn(this.scheduler)
                 .Subscribe(v =>
                 {
                     this.source.Insert(v.Index, v.Value);
@@ -39,6 +43,7 @@ namespace Codeplex.Reactive
                 .AddTo(this.token);
 
             ox.Where(v => v.Action == NotifyCollectionChangedAction.Remove)
+                .ObserveOn(this.scheduler)
                 .Subscribe(v =>
                 {
                     this.source.RemoveAt(v.Index);
@@ -46,6 +51,7 @@ namespace Codeplex.Reactive
                 .AddTo(this.token);
 
             ox.Where(v => v.Action == NotifyCollectionChangedAction.Replace)
+                .ObserveOn(this.scheduler)
                 .Subscribe(v =>
                 {
                     this.source[v.Index] = v.Value;
@@ -53,6 +59,7 @@ namespace Codeplex.Reactive
                 .AddTo(this.token);
 
             ox.Where(v => v.Action == NotifyCollectionChangedAction.Reset)
+                .ObserveOn(this.scheduler)
                 .Subscribe(v =>
                 {
                     this.source.Clear();
@@ -65,11 +72,14 @@ namespace Codeplex.Reactive
         /// </summary>
         /// <param name="ox">Add</param>
         /// <param name="onReset">Clear</param>
-        public ReadOnlyReactiveCollection(IObservable<T> ox, ObservableCollection<T> source, IObservable<Unit> onReset = null) : base(source)
+        public ReadOnlyReactiveCollection(IObservable<T> ox, ObservableCollection<T> source, IObservable<Unit> onReset = null, IScheduler scheduler = null) : base(source)
         {
             this.source = source;
+            this.scheduler = scheduler ?? UIDispatcherScheduler.Default;
 
-            ox.Subscribe(value =>
+            ox
+                .ObserveOn(this.scheduler)
+                .Subscribe(value =>
             {
                 this.source.Add(value);
             })
@@ -77,7 +87,9 @@ namespace Codeplex.Reactive
             
             if (onReset != null)
             {
-                onReset.Subscribe(_ => this.source.Clear()).AddTo(this.token);
+                onReset
+                    .ObserveOn(this.scheduler)
+                    .Subscribe(_ => this.source.Clear()).AddTo(this.token);
             }
         }
 
@@ -173,9 +185,9 @@ namespace Codeplex.Reactive
         /// <typeparam name="T"></typeparam>
         /// <param name="self"></param>
         /// <returns></returns>
-        public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this IObservable<CollectionChanged<T>> self)
+        public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this IObservable<CollectionChanged<T>> self, IScheduler scheduler = null)
         {
-            return new ReadOnlyReactiveCollection<T>(self, new ObservableCollection<T>());
+            return new ReadOnlyReactiveCollection<T>(self, new ObservableCollection<T>(), scheduler);
         }
 
         /// <summary>
@@ -185,9 +197,9 @@ namespace Codeplex.Reactive
         /// <param name="self"></param>
         /// <param name="onReset"></param>
         /// <returns></returns>
-        public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this IObservable<T> self, IObservable<Unit> onReset = null)
+        public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this IObservable<T> self, IObservable<Unit> onReset = null, IScheduler scheduler = null)
         {
-            return new ReadOnlyReactiveCollection<T>(self, new ObservableCollection<T>(), onReset);
+            return new ReadOnlyReactiveCollection<T>(self, new ObservableCollection<T>(), onReset, scheduler);
         }
 
         /// <summary>
@@ -235,10 +247,10 @@ namespace Codeplex.Reactive
         /// <typeparam name="T"></typeparam>
         /// <param name="self"></param>
         /// <returns></returns>
-        public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this ObservableCollection<T> self)
+        public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this ObservableCollection<T> self, IScheduler scheduler = null)
             where T : class
         {
-            return self.ToReadOnlyReactiveCollection(x => x);
+            return self.ToReadOnlyReactiveCollection(x => x, scheduler);
         }
 
         /// <summary>
@@ -249,7 +261,7 @@ namespace Codeplex.Reactive
         /// <param name="self"></param>
         /// <param name="converter"></param>
         /// <returns></returns>
-        public static ReadOnlyReactiveCollection<U> ToReadOnlyReactiveCollection<T, U>(this ObservableCollection<T> self, Func<T, U> converter)
+        public static ReadOnlyReactiveCollection<U> ToReadOnlyReactiveCollection<T, U>(this ObservableCollection<T> self, Func<T, U> converter, IScheduler scheduler = null)
             where T : class
             where U : class
         {
@@ -262,7 +274,7 @@ namespace Codeplex.Reactive
                     Index = c.Index,
                     Value = c.Value == null ? null : converter(c.Value)
                 });
-            return new ReadOnlyReactiveCollection<U>(collectionChanged, source);
+            return new ReadOnlyReactiveCollection<U>(collectionChanged, source, scheduler);
         }
     }
 }

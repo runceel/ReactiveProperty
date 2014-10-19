@@ -5,6 +5,7 @@ using System.Reactive;
 using Codeplex.Reactive;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Reactive.Concurrency;
 
 namespace ReactiveProperty.Tests
 {
@@ -17,7 +18,7 @@ namespace ReactiveProperty.Tests
             var s = new Subject<int>();
             var reset = new Subject<Unit>();
 
-            var target = s.ToReadOnlyReactiveCollection(reset);
+            var target = s.ToReadOnlyReactiveCollection(reset, scheduler: Scheduler.CurrentThread);
             target.Count.Is(0);
 
             s.OnNext(10);
@@ -33,7 +34,7 @@ namespace ReactiveProperty.Tests
         {
             var s = new Subject<CollectionChanged<int>>();
 
-            var target = s.ToReadOnlyReactiveCollection();
+            var target = s.ToReadOnlyReactiveCollection(scheduler: Scheduler.CurrentThread);
             target.Count.Is(0);
             s.OnNext(CollectionChanged<int>.Add(0, 10));
             s.OnNext(CollectionChanged<int>.Add(1, 2));
