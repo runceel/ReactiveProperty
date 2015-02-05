@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using System.Resources;
+using System.Runtime.InteropServices;
 
 // アセンブリに関する一般情報は、以下の属性セットによって制御されます。
 // アセンブリに関連付けられている情報を変更するには、
@@ -34,4 +33,4 @@ using System.Resources;
 // 既定値にすることができます。
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-[assembly: NeutralResourcesLanguageAttribute("ja-JP")]
+[assembly: NeutralResourcesLanguage("ja-JP")]

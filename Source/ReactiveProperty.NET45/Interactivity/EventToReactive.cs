@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Reactive;
 #if NETFX_CORE
 using Windows.UI.Xaml;
 #else
 using System.Windows;
 using System.Windows.Interactivity;
 #endif
-using System.Reactive;
 
 namespace Codeplex.Reactive.Interactivity
 {

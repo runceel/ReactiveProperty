@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Reflection;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.UI.Xaml;
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Reflection;
+using Windows.UI.Xaml;
 
 namespace Codeplex.Reactive.Interactivity
 {

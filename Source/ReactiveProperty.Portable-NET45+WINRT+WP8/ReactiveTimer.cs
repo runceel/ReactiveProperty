@@ -1,15 +1,7 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
-#if WINDOWS_PHONE
-using Microsoft.Phone.Reactive;
-using SerialDisposable = Microsoft.Phone.Reactive.MutableDisposable;
-#else
-using System.Reactive;
-using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Reactive.Disposables;
 using System.Reactive.Concurrency;
-#endif
 
 namespace Codeplex.Reactive
 {

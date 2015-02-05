@@ -1,12 +1,9 @@
-﻿using Microsoft.Xaml.Interactivity;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Markup;
+using Microsoft.Xaml.Interactivity;
 
 namespace Codeplex.Reactive.Interactivity
 {

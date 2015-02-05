@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Windows;
-using System.Reactive.Linq;
-using System.Reactive.Subjects;
-using System.Reactive.Disposables;
 using System.Reactive.Concurrency;
 using System.Threading;
 

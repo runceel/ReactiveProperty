@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Specialized;
-using System.Diagnostics.Contracts;
 using System.Reactive.Linq;
 
 namespace Codeplex.Reactive.Extensions

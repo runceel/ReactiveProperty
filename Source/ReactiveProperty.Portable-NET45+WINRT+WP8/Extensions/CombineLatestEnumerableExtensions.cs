@@ -1,15 +1,7 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-#if WINDOWS_PHONE
-using Microsoft.Phone.Reactive;
-#else
-using System.Reactive;
+using System.Linq;
 using System.Reactive.Linq;
-using System.Reactive.Concurrency;
-using System.Reactive.Disposables;
-#endif
 
 namespace Codeplex.Reactive.Extensions
 {

@@ -1,18 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Diagnostics.Contracts;
-using System.Reactive;
-using System.Reactive.Linq;
-using System.Reactive.Concurrency;
-using System.Reactive.Disposables;
 
 namespace Codeplex.Reactive
 {
-
     internal static class EnumerableEx
     {
         public static IEnumerable<T> Defer<T>(Func<IEnumerable<T>> enumerableFactory)
@@ -39,5 +29,4 @@ namespace Codeplex.Reactive
             if (list.Count > 0) yield return list.ToArray();
         }
     }
-
 }

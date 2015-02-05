@@ -1,15 +1,12 @@
-﻿using Codeplex.Reactive.Extensions;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using Codeplex.Reactive.Extensions;
 
 namespace Codeplex.Reactive
 {
