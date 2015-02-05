@@ -127,7 +127,7 @@ namespace Codeplex.Reactive
                 .Subscribe(x =>
                 {
                     var handler = PropertyChanged;
-                    if (handler != null) PropertyChanged(this, SingletonPropertyChangedEventArgs.Value);
+					if (handler != null) handler(this, SingletonPropertyChangedEventArgs.Value);
                 });
 
             // start source

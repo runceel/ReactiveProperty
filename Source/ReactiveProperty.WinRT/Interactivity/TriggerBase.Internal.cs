@@ -96,7 +96,7 @@ namespace Codeplex.Reactive.Interactivity
                 h(this, EventArgs.Empty);
             }
         }
-        public EventHandler<PreviewInvokeEventArgs> PreviewInvoke;
+        public event EventHandler<PreviewInvokeEventArgs> PreviewInvoke;
 
         /// <summary>
         /// Actionsプロパティは、TriggerBehaviorのベースクラスにいる状態だと認識しないっぽいので
