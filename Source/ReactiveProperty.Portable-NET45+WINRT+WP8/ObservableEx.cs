@@ -17,13 +17,10 @@ namespace Codeplex.Reactive
     {
         public static IEnumerable<T> Defer<T>(Func<IEnumerable<T>> enumerableFactory)
         {
-            foreach (var item in enumerableFactory())
-            {
-                yield return item;
-            }
+	        return enumerableFactory();
         }
 
-        public static IEnumerable<TSource[]> Buffer<TSource>(this IEnumerable<TSource> source, int count)
+	    public static IEnumerable<TSource[]> Buffer<TSource>(this IEnumerable<TSource> source, int count)
         {
             if (source == null) throw new ArgumentNullException("source");
             if (count <= 0) throw new ArgumentOutOfRangeException("count");

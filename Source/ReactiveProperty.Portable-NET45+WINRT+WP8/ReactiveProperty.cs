@@ -63,7 +63,7 @@ namespace Codeplex.Reactive
         bool isValueChanged = false;
         readonly SerialDisposable validateNotifyErrorSubscription = new SerialDisposable();
         readonly BehaviorSubject<IEnumerable> errorsTrigger;
-        List<Func<IObservable<T>, IObservable<IEnumerable>>> validatorStore = new List<Func<IObservable<T>, IObservable<IEnumerable>>>();
+		readonly List<Func<IObservable<T>, IObservable<IEnumerable>>> validatorStore = new List<Func<IObservable<T>, IObservable<IEnumerable>>>();
 
         /// <summary>PropertyChanged raise on UIDispatcherScheduler</summary>
         public ReactiveProperty()

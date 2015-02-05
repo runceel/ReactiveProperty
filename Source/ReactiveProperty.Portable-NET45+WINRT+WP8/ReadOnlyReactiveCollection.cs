@@ -19,9 +19,8 @@ namespace Codeplex.Reactive
     /// <typeparam name="T">collection item type</typeparam>
     public class ReadOnlyReactiveCollection<T> : ReadOnlyObservableCollection<T>, IDisposable
     {
-        private ObservableCollection<T> source;
-        private IScheduler scheduler;
-        private CompositeDisposable token = new CompositeDisposable();
+        private readonly ObservableCollection<T> source;
+		private readonly CompositeDisposable token = new CompositeDisposable();
 
         /// <summary>
         /// Construct RxCollection from CollectionChanged.
@@ -32,10 +31,10 @@ namespace Codeplex.Reactive
             : base(source)
         {
             this.source = source;
-            this.scheduler = scheduler ?? UIDispatcherScheduler.Default;
+           scheduler = scheduler ?? UIDispatcherScheduler.Default;
 
             ox.Where(v => v.Action == NotifyCollectionChangedAction.Add)
-                .ObserveOn(this.scheduler)
+                .ObserveOn(scheduler)
                 .Subscribe(v =>
                 {
                     this.source.Insert(v.Index, v.Value);
@@ -43,7 +42,7 @@ namespace Codeplex.Reactive
                 .AddTo(this.token);
 
             ox.Where(v => v.Action == NotifyCollectionChangedAction.Remove)
-                .ObserveOn(this.scheduler)
+                .ObserveOn(scheduler)
                 .Subscribe(v =>
                 {
                     this.source.RemoveAt(v.Index);
@@ -51,7 +50,7 @@ namespace Codeplex.Reactive
                 .AddTo(this.token);
 
             ox.Where(v => v.Action == NotifyCollectionChangedAction.Replace)
-                .ObserveOn(this.scheduler)
+                .ObserveOn(scheduler)
                 .Subscribe(v =>
                 {
                     this.source[v.Index] = v.Value;
@@ -59,7 +58,7 @@ namespace Codeplex.Reactive
                 .AddTo(this.token);
 
             ox.Where(v => v.Action == NotifyCollectionChangedAction.Reset)
-                .ObserveOn(this.scheduler)
+                .ObserveOn(scheduler)
                 .Subscribe(v =>
                 {
                     this.source.Clear();
@@ -75,10 +74,10 @@ namespace Codeplex.Reactive
         public ReadOnlyReactiveCollection(IObservable<T> ox, ObservableCollection<T> source, IObservable<Unit> onReset = null, IScheduler scheduler = null) : base(source)
         {
             this.source = source;
-            this.scheduler = scheduler ?? UIDispatcherScheduler.Default;
+            scheduler = scheduler ?? UIDispatcherScheduler.Default;
 
             ox
-                .ObserveOn(this.scheduler)
+                .ObserveOn(scheduler)
                 .Subscribe(value =>
             {
                 this.source.Add(value);
@@ -88,7 +87,7 @@ namespace Codeplex.Reactive
             if (onReset != null)
             {
                 onReset
-                    .ObserveOn(this.scheduler)
+                    .ObserveOn(scheduler)
                     .Subscribe(_ => this.source.Clear()).AddTo(this.token);
             }
         }
