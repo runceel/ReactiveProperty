@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Windows;
 #if NETFX_CORE
 using Windows.UI.Xaml;
 #else
+using System.Windows;
 using System.Windows.Interactivity;
 #endif
 using System.Reactive;
