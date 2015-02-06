@@ -1,10 +1,10 @@
 ﻿/*--------------------------------------------------------------------------
  * ReactiveProperty
- * ver 1.0.0.0 (Sep. 04th, 2014)
+ * ver 1.1.1.2 (Feb. 06th, 2015)
  *
  * created and maintained by neuecc <ils@neue.cc - @neuecc/Twitter>, xin9le<@xin9le/Twitter>, okazuki<@okazuki/Twitter>
- * licensed under Microsoft Public License(Ms-PL)
- * http://reactiveproperty.codeplex.com/
+ * licensed under MIT License
+ * https://github.com/runceel/ReactiveProperty
  *--------------------------------------------------------------------------*/
 
 ---Description---
