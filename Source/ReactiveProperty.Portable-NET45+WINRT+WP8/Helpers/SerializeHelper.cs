@@ -5,8 +5,6 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Xml;
-using System.Diagnostics.Contracts;
-using System;
 
 namespace Codeplex.Reactive.Helpers
 {

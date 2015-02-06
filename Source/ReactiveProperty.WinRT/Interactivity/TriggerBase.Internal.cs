@@ -1,12 +1,9 @@
-﻿using Microsoft.Xaml.Interactivity;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Markup;
+using Microsoft.Xaml.Interactivity;
 
 namespace Codeplex.Reactive.Interactivity
 {
@@ -96,7 +93,7 @@ namespace Codeplex.Reactive.Interactivity
                 h(this, EventArgs.Empty);
             }
         }
-        public EventHandler<PreviewInvokeEventArgs> PreviewInvoke;
+        public event EventHandler<PreviewInvokeEventArgs> PreviewInvoke;
 
         /// <summary>
         /// Actionsプロパティは、TriggerBehaviorのベースクラスにいる状態だと認識しないっぽいので

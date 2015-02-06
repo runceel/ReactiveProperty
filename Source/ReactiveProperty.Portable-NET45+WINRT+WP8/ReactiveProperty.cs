@@ -1,18 +1,15 @@
-﻿
-using Codeplex.Reactive.Extensions;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
+using Codeplex.Reactive.Extensions;
 
 namespace Codeplex.Reactive
 {
@@ -63,7 +60,7 @@ namespace Codeplex.Reactive
         bool isValueChanged = false;
         readonly SerialDisposable validateNotifyErrorSubscription = new SerialDisposable();
         readonly BehaviorSubject<IEnumerable> errorsTrigger;
-        List<Func<IObservable<T>, IObservable<IEnumerable>>> validatorStore = new List<Func<IObservable<T>, IObservable<IEnumerable>>>();
+		readonly List<Func<IObservable<T>, IObservable<IEnumerable>>> validatorStore = new List<Func<IObservable<T>, IObservable<IEnumerable>>>();
 
         /// <summary>PropertyChanged raise on UIDispatcherScheduler</summary>
         public ReactiveProperty()
@@ -127,7 +124,7 @@ namespace Codeplex.Reactive
                 .Subscribe(x =>
                 {
                     var handler = PropertyChanged;
-                    if (handler != null) PropertyChanged(this, SingletonPropertyChangedEventArgs.Value);
+					if (handler != null) handler(this, SingletonPropertyChangedEventArgs.Value);
                 });
 
             // start source

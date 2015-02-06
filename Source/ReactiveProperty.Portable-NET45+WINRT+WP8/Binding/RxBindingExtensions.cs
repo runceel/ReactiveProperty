@@ -1,9 +1,9 @@
-﻿using Codeplex.Reactive.Extensions;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Reactive;
 using System.Reactive.Disposables;
+using Codeplex.Reactive.Extensions;
 
 namespace Codeplex.Reactive.Binding
 {

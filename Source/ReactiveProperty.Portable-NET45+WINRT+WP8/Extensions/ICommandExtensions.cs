@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Specialized;
-using System.Windows.Input;
-using System.Diagnostics.Contracts;
 using System.Reactive.Linq;
+using System.Windows.Input;
 
 namespace Codeplex.Reactive.Extensions
 {
