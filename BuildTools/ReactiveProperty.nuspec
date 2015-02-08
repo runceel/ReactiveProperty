@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>ReactiveProperty</id>
-    <version>1.1.1.2</version>
+    <version>1.1.2</version>
     <title>ReactiveProperty</title>
     <authors>neuecc xin9le okazuki</authors>
     <owners>neuecc xin9le okazuki</owners>
@@ -23,7 +23,7 @@
       <group targetFramework="net45">
         <dependency id="Rx-Main" version="2.2.5" />
       </group>
-      <group targetFramework="wp8">
+      <group targetFramework="wp80">
         <dependency id="Rx-Main" version="2.2.5" />
         <dependency id="Microsoft.Bcl.Async" version="1.0.168" />
         <dependency id="Microsoft.Bcl" version="1.1.9" />
@@ -31,7 +31,7 @@
       <group targetFramework="wpa81">
         <dependency id="Rx-Main" version="2.2.5" />
       </group>
-      <group targetFramework="win81">
+      <group targetFramework="win8">
         <dependency id="Rx-Main" version="2.2.5" />
       </group>
       <group targetFramework="MonoAndroid">
@@ -39,7 +39,13 @@
       </group>
       <group targetFramework="MonoTouch">
         <dependency id="Rx-Main" version="2.2.5" />
-     </group>
+      </group>
+      <group targetFramework="portable-net45+win81+wpa81+MonoTouch+MonoAndroid">
+        <dependency id="Rx-Main" version="2.2.5" />
+      </group>
+      <group targetFramework="portable-net45+WP8+win8+wpa81+MonoTouch+MonoAndroid">
+        <dependency id="Rx-Main" version="2.2.5" />
+      </group>
     </dependencies>
     <frameworkAssemblies>
       <frameworkAssembly assemblyName="System" targetFramework=".NETFramework4.5" />
@@ -97,13 +103,13 @@
     <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.XML" target="lib\MonoANdroid" />
     <file src="..\Binary\PCL\ReactiveProperty.dll" target="lib\MonoAndroid" />
     <file src="..\Binary\PCL\ReactiveProperty.XML" target="lib\MonoANdroid" />
-    
+
     <!-- Mono.Touch -->
     <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.dll" target="lib\MonoTouch" />
     <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.XML" target="lib\MonoTouch" />
     <file src="..\Binary\PCL\ReactiveProperty.dll" target="lib\MonoTouch" />
     <file src="..\Binary\PCL\ReactiveProperty.XML" target="lib\MonoTouch" />
-    
+
     <!-- Universal app -->
     <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.dll" target="lib\portable-win81+wpa81" />
     <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.XML" target="lib\portable-win81+wpa81" />
@@ -111,13 +117,13 @@
     <file src="..\Binary\PCL\ReactiveProperty.XML" target="lib\portable-win81+wpa81" />
 
     <!-- PCL(ignore WP8) -->
-    <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.dll" target="lib\portable-net45+win81+wpa81" />
-    <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.XML" target="lib\portable-net45+win81+wpa81" />
-    <file src="..\Binary\PCL\ReactiveProperty.dll" target="lib\portable-net45+win81+wpa81" />
-    <file src="..\Binary\PCL\ReactiveProperty.XML" target="lib\portable-net45+win81+wpa81" />
+    <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.dll" target="lib\portable-net45+win81+wpa81+MonoTouch+MonoAndroid" />
+    <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.XML" target="lib\portable-net45+win81+wpa81+MonoTouch+MonoAndroid" />
+    <file src="..\Binary\PCL\ReactiveProperty.dll" target="lib\portable-net45+win81+wpa81+MonoTouch+MonoAndroid" />
+    <file src="..\Binary\PCL\ReactiveProperty.XML" target="lib\portable-net45+win81+wpa81+MonoTouch+MonoAndroid" />
 
     <!-- PCL(All) -->
-    <file src="..\Binary\PCL\ReactiveProperty.dll" target="lib\portable-net45+WP8+win81+wpa81" />
-    <file src="..\Binary\PCL\ReactiveProperty.XML" target="lib\portable-net45+WP8+win81+wpa81" />
+    <file src="..\Binary\PCL\ReactiveProperty.dll" target="lib\portable-net45+WP8+win8+wpa81+MonoTouch+MonoAndroid" />
+    <file src="..\Binary\PCL\ReactiveProperty.XML" target="lib\portable-net45+WP8+win8+wpa81+MonoTouch+MonoAndroid" />
   </files>
 </package>
