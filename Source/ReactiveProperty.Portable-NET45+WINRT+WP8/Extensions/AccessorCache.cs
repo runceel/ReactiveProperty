@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Codeplex.Reactive.Extensions
+namespace Reactive.Bindings.Extensions
 {
     internal static class AccessorCache<TType>
     {

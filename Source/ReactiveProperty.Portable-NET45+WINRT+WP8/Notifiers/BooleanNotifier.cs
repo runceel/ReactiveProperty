@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reactive.Subjects;
 
-namespace Codeplex.Reactive.Notifiers
+namespace Reactive.Bindings.Notifiers
 {
     /// <summary>
     /// Notify boolean flag.

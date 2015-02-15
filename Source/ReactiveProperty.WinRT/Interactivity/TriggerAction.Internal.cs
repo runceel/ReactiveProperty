@@ -3,7 +3,7 @@ using System.Reactive;
 using Windows.UI.Xaml;
 using Microsoft.Xaml.Interactivity;
 
-namespace Codeplex.Reactive.Interactivity
+namespace Reactive.Bindings.Interactivity
 {
     public abstract class TriggerAction : Behavior, IAction
     {

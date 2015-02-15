@@ -3,9 +3,9 @@ using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Reactive;
 using System.Reactive.Disposables;
-using Codeplex.Reactive.Extensions;
+using Reactive.Bindings.Extensions;
 
-namespace Codeplex.Reactive.Binding
+namespace Reactive.Bindings.Binding
 {
     /// <summary>
     /// RxProperty <-> POCO binding support extension methods.

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.ComponentModel;
-using Codeplex.Reactive.Extensions;
+using Reactive.Bindings.Extensions;
 using Microsoft.Reactive.Testing;
 using System.Reactive.Linq;
 

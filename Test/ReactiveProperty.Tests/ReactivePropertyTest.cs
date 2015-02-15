@@ -1,4 +1,4 @@
-﻿using Codeplex.Reactive;
+﻿using Reactive.Bindings;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections;

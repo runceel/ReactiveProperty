@@ -2,9 +2,9 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Codeplex.Reactive;
-using Codeplex.Reactive.Binding;
-using Codeplex.Reactive.Extensions;
+using Reactive.Bindings;
+using Reactive.Bindings.Binding;
+using Reactive.Bindings.Extensions;
 using System.Reactive.Linq;
 using System.Globalization;
 using System.Reactive;

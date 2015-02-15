@@ -1,8 +1,8 @@
-﻿using Codeplex.Reactive.Extensions;
+﻿using Reactive.Bindings.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
-using Codeplex.Reactive;
+using Reactive.Bindings;
 using Microsoft.Reactive.Testing;
 using System.Linq;
 

@@ -8,7 +8,7 @@
     <ProjectGuid>{B2E97BFE-1956-4688-9486-C78D3A8F20E1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Codeplex.Reactive</RootNamespace>
+    <RootNamespace>Reactive.Bindings</RootNamespace>
     <AssemblyName>ReactiveProperty.DataAnnotations</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Profile7</TargetFrameworkProfile>

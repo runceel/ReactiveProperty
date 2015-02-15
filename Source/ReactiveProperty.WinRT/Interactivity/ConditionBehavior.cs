@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Reflection;
 using Windows.UI.Xaml;
 
-namespace Codeplex.Reactive.Interactivity
+namespace Reactive.Bindings.Interactivity
 {
     public class ConditionBehavior : Behavior<TriggerBase>
     {

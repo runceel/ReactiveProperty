@@ -1,4 +1,4 @@
-﻿namespace Codeplex.Reactive.Interactivity
+﻿namespace Reactive.Bindings.Interactivity
 {
     public abstract class TargetedTriggerAction<T> : TargetedTriggerAction
         where T : class

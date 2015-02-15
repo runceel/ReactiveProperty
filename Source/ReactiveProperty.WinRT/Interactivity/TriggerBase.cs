@@ -1,6 +1,6 @@
 ﻿using Windows.UI.Xaml;
 
-namespace Codeplex.Reactive.Interactivity
+namespace Reactive.Bindings.Interactivity
 {
     public class TriggerBase<T> : TriggerBase
         where T : DependencyObject

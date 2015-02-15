@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Codeplex.Reactive.Binding
+namespace Reactive.Bindings.Binding
 {
     /// <summary>
     /// ReactiveCommand bind to EventHandler

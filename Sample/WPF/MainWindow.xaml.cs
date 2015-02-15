@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows;
-using Codeplex.Reactive;
+using Reactive.Bindings;
 using WPF.Views;
 
 namespace WPF

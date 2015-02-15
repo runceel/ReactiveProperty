@@ -3,7 +3,7 @@ using System.Reflection;
 using Windows.UI.Xaml;
 using Microsoft.Xaml.Interactivity;
 
-namespace Codeplex.Reactive.Interactivity
+namespace Reactive.Bindings.Interactivity
 {
     public abstract class Behavior : DependencyObject, IBehavior
     {

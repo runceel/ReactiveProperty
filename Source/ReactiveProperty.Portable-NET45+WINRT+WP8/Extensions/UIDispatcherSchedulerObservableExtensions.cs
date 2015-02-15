@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reactive.Linq;
 
-namespace Codeplex.Reactive.Extensions
+namespace Reactive.Bindings.Extensions
 {
     public static class UIDispatcherObservableExtensions
     {

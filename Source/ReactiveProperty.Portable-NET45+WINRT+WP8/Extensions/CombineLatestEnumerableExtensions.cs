@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 
-namespace Codeplex.Reactive.Extensions
+namespace Reactive.Bindings.Extensions
 {
     public static class CombineLatestEnumerableExtensions
     {

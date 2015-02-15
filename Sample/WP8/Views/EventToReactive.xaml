@@ -9,7 +9,7 @@
     xmlns:vm="clr-namespace:Sample.ViewModels;assembly=Sample.ViewModels"
     xmlns:prism="clr-namespace:Microsoft.Practices.Prism.Interactivity"
     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-    xmlns:r="clr-namespace:Codeplex.Reactive.Interactivity;assembly=ReactiveProperty.WP8"
+    xmlns:r="clr-namespace:Reactive.Bindings.Interactivity;assembly=ReactiveProperty.WP8"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"

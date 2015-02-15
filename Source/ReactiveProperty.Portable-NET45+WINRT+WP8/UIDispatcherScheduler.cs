@@ -2,7 +2,7 @@
 using System.Reactive.Concurrency;
 using System.Threading;
 
-namespace Codeplex.Reactive
+namespace Reactive.Bindings
 {
     /// <summary>
     /// <para>If call Schedule on UIThread then schedule immediately else dispatch BeginInvoke.</para>

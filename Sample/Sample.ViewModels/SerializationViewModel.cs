@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reactive.Linq;
-using Codeplex.Reactive;
-using Codeplex.Reactive.Helpers;
+using Reactive.Bindings;
+using Reactive.Bindings.Helpers;
 using System.Runtime.Serialization;
 
 namespace Sample.ViewModels

@@ -1,4 +1,4 @@
-﻿using Codeplex.Reactive;
+﻿using Reactive.Bindings;
 using Microsoft.Practices.Prism.StoreApps.Interfaces;
 using Microsoft.Practices.Unity;
 using System;

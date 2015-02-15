@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Codeplex.Reactive;
+using Reactive.Bindings;
 using System.Reactive.Linq;
 using System.Windows.Input;
 using System.Windows;

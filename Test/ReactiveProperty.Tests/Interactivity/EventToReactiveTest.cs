@@ -3,12 +3,12 @@ using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Codeplex.Reactive;
+using Reactive.Bindings;
 using System.Reactive.Linq;
 using Microsoft.Reactive.Testing;
 using System.Reactive.Subjects;
 using System.Threading;
-using Codeplex.Reactive.Interactivity;
+using Reactive.Bindings.Interactivity;
 using System.Reactive;
 
 namespace ReactiveProperty.Tests

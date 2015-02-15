@@ -9,7 +9,7 @@
     <ProjectGuid>{6DE1AF3C-394A-47D2-B869-1BC6DB8CF000}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Codeplex.Reactive</RootNamespace>
+    <RootNamespace>Reactive.Bindings</RootNamespace>
     <AssemblyName>ReactiveProperty.WinRT</AssemblyName>
     <DefaultLanguage>ja-JP</DefaultLanguage>
     <TargetPlatformVersion>8.1</TargetPlatformVersion>

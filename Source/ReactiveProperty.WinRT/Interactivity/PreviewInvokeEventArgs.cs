@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Codeplex.Reactive.Interactivity
+namespace Reactive.Bindings.Interactivity
 {
     public class PreviewInvokeEventArgs : EventArgs
     {

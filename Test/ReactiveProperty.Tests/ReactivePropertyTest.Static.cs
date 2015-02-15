@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using Codeplex.Reactive;
+using Reactive.Bindings;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Reactive.Concurrency;
 using System;
@@ -14,12 +14,12 @@ namespace RxPropTest
         public void FromObject()
         {
             var homuhomu = new ToaruClass { Name = "homuhomu", Age = 13 };
-            var rxName = Codeplex.Reactive.ReactiveProperty.FromObject(homuhomu, x => x.Name);
+            var rxName = Reactive.Bindings.ReactiveProperty.FromObject(homuhomu, x => x.Name);
             rxName.Value.Is("homuhomu");
             rxName.Value = "mami";
             homuhomu.Name.Is("mami");
 
-            var rxAge = Codeplex.Reactive.ReactiveProperty.FromObject(homuhomu, x => x.Age);
+            var rxAge = Reactive.Bindings.ReactiveProperty.FromObject(homuhomu, x => x.Age);
             rxAge.Value.Is(13);
             rxAge.Value = 20;
             homuhomu.Age.Is(20);
@@ -29,7 +29,7 @@ namespace RxPropTest
         public void FromObjectConverter()
         {
             var homuhomu = new ToaruClass { Name = "homuhomu", Age = 13 };
-            var rxAge = Codeplex.Reactive.ReactiveProperty.FromObject(homuhomu, x => x.Age,
+            var rxAge = Reactive.Bindings.ReactiveProperty.FromObject(homuhomu, x => x.Age,
                 x => Convert.ToString(x, 16), x => Convert.ToInt32(x, 16));
 
             rxAge.Value.Is("d");

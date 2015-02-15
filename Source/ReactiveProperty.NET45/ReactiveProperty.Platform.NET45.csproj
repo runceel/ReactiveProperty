@@ -7,7 +7,7 @@
     <ProjectGuid>{DF40885E-7FCF-409E-A297-D8B3C76E8019}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Codeplex.Reactive</RootNamespace>
+    <RootNamespace>Reactive.Bindings</RootNamespace>
     <AssemblyName>ReactiveProperty.NET45</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 
-namespace Codeplex.Reactive
+namespace Reactive.Bindings
 {
     // .NET 4 only
     public static class ReactivePropertyExtensions

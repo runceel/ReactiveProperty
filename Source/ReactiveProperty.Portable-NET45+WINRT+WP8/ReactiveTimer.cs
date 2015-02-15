@@ -3,7 +3,7 @@ using System.Reactive.Subjects;
 using System.Reactive.Disposables;
 using System.Reactive.Concurrency;
 
-namespace Codeplex.Reactive
+namespace Reactive.Bindings
 {
     /// <summary>
     /// Hot(stoppable/continuable) observable timer.

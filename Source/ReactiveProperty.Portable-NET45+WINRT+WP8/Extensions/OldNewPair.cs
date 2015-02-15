@@ -1,4 +1,4 @@
-﻿namespace Codeplex.Reactive.Extensions
+﻿namespace Reactive.Bindings.Extensions
 {
     /// <summary>Value pair of OldItem and NewItem.</summary>
     public class OldNewPair<T>

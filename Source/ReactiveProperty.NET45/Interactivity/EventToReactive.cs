@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Interactivity;
 #endif
 
-namespace Codeplex.Reactive.Interactivity
+namespace Reactive.Bindings.Interactivity
 {
     public class EventToReactive : TriggerAction<DependencyObject>
     {

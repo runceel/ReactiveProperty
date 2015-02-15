@@ -4,8 +4,8 @@ using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Windows;
-using Codeplex.Reactive;
-using Codeplex.Reactive.Extensions;
+using Reactive.Bindings;
+using Reactive.Bindings.Extensions;
 using System.Diagnostics;
 using System.Threading.Tasks;
 

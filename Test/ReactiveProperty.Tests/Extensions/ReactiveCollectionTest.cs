@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Codeplex.Reactive;
+using Reactive.Bindings;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading;

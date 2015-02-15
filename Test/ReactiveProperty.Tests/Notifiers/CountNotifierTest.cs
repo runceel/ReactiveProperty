@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Reactive.Linq;
-using Codeplex.Reactive.Notifiers;
+using Reactive.Bindings.Notifiers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Reactive.Testing;
 

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 
-namespace Codeplex.Reactive.Extensions
+namespace Reactive.Bindings.Extensions
 {
     public static class ObservableCollectionExtensions
     {

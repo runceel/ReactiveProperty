@@ -6,9 +6,9 @@ using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using Codeplex.Reactive.Extensions;
+using Reactive.Bindings.Extensions;
 
-namespace Codeplex.Reactive
+namespace Reactive.Bindings
 {
     /// <summary>
     /// ReadOnly ReactiveCollection

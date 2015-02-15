@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Codeplex.Reactive
+namespace Reactive.Bindings
 {
     internal static class EnumerableEx
     {

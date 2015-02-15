@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Net;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Codeplex.Reactive;
+using Reactive.Bindings;
 using System.Threading;
 
 namespace ReactiveProperty.Tests

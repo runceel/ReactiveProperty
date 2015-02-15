@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 using System.Reactive.Linq;
 using System.Reactive.Concurrency;
 
-namespace Codeplex.Reactive.Extensions
+namespace Reactive.Bindings.Extensions
 {
     public static class INotifyPropertyChangedExtensions
     {

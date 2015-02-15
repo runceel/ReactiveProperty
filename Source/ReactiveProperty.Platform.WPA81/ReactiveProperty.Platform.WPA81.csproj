@@ -9,7 +9,7 @@
     <ProjectGuid>{43B1B5E4-FFF6-4A61-8C63-3C85C3BA3E98}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Codeplex.Reactive</RootNamespace>
+    <RootNamespace>Reactive.Bindings</RootNamespace>
     <AssemblyName>ReactiveProperty.WPA81</AssemblyName>
     <DefaultLanguage>ja-JP</DefaultLanguage>
     <TargetPlatformVersion>8.1</TargetPlatformVersion>

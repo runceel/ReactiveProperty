@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reactive.Linq;
 using System.Windows;
-using Codeplex.Reactive; // using Namespace
+using Reactive.Bindings; // using Namespace
 
 namespace Sample.ViewModels
 {

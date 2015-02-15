@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Codeplex.Reactive
+namespace Reactive.Bindings
 {
     public static class ReactivePropertyExtensions
     {

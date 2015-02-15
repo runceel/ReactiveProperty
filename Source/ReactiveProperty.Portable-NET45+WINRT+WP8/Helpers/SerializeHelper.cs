@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Xml;
 
-namespace Codeplex.Reactive.Helpers
+namespace Reactive.Bindings.Helpers
 {
     public static class SerializeHelper
     {

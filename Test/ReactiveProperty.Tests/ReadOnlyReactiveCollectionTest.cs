@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Reactive.Subjects;
 using System.Reactive;
-using Codeplex.Reactive;
+using Reactive.Bindings;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Reactive.Concurrency;

@@ -1,6 +1,6 @@
 ﻿using Windows.UI.Xaml;
 
-namespace Codeplex.Reactive.Interactivity
+namespace Reactive.Bindings.Interactivity
 {
     public abstract class TriggerAction<T> : TriggerAction
         where T : DependencyObject

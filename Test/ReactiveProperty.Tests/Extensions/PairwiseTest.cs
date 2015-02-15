@@ -1,12 +1,12 @@
-﻿using Codeplex.Reactive.Extensions;
+﻿using Reactive.Bindings.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
-using Codeplex.Reactive;
+using Reactive.Bindings;
 using Microsoft.Reactive.Testing;
 using System.Linq;
 using System.Reactive.Linq;
-using Codeplex.Reactive.Interactivity;
+using Reactive.Bindings.Interactivity;
 
 namespace ReactiveProperty.Tests
 {

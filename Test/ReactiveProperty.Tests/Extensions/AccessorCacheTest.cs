@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Codeplex.Reactive.Extensions;
+using Reactive.Bindings.Extensions;
 
 namespace ReactiveProperty.Tests.Extensions
 {

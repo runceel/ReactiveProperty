@@ -4,7 +4,7 @@ using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 
-namespace Codeplex.Reactive
+namespace Reactive.Bindings
 {
     /// <summary>
     /// ObservableCollection that operate on scheduler use by ***OnScheduler methods.

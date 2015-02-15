@@ -4,7 +4,7 @@ using System.Reactive.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Subjects;
 
-namespace Codeplex.Reactive
+namespace Reactive.Bindings
 {
     /// <summary>
     /// Represents ReactiveCommand&lt;object&gt;

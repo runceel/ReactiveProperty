@@ -73,21 +73,21 @@ Codeplex.Reactive
 -> ReactiveTimer - Schedulable and hot(stoppable/continuable) timer.
 -> UIDispatcherScheduler - Schedule on UIDispatcher, if access same thread schedule immediately.
 
-Codeplex.Reactive.Binding
+Reactive.Bindings.Binding
 -> Extension Methods for ReactiveProperty<T>. Code based data binding.
 
-Codeplex.Reactive.Extensions
+Reactive.Bindings.Extensions
 -> Extension Methods for interface(IObservble<T>, INotifyPropertyChanged, etc...)
 
-Codeplex.Reactive.Interactivity
+Reactive.Bindings.Interactivity
 -> EventToReactive - Trigger that converts UIEvent to ReactiveProperty.
 
-Codeplex.Reactive.Notifiers
+Reactive.Bindings.Notifiers
 -> ScheduledNotifier - Notify value on scheduler(use with asynchronous progress report).
 -> CountNotifier - Notify event of count signals(this is thraed safe).
 -> BooleanNotifier - Notify boolean flag.
 
-Codeplex.Reactive.Helpers
+Reactive.Bindings.Helpers
 -> SerializeHelper - Pack and unpack ReactiveProperty values.
 
 Standard usage and all API references details, see project home.
@@ -169,7 +169,7 @@ Icon design by @ocazuco.
 
 2014-04-04 ver 0.4.2.beta3
 	Add
-		Codeplex.Reactive.Binding namespace. Bind to ReactiveProperty to POCO property.
+		Reactive.Bindings.Binding namespace. Bind to ReactiveProperty to POCO property.
 		ReactiveCommand add ToEventHandler method.
 
 2014-04-04 ver 0.4.2.beta2
@@ -204,7 +204,7 @@ Icon design by @ocazuco.
 	Change
 		Portable Class Library(Supported platform .NET45, WP8, Windows store app(Windows 8.1)).
 	Remove
-		Codeplex.Reactive.Asynchronous.
+		Reactive.Bindings.Asynchronous.
 
 2011-11-25 ver 0.3.2.0
     Add
@@ -243,8 +243,8 @@ Icon design by @ocazuco.
     Change
         ReactivePropertyMode's default changes to DistinctUntilChanged|RaiseLatestValueOnSubscribe
         (Changed:ver0.2 default behavior is DistinctUntilChanged only)
-        Namespace changed - Codeplex.Reactive.Notifier -> Codeplex.Reactive.Notifiers
-        Namespace changed - Codeplex.Reactive.Serialization -> Codeplex.Reactive.Helpers
+        Namespace changed - Reactive.Bindings.Notifier -> Reactive.Bindings.Notifiers
+        Namespace changed - Reactive.Bindings.Serialization -> Reactive.Bindings.Helpers
         Name changed - IValue -> IReactiveValue
         Remove ReactiveProperty's parentRaisePropertyChanged overloads
         Remove CombineLatest overloads in Rx-Experimental

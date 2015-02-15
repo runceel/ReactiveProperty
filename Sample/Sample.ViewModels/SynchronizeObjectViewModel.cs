@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Reactive.Linq;
 using System.Windows;
-using Codeplex.Reactive;
+using Reactive.Bindings;
 using System.ComponentModel;
-using Codeplex.Reactive.Extensions; // using namespace
+using Reactive.Bindings.Extensions; // using namespace
 
 namespace Sample.ViewModels
 {
