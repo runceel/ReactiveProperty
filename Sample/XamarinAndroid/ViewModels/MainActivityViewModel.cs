@@ -18,11 +18,17 @@ namespace XamarinAndroid.ViewModels
     {
         public ReactiveCommand NavigateReactivePropertyBasicsCommand { get; private set; }
 
+        public ReactiveCommand NavigateListAdapterCommand { get; private set; }
+
         public MainActivityViewModel(Activity context)
         {
             this.NavigateReactivePropertyBasicsCommand = new ReactiveCommand();
             this.NavigateReactivePropertyBasicsCommand
                 .Subscribe(_ => context.StartActivity(typeof(ReactivePropertyBasicsActivity)));
+
+            this.NavigateListAdapterCommand = new ReactiveCommand();
+            this.NavigateListAdapterCommand
+                .Subscribe(_ => context.StartActivity(typeof(ListAdapterActivity)));
         }
     }
 }

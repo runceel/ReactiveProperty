@@ -63,7 +63,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ViewModels\DisposableHolder.cs" />
+    <Compile Include="ViewModels\ListAdapterActivityViewModel.cs" />
     <Compile Include="ViewModels\MainActivityViewModel.cs" />
+    <Compile Include="Views\ListAdapterActivity.cs" />
     <Compile Include="Views\MainActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -74,6 +77,12 @@
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <AndroidResource Include="Resources\layout\ReactivePropertyBasics.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\ListAdapterHeader.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\ListAdapterPersonTemplate.axml">
       <SubType>AndroidResource</SubType>
     </AndroidResource>
   </ItemGroup>

@@ -63,16 +63,34 @@ namespace XamarinAndroid
 		{
 			
 			// aapt resource value: 0x7f050000
-			public const int ButtonReactivePropertyBasics = 2131034112;
+			public const int ButtonAdd = 2131034112;
 			
-			// aapt resource value: 0x7f050003
-			public const int ButtonReplaceText = 2131034115;
+			// aapt resource value: 0x7f050006
+			public const int ButtonListAdapter = 2131034118;
+			
+			// aapt resource value: 0x7f050005
+			public const int ButtonReactivePropertyBasics = 2131034117;
+			
+			// aapt resource value: 0x7f050009
+			public const int ButtonReplaceText = 2131034121;
+			
+			// aapt resource value: 0x7f050007
+			public const int EditTextInput = 2131034119;
+			
+			// aapt resource value: 0x7f050004
+			public const int TextViewAge = 2131034116;
 			
 			// aapt resource value: 0x7f050001
-			public const int EditTextInput = 2131034113;
+			public const int TextViewName = 2131034113;
+			
+			// aapt resource value: 0x7f050008
+			public const int TextViewOutput = 2131034120;
 			
 			// aapt resource value: 0x7f050002
-			public const int TextViewOutput = 2131034114;
+			public const int linearLayout1 = 2131034114;
+			
+			// aapt resource value: 0x7f050003
+			public const int textView3 = 2131034115;
 			
 			static Id()
 			{
@@ -88,10 +106,16 @@ namespace XamarinAndroid
 		{
 			
 			// aapt resource value: 0x7f030000
-			public const int Main = 2130903040;
+			public const int ListAdapterHeader = 2130903040;
 			
 			// aapt resource value: 0x7f030001
-			public const int ReactivePropertyBasics = 2130903041;
+			public const int ListAdapterPersonTemplate = 2130903041;
+			
+			// aapt resource value: 0x7f030002
+			public const int Main = 2130903042;
+			
+			// aapt resource value: 0x7f030003
+			public const int ReactivePropertyBasics = 2130903043;
 			
 			static Layout()
 			{

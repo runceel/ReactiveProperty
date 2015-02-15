@@ -28,6 +28,10 @@ namespace XamarinAndroid.Views
             this.FindViewById<Button>(Resource.Id.ButtonReactivePropertyBasics)
                 .ClickAsObservable()
                 .SetCommand(this.viewModel.NavigateReactivePropertyBasicsCommand);
+
+            this.FindViewById<Button>(Resource.Id.ButtonListAdapter)
+                .ClickAsObservable()
+                .SetCommand(this.viewModel.NavigateListAdapterCommand);
         }
     }
 }
