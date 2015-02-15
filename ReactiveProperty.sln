@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{592AA479-AD7F-476B-AEF8-2B0268EA3BD8}"
 EndProject
@@ -90,6 +90,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{97EC2E
 		Images\rpsummary.png = Images\rpsummary.png
 		Images\validation.PNG = Images\validation.PNG
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.Platform.Android", "Source\ReactiveProperty.Platform.Android\ReactiveProperty.Platform.Android.csproj", "{ABF4F434-E274-4980-B1D1-AADCF75685A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -370,6 +372,20 @@ Global
 		{1F4DEECC-84CE-4DCF-9D88-518CE8DA7DE3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{1F4DEECC-84CE-4DCF-9D88-518CE8DA7DE3}.Release|x64.ActiveCfg = Release|Any CPU
 		{1F4DEECC-84CE-4DCF-9D88-518CE8DA7DE3}.Release|x86.ActiveCfg = Release|Any CPU
+		{ABF4F434-E274-4980-B1D1-AADCF75685A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABF4F434-E274-4980-B1D1-AADCF75685A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABF4F434-E274-4980-B1D1-AADCF75685A0}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{ABF4F434-E274-4980-B1D1-AADCF75685A0}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{ABF4F434-E274-4980-B1D1-AADCF75685A0}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{ABF4F434-E274-4980-B1D1-AADCF75685A0}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{ABF4F434-E274-4980-B1D1-AADCF75685A0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{ABF4F434-E274-4980-B1D1-AADCF75685A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABF4F434-E274-4980-B1D1-AADCF75685A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABF4F434-E274-4980-B1D1-AADCF75685A0}.Release|ARM.ActiveCfg = Release|Any CPU
+		{ABF4F434-E274-4980-B1D1-AADCF75685A0}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{ABF4F434-E274-4980-B1D1-AADCF75685A0}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{ABF4F434-E274-4980-B1D1-AADCF75685A0}.Release|x64.ActiveCfg = Release|Any CPU
+		{ABF4F434-E274-4980-B1D1-AADCF75685A0}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -390,10 +406,11 @@ Global
 		{D534328B-496E-4F76-ACB1-2EB29BA990CF} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
 		{43B1B5E4-FFF6-4A61-8C63-3C85C3BA3E98} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
 		{1F4DEECC-84CE-4DCF-9D88-518CE8DA7DE3} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
+		{ABF4F434-E274-4980-B1D1-AADCF75685A0} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		BuildVersion_UseGlobalSettings = True
 		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
+		BuildVersion_UseGlobalSettings = True
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = ReactiveProperty.vsmdi
