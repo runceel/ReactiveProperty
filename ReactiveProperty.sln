@@ -93,6 +93,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{97EC2E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.Platform.Android", "Source\ReactiveProperty.Platform.Android\ReactiveProperty.Platform.Android.csproj", "{ABF4F434-E274-4980-B1D1-AADCF75685A0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinAndroid", "Sample\XamarinAndroid\XamarinAndroid.csproj", "{73FB08B3-EBF3-4384-A1FB-4442BD999477}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -386,6 +388,24 @@ Global
 		{ABF4F434-E274-4980-B1D1-AADCF75685A0}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{ABF4F434-E274-4980-B1D1-AADCF75685A0}.Release|x64.ActiveCfg = Release|Any CPU
 		{ABF4F434-E274-4980-B1D1-AADCF75685A0}.Release|x86.ActiveCfg = Release|Any CPU
+		{73FB08B3-EBF3-4384-A1FB-4442BD999477}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73FB08B3-EBF3-4384-A1FB-4442BD999477}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73FB08B3-EBF3-4384-A1FB-4442BD999477}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{73FB08B3-EBF3-4384-A1FB-4442BD999477}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{73FB08B3-EBF3-4384-A1FB-4442BD999477}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{73FB08B3-EBF3-4384-A1FB-4442BD999477}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{73FB08B3-EBF3-4384-A1FB-4442BD999477}.Debug|Mixed Platforms.Deploy.0 = Debug|Any CPU
+		{73FB08B3-EBF3-4384-A1FB-4442BD999477}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{73FB08B3-EBF3-4384-A1FB-4442BD999477}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{73FB08B3-EBF3-4384-A1FB-4442BD999477}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73FB08B3-EBF3-4384-A1FB-4442BD999477}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73FB08B3-EBF3-4384-A1FB-4442BD999477}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{73FB08B3-EBF3-4384-A1FB-4442BD999477}.Release|ARM.ActiveCfg = Release|Any CPU
+		{73FB08B3-EBF3-4384-A1FB-4442BD999477}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{73FB08B3-EBF3-4384-A1FB-4442BD999477}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{73FB08B3-EBF3-4384-A1FB-4442BD999477}.Release|Mixed Platforms.Deploy.0 = Release|Any CPU
+		{73FB08B3-EBF3-4384-A1FB-4442BD999477}.Release|x64.ActiveCfg = Release|Any CPU
+		{73FB08B3-EBF3-4384-A1FB-4442BD999477}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -407,6 +427,7 @@ Global
 		{43B1B5E4-FFF6-4A61-8C63-3C85C3BA3E98} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
 		{1F4DEECC-84CE-4DCF-9D88-518CE8DA7DE3} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
 		{ABF4F434-E274-4980-B1D1-AADCF75685A0} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
+		{73FB08B3-EBF3-4384-A1FB-4442BD999477} = {6356D836-36AA-4CD9-8EB2-BF037115D329}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs

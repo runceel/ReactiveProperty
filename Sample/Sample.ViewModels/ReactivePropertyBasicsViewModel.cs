@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Reactive.Linq;
 using System.Windows;
-using Reactive.Bindings; // using Namespace
+using Reactive.Bindings;
+using Reactive.Bindings.Extensions;
+using System.Reactive.Concurrency; // using Namespace
 
 namespace Sample.ViewModels
 {
@@ -26,7 +28,9 @@ namespace Sample.ViewModels
             // send value to UI Control
             DisplayText = InputText
                 .Select(s => s.ToUpper())       // rx query1
+                .ObserveOn(TaskPoolScheduler.Default)
                 .Delay(TimeSpan.FromSeconds(1)) // rx query2
+                .ObserveOnUIDispatcher()
                 .ToReactiveProperty();          // convert to ReactiveProperty
 
             ReplaceTextCommand = InputText
