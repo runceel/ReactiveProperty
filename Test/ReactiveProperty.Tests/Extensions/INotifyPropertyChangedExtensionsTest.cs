@@ -125,6 +125,32 @@ namespace ReactiveProperty.Tests.Extensions
             prop.Value.Is("Age:80");
         }
 
+        [TestMethod]
+        public void ToReactivePropertyAsSynchronizedConvertBackWhenHasErrorsFalse()
+        {
+            var model = new Model() { Age = 30 };
+            var prop = model.ToReactivePropertyAsSynchronized(
+                x => x.Age, // property selector
+                x => "Age:" + x,  // convert
+                x => int.Parse(x.Replace("Age:", "")), // convertBack
+                ignoreConvertBackError: true); // ignore convert back value
+
+            prop.Value.Is("Age:30");
+
+            prop.Value = "Age:50";
+            model.Age.Is(50);
+
+            model.Age = 80;
+            prop.Value.Is("Age:80");
+
+            // ignore convertBack error.
+            prop.Value = "xxxx";
+            model.Age.Is(80);
+
+            prop.Value = "Age:10";
+            model.Age.Is(10);
+        }
+
         class Model : INotifyPropertyChanged
         {
             private string name;
