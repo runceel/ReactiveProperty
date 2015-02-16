@@ -54,10 +54,11 @@ namespace Codeplex.Reactive.Extensions
         public static ReactiveProperty<TProperty> ToReactivePropertyAsSynchronized<TSubject, TProperty>(
             this TSubject subject,
             Expression<Func<TSubject, TProperty>> propertySelector,
-            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
+            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe,
+            bool convertBackWhenHasErrors = true)
             where TSubject : INotifyPropertyChanged
         {
-            return ToReactivePropertyAsSynchronized(subject, propertySelector, UIDispatcherScheduler.Default, mode);
+            return ToReactivePropertyAsSynchronized(subject, propertySelector, UIDispatcherScheduler.Default, mode, convertBackWhenHasErrors);
         }
 
         /// <summary>
@@ -70,7 +71,8 @@ namespace Codeplex.Reactive.Extensions
             this TSubject subject,
             Expression<Func<TSubject, TProperty>> propertySelector,
             IScheduler raiseEventScheduler,
-            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
+            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe,
+            bool convertBackWhenHasErrors = true)
             where TSubject : INotifyPropertyChanged
         {
             string propertyName; // no use
@@ -78,7 +80,9 @@ namespace Codeplex.Reactive.Extensions
 
             var result = subject.ObserveProperty(propertySelector, isPushCurrentValueAtFirst: true)
                 .ToReactiveProperty(raiseEventScheduler, mode: mode);
-            result.Subscribe(x => setter(subject, x));
+            result
+                .Where(_ => convertBackWhenHasErrors || !result.HasErrors)
+                .Subscribe(x => setter(subject, x));
 
             return result;
         }
@@ -96,10 +100,11 @@ namespace Codeplex.Reactive.Extensions
             Expression<Func<TSubject, TProperty>> propertySelector,
             Func<TProperty, TResult> convert,
             Func<TResult, TProperty> convertBack,
-            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
+            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe,
+            bool convertBackWhenHasErrors = true)
             where TSubject : INotifyPropertyChanged
         {
-            return ToReactivePropertyAsSynchronized(subject, propertySelector, convert, convertBack, UIDispatcherScheduler.Default, mode);
+            return ToReactivePropertyAsSynchronized(subject, propertySelector, convert, convertBack, UIDispatcherScheduler.Default, mode, convertBackWHenHasErrors);
         }
 
         /// <summary>
@@ -116,7 +121,8 @@ namespace Codeplex.Reactive.Extensions
             Func<TProperty, TResult> convert,
             Func<TResult, TProperty> convertBack,
             IScheduler raiseEventScheduler,
-            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
+            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe,
+            bool convertBackWhenHasErrors = true)
             where TSubject : INotifyPropertyChanged
         {
             string propertyName; // no use
@@ -125,7 +131,10 @@ namespace Codeplex.Reactive.Extensions
             var result = subject.ObserveProperty(propertySelector, isPushCurrentValueAtFirst: true)
                 .Select(convert)
                 .ToReactiveProperty(raiseEventScheduler, mode: mode);
-            result.Select(convertBack).Subscribe(x => setter(subject, x));
+            result
+                .Where(_ => convertBackWhenHasErrors || !result.HasErrors)
+                .Select(convertBack)
+                .Subscribe(x => setter(subject, x));
             return result;
         }
     }
