@@ -133,7 +133,7 @@ namespace ReactiveProperty.Tests.Extensions
                 x => x.Age, // property selector
                 x => "Age:" + x,  // convert
                 x => int.Parse(x.Replace("Age:", "")), // convertBack
-                ignoreConvertBackError: true); // ignore convert back value
+                ignoreErrorOnConvertBack: true); // ignore convert back value
 
             prop.Value.Is("Age:30");
 
