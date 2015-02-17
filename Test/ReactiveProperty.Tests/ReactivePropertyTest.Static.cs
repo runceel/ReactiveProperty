@@ -29,7 +29,7 @@ namespace RxPropTest
         public void FromObjectIgnoreValidationErrorValue()
         {
             var homuhomu = new ToaruClass { Name = "homuhomu", Age = 13 };
-            var rxName = Codeplex.Reactive.ReactiveProperty
+            var rxName = Reactive.Bindings.ReactiveProperty
                 .FromObject(homuhomu, x => x.Name, ignoreValidationErrorValue: true)
                 .SetValidateNotifyError((string x) => string.IsNullOrEmpty(x) ? "error" : null);
             rxName.Value.Is("homuhomu");
@@ -40,7 +40,7 @@ namespace RxPropTest
             rxName.Value.IsNull();
             homuhomu.Name.Is("mami");
 
-            var rxAge = Codeplex.Reactive.ReactiveProperty
+            var rxAge = Reactive.Bindings.ReactiveProperty
                 .FromObject(homuhomu, x => x.Age, ignoreValidationErrorValue: true)
                 .SetValidateNotifyError((int x) => x >= 0 ? null : "error");
 
@@ -72,7 +72,7 @@ namespace RxPropTest
         public void FromObjectConverterIgnoreValidationErrorValue()
         {
             var homuhomu = new ToaruClass { Name = "homuhomu", Age = 13 };
-            var rxAge = Codeplex.Reactive.ReactiveProperty.FromObject(homuhomu, x => x.Age,
+            var rxAge = Reactive.Bindings.ReactiveProperty.FromObject(homuhomu, x => x.Age,
                 x => Convert.ToString(x, 16), x => Convert.ToInt32(x, 16),
                 ignoreValidationErrorValue: true)
                 .SetValidateNotifyError((string x) => 
