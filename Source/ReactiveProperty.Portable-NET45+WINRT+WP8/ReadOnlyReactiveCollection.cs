@@ -94,7 +94,15 @@ namespace Reactive.Bindings
             {
                 onReset
                     .ObserveOn(scheduler)
-                    .Subscribe(_ => this.source.Clear()).AddTo(this.token);
+                    .Subscribe(_ =>
+                        {
+                            foreach (var item in source)
+                            {
+                                var d = item as IDisposable;
+                                if (d != null) { d.Dispose(); }
+                            }
+                            this.source.Clear();
+                        }).AddTo(this.token);
             }
         }
 
