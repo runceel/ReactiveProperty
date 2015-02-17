@@ -322,9 +322,10 @@ namespace Codeplex.Reactive
         public static ReactiveProperty<TProperty> FromObject<TTarget, TProperty>(
             TTarget target,
             Expression<Func<TTarget, TProperty>> propertySelector,
-            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
+            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe,
+            bool ignoreValidationErrorValue = false)
         {
-            return FromObject(target, propertySelector, UIDispatcherScheduler.Default, mode);
+            return FromObject(target, propertySelector, UIDispatcherScheduler.Default, mode, ignoreValidationErrorValue);
         }
 
         /// <summary>
@@ -336,14 +337,17 @@ namespace Codeplex.Reactive
             TTarget target,
             Expression<Func<TTarget, TProperty>> propertySelector,
             IScheduler raiseEventScheduler,
-            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
+            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe,
+            bool ignoreValidationErrorValue = false)
         {
             string propertyName; // no use
             var getter = AccessorCache<TTarget>.LookupGet(propertySelector, out propertyName);
             var setter = AccessorCache<TTarget>.LookupSet(propertySelector, out propertyName);
 
             var result = new ReactiveProperty<TProperty>(raiseEventScheduler, initialValue: getter(target), mode: mode);
-            result.Subscribe(x => setter(target, x));
+            result
+                .Where(_ => !ignoreValidationErrorValue || !result.HasErrors)
+                .Subscribe(x => setter(target, x));
 
             return result;
         }
@@ -358,9 +362,10 @@ namespace Codeplex.Reactive
             Expression<Func<TTarget, TProperty>> propertySelector,
             Func<TProperty, TResult> convert,
             Func<TResult, TProperty> convertBack,
-            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
+            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe,
+            bool ignoreValidationErrorValue = false)
         {
-            return FromObject(target, propertySelector, convert, convertBack, UIDispatcherScheduler.Default, mode);
+            return FromObject(target, propertySelector, convert, convertBack, UIDispatcherScheduler.Default, mode, ignoreValidationErrorValue);
         }
 
         /// <summary>
@@ -374,14 +379,18 @@ namespace Codeplex.Reactive
             Func<TProperty, TResult> convert,
             Func<TResult, TProperty> convertBack,
             IScheduler raiseEventScheduler,
-            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
+            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe,
+            bool ignoreValidationErrorValue = false)
         {
             string propertyName; // no use
             var getter = AccessorCache<TTarget>.LookupGet(propertySelector, out propertyName);
             var setter = AccessorCache<TTarget>.LookupSet(propertySelector, out propertyName);
 
             var result = new ReactiveProperty<TResult>(raiseEventScheduler, initialValue: convert(getter(target)), mode: mode);
-            result.Select(convertBack).Subscribe(x => setter(target, x));
+            result
+                .Where(_ => !ignoreValidationErrorValue || !result.HasErrors)
+                .Select(convertBack)
+                .Subscribe(x => setter(target, x));
 
             return result;
         }
