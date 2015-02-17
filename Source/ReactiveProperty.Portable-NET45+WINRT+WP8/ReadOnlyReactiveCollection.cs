@@ -42,6 +42,8 @@ namespace Reactive.Bindings
                 .ObserveOn(scheduler)
                 .Subscribe(v =>
                 {
+                    var d = this.source[v.Index] as IDisposable;
+                    if (d != null) { d.Dispose(); }
                     this.source.RemoveAt(v.Index);
                 })
                 .AddTo(this.token);
@@ -50,6 +52,8 @@ namespace Reactive.Bindings
                 .ObserveOn(scheduler)
                 .Subscribe(v =>
                 {
+                    var d = this.source[v.Index] as IDisposable;
+                    if (d != null) { d.Dispose(); }
                     this.source[v.Index] = v.Value;
                 })
                 .AddTo(this.token);
@@ -58,6 +62,11 @@ namespace Reactive.Bindings
                 .ObserveOn(scheduler)
                 .Subscribe(v =>
                 {
+                    foreach (var item in source)
+                    {
+                        var d = item as IDisposable;
+                        if (d != null) { d.Dispose(); }
+                    }
                     this.source.Clear();
                 })
                 .AddTo(this.token);

@@ -104,6 +104,9 @@ Assert helper using ChainingAssertion http://chainingassertion.codeplex.com/
 Icon design by @ocazuco.
 
 ---History---
+2015/02/18 ver 2.0.0-pre2
+	Add
+		ReadOnlyObservableCollection call Dispose method when item removed.
 2015/02/17 ver 2.0.0-pre1
     Change
 		namespace Codeplex.Reactive -> Reactive.Bindings.
