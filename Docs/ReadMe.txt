@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------------------
  * ReactiveProperty
- * ver 1.2.0 (Feb. 17th, 2015)
+ * ver 2.0.0-pre1 (Feb. 17th, 2015)
  *
  * created and maintained by neuecc <ils@neue.cc - @neuecc/Twitter>, xin9le<@xin9le/Twitter>, okazuki<@okazuki/Twitter>
  * licensed under MIT License
@@ -93,7 +93,7 @@ For standard usage and all API references details, see project home.
 
 ---Source Info---
 
-Solution file is for Visual Studio 2013 Update 2 RC.
+Solution file is for Visual Studio 2013 Update 4.
 Version control under Git.
 External library reference under NuGet.
 Unit test using MSTest and mock library is Fakes.
@@ -104,6 +104,9 @@ Assert helper using ChainingAssertion http://chainingassertion.codeplex.com/
 Icon design by @ocazuco.
 
 ---History---
+2015/02/17 ver 2.0.0-pre1
+    Change
+		namespace Codeplex.Reactive -> Reactive.Bindings.
 2015/02/17 ver 1.2.0
 	Change
 		Add ignoreValidationErrorValue argument at INotifyPropertyChangedExtensions.ToReactivePropertyAsSynchronized method.

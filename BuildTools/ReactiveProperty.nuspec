@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>ReactiveProperty</id>
-    <version>1.2.0</version>
+    <version>2.0.0-pre1</version>
     <title>ReactiveProperty</title>
     <authors>neuecc xin9le okazuki</authors>
     <owners>neuecc xin9le okazuki</owners>
@@ -100,9 +100,11 @@
 
     <!-- Mono.Android -->
     <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.dll" target="lib\MonoAndroid" />
-    <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.XML" target="lib\MonoANdroid" />
+    <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.XML" target="lib\MonoAndroid" />
     <file src="..\Binary\PCL\ReactiveProperty.dll" target="lib\MonoAndroid" />
-    <file src="..\Binary\PCL\ReactiveProperty.XML" target="lib\MonoANdroid" />
+    <file src="..\Binary\PCL\ReactiveProperty.XML" target="lib\MonoAndroid" />
+    <file src="..\Binary\MonoAndroid\ReactiveProperty.Android.dll" target="lib\MonoAndroid" />
+    <file src="..\Binary\MonoAndroid\ReactiveProperty.Android.XML" target="lib\MonoAndroid" />
 
     <!-- Mono.Touch -->
     <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.dll" target="lib\MonoTouch" />
