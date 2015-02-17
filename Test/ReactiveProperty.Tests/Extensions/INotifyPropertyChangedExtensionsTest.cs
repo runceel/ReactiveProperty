@@ -133,7 +133,12 @@ namespace ReactiveProperty.Tests.Extensions
                 x => x.Age, // property selector
                 x => "Age:" + x,  // convert
                 x => int.Parse(x.Replace("Age:", "")), // convertBack
-                ignoreErrorOnConvertBack: true); // ignore convert back value
+                ignoreValidationErrorValue: true)
+                .SetValidateNotifyError((string x) =>
+                    {
+                        int result; // no use
+                        return int.TryParse(x.Replace("Age:", ""), out result) ? null : "error";
+                    }); 
 
             prop.Value.Is("Age:30");
 
@@ -143,7 +148,7 @@ namespace ReactiveProperty.Tests.Extensions
             model.Age = 80;
             prop.Value.Is("Age:80");
 
-            // ignore convertBack error.
+            // ignore validation error.
             prop.Value = "xxxx";
             model.Age.Is(80);
 

@@ -53,6 +53,7 @@ namespace Codeplex.Reactive
         readonly IScheduler raiseEventScheduler;
         readonly IObservable<T> source;
         readonly Subject<T> anotherTrigger = new Subject<T>();
+        readonly ISubject<T> validationTrigger;
         readonly IDisposable sourceDisposable;
         readonly IDisposable raiseSubscription;
 
@@ -118,6 +119,11 @@ namespace Codeplex.Reactive
                 : merge.Publish();
             this.source = connectable.AsObservable();
 
+            this.validationTrigger = mode.HasFlag(ReactivePropertyMode.RaiseLatestValueOnSubscribe)
+                ? (ISubject<T>)new BehaviorSubject<T>(initialValue)
+                : (ISubject<T>)new Subject<T>();
+            connectable.Subscribe(x => validationTrigger.OnNext(x));
+
             // raise notification
             this.raiseSubscription = connectable
                 .ObserveOn(raiseEventScheduler)
@@ -166,6 +172,7 @@ namespace Codeplex.Reactive
             anotherTrigger.Dispose();
             raiseSubscription.Dispose();
             sourceDisposable.Dispose();
+            ((IDisposable)validationTrigger).Dispose();
             validateNotifyErrorSubscription.Dispose();
             errorsTrigger.OnCompleted();
             errorsTrigger.Dispose();
@@ -202,7 +209,7 @@ namespace Codeplex.Reactive
         {
             this.validatorStore.Add(validator);     //--- cache validation functions
             var validators  = this.validatorStore
-                            .Select(x => x(this.source))
+                            .Select(x => x(this.validationTrigger))
                             .ToArray();     //--- use copy
             this.validateNotifyErrorSubscription.Disposable
                 = Observable.CombineLatest(validators)
