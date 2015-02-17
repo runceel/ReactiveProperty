@@ -23,7 +23,7 @@ namespace Codeplex.Reactive.Extensions
         /// Converts NotificationObject's property changed to an observable sequence.
         /// </summary>
         /// <param name="propertySelector">Argument is self, Return is target property.</param>
-        /// <param name="isPushCurrentValueOnSubscribe">Push current value on first subscribe.</param>
+        /// <param name="isPushCurrentValueAtFirst">Push current value on first subscribe.</param>
         public static IObservable<TProperty> ObserveProperty<TSubject, TProperty>(
             this TSubject subject, Expression<Func<TSubject, TProperty>> propertySelector,
             bool isPushCurrentValueAtFirst = true)
@@ -52,6 +52,7 @@ namespace Codeplex.Reactive.Extensions
         /// </summary>
         /// <param name="propertySelector">Argument is self, Return is target property.</param>
         /// <param name="mode">ReactiveProperty mode.</param>
+        /// <param name="ignoreValidationErrorValue">Ignore validation error value.</param>
         public static ReactiveProperty<TProperty> ToReactivePropertyAsSynchronized<TSubject, TProperty>(
             this TSubject subject,
             Expression<Func<TSubject, TProperty>> propertySelector,
@@ -68,6 +69,7 @@ namespace Codeplex.Reactive.Extensions
         /// </summary>
         /// <param name="propertySelector">Argument is self, Return is target property.</param>
         /// <param name="mode">ReactiveProperty mode.</param>
+        /// <param name="ignoreValidationErrorValue">Ignore validation error value.</param>
         public static ReactiveProperty<TProperty> ToReactivePropertyAsSynchronized<TSubject, TProperty>(
             this TSubject subject,
             Expression<Func<TSubject, TProperty>> propertySelector,
@@ -95,8 +97,8 @@ namespace Codeplex.Reactive.Extensions
         /// <param name="propertySelector">Argument is self, Return is target property.</param>
         /// <param name="convert">Convert selector to ReactiveProperty.</param>
         /// <param name="convertBack">Convert selector to source.</param>
-        /// <param name="ignoreErrorOnConvertBack">Ignore convertBack error.</param>
         /// <param name="mode">ReactiveProperty mode.</param>
+        /// <param name="ignoreValidationErrorValue">Ignore validation error value.</param>
         public static ReactiveProperty<TResult> ToReactivePropertyAsSynchronized<TSubject, TProperty, TResult>(
             this TSubject subject,
             Expression<Func<TSubject, TProperty>> propertySelector,
@@ -117,7 +119,7 @@ namespace Codeplex.Reactive.Extensions
         /// <param name="convert">Convert selector to ReactiveProperty.</param>
         /// <param name="convertBack">Convert selector to source.</param>
         /// <param name="mode">ReactiveProperty mode.</param>
-        /// <param name="ignoreErrorOnConvertBack">Ignore convertBack error.</param>
+        /// <param name="ignoreValidationErrorValue">Ignore validation error value.</param>
         public static ReactiveProperty<TResult> ToReactivePropertyAsSynchronized<TSubject, TProperty, TResult>(
             this TSubject subject,
             Expression<Func<TSubject, TProperty>> propertySelector,

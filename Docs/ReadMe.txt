@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------------------
  * ReactiveProperty
- * ver 1.1.1.2 (Feb. 06th, 2015)
+ * ver 1.2.0 (Feb. 17th, 2015)
  *
  * created and maintained by neuecc <ils@neue.cc - @neuecc/Twitter>, xin9le<@xin9le/Twitter>, okazuki<@okazuki/Twitter>
  * licensed under MIT License
@@ -37,15 +37,14 @@ Rx-Main
 ---Dependency---
 
 Current target Rx version is
-Build Rx-Main 2.2.4 on NuGet.
+Build Rx-Main 2.2.5 on NuGet.
 ReactiveProperty.Platform.* depends
-Unofficial.Blend.Interactivity 1.0.0 on NuGet(WP8, .NET 4.5),
 Behaviors SDK (XAML)(Windows store app(Windows 8.1)).
 
 ---NuGet Installation---
 
 Install-Package ReactiveProperty
--> NET45, WP8, WinRT8.1 | dependencies Rx-Main, Unofficial.Blend.Interactivity
+-> NET4 ,NET45, WP8, WinRT | dependencies Rx-Main
 
 ---Snippet---
 
@@ -105,6 +104,10 @@ Assert helper using ChainingAssertion http://chainingassertion.codeplex.com/
 Icon design by @ocazuco.
 
 ---History---
+2015/02/17 ver 1.2.0
+	Change
+		Add ignoreValidationErrorValue argument at INotifyPropertyChangedExtensions.ToReactivePropertyAsSynchronized method.
+		Add ignoreValidationErrorValue argument at ReactiveProperty.FromObject method.
 2014/10/19 ver 1.1.1.0
     Change
 	    Add Scheduler parameter to ReadOnlyReactiveCollection constructor and factory method.
