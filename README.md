@@ -402,6 +402,10 @@ protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventA
 Supporting serialize ignore and deserialize order by DataAnnotations.
  more details, see Sample/Serialization.
 
+## Sample program
+
+- [MVVM pattern and Reactive programming sample](https://code.msdn.microsoft.com/MVVM-pattern-and-Reactive-2f71560a)
+
 ## Author info
 
 Yoshifumi Kawai a.k.a. neuecc is software developer in Tokyo, Japan.

@@ -53,6 +53,7 @@ namespace Reactive.Bindings
         readonly IScheduler raiseEventScheduler;
         readonly IObservable<T> source;
         readonly Subject<T> anotherTrigger = new Subject<T>();
+        readonly ISubject<T> validationTrigger;
         readonly IDisposable sourceDisposable;
         readonly IDisposable raiseSubscription;
 
@@ -118,6 +119,11 @@ namespace Reactive.Bindings
                 : merge.Publish();
             this.source = connectable.AsObservable();
 
+            this.validationTrigger = mode.HasFlag(ReactivePropertyMode.RaiseLatestValueOnSubscribe)
+                ? (ISubject<T>)new BehaviorSubject<T>(initialValue)
+                : (ISubject<T>)new Subject<T>();
+            connectable.Subscribe(x => validationTrigger.OnNext(x));
+
             // raise notification
             this.raiseSubscription = connectable
                 .ObserveOn(raiseEventScheduler)
@@ -166,6 +172,7 @@ namespace Reactive.Bindings
             anotherTrigger.Dispose();
             raiseSubscription.Dispose();
             sourceDisposable.Dispose();
+            ((IDisposable)validationTrigger).Dispose();
             validateNotifyErrorSubscription.Dispose();
             errorsTrigger.OnCompleted();
             errorsTrigger.Dispose();
@@ -202,7 +209,7 @@ namespace Reactive.Bindings
         {
             this.validatorStore.Add(validator);     //--- cache validation functions
             var validators  = this.validatorStore
-                            .Select(x => x(this.source))
+                            .Select(x => x(this.validationTrigger))
                             .ToArray();     //--- use copy
             this.validateNotifyErrorSubscription.Disposable
                 = Observable.CombineLatest(validators)
@@ -315,9 +322,10 @@ namespace Reactive.Bindings
         public static ReactiveProperty<TProperty> FromObject<TTarget, TProperty>(
             TTarget target,
             Expression<Func<TTarget, TProperty>> propertySelector,
-            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
+            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe,
+            bool ignoreValidationErrorValue = false)
         {
-            return FromObject(target, propertySelector, UIDispatcherScheduler.Default, mode);
+            return FromObject(target, propertySelector, UIDispatcherScheduler.Default, mode, ignoreValidationErrorValue);
         }
 
         /// <summary>
@@ -329,14 +337,17 @@ namespace Reactive.Bindings
             TTarget target,
             Expression<Func<TTarget, TProperty>> propertySelector,
             IScheduler raiseEventScheduler,
-            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
+            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe,
+            bool ignoreValidationErrorValue = false)
         {
             string propertyName; // no use
             var getter = AccessorCache<TTarget>.LookupGet(propertySelector, out propertyName);
             var setter = AccessorCache<TTarget>.LookupSet(propertySelector, out propertyName);
 
             var result = new ReactiveProperty<TProperty>(raiseEventScheduler, initialValue: getter(target), mode: mode);
-            result.Subscribe(x => setter(target, x));
+            result
+                .Where(_ => !ignoreValidationErrorValue || !result.HasErrors)
+                .Subscribe(x => setter(target, x));
 
             return result;
         }
@@ -351,9 +362,10 @@ namespace Reactive.Bindings
             Expression<Func<TTarget, TProperty>> propertySelector,
             Func<TProperty, TResult> convert,
             Func<TResult, TProperty> convertBack,
-            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
+            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe,
+            bool ignoreValidationErrorValue = false)
         {
-            return FromObject(target, propertySelector, convert, convertBack, UIDispatcherScheduler.Default, mode);
+            return FromObject(target, propertySelector, convert, convertBack, UIDispatcherScheduler.Default, mode, ignoreValidationErrorValue);
         }
 
         /// <summary>
@@ -367,14 +379,18 @@ namespace Reactive.Bindings
             Func<TProperty, TResult> convert,
             Func<TResult, TProperty> convertBack,
             IScheduler raiseEventScheduler,
-            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
+            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe,
+            bool ignoreValidationErrorValue = false)
         {
             string propertyName; // no use
             var getter = AccessorCache<TTarget>.LookupGet(propertySelector, out propertyName);
             var setter = AccessorCache<TTarget>.LookupSet(propertySelector, out propertyName);
 
             var result = new ReactiveProperty<TResult>(raiseEventScheduler, initialValue: convert(getter(target)), mode: mode);
-            result.Select(convertBack).Subscribe(x => setter(target, x));
+            result
+                .Where(_ => !ignoreValidationErrorValue || !result.HasErrors)
+                .Select(convertBack)
+                .Subscribe(x => setter(target, x));
 
             return result;
         }

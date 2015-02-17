@@ -1,6 +1,6 @@
-﻿/*--------------------------------------------------------------------------
+/*--------------------------------------------------------------------------
  * ReactiveProperty
- * ver 1.1.1.2 (Feb. 06th, 2015)
+ * ver 1.2.0 (Feb. 17th, 2015)
  *
  * created and maintained by neuecc <ils@neue.cc - @neuecc/Twitter>, xin9le<@xin9le/Twitter>, okazuki<@okazuki/Twitter>
  * licensed under MIT License
@@ -15,12 +15,12 @@ ReactiveProperty is MVVM and Asynchronous Extensions for Reactive Extensions.
 * ReactiveCommand - Convert observable condition sequence to ICommand
 * Typesafe convert INotifyPropertyChanged to ReactiveProperty
 * Event to ReactiveProperty Blend behavior
-* There means V -> VM -> M -> VM -> V completely connected in Reactive.
+* This means V -> VM -> M -> VM -> V completely connected in Reactive.
 
 Note:
-ReactiveProperty is not replace existing MVVM Framework.
-ReactiveProperty no provides ViewModelBase, Messenger, etc.
-I recommend that use MVVM Framework together.
+ReactiveProperty is not a replacement for a MVVM framework.
+ReactiveProperty does not provide a ViewModelBase, Messenger, etc.
+I recommend you use a MVVM framework to complement ReactiveProperty.
 
 ---Bin/Assembly---
 Rx-Main
@@ -36,16 +36,15 @@ Rx-Main
 
 ---Dependency---
 
-Currently target Rx version is
-Build Rx-Main 2.2.4 on NuGet.
+Current target Rx version is
+Build Rx-Main 2.2.5 on NuGet.
 ReactiveProperty.Platform.* depends
-Unofficial.Blend.Interactivity 1.0.0 on NuGet(WP8, .NET 4.5),
 Behaviors SDK (XAML)(Windows store app(Windows 8.1)).
 
 ---NuGet Installation---
 
 Install-Package ReactiveProperty
--> NET45, WP8, WinRT8.1 | dependencies Rx-Main, Unofficial.Blend.Interactivity
+-> NET4 ,NET45, WP8, WinRT | dependencies Rx-Main
 
 ---Snippet---
 
@@ -84,13 +83,13 @@ Reactive.Bindings.Interactivity
 
 Reactive.Bindings.Notifiers
 -> ScheduledNotifier - Notify value on scheduler(use with asynchronous progress report).
--> CountNotifier - Notify event of count signals(this is thraed safe).
+-> CountNotifier - Notify event of count signals(this is thread safe).
 -> BooleanNotifier - Notify boolean flag.
 
 Reactive.Bindings.Helpers
 -> SerializeHelper - Pack and unpack ReactiveProperty values.
 
-Standard usage and all API references details, see project home.
+For standard usage and all API references details, see project home.
 
 ---Source Info---
 
@@ -105,6 +104,10 @@ Assert helper using ChainingAssertion http://chainingassertion.codeplex.com/
 Icon design by @ocazuco.
 
 ---History---
+2015/02/17 ver 1.2.0
+	Change
+		Add ignoreValidationErrorValue argument at INotifyPropertyChangedExtensions.ToReactivePropertyAsSynchronized method.
+		Add ignoreValidationErrorValue argument at ReactiveProperty.FromObject method.
 2014/10/19 ver 1.1.1.0
     Change
 	    Add Scheduler parameter to ReadOnlyReactiveCollection constructor and factory method.
