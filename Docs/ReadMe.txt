@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------------------
  * ReactiveProperty
- * ver 2.0.0-pre1 (Feb. 17th, 2015)
+ * ver 2.0.0-pre2 (Feb. 18th, 2015)
  *
  * created and maintained by neuecc <ils@neue.cc - @neuecc/Twitter>, xin9le<@xin9le/Twitter>, okazuki<@okazuki/Twitter>
  * licensed under MIT License
