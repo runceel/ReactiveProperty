@@ -1,6 +1,8 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Reactive.Disposables;
 using System.Reactive.Subjects;
+using System.Runtime.CompilerServices;
 
 namespace Codeplex.Reactive.Notifiers
 {
@@ -20,14 +22,31 @@ namespace Codeplex.Reactive.Notifiers
     /// <summary>
     /// Notify event of count flag.
     /// </summary>
-    public class CountNotifier : IObservable<CountChangedStatus>
+    public class CountNotifier : IObservable<CountChangedStatus>, INotifyPropertyChanged
     {
         readonly object lockObject = new object();
         readonly Subject<CountChangedStatus> statusChanged = new Subject<CountChangedStatus>();
+        public event PropertyChangedEventHandler PropertyChanged;
         readonly int max;
+        private int count;
 
-        public int Max { get { return max; } }
-        public int Count { get; private set; }
+        public int Max 
+        { 
+            get 
+            { 
+                return max; 
+            } 
+        }
+
+        public int Count 
+        {
+            get { return this.count; }
+            private set
+            {
+                this.count = value;
+                this.OnPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Setup max count of signal.
@@ -93,5 +112,12 @@ namespace Codeplex.Reactive.Notifiers
         {
             return statusChanged.Subscribe(observer);
         }
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            var h = this.PropertyChanged;
+            if (h != null) { h(this, new PropertyChangedEventArgs(propertyName)); }
+        }
+
     }
 }
