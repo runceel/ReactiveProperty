@@ -1,0 +1,27 @@
+﻿<Window
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ViewModels="clr-namespace:Sample.ViewModels;assembly=Sample.ViewModels" 
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
+    xmlns:Interactivity="clr-namespace:Reactive.Bindings.Interactivity;assembly=ReactiveProperty.NET45" 
+    xmlns:Views="clr-namespace:WPF.Views"
+    x:Class="WPF.Views.EventToReactiveCommandWindow"
+    Title="EventToReactiveCommandWindow" Height="300" Width="300">
+    <Window.DataContext>
+        <ViewModels:EventToReactiveCommandViewModel/>
+    </Window.DataContext>
+	<StackPanel>
+		<Button Content="Select file">
+
+			<i:Interaction.Triggers>
+				<i:EventTrigger EventName="Click">
+                    <Interactivity:EventToReactiveCommand Command="{Binding SelectFileCommand, Mode=OneWay}">
+                        <Views:OpenFileDialogConverter />
+                    </Interactivity:EventToReactiveCommand>
+                </i:EventTrigger>
+			</i:Interaction.Triggers>
+
+		</Button>
+		<TextBlock Text="{Binding Message.Value}" />
+	</StackPanel>
+</Window>

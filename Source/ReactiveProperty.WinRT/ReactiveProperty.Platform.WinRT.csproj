@@ -111,8 +111,20 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\ReactiveProperty.NET45\Interactivity\DelegateConverter.cs">
+      <Link>Interactivity\DelegateConverter.cs</Link>
+    </Compile>
     <Compile Include="..\ReactiveProperty.NET45\Interactivity\EventToReactive.cs">
       <Link>Interactivity\EventToReactive.cs</Link>
+    </Compile>
+    <Compile Include="..\ReactiveProperty.NET45\Interactivity\EventToReactiveCommand.cs">
+      <Link>Interactivity\EventToReactiveCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\ReactiveProperty.NET45\Interactivity\IEventToReactiveConverter.cs">
+      <Link>Interactivity\IEventToReactiveConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\ReactiveProperty.NET45\Interactivity\ReactiveConverter.cs">
+      <Link>Interactivity\ReactiveConverter.cs</Link>
     </Compile>
     <Compile Include="Interactivity\Behavior.cs" />
     <Compile Include="Interactivity\Behavior.Internal.cs" />

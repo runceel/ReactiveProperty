@@ -140,6 +140,9 @@
     <Compile Include="Views\EventToReactive.xaml.cs">
       <DependentUpon>EventToReactive.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\EventToReactiveCommandWindow.xaml.cs">
+      <DependentUpon>EventToReactiveCommandWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ReactivePropertyBasics.xaml.cs">
       <DependentUpon>ReactivePropertyBasics.xaml</DependentUpon>
     </Compile>
@@ -169,6 +172,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\EventToReactive.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EventToReactiveCommandWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -21,6 +21,7 @@ namespace WPF
         public ReactiveCommand NavigateSerialization { get; private set; }
         public ReactiveCommand NavigateEventToReactive { get; private set; }
         public ReactiveCommand NavigateSynchronize { get; private set; }
+        public ReactiveCommand NavigateEventToReactiveCommand { get; private set; }
 
         public MainWindowViewModel()
         {
@@ -36,6 +37,8 @@ namespace WPF
             NavigateEventToReactive.Subscribe(_ => new EventToReactive().Show());
             NavigateSynchronize = new ReactiveCommand();
             NavigateSynchronize.Subscribe(_ => new SynchronizeObject().Show());
+            NavigateEventToReactiveCommand = new ReactiveCommand();
+            NavigateEventToReactiveCommand.Subscribe(_ => new EventToReactiveCommandWindow().Show());
         }
     }
 }

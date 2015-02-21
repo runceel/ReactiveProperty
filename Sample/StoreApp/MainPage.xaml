@@ -50,12 +50,19 @@
 				</Interactivity:Interaction.Behaviors>
 			</Button>
             <Button Content="Asynchronous" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-				<Interactivity:Interaction.Behaviors>
-					<Core:EventTriggerBehavior EventName="Click">
-						<Core:NavigateToPageAction TargetPage="StoreApp.Views.Asynchronous" />
-					</Core:EventTriggerBehavior>
-				</Interactivity:Interaction.Behaviors>
-			</Button>
-		</StackPanel>
+                <Interactivity:Interaction.Behaviors>
+                    <Core:EventTriggerBehavior EventName="Click">
+                        <Core:NavigateToPageAction TargetPage="StoreApp.Views.Asynchronous" />
+                    </Core:EventTriggerBehavior>
+                </Interactivity:Interaction.Behaviors>
+            </Button>
+            <Button Content="EventToReactiveCommand" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Interactivity:Interaction.Behaviors>
+                    <Core:EventTriggerBehavior EventName="Click">
+                        <Core:NavigateToPageAction TargetPage="StoreApp.Views.EventToReactiveCommand" />
+                    </Core:EventTriggerBehavior>
+                </Interactivity:Interaction.Behaviors>
+            </Button>
+        </StackPanel>
 	</Grid>
 </Page>
