@@ -15,6 +15,7 @@ using Windows.UI.Xaml;
 #else
 using System.Windows.Interactivity;
 using System.Windows.Markup;
+using System.ComponentModel;
 #endif
 
 namespace Reactive.Bindings.Interactivity
@@ -51,6 +52,10 @@ namespace Reactive.Bindings.Interactivity
         /// <summary>
         /// set and get Value converter.
         /// </summary>
+#if NETFX_CORE
+#else
+        [TypeConverter(typeof(ExpandableObjectConverter))]
+#endif
         public IEventToReactiveConverter Converter
         {
             get { return (IEventToReactiveConverter)GetValue(ConverterProperty); }
@@ -79,6 +84,7 @@ namespace Reactive.Bindings.Interactivity
                     .Convert(this.source.Where(x => this.Command.CanExecute(x)))
                     .ObserveOnUIDispatcher()
                     .Subscribe(x => this.Command.Execute(x));
+                this.Converter.AssociateObject = this.AssociatedObject;
 
             }
 

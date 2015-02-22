@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------------------
  * ReactiveProperty
- * ver 2.0.0-pre2 (Feb. 18th, 2015)
+ * ver 2.0.0-pre3 (Feb. 22th, 2015)
  *
  * created and maintained by neuecc <ils@neue.cc - @neuecc/Twitter>, xin9le<@xin9le/Twitter>, okazuki<@okazuki/Twitter>
  * licensed under MIT License
@@ -104,6 +104,12 @@ Assert helper using ChainingAssertion http://chainingassertion.codeplex.com/
 Icon design by @ocazuco.
 
 ---History---
+2015/02/22 ver 2.0.0-per3
+	Add
+		Added EventToReactveCommand class.
+	Change
+		Implements INotifyPropertyChanged to CountNotifier
+
 2015/02/18 ver 2.0.0-pre2
 	Add
 		ReadOnlyObservableCollection call Dispose method when item removed.
