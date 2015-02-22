@@ -73,8 +73,8 @@ namespace Reactive.Bindings.Interactivity
         {
             if (this.disposable == null)
             {
-                this.Converter.AssociateObject = this.AssociatedObject;
                 this.Converter = this.Converter ?? new DefaultConverter();
+                this.Converter.AssociateObject = this.AssociatedObject;
                 this.disposable = this.Converter.Convert(this.source)
                     .ObserveOnUIDispatcher()
                     .Where(_ => this.Command != null)
