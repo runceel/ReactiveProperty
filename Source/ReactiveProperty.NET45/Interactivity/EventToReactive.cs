@@ -9,6 +9,7 @@ using System.Windows.Interactivity;
 
 namespace Reactive.Bindings.Interactivity
 {
+    [Obsolete("Please use EventToReactiveProperty")]
     public class EventToReactive : TriggerAction<DependencyObject>
     {
         protected override void Invoke(object parameter)
