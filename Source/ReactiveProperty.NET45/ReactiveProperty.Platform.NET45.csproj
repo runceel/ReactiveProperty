@@ -65,6 +65,7 @@
     <Compile Include="Interactivity\DelegateConverter.cs" />
     <Compile Include="Interactivity\EventToReactive.cs" />
     <Compile Include="Interactivity\EventToReactiveCommand.cs" />
+    <Compile Include="Interactivity\EventToReactiveProperty.cs" />
     <Compile Include="Interactivity\IEventToReactiveConverter.cs" />
     <Compile Include="Interactivity\ReactiveConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
