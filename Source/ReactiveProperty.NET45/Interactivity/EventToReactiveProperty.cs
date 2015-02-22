@@ -39,7 +39,7 @@ namespace Reactive.Bindings.Interactivity
 
         // Using a DependencyProperty as the backing store for Command.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ReactivePropertyProperty =
-            DependencyProperty.Register("ReactiveProperty", typeof(IReactiveProperty), typeof(EventToReactiveCommand), new PropertyMetadata(null));
+            DependencyProperty.Register("ReactiveProperty", typeof(IReactiveProperty), typeof(EventToReactiveProperty), new PropertyMetadata(null));
 
         /// <summary>
         /// Ignore EventArgs. If value is false then uses Unit.Default.
