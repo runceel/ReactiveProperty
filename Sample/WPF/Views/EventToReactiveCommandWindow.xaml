@@ -15,6 +15,7 @@
 
 			<i:Interaction.Triggers>
 				<i:EventTrigger EventName="Click">
+                    <!-- set the command, called after the converter -->
                     <Interactivity:EventToReactiveCommand Command="{Binding SelectFileCommand, Mode=OneWay}">
                         <Views:OpenFileDialogConverter/>
                     </Interactivity:EventToReactiveCommand>

@@ -28,6 +28,7 @@ namespace WPF.Views
         }
     }
 
+    // Converter
     public class OpenFileDialogConverter : ReactiveConverter<EventArgs, string>
     {
 
@@ -38,8 +39,8 @@ namespace WPF.Views
 
             return source
                 .Select(_ => dlg)
-                .Where(x => x.ShowDialog() == true)
-                .Select(x => x.FileName);
+                .Where(x => x.ShowDialog() == true) // Show dialog
+                .Select(x => x.FileName); // convert to string
         }
     }
 }

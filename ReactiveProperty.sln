@@ -88,6 +88,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{97EC2E
 	ProjectSection(SolutionItems) = preProject
 		Images\basics.png = Images\basics.png
 		Images\eventtoreactive.PNG = Images\eventtoreactive.PNG
+		..\..\..\Pictures\EventToReactiveCommand1.PNG = ..\..\..\Pictures\EventToReactiveCommand1.PNG
+		..\..\..\Pictures\EventToReactiveCommand2.PNG = ..\..\..\Pictures\EventToReactiveCommand2.PNG
 		Images\rpsummary.png = Images\rpsummary.png
 		Images\validation.PNG = Images\validation.PNG
 	EndProjectSection
@@ -431,8 +433,8 @@ Global
 		{73FB08B3-EBF3-4384-A1FB-4442BD999477} = {6356D836-36AA-4CD9-8EB2-BF037115D329}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		BuildVersion_UseGlobalSettings = True
 		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
+		BuildVersion_UseGlobalSettings = True
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = ReactiveProperty.vsmdi

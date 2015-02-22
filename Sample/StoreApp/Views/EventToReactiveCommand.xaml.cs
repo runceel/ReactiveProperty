@@ -39,11 +39,11 @@ namespace StoreApp.Views
         protected override IObservable<string> Convert(IObservable<RoutedEventArgs> source)
         {
             return source
-                .Select(_ => new FileOpenPicker())
-                .Do(x => x.FileTypeFilter.Add(".txt"))
-                .SelectMany(x => x.PickSingleFileAsync().AsTask().ToObservable())
-                .Where(x => x != null)
-                .Select(x => x.Path);
+                .Select(_ => new FileOpenPicker()) // create picker
+                .Do(x => x.FileTypeFilter.Add(".txt")) // set extensions
+                .SelectMany(x => x.PickSingleFileAsync().AsTask().ToObservable()) // convert task to iobservable
+                .Where(x => x != null) // filter
+                .Select(x => x.Path); // convert
         }
     }
 

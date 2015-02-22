@@ -176,6 +176,87 @@ public class Converters
 }
 ```
 
+## イベントをReactiveCommandにつなげる
+
+![EventToReactiveCommand1](Images/EventToReactiveCommand1.PNG)
+![EventToReactiveCommand2](Images/EventToReactiveCommand2.PNG)
+
+```cs
+// Converter
+public class OpenFileDialogConverter : ReactiveConverter<EventArgs, string>
+{
+
+    protected override IObservable<string> Convert(IObservable<EventArgs> source)
+    {
+        var dlg = new OpenFileDialog();
+        dlg.Filter = "*.*|*.*";
+
+        return source
+            .Select(_ => dlg)
+            .Where(x => x.ShowDialog() == true) // Show dialog
+            .Select(x => x.FileName); // convert to string
+    }
+}
+```
+
+```xml
+<Window.DataContext>
+    <ViewModels:EventToReactiveCommandViewModel/>
+</Window.DataContext>
+<StackPanel>
+	<Button Content="Select file">
+
+		<i:Interaction.Triggers>
+			<i:EventTrigger EventName="Click">
+                <!-- set the command, called after the converter -->
+                <Interactivity:EventToReactiveCommand Command="{Binding SelectFileCommand, Mode=OneWay}">
+                    <Views:OpenFileDialogConverter/>
+                </Interactivity:EventToReactiveCommand>
+            </i:EventTrigger>
+		</i:Interaction.Triggers>
+
+	</Button>
+	<TextBlock Text="{Binding Message.Value}" />
+</StackPanel>
+```
+
+```cs
+public class EventToReactiveCommandViewModel
+{
+    public ReactiveCommand<string> SelectFileCommand { get; private set; }
+
+    public ReactiveProperty<string> Message { get; private set; }
+
+    public EventToReactiveCommandViewModel()
+    {
+        // command called, after converter
+        this.SelectFileCommand = new ReactiveCommand<string>();
+        // create ReactiveProperty from ReactiveCommand
+        this.Message = this.SelectFileCommand
+            .Select(x => x + " selected.")
+            .ToReactiveProperty();
+    }
+}
+```
+
+もし、Windows Runtimeを使用している場合は、以下のようにConverterを書くこともできます。
+
+```cs
+public class SelectFileConverter : ReactiveConverter<RoutedEventArgs, string>
+{
+    protected override IObservable<string> Convert(IObservable<RoutedEventArgs> source)
+    {
+        return source
+            .Select(_ => new FileOpenPicker()) // create picker
+            .Do(x => x.FileTypeFilter.Add(".txt")) // set extensions
+            .SelectMany(x => x.PickSingleFileAsync().AsTask().ToObservable()) // convert task to iobservable
+            .Where(x => x != null) // filter
+            .Select(x => x.Path); // convert
+    }
+}
+```
+
+
 ## Validation
 
 ![Basics](Images/validation.PNG)

@@ -18,7 +18,9 @@ namespace Sample.ViewModels
 
         public EventToReactiveCommandViewModel()
         {
+            // command called, after converter
             this.SelectFileCommand = new ReactiveCommand<string>();
+            // create ReactiveProperty from ReactiveCommand
             this.Message = this.SelectFileCommand
                 .Select(x => x + " selected.")
                 .ToReactiveProperty();
