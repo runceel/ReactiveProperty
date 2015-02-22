@@ -34,11 +34,9 @@ namespace WPF.Views
 
         protected override IObservable<string> Convert(IObservable<EventArgs> source)
         {
-            var dlg = new OpenFileDialog();
-            dlg.Filter = "*.*|*.*";
-
             return source
-                .Select(_ => dlg)
+                .Select(_ => new OpenFileDialog())
+                .Do(x => x.Filter = "*.*|*.*")
                 .Where(x => x.ShowDialog() == true) // Show dialog
                 .Select(x => x.FileName); // convert to string
         }
