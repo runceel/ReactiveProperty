@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Reactive.Linq;
 using Reactive.Bindings.Extensions;
+using System.Reactive.Disposables;
 #if NETFX_CORE
 using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml;
@@ -32,7 +33,7 @@ namespace Reactive.Bindings.Interactivity
     {
         private readonly Subject<object> source = new Subject<object>();
 
-        private IDisposable disposable;
+        private readonly SerialDisposable disposable = new SerialDisposable();
 
         public ICommand Command
         {
@@ -64,29 +65,35 @@ namespace Reactive.Bindings.Interactivity
 
         // Using a DependencyProperty as the backing store for Converter.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ConverterProperty =
-            DependencyProperty.Register("Converter", typeof(IEventToReactiveConverter), typeof(EventToReactiveCommand), new PropertyMetadata(new DefaultConverter()));
+            DependencyProperty.Register("Converter", typeof(IEventToReactiveConverter), typeof(EventToReactiveCommand), new PropertyMetadata(new DefaultConverter(), ConverterChanged));
+
+        private static void ConverterChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((EventToReactiveCommand)d).ConverterChanged();
+        }
+
+        private void ConverterChanged()
+        {
+            if (this.Converter == null)
+            {
+                this.disposable.Disposable = Disposable.Empty;
+                return;
+            }
+            this.disposable.Disposable = this.Converter
+                .Convert(this.source.Where(x => this.Command.CanExecute(x)))
+                .ObserveOnUIDispatcher()
+                .Subscribe(x => this.Command.Execute(x));
+        }
 
         protected override void OnDetaching()
         {
             base.OnDetaching();
-            if (this.disposable != null)
-            {
-                this.disposable.Dispose();
-            }
+            this.disposable.Dispose();
         }
 
         protected override void Invoke(object parameter)
         {
-            if (this.disposable == null)
-            {
-                // store app...
-                this.disposable = this.Converter
-                    .Convert(this.source.Where(x => this.Command.CanExecute(x)))
-                    .ObserveOnUIDispatcher()
-                    .Subscribe(x => this.Command.Execute(x));
-                this.Converter.AssociateObject = this.AssociatedObject;
-
-            }
+            this.Converter.AssociateObject = this.AssociatedObject;
 
             if (!this.IgnoreEventArgs)
             {
