@@ -234,7 +234,7 @@ public class EventToReactiveCommandViewModel
 }
 ```
 
-If you use Windows Runtime then you can write this.
+If you use Windows Runtime then you can write like following code.
 
 ```cs
 public class SelectFileConverter : ReactiveConverter<RoutedEventArgs, string>
