@@ -173,8 +173,8 @@ public class Converters
 
 ## Event to ReactiveCommand
 
-![EventToReactiveCommand1](Images/EventToReactiveCommand1.png)
-![EventToReactiveCommand2](Images/EventToReactiveCommand2.png)
+![EventToReactiveCommand1](Images/EventToReactiveCommand1.PNG)
+![EventToReactiveCommand2](Images/EventToReactiveCommand2.PNG)
 
 ```cs
 // Converter
