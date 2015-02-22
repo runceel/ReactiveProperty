@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reactive;
 using System.Reactive.Subjects;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 using System.Reactive.Linq;
 using Reactive.Bindings.Extensions;
-using System.Reactive.Disposables;
+
 #if NETFX_CORE
 using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml;
@@ -17,6 +12,7 @@ using Windows.UI.Xaml;
 using System.Windows.Interactivity;
 using System.Windows.Markup;
 using System.ComponentModel;
+using System.Windows;
 #endif
 
 namespace Reactive.Bindings.Interactivity
