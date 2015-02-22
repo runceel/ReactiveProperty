@@ -57,6 +57,9 @@
     <Compile Include="Extensions\ToUnitObservableExtensions.cs" />
     <Compile Include="Extensions\UIDispatcherSchedulerObservableExtensions.cs" />
     <Compile Include="Helpers\SerializeHelper.cs" />
+    <Compile Include="Interactivity\DelegateConverter.cs" />
+    <Compile Include="Interactivity\IEventToReactiveConverter.cs" />
+    <Compile Include="Interactivity\ReactiveConverter.cs" />
     <Compile Include="Notifiers\BooleanNotifier.cs" />
     <Compile Include="Notifiers\CountNotifier.cs" />
     <Compile Include="Notifiers\ScheduledNotifier.cs" />

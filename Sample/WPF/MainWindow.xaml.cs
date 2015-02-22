@@ -34,7 +34,7 @@ namespace WPF
             NavigateSerialization = new ReactiveCommand();
             NavigateSerialization.Subscribe(_ => new Serialization().Show());
             NavigateEventToReactive = new ReactiveCommand();
-            NavigateEventToReactive.Subscribe(_ => new EventToReactive().Show());
+            NavigateEventToReactive.Subscribe(_ => new EventToReactiveProperty().Show());
             NavigateSynchronize = new ReactiveCommand();
             NavigateSynchronize.Subscribe(_ => new SynchronizeObject().Show());
             NavigateEventToReactiveCommand = new ReactiveCommand();

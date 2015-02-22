@@ -12,7 +12,7 @@ namespace Reactive.Bindings.Interactivity
 {
     public interface IEventToReactiveConverter
     {
-        FrameworkElement AssociateObject { get; set; }
+        object AssociateObject { get; set; }
         IObservable<object> Convert(IObservable<object> source);
     }
 }

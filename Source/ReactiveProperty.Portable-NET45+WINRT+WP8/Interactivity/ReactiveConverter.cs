@@ -17,7 +17,7 @@ namespace Reactive.Bindings.Interactivity
         /// <summary>
         /// EventToReactiveCommand's AssociateObject
         /// </summary>
-        public FrameworkElement AssociateObject { get; set; }
+        public object AssociateObject { get; set; }
 
         public IObservable<object> Convert(IObservable<object> source)
         {

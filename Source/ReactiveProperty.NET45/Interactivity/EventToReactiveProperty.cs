@@ -50,6 +50,7 @@ namespace Reactive.Bindings.Interactivity
         /// set and get Value converter.
         /// </summary>
 #if NETFX_CORE
+#elif WINDOWS_PHONE
 #else
         [TypeConverter(typeof(ExpandableObjectConverter))]
 #endif
@@ -89,7 +90,7 @@ namespace Reactive.Bindings.Interactivity
 
         private class DefaultConverter : IEventToReactiveConverter
         {
-            public FrameworkElement AssociateObject { get; set; }
+            public object AssociateObject { get; set; }
 
             public IObservable<object> Convert(IObservable<object> source)
             {

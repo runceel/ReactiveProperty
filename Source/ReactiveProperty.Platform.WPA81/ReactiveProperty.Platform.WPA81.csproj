@@ -82,9 +82,6 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\ReactiveProperty.NET45\Interactivity\DelegateConverter.cs">
-      <Link>Interactivity\DelegateConverter.cs</Link>
-    </Compile>
     <Compile Include="..\ReactiveProperty.NET45\Interactivity\EventToReactive.cs">
       <Link>Interactivity\EventToReactive.cs</Link>
     </Compile>
@@ -93,12 +90,6 @@
     </Compile>
     <Compile Include="..\ReactiveProperty.NET45\Interactivity\EventToReactiveProperty.cs">
       <Link>Interactivity\EventToReactiveProperty.cs</Link>
-    </Compile>
-    <Compile Include="..\ReactiveProperty.NET45\Interactivity\IEventToReactiveConverter.cs">
-      <Link>Interactivity\IEventToReactiveConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\ReactiveProperty.NET45\Interactivity\ReactiveConverter.cs">
-      <Link>Interactivity\ReactiveConverter.cs</Link>
     </Compile>
     <Compile Include="..\ReactiveProperty.WinRT\Interactivity\Behavior.cs">
       <Link>Interactivity\Behavior.cs</Link>
