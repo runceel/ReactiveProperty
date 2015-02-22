@@ -31,15 +31,15 @@ namespace Reactive.Bindings.Interactivity
 
         private IDisposable disposable;
 
-        public IReactiveProperty ReactiveProperty
+        public object ReactiveProperty
         {
-            get { return (IReactiveProperty)GetValue(ReactivePropertyProperty); }
+            get { return GetValue(ReactivePropertyProperty); }
             set { SetValue(ReactivePropertyProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for Command.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ReactivePropertyProperty =
-            DependencyProperty.Register("ReactiveProperty", typeof(IReactiveProperty), typeof(EventToReactiveProperty), new PropertyMetadata(null));
+            DependencyProperty.Register("ReactiveProperty", typeof(object), typeof(EventToReactiveProperty), new PropertyMetadata(null));
 
         /// <summary>
         /// Ignore EventArgs. If value is false then uses Unit.Default.
@@ -75,7 +75,7 @@ namespace Reactive.Bindings.Interactivity
                 this.disposable = this.Converter.Convert(this.source)
                     .ObserveOnUIDispatcher()
                     .Where(_ => this.ReactiveProperty != null)
-                    .Subscribe(x => this.ReactiveProperty.Value = x);
+                    .Subscribe(x => ((IReactiveProperty)this.ReactiveProperty).Value = x);
             }
 
             if (!this.IgnoreEventArgs)
