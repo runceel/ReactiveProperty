@@ -181,7 +181,7 @@ public class Converters
 public class OpenFileDialogConverter : ReactiveConverter<EventArgs, string>
 {
 
-    protected override IObservable<string> Convert(IObservable<EventArgs> source)
+    protected override IObservable<string> OnConvert(IObservable<EventArgs> source)
     {
         var dlg = new OpenFileDialog();
         dlg.Filter = "*.*|*.*";

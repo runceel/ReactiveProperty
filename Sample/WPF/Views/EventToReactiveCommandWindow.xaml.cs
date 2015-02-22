@@ -32,7 +32,7 @@ namespace WPF.Views
     public class OpenFileDialogConverter : ReactiveConverter<EventArgs, string>
     {
 
-        protected override IObservable<string> Convert(IObservable<EventArgs> source)
+        protected override IObservable<string> OnConvert(IObservable<EventArgs> source)
         {
             return source
                 .Select(_ => new OpenFileDialog())

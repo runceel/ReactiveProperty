@@ -10,9 +10,9 @@ namespace Reactive.Bindings.Interactivity
     /// <typeparam name="U">dest type</typeparam>
     public abstract class DelegateConverter<T, U> : ReactiveConverter<T, U>
     {
-        protected override IObservable<U> Convert(IObservable<T> source)
+        protected override IObservable<U> OnConvert(IObservable<T> source)
         {
-            return source.Select(this.Convert);
+            return source.Select(this.OnConvert);
         }
 
         /// <summary>
@@ -20,6 +20,6 @@ namespace Reactive.Bindings.Interactivity
         /// </summary>
         /// <param name="source">source value</param>
         /// <returns>dest value</returns>
-        protected abstract U Convert(T source);
+        protected abstract U OnConvert(T source);
     }
 }

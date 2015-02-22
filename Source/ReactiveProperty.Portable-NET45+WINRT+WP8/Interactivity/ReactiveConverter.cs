@@ -21,7 +21,7 @@ namespace Reactive.Bindings.Interactivity
 
         public IObservable<object> Convert(IObservable<object> source)
         {
-            return this.Convert(source.Cast<T>()).Select(x => (object)x);
+            return this.OnConvert(source.Cast<T>()).Select(x => (object)x);
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace Reactive.Bindings.Interactivity
         /// </summary>
         /// <param name="source">source</param>
         /// <returns>dest</returns>
-        protected abstract IObservable<U> Convert(IObservable<T> source);
+        protected abstract IObservable<U> OnConvert(IObservable<T> source);
 
     }
 }

@@ -17,7 +17,7 @@
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True">
     <phone:PhoneApplicationPage.DataContext>
-        <vm:EventToReactiveViewModel />
+        <vm:EventToReactivePropertyViewModel />
     </phone:PhoneApplicationPage.DataContext>
     <!-- recommend App.xaml.cs global resource -->
     <phone:PhoneApplicationPage.Resources>

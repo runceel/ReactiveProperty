@@ -36,7 +36,7 @@ namespace StoreApp.Views
 
     public class SelectFileConverter : ReactiveConverter<RoutedEventArgs, string>
     {
-        protected override IObservable<string> Convert(IObservable<RoutedEventArgs> source)
+        protected override IObservable<string> ConvertImpl(IObservable<RoutedEventArgs> source)
         {
             return source
                 .Select(_ => new FileOpenPicker()) // create picker
