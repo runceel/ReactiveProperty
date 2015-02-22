@@ -88,8 +88,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{97EC2E
 	ProjectSection(SolutionItems) = preProject
 		Images\basics.png = Images\basics.png
 		Images\eventtoreactive.PNG = Images\eventtoreactive.PNG
-		..\..\..\Pictures\EventToReactiveCommand1.PNG = ..\..\..\Pictures\EventToReactiveCommand1.PNG
-		..\..\..\Pictures\EventToReactiveCommand2.PNG = ..\..\..\Pictures\EventToReactiveCommand2.PNG
+		Images\EventToReactiveCommand1.PNG = Images\EventToReactiveCommand1.PNG
+		Images\EventToReactiveCommand2.PNG = Images\EventToReactiveCommand2.PNG
 		Images\rpsummary.png = Images\rpsummary.png
 		Images\validation.PNG = Images\validation.PNG
 	EndProjectSection
