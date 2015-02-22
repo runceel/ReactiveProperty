@@ -33,7 +33,7 @@ namespace Reactive.Bindings.Interactivity
     {
         private readonly Subject<object> source = new Subject<object>();
 
-        private readonly SerialDisposable disposable = new SerialDisposable();
+        private IDisposable disposable;
 
         public ICommand Command
         {
@@ -57,43 +57,29 @@ namespace Reactive.Bindings.Interactivity
 #else
         [TypeConverter(typeof(ExpandableObjectConverter))]
 #endif
-        public IEventToReactiveConverter Converter
-        {
-            get { return (IEventToReactiveConverter)GetValue(ConverterProperty); }
-            set { SetValue(ConverterProperty, value); }
-        }
+        public IEventToReactiveConverter Converter { get; set; }
 
         // Using a DependencyProperty as the backing store for Converter.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ConverterProperty =
-            DependencyProperty.Register("Converter", typeof(IEventToReactiveConverter), typeof(EventToReactiveCommand), new PropertyMetadata(new DefaultConverter(), ConverterChanged));
-
-        private static void ConverterChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((EventToReactiveCommand)d).ConverterChanged();
-        }
-
-        private void ConverterChanged()
-        {
-            if (this.Converter == null)
-            {
-                this.disposable.Disposable = Disposable.Empty;
-                return;
-            }
-            this.disposable.Disposable = this.Converter
-                .Convert(this.source.Where(x => this.Command.CanExecute(x)))
-                .ObserveOnUIDispatcher()
-                .Subscribe(x => this.Command.Execute(x));
-        }
-
         protected override void OnDetaching()
         {
             base.OnDetaching();
-            this.disposable.Dispose();
+            if (this.disposable != null)
+            {
+                this.disposable.Dispose();
+            }
         }
 
         protected override void Invoke(object parameter)
         {
-            this.Converter.AssociateObject = this.AssociatedObject;
+            if (this.disposable == null)
+            {
+                this.Converter.AssociateObject = this.AssociatedObject;
+                this.Converter = this.Converter ?? new DefaultConverter();
+                this.disposable = this.Converter.Convert(this.source)
+                    .ObserveOnUIDispatcher()
+                    .Where(_ => this.Command != null)
+                    .Subscribe(x => this.Command.Execute(x));
+            }
 
             if (!this.IgnoreEventArgs)
             {
