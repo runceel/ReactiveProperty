@@ -104,6 +104,14 @@ Assert helper using ChainingAssertion http://chainingassertion.codeplex.com/
 Icon design by @ocazuco.
 
 ---History---
+2015/02/22 ver 2.0.0-per4
+	Add
+		Add EventToReactiveProperty.
+	Change
+		Change method name ReactiveConverter#Convert to OnConvert.
+		Change method name DelegateConverter#Convert to OnConvert.
+	Obsolate
+		Obsolate EventToReactive.
 2015/02/22 ver 2.0.0-per3
 	Add
 		Added EventToReactveCommand class.

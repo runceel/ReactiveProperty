@@ -87,25 +87,23 @@ ReactiveProperty's direct binding is very simple and clear syntax.
 ![Basics](Images/eventtoreactive.PNG)
 
 ```xml
-<Window.Resources>
-    <vm:Converters x:Key="Converters" />
-</Window.Resources>
 <Grid>
 	<!-- Use Blend SDK's Interaction Trigger -->
 	<!-- Event binding to ReactiveProperty -->
 	<i:Interaction.Triggers>
 		<i:EventTrigger EventName="MouseMove">
 			<!-- ConvertBack function is Func<object, object>-->
-			<r:EventToReactive ReactiveProperty="{Binding MouseMove}" 
-				Converter="{Binding MouseEventToPoint, Source={StaticResource Converters}}" />
-		</i:EventTrigger>
+            <r:EventToReactiveProperty ReactiveProperty="{Binding MouseMove}">
+                <vm:MouseEventToPointConverter/>
+            </r:EventToReactiveProperty>
+        </i:EventTrigger>
 		<i:EventTrigger EventName="MouseDown">
 			<!-- direct event bind -->
-			<r:EventToReactive ReactiveProperty="{Binding MouseDown}" IgnoreEventArgs="True" />
+			<r:EventToReactiveProperty ReactiveProperty="{Binding MouseDown}" IgnoreEventArgs="True" />
 		</i:EventTrigger>
 		<i:EventTrigger EventName="MouseEnter">
 			<!-- IgnoreEventArgs = true send Unit -->
-			<r:EventToReactive ReactiveProperty="{Binding MouseEnter}" IgnoreEventArgs="true" />
+			<r:EventToReactiveProperty ReactiveProperty="{Binding MouseEnter}" IgnoreEventArgs="true" />
 		</i:EventTrigger>
 	</i:Interaction.Triggers>
 	<TextBlock Text="{Binding CurrentPoint.Value}" />
@@ -152,21 +150,17 @@ public class EventToReactiveViewModel
     }
 }
 
-// EventToReactive convert functions
-// Converter/IgnoreEventArgs is useful for unit testings
-// for example, MouseMove.Value = new Point(10, 10) is simulate MouseMove
-// MouseEnter.Value = new Unit() is simulate raise MouseEnter event
-public class Converters
+// EventToReactiveProperty converter.
+// Converter/IgnoreEventArgs is useful for unit testings.
+// For example, MouseMovoe.Value = new Point(10, 10) is simulate MouseMove
+// MouseEnter.Value = new Unit() is simulate raise MouseEnter event.
+public class MouseEventToPointConverter : ReactiveConverter<dynamic, Tuple<int, int>>
 {
-    public Func<object, object> MouseEventToPoint { get; private set; }
-
-    public Converters()
+    protected override IObservable<Tuple<int, int>> OnConvert(IObservable<dynamic> source)
     {
-        MouseEventToPoint = ev =>
-            {
-                var position = ((dynamic)ev).GetPosition(null);
-                return Tuple.Create((int)position.X, (int)position.Y);
-            };
+        return source
+            .Select(x => x.GetPosition(null))
+            .Select(x => Tuple.Create((int)x.X, (int)x.Y));
     }
 }
 ```
