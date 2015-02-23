@@ -79,7 +79,7 @@ Reactive.Bindings.Extensions
 -> Extension Methods for interface(IObservble<T>, INotifyPropertyChanged, etc...)
 
 Reactive.Bindings.Interactivity
--> EventToReactive - Trigger that converts UIEvent to ReactiveProperty.
+-> EventToReactiveProperty/EventToReactiveCommand - Trigger that converts UIEvent to ReactiveProperty/ICommand.
 
 Reactive.Bindings.Notifiers
 -> ScheduledNotifier - Notify value on scheduler(use with asynchronous progress report).
@@ -104,6 +104,9 @@ Assert helper using ChainingAssertion http://chainingassertion.codeplex.com/
 Icon design by @ocazuco.
 
 ---History---
+2015/02/23 ver 2.0.0
+	Change
+		Change method name ReactiveProperty#ObserveHasError to ObserveHasErrors.
 2015/02/22 ver 2.0.0-per4
 	Add
 		Add EventToReactiveProperty.

@@ -94,9 +94,9 @@ namespace Sample.ViewModels
             NextCommand =
                 new[]
                 {
-                    ValidationData.ObserveHasError,
-                    ValidationBoth.ObserveHasError,
-                    ValidationAttr.ObserveHasError
+                    ValidationData.ObserveHasErrors,
+                    ValidationBoth.ObserveHasErrors,
+                    ValidationAttr.ObserveHasErrors
                 }
                 .CombineLatestValuesAreAllFalse()
                 .ToReactiveCommand();

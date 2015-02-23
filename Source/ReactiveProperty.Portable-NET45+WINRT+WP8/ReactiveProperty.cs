@@ -37,7 +37,7 @@ namespace Reactive.Bindings
     {
         object Value { get; set; }
         IObservable<IEnumerable> ObserveErrorChanged { get; }
-        IObservable<bool> ObserveHasError { get; }
+        IObservable<bool> ObserveHasErrors { get; }
     }
 
     /// <summary>

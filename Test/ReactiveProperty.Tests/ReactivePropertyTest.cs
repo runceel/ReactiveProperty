@@ -36,7 +36,7 @@ namespace ReactiveProperty.Tests
                 .SetValidateNotifyError(x => x == null ? "Error" : null);
             var results = new List<bool>();
 
-            rp.ObserveHasError.Subscribe(x => results.Add(x));
+            rp.ObserveHasErrors.Subscribe(x => results.Add(x));
             rp.Value = "OK";
 
             results.Count.Is(2);
@@ -51,7 +51,7 @@ namespace ReactiveProperty.Tests
                 .SetValidateNotifyError(x => x == null ? "Error" : null);
             var results = new List<bool>();
 
-            rp.ObserveHasError.Select(x => !x).Subscribe(x => results.Add(x));
+            rp.ObserveHasErrors.Select(x => !x).Subscribe(x => results.Add(x));
             rp.Value = "OK";
 
             results.Count.Is(2);
