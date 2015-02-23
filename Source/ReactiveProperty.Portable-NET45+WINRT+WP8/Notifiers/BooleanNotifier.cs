@@ -1,13 +1,17 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Reactive.Subjects;
+using System.Runtime.CompilerServices;
 
 namespace Reactive.Bindings.Notifiers
 {
     /// <summary>
     /// Notify boolean flag.
     /// </summary>
-    public class BooleanNotifier : IObservable<bool>
+    public class BooleanNotifier : IObservable<bool>, INotifyPropertyChanged
     {
+
+        public event PropertyChangedEventHandler PropertyChanged;
         readonly Subject<bool> boolTrigger = new Subject<bool>();
 
         bool boolValue;
@@ -18,6 +22,7 @@ namespace Reactive.Bindings.Notifiers
             set
             {
                 boolValue = value;
+                this.OnPropertyChanged();
                 boolTrigger.OnNext(value);
             }
         }
@@ -67,6 +72,12 @@ namespace Reactive.Bindings.Notifiers
         public IDisposable Subscribe(IObserver<bool> observer)
         {
             return boolTrigger.Subscribe(observer);
+        }
+
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            var h = this.PropertyChanged;
+            if (h != null) { h(this, new PropertyChangedEventArgs(propertyName)); }
         }
     }
 }
