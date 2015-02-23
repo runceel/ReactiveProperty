@@ -1,6 +1,12 @@
 # リリースノート
 
-## v2.0
+## v2.0.1
+
+### 変更
+
+- BooleanNotifierクラスにINotifyPropertyChangedを実装しました。
+
+## v2.0.0
 
 ### 破壊的変更
 

@@ -104,6 +104,9 @@ Assert helper using ChainingAssertion http://chainingassertion.codeplex.com/
 Icon design by @ocazuco.
 
 ---History---
+2015/02/23 ver 2.0.1
+	Change
+		Implements INotifyPropertyChanged to BooleanNotifier
 2015/02/23 ver 2.0.0
 	Change
 		Change method name ReactiveProperty#ObserveHasError to ObserveHasErrors.

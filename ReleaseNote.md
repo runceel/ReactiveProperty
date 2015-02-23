@@ -1,6 +1,12 @@
 # Release note
 
-## v2.0
+## v2.0.1
+
+### Change
+
+- Implements INotifyPropertyChanged to BooleanNotifier.
+
+## v2.0.0
 
 ### Breaking change
 
