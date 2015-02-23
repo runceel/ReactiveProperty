@@ -4,7 +4,11 @@ ReactiveProperty
 ![ReactiveProperty overview](Images/rpsummary.png)
 
 ReactiveProperty is MVVM and Asynchronous Extensions for Reactive Extensions.
-Target Framework is .NET 4.0 Client Profile, .NET 4.5, Windows Phone 8.0/8.1, Windows store app 8.0/8.1, Xamarin.iOS, Xamarin.Android.
+Target Framework is .NET 4.0, .NET 4.5, Windows Phone 8.0/8.1, Windows store app 8.0/8.1, Xamarin.iOS, Xamarin.Android.
+
+## Release Note
+
+[Release Note](ReleaseNote.md)
 
 ## Features
 

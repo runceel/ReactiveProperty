@@ -303,9 +303,18 @@ namespace Reactive.Bindings
         /// <summary>
         /// Observe HasErrors value.
         /// </summary>
+        public IObservable<bool> ObserveHasErrors
+        {
+            get { return this.ObserveErrorChanged.Select(_ => this.HasErrors); }
+        }
+
+        /// <summary>
+        /// Observe HasErrors value.
+        /// </summary>
+        [Obsolete("use ObserveHasErrors method.")]
         public IObservable<bool> ObserveHasError
         {
-            get{ return this.ObserveErrorChanged.Select(_ => this.HasErrors); }
+            get { return this.ObserveHasErrors; }
         }
     }
 
