@@ -5,10 +5,10 @@
 ### 破壊的変更
 
 - 名前空間が Codeplex.Reactive から Reactive.Bindings に変わりました。
+- ReactiveProperty#ObserveHasError メソッドをObserveHasErrorsに変更してください。
 
 ### 非推奨
 
-- ReactiveProperty#ObserveHasError メソッドを非推奨にしました。ReactiveProperty#ObserveHasErrorsを使ってください。
 - EventToReactiveを非推奨にしました。EventToReactivePropertyかEventToReactiveCommandを使ってください。
 
 ### 変更点

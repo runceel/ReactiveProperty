@@ -5,10 +5,10 @@
 ### Breaking change
 
 - Change namespace Codeplex.Reactive to Reactive.Bindings
+- Rename ReactiveProperty#ObserveHasError to ReactiveProperty#ObserveHasErrors.
 
 ### Obsolate
 
-- ReactiveProperty#ObserveHasError obsolated. Please use ReactiveProperty#ObserveHasErrors.
 - EventToReactive obsolated. Please use EventToReactiveProperty or EventToReactiveCommand.
 
 ### Change
