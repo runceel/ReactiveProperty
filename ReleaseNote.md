@@ -4,12 +4,17 @@
 
 ### Breaking change
 
-- change namespace Codeplex.Reactive to Reactive.Bindings
+- Change namespace Codeplex.Reactive to Reactive.Bindings
 
 ### Obsolate
 
 - ReactiveProperty#ObserveHasError obsolated. Please use ReactiveProperty#ObserveHasErrors.
 - EventToReactive obsolated. Please use EventToReactiveProperty or EventToReactiveCommand.
+
+### Change
+
+- ReadOnlyReactiveProperty call Dispose method when item removed.
+- Implements INotifyPropertyChanged to CountNotifier..
 
 ### Add
 
