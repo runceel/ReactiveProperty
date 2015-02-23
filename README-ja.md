@@ -1,3 +1,5 @@
+[English](README.md)
+
 ReactiveProperty
 ================
 
@@ -10,6 +12,10 @@ ReactivePropertyは、Reactive ExtensionsをMVVMパターンと非同期用に�
 - Windows Phone 8.0/8.1
 - Windows ストアアプリ 8.0/8.1
 - Xamarin.iOS, Xamarin.Android
+
+## リリースノート
+
+[リリースノート](ReleaseNote-ja.md)
 
 ## ReactivePropertyの機能
 

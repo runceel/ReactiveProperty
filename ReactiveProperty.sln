@@ -17,6 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README-Android.md = README-Android.md
 		README-ja.md = README-ja.md
 		README.md = README.md
+		ReleaseNote-ja.md = ReleaseNote-ja.md
 		ReleaseNote.md = ReleaseNote.md
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 	EndProjectSection
