@@ -8,11 +8,13 @@ using Reactive.Bindings.Extensions;
 #if NETFX_CORE
 using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml;
+using System.Collections.Generic;
 #else
 using System.Windows.Interactivity;
 using System.Windows.Markup;
 using System.ComponentModel;
 using System.Windows;
+using System.Collections.Generic;
 #endif
 
 namespace Reactive.Bindings.Interactivity
@@ -21,9 +23,9 @@ namespace Reactive.Bindings.Interactivity
     /// Converts EventArgs to object
     /// </summary>
 #if NETFX_CORE
-    [ContentProperty(Name = "Converter")]
+    [ContentProperty(Name = "Converters")]
 #else
-    [ContentProperty("Converter")]
+    [ContentProperty("Converters")]
 #endif
     public class EventToReactiveProperty : TriggerAction<FrameworkElement>
     {
@@ -46,15 +48,11 @@ namespace Reactive.Bindings.Interactivity
         /// </summary>
         public bool IgnoreEventArgs { get; set; }
 
+        private List<IEventToReactiveConverter> converters = new List<IEventToReactiveConverter>();
         /// <summary>
         /// set and get Value converter.
         /// </summary>
-#if NETFX_CORE
-#elif WINDOWS_PHONE
-#else
-        [TypeConverter(typeof(ExpandableObjectConverter))]
-#endif
-        public IEventToReactiveConverter Converter { get; set; }
+        public List<IEventToReactiveConverter> Converters { get { return this.converters; } }
 
         // Using a DependencyProperty as the backing store for Converter.  This enables animation, styling, binding, etc...
         protected override void OnDetaching()
@@ -70,9 +68,13 @@ namespace Reactive.Bindings.Interactivity
         {
             if (this.disposable == null)
             {
-                this.Converter = this.Converter ?? new DefaultConverter();
-                this.Converter.AssociateObject = this.AssociatedObject;
-                this.disposable = this.Converter.Convert(this.source)
+                IObservable<object> ox = this.source;
+                foreach (var c in this.Converters)
+                {
+                    c.AssociateObject = this.AssociatedObject;
+                    ox = c.Convert(ox);
+                }
+                this.disposable = ox
                     .ObserveOnUIDispatcher()
                     .Where(_ => this.ReactiveProperty != null)
                     .Subscribe(x => this.ReactiveProperty.Value = x);
