@@ -6,6 +6,8 @@ using Reactive.Bindings;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Reactive.Concurrency;
+using System.Reactive.Disposables;
+using System.Collections.Generic;
 
 namespace ReactiveProperty.Tests
 {
@@ -51,5 +53,91 @@ namespace ReactiveProperty.Tests
             target.Count.Is(0);
         }
 
+        [TestMethod]
+        public void ObservableCollectionSourceTest()
+        {
+            var s = new ObservableCollection<string>();
+            var target = s.ToReadOnlyReactiveCollection(x => new StringHolder { Value = x }, Scheduler.CurrentThread);
+
+            target.Count.Is(0);
+
+            s.Add("abc");
+            target.Count.Is(1);
+            target[0].Value.Is("abc");
+
+            s.Add("bcd");
+            target.Count.Is(2);
+            target[1].Value.Is("bcd");
+
+            s[0] = "hoge";
+            target.Count.Is(2);
+            target[0].Value.Is("hoge");
+
+            s.RemoveAt(0);
+            target.Count.Is(1);
+            target[0].Value.Is("bcd");
+
+            s.Add("fuga");
+            s.Add("homuhomu");
+            s.Clear();
+
+            target.Count.Is(0);
+        }
+
+        [TestMethod]
+        public void ReadOnlyObservableCollectionSourceTest()
+        {
+            var s = new ObservableCollection<string>();
+            var r = new ReadOnlyObservableCollection<string>(s);
+            var target = r.ToReadOnlyReactiveCollection(x => new StringHolder { Value = x }, Scheduler.CurrentThread);
+
+            target.Count.Is(0);
+
+            s.Add("abc");
+            target.Count.Is(1);
+            target[0].Value.Is("abc");
+
+            s.Add("bcd");
+            target.Count.Is(2);
+            target[1].Value.Is("bcd");
+
+            s[0] = "hoge";
+            target.Count.Is(2);
+            target[0].Value.Is("hoge");
+
+            s.RemoveAt(0);
+            target.Count.Is(1);
+            target[0].Value.Is("bcd");
+
+            s.Add("fuga");
+            s.Add("homuhomu");
+            s.Clear();
+
+            target.Count.Is(0);
+        }
+
+        [TestMethod]
+        public void DisposeTest()
+        {
+            var s = new ObservableCollection<string>();
+            var disposed = new List<string>();
+            var target = s.ToReadOnlyReactiveCollection(x => Disposable.Create(() => disposed.Add(x)), Scheduler.CurrentThread);
+
+            s.Add("abc");
+            s.Add("bcd");
+            disposed.Count.Is(0);
+
+            s[0] = "homuhomu";
+            disposed[0].Is("abc");
+
+            s.Clear();
+            disposed.Is("abc", "homuhomu", "bcd");
+        }
+
+    }
+
+    class StringHolder
+    {
+        public string Value { get; set; }
     }
 }
