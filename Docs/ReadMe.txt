@@ -65,10 +65,11 @@ rrcoll ReadOnlyReactiveCollection.snippet
 
 ---Namespace and Description---
 
-Codeplex.Reactive
+Reactive.Bindings
 -> ReacitveProperty - two-way bindable IObservable
 -> ReactiveCommand - declaratively notify CanExecute from inside
 -> ReactiveCollection - IObservable as ObservableCollection(and operate on IScheduler)
+-> ReadOnlyReactiveCollection - IObservable as ReadOnlyObservableCollection
 -> ReactiveTimer - Schedulable and hot(stoppable/continuable) timer.
 -> UIDispatcherScheduler - Schedule on UIDispatcher, if access same thread schedule immediately.
 
@@ -104,6 +105,8 @@ Assert helper using ChainingAssertion http://chainingassertion.codeplex.com/
 Icon design by @ocazuco.
 
 ---History---
+See https://github.com/runceel/ReactiveProperty/blob/master/ReleaseNote.md .
+
 2015/02/23 ver 2.0.1
 	Change
 		Implements INotifyPropertyChanged to BooleanNotifier

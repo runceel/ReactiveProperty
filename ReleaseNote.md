@@ -1,5 +1,16 @@
 # Release note
 
+## v2.1.0
+
+### Add
+
+- Add ToReadONlyReactiveCollection extension method to ReadOnlyObservableCollection.
+	- readOnlyObservableCollectionInstance.ToReadOnlyReactiveCollection(x => CreateViewModel(x))
+
+### Change
+
+- Dispose method is called in collection when ReadOnlyReactiveCollection called dispose method.
+
 ## v2.0.1
 
 ### Change

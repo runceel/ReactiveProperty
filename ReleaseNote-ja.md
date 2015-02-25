@@ -1,5 +1,16 @@
 # リリースノート
 
+## v2.1.0
+
+### 追加
+
+- ReadOnlyReactiveCollectionをReadOnlyObservableCollectionから作成できるようにしました
+	- readOnlyObservableCollectionInstance.ToReadOnlyReactiveCollection(x => CreateViewModel(x))
+
+### 変更
+
+- ReadOnlyReactiveCollectionのDisposeメソッドを呼び出したときに、コレクション内部のインスタンスに対してもDisposeを呼ぶようにしました
+
 ## v2.0.1
 
 ### 変更
