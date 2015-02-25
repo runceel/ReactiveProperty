@@ -266,6 +266,45 @@ namespace Reactive.Bindings
         }
 
         /// <summary>
+        /// convert ReadOnlyObservableCollection to IO&lt;T&gt;
+        /// </summary>
+        /// <typeparam name="T">source type</typeparam>
+        /// <param name="self">source</param>
+        /// <returns>dest</returns>
+        public static IObservable<CollectionChanged<T>> ToCollectionChanged<T>(this ReadOnlyObservableCollection<T> self)
+        {
+            return Observable.Create<CollectionChanged<T>>(ox =>
+            {
+                var d = new CompositeDisposable();
+                self.CollectionChangedAsObservable()
+                    .Where(e => e.Action == NotifyCollectionChangedAction.Add)
+                    .Select(e => CollectionChanged<T>.Add(e.NewStartingIndex, e.NewItems.Cast<T>().First()))
+                    .Subscribe(c => ox.OnNext(c))
+                    .AddTo(d);
+
+                self.CollectionChangedAsObservable()
+                    .Where(e => e.Action == NotifyCollectionChangedAction.Remove)
+                    .Select(e => CollectionChanged<T>.Remove(e.OldStartingIndex))
+                    .Subscribe(c => ox.OnNext(c))
+                    .AddTo(d);
+
+                self.CollectionChangedAsObservable()
+                    .Where(e => e.Action == NotifyCollectionChangedAction.Replace)
+                    .Select(e => CollectionChanged<T>.Replace(e.NewStartingIndex, e.NewItems.Cast<T>().First()))
+                    .Subscribe(c => ox.OnNext(c))
+                    .AddTo(d);
+
+                self.CollectionChangedAsObservable()
+                    .Where(e => e.Action == NotifyCollectionChangedAction.Reset)
+                    .Select(_ => CollectionChanged<T>.Reset)
+                    .Subscribe(c => ox.OnNext(c))
+                    .AddTo(d);
+
+                return d;
+            });
+        }
+
+        /// <summary>
         /// convert ObservableCollection to ReadOnlyReactiveCollection
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -286,6 +325,42 @@ namespace Reactive.Bindings
         /// <param name="converter"></param>
         /// <returns></returns>
         public static ReadOnlyReactiveCollection<U> ToReadOnlyReactiveCollection<T, U>(this ObservableCollection<T> self, Func<T, U> converter, IScheduler scheduler = null)
+            where T : class
+            where U : class
+        {
+            var source = new ObservableCollection<U>(self.Select(converter));
+            var collectionChanged = self
+                .ToCollectionChanged()
+                .Select(c => new CollectionChanged<U>
+                {
+                    Action = c.Action,
+                    Index = c.Index,
+                    Value = c.Value == null ? null : converter(c.Value)
+                });
+            return new ReadOnlyReactiveCollection<U>(collectionChanged, source, scheduler);
+        }
+
+        /// <summary>
+        /// convert ReadOnlyObservableCollection to ReadOnlyReactiveCollection
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this ReadOnlyObservableCollection<T> self, IScheduler scheduler = null)
+            where T : class
+        {
+            return self.ToReadOnlyReactiveCollection(x => x, scheduler);
+        }
+
+        /// <summary>
+        /// convert ReadOnlyObservableCollection to ReadOnlyReactiveCollection
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="U"></typeparam>
+        /// <param name="self"></param>
+        /// <param name="converter"></param>
+        /// <returns></returns>
+        public static ReadOnlyReactiveCollection<U> ToReadOnlyReactiveCollection<T, U>(this ReadOnlyObservableCollection<T> self, Func<T, U> converter, IScheduler scheduler = null)
             where T : class
             where U : class
         {
