@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Linq;
+using System.ComponentModel;
+using System.Linq.Expressions;
 using System.Reactive;
-using System.Reactive.Linq;
 
 namespace Reactive.Bindings.Extensions
 {
     public static class ObservableCollectionExtensions
     {
+        #region ObservableCollection
         /// <summary>Observe CollectionChanged:Add and take single item.</summary>
         public static IObservable<T> ObserveAddChanged<T>(this ObservableCollection<T> source)
         {
@@ -63,8 +64,24 @@ namespace Reactive.Bindings.Extensions
             return ((INotifyCollectionChanged)source).ObserveResetChanged<T>();
         }
 
-        // readonlycollection
+        /// <summary>
+        /// Observe collection element's property.
+        /// </summary>
+        /// <typeparam name="TElement">Type of element</typeparam>
+        /// <typeparam name="TProperty">Type of property</typeparam>
+        /// <param name="source">Data source</param>
+        /// <param name="propertySelector">Property selection expression</param>
+        /// <param name="isPushCurrentValueAtFirst">Push current value on first subscribe</param>
+        /// <returns>Property value sequence</returns>
+        public static IObservable<TProperty> ObserveElementProperty<TElement, TProperty>(this ObservableCollection<TElement> source, Expression<Func<TElement, TProperty>> propertySelector, bool isPushCurrentValueAtFirst = true)
+            where TElement : class, INotifyPropertyChanged
+        {
+            return INotifyCollectionChangedExtensions.ObserveElementProperty<ObservableCollection<TElement>, TElement, TProperty>(source, propertySelector, isPushCurrentValueAtFirst);
+        }
+        #endregion
 
+
+        #region ReadOnlyObservableCollection
         /// <summary>Observe CollectionChanged:Add and take single item.</summary>
         public static IObservable<T> ObserveAddChanged<T>(this ReadOnlyObservableCollection<T> source)
         {
@@ -119,5 +136,20 @@ namespace Reactive.Bindings.Extensions
             return ((INotifyCollectionChanged)source).ObserveResetChanged<T>();
         }
 
+        /// <summary>
+        /// Observe collection element's property.
+        /// </summary>
+        /// <typeparam name="TElement">Type of element</typeparam>
+        /// <typeparam name="TProperty">Type of property</typeparam>
+        /// <param name="source">Data source</param>
+        /// <param name="propertySelector">Property selection expression</param>
+        /// <param name="isPushCurrentValueAtFirst">Push current value on first subscribe.</param>
+        /// <returns>Property value sequence</returns>
+        public static IObservable<TProperty> ObserveElementProperty<TElement, TProperty>(this ReadOnlyObservableCollection<TElement> source, Expression<Func<TElement, TProperty>> propertySelector, bool isPushCurrentValueAtFirst = true)
+            where TElement : class, INotifyPropertyChanged
+        {
+            return INotifyCollectionChangedExtensions.ObserveElementProperty<ReadOnlyObservableCollection<TElement>, TElement, TProperty>(source, propertySelector, isPushCurrentValueAtFirst);
+        }
+        #endregion
     }
 }

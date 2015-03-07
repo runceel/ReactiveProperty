@@ -1,12 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Reactive.Bindings.Extensions;
+using System.ComponentModel;
 using System.Reactive;
+using System.Runtime.CompilerServices;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Reactive.Bindings.Extensions;
 
 namespace ReactiveProperty.Tests.Extensions
 {
@@ -273,5 +272,137 @@ namespace ReactiveProperty.Tests.Extensions
             c.Clear();
             l.Count.Is(2);
         }
+
+        [TestMethod]
+        public void ObserveElementPropertyTest()
+        {
+            this.ObserveElementPropertyTestCore(false);
+        }
+
+        [TestMethod]
+        public void ReadOnlyObservableCollection_ObserveElementPropertyTest()
+        {
+            this.ObserveElementPropertyTestCore(true);
+        }
+
+        private void ObserveElementPropertyTestCore(bool wrapAsReadOnly)
+        {
+            var neuecc  = new Person { Name = "neuecc",  Age = 31 };
+            var okazuki = new Person { Name = "okazuki", Age = 34 };
+            var xin9le  = new Person { Name = "xin9le",  Age = 30 };
+            var anders  = new Person { Name = "anders",  Age = 54 };
+            var collection = new ObservableCollection<Person>(new []{ neuecc, okazuki });
+
+            //--- no data
+            var buffer = new List<string>();
+            buffer.Count.Is(0);
+
+            //--- subscribe all
+            var sequence    = wrapAsReadOnly
+                            ? new ReadOnlyObservableCollection<Person>(collection).ObserveElementProperty(x => x.Name)
+                            : collection.ObserveElementProperty(x => x.Name);
+            var subscription = sequence.Subscribe(buffer.Add);
+            buffer.Count.Is(2);
+
+            //--- change element's property
+            var newName = "neuecc_renamed";
+            neuecc.Name = newName;
+            buffer.Count.Is(3);
+            buffer[2].Is(newName);
+
+            //--- add element
+            collection.Add(xin9le);
+            collection.Count.Is(3);
+            buffer.Count.Is(4);
+            buffer[3].Is("xin9le");
+
+            //--- change added element's property
+            newName = "xin9le_renamed";
+            xin9le.Name = newName;
+            buffer.Count.Is(5);
+            buffer[4].Is(newName);
+
+            //--- remove element
+            collection.Remove(okazuki);
+            collection.Count.Is(2);
+            buffer.Count.Is(5);
+
+            //--- change removed element's property
+            okazuki.Name = "okazuki_renamed";
+            buffer.Count.Is(5);  //--- no push
+
+            //--- replace element
+            collection[1] = anders;
+            collection.Count.Is(2);
+            buffer.Count.Is(6);
+            buffer[5].Is("anders");
+
+            //--- change replaced element's property
+            newName = "anders_renamed";
+            anders.Name = newName;
+            buffer.Count.Is(7);
+            buffer[6].Is(newName);
+
+            xin9le.Name = "replaced";
+            buffer.Count.Is(7);
+
+            //--- unsubscribe
+            subscription.Dispose();
+            collection.Count.Is(2);
+            neuecc.Name = "neuecc_unsubscribed";
+            anders.Name = "anders_unsubscribed";
+            buffer.Count.Is(7);
+        }
+
+
+        #region private classes
+        private class Person : INotifyPropertyChanged
+        {
+            #region Properties
+            public string Name
+            {
+                get { return this.name; }
+                set
+                {
+                    if (this.name != value)
+                    {
+                        this.name = value;
+                        this.RaisePropertyChanged();
+                    }
+                }
+            }
+            private string name;
+ 
+            public int Age
+            {
+                get { return this.age; }
+                set
+                {
+                    if (this.age != value)
+                    {
+                        this.age = value;
+                        this.RaisePropertyChanged();
+                    }
+                }
+            }
+            private int age;
+            #endregion
+
+
+            #region INotifyPropertyChanged members
+            public event PropertyChangedEventHandler PropertyChanged;
+            #endregion
+
+
+            #region helpers
+            private void RaisePropertyChanged([CallerMemberName] string propertyName = null)
+            {
+                var handler = this.PropertyChanged;
+                if (handler != null)
+                    handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+            #endregion
+        }
+        #endregion
     }
 }
