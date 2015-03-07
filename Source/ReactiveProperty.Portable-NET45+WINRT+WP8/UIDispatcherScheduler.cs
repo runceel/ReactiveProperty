@@ -12,7 +12,15 @@ namespace Reactive.Bindings
     public static class UIDispatcherScheduler
     {
         private static readonly Lazy<SynchronizationContextScheduler> defaultScheduler =
-            new Lazy<SynchronizationContextScheduler>(() => new SynchronizationContextScheduler(SynchronizationContext.Current));
+            new Lazy<SynchronizationContextScheduler>(() =>
+                {
+                    if (SynchronizationContext.Current == null)
+                    {
+                        throw new InvalidOperationException("SynchronizationContext.Current is null");
+                    }
+
+                    return new SynchronizationContextScheduler(SynchronizationContext.Current);
+                });
 
         /// <summary>
         /// <para>If call Schedule on UIThread then schedule immediately else dispatch BeginInvoke.</para>
