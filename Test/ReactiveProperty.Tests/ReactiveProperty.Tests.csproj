@@ -140,6 +140,7 @@
     <Compile Include="ChainingAssertion.MSTest.cs" />
     <Compile Include="Extensions\CombineLatestEnumerableExtensionsTest.cs" />
     <Compile Include="Extensions\INotifyPropertyChangedExtensionsTest.cs" />
+    <Compile Include="Extensions\ObserveCollectionExtensionsTest.cs" />
     <Compile Include="Extensions\OldNewPairTest.cs" />
     <Compile Include="Extensions\PairwiseTest.cs" />
     <Compile Include="Extensions\RetryObservableExtensionsTest.cs" />

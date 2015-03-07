@@ -12,82 +12,55 @@ namespace Reactive.Bindings.Extensions
         /// <summary>Observe CollectionChanged:Add and take single item.</summary>
         public static IObservable<T> ObserveAddChanged<T>(this ObservableCollection<T> source)
         {
-            var result = source.CollectionChangedAsObservable()
-                .Where(e => e.Action == NotifyCollectionChangedAction.Add)
-                .Select(e => (T)e.NewItems[0]);
-            return result;
+            return ((INotifyCollectionChanged)source).ObserveAddChanged<T>();
         }
 
         /// <summary>Observe CollectionChanged:Add.</summary>
         public static IObservable<T[]> ObserveAddChangedItems<T>(this ObservableCollection<T> source)
         {
-            var result = source.CollectionChangedAsObservable()
-                .Where(e => e.Action == NotifyCollectionChangedAction.Add)
-                .Select(e => e.NewItems.Cast<T>().ToArray());
-            return result;
+            return ((INotifyCollectionChanged)source).ObserveAddChangedItems<T>();
         }
 
         /// <summary>Observe CollectionChanged:Remove and take single item.</summary>
         public static IObservable<T> ObserveRemoveChanged<T>(this ObservableCollection<T> source)
         {
-            var result = source.CollectionChangedAsObservable()
-                .Where(e => e.Action == NotifyCollectionChangedAction.Remove)
-                .Select(e => (T)e.OldItems[0]);
-            return result;
+            return ((INotifyCollectionChanged)source).ObserveRemoveChanged<T>();
         }
 
         /// <summary>Observe CollectionChanged:Remove.</summary>
         public static IObservable<T[]> ObserveRemoveChangedItems<T>(this ObservableCollection<T> source)
         {
-            var result = source.CollectionChangedAsObservable()
-                .Where(e => e.Action == NotifyCollectionChangedAction.Remove)
-                .Select(e => e.OldItems.Cast<T>().ToArray());
-            return result;
+            return ((INotifyCollectionChanged)source).ObserveRemoveChangedItems<T>();
         }
 
         /// <summary>Observe CollectionChanged:Move and take single item.</summary>
         public static IObservable<OldNewPair<T>> ObserveMoveChanged<T>(this ObservableCollection<T> source)
         {
-            var result = source.CollectionChangedAsObservable()
-                .Where(e => e.Action == NotifyCollectionChangedAction.Move)
-                .Select(e => new OldNewPair<T>((T)e.OldItems[0], (T)e.NewItems[0]));
-            return result;
+            return ((INotifyCollectionChanged)source).ObserveMoveChanged<T>();
         }
 
         /// <summary>Observe CollectionChanged:Move.</summary>
         public static IObservable<OldNewPair<T[]>> ObserveMoveChangedItems<T>(this ObservableCollection<T> source)
         {
-            var result = source.CollectionChangedAsObservable()
-                .Where(e => e.Action == NotifyCollectionChangedAction.Move)
-                .Select(e => new OldNewPair<T[]>(e.OldItems.Cast<T>().ToArray(), e.NewItems.Cast<T>().ToArray()));
-            return result;
+            return ((INotifyCollectionChanged)source).ObserveMoveChangedItems<T>();
         }
 
         /// <summary>Observe CollectionChanged:Replace and take single item.</summary>
         public static IObservable<OldNewPair<T>> ObserveReplaceChanged<T>(this ObservableCollection<T> source)
         {
-            var result = source.CollectionChangedAsObservable()
-                .Where(e => e.Action == NotifyCollectionChangedAction.Replace)
-                .Select(e => new OldNewPair<T>((T)e.OldItems[0], (T)e.NewItems[0]));
-            return result;
+            return ((INotifyCollectionChanged)source).ObserveReplaceChanged<T>();
         }
 
         /// <summary>Observe CollectionChanged:Replace.</summary>
         public static IObservable<OldNewPair<T[]>> ObserveReplaceChangedItems<T>(this ObservableCollection<T> source)
         {
-            var result = source.CollectionChangedAsObservable()
-                .Where(e => e.Action == NotifyCollectionChangedAction.Replace)
-                .Select(e => new OldNewPair<T[]>(e.OldItems.Cast<T>().ToArray(), e.NewItems.Cast<T>().ToArray()));
-            return result;
+            return ((INotifyCollectionChanged)source).ObserveReplaceChangedItems<T>();
         }
 
         /// <summary>Observe CollectionChanged:Reset.</summary>
         public static IObservable<Unit> ObserveResetChanged<T>(this ObservableCollection<T> source)
         {
-            var result = source.CollectionChangedAsObservable()
-                .Where(e => e.Action == NotifyCollectionChangedAction.Reset)
-                .Select(_ => new Unit());
-            return result;
+            return ((INotifyCollectionChanged)source).ObserveResetChanged<T>();
         }
 
         // readonlycollection
@@ -95,82 +68,55 @@ namespace Reactive.Bindings.Extensions
         /// <summary>Observe CollectionChanged:Add and take single item.</summary>
         public static IObservable<T> ObserveAddChanged<T>(this ReadOnlyObservableCollection<T> source)
         {
-            var result = source.CollectionChangedAsObservable()
-                .Where(e => e.Action == NotifyCollectionChangedAction.Add)
-                .Select(e => (T)e.NewItems[0]);
-            return result;
+            return ((INotifyCollectionChanged)source).ObserveAddChanged<T>();
         }
 
         /// <summary>Observe CollectionChanged:Add.</summary>
         public static IObservable<T[]> ObserveAddChangedItems<T>(this ReadOnlyObservableCollection<T> source)
         {
-            var result = source.CollectionChangedAsObservable()
-                .Where(e => e.Action == NotifyCollectionChangedAction.Add)
-                .Select(e => e.NewItems.Cast<T>().ToArray());
-            return result;
+            return ((INotifyCollectionChanged)source).ObserveAddChangedItems<T>();
         }
 
         /// <summary>Observe CollectionChanged:Remove and take single item.</summary>
         public static IObservable<T> ObserveRemoveChanged<T>(this ReadOnlyObservableCollection<T> source)
         {
-            var result = source.CollectionChangedAsObservable()
-                .Where(e => e.Action == NotifyCollectionChangedAction.Remove)
-                .Select(e => (T)e.OldItems[0]);
-            return result;
+            return ((INotifyCollectionChanged)source).ObserveRemoveChanged<T>();
         }
 
         /// <summary>Observe CollectionChanged:Remove.</summary>
         public static IObservable<T[]> ObserveRemoveChangedItems<T>(this ReadOnlyObservableCollection<T> source)
         {
-            var result = source.CollectionChangedAsObservable()
-                .Where(e => e.Action == NotifyCollectionChangedAction.Remove)
-                .Select(e => e.OldItems.Cast<T>().ToArray());
-            return result;
+            return ((INotifyCollectionChanged)source).ObserveRemoveChangedItems<T>();
         }
 
         /// <summary>Observe CollectionChanged:Move and take single item.</summary>
         public static IObservable<OldNewPair<T>> ObserveMoveChanged<T>(this ReadOnlyObservableCollection<T> source)
         {
-            var result = source.CollectionChangedAsObservable()
-                .Where(e => e.Action == NotifyCollectionChangedAction.Move)
-                .Select(e => new OldNewPair<T>((T)e.OldItems[0], (T)e.NewItems[0]));
-            return result;
+            return ((INotifyCollectionChanged)source).ObserveMoveChanged<T>();
         }
 
         /// <summary>Observe CollectionChanged:Move.</summary>
         public static IObservable<OldNewPair<T[]>> ObserveMoveChangedItems<T>(this ReadOnlyObservableCollection<T> source)
         {
-            var result = source.CollectionChangedAsObservable()
-                .Where(e => e.Action == NotifyCollectionChangedAction.Move)
-                .Select(e => new OldNewPair<T[]>(e.OldItems.Cast<T>().ToArray(), e.NewItems.Cast<T>().ToArray()));
-            return result;
+            return ((INotifyCollectionChanged)source).ObserveMoveChangedItems<T>();
         }
 
         /// <summary>Observe CollectionChanged:Replace and take single item.</summary>
         public static IObservable<OldNewPair<T>> ObserveReplaceChanged<T>(this ReadOnlyObservableCollection<T> source)
         {
-            var result = source.CollectionChangedAsObservable()
-                .Where(e => e.Action == NotifyCollectionChangedAction.Replace)
-                .Select(e => new OldNewPair<T>((T)e.OldItems[0], (T)e.NewItems[0]));
-            return result;
+            return ((INotifyCollectionChanged)source).ObserveReplaceChanged<T>();
         }
 
         /// <summary>Observe CollectionChanged:Replace.</summary>
         public static IObservable<OldNewPair<T[]>> ObserveReplaceChangedItems<T>(this ReadOnlyObservableCollection<T> source)
         {
-            var result = source.CollectionChangedAsObservable()
-                .Where(e => e.Action == NotifyCollectionChangedAction.Replace)
-                .Select(e => new OldNewPair<T[]>(e.OldItems.Cast<T>().ToArray(), e.NewItems.Cast<T>().ToArray()));
-            return result;
+            return ((INotifyCollectionChanged)source).ObserveReplaceChangedItems<T>();
         }
 
         /// <summary>Observe CollectionChanged:Reset.</summary>
         public static IObservable<Unit> ObserveResetChanged<T>(this ReadOnlyObservableCollection<T> source)
         {
-            var result = source.CollectionChangedAsObservable()
-                .Where(e => e.Action == NotifyCollectionChangedAction.Reset)
-                .Select(_ => new Unit());
-            return result;
+            return ((INotifyCollectionChanged)source).ObserveResetChanged<T>();
         }
 
     }
