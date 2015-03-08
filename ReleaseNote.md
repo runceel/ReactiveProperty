@@ -21,7 +21,7 @@
 
 ### Add
 
-- Add ToReadONlyReactiveCollection extension method to ReadOnlyObservableCollection.
+- Add ToReadOnlyReactiveCollection extension method to ReadOnlyObservableCollection.
 	- readOnlyObservableCollectionInstance.ToReadOnlyReactiveCollection(x => CreateViewModel(x))
 
 ### Change
