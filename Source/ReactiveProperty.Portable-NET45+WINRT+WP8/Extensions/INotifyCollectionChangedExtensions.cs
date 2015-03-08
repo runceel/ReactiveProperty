@@ -1,8 +1,12 @@
 ﻿using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Reactive.Linq;
+using System.ComponentModel;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Reactive;
+using System.Reactive.Disposables;
+using System.Reactive.Linq;
 
 namespace Reactive.Bindings.Extensions
 {
@@ -99,5 +103,81 @@ namespace Reactive.Bindings.Extensions
             return result;
         }
 
+        /// <summary>
+        /// Observe collection element's property.
+        /// </summary>
+        /// <typeparam name="TCollection">Type of collection</typeparam>
+        /// <typeparam name="TElement">Type of element</typeparam>
+        /// <typeparam name="TProperty">Type of property</typeparam>
+        /// <param name="source">Data source</param>
+        /// <param name="propertySelector">Property selection expression</param>
+        /// <param name="isPushCurrentValueAtFirst">Push current value on first subscribe</param>
+        /// <returns>Property value sequence</returns>
+        public static IObservable<TProperty> ObserveElementProperty<TCollection, TElement, TProperty>(this TCollection source, Expression<Func<TElement, TProperty>> propertySelector, bool isPushCurrentValueAtFirst = true)
+            where TCollection : INotifyCollectionChanged, IEnumerable<TElement>
+            where TElement : class, INotifyPropertyChanged
+        {
+            if (source == null)             throw new ArgumentNullException("source");
+            if (propertySelector == null)   throw new ArgumentNullException("propertySelector");
+
+            return Observable.Create<TProperty>(observer =>
+            {
+                //--- cache element property subscriptions
+                var subscriptionCache = new Dictionary<TElement, IDisposable>();
+
+                //--- subscribe / unsubscribe property which all elements have
+                Action<IEnumerable<TElement>> subscribe = elements =>
+                {
+                    foreach (var x in elements)
+                    {
+                        var subsctiption = x.ObserveProperty(propertySelector, isPushCurrentValueAtFirst).Subscribe(observer.OnNext);
+                        subscriptionCache.Add(x, subsctiption);
+                    }
+                };
+                Action unsubscribeAll = () =>
+                {
+                    foreach (var x in subscriptionCache.Values)
+                        x.Dispose();
+                    subscriptionCache.Clear();
+                };
+                subscribe(source);
+
+                //--- hook collection changed
+                var disposable = source.CollectionChangedAsObservable().Subscribe(x =>
+                {
+                    if (x.Action == NotifyCollectionChangedAction.Remove
+                    ||  x.Action == NotifyCollectionChangedAction.Replace)
+                    {
+                        //--- unsubscribe
+                        var oldItems = x.OldItems.Cast<TElement>();
+                        foreach (var y in oldItems)
+                        {
+                            subscriptionCache[y].Dispose();
+                            subscriptionCache.Remove(y);
+                        }
+                    }
+
+                    if (x.Action == NotifyCollectionChangedAction.Add
+                    ||  x.Action == NotifyCollectionChangedAction.Replace)
+                    {
+                        var newItems = x.NewItems.Cast<TElement>();
+                        subscribe(newItems);
+                    }
+
+                    if (x.Action == NotifyCollectionChangedAction.Reset)
+                    {
+                        unsubscribeAll();
+                        subscribe(source);
+                    }
+                });
+
+                //--- unsubscribe
+                return Disposable.Create(() =>
+                {
+                    disposable.Dispose();
+                    unsubscribeAll();
+                });
+            });
+        }
     }
 }
