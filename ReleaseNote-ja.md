@@ -1,5 +1,22 @@
 # リリースノート
 
+## v2.1.2
+
+### 追加
+
+- ObservableCollection と ReadOnlyObservableCollection の要素のプロパティ変更を監視する ObserveElementProperty 拡張メソッドを実装しました。
+- INotifyCollectionChanged に対して ObserveXxxChanged 拡張メソッドを追加しました。
+
+### 変更
+
+- ToReadOnlyReactiveCollection 拡張メソッドから参照型制約を除去しました。
+
+## v2.1.1
+
+### 変更
+
+- SynchronizationContext.Current が null の場合に UIDispatcherScheduler を初期化すると発生する例外を変更しました。 
+
 ## v2.1.0
 
 ### 追加

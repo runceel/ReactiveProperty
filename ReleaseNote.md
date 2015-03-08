@@ -1,5 +1,22 @@
 # Release note
 
+## v2.1.2
+
+### Add
+
+- Implemented ObserveElementProperty extension method, to observe property changes of the ObservableCollection elements and ReadOnlyObservableCollection elements.
+- Added ObserveXxxChanged extension methods for INotifyCollectionChanged.
+
+### Change
+
+- Remove class constranit from ToReadOnlyObservableCollection extension method.
+
+## v2.1.1
+
+### Change
+
+- Changed exception which is occured when UIDispatcherScheduler is initialized under SynchronizationContext.Current is null.
+
 ## v2.1.0
 
 ### Add
