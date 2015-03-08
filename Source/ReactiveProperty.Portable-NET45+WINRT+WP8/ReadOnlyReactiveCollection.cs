@@ -326,8 +326,6 @@ namespace Reactive.Bindings
         /// <param name="converter"></param>
         /// <returns></returns>
         public static ReadOnlyReactiveCollection<U> ToReadOnlyReactiveCollection<T, U>(this ObservableCollection<T> self, Func<T, U> converter, IScheduler scheduler = null)
-            where T : class
-            where U : class
         {
             var source = new ObservableCollection<U>(self.Select(converter));
             var collectionChanged = self
@@ -336,7 +334,7 @@ namespace Reactive.Bindings
                 {
                     Action = c.Action,
                     Index = c.Index,
-                    Value = c.Value == null ? null : converter(c.Value)
+                    Value = object.ReferenceEquals(c.Value, null) ? default(U) : converter(c.Value)
                 });
             return new ReadOnlyReactiveCollection<U>(collectionChanged, source, scheduler);
         }
@@ -362,8 +360,6 @@ namespace Reactive.Bindings
         /// <param name="converter"></param>
         /// <returns></returns>
         public static ReadOnlyReactiveCollection<U> ToReadOnlyReactiveCollection<T, U>(this ReadOnlyObservableCollection<T> self, Func<T, U> converter, IScheduler scheduler = null)
-            where T : class
-            where U : class
         {
             var source = new ObservableCollection<U>(self.Select(converter));
             var collectionChanged = self
@@ -372,7 +368,7 @@ namespace Reactive.Bindings
                 {
                     Action = c.Action,
                     Index = c.Index,
-                    Value = c.Value == null ? null : converter(c.Value)
+                    Value = object.ReferenceEquals(c.Value, null) ? default(U) : converter(c.Value)
                 });
             return new ReadOnlyReactiveCollection<U>(collectionChanged, source, scheduler);
         }
