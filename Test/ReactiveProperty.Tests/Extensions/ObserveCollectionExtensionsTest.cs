@@ -310,6 +310,7 @@ namespace ReactiveProperty.Tests.Extensions
             neuecc.Name = newName;
             buffer.Count.Is(3);
             buffer[2].Instance.Is(neuecc);
+            buffer[2].Property.Name.Is("Name");
             buffer[2].Value.Is(newName);
 
             //--- add element
@@ -317,6 +318,7 @@ namespace ReactiveProperty.Tests.Extensions
             collection.Count.Is(3);
             buffer.Count.Is(4);
             buffer[3].Instance.Is(xin9le);
+            buffer[3].Property.Name.Is("Name");
             buffer[3].Value.Is("xin9le");
 
             //--- change added element's property
@@ -324,6 +326,7 @@ namespace ReactiveProperty.Tests.Extensions
             xin9le.Name = newName;
             buffer.Count.Is(5);
             buffer[4].Instance.Is(xin9le);
+            buffer[4].Property.Name.Is("Name");
             buffer[4].Value.Is(newName);
 
             //--- remove element
@@ -340,6 +343,7 @@ namespace ReactiveProperty.Tests.Extensions
             collection.Count.Is(2);
             buffer.Count.Is(6);
             buffer[5].Instance.Is(anders);
+            buffer[5].Property.Name.Is("Name");
             buffer[5].Value.Is("anders");
 
             //--- change replaced element's property
@@ -347,6 +351,7 @@ namespace ReactiveProperty.Tests.Extensions
             anders.Name = newName;
             buffer.Count.Is(7);
             buffer[6].Instance.Is(anders);
+            buffer[6].Property.Name.Is("Name");
             buffer[6].Value.Is(newName);
 
             xin9le.Name = "replaced";
