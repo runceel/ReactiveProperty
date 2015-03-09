@@ -14,19 +14,19 @@ namespace Reactive.Bindings.Extensions
     {
         #region Properies
         /// <summary>
-        /// Gets or sets instance which has property.
+        /// Gets instance which has property.
         /// </summary>
         public TInstance Instance { get; private set; }
 
 
         /// <summary>
-        /// Gets or sets target property info.
+        /// Gets target property info.
         /// </summary>
         public PropertyInfo Property { get; private set; }
 
 
         /// <summary>
-        /// Gets or sets target property value.
+        /// Gets target property value.
         /// </summary>
         public TValue Value { get; private set; }
         #endregion
@@ -39,7 +39,7 @@ namespace Reactive.Bindings.Extensions
         /// <param name="instance">Target instance</param>
         /// <param name="property">Target property info</param>
         /// <param name="value">Property value</param>
-        public PropertyPack(TInstance instance, PropertyInfo property, TValue value)
+        internal PropertyPack(TInstance instance, PropertyInfo property, TValue value)
         {
             if (instance == null) throw new ArgumentNullException("instance");
             if (property == null) throw new ArgumentNullException("property");
@@ -56,7 +56,7 @@ namespace Reactive.Bindings.Extensions
     /// <summary>
     /// Provides PropertyPack static members.
     /// </summary>
-    public static class PropertyPack
+    internal static class PropertyPack
     {
         /// <summary>
         /// Create instance.
