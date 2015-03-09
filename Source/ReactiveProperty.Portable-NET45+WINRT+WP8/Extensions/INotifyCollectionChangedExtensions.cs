@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Reflection;
 
 namespace Reactive.Bindings.Extensions
 {
@@ -113,14 +114,19 @@ namespace Reactive.Bindings.Extensions
         /// <param name="propertySelector">Property selection expression</param>
         /// <param name="isPushCurrentValueAtFirst">Push current value on first subscribe</param>
         /// <returns>Property value sequence</returns>
-        public static IObservable<TProperty> ObserveElementProperty<TCollection, TElement, TProperty>(this TCollection source, Expression<Func<TElement, TProperty>> propertySelector, bool isPushCurrentValueAtFirst = true)
+        public static IObservable<PropertyPack<TElement, TProperty>> ObserveElementProperty<TCollection, TElement, TProperty>(this TCollection source, Expression<Func<TElement, TProperty>> propertySelector, bool isPushCurrentValueAtFirst = true)
             where TCollection : INotifyCollectionChanged, IEnumerable<TElement>
             where TElement : class, INotifyPropertyChanged
         {
             if (source == null)             throw new ArgumentNullException("source");
             if (propertySelector == null)   throw new ArgumentNullException("propertySelector");
 
-            return Observable.Create<TProperty>(observer =>
+            var memberExpression = (MemberExpression)propertySelector.Body;
+            var propertyInfo = memberExpression.Member as PropertyInfo;
+            if (propertyInfo == null)
+                throw new ArgumentException("propertySelector is not property expression");
+
+            return Observable.Create<PropertyPack<TElement, TProperty>>(observer =>
             {
                 //--- cache element property subscriptions
                 var subscriptionCache = new Dictionary<TElement, IDisposable>();
@@ -130,7 +136,12 @@ namespace Reactive.Bindings.Extensions
                 {
                     foreach (var x in elements)
                     {
-                        var subsctiption = x.ObserveProperty(propertySelector, isPushCurrentValueAtFirst).Subscribe(observer.OnNext);
+                        var subsctiption = x.ObserveProperty(propertySelector, isPushCurrentValueAtFirst)
+                                         .Subscribe(y =>
+                                         {
+                                             var pair = PropertyPack.Create(x, propertyInfo, y);
+                                             observer.OnNext(pair);
+                                         });
                         subscriptionCache.Add(x, subsctiption);
                     }
                 };

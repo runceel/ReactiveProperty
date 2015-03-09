@@ -132,6 +132,9 @@
     <Compile Include="..\ReactiveProperty.Portable-NET45+WINRT+WP8\Extensions\PairwiseObservableExtensions.cs">
       <Link>Extensions\PairwiseObservableExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\ReactiveProperty.Portable-NET45+WINRT+WP8\Extensions\PropertyPack.cs">
+      <Link>Extensions\PropertyPack.cs</Link>
+    </Compile>
     <Compile Include="..\ReactiveProperty.Portable-NET45+WINRT+WP8\Extensions\RetryObservableExtensions.cs">
       <Link>Extensions\RetryObservableExtensions.cs</Link>
     </Compile>

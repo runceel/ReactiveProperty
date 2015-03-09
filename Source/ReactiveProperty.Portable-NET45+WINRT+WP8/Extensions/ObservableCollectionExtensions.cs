@@ -72,8 +72,8 @@ namespace Reactive.Bindings.Extensions
         /// <param name="source">Data source</param>
         /// <param name="propertySelector">Property selection expression</param>
         /// <param name="isPushCurrentValueAtFirst">Push current value on first subscribe</param>
-        /// <returns>Property value sequence</returns>
-        public static IObservable<TProperty> ObserveElementProperty<TElement, TProperty>(this ObservableCollection<TElement> source, Expression<Func<TElement, TProperty>> propertySelector, bool isPushCurrentValueAtFirst = true)
+        /// <returns>Property sequence</returns>
+        public static IObservable<PropertyPack<TElement, TProperty>> ObserveElementProperty<TElement, TProperty>(this ObservableCollection<TElement> source, Expression<Func<TElement, TProperty>> propertySelector, bool isPushCurrentValueAtFirst = true)
             where TElement : class, INotifyPropertyChanged
         {
             return INotifyCollectionChangedExtensions.ObserveElementProperty<ObservableCollection<TElement>, TElement, TProperty>(source, propertySelector, isPushCurrentValueAtFirst);
@@ -144,8 +144,8 @@ namespace Reactive.Bindings.Extensions
         /// <param name="source">Data source</param>
         /// <param name="propertySelector">Property selection expression</param>
         /// <param name="isPushCurrentValueAtFirst">Push current value on first subscribe.</param>
-        /// <returns>Property value sequence</returns>
-        public static IObservable<TProperty> ObserveElementProperty<TElement, TProperty>(this ReadOnlyObservableCollection<TElement> source, Expression<Func<TElement, TProperty>> propertySelector, bool isPushCurrentValueAtFirst = true)
+        /// <returns>Property sequence</returns>
+        public static IObservable<PropertyPack<TElement, TProperty>> ObserveElementProperty<TElement, TProperty>(this ReadOnlyObservableCollection<TElement> source, Expression<Func<TElement, TProperty>> propertySelector, bool isPushCurrentValueAtFirst = true)
             where TElement : class, INotifyPropertyChanged
         {
             return INotifyCollectionChangedExtensions.ObserveElementProperty<ReadOnlyObservableCollection<TElement>, TElement, TProperty>(source, propertySelector, isPushCurrentValueAtFirst);

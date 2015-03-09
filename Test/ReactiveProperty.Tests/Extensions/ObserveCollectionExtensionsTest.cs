@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Reactive;
+using System.Reactive.Linq;
 using System.Runtime.CompilerServices;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Reactive.Bindings.Extensions;
@@ -294,7 +295,7 @@ namespace ReactiveProperty.Tests.Extensions
             var collection = new ObservableCollection<Person>(new []{ neuecc, okazuki });
 
             //--- no data
-            var buffer = new List<string>();
+            var buffer = new List<PropertyPack<Person, string>>();
             buffer.Count.Is(0);
 
             //--- subscribe all
@@ -308,19 +309,22 @@ namespace ReactiveProperty.Tests.Extensions
             var newName = "neuecc_renamed";
             neuecc.Name = newName;
             buffer.Count.Is(3);
-            buffer[2].Is(newName);
+            buffer[2].Instance.Is(neuecc);
+            buffer[2].Value.Is(newName);
 
             //--- add element
             collection.Add(xin9le);
             collection.Count.Is(3);
             buffer.Count.Is(4);
-            buffer[3].Is("xin9le");
+            buffer[3].Instance.Is(xin9le);
+            buffer[3].Value.Is("xin9le");
 
             //--- change added element's property
             newName = "xin9le_renamed";
             xin9le.Name = newName;
             buffer.Count.Is(5);
-            buffer[4].Is(newName);
+            buffer[4].Instance.Is(xin9le);
+            buffer[4].Value.Is(newName);
 
             //--- remove element
             collection.Remove(okazuki);
@@ -335,13 +339,15 @@ namespace ReactiveProperty.Tests.Extensions
             collection[1] = anders;
             collection.Count.Is(2);
             buffer.Count.Is(6);
-            buffer[5].Is("anders");
+            buffer[5].Instance.Is(anders);
+            buffer[5].Value.Is("anders");
 
             //--- change replaced element's property
             newName = "anders_renamed";
             anders.Name = newName;
             buffer.Count.Is(7);
-            buffer[6].Is(newName);
+            buffer[6].Instance.Is(anders);
+            buffer[6].Value.Is(newName);
 
             xin9le.Name = "replaced";
             buffer.Count.Is(7);

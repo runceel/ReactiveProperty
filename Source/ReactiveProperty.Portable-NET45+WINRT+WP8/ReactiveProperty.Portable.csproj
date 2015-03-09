@@ -45,6 +45,7 @@
     <Compile Include="Extensions\AccessorCache.cs" />
     <Compile Include="Extensions\CatchIgnoreObservableExtensions.cs" />
     <Compile Include="Extensions\CombineLatestEnumerableExtensions.cs" />
+    <Compile Include="Extensions\PropertyPack.cs" />
     <Compile Include="Extensions\ICommandExtensions.cs" />
     <Compile Include="Extensions\IDisposableExtensions.cs" />
     <Compile Include="Extensions\INotifyCollectionChangedExtensions.cs" />
