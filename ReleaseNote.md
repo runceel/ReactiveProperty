@@ -1,5 +1,11 @@
 # Release note
 
+## v2.1.3
+
+### Breaking change
+
+- ObserveElementProperty returns instance which has value changed property.
+
 ## v2.1.2
 
 ### Add
