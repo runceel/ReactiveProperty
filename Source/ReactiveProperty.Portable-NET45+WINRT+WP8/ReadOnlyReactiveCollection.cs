@@ -228,12 +228,13 @@ namespace Reactive.Bindings
         }
 
         /// <summary>
-        /// convert ObservableCollection to IO&lt;CollectionChanged&gt;
+        /// convert INotifyCollectionChanged to CollectionChanged.
+        /// (Supported action is Add(one item), Remove(one item), Replace(one item) and Reset(clear).)
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="self"></param>
         /// <returns></returns>
-        public static IObservable<CollectionChanged<T>> ToCollectionChanged<T>(this ObservableCollection<T> self)
+        public static IObservable<CollectionChanged<T>> ToCollectionChanged<T>(this INotifyCollectionChanged self)
         {
             return Observable.Create<CollectionChanged<T>>(ox =>
             {
@@ -267,6 +268,17 @@ namespace Reactive.Bindings
         }
 
         /// <summary>
+        /// convert ObservableCollection to IO&lt;CollectionChanged&gt;
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static IObservable<CollectionChanged<T>> ToCollectionChanged<T>(this ObservableCollection<T> self)
+        {
+            return ((INotifyCollectionChanged)self).ToCollectionChanged<T>();
+        }
+
+        /// <summary>
         /// convert ReadOnlyObservableCollection to IO&lt;T&gt;
         /// </summary>
         /// <typeparam name="T">source type</typeparam>
@@ -274,35 +286,7 @@ namespace Reactive.Bindings
         /// <returns>dest</returns>
         public static IObservable<CollectionChanged<T>> ToCollectionChanged<T>(this ReadOnlyObservableCollection<T> self)
         {
-            return Observable.Create<CollectionChanged<T>>(ox =>
-            {
-                var d = new CompositeDisposable();
-                self.CollectionChangedAsObservable()
-                    .Where(e => e.Action == NotifyCollectionChangedAction.Add)
-                    .Select(e => CollectionChanged<T>.Add(e.NewStartingIndex, e.NewItems.Cast<T>().First()))
-                    .Subscribe(c => ox.OnNext(c))
-                    .AddTo(d);
-
-                self.CollectionChangedAsObservable()
-                    .Where(e => e.Action == NotifyCollectionChangedAction.Remove)
-                    .Select(e => CollectionChanged<T>.Remove(e.OldStartingIndex))
-                    .Subscribe(c => ox.OnNext(c))
-                    .AddTo(d);
-
-                self.CollectionChangedAsObservable()
-                    .Where(e => e.Action == NotifyCollectionChangedAction.Replace)
-                    .Select(e => CollectionChanged<T>.Replace(e.NewStartingIndex, e.NewItems.Cast<T>().First()))
-                    .Subscribe(c => ox.OnNext(c))
-                    .AddTo(d);
-
-                self.CollectionChangedAsObservable()
-                    .Where(e => e.Action == NotifyCollectionChangedAction.Reset)
-                    .Select(_ => CollectionChanged<T>.Reset)
-                    .Subscribe(c => ox.OnNext(c))
-                    .AddTo(d);
-
-                return d;
-            });
+            return ((INotifyCollectionChanged)self).ToCollectionChanged<T>();
         }
 
         /// <summary>
