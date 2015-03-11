@@ -7,6 +7,7 @@ using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using Reactive.Bindings.Extensions;
+using System.Collections.Generic;
 
 namespace Reactive.Bindings
 {
@@ -70,6 +71,14 @@ namespace Reactive.Bindings
                     this.source.Clear();
                 })
                 .AddTo(this.token);
+
+            ox.Where(x => x.Action == NotifyCollectionChangedAction.Move)
+                .ObserveOn(scheduler)
+                .Subscribe(x =>
+                {
+                    this.source.RemoveAt(x.OldIndex);
+                    this.source.Insert(x.Index, x.Value);
+                });
         }
 
         /// <summary>
@@ -178,11 +187,42 @@ namespace Reactive.Bindings
             { 
                 Index = index, 
                 Value = value, 
-                Action = NotifyCollectionChangedAction.Replace };
+                Action = NotifyCollectionChangedAction.Replace 
+            };
         }
 
+        /// <summary>
+        /// Create move action.
+        /// </summary>
+        /// <param name="oldIndex"></param>
+        /// <param name="newIndex"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static CollectionChanged<T> Move(int oldIndex, int newIndex, T value)
+        {
+            return new CollectionChanged<T>
+            {
+                OldIndex = oldIndex,
+                Index = newIndex,
+                Value = value,
+                Action = NotifyCollectionChangedAction.Move
+            };
+        }
+
+        /// <summary>
+        /// Changed value.
+        /// </summary>
         public T Value { get; set; }
+
+        /// <summary>
+        /// Changed index.
+        /// </summary>
         public int Index { get; set; }
+
+        /// <summary>
+        /// Changed old index.(Move only)
+        /// </summary>
+        public int OldIndex { get; set; }
 
         /// <summary>
         /// Support action is Add and Remove and Reset and Replace.
@@ -228,12 +268,12 @@ namespace Reactive.Bindings
         }
 
         /// <summary>
-        /// convert ObservableCollection to IO&lt;CollectionChanged&gt;
+        /// convert INotifyCollectionChanged to IO&lt;CollectionChanged&gt;
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="self"></param>
         /// <returns></returns>
-        public static IObservable<CollectionChanged<T>> ToCollectionChanged<T>(this ObservableCollection<T> self)
+        public static IObservable<CollectionChanged<T>> ToCollectionChanged<T>(this INotifyCollectionChanged self)
         {
             return Observable.Create<CollectionChanged<T>>(ox =>
             {
@@ -262,8 +302,25 @@ namespace Reactive.Bindings
                     .Subscribe(c => ox.OnNext(c))
                     .AddTo(d);
 
+                self.CollectionChangedAsObservable()
+                    .Where(e => e.Action == NotifyCollectionChangedAction.Move)
+                    .Select(e => CollectionChanged<T>.Move(e.OldStartingIndex, e.NewStartingIndex, e.NewItems.Cast<T>().First()))
+                    .Subscribe(c => ox.OnNext(c))
+                    .AddTo(d);
+
                 return d;
             });
+        }
+
+        /// <summary>
+        /// convert ObservableCollection to IO&lt;CollectionChanged&gt;
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static IObservable<CollectionChanged<T>> ToCollectionChanged<T>(this ObservableCollection<T> self)
+        {
+            return ((INotifyCollectionChanged)self).ToCollectionChanged<T>();
         }
 
         /// <summary>
@@ -274,35 +331,50 @@ namespace Reactive.Bindings
         /// <returns>dest</returns>
         public static IObservable<CollectionChanged<T>> ToCollectionChanged<T>(this ReadOnlyObservableCollection<T> self)
         {
-            return Observable.Create<CollectionChanged<T>>(ox =>
-            {
-                var d = new CompositeDisposable();
-                self.CollectionChangedAsObservable()
-                    .Where(e => e.Action == NotifyCollectionChangedAction.Add)
-                    .Select(e => CollectionChanged<T>.Add(e.NewStartingIndex, e.NewItems.Cast<T>().First()))
-                    .Subscribe(c => ox.OnNext(c))
-                    .AddTo(d);
+            return ((INotifyCollectionChanged)self).ToCollectionChanged<T>();
+        }
 
-                self.CollectionChangedAsObservable()
-                    .Where(e => e.Action == NotifyCollectionChangedAction.Remove)
-                    .Select(e => CollectionChanged<T>.Remove(e.OldStartingIndex))
-                    .Subscribe(c => ox.OnNext(c))
-                    .AddTo(d);
+        /// <summary>
+        /// Convert IEnumerable to ReadOnlyReactiveCollection
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="self"></param>
+        /// <param name="collectionChanged"></param>
+        /// <param name="scheduler"></param>
+        /// <returns></returns>
+        public static ReadOnlyObservableCollection<T> ToReadOnlyReactiveCollection<T>(
+            this IEnumerable<T> self, 
+            IObservable<CollectionChanged<T>> collectionChanged, 
+            IScheduler scheduler = null)
+        {
+            return self.ToReadOnlyReactiveCollection<T, T>(collectionChanged, x => x, scheduler);
+        }
 
-                self.CollectionChangedAsObservable()
-                    .Where(e => e.Action == NotifyCollectionChangedAction.Replace)
-                    .Select(e => CollectionChanged<T>.Replace(e.NewStartingIndex, e.NewItems.Cast<T>().First()))
-                    .Subscribe(c => ox.OnNext(c))
-                    .AddTo(d);
-
-                self.CollectionChangedAsObservable()
-                    .Where(e => e.Action == NotifyCollectionChangedAction.Reset)
-                    .Select(_ => CollectionChanged<T>.Reset)
-                    .Subscribe(c => ox.OnNext(c))
-                    .AddTo(d);
-
-                return d;
-            });
+        /// <summary>
+        /// Convert IEnumerable to ReadOnlyReactiveCollection
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="U"></typeparam>
+        /// <param name="self"></param>
+        /// <param name="collectionChanged"></param>
+        /// <param name="converter"></param>
+        /// <param name="scheduler"></param>
+        /// <returns></returns>
+        public static ReadOnlyObservableCollection<U> ToReadOnlyReactiveCollection<T, U>(
+            this IEnumerable<T> self, 
+            IObservable<CollectionChanged<T>> collectionChanged, 
+            Func<T, U> converter, 
+            IScheduler scheduler = null)
+        {
+            var source = new ObservableCollection<U>(self.Select(converter));
+            var convertedCollectionChanged = collectionChanged
+                .Select(x => new CollectionChanged<U>
+                {
+                    Action = x.Action,
+                    Index = x.Index,
+                    Value = object.ReferenceEquals(x.Value, null) ? default(U) : converter(x.Value)
+                });
+            return new ReadOnlyReactiveCollection<U>(convertedCollectionChanged, source, scheduler);
         }
 
         /// <summary>

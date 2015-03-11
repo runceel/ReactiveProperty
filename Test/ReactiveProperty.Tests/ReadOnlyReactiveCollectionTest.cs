@@ -116,6 +116,41 @@ namespace ReactiveProperty.Tests
             target.Count.Is(0);
         }
 
+
+        [TestMethod]
+        public void IEnumerableSourceTest()
+        {
+            var s = new ObservableCollection<string>();
+            var target = ((IEnumerable<string>)s).ToReadOnlyReactiveCollection(
+                s.ToCollectionChanged(),
+                x => new StringHolder { Value = x }, 
+                Scheduler.CurrentThread);
+
+            target.Count.Is(0);
+
+            s.Add("abc");
+            target.Count.Is(1);
+            target[0].Value.Is("abc");
+
+            s.Add("bcd");
+            target.Count.Is(2);
+            target[1].Value.Is("bcd");
+
+            s[0] = "hoge";
+            target.Count.Is(2);
+            target[0].Value.Is("hoge");
+
+            s.RemoveAt(0);
+            target.Count.Is(1);
+            target[0].Value.Is("bcd");
+
+            s.Add("fuga");
+            s.Add("homuhomu");
+            s.Clear();
+
+            target.Count.Is(0);
+        }
+
         [TestMethod]
         public void DisposeTest()
         {
