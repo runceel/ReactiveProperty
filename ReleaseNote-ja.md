@@ -1,5 +1,11 @@
 # リリースノート
 
+## v2.1.4
+
+### 追加
+
+- IEnumerableからReadOnlyReactiveCollectionを作成する拡張メソッドを追加しました。
+
 ## v2.1.3
 
 ### 破壊的変更

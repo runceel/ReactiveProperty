@@ -1,5 +1,11 @@
 # Release note
 
+## v2.1.4
+
+### Add
+
+- Add create ReadOnlyReactiveCollection method from IEnumerable.
+
 ## v2.1.3
 
 ### Breaking change
