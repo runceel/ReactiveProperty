@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 
 namespace ReactiveProperty.Tests
 {
@@ -169,10 +170,42 @@ namespace ReactiveProperty.Tests
             disposed.Is("abc", "homuhomu", "bcd");
         }
 
+        [TestMethod]
+        public void MoveTest()
+        {
+            var s = new MoveSupportCollection<string>();
+            s.Add("a");
+            s.Add("b");
+            var target = s.ToReadOnlyReactiveCollection(s.ToCollectionChanged<string>(), Scheduler.CurrentThread);
+
+            target.Is("a", "b");
+            s.Move(1, 0);
+            target.Is("b", "a");
+        }
+
     }
 
     class StringHolder
     {
         public string Value { get; set; }
+    }
+
+    class MoveSupportCollection<T> : Collection<T>, INotifyCollectionChanged
+    {
+        public void Move(int oldIndex, int newIndex)
+        {
+            var item = this[oldIndex];
+            this.RemoveAt(oldIndex);
+            this.Insert(newIndex, item);
+            this.OnCollectionChanged(
+                new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, item, newIndex, oldIndex));
+        }
+
+        public event NotifyCollectionChangedEventHandler CollectionChanged;
+        private void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+        {
+            var h = this.CollectionChanged;
+            if (h != null) { h(this, e); }
+        }
     }
 }
