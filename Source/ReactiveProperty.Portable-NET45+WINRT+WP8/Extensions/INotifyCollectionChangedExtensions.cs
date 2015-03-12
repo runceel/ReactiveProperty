@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
@@ -287,5 +288,118 @@ namespace Reactive.Bindings.Extensions
                 });
             });
         }
+
+        /// <summary>
+        /// Observe collection element's ReactiveProperty.
+        /// </summary>
+        /// <typeparam name="TCollection">Collection type</typeparam>
+        /// <typeparam name="TElement">Collection element type</typeparam>
+        /// <typeparam name="TProperty">Property type</typeparam>
+        /// <param name="source">Source collection</param>
+        /// <param name="propertySelector">ReactiveProperty selection expression</param>
+        /// <returns>ReactiveProperty sequence</returns>
+        public static IObservable<PropertyPack<TElement, TProperty>> ObserveElementReactiveProperty<TElement, TProperty>(
+            this ObservableCollection<TElement> source,
+            Expression<Func<TElement, TProperty>> propertySelector)
+            where TElement : class
+            where TProperty : IReactiveProperty
+        {
+            return INotifyCollectionChangedExtensions.ObserveElementReactiveProperty<ObservableCollection<TElement>, TElement, TProperty>(
+                source,
+                propertySelector);
+        }
+
+
+        /// <summary>
+        ///  Observe collection element's PropertyChanged event.
+        /// </summary>
+        /// <typeparam name="TElement">Type of Element</typeparam>
+        /// <param name="self">source collection</param>
+        /// <returns>PropertyChanged event stream.</returns>
+        public static IObservable<SenderPropertyChangedPair<TElement>> ObserveElementPropertyChanged<TElement>(this INotifyCollectionChanged self)
+            where TElement : class, INotifyPropertyChanged
+        {
+            if (self == null) throw new ArgumentNullException("source");
+            var source = self as IEnumerable<TElement>;
+            if (source == null) { throw new ArgumentException("self must implements IEnumerable<TElement>."); }
+
+            return Observable.Create<SenderPropertyChangedPair<TElement>>(observer =>
+            {
+                //--- cache element property subscriptions
+                var subscriptionCache = new Dictionary<object, IDisposable>();
+
+                //--- subscribe / unsubscribe property which all elements have
+                Action<IEnumerable<TElement>> subscribe = elements =>
+                {
+                    foreach (var x in elements)
+                    {
+                        var subsctiption = x.PropertyChangedAsObservable()
+                            .Subscribe(y =>
+                            {
+                                var pair = new SenderPropertyChangedPair<TElement>(x, y);
+                                observer.OnNext(pair);
+                            });
+                        subscriptionCache.Add(x, subsctiption);
+                    }
+                };
+                Action unsubscribeAll = () =>
+                {
+                    foreach (var x in subscriptionCache.Values)
+                        x.Dispose();
+                    subscriptionCache.Clear();
+                };
+                subscribe(source);
+
+                //--- hook collection changed
+                var disposable = self.CollectionChangedAsObservable().Subscribe(x =>
+                {
+                    if (x.Action == NotifyCollectionChangedAction.Remove
+                    || x.Action == NotifyCollectionChangedAction.Replace)
+                    {
+                        //--- unsubscribe
+                        var oldItems = x.OldItems.Cast<TElement>();
+                        foreach (var y in oldItems)
+                        {
+                            subscriptionCache[y].Dispose();
+                            subscriptionCache.Remove(y);
+                        }
+                    }
+
+                    if (x.Action == NotifyCollectionChangedAction.Add
+                    || x.Action == NotifyCollectionChangedAction.Replace)
+                    {
+                        var newItems = x.NewItems.Cast<TElement>();
+                        subscribe(newItems);
+                    }
+
+                    if (x.Action == NotifyCollectionChangedAction.Reset)
+                    {
+                        unsubscribeAll();
+                        subscribe(source);
+                    }
+                });
+
+                //--- unsubscribe
+                return Disposable.Create(() =>
+                {
+                    disposable.Dispose();
+                    unsubscribeAll();
+                });
+            });
+        }
+
+        /// <summary>
+        ///  Observe collection element's PropertyChanged event.
+        /// </summary>
+        /// <typeparam name="TElement">Type of Element</typeparam>
+        /// <param name="source">source collection</param>
+        /// <returns>PropertyChanged event stream.</returns>
+        public static IObservable<SenderPropertyChangedPair<TElement>> ObserveElementPropertyChanged<TElement>(this ObservableCollection<TElement> self)
+            where TElement : class, INotifyPropertyChanged
+        {
+            return ((INotifyCollectionChanged)self).ObserveElementPropertyChanged<TElement>();
+        }
+
+
     }
 }

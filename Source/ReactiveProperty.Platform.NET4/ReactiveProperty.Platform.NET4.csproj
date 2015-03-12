@@ -183,6 +183,7 @@
     <Compile Include="..\ReactiveProperty.Portable-NET45+WINRT+WP8\UIDispatcherScheduler.cs">
       <Link>UIDispatcherScheduler.cs</Link>
     </Compile>
+    <Compile Include="Extensions\SenderPropertyChangedPair.cs" />
     <Compile Include="Helpers\SerializeHelper.NET4.cs" />
     <Compile Include="NET45Port\DataErrorsChangedEventArgs.cs" />
     <Compile Include="NET45Port\INotifyDataErrorInfo.cs" />

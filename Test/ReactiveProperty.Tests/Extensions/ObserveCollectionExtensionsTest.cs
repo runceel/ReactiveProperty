@@ -380,7 +380,7 @@ namespace ReactiveProperty.Tests.Extensions
             buffer.Count.Is(0);
 
             //--- subscribe all
-            var sequence = collection.ObserveElementReactiveProperty((PersonViewModel x) => x.Name);
+            var sequence = collection.ObserveElementReactiveProperty(x => x.Name);
             var subscription = sequence.Subscribe(buffer.Add);
             buffer.Count.Is(2);
 
@@ -443,6 +443,43 @@ namespace ReactiveProperty.Tests.Extensions
             anders.Name.Value = "anders_unsubscribed";
             buffer.Count.Is(7);
 
+        }
+
+        [TestMethod]
+        public void ObserveElementPropertyChanged()
+        {
+            var source = new ObservableCollection<Person>(new[]
+            {
+                new Person { Name = "tanaka" },
+                new Person { Name = "kimuta" }
+            });
+            var buffer = new List<SenderPropertyChangedPair<Person>>();
+
+            var subscription = source.ObserveElementPropertyChanged()
+                .Subscribe(buffer.Add);
+
+            buffer.Count.Is(0);
+
+            source[0].Name = "okazuki";
+            buffer.Count.Is(1);
+            buffer[0].Is(x => x.Sender.Name == "okazuki" && x.Args.PropertyName == "Name");
+
+            source[1].Name = "xin9le";
+            buffer.Count.Is(2);
+            buffer[1].Is(x => x.Sender.Name == "xin9le" && x.Args.PropertyName == "Name");
+
+            source.Add(new Person { Name = "neuecc" });
+            buffer.Count.Is(2);
+
+            source[2].Age = 30;
+            buffer.Count.Is(3);
+            buffer[2].Is(x => x.Sender.Name == "neuecc" && x.Sender.Age == 30 && x.Args.PropertyName == "Age");
+
+            subscription.Dispose();
+
+            source[1].Age = 10;
+            source[0].Age = 100;
+            buffer.Count.Is(3);
         }
 
         #region private classes
