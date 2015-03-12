@@ -7,6 +7,7 @@ using System.Reactive.Linq;
 using System.Runtime.CompilerServices;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Reactive.Bindings.Extensions;
+using Reactive.Bindings;
 
 namespace ReactiveProperty.Tests.Extensions
 {
@@ -365,6 +366,84 @@ namespace ReactiveProperty.Tests.Extensions
             buffer.Count.Is(7);
         }
 
+        [TestMethod]
+        public void OvserveElementReactivePropertyTest()
+        {
+            var neuecc  = new PersonViewModel("neuecc");
+            var okazuki = new PersonViewModel("okazuki");
+            var xin9le  = new PersonViewModel("xin9le");
+            var anders  = new PersonViewModel("anders");
+            var collection = new ObservableCollection<PersonViewModel>(new []{ neuecc, okazuki });
+
+            //--- no data
+            var buffer = new List<PropertyPack<PersonViewModel, ReactiveProperty<string>>>();
+            buffer.Count.Is(0);
+
+            //--- subscribe all
+            var sequence = collection.ObserveElementReactiveProperty((PersonViewModel x) => x.Name);
+            var subscription = sequence.Subscribe(buffer.Add);
+            buffer.Count.Is(2);
+
+            //--- change element's property
+            var newName = "neuecc_renamed";
+            neuecc.Name.Value = newName;
+            buffer.Count.Is(3);
+            buffer[2].Instance.Is(neuecc);
+            buffer[2].Property.Name.Is("Name");
+            buffer[2].Value.Value.Is(newName);
+
+            //--- add element
+            collection.Add(xin9le);
+            collection.Count.Is(3);
+            buffer.Count.Is(4);
+            buffer[3].Instance.Is(xin9le);
+            buffer[3].Property.Name.Is("Name");
+            buffer[3].Value.Value.Is("xin9le");
+
+            //--- change added element's property
+            newName = "xin9le_renamed";
+            xin9le.Name.Value = newName;
+            buffer.Count.Is(5);
+            buffer[4].Instance.Is(xin9le);
+            buffer[4].Property.Name.Is("Name");
+            buffer[4].Value.Value.Is(newName);
+
+            //--- remove element
+            collection.Remove(okazuki);
+            collection.Count.Is(2);
+            buffer.Count.Is(5);
+
+            //--- change removed element's property
+            okazuki.Name.Value = "okazuki_renamed";
+            buffer.Count.Is(5);  //--- no push
+
+            //--- replace element
+            collection[1] = anders;
+            collection.Count.Is(2);
+            buffer.Count.Is(6);
+            buffer[5].Instance.Is(anders);
+            buffer[5].Property.Name.Is("Name");
+            buffer[5].Value.Value.Is("anders");
+
+            //--- change replaced element's property
+            newName = "anders_renamed";
+            anders.Name.Value = newName;
+            buffer.Count.Is(7);
+            buffer[6].Instance.Is(anders);
+            buffer[6].Property.Name.Is("Name");
+            buffer[6].Value.Value.Is(newName);
+
+            xin9le.Name.Value = "replaced";
+            buffer.Count.Is(7);
+
+            //--- unsubscribe
+            subscription.Dispose();
+            collection.Count.Is(2);
+            neuecc.Name.Value = "neuecc_unsubscribed";
+            anders.Name.Value = "anders_unsubscribed";
+            buffer.Count.Is(7);
+
+        }
 
         #region private classes
         private class Person : INotifyPropertyChanged
@@ -413,6 +492,16 @@ namespace ReactiveProperty.Tests.Extensions
                     handler(this, new PropertyChangedEventArgs(propertyName));
             }
             #endregion
+        }
+
+        private class PersonViewModel
+        {
+            public ReactiveProperty<string> Name { get; private set; }
+
+            public PersonViewModel(string name)
+            {
+                this.Name = new ReactiveProperty<string>(name);
+            }
         }
         #endregion
     }

@@ -190,5 +190,102 @@ namespace Reactive.Bindings.Extensions
                 });
             });
         }
+
+        /// <summary>
+        /// Observe collection element's ReactiveProperty.
+        /// </summary>
+        /// <typeparam name="TCollection">Collection type</typeparam>
+        /// <typeparam name="TElement">Collection element type</typeparam>
+        /// <typeparam name="TProperty">Property type</typeparam>
+        /// <param name="source">Source collection</param>
+        /// <param name="propertySelector">ReactiveProperty selection expression</param>
+        /// <returns>ReactiveProperty sequence</returns>
+        public static IObservable<PropertyPack<TElement, TProperty>> ObserveElementReactiveProperty<TCollection, TElement, TProperty>(
+            this TCollection source, 
+            Expression<Func<TElement, TProperty>> propertySelector)
+            where TCollection : INotifyCollectionChanged, IEnumerable<TElement>
+            where TElement : class
+            where TProperty : IReactiveProperty
+        {
+            if (source == null) throw new ArgumentNullException("source");
+            if (propertySelector == null) throw new ArgumentNullException("propertySelector");
+
+            var memberExpression = (MemberExpression)propertySelector.Body;
+            var propertyInfo = memberExpression.Member as PropertyInfo;
+            if (propertyInfo == null)
+            {
+                throw new ArgumentException("propertySelector is not property expression");
+            }
+
+            var propertyName = default(string); // no use
+            var getter = AccessorCache<TElement>.LookupGet(propertySelector, out propertyName);
+
+            return Observable.Create<PropertyPack<TElement, TProperty>>(observer =>
+            {
+                //--- cache element property subscriptions
+                var subscriptionCache = new Dictionary<TElement, IDisposable>();
+
+                //--- subscribe / unsubscribe property which all elements have
+                Action<IEnumerable<TElement>> subscribe = elements =>
+                {
+                    foreach (var x in elements)
+                    {
+                        var rp = getter(x);
+                        var ox = (IObservable<object>)rp;
+                        var subsctiption = ox.Subscribe(_ =>
+                        {
+                            var pair = PropertyPack.Create(x, propertyInfo, rp);
+                            observer.OnNext(pair);
+                        });
+                        subscriptionCache.Add(x, subsctiption);
+                    }
+                };
+                Action unsubscribeAll = () =>
+                {
+                    foreach (var x in subscriptionCache.Values)
+                    {
+                        x.Dispose();
+                    }
+                    subscriptionCache.Clear();
+                };
+                subscribe(source);
+
+                //--- hook collection changed
+                var disposable = source.CollectionChangedAsObservable().Subscribe(x =>
+                {
+                    if (x.Action == NotifyCollectionChangedAction.Remove
+                    || x.Action == NotifyCollectionChangedAction.Replace)
+                    {
+                        //--- unsubscribe
+                        var oldItems = x.OldItems.Cast<TElement>();
+                        foreach (var y in oldItems)
+                        {
+                            subscriptionCache[y].Dispose();
+                            subscriptionCache.Remove(y);
+                        }
+                    }
+
+                    if (x.Action == NotifyCollectionChangedAction.Add
+                    || x.Action == NotifyCollectionChangedAction.Replace)
+                    {
+                        var newItems = x.NewItems.Cast<TElement>();
+                        subscribe(newItems);
+                    }
+
+                    if (x.Action == NotifyCollectionChangedAction.Reset)
+                    {
+                        unsubscribeAll();
+                        subscribe(source);
+                    }
+                });
+
+                //--- unsubscribe
+                return Disposable.Create(() =>
+                {
+                    disposable.Dispose();
+                    unsubscribeAll();
+                });
+            });
+        }
     }
 }
