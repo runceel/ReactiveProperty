@@ -72,6 +72,7 @@
     <Compile Include="ReactiveProperty.cs" />
     <Compile Include="ReactiveTimer.cs" />
     <Compile Include="ReadOnlyReactiveCollection.cs" />
+    <Compile Include="ReadOnlyReactiveProperty.cs" />
     <Compile Include="UIDispatcherScheduler.cs" />
   </ItemGroup>
   <ItemGroup />

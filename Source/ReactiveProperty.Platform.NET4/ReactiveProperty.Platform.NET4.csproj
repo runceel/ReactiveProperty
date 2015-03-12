@@ -180,6 +180,9 @@
     <Compile Include="..\ReactiveProperty.Portable-NET45+WINRT+WP8\ReadOnlyReactiveCollection.cs">
       <Link>ReadOnlyReactiveCollection.cs</Link>
     </Compile>
+    <Compile Include="..\ReactiveProperty.Portable-NET45+WINRT+WP8\ReadOnlyReactiveProperty.cs">
+      <Link>ReadOnlyReactiveProperty.cs</Link>
+    </Compile>
     <Compile Include="..\ReactiveProperty.Portable-NET45+WINRT+WP8\UIDispatcherScheduler.cs">
       <Link>UIDispatcherScheduler.cs</Link>
     </Compile>
