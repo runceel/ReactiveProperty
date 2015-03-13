@@ -2,9 +2,13 @@
 
 ## v2.1.6
 
-- Implemented ObserveElementReactiveProperty extension method, to observe ReactiveProperty change of the ObservableCollection and ReadOnlyObservableCollection elements.
-- Implemented ObserveElementPropertyChanged extension method, to observe PropertyChanged event of the ObservableCollection and ReadOnlyObservableCollection elements.
-- Implemented ReadOnlyReactiveProperty class, create from ToReadOnlyReactiveProperty extension method of IObservable<T>.
+- Implemented ObserveElementReactiveProperty extension method, to observe ReactiveProeprty which ObservableCollection and ReadOnlyObservableCollection elements have changing.
+- Implemented ObserveElementPropertyChanged extension method, to observe PropertyChanged event which ObservableCollection and ReadOnlyObservableCollection elements have.
+- Implemented ReadOnlyReactiveProperty<T> class. ToReadOnlyReactiveProperty extension method creates its instance from IObservable<T>.  
+
+### Breaking change
+
+- Changed accesibility of ObserveElementProperty method to 'internal' from 'public'. 
 
 ## v2.1.5
 

@@ -4,9 +4,13 @@
 
 ### 追加
 
-- ObservableCollection と ReadOnlyObservableCollection の要素のReactivePropertyの変更を監視する ObserveElementReactiveProperty 拡張メソッドを実装しました。
-- ObservableCollection と ReadOnlyObservableCollection の要素のPropertyChangedイベントを監視する ObserveElementPropertyChanged 拡張メソッドを実装しました。
-- 読み取り専用のReadOnlyReactiveProperty<T>を実装しました。IObservable<T>からToReadOnlyReactiveProperty拡張メソッドで生成できます。
+- ObservableCollection と ReadOnlyObservableCollection の要素の ReactiveProperty の変更を監視する ObserveElementReactiveProperty 拡張メソッドを実装しました。
+- ObservableCollection と ReadOnlyObservableCollection の要素の PropertyChanged イベントを監視する ObserveElementPropertyChanged 拡張メソッドを実装しました。
+- 読み取り専用の ReactiveProperty である ReadOnlyReactiveProperty<T> を実装しました。IObservable<T> から ToReadOnlyReactiveProperty 拡張メソッドで生成できます。
+
+### 破壊的変更
+
+- INotifyCollectionChanged の拡張メソッドとして提供されていた ObserveElementProperty メソッドのアクセシビリティを internal にしました。
 
 ## v2.1.5
 
