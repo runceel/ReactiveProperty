@@ -246,6 +246,15 @@ namespace Reactive.Bindings.Extensions
             return ((INotifyCollectionChanged)self).ObserveElementPropertyChanged<TElement>();
         }
 
+        /// <summary>
+        /// Core logic of ObserveElementXXXXX methods.
+        /// </summary>
+        /// <typeparam name="TElement">Type of element.</typeparam>
+        /// <typeparam name="TObserver">Type of Observer.</typeparam>
+        /// <param name="collectionChanged">Source of collection changed.</param>
+        /// <param name="source">source collection</param>
+        /// <param name="subscribeAction">element subscribe logic.</param>
+        /// <returns></returns>
         private static IObservable<TObserver> ObserveElementCore<TElement, TObserver>(
             INotifyCollectionChanged collectionChanged,
             IEnumerable<TElement> source, 
