@@ -15,12 +15,15 @@ Target Framework is .NET 4.0, .NET 4.5, Windows Phone 8.0/8.1, Windows store app
 ## Features
 
 - ReactiveProperty - Two-way bindable IObservable, from V to VM and VM to V.
+- ReadOnlyReactiveProperty - One-way bindable IObservable, from VM to V.
 - ReactiveCommand - Convert observable condition sequence to ICommand
 - Typesafe convert INotifyPropertyChanged to ReactiveProperty
-- Event to ReactiveProperty Blend trigger
+- Event to ReactiveProperty Blend trigger(EventToReactiveProperty)
+- Event to ReactiveCommand Blend trigger(EventToReactiveCommand)
 - There means V -> VM -> M -> VM -> V completely connected in reactive, everything is asynchronous
+- Many useful extension methods.
 - NuGet installation support.
-- PM > Install-Package ReactiveProperty
+	- PM > Install-Package ReactiveProperty
 - <b>ReactiveProperty makes viewmodel extermely clean</b>
 
 > Note:
@@ -54,8 +57,8 @@ PM > Install-Package ReactiveProperty
 // ReactiveProperty and ReactiveCommand simple example.
 public class ReactivePropertyBasicsViewModel
 {
-    public ReactiveProperty<string> InputText { get; private set; }
-    public ReadOnlyReactiveProperty<string> DisplayText { get; private set; }
+    public ReactiveProperty<string> InputText { get; private set; } // tow way
+    public ReadOnlyReactiveProperty<string> DisplayText { get; private set; } // one way
     public ReactiveCommand ReplaceTextCommand { get; private set; }
 
     public ReactivePropertyBasicsViewModel()
@@ -73,7 +76,7 @@ public class ReactivePropertyBasicsViewModel
         DisplayText = InputText
             .Select(s => s.ToUpper())       // rx query1
             .Delay(TimeSpan.FromSeconds(1)) // rx query2
-            .ToReadOnlyReactiveProperty();          // convert to ReadOnlyReactiveProperty
+            .ToReadOnlyReactiveProperty();  // convert to ReadOnlyReactiveProperty
 
         ReplaceTextCommand = InputText
             .Select(s => !string.IsNullOrEmpty(s))   // condition sequence of CanExecute

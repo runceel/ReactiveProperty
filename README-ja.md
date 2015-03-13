@@ -19,11 +19,14 @@ ReactivePropertyは、Reactive ExtensionsをMVVMパターンと非同期用に�
 
 ## ReactivePropertyの機能
 
-- ReactiveProperty - ViewとViewModel、ViewModelとViewの双方向バインド可能なIObservable。
+- ReactiveProperty - ViewからViewModel、ViewModelからViewの双方向バインド可能なIObservable。
+- ReadOnlyReactiveProperty - ViewModelからViewの単方向バインド可能なIObservable。
 - ReactiveCommand - IObservable&lt;bool&gt;のシーケンスをICommandに変換できます。
 - タイプセーフな変換機能 - INotifyPropertyChangedインターフェースを実装したクラスをReactivePropertyに変換できます。
-- イベントをReactivePropertyへ伝搬可能なBlendのTriggerがあります。
+- イベントをReactivePropertyへ伝搬可能なBlendのTriggerがあります。(EventToReactiveProperty)
+- イベントをReactiveCommandへ伝搬可能なBlendのTriggerがあります。(EventToReactiveCommand)
 - 非同期に、リアクティブにView -> ViewModel -> Model -> ViewModel -> Viewを接続可能です。
+- 沢山の便利な拡張メソッドがあります。
 - NuGetによるインストールができます。
     - PM > Install-Package ReactiveProperty
 - <b>ReactivePropertyは、ViewModelに対して基本クラスが不要です。継承関係をクリーンに保てます。</b>
@@ -58,8 +61,8 @@ PM > Install-Package ReactiveProperty
 // ReactiveProperty and ReactiveCommand simple example.
 public class ReactivePropertyBasicsViewModel
 {
-    public ReactiveProperty<string> InputText { get; private set; }
-    public ReadOnlyReactiveProperty<string> DisplayText { get; private set; }
+    public ReactiveProperty<string> InputText { get; private set; } // two way
+    public ReadOnlyReactiveProperty<string> DisplayText { get; private set; } // one way
     public ReactiveCommand ReplaceTextCommand { get; private set; }
 
     public ReactivePropertyBasicsViewModel()
@@ -77,7 +80,7 @@ public class ReactivePropertyBasicsViewModel
         DisplayText = InputText
             .Select(s => s.ToUpper())       // rx query1
             .Delay(TimeSpan.FromSeconds(1)) // rx query2
-            .ToReadOnlyReactiveProperty();          // convert to ReactiveProperty
+            .ToReadOnlyReactiveProperty();  // convert to ReactiveProperty
 
         ReplaceTextCommand = InputText
             .Select(s => !string.IsNullOrEmpty(s))   // condition sequence of CanExecute

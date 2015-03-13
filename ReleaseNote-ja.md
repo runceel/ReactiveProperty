@@ -1,5 +1,13 @@
 # リリースノート
 
+## v2.1.6
+
+### 追加
+
+- ObservableCollection と ReadOnlyObservableCollection の要素のReactivePropertyの変更を監視する ObserveElementReactiveProperty 拡張メソッドを実装しました。
+- ObservableCollection と ReadOnlyObservableCollection の要素のPropertyChangedイベントを監視する ObserveElementPropertyChanged 拡張メソッドを実装しました。
+- 読み取り専用のReadOnlyReactiveProperty<T>を実装しました。IObservable<T>からToReadOnlyReactiveProperty拡張メソッドで生成できます。
+
 ## v2.1.5
 
 ### 追加
