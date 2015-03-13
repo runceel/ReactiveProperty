@@ -57,6 +57,33 @@ namespace Reactive.Bindings
         }
 
         /// <summary>
+        /// Data binding method.
+        /// </summary>
+        /// <typeparam name="TView">View type</typeparam>
+        /// <typeparam name="TProperty">Property type</typeparam>
+        /// <param name="self">View</param>
+        /// <param name="propertySelector">Target property selector</param>
+        /// <param name="source">Source property</param>
+        /// <returns>Data binding token</returns>
+        public static IDisposable SetBinding<TView, TProperty>(
+            this TView self,
+            Expression<Func<TView, TProperty>> propertySelector,
+            ReadOnlyReactiveProperty<TProperty> source)
+            where TView : View
+        {
+            var d = new CompositeDisposable();
+
+            bool isUpdating = false;
+            string propertyName;
+            var setter = AccessorCache<TView>.LookupSet(propertySelector, out propertyName);
+            source
+                .Where(_ => !isUpdating)
+                .Subscribe(x => setter(self, x))
+                .AddTo(d);
+            return d;
+        }
+
+        /// <summary>
         /// Command binding method.
         /// </summary>
         /// <typeparam name="T">Command type.</typeparam>

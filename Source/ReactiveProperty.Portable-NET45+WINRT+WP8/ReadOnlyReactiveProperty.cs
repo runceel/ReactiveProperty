@@ -16,11 +16,13 @@ namespace Reactive.Bindings
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private readonly IObservable<T> innerSource;
+        private readonly Subject<T> innerSource = new Subject<T>();
 
         private T latestValue;
 
         private readonly CompositeDisposable subscription = new CompositeDisposable();
+
+        private readonly bool isRaiseLatestValueOnSubscribe;
 
         internal ReadOnlyReactiveProperty(
             IObservable<T> source, 
@@ -28,26 +30,23 @@ namespace Reactive.Bindings
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe,
             IScheduler eventScheduler = null)
         {
-            var ox = source.Do(x => this.latestValue = x);
-            ox = mode.HasFlag(ReactivePropertyMode.DistinctUntilChanged)
-                ? ox.DistinctUntilChanged()
-                : ox;
-            var connectable = 
-                mode.HasFlag(ReactivePropertyMode.RaiseLatestValueOnSubscribe) 
-                ? ox.Publish(initialValue)
-                : ox.Publish();
-            connectable.ObserveOn(eventScheduler ?? UIDispatcherScheduler.Default)
+            var ox = mode.HasFlag(ReactivePropertyMode.DistinctUntilChanged)
+                ? source.DistinctUntilChanged()
+                : source;
+            ox.Subscribe(x => 
+                {
+                    this.latestValue = x;
+                    this.innerSource.OnNext(x);
+                })
+                .AddTo(this.subscription);
+            ox.ObserveOn(eventScheduler ?? UIDispatcherScheduler.Default)
                 .Subscribe(_ =>
                 {
                     var h = this.PropertyChanged;
                     if (h != null) { h(this, SingletonPropertyChangedEventArgs.Value); }
-                })
-                .AddTo(this.subscription);
-
-            this.innerSource = connectable;
-            this.innerSource.Subscribe(x => this.latestValue = x).AddTo(this.subscription);
-
-            connectable.Connect().AddTo(this.subscription);
+                });
+            this.latestValue = initialValue;
+            this.isRaiseLatestValueOnSubscribe = mode.HasFlag(ReactivePropertyMode.RaiseLatestValueOnSubscribe);
         }
 
         /// <summary>
@@ -60,13 +59,22 @@ namespace Reactive.Bindings
 
         public IDisposable Subscribe(IObserver<T> observer)
         {
-            return this.innerSource.Subscribe(observer);
+            if (this.subscription.IsDisposed)
+            {
+                observer.OnCompleted();
+                return Disposable.Empty;
+            }
+
+            var result = this.innerSource.Subscribe(observer);
+            if (this.isRaiseLatestValueOnSubscribe) { this.innerSource.OnNext(this.latestValue); }
+            return result;
         }
 
         public void Dispose()
         {
             if (!this.subscription.IsDisposed)
             {
+                this.innerSource.OnCompleted();
                 this.subscription.Dispose();
             }
         }

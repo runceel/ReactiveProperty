@@ -30,6 +30,83 @@ namespace ReactiveProperty.Tests
             rp.Value.Is("Hello");
             buffer.Count.Is(2);
             buffer.Is(default(string), "Hello");
+
+            s.OnNext("Hello");
+            rp.Value.Is("Hello");
+            buffer.Count.Is(2); // distinct until changed.
+        }
+
+        [TestMethod]
+        public void NormalPatternNoDistinctUntilChanged()
+        {
+            var s = new Subject<string>();
+
+            var rp = s.ToReadOnlyReactiveProperty(
+                mode: ReactivePropertyMode.RaiseLatestValueOnSubscribe,
+                eventScheduler: Scheduler.CurrentThread);
+            var buffer = new List<string>();
+            rp.Subscribe(buffer.Add);
+
+            rp.Value.IsNull();
+            buffer.Count.Is(1);
+            buffer[0].IsNull();
+
+            s.OnNext("Hello");
+            rp.Value.Is("Hello");
+            buffer.Count.Is(2);
+            buffer.Is(default(string), "Hello");
+
+            s.OnNext("Hello");
+            rp.Value.Is("Hello");
+            buffer.Count.Is(3); // not distinct until changed.
+        }
+
+        [TestMethod]
+        public void PropertyChangedTest()
+        {
+            var s = new Subject<string>();
+            var rp = s.ToReadOnlyReactiveProperty(eventScheduler: Scheduler.CurrentThread);
+            var buffer = new List<string>();
+            rp.PropertyChanged += (_, args) =>
+            {
+                buffer.Add(args.PropertyName);
+            };
+
+            buffer.Count.Is(0);
+
+            s.OnNext("Hello");
+            buffer.Count.Is(1);
+
+            s.OnNext("Hello");
+            buffer.Count.Is(1);
+
+            s.OnNext("World");
+            buffer.Count.Is(2);
+        }
+
+        [TestMethod]
+        public void PropertyChangedNoDistinctUntilChangedTest()
+        {
+            var s = new Subject<string>();
+            var rp = s.ToReadOnlyReactiveProperty(
+                mode: ReactivePropertyMode.RaiseLatestValueOnSubscribe,
+                eventScheduler: Scheduler.CurrentThread);
+            var buffer = new List<string>();
+            rp.PropertyChanged += (_, args) =>
+            {
+                buffer.Add(args.PropertyName);
+            };
+
+            buffer.Count.Is(0);
+
+            s.OnNext("Hello");
+            buffer.Count.Is(1);
+
+            s.OnNext("Hello");
+            buffer.Count.Is(2);
+
+            s.OnNext("World");
+            buffer.Count.Is(3);
         }
     }
 }
