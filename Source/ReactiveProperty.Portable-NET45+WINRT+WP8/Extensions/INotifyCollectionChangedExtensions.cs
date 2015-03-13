@@ -127,69 +127,19 @@ namespace Reactive.Bindings.Extensions
             if (propertyInfo == null)
                 throw new ArgumentException("propertySelector is not property expression");
 
-            return Observable.Create<PropertyPack<TElement, TProperty>>(observer =>
-            {
-                //--- cache element property subscriptions
-                var subscriptionCache = new Dictionary<TElement, IDisposable>();
-
-                //--- subscribe / unsubscribe property which all elements have
-                Action<IEnumerable<TElement>> subscribe = elements =>
+            return ObserveElementCore<TElement, PropertyPack<TElement, TProperty>>(
+                source,
+                source, 
+                (x, observer) =>
                 {
-                    foreach (var x in elements)
-                    {
-                        var subsctiption = x.ObserveProperty(propertySelector, isPushCurrentValueAtFirst)
-                                         .Subscribe(y =>
-                                         {
-                                             var pair = PropertyPack.Create(x, propertyInfo, y);
-                                             observer.OnNext(pair);
-                                         });
-                        subscriptionCache.Add(x, subsctiption);
-                    }
-                };
-                Action unsubscribeAll = () =>
-                {
-                    foreach (var x in subscriptionCache.Values)
-                        x.Dispose();
-                    subscriptionCache.Clear();
-                };
-                subscribe(source);
-
-                //--- hook collection changed
-                var disposable = source.CollectionChangedAsObservable().Subscribe(x =>
-                {
-                    if (x.Action == NotifyCollectionChangedAction.Remove
-                    ||  x.Action == NotifyCollectionChangedAction.Replace)
-                    {
-                        //--- unsubscribe
-                        var oldItems = x.OldItems.Cast<TElement>();
-                        foreach (var y in oldItems)
+                    return x.ObserveProperty(propertySelector, isPushCurrentValueAtFirst)
+                        .Subscribe(y =>
                         {
-                            subscriptionCache[y].Dispose();
-                            subscriptionCache.Remove(y);
-                        }
-                    }
-
-                    if (x.Action == NotifyCollectionChangedAction.Add
-                    ||  x.Action == NotifyCollectionChangedAction.Replace)
-                    {
-                        var newItems = x.NewItems.Cast<TElement>();
-                        subscribe(newItems);
-                    }
-
-                    if (x.Action == NotifyCollectionChangedAction.Reset)
-                    {
-                        unsubscribeAll();
-                        subscribe(source);
-                    }
+                            var pair = PropertyPack.Create(x, propertyInfo, y);
+                            observer.OnNext(pair);
+                        });
                 });
 
-                //--- unsubscribe
-                return Disposable.Create(() =>
-                {
-                    disposable.Dispose();
-                    unsubscribeAll();
-                });
-            });
         }
 
         /// <summary>
@@ -221,72 +171,19 @@ namespace Reactive.Bindings.Extensions
             var propertyName = default(string); // no use
             var getter = AccessorCache<TElement>.LookupGet(propertySelector, out propertyName);
 
-            return Observable.Create<PropertyPack<TElement, TProperty>>(observer =>
-            {
-                //--- cache element property subscriptions
-                var subscriptionCache = new Dictionary<TElement, IDisposable>();
-
-                //--- subscribe / unsubscribe property which all elements have
-                Action<IEnumerable<TElement>> subscribe = elements =>
+            return ObserveElementCore<TElement, PropertyPack<TElement, TProperty>>(
+                source,
+                source, 
+                (x, observer) =>
                 {
-                    foreach (var x in elements)
+                    var rp = getter(x);
+                    var ox = (IObservable<object>)rp;
+                    return ox.Subscribe(_ =>
                     {
-                        var rp = getter(x);
-                        var ox = (IObservable<object>)rp;
-                        var subsctiption = ox.Subscribe(_ =>
-                        {
-                            var pair = PropertyPack.Create(x, propertyInfo, rp);
-                            observer.OnNext(pair);
-                        });
-                        subscriptionCache.Add(x, subsctiption);
-                    }
-                };
-                Action unsubscribeAll = () =>
-                {
-                    foreach (var x in subscriptionCache.Values)
-                    {
-                        x.Dispose();
-                    }
-                    subscriptionCache.Clear();
-                };
-                subscribe(source);
-
-                //--- hook collection changed
-                var disposable = source.CollectionChangedAsObservable().Subscribe(x =>
-                {
-                    if (x.Action == NotifyCollectionChangedAction.Remove
-                    || x.Action == NotifyCollectionChangedAction.Replace)
-                    {
-                        //--- unsubscribe
-                        var oldItems = x.OldItems.Cast<TElement>();
-                        foreach (var y in oldItems)
-                        {
-                            subscriptionCache[y].Dispose();
-                            subscriptionCache.Remove(y);
-                        }
-                    }
-
-                    if (x.Action == NotifyCollectionChangedAction.Add
-                    || x.Action == NotifyCollectionChangedAction.Replace)
-                    {
-                        var newItems = x.NewItems.Cast<TElement>();
-                        subscribe(newItems);
-                    }
-
-                    if (x.Action == NotifyCollectionChangedAction.Reset)
-                    {
-                        unsubscribeAll();
-                        subscribe(source);
-                    }
+                        var pair = PropertyPack.Create(x, propertyInfo, rp);
+                        observer.OnNext(pair);
+                    });
                 });
-
-                //--- unsubscribe
-                return Disposable.Create(() =>
-                {
-                    disposable.Dispose();
-                    unsubscribeAll();
-                });
-            });
         }
 
         /// <summary>
@@ -304,7 +201,7 @@ namespace Reactive.Bindings.Extensions
             where TElement : class
             where TProperty : IReactiveProperty
         {
-            return INotifyCollectionChangedExtensions.ObserveElementReactiveProperty<ObservableCollection<TElement>, TElement, TProperty>(
+            return ObserveElementReactiveProperty<ObservableCollection<TElement>, TElement, TProperty>(
                 source,
                 propertySelector);
         }
@@ -319,11 +216,45 @@ namespace Reactive.Bindings.Extensions
         public static IObservable<SenderPropertyChangedPair<TElement>> ObserveElementPropertyChanged<TElement>(this INotifyCollectionChanged self)
             where TElement : class, INotifyPropertyChanged
         {
-            if (self == null) throw new ArgumentNullException("source");
+            if (self == null) throw new ArgumentNullException("self");
             var source = self as IEnumerable<TElement>;
             if (source == null) { throw new ArgumentException("self must implements IEnumerable<TElement>."); }
 
-            return Observable.Create<SenderPropertyChangedPair<TElement>>(observer =>
+            return ObserveElementCore<TElement, SenderPropertyChangedPair<TElement>>(
+                self,
+                source,
+                (x, observer) =>
+                {
+                    return x.PropertyChangedAsObservable()
+                        .Subscribe(y =>
+                        {
+                            var pair = new SenderPropertyChangedPair<TElement>(x, y);
+                            observer.OnNext(pair);
+                        });
+                });
+        }
+
+        /// <summary>
+        ///  Observe collection element's PropertyChanged event.
+        /// </summary>
+        /// <typeparam name="TElement">Type of Element</typeparam>
+        /// <param name="source">source collection</param>
+        /// <returns>PropertyChanged event stream.</returns>
+        public static IObservable<SenderPropertyChangedPair<TElement>> ObserveElementPropertyChanged<TElement>(this ObservableCollection<TElement> self)
+            where TElement : class, INotifyPropertyChanged
+        {
+            return ((INotifyCollectionChanged)self).ObserveElementPropertyChanged<TElement>();
+        }
+
+        private static IObservable<TObserver> ObserveElementCore<TElement, TObserver>(
+            INotifyCollectionChanged collectionChanged,
+            IEnumerable<TElement> source, 
+            Func<TElement, IObserver<TObserver>, IDisposable> subscribeAction)
+            where TElement : class
+        {
+            if (source == null) throw new ArgumentNullException("source");
+
+            return Observable.Create<TObserver>(observer =>
             {
                 //--- cache element property subscriptions
                 var subscriptionCache = new Dictionary<object, IDisposable>();
@@ -333,12 +264,7 @@ namespace Reactive.Bindings.Extensions
                 {
                     foreach (var x in elements)
                     {
-                        var subsctiption = x.PropertyChangedAsObservable()
-                            .Subscribe(y =>
-                            {
-                                var pair = new SenderPropertyChangedPair<TElement>(x, y);
-                                observer.OnNext(pair);
-                            });
+                        var subsctiption = subscribeAction(x, observer);
                         subscriptionCache.Add(x, subsctiption);
                     }
                 };
@@ -351,7 +277,7 @@ namespace Reactive.Bindings.Extensions
                 subscribe(source);
 
                 //--- hook collection changed
-                var disposable = self.CollectionChangedAsObservable().Subscribe(x =>
+                var disposable = collectionChanged.CollectionChangedAsObservable().Subscribe(x =>
                 {
                     if (x.Action == NotifyCollectionChangedAction.Remove
                     || x.Action == NotifyCollectionChangedAction.Replace)
@@ -387,19 +313,6 @@ namespace Reactive.Bindings.Extensions
                 });
             });
         }
-
-        /// <summary>
-        ///  Observe collection element's PropertyChanged event.
-        /// </summary>
-        /// <typeparam name="TElement">Type of Element</typeparam>
-        /// <param name="source">source collection</param>
-        /// <returns>PropertyChanged event stream.</returns>
-        public static IObservable<SenderPropertyChangedPair<TElement>> ObserveElementPropertyChanged<TElement>(this ObservableCollection<TElement> self)
-            where TElement : class, INotifyPropertyChanged
-        {
-            return ((INotifyCollectionChanged)self).ObserveElementPropertyChanged<TElement>();
-        }
-
 
     }
 }
