@@ -67,7 +67,7 @@ namespace Reactive.Bindings
             }
 
             var result = this.innerSource.Subscribe(observer);
-            if (this.isRaiseLatestValueOnSubscribe) { this.innerSource.OnNext(this.latestValue); }
+            if (this.isRaiseLatestValueOnSubscribe) { observer.OnNext(this.latestValue); }
             return result;
         }
 
