@@ -76,7 +76,35 @@ namespace Reactive.Bindings.Extensions
         public static IObservable<PropertyPack<TElement, TProperty>> ObserveElementProperty<TElement, TProperty>(this ObservableCollection<TElement> source, Expression<Func<TElement, TProperty>> propertySelector, bool isPushCurrentValueAtFirst = true)
             where TElement : class, INotifyPropertyChanged
         {
-            return INotifyCollectionChangedExtensions.ObserveElementProperty<ObservableCollection<TElement>, TElement, TProperty>(source, propertySelector, isPushCurrentValueAtFirst);
+            return INotifyCollectionChangedExtensions.ObserveElementProperty(source, propertySelector, isPushCurrentValueAtFirst);
+        }
+
+        /// <summary>
+        /// Observe collection element's ReactiveProperty.
+        /// </summary>
+        /// <typeparam name="TCollection">Collection type</typeparam>
+        /// <typeparam name="TElement">Collection element type</typeparam>
+        /// <typeparam name="TProperty">Property type</typeparam>
+        /// <param name="source">Source collection</param>
+        /// <param name="propertySelector">ReactiveProperty selection expression</param>
+        /// <returns>ReactiveProperty sequence</returns>
+        public static IObservable<PropertyPack<TElement, TProperty>> ObserveElementReactiveProperty<TElement, TProperty>(this ObservableCollection<TElement> source, Expression<Func<TElement, TProperty>> propertySelector)
+            where TElement : class
+            where TProperty : IReactiveProperty
+        {
+            return INotifyCollectionChangedExtensions.ObserveElementReactiveProperty(source, propertySelector);
+        }
+
+        /// <summary>
+        ///  Observe collection element's PropertyChanged event.
+        /// </summary>
+        /// <typeparam name="TElement">Type of Element</typeparam>
+        /// <param name="source">source collection</param>
+        /// <returns>PropertyChanged event stream.</returns>
+        public static IObservable<SenderEventArgsPair<TElement, PropertyChangedEventArgs>> ObserveElementPropertyChanged<TElement>(this ObservableCollection<TElement> source)
+            where TElement : class, INotifyPropertyChanged
+        {
+            return INotifyCollectionChangedExtensions.ObserveElementPropertyChanged<ObservableCollection<TElement>, TElement>(source);
         }
         #endregion
 
@@ -160,39 +188,11 @@ namespace Reactive.Bindings.Extensions
         /// <param name="source">Source collection</param>
         /// <param name="propertySelector">ReactiveProperty selection expression</param>
         /// <returns>ReactiveProperty sequence</returns>
-        public static IObservable<PropertyPack<TElement, TProperty>> ObserveElementReactiveProperty<TElement, TProperty>(this ObservableCollection<TElement> source, Expression<Func<TElement, TProperty>> propertySelector)
-            where TElement : class
-            where TProperty : IReactiveProperty
-        {
-            return INotifyCollectionChangedExtensions.ObserveElementReactiveProperty(source, propertySelector);
-        }
-
-        /// <summary>
-        /// Observe collection element's ReactiveProperty.
-        /// </summary>
-        /// <typeparam name="TCollection">Collection type</typeparam>
-        /// <typeparam name="TElement">Collection element type</typeparam>
-        /// <typeparam name="TProperty">Property type</typeparam>
-        /// <param name="source">Source collection</param>
-        /// <param name="propertySelector">ReactiveProperty selection expression</param>
-        /// <returns>ReactiveProperty sequence</returns>
         public static IObservable<PropertyPack<TElement, TProperty>> ObserveElementReactiveProperty<TElement, TProperty>(this ReadOnlyObservableCollection<TElement> source, Expression<Func<TElement, TProperty>> propertySelector)
             where TElement : class
             where TProperty : IReactiveProperty
         {
             return INotifyCollectionChangedExtensions.ObserveElementReactiveProperty(source, propertySelector);
-        }
-
-        /// <summary>
-        ///  Observe collection element's PropertyChanged event.
-        /// </summary>
-        /// <typeparam name="TElement">Type of Element</typeparam>
-        /// <param name="source">source collection</param>
-        /// <returns>PropertyChanged event stream.</returns>
-        public static IObservable<SenderEventArgsPair<TElement, PropertyChangedEventArgs>> ObserveElementPropertyChanged<TElement>(this ObservableCollection<TElement> source)
-            where TElement : class, INotifyPropertyChanged
-        {
-            return INotifyCollectionChangedExtensions.ObserveElementPropertyChanged<ObservableCollection<TElement>, TElement>(source);
         }
 
         /// <summary>
