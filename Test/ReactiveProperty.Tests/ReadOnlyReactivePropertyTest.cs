@@ -37,6 +37,31 @@ namespace ReactiveProperty.Tests
         }
 
         [TestMethod]
+        public void MultiSubscribeTest()
+        {
+            var s = new Subject<string>();
+
+            var rp = s.ToReadOnlyReactiveProperty();
+            var buffer1 = new List<string>();
+            rp.Subscribe(buffer1.Add);
+
+
+            buffer1.Count.Is(1);
+            s.OnNext("Hello world");
+            buffer1.Count.Is(2);
+            buffer1.Is(default(string), "Hello world");
+
+            var buffer2 = new List<string>();
+            rp.Subscribe(buffer2.Add);
+            buffer1.Is(default(string), "Hello world");
+            buffer2.Is("Hello world");
+
+            s.OnNext("ReactiveProperty");
+            buffer1.Is(default(string), "Hello world", "ReactiveProperty");
+            buffer2.Is("Hello world", "ReactiveProperty");
+        }
+
+        [TestMethod]
         public void NormalPatternNoDistinctUntilChanged()
         {
             var s = new Subject<string>();
