@@ -1,36 +1,58 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Reactive.Bindings.Extensions
+﻿namespace Reactive.Bindings.Extensions
 {
     /// <summary>
-    /// Pair of PropertyChanged event sender and EventArgs.
+    /// Represents event sender and argument pair.
     /// </summary>
-    /// <typeparam name="TElement">Sender type</typeparam>
+    /// <typeparam name="TElement">Type of event sender</typeparam>
+    /// <typeparam name="TEventArgs">Type of event arguments</typeparam>
     public class SenderEventArgsPair<TSender, TEventArgs>
     {
+        #region Properies
         /// <summary>
-        /// Sender of PropertyChanged event.
+        /// Gets event sender.
         /// </summary>
         public TSender Sender { get; private set; }
-        /// <summary>
-        /// PropertyChanged event arguments.
-        /// </summary>
-        public TEventArgs Args { get; private set; }
+
 
         /// <summary>
-        /// constructor
+        /// Gets event argument.
+        /// </summary>
+        public TEventArgs EventArgs { get; private set; }
+        #endregion
+
+
+        #region Constructors
+        /// <summary>
+        /// Create instance.
         /// </summary>
         /// <param name="sender">sender value</param>
-        /// <param name="args">event arguments</param>
-        public SenderEventArgsPair(TSender sender, TEventArgs args)
+        /// <param name="eventArgs">event arguments</param>
+        internal SenderEventArgsPair(TSender sender, TEventArgs eventArgs)
         {
             this.Sender = sender;
-            this.Args = args;
+            this.EventArgs = eventArgs;
+        }
+        #endregion
+    }
+
+
+
+    /// <summary>
+    /// Provides SenderEventArgsPair static members.
+    /// </summary>
+    internal static class SenderEventArgsPair
+    {
+        /// <summary>
+        /// Create instance.
+        /// </summary>
+        /// <typeparam name="TElement">Type of event sender</typeparam>
+        /// <typeparam name="TEventArgs">Type of event arguments</typeparam>
+        /// <param name="sender">sender value</param>
+        /// <param name="eventArgs">event arguments</param>
+        /// <returns>Created instance.</returns>
+        public static SenderEventArgsPair<TSender, TEventArgs> Create<TSender, TEventArgs>(TSender sender, TEventArgs eventArgs)
+        {
+            return new SenderEventArgsPair<TSender, TEventArgs>(sender, eventArgs);
         }
     }
 }

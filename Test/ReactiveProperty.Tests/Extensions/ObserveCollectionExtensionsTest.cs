@@ -462,18 +462,18 @@ namespace ReactiveProperty.Tests.Extensions
 
             source[0].Name = "okazuki";
             buffer.Count.Is(1);
-            buffer[0].Is(x => x.Sender.Name == "okazuki" && x.Args.PropertyName == "Name");
+            buffer[0].Is(x => x.Sender.Name == "okazuki" && x.EventArgs.PropertyName == "Name");
 
             source[1].Name = "xin9le";
             buffer.Count.Is(2);
-            buffer[1].Is(x => x.Sender.Name == "xin9le" && x.Args.PropertyName == "Name");
+            buffer[1].Is(x => x.Sender.Name == "xin9le" && x.EventArgs.PropertyName == "Name");
 
             source.Add(new Person { Name = "neuecc" });
             buffer.Count.Is(2);
 
             source[2].Age = 30;
             buffer.Count.Is(3);
-            buffer[2].Is(x => x.Sender.Name == "neuecc" && x.Sender.Age == 30 && x.Args.PropertyName == "Age");
+            buffer[2].Is(x => x.Sender.Name == "neuecc" && x.Sender.Age == 30 && x.EventArgs.PropertyName == "Age");
 
             subscription.Dispose();
 

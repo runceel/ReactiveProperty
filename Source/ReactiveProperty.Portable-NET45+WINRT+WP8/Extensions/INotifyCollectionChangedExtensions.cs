@@ -9,6 +9,9 @@ using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reflection;
+using This = Reactive.Bindings.Extensions.INotifyCollectionChangedExtensions;
+
+
 
 namespace Reactive.Bindings.Extensions
 {
@@ -115,7 +118,7 @@ namespace Reactive.Bindings.Extensions
         /// <param name="propertySelector">Property selection expression</param>
         /// <param name="isPushCurrentValueAtFirst">Push current value on first subscribe</param>
         /// <returns>Property value sequence</returns>
-        public static IObservable<PropertyPack<TElement, TProperty>> ObserveElementProperty<TCollection, TElement, TProperty>(this TCollection source, Expression<Func<TElement, TProperty>> propertySelector, bool isPushCurrentValueAtFirst = true)
+        internal static IObservable<PropertyPack<TElement, TProperty>> ObserveElementProperty<TCollection, TElement, TProperty>(this TCollection source, Expression<Func<TElement, TProperty>> propertySelector, bool isPushCurrentValueAtFirst = true)
             where TCollection : INotifyCollectionChanged, IEnumerable<TElement>
             where TElement : class, INotifyPropertyChanged
         {
@@ -127,52 +130,44 @@ namespace Reactive.Bindings.Extensions
             if (propertyInfo == null)
                 throw new ArgumentException("propertySelector is not property expression");
 
-            return ObserveElementCore<TElement, PropertyPack<TElement, TProperty>>(
-                source,
+            return This.ObserveElementCore<TCollection, TElement, PropertyPack<TElement, TProperty>>
+            (
                 source, 
-                (x, observer) =>
+                (x, observer) => x.ObserveProperty(propertySelector, isPushCurrentValueAtFirst).Subscribe(y =>
                 {
-                    return x.ObserveProperty(propertySelector, isPushCurrentValueAtFirst)
-                        .Subscribe(y =>
-                        {
-                            var pair = PropertyPack.Create(x, propertyInfo, y);
-                            observer.OnNext(pair);
-                        });
-                });
-
+                    var pair = PropertyPack.Create(x, propertyInfo, y);
+                    observer.OnNext(pair);
+                })
+            );
         }
 
         /// <summary>
         /// Observe collection element's ReactiveProperty.
         /// </summary>
-        /// <typeparam name="TCollection">Collection type</typeparam>
-        /// <typeparam name="TElement">Collection element type</typeparam>
-        /// <typeparam name="TProperty">Property type</typeparam>
+        /// <typeparam name="TCollection">Type of collection</typeparam>
+        /// <typeparam name="TElement">Type of collection element</typeparam>
+        /// <typeparam name="TProperty">Type of property</typeparam>
         /// <param name="source">Source collection</param>
         /// <param name="propertySelector">ReactiveProperty selection expression</param>
         /// <returns>ReactiveProperty sequence</returns>
-        public static IObservable<PropertyPack<TElement, TProperty>> ObserveElementReactiveProperty<TCollection, TElement, TProperty>(
-            this TCollection source, 
-            Expression<Func<TElement, TProperty>> propertySelector)
+        internal static IObservable<PropertyPack<TElement, TProperty>> ObserveElementReactiveProperty<TCollection, TElement, TProperty>(this TCollection source, Expression<Func<TElement, TProperty>> propertySelector)
             where TCollection : INotifyCollectionChanged, IEnumerable<TElement>
             where TElement : class
             where TProperty : IReactiveProperty
         {
-            if (source == null) throw new ArgumentNullException("source");
+            if (source == null)           throw new ArgumentNullException("source");
             if (propertySelector == null) throw new ArgumentNullException("propertySelector");
 
             var memberExpression = (MemberExpression)propertySelector.Body;
             var propertyInfo = memberExpression.Member as PropertyInfo;
             if (propertyInfo == null)
-            {
                 throw new ArgumentException("propertySelector is not property expression");
-            }
 
             var propertyName = default(string); // no use
             var getter = AccessorCache<TElement>.LookupGet(propertySelector, out propertyName);
 
-            return ObserveElementCore<TElement, PropertyPack<TElement, TProperty>>(
-                source,
+            return This.ObserveElementCore<TCollection, TElement, PropertyPack<TElement, TProperty>>
+            (
                 source, 
                 (x, observer) =>
                 {
@@ -183,87 +178,48 @@ namespace Reactive.Bindings.Extensions
                         var pair = PropertyPack.Create(x, propertyInfo, rp);
                         observer.OnNext(pair);
                     });
-                });
+                }
+            );
         }
-
-        /// <summary>
-        /// Observe collection element's ReactiveProperty.
-        /// </summary>
-        /// <typeparam name="TCollection">Collection type</typeparam>
-        /// <typeparam name="TElement">Collection element type</typeparam>
-        /// <typeparam name="TProperty">Property type</typeparam>
-        /// <param name="source">Source collection</param>
-        /// <param name="propertySelector">ReactiveProperty selection expression</param>
-        /// <returns>ReactiveProperty sequence</returns>
-        public static IObservable<PropertyPack<TElement, TProperty>> ObserveElementReactiveProperty<TElement, TProperty>(
-            this ObservableCollection<TElement> source,
-            Expression<Func<TElement, TProperty>> propertySelector)
-            where TElement : class
-            where TProperty : IReactiveProperty
-        {
-            return ObserveElementReactiveProperty<ObservableCollection<TElement>, TElement, TProperty>(
-                source,
-                propertySelector);
-        }
-
 
         /// <summary>
         ///  Observe collection element's PropertyChanged event.
         /// </summary>
-        /// <typeparam name="TElement">Type of Element</typeparam>
+        /// <typeparam name="TCollection">Type of collection</typeparam>
+        /// <typeparam name="TElement">Type of element</typeparam>
         /// <param name="self">source collection</param>
         /// <returns>PropertyChanged event stream.</returns>
-        public static IObservable<SenderEventArgsPair<TElement, PropertyChangedEventArgs>> ObserveElementPropertyChanged<TElement>(this INotifyCollectionChanged self)
+        internal static IObservable<SenderEventArgsPair<TElement, PropertyChangedEventArgs>> ObserveElementPropertyChanged<TCollection, TElement>(this TCollection source)
+            where TCollection : INotifyCollectionChanged, IEnumerable<TElement>
             where TElement : class, INotifyPropertyChanged
         {
-            if (self == null) throw new ArgumentNullException("self");
-            var source = self as IEnumerable<TElement>;
-            if (source == null) { throw new ArgumentException("self must implements IEnumerable<TElement>."); }
+            if (source == null)
+                throw new ArgumentNullException("source");
 
-            return ObserveElementCore<TElement, SenderEventArgsPair<TElement, PropertyChangedEventArgs>>(
-                self,
+            return This.ObserveElementCore<TCollection, TElement, SenderEventArgsPair<TElement, PropertyChangedEventArgs>>
+            (
                 source,
-                (x, observer) =>
+                (x, observer) => x.PropertyChangedAsObservable().Subscribe(y =>
                 {
-                    return x.PropertyChangedAsObservable()
-                        .Subscribe(y =>
-                        {
-                            var pair = new SenderEventArgsPair<TElement, PropertyChangedEventArgs>(x, y);
-                            observer.OnNext(pair);
-                        });
-                });
-        }
-
-        /// <summary>
-        ///  Observe collection element's PropertyChanged event.
-        /// </summary>
-        /// <typeparam name="TElement">Type of Element</typeparam>
-        /// <param name="source">source collection</param>
-        /// <returns>PropertyChanged event stream.</returns>
-        public static IObservable<SenderEventArgsPair<TElement, PropertyChangedEventArgs>> ObserveElementPropertyChanged<TElement>(this ObservableCollection<TElement> self)
-            where TElement : class, INotifyPropertyChanged
-        {
-            return ((INotifyCollectionChanged)self).ObserveElementPropertyChanged<TElement>();
+                    var pair = SenderEventArgsPair.Create(x, y);
+                    observer.OnNext(pair);
+                })
+            );
         }
 
         /// <summary>
         /// Core logic of ObserveElementXXXXX methods.
         /// </summary>
         /// <typeparam name="TElement">Type of element.</typeparam>
-        /// <typeparam name="TObserver">Type of Observer.</typeparam>
-        /// <param name="collectionChanged">Source of collection changed.</param>
+        /// <typeparam name="TObserver">Type of observer.</typeparam>
         /// <param name="source">source collection</param>
         /// <param name="subscribeAction">element subscribe logic.</param>
         /// <returns></returns>
-        private static IObservable<TObserver> ObserveElementCore<TElement, TObserver>(
-            INotifyCollectionChanged collectionChanged,
-            IEnumerable<TElement> source, 
-            Func<TElement, IObserver<TObserver>, IDisposable> subscribeAction)
+        private static IObservable<TResult> ObserveElementCore<TCollection, TElement, TResult>(TCollection source, Func<TElement, IObserver<TResult>, IDisposable> subscribeAction)
+            where TCollection : INotifyCollectionChanged, IEnumerable<TElement>
             where TElement : class
         {
-            if (source == null) throw new ArgumentNullException("source");
-
-            return Observable.Create<TObserver>(observer =>
+            return Observable.Create<TResult>(observer =>
             {
                 //--- cache element property subscriptions
                 var subscriptionCache = new Dictionary<object, IDisposable>();
@@ -286,7 +242,7 @@ namespace Reactive.Bindings.Extensions
                 subscribe(source);
 
                 //--- hook collection changed
-                var disposable = collectionChanged.CollectionChangedAsObservable().Subscribe(x =>
+                var disposable = source.CollectionChangedAsObservable().Subscribe(x =>
                 {
                     if (x.Action == NotifyCollectionChangedAction.Remove
                     || x.Action == NotifyCollectionChangedAction.Replace)
@@ -322,6 +278,5 @@ namespace Reactive.Bindings.Extensions
                 });
             });
         }
-
     }
 }
