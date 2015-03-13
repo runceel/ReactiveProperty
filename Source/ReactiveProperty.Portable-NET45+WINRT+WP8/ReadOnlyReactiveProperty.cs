@@ -16,11 +16,11 @@ namespace Reactive.Bindings
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private Subject<T> source;
+        private readonly IObservable<T> innerSource;
 
         private T latestValue;
 
-        private CompositeDisposable subscription = new CompositeDisposable();
+        private readonly CompositeDisposable subscription = new CompositeDisposable();
 
         internal ReadOnlyReactiveProperty(
             IObservable<T> source, 
@@ -28,24 +28,24 @@ namespace Reactive.Bindings
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe,
             IScheduler eventScheduler = null)
         {
+            var ox = source.Do(x => this.latestValue = x);
+            ox = mode.HasFlag(ReactivePropertyMode.DistinctUntilChanged)
+                ? ox.DistinctUntilChanged()
+                : ox;
             var connectable = 
                 mode.HasFlag(ReactivePropertyMode.RaiseLatestValueOnSubscribe) 
-                ? source.Publish(initialValue)
-                : source.Publish();
-
-            var ox = mode.HasFlag(ReactivePropertyMode.DistinctUntilChanged)
-                ? connectable.DistinctUntilChanged()
-                : connectable;
-
-            ox.Subscribe(x => this.latestValue = x);
-
-            ox.ObserveOn(eventScheduler ?? UIDispatcherScheduler.Default)
+                ? ox.Publish(initialValue)
+                : ox.Publish();
+            connectable.ObserveOn(eventScheduler ?? UIDispatcherScheduler.Default)
                 .Subscribe(_ =>
                 {
                     var h = this.PropertyChanged;
                     if (h != null) { h(this, SingletonPropertyChangedEventArgs.Value); }
                 })
                 .AddTo(this.subscription);
+
+            this.innerSource = connectable;
+            this.innerSource.Subscribe(x => this.latestValue = x).AddTo(this.subscription);
 
             connectable.Connect().AddTo(this.subscription);
         }
@@ -60,7 +60,7 @@ namespace Reactive.Bindings
 
         public IDisposable Subscribe(IObserver<T> observer)
         {
-            return this.source.Subscribe(observer);
+            return this.innerSource.Subscribe(observer);
         }
 
         public void Dispose()

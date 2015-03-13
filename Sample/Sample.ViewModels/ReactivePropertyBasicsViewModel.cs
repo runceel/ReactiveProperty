@@ -11,7 +11,7 @@ namespace Sample.ViewModels
     public class ReactivePropertyBasicsViewModel
     {
         public ReactiveProperty<string> InputText { get; private set; }
-        public ReactiveProperty<string> DisplayText { get; private set; }
+        public ReadOnlyReactiveProperty<string> DisplayText { get; private set; }
         public ReactiveCommand ReplaceTextCommand { get; private set; }
 
         public ReactivePropertyBasicsViewModel()
@@ -31,7 +31,7 @@ namespace Sample.ViewModels
                 .ObserveOn(TaskPoolScheduler.Default)
                 .Delay(TimeSpan.FromSeconds(1)) // rx query2
                 .ObserveOnUIDispatcher()
-                .ToReactiveProperty();          // convert to ReactiveProperty
+                .ToReadOnlyReactiveProperty();          // convert to ReactiveProperty
 
             ReplaceTextCommand = InputText
                 .Select(s => !string.IsNullOrEmpty(s))   // condition sequence of CanExecute
