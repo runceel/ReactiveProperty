@@ -44,7 +44,8 @@ namespace Reactive.Bindings
                 {
                     var h = this.PropertyChanged;
                     if (h != null) { h(this, SingletonPropertyChangedEventArgs.Value); }
-                });
+                })
+                .AddTo(this.subscription);
             this.latestValue = initialValue;
             this.isRaiseLatestValueOnSubscribe = mode.HasFlag(ReactivePropertyMode.RaiseLatestValueOnSubscribe);
         }
