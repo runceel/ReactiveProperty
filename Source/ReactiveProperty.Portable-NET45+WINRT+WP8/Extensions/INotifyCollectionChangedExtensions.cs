@@ -213,14 +213,14 @@ namespace Reactive.Bindings.Extensions
         /// <typeparam name="TElement">Type of Element</typeparam>
         /// <param name="self">source collection</param>
         /// <returns>PropertyChanged event stream.</returns>
-        public static IObservable<SenderPropertyChangedPair<TElement>> ObserveElementPropertyChanged<TElement>(this INotifyCollectionChanged self)
+        public static IObservable<SenderEventArgsPair<TElement, PropertyChangedEventArgs>> ObserveElementPropertyChanged<TElement>(this INotifyCollectionChanged self)
             where TElement : class, INotifyPropertyChanged
         {
             if (self == null) throw new ArgumentNullException("self");
             var source = self as IEnumerable<TElement>;
             if (source == null) { throw new ArgumentException("self must implements IEnumerable<TElement>."); }
 
-            return ObserveElementCore<TElement, SenderPropertyChangedPair<TElement>>(
+            return ObserveElementCore<TElement, SenderEventArgsPair<TElement, PropertyChangedEventArgs>>(
                 self,
                 source,
                 (x, observer) =>
@@ -228,7 +228,7 @@ namespace Reactive.Bindings.Extensions
                     return x.PropertyChangedAsObservable()
                         .Subscribe(y =>
                         {
-                            var pair = new SenderPropertyChangedPair<TElement>(x, y);
+                            var pair = new SenderEventArgsPair<TElement, PropertyChangedEventArgs>(x, y);
                             observer.OnNext(pair);
                         });
                 });
@@ -240,7 +240,7 @@ namespace Reactive.Bindings.Extensions
         /// <typeparam name="TElement">Type of Element</typeparam>
         /// <param name="source">source collection</param>
         /// <returns>PropertyChanged event stream.</returns>
-        public static IObservable<SenderPropertyChangedPair<TElement>> ObserveElementPropertyChanged<TElement>(this ObservableCollection<TElement> self)
+        public static IObservable<SenderEventArgsPair<TElement, PropertyChangedEventArgs>> ObserveElementPropertyChanged<TElement>(this ObservableCollection<TElement> self)
             where TElement : class, INotifyPropertyChanged
         {
             return ((INotifyCollectionChanged)self).ObserveElementPropertyChanged<TElement>();

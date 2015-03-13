@@ -11,23 +11,23 @@ namespace Reactive.Bindings.Extensions
     /// Pair of PropertyChanged event sender and EventArgs.
     /// </summary>
     /// <typeparam name="TElement">Sender type</typeparam>
-    public class SenderPropertyChangedPair<T>
+    public class SenderEventArgsPair<TSender, TEventArgs>
     {
         /// <summary>
         /// Sender of PropertyChanged event.
         /// </summary>
-        public T Sender { get; private set; }
+        public TSender Sender { get; private set; }
         /// <summary>
         /// PropertyChanged event arguments.
         /// </summary>
-        public PropertyChangedEventArgs Args { get; private set; }
+        public TEventArgs Args { get; private set; }
 
         /// <summary>
         /// constructor
         /// </summary>
         /// <param name="sender">sender value</param>
         /// <param name="args">event arguments</param>
-        public SenderPropertyChangedPair(T sender, PropertyChangedEventArgs args)
+        public SenderEventArgsPair(TSender sender, TEventArgs args)
         {
             this.Sender = sender;
             this.Args = args;

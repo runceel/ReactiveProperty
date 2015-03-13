@@ -55,7 +55,7 @@
     <Compile Include="Extensions\OldNewPair.cs" />
     <Compile Include="Extensions\PairwiseObservableExtensions.cs" />
     <Compile Include="Extensions\RetryObservableExtensions.cs" />
-    <Compile Include="Extensions\SenderPropertyChangedPair.cs" />
+    <Compile Include="Extensions\SenderEventArgsPair.cs" />
     <Compile Include="Extensions\ToUnitObservableExtensions.cs" />
     <Compile Include="Extensions\UIDispatcherSchedulerObservableExtensions.cs" />
     <Compile Include="Helpers\SerializeHelper.cs" />

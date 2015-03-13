@@ -453,7 +453,7 @@ namespace ReactiveProperty.Tests.Extensions
                 new Person { Name = "tanaka" },
                 new Person { Name = "kimuta" }
             });
-            var buffer = new List<SenderPropertyChangedPair<Person>>();
+            var buffer = new List<SenderEventArgsPair<Person, PropertyChangedEventArgs>>();
 
             var subscription = source.ObserveElementPropertyChanged()
                 .Subscribe(buffer.Add);
