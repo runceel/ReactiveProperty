@@ -30,6 +30,7 @@ namespace Reactive.Bindings
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe,
             IScheduler eventScheduler = null)
         {
+            this.latestValue = initialValue;
             var ox = mode.HasFlag(ReactivePropertyMode.DistinctUntilChanged)
                 ? source.DistinctUntilChanged()
                 : source;
@@ -46,7 +47,6 @@ namespace Reactive.Bindings
                     if (h != null) { h(this, SingletonPropertyChangedEventArgs.Value); }
                 })
                 .AddTo(this.subscription);
-            this.latestValue = initialValue;
             this.isRaiseLatestValueOnSubscribe = mode.HasFlag(ReactivePropertyMode.RaiseLatestValueOnSubscribe);
         }
 
