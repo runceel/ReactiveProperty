@@ -1,5 +1,11 @@
 # Release note
 
+## v2.1.7
+
+### Bug fix
+
+- Fixed bug. ReadOnlyReactiveProperty<T> did not use the value to be issued as the initial value from BehaviorSubject<T> when made BehaviorSubject<T> to the source.
+
 ## v2.1.6
 
 - Implemented ObserveElementReactiveProperty extension method, to observe ReactiveProeprty which ObservableCollection and ReadOnlyObservableCollection elements have changing.

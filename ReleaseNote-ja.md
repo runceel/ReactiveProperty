@@ -1,5 +1,11 @@
 # リリースノート
 
+## v2.1.7
+
+### バグフィックス
+
+- ReadOnlyReactiveProperty が BehaviorSubject<T> をソースに作った時に BehaviorSubject<T> から最初に発行される値を初期値として使っていなかった不具合を修正しました。
+
 ## v2.1.6
 
 ### 追加
