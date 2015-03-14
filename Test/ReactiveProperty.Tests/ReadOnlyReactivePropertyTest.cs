@@ -133,5 +133,13 @@ namespace ReactiveProperty.Tests
             s.OnNext("World");
             buffer.Count.Is(3);
         }
+
+        [TestMethod]
+        public void BehaviorSubjectTest()
+        {
+            var s = new BehaviorSubject<string>("initial value");
+            var rp = s.ToReadOnlyReactiveProperty();
+            rp.Value.Is("initial value");
+        }
     }
 }
