@@ -29,6 +29,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Snippet", "Snippet", "{9F7E
 		Snippet\ReactiveCommandGeneric.snippet = Snippet\ReactiveCommandGeneric.snippet
 		Snippet\ReactiveProperty.snippet = Snippet\ReactiveProperty.snippet
 		Snippet\ReadOnlyReactiveCollection.snippet = Snippet\ReadOnlyReactiveCollection.snippet
+		Snippet\ReadOnlyReactiveProperty.snippet = Snippet\ReadOnlyReactiveProperty.snippet
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{A9542547-5556-442E-ACCB-6DB437E5E25C}"
@@ -435,8 +436,8 @@ Global
 		{73FB08B3-EBF3-4384-A1FB-4442BD999477} = {6356D836-36AA-4CD9-8EB2-BF037115D329}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		BuildVersion_UseGlobalSettings = True
 		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
+		BuildVersion_UseGlobalSettings = True
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = ReactiveProperty.vsmdi
