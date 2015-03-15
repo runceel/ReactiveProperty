@@ -58,6 +58,7 @@
     <Compile Include="Extensions\SenderEventArgsPair.cs" />
     <Compile Include="Extensions\ToUnitObservableExtensions.cs" />
     <Compile Include="Extensions\UIDispatcherSchedulerObservableExtensions.cs" />
+    <Compile Include="Helpers\FilteredReadOnlyObservableCollection.cs" />
     <Compile Include="Helpers\SerializeHelper.cs" />
     <Compile Include="Interactivity\DelegateConverter.cs" />
     <Compile Include="Interactivity\IEventToReactiveConverter.cs" />

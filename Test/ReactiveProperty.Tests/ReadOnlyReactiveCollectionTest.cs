@@ -44,7 +44,7 @@ namespace ReactiveProperty.Tests
 
             target.Is(10, 2);
 
-            s.OnNext(CollectionChanged<int>.Remove(0));
+            s.OnNext(CollectionChanged<int>.Remove(0, 0));
             target.Is(2);
             s.OnNext(CollectionChanged<int>.Add(1, 3));
             target.Is(2, 3);

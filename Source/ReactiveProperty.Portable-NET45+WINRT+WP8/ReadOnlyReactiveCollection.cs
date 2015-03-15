@@ -150,12 +150,13 @@ namespace Reactive.Bindings
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        public static CollectionChanged<T> Remove(int index) 
+        public static CollectionChanged<T> Remove(int index, T value) 
         {
             return new CollectionChanged<T> 
             { 
                 Index = index, 
-                Action = NotifyCollectionChangedAction.Remove 
+                Action = NotifyCollectionChangedAction.Remove ,
+                Value = value,
             };
         }
 
@@ -286,7 +287,7 @@ namespace Reactive.Bindings
 
                 self.CollectionChangedAsObservable()
                     .Where(e => e.Action == NotifyCollectionChangedAction.Remove)
-                    .Select(e => CollectionChanged<T>.Remove(e.OldStartingIndex))
+                    .Select(e => CollectionChanged<T>.Remove(e.OldStartingIndex, e.OldItems.Cast<T>().First()))
                     .Subscribe(c => ox.OnNext(c))
                     .AddTo(d);
 

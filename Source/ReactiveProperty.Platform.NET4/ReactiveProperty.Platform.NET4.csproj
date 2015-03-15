@@ -28,7 +28,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\..\Binary\NET4\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;NET4</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\..\Binary\NET4\ReactiveProperty.NET4.xml</DocumentationFile>
@@ -146,6 +146,9 @@
     </Compile>
     <Compile Include="..\ReactiveProperty.Portable-NET45+WINRT+WP8\Extensions\UIDispatcherSchedulerObservableExtensions.cs">
       <Link>Extensions\UIDispatcherSchedulerObservableExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\ReactiveProperty.Portable-NET45+WINRT+WP8\Helpers\FilteredReadOnlyObservableCollection.cs">
+      <Link>Helpers\FilteredReadOnlyObservableCollection.cs</Link>
     </Compile>
     <Compile Include="..\ReactiveProperty.Portable-NET45+WINRT+WP8\Interactivity\DelegateConverter.cs">
       <Link>Interactivity\DelegateConverter.cs</Link>

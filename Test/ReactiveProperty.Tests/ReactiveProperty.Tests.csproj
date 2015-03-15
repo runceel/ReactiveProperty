@@ -147,6 +147,7 @@
     <Compile Include="Extensions\AccessorCacheTest.cs" />
     <Compile Include="Extensions\ReactiveCollectionTest.cs" />
     <Compile Include="Extensions\ReadOnlyReactiveCollectionTest.cs" />
+    <Compile Include="Helpers\FilteredReadOnlyObservableCollectionTest.cs" />
     <Compile Include="Init.cs" />
     <Compile Include="Interactivity\EventToReactiveTest.cs" />
     <Compile Include="Notifiers\ScheduledNotifierTest.cs" />
