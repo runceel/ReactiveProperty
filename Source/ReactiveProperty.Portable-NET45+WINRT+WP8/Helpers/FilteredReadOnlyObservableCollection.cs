@@ -17,18 +17,16 @@ namespace Reactive.Bindings.Helpers
     /// real time filtered collection interface.
     /// </summary>
     /// <typeparam name="T">Type of collection item.</typeparam>
-    public interface IFilteredReadOnlyObservableCollection<T> : INotifyCollectionChanged, IDisposable, IEnumerable<T>, IEnumerable
+    public interface IFilteredReadOnlyObservableCollection<out T> : INotifyCollectionChanged, IDisposable, IEnumerable<T>, IEnumerable
 #if !NET4
-, IReadOnlyList<T>
+, IReadOnlyCollection<T>
 #endif
         where T : class, INotifyPropertyChanged
     {
         /// <summary>
-        /// get collection item
+        /// get collection element count
         /// </summary>
-        /// <param name="index">index</param>
-        /// <returns></returns>
-        T this[int index] { get; }
+        int Count { get; }
     }
 
     /// <summary>
@@ -156,20 +154,6 @@ namespace Reactive.Bindings.Helpers
                         }
                     })
                     .AddTo(this.subscription);
-            }
-        }
-
-        /// <summary>
-        /// get collection item.
-        /// </summary>
-        /// <param name="index">index</param>
-        /// <returns>collection item</returns>
-        public TElement this[int index]
-        {
-            get
-            {
-                var i = this.indexList.Where(x => x.HasValue).ElementAt(index);
-                return this.source[i.Value];
             }
         }
 
