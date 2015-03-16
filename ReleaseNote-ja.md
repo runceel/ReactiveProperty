@@ -1,5 +1,11 @@
 # リリースノート
 
+## v2.1.8
+
+### 追加
+
+- Helpers名前空間にリアルタイムにコレクションの要素をフィルタリングするコレクション FilteredReadOnlyObservableCollection<T> を追加しました。
+
 ## v2.1.7
 
 ### バグフィックス

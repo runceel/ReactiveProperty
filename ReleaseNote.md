@@ -1,5 +1,11 @@
 # Release note
 
+## v2.1.8
+
+### Add
+
+- Added FilteredReadOnlyObservableCollection<T> class at Helpers namespace. It is real time filtered collection.
+
 ## v2.1.7
 
 ### Bug fix
