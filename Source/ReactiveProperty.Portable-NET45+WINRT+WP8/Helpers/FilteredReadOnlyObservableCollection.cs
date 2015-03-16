@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Reactive.Bindings.Extensions;
 using System.Reactive.Disposables;
 using System.Collections;
+using Reactive.Bindings.Notifiers;
 
 namespace Reactive.Bindings.Helpers
 {
@@ -43,6 +44,7 @@ namespace Reactive.Bindings.Helpers
         private readonly Func<TElement, bool> filter;
         private readonly List<int?> indexList = new List<int?>();
         private readonly CompositeDisposable subscription = new CompositeDisposable();
+        private int count;
 
         /// <summary>
         /// CollectionChanged event.
@@ -65,6 +67,7 @@ namespace Reactive.Bindings.Helpers
                 {
                     var isTarget = filter(item.x);
                     this.indexList.Add(isTarget ? (int?)item.i : null);
+                    if (isTarget) { this.count++; }
                 }
             }
 
@@ -86,7 +89,6 @@ namespace Reactive.Bindings.Helpers
                             // remove
                             this.indexList[index] = null;
                             this.DisappearItem(index);
-
                             this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, x.Sender, filteredIndex.Value));
                         }
                     })
@@ -176,7 +178,7 @@ namespace Reactive.Bindings.Helpers
         /// </summary>
         public int Count
         {
-            get { return this.indexList.Where(x => x.HasValue).Count(); }
+            get { return this.count; }
         }
 
         /// <summary>
@@ -187,7 +189,6 @@ namespace Reactive.Bindings.Helpers
         {
             return this.indexList.Where(x => x.HasValue)
                 .Select(x => this.source[x.Value])
-                .ToList()
                 .GetEnumerator();
         }
 
@@ -198,6 +199,18 @@ namespace Reactive.Bindings.Helpers
 
         private void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    this.count++;
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    this.count--;
+                    break;
+                case NotifyCollectionChangedAction.Reset:
+                    this.count = 0;
+                    break;
+            }
             var h = this.CollectionChanged;
             if (h != null) { h(this, e); }
         }

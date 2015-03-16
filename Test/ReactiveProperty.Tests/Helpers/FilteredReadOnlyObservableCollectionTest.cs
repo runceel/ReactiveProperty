@@ -29,21 +29,27 @@ namespace ReactiveProperty.Tests.Helpers
 
             var filtered = source.ToFilteredReadOnlyObservableCollection(x => !x.IsRemoved);
             filtered.Select(x => x.Name).Is("tanaka1", "tanaka2", "tanaka4");
+            filtered.Count.Is(3);
 
             source.Add(new Person { Name = "tanaka5", IsRemoved = true });
             filtered.Select(x => x.Name).Is("tanaka1", "tanaka2", "tanaka4");
+            filtered.Count.Is(3);
 
             source.RemoveAt(1); // remove tanaka2
             filtered.Select(x => x.Name).Is("tanaka1", "tanaka4");
+            filtered.Count.Is(2);
 
             source.RemoveAt(1); // remove tanaka3
             filtered.Select(x => x.Name).Is("tanaka1", "tanaka4");
+            filtered.Count.Is(2);
 
             source.Last().IsRemoved = false;
             filtered.Select(x => x.Name).Is("tanaka1", "tanaka4", "tanaka5");
+            filtered.Count.Is(3);
 
             source[0] = new Person { Name = "tanaka1 replaced", IsRemoved = false };
             filtered.Select(x => x.Name).Is("tanaka1 replaced", "tanaka4", "tanaka5");
+            filtered.Count.Is(3);
 
             source.Clear();
             filtered.Count.Is(0);
