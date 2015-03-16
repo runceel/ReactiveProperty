@@ -56,6 +56,32 @@ namespace ReactiveProperty.Tests.Helpers
         }
 
         [TestMethod]
+        public void NormalCase2()
+        {
+            var source = new ObservableCollection<Person>(new[]
+            {
+                new Person { Name = "tanaka1", IsRemoved = true },
+                new Person { Name = "tanaka2", IsRemoved = false },
+                new Person { Name = "tanaka3", IsRemoved = false },
+            });
+
+            var filtered = source.ToFilteredReadOnlyObservableCollection(x => x.IsRemoved);
+            filtered.Select(x => x.Name).Is("tanaka1");
+            filtered.Count.Is(1);
+
+            source.Add(new Person { Name = "tanaka4", IsRemoved = false });
+            filtered.Select(x => x.Name).Is("tanaka1");
+            filtered.Count.Is(1);
+
+            source[3].IsRemoved = true;
+            filtered.Select(x => x.Name).Is("tanaka1", "tanaka4");
+            filtered.Count.Is(2);
+
+            source.Clear();
+            filtered.Count.Is(0);
+        }
+
+        [TestMethod]
         public void CollectionChangedAddTest()
         {
             var source = new ObservableCollection<Person>();

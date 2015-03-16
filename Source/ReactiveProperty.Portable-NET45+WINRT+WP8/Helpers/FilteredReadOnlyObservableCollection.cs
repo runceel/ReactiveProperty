@@ -171,8 +171,10 @@ namespace Reactive.Bindings.Helpers
         /// <returns></returns>
         public IEnumerator<TElement> GetEnumerator()
         {
-            return this.indexList.Where(x => x.HasValue)
-                .Select(x => this.source[x.Value])
+            return this.indexList
+                .Select((x, index) => new { x, index })
+                .Where(x => x.x.HasValue)
+                .Select(x => this.source[x.index])
                 .GetEnumerator();
         }
 
