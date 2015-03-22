@@ -23,10 +23,12 @@ namespace Reactive.Bindings.Helpers
 #endif
         where T : class, INotifyPropertyChanged
     {
+#if NET4
         /// <summary>
         /// get collection element count
         /// </summary>
         int Count { get; }
+#endif
     }
 
     /// <summary>
