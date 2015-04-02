@@ -8,6 +8,7 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using Reactive.Bindings.Extensions;
 using System.Collections.Generic;
+using System.Reactive.Subjects;
 
 namespace Reactive.Bindings
 {
@@ -29,9 +30,12 @@ namespace Reactive.Bindings
             : base(source)
         {
             this.source = source;
-           scheduler = scheduler ?? UIDispatcherScheduler.Default;
+            scheduler = scheduler ?? UIDispatcherScheduler.Default;
+            var subject = new Subject<CollectionChanged<T>>();
 
-            ox.Where(v => v.Action == NotifyCollectionChangedAction.Add)
+            ox.Subscribe(subject.OnNext, subject.OnError, subject.OnCompleted).AddTo(this.token);
+
+            subject.Where(v => v.Action == NotifyCollectionChangedAction.Add)
                 .ObserveOn(scheduler)
                 .Subscribe(v =>
                 {
@@ -39,7 +43,7 @@ namespace Reactive.Bindings
                 })
                 .AddTo(this.token);
 
-            ox.Where(v => v.Action == NotifyCollectionChangedAction.Remove)
+            subject.Where(v => v.Action == NotifyCollectionChangedAction.Remove)
                 .ObserveOn(scheduler)
                 .Subscribe(v =>
                 {
@@ -49,7 +53,7 @@ namespace Reactive.Bindings
                 })
                 .AddTo(this.token);
 
-            ox.Where(v => v.Action == NotifyCollectionChangedAction.Replace)
+            subject.Where(v => v.Action == NotifyCollectionChangedAction.Replace)
                 .ObserveOn(scheduler)
                 .Subscribe(v =>
                 {
@@ -59,7 +63,7 @@ namespace Reactive.Bindings
                 })
                 .AddTo(this.token);
 
-            ox.Where(v => v.Action == NotifyCollectionChangedAction.Reset)
+            subject.Where(v => v.Action == NotifyCollectionChangedAction.Reset)
                 .ObserveOn(scheduler)
                 .Subscribe(v =>
                 {
@@ -72,13 +76,14 @@ namespace Reactive.Bindings
                 })
                 .AddTo(this.token);
 
-            ox.Where(x => x.Action == NotifyCollectionChangedAction.Move)
+            subject.Where(x => x.Action == NotifyCollectionChangedAction.Move)
                 .ObserveOn(scheduler)
                 .Subscribe(x =>
                 {
                     this.source.RemoveAt(x.OldIndex);
                     this.source.Insert(x.Index, x.Value);
-                });
+                })
+                .AddTo(this.token);
         }
 
         /// <summary>

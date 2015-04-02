@@ -183,6 +183,27 @@ namespace ReactiveProperty.Tests
             target.Is("b", "a");
         }
 
+        [TestMethod]
+        public void ConstructorCountTest()
+        {
+            int counter = 0;
+            var collection = new ObservableCollection<string>();
+            var collectionVm = collection.ToReadOnlyReactiveCollection(_ => new ConstructorCounter(ref counter), Scheduler.CurrentThread);
+
+            counter.Is(0);
+            collection.Add("Hello");
+            counter.Is(1);
+            collection.Add("world");
+            counter.Is(2);
+        }
+    }
+
+    class ConstructorCounter
+    {
+        public ConstructorCounter(ref int count)
+        {
+            count++;
+        }
     }
 
     class StringHolder
