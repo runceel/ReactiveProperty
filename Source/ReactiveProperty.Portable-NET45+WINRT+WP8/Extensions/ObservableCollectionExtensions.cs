@@ -80,19 +80,18 @@ namespace Reactive.Bindings.Extensions
         }
 
         /// <summary>
-        /// Observe collection element's ReactiveProperty.
+        /// Observe collection element's IObservable sequence.
         /// </summary>
         /// <typeparam name="TCollection">Collection type</typeparam>
         /// <typeparam name="TElement">Collection element type</typeparam>
-        /// <typeparam name="TProperty">Property type</typeparam>
+        /// <typeparam name="TProperty">Type of observable property element</typeparam>
         /// <param name="source">Source collection</param>
-        /// <param name="propertySelector">ReactiveProperty selection expression</param>
-        /// <returns>ReactiveProperty sequence</returns>
-        public static IObservable<PropertyPack<TElement, TProperty>> ObserveElementReactiveProperty<TElement, TProperty>(this ObservableCollection<TElement> source, Expression<Func<TElement, TProperty>> propertySelector)
+        /// <param name="propertySelector">IObservable selection expression</param>
+        /// <returns>IObservable sequence sequence</returns>
+        public static IObservable<PropertyPack<TElement, TProperty>> ObserveElementObservableProperty<TElement, TProperty>(this ObservableCollection<TElement> source, Expression<Func<TElement, IObservable<TProperty>>> propertySelector)
             where TElement : class
-            where TProperty : IReactiveProperty
         {
-            return INotifyCollectionChangedExtensions.ObserveElementReactiveProperty(source, propertySelector);
+            return INotifyCollectionChangedExtensions.ObserveElementObservableProperty(source, propertySelector);
         }
 
         /// <summary>
@@ -180,19 +179,18 @@ namespace Reactive.Bindings.Extensions
         }
 
         /// <summary>
-        /// Observe collection element's ReactiveProperty.
+        /// Observe collection element's IObservable sequence.
         /// </summary>
         /// <typeparam name="TCollection">Collection type</typeparam>
         /// <typeparam name="TElement">Collection element type</typeparam>
-        /// <typeparam name="TProperty">Property type</typeparam>
+        /// <typeparam name="TProperty">Type of observable property element</typeparam>
         /// <param name="source">Source collection</param>
-        /// <param name="propertySelector">ReactiveProperty selection expression</param>
-        /// <returns>ReactiveProperty sequence</returns>
-        public static IObservable<PropertyPack<TElement, TProperty>> ObserveElementReactiveProperty<TElement, TProperty>(this ReadOnlyObservableCollection<TElement> source, Expression<Func<TElement, TProperty>> propertySelector)
+        /// <param name="propertySelector">IObservable selection expression</param>
+        /// <returns>IObservable sequence sequence</returns>
+        public static IObservable<PropertyPack<TElement, TProperty>> ObserveElementObservableProperty<TElement, TProperty>(this ReadOnlyObservableCollection<TElement> source, Expression<Func<TElement, IObservable<TProperty>>> propertySelector)
             where TElement : class
-            where TProperty : IReactiveProperty
         {
-            return INotifyCollectionChangedExtensions.ObserveElementReactiveProperty(source, propertySelector);
+            return INotifyCollectionChangedExtensions.ObserveElementObservableProperty(source, propertySelector);
         }
 
         /// <summary>
