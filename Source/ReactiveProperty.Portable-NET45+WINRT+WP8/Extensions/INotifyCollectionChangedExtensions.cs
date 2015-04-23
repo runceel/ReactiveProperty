@@ -142,18 +142,17 @@ namespace Reactive.Bindings.Extensions
         }
 
         /// <summary>
-        /// Observe collection element's ReactiveProperty.
+        /// Observe collection element's IObservable sequence.
         /// </summary>
         /// <typeparam name="TCollection">Type of collection</typeparam>
         /// <typeparam name="TElement">Type of collection element</typeparam>
-        /// <typeparam name="TProperty">Type of property</typeparam>
+        /// <typeparam name="TProperty">Type of observable property element</typeparam>
         /// <param name="source">Source collection</param>
-        /// <param name="propertySelector">ReactiveProperty selection expression</param>
-        /// <returns>ReactiveProperty sequence</returns>
-        internal static IObservable<PropertyPack<TElement, TProperty>> ObserveElementReactiveProperty<TCollection, TElement, TProperty>(this TCollection source, Expression<Func<TElement, TProperty>> propertySelector)
+        /// <param name="propertySelector">IObservable selection expression</param>
+        /// <returns>IObservable sequence</returns>
+        internal static IObservable<PropertyPack<TElement, TProperty>> ObserveElementObservableProperty<TCollection, TElement, TProperty>(this TCollection source, Expression<Func<TElement, IObservable<TProperty>>> propertySelector)
             where TCollection : INotifyCollectionChanged, IEnumerable<TElement>
             where TElement : class
-            where TProperty : IReactiveProperty
         {
             if (source == null)           throw new ArgumentNullException("source");
             if (propertySelector == null) throw new ArgumentNullException("propertySelector");
@@ -169,16 +168,11 @@ namespace Reactive.Bindings.Extensions
             return This.ObserveElementCore<TCollection, TElement, PropertyPack<TElement, TProperty>>
             (
                 source, 
-                (x, observer) =>
+                (x, observer) => getter(x).Subscribe(y =>
                 {
-                    var rp = getter(x);
-                    var ox = (IObservable<object>)rp;
-                    return ox.Subscribe(_ =>
-                    {
-                        var pair = PropertyPack.Create(x, propertyInfo, rp);
-                        observer.OnNext(pair);
-                    });
-                }
+                    var pair = PropertyPack.Create(x, propertyInfo, y);
+                    observer.OnNext(pair);
+                })
             );
         }
 

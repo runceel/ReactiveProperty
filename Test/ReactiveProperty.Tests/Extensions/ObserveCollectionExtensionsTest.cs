@@ -366,21 +366,22 @@ namespace ReactiveProperty.Tests.Extensions
             buffer.Count.Is(7);
         }
 
+
         [TestMethod]
-        public void OvserveElementReactivePropertyTest()
+        public void OvserveElementObservablePropertyReferenceTypeTest()
         {
-            var neuecc  = new PersonViewModel("neuecc");
-            var okazuki = new PersonViewModel("okazuki");
-            var xin9le  = new PersonViewModel("xin9le");
-            var anders  = new PersonViewModel("anders");
+            var neuecc  = new PersonViewModel("neuecc", 31);
+            var okazuki = new PersonViewModel("okazuki", 33);
+            var xin9le  = new PersonViewModel("xin9le", 30);
+            var anders  = new PersonViewModel("anders", 54);
             var collection = new ObservableCollection<PersonViewModel>(new []{ neuecc, okazuki });
 
             //--- no data
-            var buffer = new List<PropertyPack<PersonViewModel, ReactiveProperty<string>>>();
+            var buffer = new List<PropertyPack<PersonViewModel, string>>();
             buffer.Count.Is(0);
 
             //--- subscribe all
-            var sequence = collection.ObserveElementReactiveProperty(x => x.Name);
+            var sequence = collection.ObserveElementObservableProperty(x => x.Name);
             var subscription = sequence.Subscribe(buffer.Add);
             buffer.Count.Is(2);
 
@@ -390,7 +391,7 @@ namespace ReactiveProperty.Tests.Extensions
             buffer.Count.Is(3);
             buffer[2].Instance.Is(neuecc);
             buffer[2].Property.Name.Is("Name");
-            buffer[2].Value.Value.Is(newName);
+            buffer[2].Value.Is(newName);
 
             //--- add element
             collection.Add(xin9le);
@@ -398,7 +399,7 @@ namespace ReactiveProperty.Tests.Extensions
             buffer.Count.Is(4);
             buffer[3].Instance.Is(xin9le);
             buffer[3].Property.Name.Is("Name");
-            buffer[3].Value.Value.Is("xin9le");
+            buffer[3].Value.Is("xin9le");
 
             //--- change added element's property
             newName = "xin9le_renamed";
@@ -406,7 +407,7 @@ namespace ReactiveProperty.Tests.Extensions
             buffer.Count.Is(5);
             buffer[4].Instance.Is(xin9le);
             buffer[4].Property.Name.Is("Name");
-            buffer[4].Value.Value.Is(newName);
+            buffer[4].Value.Is(newName);
 
             //--- remove element
             collection.Remove(okazuki);
@@ -423,7 +424,7 @@ namespace ReactiveProperty.Tests.Extensions
             buffer.Count.Is(6);
             buffer[5].Instance.Is(anders);
             buffer[5].Property.Name.Is("Name");
-            buffer[5].Value.Value.Is("anders");
+            buffer[5].Value.Is("anders");
 
             //--- change replaced element's property
             newName = "anders_renamed";
@@ -431,7 +432,7 @@ namespace ReactiveProperty.Tests.Extensions
             buffer.Count.Is(7);
             buffer[6].Instance.Is(anders);
             buffer[6].Property.Name.Is("Name");
-            buffer[6].Value.Value.Is(newName);
+            buffer[6].Value.Is(newName);
 
             xin9le.Name.Value = "replaced";
             buffer.Count.Is(7);
@@ -442,8 +443,87 @@ namespace ReactiveProperty.Tests.Extensions
             neuecc.Name.Value = "neuecc_unsubscribed";
             anders.Name.Value = "anders_unsubscribed";
             buffer.Count.Is(7);
-
         }
+
+
+        [TestMethod]
+        public void OvserveElementObservablePropertyValueTypeTest()
+        {
+            var neuecc  = new PersonViewModel("neuecc", 31);
+            var okazuki = new PersonViewModel("okazuki", 33);
+            var xin9le  = new PersonViewModel("xin9le", 30);
+            var anders  = new PersonViewModel("anders", 54);
+            var collection = new ObservableCollection<PersonViewModel>(new []{ neuecc, okazuki });
+
+            //--- no data
+            var buffer = new List<PropertyPack<PersonViewModel, int>>();
+            buffer.Count.Is(0);
+
+            //--- subscribe all
+            var sequence = collection.ObserveElementObservableProperty(x => x.Age);
+            var subscription = sequence.Subscribe(buffer.Add);
+            buffer.Count.Is(2);
+
+            //--- change element's property
+            var newAge = 10;
+            neuecc.Age.Value = newAge;
+            buffer.Count.Is(3);
+            buffer[2].Instance.Is(neuecc);
+            buffer[2].Property.Name.Is("Age");
+            buffer[2].Value.Is(newAge);
+
+            //--- add element
+            collection.Add(xin9le);
+            collection.Count.Is(3);
+            buffer.Count.Is(4);
+            buffer[3].Instance.Is(xin9le);
+            buffer[3].Property.Name.Is("Age");
+            buffer[3].Value.Is(30);
+
+            //--- change added element's property
+            newAge = 20;
+            xin9le.Age.Value = newAge;
+            buffer.Count.Is(5);
+            buffer[4].Instance.Is(xin9le);
+            buffer[4].Property.Name.Is("Age");
+            buffer[4].Value.Is(newAge);
+
+            //--- remove element
+            collection.Remove(okazuki);
+            collection.Count.Is(2);
+            buffer.Count.Is(5);
+
+            //--- change removed element's property
+            okazuki.Age.Value = 25;
+            buffer.Count.Is(5);  //--- no push
+
+            //--- replace element
+            collection[1] = anders;
+            collection.Count.Is(2);
+            buffer.Count.Is(6);
+            buffer[5].Instance.Is(anders);
+            buffer[5].Property.Name.Is("Age");
+            buffer[5].Value.Is(54);
+
+            //--- change replaced element's property
+            newAge = 60;
+            anders.Age.Value = newAge;
+            buffer.Count.Is(7);
+            buffer[6].Instance.Is(anders);
+            buffer[6].Property.Name.Is("Age");
+            buffer[6].Value.Is(newAge);
+
+            xin9le.Age.Value = 100;
+            buffer.Count.Is(7);
+
+            //--- unsubscribe
+            subscription.Dispose();
+            collection.Count.Is(2);
+            neuecc.Age.Value = -1;
+            anders.Age.Value = -2;
+            buffer.Count.Is(7);
+        }
+
 
         [TestMethod]
         public void ObserveElementPropertyChanged()
@@ -534,10 +614,12 @@ namespace ReactiveProperty.Tests.Extensions
         private class PersonViewModel
         {
             public ReactiveProperty<string> Name { get; private set; }
+            public ReactiveProperty<int> Age { get; private set; }
 
-            public PersonViewModel(string name)
+            public PersonViewModel(string name, int age)
             {
                 this.Name = new ReactiveProperty<string>(name);
+                this.Age = new ReactiveProperty<int>(age);
             }
         }
         #endregion
