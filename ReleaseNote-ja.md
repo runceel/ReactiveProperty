@@ -1,5 +1,15 @@
 # リリースノート
 
+## v2.2
+
+### 破壊的変更
+
+- ObserveElementReactiveProperty 拡張メソッドを削除しました。
+
+### Add
+
+- ObserveElementObservableProperty 拡張メソッドを追加しました。
+
 ## v2.1.8
 
 ### 追加

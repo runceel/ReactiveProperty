@@ -1,5 +1,15 @@
 # Release note
 
+## v2.2
+
+### Breaking changes
+
+- Remove ObserveElementReactiveProperty extension method.
+
+### Add
+
+- Add ObserveElementObservableProperty extension method.
+
 ## v2.1.8
 
 ### Add
