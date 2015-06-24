@@ -11,12 +11,12 @@ namespace Sample.ViewModels
 {
     public class ValidationViewModel
     {
-        public ReactiveProperty<string> ValidationData { get; private set; }
-        public ReactiveProperty<string> ValidationNotify { get; private set; }
-        public ReactiveProperty<string> ValidationBoth { get; private set; }
-        public ReactiveProperty<string> ErrorInfo { get; private set; }
-        public ReactiveCommand NextCommand { get; private set; }
-        public ReactiveProperty<string> AlertMessage { get; private set; }
+        public ReactiveProperty<string> ValidationData { get; }
+        public ReactiveProperty<string> ValidationNotify { get; }
+        public ReactiveProperty<string> ValidationBoth { get; }
+        public ReactiveProperty<string> ErrorInfo { get; }
+        public ReactiveCommand NextCommand { get; }
+        public ReactiveProperty<string> AlertMessage { get; }
 
         public ValidationViewModel()
         {

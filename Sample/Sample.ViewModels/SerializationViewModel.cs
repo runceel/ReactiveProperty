@@ -12,14 +12,14 @@ namespace Sample.ViewModels
     public class SerializationViewModel
     {
         // [IgnoreDataMember] ignore serialize
-        public ReactiveProperty<bool> IsChecked { get; private set; }
-        public ReactiveProperty<int> SelectedIndex { get; private set; }
+        public ReactiveProperty<bool> IsChecked { get; }
+        public ReactiveProperty<int> SelectedIndex { get; }
         [DataMember(Order = 3)] // deserialize order
-        public ReactiveProperty<string> Text { get; private set; }
-        public ReactiveProperty<int> SliderPosition { get; private set; }
-        public ReactiveCollection<long> Items { get; private set; }
-        public ReactiveCommand Serialize { get; private set; }
-        public ReactiveCommand Deserialize { get; private set; }
+        public ReactiveProperty<string> Text { get; }
+        public ReactiveProperty<int> SliderPosition { get; }
+        public ReactiveCollection<long> Items { get; }
+        public ReactiveCommand Serialize { get; }
+        public ReactiveCommand Deserialize { get; }
 
         public SerializationViewModel()
         {

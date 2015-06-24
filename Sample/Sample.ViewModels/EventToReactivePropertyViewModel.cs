@@ -14,16 +14,16 @@ namespace Sample.ViewModels
     public class EventToReactivePropertyViewModel
     {
         // binding from UI, event direct bind
-        public ReactiveProperty<Unit> MouseDown { get; private set; }
+        public ReactiveProperty<Unit> MouseDown { get; }
         // binding from UI, event with converter
-        public ReactiveProperty<Tuple<int, int>> MouseMove { get; private set; }
+        public ReactiveProperty<Tuple<int, int>> MouseMove { get; }
         // binding from UI, IgnoreEventArgs = true
-        public ReactiveProperty<Unit> MouseEnter { get; private set; }
+        public ReactiveProperty<Unit> MouseEnter { get; }
 
-        public ReactiveProperty<string> CurrentPoint { get; private set; }
-        public ReactiveProperty<string> Entered { get; private set; }
+        public ReactiveProperty<string> CurrentPoint { get; }
+        public ReactiveProperty<string> Entered { get; }
 
-        public ReactiveProperty<string> AlertMessage { get; private set; }
+        public ReactiveProperty<string> AlertMessage { get; }
 
         public EventToReactivePropertyViewModel()
         {

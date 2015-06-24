@@ -16,9 +16,9 @@ namespace XamarinAndroid.ViewModels
 {
     public class MainActivityViewModel
     {
-        public ReactiveCommand NavigateReactivePropertyBasicsCommand { get; private set; }
+        public ReactiveCommand NavigateReactivePropertyBasicsCommand { get; }
 
-        public ReactiveCommand NavigateListAdapterCommand { get; private set; }
+        public ReactiveCommand NavigateListAdapterCommand { get; }
 
         public MainActivityViewModel(Activity context)
         {

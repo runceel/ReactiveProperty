@@ -10,9 +10,9 @@ namespace Sample.ViewModels
     // ReactiveProperty and ReactiveCommand simple example.
     public class ReactivePropertyBasicsViewModel
     {
-        public ReactiveProperty<string> InputText { get; private set; }
-        public ReadOnlyReactiveProperty<string> DisplayText { get; private set; }
-        public ReactiveCommand ReplaceTextCommand { get; private set; }
+        public ReactiveProperty<string> InputText { get; }
+        public ReadOnlyReactiveProperty<string> DisplayText { get; }
+        public ReactiveCommand ReplaceTextCommand { get; }
 
         public ReactivePropertyBasicsViewModel()
         {

@@ -10,11 +10,11 @@ namespace Sample.ViewModels
     // Synchroinize exsiting models.
     public class SynchronizeObjectViewModel
     {
-        public ReactiveProperty<string> TwoWay { get; private set; }
-        public ReactiveProperty<string> OneWay { get; private set; }
-        public ReactiveProperty<string> OneWayToSource { get; private set; }
-        public ReactiveCommand CheckCommand { get; private set; }
-        public ReactiveProperty<string> AlertMessage { get; private set; }
+        public ReactiveProperty<string> TwoWay { get; }
+        public ReactiveProperty<string> OneWay { get; }
+        public ReactiveProperty<string> OneWayToSource { get; }
+        public ReactiveCommand CheckCommand { get; }
+        public ReactiveProperty<string> AlertMessage { get; }
 
         public SynchronizeObjectViewModel()
         {

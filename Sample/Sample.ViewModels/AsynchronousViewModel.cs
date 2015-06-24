@@ -17,10 +17,10 @@ namespace Sample.ViewModels
     // sample of asynchronous operation
     public class AsynchronousViewModel
     {
-        public ReactiveProperty<string> SearchTerm { get; private set; }
-        public ReactiveProperty<string> SearchingStatus { get; private set; }
-        public ReactiveProperty<string> ProgressStatus { get; private set; }
-        public ReactiveProperty<WikipediaModel[]> SearchResults { get; private set; }
+        public ReactiveProperty<string> SearchTerm { get; }
+        public ReactiveProperty<string> SearchingStatus { get; }
+        public ReactiveProperty<string> ProgressStatus { get; }
+        public ReactiveProperty<WikipediaModel[]> SearchResults { get; }
 
         public AsynchronousViewModel()
         {

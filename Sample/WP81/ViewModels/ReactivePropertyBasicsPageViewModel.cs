@@ -10,9 +10,9 @@ namespace WP81.ViewModels
 {
     public class ReactivePropertyBasicsPageViewModel
     {
-        public ReactiveProperty<string> InputText { get; private set; }
-        public ReactiveProperty<string> DisplayText { get; private set; }
-        public ReactiveCommand ReplaceTextCommand { get; private set; }
+        public ReactiveProperty<string> InputText { get; }
+        public ReactiveProperty<string> DisplayText { get; }
+        public ReactiveCommand ReplaceTextCommand { get; }
 
         public ReactivePropertyBasicsPageViewModel()
         {

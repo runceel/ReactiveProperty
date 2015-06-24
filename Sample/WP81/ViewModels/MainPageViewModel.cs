@@ -15,7 +15,7 @@ namespace WP81.ViewModels
         [Dependency]
         public INavigationService NavigationService { get; set; }
 
-        public ReactiveCommand NavigateReactivePropertyBasicsCommand { get; private set; }
+        public ReactiveCommand NavigateReactivePropertyBasicsCommand { get; }
 
         public MainPageViewModel()
         {

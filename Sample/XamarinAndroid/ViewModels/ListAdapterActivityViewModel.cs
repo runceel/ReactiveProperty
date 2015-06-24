@@ -19,9 +19,9 @@ namespace XamarinAndroid.ViewModels
     {
         private ObservableCollection<PersonViewModel> source = new ObservableCollection<PersonViewModel>();
 
-        public ReadOnlyReactiveCollection<PersonViewModel> People { get; private set; }
+        public ReadOnlyReactiveCollection<PersonViewModel> People { get; }
 
-        public ReactiveCommand AddPersonCommand { get; private set; }
+        public ReactiveCommand AddPersonCommand { get; }
 
         public ListAdapterActivityViewModel(Activity context)
         {
@@ -37,9 +37,9 @@ namespace XamarinAndroid.ViewModels
 
     public class PersonViewModel
     {
-        public ReactiveProperty<long> Id { get; private set; }
-        public ReactiveProperty<string> Name { get; private set; }
-        public ReactiveProperty<string> Age { get; private set; }
+        public ReactiveProperty<long> Id { get; }
+        public ReactiveProperty<string> Name { get; }
+        public ReactiveProperty<string> Age { get; }
 
         private ReactiveTimer timer;
 

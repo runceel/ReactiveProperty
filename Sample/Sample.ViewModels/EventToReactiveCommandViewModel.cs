@@ -12,9 +12,9 @@ namespace Sample.ViewModels
 {
     public class EventToReactiveCommandViewModel
     {
-        public ReactiveCommand<string> SelectFileCommand { get; private set; }
+        public ReactiveCommand<string> SelectFileCommand { get; }
 
-        public ReactiveProperty<string> Message { get; private set; }
+        public ReactiveProperty<string> Message { get; }
 
         public EventToReactiveCommandViewModel()
         {

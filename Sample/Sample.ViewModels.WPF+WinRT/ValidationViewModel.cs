@@ -15,13 +15,13 @@ namespace Sample.ViewModels
     {
         [Required(ErrorMessage = "Required")]
         [Range(0, 100, ErrorMessage = "Range 0...100")]
-        public ReactiveProperty<string> ValidationAttr { get; private set; }
-        public ReactiveProperty<string> ValidationData { get; private set; }
+        public ReactiveProperty<string> ValidationAttr { get; }
+        public ReactiveProperty<string> ValidationData { get; }
         [StringLength(5, ErrorMessage = "Length < 5")]
-        public ReactiveProperty<string> ValidationBoth { get; private set; }
-        public ReactiveProperty<string> ErrorInfo { get; private set; }
-        public ReactiveCommand NextCommand { get; private set; }
-        public ReactiveProperty<string> AlertMessage { get; private set; }
+        public ReactiveProperty<string> ValidationBoth { get; }
+        public ReactiveProperty<string> ErrorInfo { get; }
+        public ReactiveCommand NextCommand { get; }
+        public ReactiveProperty<string> AlertMessage { get; }
 
         public ValidationViewModel()
         {
