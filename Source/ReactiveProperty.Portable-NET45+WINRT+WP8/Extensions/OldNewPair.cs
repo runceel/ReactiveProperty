@@ -3,8 +3,8 @@
     /// <summary>Value pair of OldItem and NewItem.</summary>
     public class OldNewPair<T>
     {
-        public T OldItem { get; private set; }
-        public T NewItem { get; private set; }
+        public T OldItem { get; }
+        public T NewItem { get; }
 
         public OldNewPair(T oldItem, T newItem)
         {

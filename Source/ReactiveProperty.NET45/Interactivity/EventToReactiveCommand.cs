@@ -57,10 +57,7 @@ namespace Reactive.Bindings.Interactivity
         protected override void OnDetaching()
         {
             base.OnDetaching();
-            if (this.disposable != null)
-            {
-                this.disposable.Dispose();
-            }
+            this.disposable?.Dispose();
         }
 
         protected override void Invoke(object parameter)

@@ -16,19 +16,19 @@ namespace Reactive.Bindings.Extensions
         /// <summary>
         /// Gets instance which has property.
         /// </summary>
-        public TInstance Instance { get; private set; }
+        public TInstance Instance { get; }
 
 
         /// <summary>
         /// Gets target property info.
         /// </summary>
-        public PropertyInfo Property { get; private set; }
+        public PropertyInfo Property { get; }
 
 
         /// <summary>
         /// Gets target property value.
         /// </summary>
-        public TValue Value { get; private set; }
+        public TValue Value { get; }
         #endregion
 
 

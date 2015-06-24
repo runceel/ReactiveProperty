@@ -115,8 +115,7 @@ namespace Reactive.Bindings.Notifiers
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            var h = this.PropertyChanged;
-            if (h != null) { h(this, new PropertyChangedEventArgs(propertyName)); }
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
     }

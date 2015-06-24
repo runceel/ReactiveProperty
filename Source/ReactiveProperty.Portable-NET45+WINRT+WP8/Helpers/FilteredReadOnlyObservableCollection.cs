@@ -199,8 +199,7 @@ namespace Reactive.Bindings.Helpers
                     this.count = 0;
                     break;
             }
-            var h = this.CollectionChanged;
-            if (h != null) { h(this, e); }
+            this.CollectionChanged?.Invoke(this, e);
         }
 
         /// <summary>

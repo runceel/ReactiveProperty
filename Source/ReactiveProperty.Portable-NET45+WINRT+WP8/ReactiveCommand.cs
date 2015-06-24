@@ -96,8 +96,7 @@ namespace Reactive.Bindings
                 .Subscribe(b =>
                 {
                     isCanExecute = b;
-                    var handler = CanExecuteChanged;
-                    if (handler != null) handler(this, EventArgs.Empty);
+                    this.CanExecuteChanged?.Invoke(this, EventArgs.Empty);
                 });
         }
 

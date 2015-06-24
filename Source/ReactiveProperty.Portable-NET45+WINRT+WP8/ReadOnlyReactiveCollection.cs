@@ -113,7 +113,7 @@ namespace Reactive.Bindings
                             foreach (var item in source)
                             {
                                 var d = item as IDisposable;
-                                if (d != null) { d.Dispose(); }
+                                d?.Dispose();
                             }
                             this.source.Clear();
                         }).AddTo(this.token);

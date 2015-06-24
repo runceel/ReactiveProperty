@@ -28,7 +28,7 @@ namespace Reactive.Bindings.Helpers
                 .ToDictionary(pi => pi.Name, pi =>
                 {
                     var ivalue = (IReactiveProperty)pi.GetValue(target, null);
-                    return (ivalue != null) ? ivalue.Value : null;
+                    return ivalue?.Value;
                 });
 
             var sb = new StringBuilder();

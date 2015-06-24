@@ -127,11 +127,7 @@ namespace Reactive.Bindings
             // raise notification
             this.raiseSubscription = connectable
                 .ObserveOn(raiseEventScheduler)
-                .Subscribe(x =>
-                {
-                    var handler = PropertyChanged;
-					if (handler != null) handler(this, SingletonPropertyChangedEventArgs.Value);
-                });
+                .Subscribe(x => this.PropertyChanged?.Invoke(this, SingletonPropertyChangedEventArgs.Value));
 
             // start source
             this.sourceDisposable = connectable.Connect();

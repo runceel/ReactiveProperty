@@ -43,8 +43,7 @@ namespace Reactive.Bindings
             ox.ObserveOn(eventScheduler ?? UIDispatcherScheduler.Default)
                 .Subscribe(_ =>
                 {
-                    var h = this.PropertyChanged;
-                    if (h != null) { h(this, SingletonPropertyChangedEventArgs.Value); }
+                    this.PropertyChanged?.Invoke(this, SingletonPropertyChangedEventArgs.Value);
                 })
                 .AddTo(this.subscription);
             this.isRaiseLatestValueOnSubscribe = mode.HasFlag(ReactivePropertyMode.RaiseLatestValueOnSubscribe);
