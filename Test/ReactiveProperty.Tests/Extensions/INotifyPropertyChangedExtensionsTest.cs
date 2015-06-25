@@ -156,6 +156,33 @@ namespace ReactiveProperty.Tests.Extensions
             model.Age.Is(10);
         }
 
+        [TestMethod]
+        public void ToReactivePropertyAsSynchronizedMultipleConvertBack()
+        {
+            var model = new PointModel { Point = Tuple.Create(0, 1) };
+            var propX = model.ToReactivePropertyAsSynchronized(
+                x => x.Point,
+                x => x.Item1,
+                x => Tuple.Create(x, model.Point.Item2));
+            var propY = model.ToReactivePropertyAsSynchronized(
+                x => x.Point,
+                x => x.Item2,
+                x => Tuple.Create(model.Point.Item1, x));
+
+            propX.Value.Is(0);
+            propY.Value.Is(1);
+
+            model.Point = Tuple.Create(10, 20);
+            propX.Value.Is(10);
+            propY.Value.Is(20);
+
+            propX.Value = 100;
+            model.Point.Is(x => x.Item1 == 100 && x.Item2 == 20);
+
+            propY.Value = 200;
+            model.Point.Is(x => x.Item1 == 100 && x.Item2 == 200);
+        }
+
         class Model : INotifyPropertyChanged
         {
             private string name;
@@ -175,6 +202,25 @@ namespace ReactiveProperty.Tests.Extensions
             public event PropertyChangedEventHandler PropertyChanged = (_, __) => { };
         }
 
+        class PointModel : INotifyPropertyChanged
+        {
+            public event PropertyChangedEventHandler PropertyChanged;
 
+            private static readonly PropertyChangedEventArgs PointPropertyChangedEventArgs = new PropertyChangedEventArgs(nameof(Point));
+
+            private Tuple<int, int> point;
+
+            public Tuple<int, int> Point
+            {
+                get { return this.point; }
+                set
+                {
+                    if (this.point == value) { return; }
+                    this.point = value;
+                    this.PropertyChanged?.Invoke(this, PointPropertyChangedEventArgs);
+                }
+            }
+
+        }
     }
 }
