@@ -4,7 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Concurrency;
+using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using System.Reactive.Disposables;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -140,6 +142,21 @@ namespace ReactiveProperty.Tests
             var s = new BehaviorSubject<string>("initial value");
             var rp = s.ToReadOnlyReactiveProperty();
             rp.Value.Is("initial value");
+        }
+
+        [TestMethod]
+        public void ObservableCreateTest()
+        {
+            var i = 0;
+            var s = Observable.Create<int>(ox =>
+            {
+                i++;
+                return Disposable.Empty;
+            });
+
+            i.Is(0);
+            var rp = s.ToReadOnlyReactiveProperty();
+            i.Is(1);
         }
     }
 }

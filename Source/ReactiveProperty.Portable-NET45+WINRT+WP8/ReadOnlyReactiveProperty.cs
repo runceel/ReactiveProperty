@@ -34,13 +34,13 @@ namespace Reactive.Bindings
             var ox = mode.HasFlag(ReactivePropertyMode.DistinctUntilChanged)
                 ? source.DistinctUntilChanged()
                 : source;
-            ox.Subscribe(x => 
+
+            ox.Do(x =>
                 {
                     this.latestValue = x;
                     this.innerSource.OnNext(x);
                 })
-                .AddTo(this.subscription);
-            ox.ObserveOn(eventScheduler ?? UIDispatcherScheduler.Default)
+                .ObserveOn(eventScheduler ?? UIDispatcherScheduler.Default)
                 .Subscribe(_ =>
                 {
                     this.PropertyChanged?.Invoke(this, SingletonPropertyChangedEventArgs.Value);
