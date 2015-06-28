@@ -1,5 +1,11 @@
 # Release note
 
+## v2.2.1
+
+### Bug fix
+
+- Fixed bug, call several times Subscribe method in the constructor of ReadOnlyReactiveProperty.
+
 ## v2.2
 
 ### Breaking changes
