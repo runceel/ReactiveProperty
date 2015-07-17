@@ -66,7 +66,7 @@ namespace Reactive.Bindings.Helpers
                 foreach (var item in source.Select((x, i) => new { x, i }))
                 {
                     var isTarget = filter(item.x);
-                    this.indexList.Add(isTarget ? (int?)item.i : null);
+                    this.indexList.Add(isTarget ? (int?)count : null);
                     if (isTarget) { this.count++; }
                 }
             }

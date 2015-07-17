@@ -168,6 +168,29 @@ namespace ReactiveProperty.Tests.Helpers
             buffer[0].Is(x => x.Action == NotifyCollectionChangedAction.Reset);
         }
 
+        [TestMethod]
+        public void RemoveIndexOutofRangeException()
+        {
+            var source = new ObservableCollection<Person>(new[]
+            {
+                new Person { Name = "tanaka1", IsRemoved = true },
+                new Person { Name = "tanaka2", IsRemoved = false },
+                new Person { Name = "tanaka3", IsRemoved = true },
+            });
+
+            var filtered = source.ToFilteredReadOnlyObservableCollection(x => x.IsRemoved);
+            var buffer = new List<NotifyCollectionChangedEventArgs>();
+            filtered.CollectionChangedAsObservable().Subscribe(buffer.Add);
+
+            source[2].IsRemoved = false;
+
+            buffer.Count.Is(1);
+            buffer[0].Action.Is(NotifyCollectionChangedAction.Remove);
+            buffer[0].OldItems[0].Is(source[2]);
+
+            filtered.Count.Is(1);
+        }
+
         #region private class
         private class Person : INotifyPropertyChanged
         {
