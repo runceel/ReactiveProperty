@@ -1,5 +1,11 @@
 # Release note
 
+## v2.2.2
+
+### BugFix
+
+- Fixed bug, have Problem in initialization at FilteredReadOnlyObservableCollection index.
+
 ## v2.2.1
 
 ### Bug fix
