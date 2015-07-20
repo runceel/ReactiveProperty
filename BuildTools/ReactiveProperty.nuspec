@@ -48,6 +48,7 @@
       </group>
     </dependencies>
     <frameworkAssemblies>
+      <!-- net45 -->
       <frameworkAssembly assemblyName="System" targetFramework=".NETFramework4.5" />
       <frameworkAssembly assemblyName="PresentationCore" targetFramework=".NETFramework4.5" />
       <frameworkAssembly assemblyName="WindowsBase" targetFramework=".NETFramework4.5" />
@@ -56,10 +57,24 @@
       <frameworkAssembly assemblyName="System.Core" targetFramework=".NETFramework4.5" />
       <frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations" targetFramework=".NETFramework4.5" />
       <frameworkAssembly assemblyName="System.Runtime.Serialization" targetFramework=".NETFramework4.5" />
+      <!-- net46 -->
+      <frameworkAssembly assemblyName="System" targetFramework=".NETFramework4.6" />
+      <frameworkAssembly assemblyName="PresentationCore" targetFramework=".NETFramework4.6" />
+      <frameworkAssembly assemblyName="WindowsBase" targetFramework=".NETFramework4.6" />
+      <frameworkAssembly assemblyName="PresentationFramework" targetFramework=".NETFramework4.6" />
+      <frameworkAssembly assemblyName="System.Xaml" targetFramework=".NETFramework4.6" />
+      <frameworkAssembly assemblyName="System.Core" targetFramework=".NETFramework4.6" />
+      <frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations" targetFramework=".NETFramework4.6" />
+      <frameworkAssembly assemblyName="System.Runtime.Serialization" targetFramework=".NETFramework4.6" />
+      <!-- xamarin -->
+      <frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations" targetFramework="MonoAndroid" />
+      <frameworkAssembly assemblyName="System.Runtime.Serialization" targetFramework="MonoAndroid" />
+      <frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations" targetFramework="MonoTouch" />
+      <frameworkAssembly assemblyName="System.Runtime.Serialization" targetFramework="MonoTouch" />
     </frameworkAssemblies>
   </metadata>
   <files>
-    <file src="..\Snippet\*.snippet" target="Snippet\" />
+    <file src="..\Snippet\**.snippet" target="Snippet\" />
     <file src="..\Docs\ReadMe.txt" target="Docs\" />
     <file src="..\LICENSE.txt" target="\" />
 
