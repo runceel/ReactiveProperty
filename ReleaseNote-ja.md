@@ -1,4 +1,10 @@
 # リリースノート
+## v2.2.3
+
+### バグフィックス
+
+- ReadOnlyReactiveCollectionでRemove時にConverterが実行されていた問題を修正
+
 ## v2.2.2
 
 ### バグフィックス

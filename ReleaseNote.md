@@ -1,5 +1,11 @@
 # Release note
 
+## v2.2.3
+
+### BugFix
+
+- Fixed bug, converter called when ReadOnlyReactiveCollection remove method called.
+
 ## v2.2.2
 
 ### BugFix
