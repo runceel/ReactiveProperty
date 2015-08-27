@@ -80,8 +80,9 @@ namespace Reactive.Bindings
                 .ObserveOn(scheduler)
                 .Subscribe(x =>
                 {
+                    var targetValue = this.source[x.OldIndex];
                     this.source.RemoveAt(x.OldIndex);
-                    this.source.Insert(x.Index, x.Value);
+                    this.source.Insert(x.Index, targetValue);
                 })
                 .AddTo(this.token);
         }
@@ -379,7 +380,8 @@ namespace Reactive.Bindings
                     Action = x.Action,
                     Index = x.Index,
                     OldIndex = x.OldIndex,
-                    Value = object.ReferenceEquals(x.Value, null) ? default(U) : converter(x.Value)
+                    Value = object.ReferenceEquals(x.Value, null) ? default(U) :
+                        x.Action == NotifyCollectionChangedAction.Add || x.Action == NotifyCollectionChangedAction.Replace ? converter(x.Value) : default(U),
                 });
             return new ReadOnlyReactiveCollection<U>(convertedCollectionChanged, source, scheduler);
         }

@@ -196,6 +196,20 @@ namespace ReactiveProperty.Tests
             collection.Add("world");
             counter.Is(2);
         }
+
+        [TestMethod]
+        public void ConstructorCountTestRemoveCase()
+        {
+            var counter = 0;
+            var collection = new ObservableCollection<string>();
+            var collectionVm = collection.ToReadOnlyReactiveCollection(_ => new ConstructorCounter(ref counter), Scheduler.CurrentThread);
+
+            counter.Is(0);
+            collection.Add("abc");
+            counter.Is(1);
+            collection.Remove("abc");
+            counter.Is(1);
+        }
     }
 
     class ConstructorCounter
