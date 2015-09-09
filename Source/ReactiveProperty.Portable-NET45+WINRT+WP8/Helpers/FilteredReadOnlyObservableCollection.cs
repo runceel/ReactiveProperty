@@ -114,9 +114,9 @@ namespace Reactive.Bindings.Helpers
                             case NotifyCollectionChangedAction.Remove:
                                 var removedIndex = this.indexList[x.OldStartingIndex];
                                 this.indexList.RemoveAt(x.OldStartingIndex);
-                                this.DisappearItem(x.OldStartingIndex);
                                 if (removedIndex.HasValue)
                                 {
+                                    this.DisappearItem(x.OldStartingIndex);
                                     this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove,
                                         x.OldItems.Cast<TElement>().Single(), removedIndex.Value));
                                 }
