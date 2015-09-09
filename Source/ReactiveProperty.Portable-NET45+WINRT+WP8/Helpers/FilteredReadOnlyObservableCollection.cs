@@ -138,6 +138,8 @@ namespace Reactive.Bindings.Helpers
                                 else if (index.HasValue && !isTarget)
                                 {
                                     // remove
+                                    this.indexList[x.NewStartingIndex] = null;
+                                    this.DisappearItem(x.NewStartingIndex);
                                     this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove,
                                         x.OldItems.Cast<TElement>().Single(), index.Value));
                                 }

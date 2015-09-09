@@ -191,6 +191,30 @@ namespace ReactiveProperty.Tests.Helpers
             filtered.Count.Is(1);
         }
 
+        [TestMethod]
+        public void InconsistencyIndexWhenSourceCollectionItemReplace()
+        {
+            var source = new ObservableCollection<Person>(new[]
+            {
+                new Person { Name = "tanaka1", IsRemoved = false },
+                new Person { Name = "tanaka2", IsRemoved = false },
+                new Person { Name = "tanaka3", IsRemoved = false },
+            });
+
+            var filtered = source.ToFilteredReadOnlyObservableCollection(x => !x.IsRemoved);
+            var buffer = new List<NotifyCollectionChangedEventArgs>();
+            filtered.CollectionChangedAsObservable().Subscribe(buffer.Add);
+
+            source[1] = new Person { Name = "tanaka2 replaced", IsRemoved = true };
+            buffer.Count().Is(1);
+            buffer[0].Is(x => x.Action == NotifyCollectionChangedAction.Remove && x.OldStartingIndex == 1 && x.OldItems.Cast<Person>().First().Name == "tanaka2");
+
+            source.RemoveAt(2); // tanaka3 remove
+            buffer.Count().Is(2);
+            buffer[1].Is(x => x.Action == NotifyCollectionChangedAction.Remove && x.OldStartingIndex == 1 && x.OldItems.Cast<Person>().First().Name == "tanaka3");
+            filtered.ToArray().Length.Is(filtered.Count);
+        }
+
         #region private class
         private class Person : INotifyPropertyChanged
         {
