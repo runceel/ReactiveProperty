@@ -1,4 +1,11 @@
 # リリースノート
+## v2.2.4
+
+### バグフィックス
+
+- FilteredReadOnlyObservableCollectionに削除時のインデックス管理の問題を修正
+- FilteredReadOnlyObservableCollectionに値の入れ替え時のインデックス管理の問題を修正
+
 ## v2.2.3
 
 ### バグフィックス

@@ -1,5 +1,12 @@
 # Release note
 
+## v2.2.4
+
+### BugFix
+
+- Fixed bug, FilteredReadOnlyObservableCollection index management were broken when collection item removed.
+- Fixed bug, FilteredReadOnlyObservableCollection index management were broken when collection item replaced.
+
 ## v2.2.3
 
 ### BugFix
