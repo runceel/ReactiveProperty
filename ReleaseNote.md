@@ -1,5 +1,17 @@
 # Release note
 
+## v2.2.6
+
+### Add
+
+- Add AddRangeOnScheduler method to ReactiveCollection class.
+
+## v2.2.5
+
+### Update
+
+- Update System.Windows.Interactivity assembly reference.
+
 ## v2.2.4
 
 ### BugFix

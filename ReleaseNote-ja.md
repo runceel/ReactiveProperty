@@ -1,4 +1,17 @@
 # リリースノート
+
+## v2.2.6
+
+### 追加
+
+- ReactiveCollectionクラスにAddRangeOnSchedulerメソッドを追加.
+
+## v2.2.5
+
+### 更新
+
+- System.Windows.Interactivityアセンブリへの参照を更新.
+
 ## v2.2.4
 
 ### バグフィックス
