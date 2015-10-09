@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -43,6 +45,27 @@ namespace Reactive.Bindings
         public void AddOnScheduler(T item)
         {
             scheduler.Schedule(() => Add(item));
+        }
+
+        /// <summary>
+        /// Add called on scheduler
+        /// </summary>
+        /// <param name="items"></param>
+        public void AddRangeOnScheduler(params T[] items)
+        {
+            scheduler.Schedule(() =>
+            {
+                foreach (var item in items) { Add(item); }
+            });
+        }
+
+        /// <summary>
+        /// Add called on scheduler
+        /// </summary>
+        /// <param name="items"></param>
+        public void AddRangeOnScheduler(IEnumerable<T> items)
+        {
+            this.AddRangeOnScheduler(items.ToArray());
         }
 
         /// <summary>Clear called on scheduler</summary>
