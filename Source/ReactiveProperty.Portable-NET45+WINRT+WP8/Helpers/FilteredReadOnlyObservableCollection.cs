@@ -17,18 +17,20 @@ namespace Reactive.Bindings.Helpers
     /// real time filtered collection interface.
     /// </summary>
     /// <typeparam name="T">Type of collection item.</typeparam>
-    public interface IFilteredReadOnlyObservableCollection<out T> : INotifyCollectionChanged, IDisposable, IEnumerable<T>, IEnumerable
-#if !NET4
-, IReadOnlyCollection<T>
-#endif
+    public interface IFilteredReadOnlyObservableCollection<out T> : INotifyCollectionChanged, IDisposable, IEnumerable<T>
         where T : class, INotifyPropertyChanged
     {
-#if NET4
         /// <summary>
-        /// get collection element count
+        /// Collection items count.
         /// </summary>
         int Count { get; }
-#endif
+
+        /// <summary>
+        /// Get item at index.
+        /// </summary>
+        /// <param name="index">index</param>
+        /// <returns>item</returns>
+        T this[int index] { get; }
     }
 
     /// <summary>
@@ -36,15 +38,16 @@ namespace Reactive.Bindings.Helpers
     /// </summary>
     /// <typeparam name="TCollection">type of source collection</typeparam>
     /// <typeparam name="TElement">type of collection item</typeparam>
-    public sealed class FilteredReadOnlyObservableCollection<TCollection, TElement> : IFilteredReadOnlyObservableCollection<TElement>
+    public sealed class FilteredReadOnlyObservableCollection<TCollection, TElement> : IFilteredReadOnlyObservableCollection<TElement>, IList // IList UWP GridView support.
         where TCollection : INotifyCollectionChanged, IList<TElement>
         where TElement : class, INotifyPropertyChanged
     {
-        private readonly TCollection source;
-        private readonly Func<TElement, bool> filter;
-        private readonly List<int?> indexList = new List<int?>();
-        private readonly CompositeDisposable subscription = new CompositeDisposable();
-        private int count;
+        private TCollection Source { get; }
+        private Func<TElement, bool> Filter { get; }
+        private List<int?> IndexList { get; } = new List<int?>();
+        private CompositeDisposable Subscription { get; } = new CompositeDisposable();
+        private int ItemsCount { get; set; }
+        private List<TElement> InnerCollection { get; } = new List<TElement>();
 
         /// <summary>
         /// CollectionChanged event.
@@ -58,16 +61,20 @@ namespace Reactive.Bindings.Helpers
         /// <param name="filter">filter function</param>
         public FilteredReadOnlyObservableCollection(TCollection source, Func<TElement, bool> filter)
         {
-            this.source = source;
-            this.filter = filter;
+            this.Source = source;
+            this.Filter = filter;
 
             {
                 // initialize
                 foreach (var item in source)
                 {
                     var isTarget = filter(item);
-                    this.indexList.Add(isTarget ? (int?)count : null);
-                    if (isTarget) { this.count++; }
+                    this.IndexList.Add(isTarget ? (int?)ItemsCount : null);
+                    if (isTarget)
+                    {
+                        this.ItemsCount++;
+                        this.InnerCollection.Add(item);
+                    }
                 }
             }
 
@@ -77,7 +84,7 @@ namespace Reactive.Bindings.Helpers
                     .Subscribe(x =>
                     {
                         var index = source.IndexOf(x.Sender);
-                        var filteredIndex = this.indexList[index];
+                        var filteredIndex = this.IndexList[index];
                         var isTarget = filter(x.Sender);
                         if (isTarget && filteredIndex == null)
                         {
@@ -87,12 +94,12 @@ namespace Reactive.Bindings.Helpers
                         else if (!isTarget && filteredIndex.HasValue)
                         {
                             // remove
-                            this.indexList[index] = null;
                             this.DisappearItem(index);
+                            this.IndexList[index] = null;
                             this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, x.Sender, filteredIndex.Value));
                         }
                     })
-                    .AddTo(this.subscription);
+                    .AddTo(this.Subscription);
             }
             {
                 // collection changed(support single changed only)
@@ -103,7 +110,7 @@ namespace Reactive.Bindings.Helpers
                         {
                             case NotifyCollectionChangedAction.Add:
                                 // appear
-                                this.indexList.Insert(x.NewStartingIndex, null);
+                                this.IndexList.Insert(x.NewStartingIndex, null);
                                 if (filter(x.NewItems.Cast<TElement>().Single()))
                                 {
                                     this.AppearNewItem(x.NewStartingIndex);
@@ -112,18 +119,22 @@ namespace Reactive.Bindings.Helpers
                             case NotifyCollectionChangedAction.Move:
                                 throw new NotSupportedException("Move is not supported");
                             case NotifyCollectionChangedAction.Remove:
-                                var removedIndex = this.indexList[x.OldStartingIndex];
-                                this.indexList.RemoveAt(x.OldStartingIndex);
+                                var removedIndex = this.IndexList[x.OldStartingIndex];
                                 if (removedIndex.HasValue)
                                 {
                                     this.DisappearItem(x.OldStartingIndex);
+                                    this.IndexList.RemoveAt(x.OldStartingIndex);
                                     this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove,
                                         x.OldItems.Cast<TElement>().Single(), removedIndex.Value));
                                 }
+                                else
+                                {
+                                    this.IndexList.RemoveAt(x.OldStartingIndex);
+                                }
                                 break;
                             case NotifyCollectionChangedAction.Replace:
-                                var index = this.indexList[x.NewStartingIndex];
-                                var isTarget = this.filter(x.NewItems.Cast<TElement>().Single());
+                                var index = this.IndexList[x.NewStartingIndex];
+                                var isTarget = this.Filter(x.NewItems.Cast<TElement>().Single());
                                 if (index == null && isTarget)
                                 {
                                     // add
@@ -132,21 +143,23 @@ namespace Reactive.Bindings.Helpers
                                 else if (index.HasValue && isTarget)
                                 {
                                     // replace
+                                    this.InnerCollection[index.Value] = x.NewItems.Cast<TElement>().Single();
                                     this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace,
                                         x.NewItems.Cast<TElement>().Single(), x.OldItems.Cast<TElement>().Single(), index.Value));
                                 }
                                 else if (index.HasValue && !isTarget)
                                 {
                                     // remove
-                                    this.indexList[x.NewStartingIndex] = null;
                                     this.DisappearItem(x.NewStartingIndex);
+                                    this.IndexList[x.NewStartingIndex] = null;
                                     this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove,
                                         x.OldItems.Cast<TElement>().Single(), index.Value));
                                 }
 
                                 break;
                             case NotifyCollectionChangedAction.Reset:
-                                this.indexList.Clear();
+                                this.IndexList.Clear();
+                                this.InnerCollection.Clear();
                                 this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
                                 if (source.Any())
                                 {
@@ -157,7 +170,7 @@ namespace Reactive.Bindings.Helpers
                                 throw new InvalidOperationException();
                         }
                     })
-                    .AddTo(this.subscription);
+                    .AddTo(this.Subscription);
             }
         }
 
@@ -166,7 +179,61 @@ namespace Reactive.Bindings.Helpers
         /// </summary>
         public int Count
         {
-            get { return this.count; }
+            get { return this.InnerCollection.Count; }
+        }
+
+        bool IList.IsFixedSize
+        {
+            get
+            {
+                return false;
+            }
+        }
+
+        bool IList.IsReadOnly
+        {
+            get
+            {
+                return true;
+            }
+        }
+
+
+        bool ICollection.IsSynchronized
+        {
+            get
+            {
+                return false;
+            }
+        }
+
+        object ICollection.SyncRoot
+        {
+            get
+            {
+                return null;
+            }
+        }
+
+        public TElement this[int index]
+        {
+            get
+            {
+                return this.InnerCollection[index];
+            }
+        }
+
+        object IList.this[int index]
+        {
+            get
+            {
+                return this.InnerCollection[index];
+            }
+
+            set
+            {
+                throw new NotSupportedException();
+            }
         }
 
         /// <summary>
@@ -175,11 +242,12 @@ namespace Reactive.Bindings.Helpers
         /// <returns></returns>
         public IEnumerator<TElement> GetEnumerator()
         {
-            return this.indexList
-                .Select((x, index) => new { x, index })
-                .Where(x => x.x.HasValue)
-                .Select(x => this.source[x.index])
-                .GetEnumerator();
+            return this.InnerCollection.GetEnumerator();
+            //return this.IndexList
+            //    .Select((x, index) => new { x, index })
+            //    .Where(x => x.x.HasValue)
+            //    .Select(x => this.Source[x.index])
+            //    .GetEnumerator();
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
@@ -192,13 +260,13 @@ namespace Reactive.Bindings.Helpers
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    this.count++;
+                    this.ItemsCount++;
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    this.count--;
+                    this.ItemsCount--;
                     break;
                 case NotifyCollectionChangedAction.Reset:
-                    this.count = 0;
+                    this.ItemsCount = 0;
                     break;
             }
             this.CollectionChanged?.Invoke(this, e);
@@ -209,38 +277,78 @@ namespace Reactive.Bindings.Helpers
         /// </summary>
         public void Dispose()
         {
-            if (this.subscription.IsDisposed) { return; }
-            this.subscription.Dispose();
+            if (this.Subscription.IsDisposed) { return; }
+            this.Subscription.Dispose();
         }
 
         private int FindNearIndex(int position)
         {
-            var index = this.indexList.Take(position).Reverse().FirstOrDefault(x => x != null);
+            var index = this.IndexList.Take(position).Reverse().FirstOrDefault(x => x != null);
             return index ?? -1;
         }
 
         private void AppearNewItem(int index)
         {
             var nearIndex = this.FindNearIndex(index);
-            this.indexList[index] = nearIndex + 1;
-            for (int i = index + 1; i < this.indexList.Count; i++)
+            this.IndexList[index] = nearIndex + 1;
+            for (int i = index + 1; i < this.IndexList.Count; i++)
             {
-                if (this.indexList[i].HasValue) { this.indexList[i]++; }
+                if (this.IndexList[i].HasValue) { this.IndexList[i]++; }
             }
-
+            this.InnerCollection.Insert(this.IndexList[index].Value, this.Source[index]);
             this.OnCollectionChanged(
                 new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add,
-                    this.source[index], this.indexList[index].Value));
+                    this.Source[index], this.IndexList[index].Value));
         }
 
         private void DisappearItem(int index)
         {
-            for (int i = index; i < indexList.Count; i++)
+            this.InnerCollection.RemoveAt(this.IndexList[index].Value);
+            for (int i = index; i < IndexList.Count; i++)
             {
-                if (indexList[i].HasValue) { this.indexList[i]--; }
+                if (IndexList[i].HasValue) { this.IndexList[i]--; }
             }
         }
 
+        int IList.Add(object value)
+        {
+            throw new NotSupportedException();
+        }
+
+        void IList.Clear()
+        {
+            throw new NotSupportedException();
+        }
+
+        bool IList.Contains(object value)
+        {
+            return this.InnerCollection.Contains(value);
+        }
+
+        int IList.IndexOf(object value)
+        {
+            return this.InnerCollection.IndexOf((TElement)value);
+        }
+
+        void IList.Insert(int index, object value)
+        {
+            throw new NotSupportedException();
+        }
+
+        void IList.Remove(object value)
+        {
+            throw new NotSupportedException();
+        }
+
+        void IList.RemoveAt(int index)
+        {
+            throw new NotSupportedException();
+        }
+
+        void ICollection.CopyTo(Array array, int index)
+        {
+            this.InnerCollection.CopyTo((TElement[])array, index);
+        }
     }
 
     /// <summary>
