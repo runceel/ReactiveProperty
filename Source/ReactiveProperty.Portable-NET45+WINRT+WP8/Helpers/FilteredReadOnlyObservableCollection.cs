@@ -381,5 +381,33 @@ namespace Reactive.Bindings.Helpers
         {
             return new FilteredReadOnlyObservableCollection<ReadOnlyObservableCollection<T>, T>(self, filter);
         }
+
+        /// <summary>
+        /// create ReadOnlyReactiveCollection from IFilteredReadOnlyObservableCollection
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this IFilteredReadOnlyObservableCollection<T> self)
+            where T : class, INotifyPropertyChanged
+        {
+            return self.ToReadOnlyReactiveCollection(x => x);
+        }
+
+        /// <summary>
+        /// create ReadOnlyReactiveCollection from IFilteredReadOnlyObservableCollection
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="U"></typeparam>
+        /// <param name="self"></param>
+        /// <param name="converter"></param>
+        /// <returns></returns>
+        public static ReadOnlyReactiveCollection<U> ToReadOnlyReactiveCollection<T, U>(this IFilteredReadOnlyObservableCollection<T> self, Func<T, U> converter)
+            where T : class, INotifyPropertyChanged
+        {
+            return self.ToReadOnlyReactiveCollection(
+                self.ToCollectionChanged<T>(),
+                converter);
+        }
     }
 }
