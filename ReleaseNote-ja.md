@@ -1,5 +1,11 @@
 # リリースノート
 
+## v2.2.7
+
+### 変更
+
+- IFilteredReadOnlyObservableCollectionの内部実装を変更
+
 ## v2.2.6
 
 ### 追加

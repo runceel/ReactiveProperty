@@ -1,5 +1,11 @@
 # Release note
 
+## v2.2.7
+
+### Changes
+
+- Changed internal implementation in IFilteredReadOnlyObservableCollection.
+
 ## v2.2.6
 
 ### Add
