@@ -12,7 +12,7 @@ namespace Reactive.Bindings
     /// <typeparam name="T"></typeparam>
     public class ObservableCollectionAdapter<T> : ListAdapter<T>, IDisposable
     {
-        private INotifyCollectionChanged list;
+        private INotifyCollectionChanged List { get; }
 
         /// <summary>
         /// constructor
@@ -25,8 +25,8 @@ namespace Reactive.Bindings
             : base(list as IList<T>, createRowView, setRowData, getId)
         {
             if (!(list is IList<T>)) { throw new ArgumentException(nameof(list)); }
-            this.list = list;
-            this.list.CollectionChanged += this.CollectionChanged;
+            this.List = list;
+            this.List.CollectionChanged += this.CollectionChanged;
         }
 
         protected override void Dispose(bool disposing)
@@ -34,14 +34,11 @@ namespace Reactive.Bindings
             base.Dispose(disposing);
             if (disposing)
             {
-                this.list.CollectionChanged -= this.CollectionChanged;
+                this.List.CollectionChanged -= this.CollectionChanged;
             }
         }
 
-        private void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            this.NotifyDataSetChanged();
-        }
+        private void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => this.NotifyDataSetChanged();
 
     }
 
@@ -56,10 +53,8 @@ namespace Reactive.Bindings
         /// <param name="setRowData"></param>
         /// <param name="getId"></param>
         /// <returns></returns>
-        public static ObservableCollectionAdapter<T> ToAdapter<T>(this ObservableCollection<T> self, Func<int, T, View> createRowView, Action<int, T, View> setRowData, Func<int, T, long> getId = null)
-        {
-            return new ObservableCollectionAdapter<T>(self, createRowView, setRowData, getId);
-        }
+        public static ObservableCollectionAdapter<T> ToAdapter<T>(this ObservableCollection<T> self, Func<int, T, View> createRowView, Action<int, T, View> setRowData, Func<int, T, long> getId = null) =>
+            new ObservableCollectionAdapter<T>(self, createRowView, setRowData, getId);
     }
 
     public static class ReadOnlyObservableCollectionExtensions
@@ -73,9 +68,7 @@ namespace Reactive.Bindings
         /// <param name="setRowData"></param>
         /// <param name="getId"></param>
         /// <returns></returns>
-        public static ObservableCollectionAdapter<T> ToAdapter<T>(this ReadOnlyObservableCollection<T> self, Func<int, T, View> createRowView, Action<int, T, View> setRowData, Func<int, T, long> getId = null)
-        {
-            return new ObservableCollectionAdapter<T>(self, createRowView, setRowData, getId);
-        }
+        public static ObservableCollectionAdapter<T> ToAdapter<T>(this ReadOnlyObservableCollection<T> self, Func<int, T, View> createRowView, Action<int, T, View> setRowData, Func<int, T, long> getId = null) =>
+            new ObservableCollectionAdapter<T>(self, createRowView, setRowData, getId);
     }
 }

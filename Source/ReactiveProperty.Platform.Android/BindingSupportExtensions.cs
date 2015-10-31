@@ -90,12 +90,10 @@ namespace Reactive.Bindings
         /// <param name="self">IObservable</param>
         /// <param name="command">Command</param>
         /// <returns>Command binding token</returns>
-        public static IDisposable SetCommand<T>(this IObservable<T> self, ReactiveCommand<T> command)
-        {
-            return self
+        public static IDisposable SetCommand<T>(this IObservable<T> self, ReactiveCommand<T> command) =>
+            self
                 .Where(_ => command.CanExecute())
                 .Subscribe(x => command.Execute(x));
-        }
 
         /// <summary>
         /// Command binding method.
@@ -104,12 +102,10 @@ namespace Reactive.Bindings
         /// <param name="self">IObservable</param>
         /// <param name="command">Command</param>
         /// <returns>Command binding token</returns>
-        public static IDisposable SetCommand<T>(this IObservable<T> self, ReactiveCommand command)
-        {
-            return self
+        public static IDisposable SetCommand<T>(this IObservable<T> self, ReactiveCommand command) =>
+            self
                 .Where(_ => command.CanExecute())
                 .Subscribe(x => command.Execute());
-        }
 
     }
 }
