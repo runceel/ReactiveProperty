@@ -26,7 +26,7 @@ namespace Reactive.Bindings.Notifiers
         {
             if (scheduler == null)
             {
-                throw new ArgumentNullException("scheduler");
+                throw new ArgumentNullException(nameof(scheduler));
             }
 
             this.scheduler = scheduler;
@@ -35,28 +35,17 @@ namespace Reactive.Bindings.Notifiers
         /// <summary>
         /// Push value to subscribers on setuped scheduler.
         /// </summary>
-        public void Report(T value)
-        {
-            scheduler.Schedule(() => trigger.OnNext(value));
-        }
+        public void Report(T value) => scheduler.Schedule(() => trigger.OnNext(value));
 
         /// <summary>
         /// Push value to subscribers on setuped scheduler.
         /// </summary>
-        public IDisposable Report(T value, TimeSpan dueTime)
-        {
-            var cancel = scheduler.Schedule(dueTime, () => trigger.OnNext(value));
-            return cancel;
-        }
+        public IDisposable Report(T value, TimeSpan dueTime) => scheduler.Schedule(dueTime, () => trigger.OnNext(value));
 
         /// <summary>
         /// Push value to subscribers on setuped scheduler.
         /// </summary>
-        public IDisposable Report(T value, DateTimeOffset dueTime)
-        {
-            var cancel = scheduler.Schedule(dueTime, () => trigger.OnNext(value));
-            return cancel;
-        }
+        public IDisposable Report(T value, DateTimeOffset dueTime) => scheduler.Schedule(dueTime, () => trigger.OnNext(value));
 
         /// <summary>
         /// Subscribe observer.
@@ -65,7 +54,7 @@ namespace Reactive.Bindings.Notifiers
         {
             if (observer == null)
             {
-                throw new ArgumentNullException("observer");
+                throw new ArgumentNullException(nameof(observer));
             }
 
             return trigger.Subscribe(observer);

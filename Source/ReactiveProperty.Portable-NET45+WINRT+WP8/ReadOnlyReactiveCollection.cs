@@ -18,8 +18,8 @@ namespace Reactive.Bindings
     /// <typeparam name="T">collection item type</typeparam>
     public class ReadOnlyReactiveCollection<T> : ReadOnlyObservableCollection<T>, IDisposable
     {
-        private readonly ObservableCollection<T> source;
-		private readonly CompositeDisposable token = new CompositeDisposable();
+        private ObservableCollection<T> Source { get; set; }
+		private CompositeDisposable Token { get; } = new CompositeDisposable();
 
         /// <summary>
         /// Construct RxCollection from CollectionChanged.
@@ -29,39 +29,39 @@ namespace Reactive.Bindings
         public ReadOnlyReactiveCollection(IObservable<CollectionChanged<T>> ox, ObservableCollection<T> source, IScheduler scheduler = null)
             : base(source)
         {
-            this.source = source;
+            this.Source = source;
             scheduler = scheduler ?? UIDispatcherScheduler.Default;
             var subject = new Subject<CollectionChanged<T>>();
 
-            ox.Subscribe(subject.OnNext, subject.OnError, subject.OnCompleted).AddTo(this.token);
+            ox.Subscribe(subject.OnNext, subject.OnError, subject.OnCompleted).AddTo(this.Token);
 
             subject.Where(v => v.Action == NotifyCollectionChangedAction.Add)
                 .ObserveOn(scheduler)
                 .Subscribe(v =>
                 {
-                    this.source.Insert(v.Index, v.Value);
+                    this.Source.Insert(v.Index, v.Value);
                 })
-                .AddTo(this.token);
+                .AddTo(this.Token);
 
             subject.Where(v => v.Action == NotifyCollectionChangedAction.Remove)
                 .ObserveOn(scheduler)
                 .Subscribe(v =>
                 {
-                    var d = this.source[v.Index] as IDisposable;
+                    var d = this.Source[v.Index] as IDisposable;
                     if (d != null) { d.Dispose(); }
-                    this.source.RemoveAt(v.Index);
+                    this.Source.RemoveAt(v.Index);
                 })
-                .AddTo(this.token);
+                .AddTo(this.Token);
 
             subject.Where(v => v.Action == NotifyCollectionChangedAction.Replace)
                 .ObserveOn(scheduler)
                 .Subscribe(v =>
                 {
-                    var d = this.source[v.Index] as IDisposable;
+                    var d = this.Source[v.Index] as IDisposable;
                     if (d != null) { d.Dispose(); }
-                    this.source[v.Index] = v.Value;
+                    this.Source[v.Index] = v.Value;
                 })
-                .AddTo(this.token);
+                .AddTo(this.Token);
 
             subject.Where(v => v.Action == NotifyCollectionChangedAction.Reset)
                 .ObserveOn(scheduler)
@@ -72,19 +72,19 @@ namespace Reactive.Bindings
                         var d = item as IDisposable;
                         if (d != null) { d.Dispose(); }
                     }
-                    this.source.Clear();
+                    this.Source.Clear();
                 })
-                .AddTo(this.token);
+                .AddTo(this.Token);
 
             subject.Where(x => x.Action == NotifyCollectionChangedAction.Move)
                 .ObserveOn(scheduler)
                 .Subscribe(x =>
                 {
-                    var targetValue = this.source[x.OldIndex];
-                    this.source.RemoveAt(x.OldIndex);
-                    this.source.Insert(x.Index, targetValue);
+                    var targetValue = this.Source[x.OldIndex];
+                    this.Source.RemoveAt(x.OldIndex);
+                    this.Source.Insert(x.Index, targetValue);
                 })
-                .AddTo(this.token);
+                .AddTo(this.Token);
         }
 
         /// <summary>
@@ -94,16 +94,16 @@ namespace Reactive.Bindings
         /// <param name="onReset">Clear</param>
         public ReadOnlyReactiveCollection(IObservable<T> ox, ObservableCollection<T> source, IObservable<Unit> onReset = null, IScheduler scheduler = null) : base(source)
         {
-            this.source = source;
+            this.Source = source;
             scheduler = scheduler ?? UIDispatcherScheduler.Default;
 
             ox
                 .ObserveOn(scheduler)
                 .Subscribe(value =>
             {
-                this.source.Add(value);
+                this.Source.Add(value);
             })
-            .AddTo(this.token);
+            .AddTo(this.Token);
             
             if (onReset != null)
             {
@@ -116,23 +116,23 @@ namespace Reactive.Bindings
                                 var d = item as IDisposable;
                                 d?.Dispose();
                             }
-                            this.source.Clear();
-                        }).AddTo(this.token);
+                            this.Source.Clear();
+                        }).AddTo(this.Token);
             }
         }
 
         /// <summary>
         /// Dispose managed resource.
         /// </summary>
-        public void Dispose()
+        public virtual void Dispose()
         {
-            if (this.token.IsDisposed)
+            if (this.Token.IsDisposed)
             {
                 return;
             }
 
             foreach (var d in this.OfType<IDisposable>().ToArray()) { d.Dispose(); }
-            this.token.Dispose();
+            this.Token.Dispose();
         }
 
     }
@@ -246,10 +246,8 @@ namespace Reactive.Bindings
         /// <typeparam name="T"></typeparam>
         /// <param name="self"></param>
         /// <returns></returns>
-        public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this IObservable<CollectionChanged<T>> self)
-        {
-            return new ReadOnlyReactiveCollection<T>(self, new ObservableCollection<T>());
-        }
+        public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this IObservable<CollectionChanged<T>> self) =>
+            new ReadOnlyReactiveCollection<T>(self, new ObservableCollection<T>());
 
         /// <summary>
         /// Create ReadOnlyReactiveCollection
@@ -257,10 +255,8 @@ namespace Reactive.Bindings
         /// <typeparam name="T"></typeparam>
         /// <param name="self"></param>
         /// <returns></returns>
-        public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this IObservable<CollectionChanged<T>> self, IScheduler scheduler)
-        {
-            return new ReadOnlyReactiveCollection<T>(self, new ObservableCollection<T>(), scheduler);
-        }
+        public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this IObservable<CollectionChanged<T>> self, IScheduler scheduler) =>
+            new ReadOnlyReactiveCollection<T>(self, new ObservableCollection<T>(), scheduler);
 
         /// <summary>
         /// Create ReadOnlyReactiveCollection
@@ -269,10 +265,8 @@ namespace Reactive.Bindings
         /// <param name="self"></param>
         /// <param name="onReset"></param>
         /// <returns></returns>
-        public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this IObservable<T> self, IObservable<Unit> onReset = null, IScheduler scheduler = null)
-        {
-            return new ReadOnlyReactiveCollection<T>(self, new ObservableCollection<T>(), onReset, scheduler);
-        }
+        public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this IObservable<T> self, IObservable<Unit> onReset = null, IScheduler scheduler = null) =>
+            new ReadOnlyReactiveCollection<T>(self, new ObservableCollection<T>(), onReset, scheduler);
 
         /// <summary>
         /// convert INotifyCollectionChanged to IO&lt;CollectionChanged&gt;
@@ -325,10 +319,8 @@ namespace Reactive.Bindings
         /// <typeparam name="T"></typeparam>
         /// <param name="self"></param>
         /// <returns></returns>
-        public static IObservable<CollectionChanged<T>> ToCollectionChanged<T>(this ObservableCollection<T> self)
-        {
-            return ((INotifyCollectionChanged)self).ToCollectionChanged<T>();
-        }
+        public static IObservable<CollectionChanged<T>> ToCollectionChanged<T>(this ObservableCollection<T> self) =>
+            ((INotifyCollectionChanged)self).ToCollectionChanged<T>();
 
         /// <summary>
         /// convert ReadOnlyObservableCollection to IO&lt;T&gt;
@@ -336,10 +328,8 @@ namespace Reactive.Bindings
         /// <typeparam name="T">source type</typeparam>
         /// <param name="self">source</param>
         /// <returns>dest</returns>
-        public static IObservable<CollectionChanged<T>> ToCollectionChanged<T>(this ReadOnlyObservableCollection<T> self)
-        {
-            return ((INotifyCollectionChanged)self).ToCollectionChanged<T>();
-        }
+        public static IObservable<CollectionChanged<T>> ToCollectionChanged<T>(this ReadOnlyObservableCollection<T> self) =>
+            ((INotifyCollectionChanged)self).ToCollectionChanged<T>();
 
         /// <summary>
         /// Convert IEnumerable to ReadOnlyReactiveCollection
@@ -352,10 +342,8 @@ namespace Reactive.Bindings
         public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(
             this IEnumerable<T> self, 
             IObservable<CollectionChanged<T>> collectionChanged, 
-            IScheduler scheduler = null)
-        {
-            return self.ToReadOnlyReactiveCollection<T, T>(collectionChanged, x => x, scheduler);
-        }
+            IScheduler scheduler = null) =>
+            self.ToReadOnlyReactiveCollection<T, T>(collectionChanged, x => x, scheduler);
 
         /// <summary>
         /// Convert IEnumerable to ReadOnlyReactiveCollection
@@ -393,10 +381,8 @@ namespace Reactive.Bindings
         /// <param name="self"></param>
         /// <returns></returns>
         public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this ObservableCollection<T> self, IScheduler scheduler = null)
-            where T : class
-        {
-            return self.ToReadOnlyReactiveCollection(x => x, scheduler);
-        }
+            where T : class =>
+            self.ToReadOnlyReactiveCollection(x => x, scheduler);
 
         /// <summary>
         /// convert ObservableCollection to ReadOnlyReactiveCollection
@@ -406,13 +392,11 @@ namespace Reactive.Bindings
         /// <param name="self"></param>
         /// <param name="converter"></param>
         /// <returns></returns>
-        public static ReadOnlyReactiveCollection<U> ToReadOnlyReactiveCollection<T, U>(this ObservableCollection<T> self, Func<T, U> converter, IScheduler scheduler = null)
-        {
-            return ((IEnumerable<T>)self).ToReadOnlyReactiveCollection(
+        public static ReadOnlyReactiveCollection<U> ToReadOnlyReactiveCollection<T, U>(this ObservableCollection<T> self, Func<T, U> converter, IScheduler scheduler = null) =>
+            ((IEnumerable<T>)self).ToReadOnlyReactiveCollection(
                 self.ToCollectionChanged(),
                 converter,
                 scheduler);
-        }
 
         /// <summary>
         /// convert ReadOnlyObservableCollection to ReadOnlyReactiveCollection
@@ -420,11 +404,9 @@ namespace Reactive.Bindings
         /// <typeparam name="T"></typeparam>
         /// <param name="self"></param>
         /// <returns></returns>
-        public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this ReadOnlyObservableCollection<T> self, IScheduler scheduler = null)
-            where T : class
-        {
-            return self.ToReadOnlyReactiveCollection(x => x, scheduler);
-        }
+        public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this ReadOnlyObservableCollection<T> self, IScheduler scheduler = null) 
+            where T : class =>
+            self.ToReadOnlyReactiveCollection(x => x, scheduler);
 
         /// <summary>
         /// convert ReadOnlyObservableCollection to ReadOnlyReactiveCollection
@@ -434,12 +416,10 @@ namespace Reactive.Bindings
         /// <param name="self"></param>
         /// <param name="converter"></param>
         /// <returns></returns>
-        public static ReadOnlyReactiveCollection<U> ToReadOnlyReactiveCollection<T, U>(this ReadOnlyObservableCollection<T> self, Func<T, U> converter, IScheduler scheduler = null)
-        {
-            return ((IEnumerable<T>)self).ToReadOnlyReactiveCollection(
+        public static ReadOnlyReactiveCollection<U> ToReadOnlyReactiveCollection<T, U>(this ReadOnlyObservableCollection<T> self, Func<T, U> converter, IScheduler scheduler = null) =>
+            ((IEnumerable<T>)self).ToReadOnlyReactiveCollection(
                 self.ToCollectionChanged(),
                 converter,
                 scheduler);
-        }
     }
 }

@@ -11,7 +11,7 @@ namespace Reactive.Bindings
     /// </summary>
     public static class UIDispatcherScheduler
     {
-        private static readonly Lazy<SynchronizationContextScheduler> defaultScheduler =
+        private static Lazy<SynchronizationContextScheduler> DefaultScheduler { get; } =
             new Lazy<SynchronizationContextScheduler>(() =>
                 {
                     if (SynchronizationContext.Current == null)
@@ -27,20 +27,14 @@ namespace Reactive.Bindings
         /// <para>UIDIspatcherScheduler is created when access to UIDispatcher.Default first in the whole application.</para>
         /// <para>If you want to explicitly initialize, call UIDispatcherScheduler.Initialize() in App.xaml.cs.</para>
         /// </summary>
-        public static IScheduler Default
-        {
-            get 
-            {
-                return defaultScheduler.Value; 
-            }
-        }
+        public static IScheduler Default => DefaultScheduler.Value; 
 
         /// <summary>
         /// Create UIDispatcherSchedule on called thread if is not initialized yet.
         /// </summary>
         public static void Initialize()
         {
-            var _ = defaultScheduler.Value;
+            var _ = DefaultScheduler.Value;
         }
 
     }

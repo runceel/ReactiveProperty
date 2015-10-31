@@ -6,9 +6,7 @@ namespace Reactive.Bindings.Extensions
 {
     public static class ToUnitObservableExtensions
     {
-        public static IObservable<Unit> ToUnit<T>(this IObservable<T> self)
-        {
-            return self.Select(_ => Unit.Default);
-        }
+        public static IObservable<Unit> ToUnit<T>(this IObservable<T> self) =>
+            self.Select(_ => Unit.Default);
     }
 }

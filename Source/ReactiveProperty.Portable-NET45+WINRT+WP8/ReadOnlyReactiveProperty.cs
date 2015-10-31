@@ -16,13 +16,13 @@ namespace Reactive.Bindings
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private readonly Subject<T> innerSource = new Subject<T>();
+        private Subject<T> InnerSource { get; } = new Subject<T>();
 
-        private T latestValue;
+        private T LatestValue { get; set; }
 
-        private readonly CompositeDisposable subscription = new CompositeDisposable();
+        private CompositeDisposable Subscription { get; } = new CompositeDisposable();
 
-        private readonly bool isRaiseLatestValueOnSubscribe;
+        private bool IsRaiseLatestValueOnSubscribe { get; }
 
         internal ReadOnlyReactiveProperty(
             IObservable<T> source, 
@@ -30,52 +30,49 @@ namespace Reactive.Bindings
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe,
             IScheduler eventScheduler = null)
         {
-            this.latestValue = initialValue;
+            this.LatestValue = initialValue;
             var ox = mode.HasFlag(ReactivePropertyMode.DistinctUntilChanged)
                 ? source.DistinctUntilChanged()
                 : source;
 
             ox.Do(x =>
                 {
-                    this.latestValue = x;
-                    this.innerSource.OnNext(x);
+                    this.LatestValue = x;
+                    this.InnerSource.OnNext(x);
                 })
                 .ObserveOn(eventScheduler ?? UIDispatcherScheduler.Default)
                 .Subscribe(_ =>
                 {
                     this.PropertyChanged?.Invoke(this, SingletonPropertyChangedEventArgs.Value);
                 })
-                .AddTo(this.subscription);
-            this.isRaiseLatestValueOnSubscribe = mode.HasFlag(ReactivePropertyMode.RaiseLatestValueOnSubscribe);
+                .AddTo(this.Subscription);
+            this.IsRaiseLatestValueOnSubscribe = mode.HasFlag(ReactivePropertyMode.RaiseLatestValueOnSubscribe);
         }
 
         /// <summary>
         /// Get latest value.
         /// </summary>
-        public T Value
-        {
-            get { return this.latestValue; }
-        }
+        public T Value => this.LatestValue; 
 
         public IDisposable Subscribe(IObserver<T> observer)
         {
-            if (this.subscription.IsDisposed)
+            if (this.Subscription.IsDisposed)
             {
                 observer.OnCompleted();
                 return Disposable.Empty;
             }
 
-            var result = this.innerSource.Subscribe(observer);
-            if (this.isRaiseLatestValueOnSubscribe) { observer.OnNext(this.latestValue); }
+            var result = this.InnerSource.Subscribe(observer);
+            if (this.IsRaiseLatestValueOnSubscribe) { observer.OnNext(this.LatestValue); }
             return result;
         }
 
         public void Dispose()
         {
-            if (!this.subscription.IsDisposed)
+            if (!this.Subscription.IsDisposed)
             {
-                this.innerSource.OnCompleted();
-                this.subscription.Dispose();
+                this.InnerSource.OnCompleted();
+                this.Subscription.Dispose();
             }
         }
     }
@@ -97,13 +94,11 @@ namespace Reactive.Bindings
         public static ReadOnlyReactiveProperty<T> ToReadOnlyReactiveProperty<T>(this IObservable<T> self,
             T initialValue = default(T),
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe,
-            IScheduler eventScheduler = null)
-        {
-            return new ReadOnlyReactiveProperty<T>(
+            IScheduler eventScheduler = null) =>
+            new ReadOnlyReactiveProperty<T>(
                 self,
                 initialValue,
                 mode,
                 eventScheduler);
-        }
     }
 }

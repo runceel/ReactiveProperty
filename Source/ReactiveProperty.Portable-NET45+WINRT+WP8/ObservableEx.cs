@@ -5,10 +5,7 @@ namespace Reactive.Bindings
 {
     internal static class EnumerableEx
     {
-        public static IEnumerable<T> Defer<T>(Func<IEnumerable<T>> enumerableFactory)
-        {
-	        return enumerableFactory();
-        }
+        public static IEnumerable<T> Defer<T>(Func<IEnumerable<T>> enumerableFactory) => enumerableFactory();
 
 	    public static IEnumerable<TSource[]> Buffer<TSource>(this IEnumerable<TSource> source, int count)
         {

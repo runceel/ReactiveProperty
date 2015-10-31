@@ -53,11 +53,11 @@ namespace Reactive.Bindings
     {
         public event EventHandler CanExecuteChanged;
 
-        readonly Subject<T> trigger = new Subject<T>();
-        readonly IDisposable canExecuteSubscription;
-        readonly IScheduler scheduler;
-        bool isCanExecute;
-        bool isDisposed = false;
+        private Subject<T> Trigger { get; } = new Subject<T>();
+        private IDisposable CanExecuteSubscription { get; }
+        private IScheduler Scheduler { get; }
+        private bool IsCanExecute { get; set; }
+        private bool IsDisposed { get; set; } = false;
 
         /// <summary>
         /// CanExecute is always true. When disposed CanExecute change false called on UIDispatcherScheduler.
@@ -88,66 +88,51 @@ namespace Reactive.Bindings
         /// </summary>
         public ReactiveCommand(IObservable<bool> canExecuteSource, IScheduler scheduler, bool initialValue = true)
         {
-            this.isCanExecute = initialValue;
-            this.scheduler = scheduler;
-            this.canExecuteSubscription = canExecuteSource
+            this.IsCanExecute = initialValue;
+            this.Scheduler = scheduler;
+            this.CanExecuteSubscription = canExecuteSource
                 .DistinctUntilChanged()
                 .ObserveOn(scheduler)
                 .Subscribe(b =>
                 {
-                    isCanExecute = b;
+                    IsCanExecute = b;
                     this.CanExecuteChanged?.Invoke(this, EventArgs.Empty);
                 });
         }
 
         /// <summary>Return current canExecute status.</summary>
-        public bool CanExecute()
-        {
-            return isCanExecute;
-        }
+        public bool CanExecute() => IsCanExecute;
 
         /// <summary>Return current canExecute status. parameter is ignored.</summary>
-        bool ICommand.CanExecute(object parameter)
-        {
-            return isCanExecute;
-        }
+        bool ICommand.CanExecute(object parameter) => IsCanExecute;
 
         /// <summary>Push parameter to subscribers.</summary>
-        public void Execute(T parameter)
-        {
-            trigger.OnNext(parameter);
-        }
+        public void Execute(T parameter) => Trigger.OnNext(parameter);
 
         /// <summary>Push parameter to subscribers.</summary>
-        void ICommand.Execute(object parameter)
-        {
-            trigger.OnNext((T)parameter);
-        }
+        void ICommand.Execute(object parameter) => Trigger.OnNext((T)parameter);
 
         /// <summary>Subscribe execute.</summary>
-        public IDisposable Subscribe(IObserver<T> observer)
-        {
-            return trigger.Subscribe(observer);
-        }
+        public IDisposable Subscribe(IObserver<T> observer) => Trigger.Subscribe(observer);
 
         /// <summary>
         /// Stop all subscription and lock CanExecute is false.
         /// </summary>
         public void Dispose()
         {
-            if (isDisposed) return;
+            if (IsDisposed) return;
 
-            isDisposed = true;
-            trigger.OnCompleted();
-            trigger.Dispose();
-            canExecuteSubscription.Dispose();
+            IsDisposed = true;
+            Trigger.OnCompleted();
+            Trigger.Dispose();
+            CanExecuteSubscription.Dispose();
 
-            if (isCanExecute)
+            if (IsCanExecute)
             {
-                isCanExecute = false;
-                scheduler.Schedule(() =>
+                IsCanExecute = false;
+                Scheduler.Schedule(() =>
                 {
-                    isCanExecute = false;
+                    IsCanExecute = false;
                     var handler = CanExecuteChanged;
                     if (handler != null) handler(this, EventArgs.Empty);
                 });
@@ -160,33 +145,25 @@ namespace Reactive.Bindings
         /// <summary>
         /// CanExecuteChanged is called from canExecute sequence on UIDispatcherScheduler.
         /// </summary>
-        public static ReactiveCommand ToReactiveCommand(this IObservable<bool> canExecuteSource, bool initialValue = true)
-        {
-            return new ReactiveCommand(canExecuteSource, initialValue);
-        }
+        public static ReactiveCommand ToReactiveCommand(this IObservable<bool> canExecuteSource, bool initialValue = true) => 
+            new ReactiveCommand(canExecuteSource, initialValue);
 
         /// <summary>
         /// CanExecuteChanged is called from canExecute sequence on scheduler.
         /// </summary>
-        public static ReactiveCommand ToReactiveCommand(this IObservable<bool> canExecuteSource, IScheduler scheduler, bool initialValue = true)
-        {
-            return new ReactiveCommand(canExecuteSource, scheduler, initialValue);
-        }
+        public static ReactiveCommand ToReactiveCommand(this IObservable<bool> canExecuteSource, IScheduler scheduler, bool initialValue = true) =>
+            new ReactiveCommand(canExecuteSource, scheduler, initialValue);
 
         /// <summary>
         /// CanExecuteChanged is called from canExecute sequence on UIDispatcherScheduler.
         /// </summary>
-        public static ReactiveCommand<T> ToReactiveCommand<T>(this IObservable<bool> canExecuteSource, bool initialValue = true)
-        {
-            return new ReactiveCommand<T>(canExecuteSource, initialValue);
-        }
+        public static ReactiveCommand<T> ToReactiveCommand<T>(this IObservable<bool> canExecuteSource, bool initialValue = true) =>
+            new ReactiveCommand<T>(canExecuteSource, initialValue);
 
         /// <summary>
         /// CanExecuteChanged is called from canExecute sequence on scheduler.
         /// </summary>
-        public static ReactiveCommand<T> ToReactiveCommand<T>(this IObservable<bool> canExecuteSource, IScheduler scheduler, bool initialValue = true)
-        {
-            return new ReactiveCommand<T>(canExecuteSource, scheduler, initialValue);
-        }
+        public static ReactiveCommand<T> ToReactiveCommand<T>(this IObservable<bool> canExecuteSource, IScheduler scheduler, bool initialValue = true) =>
+            new ReactiveCommand<T>(canExecuteSource, scheduler, initialValue);
     }
 }

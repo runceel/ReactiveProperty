@@ -11,13 +11,13 @@
         /// <summary>
         /// Gets event sender.
         /// </summary>
-        public TSender Sender { get; private set; }
+        public TSender Sender { get; }
 
 
         /// <summary>
         /// Gets event argument.
         /// </summary>
-        public TEventArgs EventArgs { get; private set; }
+        public TEventArgs EventArgs { get; }
         #endregion
 
 
@@ -50,9 +50,7 @@
         /// <param name="sender">sender value</param>
         /// <param name="eventArgs">event arguments</param>
         /// <returns>Created instance.</returns>
-        public static SenderEventArgsPair<TSender, TEventArgs> Create<TSender, TEventArgs>(TSender sender, TEventArgs eventArgs)
-        {
-            return new SenderEventArgsPair<TSender, TEventArgs>(sender, eventArgs);
-        }
+        public static SenderEventArgsPair<TSender, TEventArgs> Create<TSender, TEventArgs>(TSender sender, TEventArgs eventArgs) =>
+            new SenderEventArgsPair<TSender, TEventArgs>(sender, eventArgs);
     }
 }

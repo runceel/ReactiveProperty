@@ -9,13 +9,11 @@ namespace Reactive.Bindings.Extensions
     {
         /// <summary>Converts ErrorsChanged to an observable sequence.</summary>
         public static IObservable<DataErrorsChangedEventArgs> ErrorsChangedAsObservable<T>(this T subject)
-            where T : INotifyDataErrorInfo
-        {
-            return Observable.FromEvent<EventHandler<DataErrorsChangedEventArgs>, DataErrorsChangedEventArgs>(
+            where T : INotifyDataErrorInfo =>
+            Observable.FromEvent<EventHandler<DataErrorsChangedEventArgs>, DataErrorsChangedEventArgs>(
                 h => (sender, e) => h(e),
                 h => subject.ErrorsChanged += h,
                 h => subject.ErrorsChanged -= h);
-        }
 
         /// <summary>
         /// Converts target property's ErrorsChanged to an observable sequence.

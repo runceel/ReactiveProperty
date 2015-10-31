@@ -11,51 +11,40 @@ namespace Reactive.Bindings.Extensions
         /// <para>This is same as Retry().</para>
         /// </summary>
         public static IObservable<TSource> OnErrorRetry<TSource>(
-            this IObservable<TSource> source)
-        {
-            var result = source.Retry();
-            return result;
-        }
+            this IObservable<TSource> source) =>
+            source.Retry();
 
         /// <summary>
         /// When catched exception, do onError action and repeat observable sequence.
         /// </summary>
         public static IObservable<TSource> OnErrorRetry<TSource, TException>(
             this IObservable<TSource> source, Action<TException> onError)
-            where TException : Exception
-        {
-            return source.OnErrorRetry(onError, TimeSpan.Zero);
-        }
+            where TException : Exception =>
+            source.OnErrorRetry(onError, TimeSpan.Zero);
 
         /// <summary>
         /// When catched exception, do onError action and repeat observable sequence after delay time.
         /// </summary>
         public static IObservable<TSource> OnErrorRetry<TSource, TException>(
             this IObservable<TSource> source, Action<TException> onError, TimeSpan delay)
-            where TException : Exception
-        {
-            return source.OnErrorRetry(onError, int.MaxValue, delay);
-        }
+            where TException : Exception =>
+            source.OnErrorRetry(onError, int.MaxValue, delay);
 
         /// <summary>
         /// When catched exception, do onError action and repeat observable sequence during within retryCount.
         /// </summary>
         public static IObservable<TSource> OnErrorRetry<TSource, TException>(
             this IObservable<TSource> source, Action<TException> onError, int retryCount)
-            where TException : Exception
-        {
-            return source.OnErrorRetry(onError, retryCount, TimeSpan.Zero);
-        }
+            where TException : Exception =>
+            source.OnErrorRetry(onError, retryCount, TimeSpan.Zero);
 
         /// <summary>
         /// When catched exception, do onError action and repeat observable sequence after delay time during within retryCount.
         /// </summary>
         public static IObservable<TSource> OnErrorRetry<TSource, TException>(
             this IObservable<TSource> source, Action<TException> onError, int retryCount, TimeSpan delay)
-            where TException : Exception
-        {
-            return source.OnErrorRetry(onError, retryCount, delay, Scheduler.Default);
-        }
+            where TException : Exception =>
+            source.OnErrorRetry(onError, retryCount, delay, Scheduler.Default);
 
         /// <summary>
         /// When catched exception, do onError action and repeat observable sequence after delay time(work on delayScheduler) during within retryCount.

@@ -10,11 +10,9 @@ namespace Reactive.Bindings.Helpers
 {
     public static class SerializeHelper
     {
-        static IEnumerable<PropertyInfo> GetIValueProperties(object target)
-        {
-            return target.GetType().GetRuntimeProperties()
+        static IEnumerable<PropertyInfo> GetIValueProperties(object target) =>
+            target.GetType().GetRuntimeProperties()
                 .Where(pi => typeof(IReactiveProperty).GetTypeInfo().IsAssignableFrom(pi.PropertyType.GetTypeInfo()));
-        }
 
         /// <summary>
         /// Serialize target contains ReactiveProperty's Value.

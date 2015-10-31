@@ -19,10 +19,7 @@ namespace Reactive.Bindings.Interactivity
         /// </summary>
         public object AssociateObject { get; set; }
 
-        public IObservable<object> Convert(IObservable<object> source)
-        {
-            return this.OnConvert(source.Cast<T>()).Select(x => (object)x);
-        }
+        public IObservable<object> Convert(IObservable<object> source) => this.OnConvert(source.Cast<T>()).Select(x => (object)x);
 
         /// <summary>
         /// Converts IO&lt;T&gt to IO&lt;U&gt;.

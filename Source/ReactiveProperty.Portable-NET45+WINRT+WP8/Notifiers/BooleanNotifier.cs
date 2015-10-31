@@ -60,23 +60,14 @@ namespace Reactive.Bindings.Notifiers
         /// <summary>
         /// Set and raise reverse value.
         /// </summary>
-        public void SwitchValue()
-        {
-            Value = !Value;
-        }
+        public void SwitchValue() => Value = !Value;
 
 
         /// <summary>
         /// Subscribe observer.
         /// </summary>
-        public IDisposable Subscribe(IObserver<bool> observer)
-        {
-            return boolTrigger.Subscribe(observer);
-        }
+        public IDisposable Subscribe(IObserver<bool> observer) => boolTrigger.Subscribe(observer);
 
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null) => this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

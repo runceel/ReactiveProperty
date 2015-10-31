@@ -22,7 +22,7 @@ namespace Reactive.Bindings
             var attrs = propertyInfo.GetCustomAttributes<ValidationAttribute>().ToArray();
             var context = new ValidationContext(self)
             {
-                MemberName = "Value"
+                MemberName = nameof(ReactiveProperty<T>.Value)
             };
 
             if (attrs.Length != 0)

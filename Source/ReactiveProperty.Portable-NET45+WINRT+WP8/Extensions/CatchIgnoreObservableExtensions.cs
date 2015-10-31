@@ -7,11 +7,8 @@ namespace Reactive.Bindings.Extensions
     {
         /// <summary>Catch exception and return Observable.Empty.</summary>
         public static IObservable<TSource> CatchIgnore<TSource>(
-            this IObservable<TSource> source)
-        {
-            var result = source.Catch(Observable.Empty<TSource>());
-            return result;
-        }
+            this IObservable<TSource> source) => 
+            source.Catch(Observable.Empty<TSource>());
 
         /// <summary>Catch exception and return Observable.Empty.</summary>
         public static IObservable<TSource> CatchIgnore<TSource, TException>(

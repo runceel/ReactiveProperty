@@ -6,10 +6,8 @@ namespace Reactive.Bindings.Extensions
     public static class ObservablePairwiseExtensions
     {
         /// <summary>Projects old and new element of a sequence into a new form.</summary>
-        public static IObservable<OldNewPair<T>> Pairwise<T>(this IObservable<T> source)
-        {
-            return Pairwise(source, (x, y) => new OldNewPair<T>(x, y));
-        }
+        public static IObservable<OldNewPair<T>> Pairwise<T>(this IObservable<T> source) =>
+            Pairwise(source, (x, y) => new OldNewPair<T>(x, y));
 
         /// <summary>Projects old and new element of a sequence into a new form.</summary>
         public static IObservable<TR> Pairwise<T, TR>(this IObservable<T> source, Func<T, T, TR> selector)

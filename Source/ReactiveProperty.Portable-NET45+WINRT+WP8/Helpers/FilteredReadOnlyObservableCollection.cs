@@ -177,51 +177,19 @@ namespace Reactive.Bindings.Helpers
         /// <summary>
         /// Count
         /// </summary>
-        public int Count
-        {
-            get { return this.InnerCollection.Count; }
-        }
-
-        bool IList.IsFixedSize
-        {
-            get
-            {
-                return false;
-            }
-        }
-
-        bool IList.IsReadOnly
-        {
-            get
-            {
-                return true;
-            }
-        }
+        public int Count =>  this.InnerCollection.Count;
 
 
-        bool ICollection.IsSynchronized
-        {
-            get
-            {
-                return false;
-            }
-        }
+        bool IList.IsFixedSize => false;
 
-        object ICollection.SyncRoot
-        {
-            get
-            {
-                return null;
-            }
-        }
+        bool IList.IsReadOnly => true;
 
-        public TElement this[int index]
-        {
-            get
-            {
-                return this.InnerCollection[index];
-            }
-        }
+
+        bool ICollection.IsSynchronized => false;
+
+        object ICollection.SyncRoot => null;
+
+        public TElement this[int index] => this.InnerCollection[index];
 
         object IList.this[int index]
         {
@@ -240,20 +208,9 @@ namespace Reactive.Bindings.Helpers
         /// get enumerator
         /// </summary>
         /// <returns></returns>
-        public IEnumerator<TElement> GetEnumerator()
-        {
-            return this.InnerCollection.GetEnumerator();
-            //return this.IndexList
-            //    .Select((x, index) => new { x, index })
-            //    .Where(x => x.x.HasValue)
-            //    .Select(x => this.Source[x.index])
-            //    .GetEnumerator();
-        }
+        public IEnumerator<TElement> GetEnumerator() => this.InnerCollection.GetEnumerator();
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
-        }
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => this.GetEnumerator();
 
         private void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
@@ -281,11 +238,7 @@ namespace Reactive.Bindings.Helpers
             this.Subscription.Dispose();
         }
 
-        private int FindNearIndex(int position)
-        {
-            var index = this.IndexList.Take(position).Reverse().FirstOrDefault(x => x != null);
-            return index ?? -1;
-        }
+        private int FindNearIndex(int position) => this.IndexList.Take(position).Reverse().FirstOrDefault(x => x != null) ?? -1;
 
         private void AppearNewItem(int index)
         {
@@ -320,15 +273,9 @@ namespace Reactive.Bindings.Helpers
             throw new NotSupportedException();
         }
 
-        bool IList.Contains(object value)
-        {
-            return this.InnerCollection.Contains(value);
-        }
+        bool IList.Contains(object value) => this.InnerCollection.Contains(value);
 
-        int IList.IndexOf(object value)
-        {
-            return this.InnerCollection.IndexOf((TElement)value);
-        }
+        int IList.IndexOf(object value) => this.InnerCollection.IndexOf((TElement)value);
 
         void IList.Insert(int index, object value)
         {
@@ -345,10 +292,7 @@ namespace Reactive.Bindings.Helpers
             throw new NotSupportedException();
         }
 
-        void ICollection.CopyTo(Array array, int index)
-        {
-            this.InnerCollection.CopyTo((TElement[])array, index);
-        }
+        void ICollection.CopyTo(Array array, int index) => this.InnerCollection.CopyTo((TElement[])array, index);
     }
 
     /// <summary>
@@ -364,10 +308,8 @@ namespace Reactive.Bindings.Helpers
         /// <param name="filter">Filter function.</param>
         /// <returns></returns>
         public static IFilteredReadOnlyObservableCollection<T> ToFilteredReadOnlyObservableCollection<T>(this ObservableCollection<T> self, Func<T, bool> filter)
-            where T : class, INotifyPropertyChanged
-        {
-            return new FilteredReadOnlyObservableCollection<ObservableCollection<T>, T>(self, filter);
-        }
+            where T : class, INotifyPropertyChanged =>
+            new FilteredReadOnlyObservableCollection<ObservableCollection<T>, T>(self, filter);
 
         /// <summary>
         /// create IFilteredReadOnlyObservableCollection from ReadOnlyObservableCollection
@@ -377,10 +319,8 @@ namespace Reactive.Bindings.Helpers
         /// <param name="filter">Filter function.</param>
         /// <returns></returns>
         public static IFilteredReadOnlyObservableCollection<T> ToFilteredReadOnlyObservableCollection<T>(this ReadOnlyObservableCollection<T> self, Func<T, bool> filter)
-            where T : class, INotifyPropertyChanged
-        {
-            return new FilteredReadOnlyObservableCollection<ReadOnlyObservableCollection<T>, T>(self, filter);
-        }
+            where T : class, INotifyPropertyChanged =>
+            new FilteredReadOnlyObservableCollection<ReadOnlyObservableCollection<T>, T>(self, filter);
 
         /// <summary>
         /// create ReadOnlyReactiveCollection from IFilteredReadOnlyObservableCollection
@@ -389,10 +329,8 @@ namespace Reactive.Bindings.Helpers
         /// <param name="self"></param>
         /// <returns></returns>
         public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this IFilteredReadOnlyObservableCollection<T> self)
-            where T : class, INotifyPropertyChanged
-        {
-            return self.ToReadOnlyReactiveCollection(x => x);
-        }
+            where T : class, INotifyPropertyChanged =>
+            self.ToReadOnlyReactiveCollection(x => x);
 
         /// <summary>
         /// create ReadOnlyReactiveCollection from IFilteredReadOnlyObservableCollection
@@ -403,11 +341,9 @@ namespace Reactive.Bindings.Helpers
         /// <param name="converter"></param>
         /// <returns></returns>
         public static ReadOnlyReactiveCollection<U> ToReadOnlyReactiveCollection<T, U>(this IFilteredReadOnlyObservableCollection<T> self, Func<T, U> converter)
-            where T : class, INotifyPropertyChanged
-        {
-            return self.ToReadOnlyReactiveCollection(
+            where T : class, INotifyPropertyChanged =>
+            self.ToReadOnlyReactiveCollection(
                 self.ToCollectionChanged<T>(),
                 converter);
-        }
     }
 }

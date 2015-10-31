@@ -30,13 +30,7 @@ namespace Reactive.Bindings.Notifiers
         readonly int max;
         private int count;
 
-        public int Max 
-        { 
-            get 
-            { 
-                return max; 
-            } 
-        }
+        public int Max => max; 
 
         public int Count 
         {
@@ -55,7 +49,7 @@ namespace Reactive.Bindings.Notifiers
         {
             if (max <= 0)
             {
-                throw new ArgumentException("max");
+                throw new ArgumentException(nameof(max));
             }
 
             this.max = max;
@@ -68,7 +62,7 @@ namespace Reactive.Bindings.Notifiers
         {
             if (incrementCount < 0)
             {
-                throw new ArgumentException("incrementCount");
+                throw new ArgumentException(nameof(incrementCount));
             }
 
             lock (lockObject)
@@ -91,7 +85,7 @@ namespace Reactive.Bindings.Notifiers
         {
             if (decrementCount < 0)
             {
-                throw new ArgumentException("decrementCount");
+                throw new ArgumentException(nameof(decrementCount));
             }
 
             lock (lockObject)
@@ -108,15 +102,10 @@ namespace Reactive.Bindings.Notifiers
         /// <summary>
         /// Subscribe observer.
         /// </summary>
-        public IDisposable Subscribe(IObserver<CountChangedStatus> observer)
-        {
-            return statusChanged.Subscribe(observer);
-        }
+        public IDisposable Subscribe(IObserver<CountChangedStatus> observer) => statusChanged.Subscribe(observer);
 
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
     }
 }

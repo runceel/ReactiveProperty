@@ -28,9 +28,9 @@ namespace Reactive.Bindings
         /// <param name="getId">get id</param>
         public ListAdapter(IList<T> list, Func<int, T, View> createRowView, Action<int, T, View> setRowData, Func<int, T, long> getId = null)
         {
-            if (list == null) { throw new ArgumentNullException("list"); }
-            if (createRowView == null) { throw new ArgumentNullException("createRowView"); }
-            if (setRowData == null) { throw new ArgumentNullException("setRowData"); }
+            if (list == null) { throw new ArgumentNullException(nameof(list)); }
+            if (createRowView == null) { throw new ArgumentNullException(nameof(createRowView); }
+            if (setRowData == null) { throw new ArgumentNullException(nameof(setRowData)); }
 
             this.list = list;
             this.createRowView = createRowView;

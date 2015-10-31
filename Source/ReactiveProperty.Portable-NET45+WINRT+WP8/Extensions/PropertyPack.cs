@@ -41,8 +41,8 @@ namespace Reactive.Bindings.Extensions
         /// <param name="value">Property value</param>
         internal PropertyPack(TInstance instance, PropertyInfo property, TValue value)
         {
-            if (instance == null) throw new ArgumentNullException("instance");
-            if (property == null) throw new ArgumentNullException("property");
+            if (instance == null) throw new ArgumentNullException(nameof(instance));
+            if (property == null) throw new ArgumentNullException(nameof(property));
 
             this.Instance = instance;
             this.Property = property;
@@ -65,9 +65,7 @@ namespace Reactive.Bindings.Extensions
         /// <param name="property">Target property info</param>
         /// <param name="value">Property value</param>
         /// <returns>Created instance</returns>
-        public static PropertyPack<TInstance, TValue> Create<TInstance, TValue>(TInstance instance, PropertyInfo property, TValue value)
-        {
-            return new PropertyPack<TInstance,TValue>(instance, property, value);
-        }
+        public static PropertyPack<TInstance, TValue> Create<TInstance, TValue>(TInstance instance, PropertyInfo property, TValue value) =>
+            new PropertyPack<TInstance,TValue>(instance, property, value);
     }
 }

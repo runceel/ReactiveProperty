@@ -15,11 +15,11 @@ namespace Reactive.Bindings
 {
     internal class SingletonPropertyChangedEventArgs
     {
-        public static readonly PropertyChangedEventArgs Value = new PropertyChangedEventArgs("Value");
+        public static readonly PropertyChangedEventArgs Value = new PropertyChangedEventArgs(nameof(ReactiveProperty<object>.Value));
     }
     internal class SingletonDataErrorsChangedEventArgs
     {
-        public static readonly DataErrorsChangedEventArgs Value = new DataErrorsChangedEventArgs("Value");
+        public static readonly DataErrorsChangedEventArgs Value = new DataErrorsChangedEventArgs(nameof(ReactiveProperty<object>.Value));
     }
 
     [Flags]
@@ -48,20 +48,20 @@ namespace Reactive.Bindings
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        T latestValue;
-        bool isDisposed = false;
-        readonly IScheduler raiseEventScheduler;
-        readonly IObservable<T> source;
-        readonly Subject<T> anotherTrigger = new Subject<T>();
-        readonly ISubject<T> validationTrigger;
-        readonly IDisposable sourceDisposable;
-        readonly IDisposable raiseSubscription;
+        private T LatestValue { get; set; }
+        private bool IsDisposed { get; set; } = false;
+        private IScheduler RaiseEventScheduler { get; }
+        private IObservable<T> Source { get; }
+        private Subject<T> AnotherTrigger { get; } = new Subject<T>();
+        private ISubject<T> ValidationTrigger { get; }
+        private IDisposable SourceDisposable { get; }
+        private IDisposable RaiseSubscription { get; }
 
         // for Validation
-        bool isValueChanged = false;
-        readonly SerialDisposable validateNotifyErrorSubscription = new SerialDisposable();
-        readonly BehaviorSubject<IEnumerable> errorsTrigger;
-		readonly List<Func<IObservable<T>, IObservable<IEnumerable>>> validatorStore = new List<Func<IObservable<T>, IObservable<IEnumerable>>>();
+        private bool IsValueChanged { get; set; } = false;
+        private SerialDisposable ValidateNotifyErrorSubscription { get; } = new SerialDisposable();
+        private BehaviorSubject<IEnumerable> ErrorsTrigger;
+        private List<Func<IObservable<T>, IObservable<IEnumerable>>> ValidatorStore { get; } = new List<Func<IObservable<T>, IObservable<IEnumerable>>>();
 
         /// <summary>PropertyChanged raise on UIDispatcherScheduler</summary>
         public ReactiveProperty()
@@ -100,38 +100,38 @@ namespace Reactive.Bindings
             T initialValue = default(T), 
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
         {
-            this.latestValue = initialValue;
-            this.raiseEventScheduler = raiseEventScheduler;
+            this.LatestValue = initialValue;
+            this.RaiseEventScheduler = raiseEventScheduler;
 
             // create source
-            var merge = source.Merge(anotherTrigger);
+            var merge = source.Merge(AnotherTrigger);
             if (mode.HasFlag(ReactivePropertyMode.DistinctUntilChanged)) merge = merge.DistinctUntilChanged();
             merge = merge.Do(x =>
             {
                 // setvalue immediately
-                if (!isValueChanged) isValueChanged = true;
-                latestValue = x;
+                if (!IsValueChanged) IsValueChanged = true;
+                LatestValue = x;
             });
 
             // publish observable
             var connectable = (mode.HasFlag(ReactivePropertyMode.RaiseLatestValueOnSubscribe))
                 ? merge.Publish(initialValue)
                 : merge.Publish();
-            this.source = connectable.AsObservable();
+            this.Source = connectable.AsObservable();
 
-            this.validationTrigger = mode.HasFlag(ReactivePropertyMode.RaiseLatestValueOnSubscribe)
+            this.ValidationTrigger = mode.HasFlag(ReactivePropertyMode.RaiseLatestValueOnSubscribe)
                 ? (ISubject<T>)new BehaviorSubject<T>(initialValue)
                 : (ISubject<T>)new Subject<T>();
-            connectable.Subscribe(x => validationTrigger.OnNext(x));
+            connectable.Subscribe(x => ValidationTrigger.OnNext(x));
 
             // raise notification
-            this.raiseSubscription = connectable
+            this.RaiseSubscription = connectable
                 .ObserveOn(raiseEventScheduler)
                 .Subscribe(x => this.PropertyChanged?.Invoke(this, SingletonPropertyChangedEventArgs.Value));
 
             // start source
-            this.sourceDisposable = connectable.Connect();
-            this.errorsTrigger = new BehaviorSubject<IEnumerable>(this.GetErrors(null));
+            this.SourceDisposable = connectable.Connect();
+            this.ErrorsTrigger = new BehaviorSubject<IEnumerable>(this.GetErrors(null));
         }
 
         /// <summary>
@@ -139,8 +139,8 @@ namespace Reactive.Bindings
         /// </summary>
         public T Value
         {
-            get { return latestValue; }
-            set { anotherTrigger.OnNext(value); }
+            get { return LatestValue; }
+            set { AnotherTrigger.OnNext(value); }
         }
 
         object IReactiveProperty.Value
@@ -152,48 +152,39 @@ namespace Reactive.Bindings
         /// <summary>
         /// Subscribe source.
         /// </summary>
-        public IDisposable Subscribe(IObserver<T> observer)
-        {
-            return source.Subscribe(observer);
-        }
+        public IDisposable Subscribe(IObserver<T> observer) => Source.Subscribe(observer);
 
         /// <summary>
         /// Unsubcribe all subscription.
         /// </summary>
         public void Dispose()
         {
-            if (isDisposed) return;
+            if (IsDisposed) return;
 
-            isDisposed = true;
-            anotherTrigger.Dispose();
-            raiseSubscription.Dispose();
-            sourceDisposable.Dispose();
-            ((IDisposable)validationTrigger).Dispose();
-            validateNotifyErrorSubscription.Dispose();
-            errorsTrigger.OnCompleted();
-            errorsTrigger.Dispose();
+            IsDisposed = true;
+            AnotherTrigger.Dispose();
+            RaiseSubscription.Dispose();
+            SourceDisposable.Dispose();
+            ((IDisposable)ValidationTrigger).Dispose();
+            ValidateNotifyErrorSubscription.Dispose();
+            ErrorsTrigger.OnCompleted();
+            ErrorsTrigger.Dispose();
         }
 
-        public override string ToString()
-        {
-            return (latestValue == null)
+        public override string ToString() =>
+            (LatestValue == null)
                 ? "null"
-                : "{" + latestValue.GetType().Name + ":" + latestValue.ToString() + "}";
-        }
+                : "{" + LatestValue.GetType().Name + ":" + LatestValue.ToString() + "}";
 
         // Validations
 
         /// <summary>
         /// <para>Checked validation, raised value. If success return value is null.</para>
         /// </summary>
-        public IObservable<IEnumerable> ObserveErrorChanged
-        {
-            get { return errorsTrigger.AsObservable(); }
-        }
+        public IObservable<IEnumerable> ObserveErrorChanged => ErrorsTrigger.AsObservable(); 
 
         // INotifyDataErrorInfo
-
-        IEnumerable currentErrors;
+        private IEnumerable CurrentErrors { get; set; }
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
         /// <summary>
@@ -203,11 +194,11 @@ namespace Reactive.Bindings
         /// <returns>Self.</returns>
         public ReactiveProperty<T> SetValidateNotifyError(Func<IObservable<T>, IObservable<IEnumerable>> validator)
         {
-            this.validatorStore.Add(validator);     //--- cache validation functions
-            var validators  = this.validatorStore
-                            .Select(x => x(this.validationTrigger))
+            this.ValidatorStore.Add(validator);     //--- cache validation functions
+            var validators  = this.ValidatorStore
+                            .Select(x => x(this.ValidationTrigger))
                             .ToArray();     //--- use copy
-            this.validateNotifyErrorSubscription.Disposable
+            this.ValidateNotifyErrorSubscription.Disposable
                 = Observable.CombineLatest(validators)
                 .Select(xs =>
                 {
@@ -225,11 +216,11 @@ namespace Reactive.Bindings
                 })
                 .Subscribe(x =>
                 {
-                    this.currentErrors = x;
+                    this.CurrentErrors = x;
                     var handler = this.ErrorsChanged;
                     if (handler != null)
-                        this.raiseEventScheduler.Schedule(() => handler(this, SingletonDataErrorsChangedEventArgs.Value));
-                    this.errorsTrigger.OnNext(x);
+                        this.RaiseEventScheduler.Schedule(() => handler(this, SingletonDataErrorsChangedEventArgs.Value));
+                    this.ErrorsTrigger.OnNext(x);
                 });
             return this;
         }
@@ -239,70 +230,51 @@ namespace Reactive.Bindings
         /// </summary>
         /// <param name="validator">If success return IO&lt;null&gt;, failure return IO&lt;IEnumerable&gt;(Errors).</param>
         /// <returns>Self.</returns>
-        public ReactiveProperty<T> SetValidateNotifyError(Func<IObservable<T>, IObservable<string>> validator)
-        {
-            return this.SetValidateNotifyError(xs => validator(xs).Cast<IEnumerable>());
-        }
+        public ReactiveProperty<T> SetValidateNotifyError(Func<IObservable<T>, IObservable<string>> validator) =>
+            this.SetValidateNotifyError(xs => validator(xs).Cast<IEnumerable>());
 
         /// <summary>
         /// Set INotifyDataErrorInfo's asynchronous validation.
         /// </summary>
         /// <param name="validator">Validation logic</param>
         /// <returns>Self.</returns>
-        public ReactiveProperty<T> SetValidateNotifyError(Func<T, Task<IEnumerable>> validator)
-        {
-            return this.SetValidateNotifyError(xs => xs.SelectMany(x => validator(x)));
-        }
+        public ReactiveProperty<T> SetValidateNotifyError(Func<T, Task<IEnumerable>> validator) =>
+            this.SetValidateNotifyError(xs => xs.SelectMany(x => validator(x)));
 
         /// <summary>
         /// Set INotifyDataErrorInfo's asynchronous validation.
         /// </summary>
         /// <param name="validator">Validation logic</param>
         /// <returns>Self.</returns>
-        public ReactiveProperty<T> SetValidateNotifyError(Func<T, Task<string>> validator)
-        {
-            return this.SetValidateNotifyError(xs => xs.SelectMany(x => validator(x)));
-        }
+        public ReactiveProperty<T> SetValidateNotifyError(Func<T, Task<string>> validator) =>
+            this.SetValidateNotifyError(xs => xs.SelectMany(x => validator(x)));
 
         /// <summary>
         /// Set INofityDataErrorInfo validation.
         /// </summary>
         /// <param name="validator">Validation logic</param>
         /// <returns>Self.</returns>
-        public ReactiveProperty<T> SetValidateNotifyError(Func<T, IEnumerable> validator)
-        {
-            return this.SetValidateNotifyError(xs => xs.Select(x => validator(x)));
-        }
+        public ReactiveProperty<T> SetValidateNotifyError(Func<T, IEnumerable> validator) =>
+            this.SetValidateNotifyError(xs => xs.Select(x => validator(x)));
 
         /// <summary>
         /// Set INofityDataErrorInfo validation.
         /// </summary>
         /// <param name="validator">Validation logic</param>
         /// <returns>Self.</returns>
-        public ReactiveProperty<T> SetValidateNotifyError(Func<T, string> validator)
-        {
-            return this.SetValidateNotifyError(xs => xs.Select(x => validator(x)));
-        }
+        public ReactiveProperty<T> SetValidateNotifyError(Func<T, string> validator) =>
+            this.SetValidateNotifyError(xs => xs.Select(x => validator(x)));
 
         /// <summary>Get INotifyDataErrorInfo's error store</summary>
-        public System.Collections.IEnumerable GetErrors(string propertyName)
-        {
-            return currentErrors;
-        }
+        public System.Collections.IEnumerable GetErrors(string propertyName) => CurrentErrors;
 
         /// <summary>Get INotifyDataErrorInfo's error store</summary>
-        public bool HasErrors
-        {
-            get { return currentErrors != null; }
-        }
+        public bool HasErrors => CurrentErrors != null; 
 
         /// <summary>
         /// Observe HasErrors value.
         /// </summary>
-        public IObservable<bool> ObserveHasErrors
-        {
-            get { return this.ObserveErrorChanged.Select(_ => this.HasErrors); }
-        }
+        public IObservable<bool> ObserveHasErrors => this.ObserveErrorChanged.Select(_ => this.HasErrors);
     }
 
     /// <summary>
@@ -319,10 +291,8 @@ namespace Reactive.Bindings
             TTarget target,
             Expression<Func<TTarget, TProperty>> propertySelector,
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe,
-            bool ignoreValidationErrorValue = false)
-        {
-            return FromObject(target, propertySelector, UIDispatcherScheduler.Default, mode, ignoreValidationErrorValue);
-        }
+            bool ignoreValidationErrorValue = false) =>
+            FromObject(target, propertySelector, UIDispatcherScheduler.Default, mode, ignoreValidationErrorValue);
 
         /// <summary>
         /// <para>Convert plain object to ReactiveProperty.</para>
@@ -359,10 +329,8 @@ namespace Reactive.Bindings
             Func<TProperty, TResult> convert,
             Func<TResult, TProperty> convertBack,
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe,
-            bool ignoreValidationErrorValue = false)
-        {
-            return FromObject(target, propertySelector, convert, convertBack, UIDispatcherScheduler.Default, mode, ignoreValidationErrorValue);
-        }
+            bool ignoreValidationErrorValue = false) =>
+            FromObject(target, propertySelector, convert, convertBack, UIDispatcherScheduler.Default, mode, ignoreValidationErrorValue);
 
         /// <summary>
         /// <para>Convert plain object to ReactiveProperty.</para>
@@ -398,10 +366,8 @@ namespace Reactive.Bindings
         /// </summary>
         public static ReactiveProperty<T> ToReactiveProperty<T>(this IObservable<T> source,
             T initialValue = default(T),
-            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
-        {
-            return new ReactiveProperty<T>(source, initialValue, mode);
-        }
+            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe) =>
+            new ReactiveProperty<T>(source, initialValue, mode);
 
         /// <summary>
         /// <para>Convert to two-way bindable IObservable&lt;T&gt;</para>
@@ -410,9 +376,7 @@ namespace Reactive.Bindings
         public static ReactiveProperty<T> ToReactiveProperty<T>(this IObservable<T> source,
             IScheduler raiseEventScheduler,
             T initialValue = default(T),
-            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
-        {
-            return new ReactiveProperty<T>(source, raiseEventScheduler, initialValue, mode);
-        }
+            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe) =>
+            new ReactiveProperty<T>(source, raiseEventScheduler, initialValue, mode);
     }
 }

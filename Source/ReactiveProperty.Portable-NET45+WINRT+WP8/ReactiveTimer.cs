@@ -10,74 +10,65 @@ namespace Reactive.Bindings
     /// </summary>
     public class ReactiveTimer : IObservable<long>, IDisposable
     {
-        long count = 0;
-        bool isDisposed = false;
-        readonly SerialDisposable disposable = new SerialDisposable();
-        readonly IScheduler scheduler;
-        readonly Subject<long> subject = new Subject<long>();
+        private long Count { get; set; } = 0;
+        private bool IsDisposed { get; set; } = false;
+        private SerialDisposable Disposable { get; } = new SerialDisposable();
+        private IScheduler Scheduler { get; }
+        private Subject<long> Subject { get; } = new Subject<long>();
 
         /// <summary>Operate scheduler ThreadPoolScheduler.</summary>
         public ReactiveTimer(TimeSpan interval)
-            : this(interval, Scheduler.Default)
+            : this(interval, System.Reactive.Concurrency.Scheduler.Default)
         { }
 
         /// <summary>Operate scheduler is argument's scheduler.</summary>
         public ReactiveTimer(TimeSpan interval, IScheduler scheduler)
         {
             Interval = interval;
-            this.scheduler = scheduler;
+            this.Scheduler = scheduler;
         }
 
         /// <summary>Timer interval.</summary>
         public TimeSpan Interval { get; set; }
 
         /// <summary>Start timer immediately.</summary>
-        public void Start()
-        {
-            Start(TimeSpan.Zero);
-        }
+        public void Start() => Start(TimeSpan.Zero);
 
         /// <summary>Start timer after dueTime.</summary>
-        public void Start(TimeSpan dueTime)
-        {
-            disposable.Disposable = scheduler.Schedule(dueTime,
+        public void Start(TimeSpan dueTime) =>
+            Disposable.Disposable = Scheduler.Schedule(dueTime,
                 self =>
                 {
-                    subject.OnNext(count++);
+                    Subject.OnNext(Count++);
                     self(Interval);
                 });
-        }
 
         /// <summary>Stop timer.</summary>
-        public void Stop()
-        {
-            disposable.Disposable = Disposable.Empty;
-        }
+        public void Stop() =>
+            Disposable.Disposable = System.Reactive.Disposables.Disposable.Empty;
 
         /// <summary>Stop timer and reset count.</summary>
         public void Reset()
         {
-            count = 0;
-            disposable.Disposable = Disposable.Empty;
+            Count = 0;
+            Disposable.Disposable = System.Reactive.Disposables.Disposable.Empty;
         }
 
         /// <summary>Subscribe observer.</summary>
-        public IDisposable Subscribe(IObserver<long> observer)
-        {
-            return subject.Subscribe(observer);
-        }
+        public IDisposable Subscribe(IObserver<long> observer) =>
+            Subject.Subscribe(observer);
 
         /// <summary>
         /// Send OnCompleted to subscribers and unsubscribe all.
         /// </summary>
         public void Dispose()
         {
-            if (isDisposed) return;
+            if (IsDisposed) return;
 
-            isDisposed = true;
-            subject.OnCompleted();
-            subject.Dispose();
-            disposable.Dispose();
+            IsDisposed = true;
+            Subject.OnCompleted();
+            Subject.Dispose();
+            Disposable.Dispose();
         }
     }
 }

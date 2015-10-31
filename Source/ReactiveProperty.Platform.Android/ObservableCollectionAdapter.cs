@@ -24,7 +24,7 @@ namespace Reactive.Bindings
         public ObservableCollectionAdapter(INotifyCollectionChanged list, Func<int, T, View> createRowView, Action<int, T, View> setRowData, Func<int, T, long> getId = null)
             : base(list as IList<T>, createRowView, setRowData, getId)
         {
-            if (!(list is IList<T>)) { throw new ArgumentException("list"); }
+            if (!(list is IList<T>)) { throw new ArgumentException(nameof(list)); }
             this.list = list;
             this.list.CollectionChanged += this.CollectionChanged;
         }

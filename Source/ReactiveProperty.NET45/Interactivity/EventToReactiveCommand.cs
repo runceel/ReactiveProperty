@@ -22,9 +22,9 @@ namespace Reactive.Bindings.Interactivity
     /// Converts EventArgs to object
     /// </summary>
 #if NETFX_CORE
-    [ContentProperty(Name = "Converters")]
+    [ContentProperty(Name = nameof(EventToReactiveCommand.Converters))]
 #else
-    [ContentProperty("Converters")]
+    [ContentProperty(nameof(EventToReactiveCommand.Converters))]
 #endif
     public class EventToReactiveCommand : TriggerAction<FrameworkElement>
     {
@@ -40,7 +40,7 @@ namespace Reactive.Bindings.Interactivity
 
         // Using a DependencyProperty as the backing store for Command.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CommandProperty =
-            DependencyProperty.Register("Command", typeof(ICommand), typeof(EventToReactiveCommand), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(EventToReactiveCommand.Command), typeof(ICommand), typeof(EventToReactiveCommand), new PropertyMetadata(null));
 
         /// <summary>
         /// Ignore EventArgs. If value is false then uses Unit.Default.
