@@ -12,7 +12,7 @@ namespace Reactive.Bindings
     /// Read only version ReactiveProperty.
     /// </summary>
     /// <typeparam name="T">Type of property.</typeparam>
-    public class ReadOnlyReactiveProperty<T> : IObservable<T>, INotifyPropertyChanged, IDisposable
+    public class ReadOnlyReactiveProperty<T> : IReadOnlyReactiveProperty<T>
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -52,7 +52,9 @@ namespace Reactive.Bindings
         /// <summary>
         /// Get latest value.
         /// </summary>
-        public T Value => this.LatestValue; 
+        public T Value => this.LatestValue;
+
+        object IReadOnlyReactiveProperty.Value => Value;
 
         public IDisposable Subscribe(IObserver<T> observer)
         {

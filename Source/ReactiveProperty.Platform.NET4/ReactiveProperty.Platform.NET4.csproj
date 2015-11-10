@@ -145,6 +145,9 @@
     <Compile Include="..\ReactiveProperty.Portable-NET45+WINRT+WP8\Helpers\FilteredReadOnlyObservableCollection.cs">
       <Link>Helpers\FilteredReadOnlyObservableCollection.cs</Link>
     </Compile>
+    <Compile Include="..\ReactiveProperty.Portable-NET45+WINRT+WP8\IHasErrors.cs">
+      <Link>IHasErrors.cs</Link>
+    </Compile>
     <Compile Include="..\ReactiveProperty.Portable-NET45+WINRT+WP8\Interactivity\DelegateConverter.cs">
       <Link>Interactivity\DelegateConverter.cs</Link>
     </Compile>
@@ -153,6 +156,12 @@
     </Compile>
     <Compile Include="..\ReactiveProperty.Portable-NET45+WINRT+WP8\Interactivity\ReactiveConverter.cs">
       <Link>Interactivity\ReactiveConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\ReactiveProperty.Portable-NET45+WINRT+WP8\IReactiveProperty.cs">
+      <Link>IReactiveProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\ReactiveProperty.Portable-NET45+WINRT+WP8\IReadOnlyReactiveProperty.cs">
+      <Link>IReadOnlyReactiveProperty.cs</Link>
     </Compile>
     <Compile Include="..\ReactiveProperty.Portable-NET45+WINRT+WP8\Notifiers\BooleanNotifier.cs">
       <Link>Notifiers\BooleanNotifier.cs</Link>

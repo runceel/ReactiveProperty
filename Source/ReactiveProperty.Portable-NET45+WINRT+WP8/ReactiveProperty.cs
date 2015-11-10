@@ -32,19 +32,11 @@ namespace Reactive.Bindings
         RaiseLatestValueOnSubscribe = 0x02
     }
 
-    // for EventToReactive and Serialization
-    public interface IReactiveProperty
-    {
-        object Value { get; set; }
-        IObservable<IEnumerable> ObserveErrorChanged { get; }
-        IObservable<bool> ObserveHasErrors { get; }
-    }
-
     /// <summary>
     /// Two-way bindable IObserable&lt;T&gt;
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ReactiveProperty<T> : IObservable<T>, IDisposable, INotifyPropertyChanged, IReactiveProperty, INotifyDataErrorInfo
+    public class ReactiveProperty<T> : IReactiveProperty<T>, IReadOnlyReactiveProperty<T>
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -148,6 +140,8 @@ namespace Reactive.Bindings
             get { return (T)Value; }
             set { Value = (T)value; }
         }
+
+        object IReadOnlyReactiveProperty.Value => Value;
 
         /// <summary>
         /// Subscribe source.
