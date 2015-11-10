@@ -1,5 +1,11 @@
 # Release note
 
+## v2.2.8
+
+### Changes
+
+- Changed implements interface to ReactiveProeprty and ReadOnlyReactiveProperty. Issue #11.
+
 ## v2.2.7
 
 ### Changes

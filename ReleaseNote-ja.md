@@ -1,5 +1,11 @@
 # リリースノート
 
+## v2.2.8
+
+### 変更
+
+- ReactivePropertyとReadOnlyReactivePropertyの実装インターフェースを変更しました。 Issue #11.
+
 ## v2.2.7
 
 ### 変更
