@@ -491,6 +491,12 @@ protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventA
 DataAnnotationsを使ってIgnoreやシリアライズの順番を制御することができます。
 詳細は、Sample/Serializationを参照してください。
 
+## サンプル
+
+UWPTodoMVVMプロジェクトという[TodoMVC](http://todomvc.com/)ライクなTodoアプリのサンプルがSampleフォルダにあります。
+
+![TodoMVVM](Images/todomvvm.png)
+
 ## コミッターの情報
 
 Yoshifumi Kawai a.k.a. neuecc is software developer in Tokyo, Japan.

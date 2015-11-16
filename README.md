@@ -486,9 +486,15 @@ protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventA
 Supporting serialize ignore and deserialize order by DataAnnotations.
  more details, see Sample/Serialization.
 
-## Sample program
+## Sample program 1
 
 - [MVVM pattern and Reactive programming sample](https://code.msdn.microsoft.com/MVVM-pattern-and-Reactive-2f71560a)
+
+## Sample program 2
+
+UWPTodoMVVM project in Sample folder is like [TodoMVC](http://todomvc.com/) todo application.
+
+![TodoMVVM](Images/todomvvm.png)
 
 ## Author info
 
