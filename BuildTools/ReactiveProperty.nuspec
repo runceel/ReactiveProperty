@@ -40,6 +40,9 @@
       <group targetFramework="MonoTouch">
         <dependency id="Rx-Main" version="2.2.5" />
       </group>
+      <group targetFramework="Xamarin.Mac20">
+        <dependency id="Rx-Main" version="2.2.5" />
+      </group>
       <group targetFramework="portable-net45+win81+wpa81+MonoTouch+MonoAndroid">
         <dependency id="Rx-Main" version="2.2.5" />
       </group>
@@ -71,6 +74,8 @@
       <frameworkAssembly assemblyName="System.Runtime.Serialization" targetFramework="MonoAndroid" />
       <frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations" targetFramework="MonoTouch" />
       <frameworkAssembly assemblyName="System.Runtime.Serialization" targetFramework="MonoTouch" />
+      <frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations" targetFramework="Xamarin.Mac20" />
+      <frameworkAssembly assemblyName="System.Runtime.Serialization" targetFramework="Xamarin.Mac20" />
     </frameworkAssemblies>
   </metadata>
   <files>
@@ -126,6 +131,12 @@
     <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.XML" target="lib\MonoTouch" />
     <file src="..\Binary\PCL\ReactiveProperty.dll" target="lib\MonoTouch" />
     <file src="..\Binary\PCL\ReactiveProperty.XML" target="lib\MonoTouch" />
+    
+    <!-- Xamarin.Mac Unified -->
+    <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.dll" target="lib\Xamarin.Mac20" />
+    <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.XML" target="lib\Xamarin.Mac20" />
+    <file src="..\Binary\PCL\ReactiveProperty.dll" target="lib\Xamarin.Mac20" />
+    <file src="..\Binary\PCL\ReactiveProperty.XML" target="lib\Xamarin.Mac20" />
 
     <!-- Universal app -->
     <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.dll" target="lib\portable-win81+wpa81" />
