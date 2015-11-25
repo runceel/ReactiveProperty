@@ -1,5 +1,15 @@
 # Release note
 
+## v2.3
+
+### Performance
+
+- Performance improvement ReactiveProperty's constructor.
+
+### Add
+
+- Add Xamarin.Mac profile.
+
 ## v2.2.8
 
 ### Changes
