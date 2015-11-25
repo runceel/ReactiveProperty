@@ -46,20 +46,14 @@ namespace Reactive.Bindings
         private bool IsDistinctUntilChanged { get; }
         private bool IsRaiseLatestValueOnSubscribe { get; }
 
-        private object SourceSyncObject { get; } = new object();
-
         private Subject<T> Source { get; } = new Subject<T>();
-        private Subject<T> ValidationTrigger = new Subject<T>();
-        //private IObservable<T> Source { get; }
-        //private Subject<T> AnotherTrigger { get; } = new Subject<T>();
-        //private ISubject<T> ValidationTrigger { get; }
         private IDisposable SourceDisposable { get; }
-        //private IDisposable RaiseSubscription { get; }
+        private bool IsValueChanging { get; set; } = false;
 
         // for Validation
-        private bool IsValueChanged { get; set; } = false;
+        private Subject<T> ValidationTrigger { get; } = new Subject<T>();
         private SerialDisposable ValidateNotifyErrorSubscription { get; } = new SerialDisposable();
-        private BehaviorSubject<IEnumerable> ErrorsTrigger;
+        private BehaviorSubject<IEnumerable> ErrorsTrigger { get; }
         private List<Func<IObservable<T>, IObservable<IEnumerable>>> ValidatorStore { get; } = new List<Func<IObservable<T>, IObservable<IEnumerable>>>();
 
         /// <summary>PropertyChanged raise on UIDispatcherScheduler</summary>
@@ -106,35 +100,6 @@ namespace Reactive.Bindings
             this.IsDistinctUntilChanged = mode.HasFlag(ReactivePropertyMode.DistinctUntilChanged);
 
             this.SourceDisposable = source.Subscribe(x => this.Value = x);
-
-            //// create source
-            //var merge = source.Merge(AnotherTrigger);
-            //if (mode.HasFlag(ReactivePropertyMode.DistinctUntilChanged)) merge = merge.DistinctUntilChanged();
-            //merge = merge.Do(x =>
-            //{
-            //    // setvalue immediately
-            //    if (!IsValueChanged) IsValueChanged = true;
-            //    LatestValue = x;
-            //});
-
-            //// publish observable
-            //var connectable = (mode.HasFlag(ReactivePropertyMode.RaiseLatestValueOnSubscribe))
-            //    ? merge.Publish(initialValue)
-            //    : merge.Publish();
-            //this.Source = connectable.AsObservable();
-
-            //this.ValidationTrigger = mode.HasFlag(ReactivePropertyMode.RaiseLatestValueOnSubscribe)
-            //    ? (ISubject<T>)new BehaviorSubject<T>(initialValue)
-            //    : (ISubject<T>)new Subject<T>();
-            //connectable.Subscribe(x => ValidationTrigger.OnNext(x));
-
-            //// raise notification
-            //this.RaiseSubscription = connectable
-            //    .ObserveOn(raiseEventScheduler)
-            //    .Subscribe(x => this.PropertyChanged?.Invoke(this, SingletonPropertyChangedEventArgs.Value));
-
-            //// start source
-            //this.SourceDisposable = connectable.Connect();
             this.ErrorsTrigger = new BehaviorSubject<IEnumerable>(this.GetErrors(null));
         }
 
@@ -146,24 +111,33 @@ namespace Reactive.Bindings
             get { return LatestValue; }
             set
             {
-                if (this.LatestValue == null || value == null)
+                if (this.IsValueChanging) { return; }
+                this.IsValueChanging = true;
+                try
                 {
-                    // null case
-                    if (this.IsDistinctUntilChanged && this.LatestValue == null && value == null)
+                    if (this.LatestValue == null || value == null)
+                    {
+                        // null case
+                        if (this.IsDistinctUntilChanged && this.LatestValue == null && value == null)
+                        {
+                            return;
+                        }
+
+                        this.SetValue(value);
+                        return;
+                    }
+
+                    if (this.IsDistinctUntilChanged && (Equals(this.LatestValue, value)))
                     {
                         return;
                     }
 
                     this.SetValue(value);
-                    return;
                 }
-
-                if (this.IsDistinctUntilChanged && (Equals(this.LatestValue, value)))
+                finally
                 {
-                    return;
+                    this.IsValueChanging = false;
                 }
-
-                this.SetValue(value);
             }
         }
 
@@ -194,11 +168,10 @@ namespace Reactive.Bindings
             if (IsDisposed) return;
 
             IsDisposed = true;
+            this.Source.OnCompleted();
             this.Source.Dispose();
             this.ValidationTrigger.Dispose();
-            //RaiseSubscription.Dispose();
             SourceDisposable.Dispose();
-            //((IDisposable)ValidationTrigger).Dispose();
             ValidateNotifyErrorSubscription.Dispose();
             ErrorsTrigger.OnCompleted();
             ErrorsTrigger.Dispose();

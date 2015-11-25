@@ -424,7 +424,6 @@ Global
 		{ABF4F434-E274-4980-B1D1-AADCF75685A0}.Release|x86.ActiveCfg = Release|Any CPU
 		{ABF4F434-E274-4980-B1D1-AADCF75685A0}.Release|x86.Build.0 = Release|Any CPU
 		{73FB08B3-EBF3-4384-A1FB-4442BD999477}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{73FB08B3-EBF3-4384-A1FB-4442BD999477}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73FB08B3-EBF3-4384-A1FB-4442BD999477}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{73FB08B3-EBF3-4384-A1FB-4442BD999477}.Debug|ARM.ActiveCfg = Debug|Any CPU
 		{73FB08B3-EBF3-4384-A1FB-4442BD999477}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -520,8 +519,8 @@ Global
 		{40AE1FF3-8B25-4659-8B0A-7886113E4246} = {6356D836-36AA-4CD9-8EB2-BF037115D329}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		BuildVersion_UseGlobalSettings = True
 		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
+		BuildVersion_UseGlobalSettings = True
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = ReactiveProperty.vsmdi
