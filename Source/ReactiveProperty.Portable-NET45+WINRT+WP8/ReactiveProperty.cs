@@ -43,11 +43,18 @@ namespace Reactive.Bindings
         private T LatestValue { get; set; }
         private bool IsDisposed { get; set; } = false;
         private IScheduler RaiseEventScheduler { get; }
-        private IObservable<T> Source { get; }
-        private Subject<T> AnotherTrigger { get; } = new Subject<T>();
-        private ISubject<T> ValidationTrigger { get; }
+        private bool IsDistinctUntilChanged { get; }
+        private bool IsRaiseLatestValueOnSubscribe { get; }
+
+        private object SourceSyncObject { get; } = new object();
+
+        private Subject<T> Source { get; } = new Subject<T>();
+        private Subject<T> ValidationTrigger = new Subject<T>();
+        //private IObservable<T> Source { get; }
+        //private Subject<T> AnotherTrigger { get; } = new Subject<T>();
+        //private ISubject<T> ValidationTrigger { get; }
         private IDisposable SourceDisposable { get; }
-        private IDisposable RaiseSubscription { get; }
+        //private IDisposable RaiseSubscription { get; }
 
         // for Validation
         private bool IsValueChanged { get; set; } = false;
@@ -92,37 +99,42 @@ namespace Reactive.Bindings
             T initialValue = default(T), 
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
         {
-            this.LatestValue = initialValue;
             this.RaiseEventScheduler = raiseEventScheduler;
+            this.LatestValue = initialValue;
 
-            // create source
-            var merge = source.Merge(AnotherTrigger);
-            if (mode.HasFlag(ReactivePropertyMode.DistinctUntilChanged)) merge = merge.DistinctUntilChanged();
-            merge = merge.Do(x =>
-            {
-                // setvalue immediately
-                if (!IsValueChanged) IsValueChanged = true;
-                LatestValue = x;
-            });
+            this.IsRaiseLatestValueOnSubscribe = mode.HasFlag(ReactivePropertyMode.RaiseLatestValueOnSubscribe);
+            this.IsDistinctUntilChanged = mode.HasFlag(ReactivePropertyMode.DistinctUntilChanged);
 
-            // publish observable
-            var connectable = (mode.HasFlag(ReactivePropertyMode.RaiseLatestValueOnSubscribe))
-                ? merge.Publish(initialValue)
-                : merge.Publish();
-            this.Source = connectable.AsObservable();
+            this.SourceDisposable = source.Subscribe(x => this.Value = x);
 
-            this.ValidationTrigger = mode.HasFlag(ReactivePropertyMode.RaiseLatestValueOnSubscribe)
-                ? (ISubject<T>)new BehaviorSubject<T>(initialValue)
-                : (ISubject<T>)new Subject<T>();
-            connectable.Subscribe(x => ValidationTrigger.OnNext(x));
+            //// create source
+            //var merge = source.Merge(AnotherTrigger);
+            //if (mode.HasFlag(ReactivePropertyMode.DistinctUntilChanged)) merge = merge.DistinctUntilChanged();
+            //merge = merge.Do(x =>
+            //{
+            //    // setvalue immediately
+            //    if (!IsValueChanged) IsValueChanged = true;
+            //    LatestValue = x;
+            //});
 
-            // raise notification
-            this.RaiseSubscription = connectable
-                .ObserveOn(raiseEventScheduler)
-                .Subscribe(x => this.PropertyChanged?.Invoke(this, SingletonPropertyChangedEventArgs.Value));
+            //// publish observable
+            //var connectable = (mode.HasFlag(ReactivePropertyMode.RaiseLatestValueOnSubscribe))
+            //    ? merge.Publish(initialValue)
+            //    : merge.Publish();
+            //this.Source = connectable.AsObservable();
 
-            // start source
-            this.SourceDisposable = connectable.Connect();
+            //this.ValidationTrigger = mode.HasFlag(ReactivePropertyMode.RaiseLatestValueOnSubscribe)
+            //    ? (ISubject<T>)new BehaviorSubject<T>(initialValue)
+            //    : (ISubject<T>)new Subject<T>();
+            //connectable.Subscribe(x => ValidationTrigger.OnNext(x));
+
+            //// raise notification
+            //this.RaiseSubscription = connectable
+            //    .ObserveOn(raiseEventScheduler)
+            //    .Subscribe(x => this.PropertyChanged?.Invoke(this, SingletonPropertyChangedEventArgs.Value));
+
+            //// start source
+            //this.SourceDisposable = connectable.Connect();
             this.ErrorsTrigger = new BehaviorSubject<IEnumerable>(this.GetErrors(null));
         }
 
@@ -132,7 +144,27 @@ namespace Reactive.Bindings
         public T Value
         {
             get { return LatestValue; }
-            set { AnotherTrigger.OnNext(value); }
+            set
+            {
+                if (this.LatestValue == null || value == null)
+                {
+                    // null case
+                    if (this.IsDistinctUntilChanged && this.LatestValue == null && value == null)
+                    {
+                        return;
+                    }
+
+                    this.SetValue(value);
+                    return;
+                }
+
+                if (this.IsDistinctUntilChanged && (Equals(this.LatestValue, value)))
+                {
+                    return;
+                }
+
+                this.SetValue(value);
+            }
         }
 
         object IReactiveProperty.Value
@@ -146,7 +178,13 @@ namespace Reactive.Bindings
         /// <summary>
         /// Subscribe source.
         /// </summary>
-        public IDisposable Subscribe(IObserver<T> observer) => Source.Subscribe(observer);
+        public IDisposable Subscribe(IObserver<T> observer)
+        {
+            var ox = this.IsRaiseLatestValueOnSubscribe ?
+                this.Source.Merge(Observable.Return(this.LatestValue)) :
+                this.Source.AsObservable();
+            return ox.Subscribe(observer);
+        }
 
         /// <summary>
         /// Unsubcribe all subscription.
@@ -156,10 +194,11 @@ namespace Reactive.Bindings
             if (IsDisposed) return;
 
             IsDisposed = true;
-            AnotherTrigger.Dispose();
-            RaiseSubscription.Dispose();
+            this.Source.Dispose();
+            this.ValidationTrigger.Dispose();
+            //RaiseSubscription.Dispose();
             SourceDisposable.Dispose();
-            ((IDisposable)ValidationTrigger).Dispose();
+            //((IDisposable)ValidationTrigger).Dispose();
             ValidateNotifyErrorSubscription.Dispose();
             ErrorsTrigger.OnCompleted();
             ErrorsTrigger.Dispose();
@@ -190,7 +229,7 @@ namespace Reactive.Bindings
         {
             this.ValidatorStore.Add(validator);     //--- cache validation functions
             var validators  = this.ValidatorStore
-                            .Select(x => x(this.ValidationTrigger))
+                            .Select(x => x(this.ValidationTrigger.Merge(Observable.Return(this.LatestValue))))
                             .ToArray();     //--- use copy
             this.ValidateNotifyErrorSubscription.Disposable
                 = Observable.CombineLatest(validators)
@@ -269,6 +308,14 @@ namespace Reactive.Bindings
         /// Observe HasErrors value.
         /// </summary>
         public IObservable<bool> ObserveHasErrors => this.ObserveErrorChanged.Select(_ => this.HasErrors);
+
+        private void SetValue(T value)
+        {
+            this.LatestValue = value;
+            this.ValidationTrigger.OnNext(value);
+            this.Source.OnNext(value);
+            this.RaiseEventScheduler.Schedule(() => this.PropertyChanged?.Invoke(this, SingletonPropertyChangedEventArgs.Value));
+        }
     }
 
     /// <summary>
