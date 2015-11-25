@@ -23,6 +23,7 @@ namespace ReactiveProperty.Tests
                 properties.Add(source.ToReactiveProperty());
             }
             Debug.WriteLine(stopwatch.ElapsedMilliseconds);
+            Assert.IsTrue(stopwatch.ElapsedMilliseconds <= 1000);
         }
     }
 }
