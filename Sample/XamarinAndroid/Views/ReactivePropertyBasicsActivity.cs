@@ -41,7 +41,6 @@ namespace XamarinAndroid.Views
                 .SetBinding(
                     x => x.Text,
                     this.viewModel.DisplayText);
-            this.viewModel.DisplayText.Subscribe(x => Log.Info("Debug", x));
 
             var buttonReplaceText = this.FindViewById<Button>(Resource.Id.ButtonReplaceText);
             buttonReplaceText
