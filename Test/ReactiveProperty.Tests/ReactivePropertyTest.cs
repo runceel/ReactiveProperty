@@ -15,6 +15,43 @@ namespace ReactiveProperty.Tests
     public class ReactivePropertyTest
     {
         [TestMethod]
+        public void NormalCase()
+        {
+            var rp = new ReactiveProperty<string>();
+            rp.Value.IsNull();
+            rp.Subscribe(x => x.IsNull());
+        }
+
+        [TestMethod]
+        public void InitialValue()
+        {
+            var rp = new ReactiveProperty<string>("Hello world");
+            rp.Value.Is("Hello world");
+            rp.Subscribe(x => x.Is("Hello world"));
+        }
+
+        [TestMethod]
+        public void NoRaiseLatestValueOnSubscribe()
+        {
+            var rp = new ReactiveProperty<string>(mode: ReactivePropertyMode.DistinctUntilChanged);
+            var called = false;
+            rp.Subscribe(_ => called = true);
+            called.Is(false);
+        }
+
+        [TestMethod]
+        public void NoDistinctUntilChanged()
+        {
+            var rp = new ReactiveProperty<string>(mode: ReactivePropertyMode.RaiseLatestValueOnSubscribe);
+            var list = new List<string>();
+            rp.Subscribe(list.Add);
+            rp.Value = "Hello world";
+            rp.Value = "Hello world";
+            rp.Value = "Hello japan";
+            list.Is(null, "Hello world", "Hello world", "Hello japan");
+        }
+
+        [TestMethod]
         public void ObserveErrors()
         {
             var rp = new ReactiveProperty<string>()
