@@ -51,10 +51,10 @@ namespace Reactive.Bindings
         private bool IsValueChanging { get; set; } = false;
 
         // for Validation
-        private Subject<T> ValidationTrigger { get; } = new Subject<T>();
+        private Lazy<Subject<T>> ValidationTrigger { get; } = new Lazy<Subject<T>>(() => new Subject<T>());
         private SerialDisposable ValidateNotifyErrorSubscription { get; } = new SerialDisposable();
-        private BehaviorSubject<IEnumerable> ErrorsTrigger { get; }
-        private List<Func<IObservable<T>, IObservable<IEnumerable>>> ValidatorStore { get; } = new List<Func<IObservable<T>, IObservable<IEnumerable>>>();
+        private Lazy<BehaviorSubject<IEnumerable>> ErrorsTrigger { get; }
+        private Lazy<List<Func<IObservable<T>, IObservable<IEnumerable>>>> ValidatorStore { get; } = new Lazy<List<Func<IObservable<T>, IObservable<IEnumerable>>>>(() => new List<Func<IObservable<T>, IObservable<IEnumerable>>>());
 
         /// <summary>PropertyChanged raise on UIDispatcherScheduler</summary>
         public ReactiveProperty()
@@ -74,8 +74,15 @@ namespace Reactive.Bindings
             IScheduler raiseEventScheduler, 
             T initialValue = default(T), 
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
-            : this(Observable.Never<T>(), raiseEventScheduler, initialValue, mode)
         {
+            this.RaiseEventScheduler = raiseEventScheduler;
+            this.LatestValue = initialValue;
+
+            this.IsRaiseLatestValueOnSubscribe = mode.HasFlag(ReactivePropertyMode.RaiseLatestValueOnSubscribe);
+            this.IsDistinctUntilChanged = mode.HasFlag(ReactivePropertyMode.DistinctUntilChanged);
+
+            this.SourceDisposable = Disposable.Empty;
+            this.ErrorsTrigger = new Lazy<BehaviorSubject<IEnumerable>>(() => new BehaviorSubject<IEnumerable>(this.GetErrors(null)));
         }
 
         // ToReactiveProperty Only
@@ -92,15 +99,9 @@ namespace Reactive.Bindings
             IScheduler raiseEventScheduler, 
             T initialValue = default(T), 
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe)
+            : this(raiseEventScheduler, initialValue, mode)
         {
-            this.RaiseEventScheduler = raiseEventScheduler;
-            this.LatestValue = initialValue;
-
-            this.IsRaiseLatestValueOnSubscribe = mode.HasFlag(ReactivePropertyMode.RaiseLatestValueOnSubscribe);
-            this.IsDistinctUntilChanged = mode.HasFlag(ReactivePropertyMode.DistinctUntilChanged);
-
             this.SourceDisposable = source.Subscribe(x => this.Value = x);
-            this.ErrorsTrigger = new BehaviorSubject<IEnumerable>(this.GetErrors(null));
         }
 
         /// <summary>
@@ -126,8 +127,8 @@ namespace Reactive.Bindings
                         this.SetValue(value);
                         return;
                     }
-
-                    if (this.IsDistinctUntilChanged && (Equals(this.LatestValue, value)))
+                    
+                    if (this.IsDistinctUntilChanged && (EqualityComparer<T>.Default.Equals(this.LatestValue, value)))
                     {
                         return;
                     }
@@ -154,10 +155,15 @@ namespace Reactive.Bindings
         /// </summary>
         public IDisposable Subscribe(IObserver<T> observer)
         {
-            var ox = this.IsRaiseLatestValueOnSubscribe ?
-                this.Source.Merge(Observable.Return(this.LatestValue)) :
-                this.Source.AsObservable();
-            return ox.Subscribe(observer);
+            if (this.IsRaiseLatestValueOnSubscribe)
+            {
+                observer.OnNext(this.LatestValue);
+                return this.Source.Subscribe(observer);
+            }
+            else
+            {
+                return this.Source.Subscribe(observer);
+            }
         }
 
         /// <summary>
@@ -170,11 +176,17 @@ namespace Reactive.Bindings
             IsDisposed = true;
             this.Source.OnCompleted();
             this.Source.Dispose();
-            this.ValidationTrigger.Dispose();
+            if (this.ValidationTrigger.IsValueCreated)
+            {
+                this.ValidationTrigger.Value.Dispose();
+            }
             SourceDisposable.Dispose();
             ValidateNotifyErrorSubscription.Dispose();
-            ErrorsTrigger.OnCompleted();
-            ErrorsTrigger.Dispose();
+            if (ErrorsTrigger.IsValueCreated)
+            {
+                ErrorsTrigger.Value.OnCompleted();
+                ErrorsTrigger.Value.Dispose();
+            }
         }
 
         public override string ToString() =>
@@ -187,7 +199,7 @@ namespace Reactive.Bindings
         /// <summary>
         /// <para>Checked validation, raised value. If success return value is null.</para>
         /// </summary>
-        public IObservable<IEnumerable> ObserveErrorChanged => ErrorsTrigger.AsObservable(); 
+        public IObservable<IEnumerable> ObserveErrorChanged => ErrorsTrigger.Value.AsObservable(); 
 
         // INotifyDataErrorInfo
         private IEnumerable CurrentErrors { get; set; }
@@ -200,9 +212,9 @@ namespace Reactive.Bindings
         /// <returns>Self.</returns>
         public ReactiveProperty<T> SetValidateNotifyError(Func<IObservable<T>, IObservable<IEnumerable>> validator)
         {
-            this.ValidatorStore.Add(validator);     //--- cache validation functions
-            var validators  = this.ValidatorStore
-                            .Select(x => x(this.ValidationTrigger.Merge(Observable.Return(this.LatestValue))))
+            this.ValidatorStore.Value.Add(validator);     //--- cache validation functions
+            var validators  = this.ValidatorStore.Value
+                            .Select(x => x(this.ValidationTrigger.Value.StartWith(this.LatestValue)))
                             .ToArray();     //--- use copy
             this.ValidateNotifyErrorSubscription.Disposable
                 = Observable.CombineLatest(validators)
@@ -226,7 +238,7 @@ namespace Reactive.Bindings
                     var handler = this.ErrorsChanged;
                     if (handler != null)
                         this.RaiseEventScheduler.Schedule(() => handler(this, SingletonDataErrorsChangedEventArgs.Value));
-                    this.ErrorsTrigger.OnNext(x);
+                    this.ErrorsTrigger.Value.OnNext(x);
                 });
             return this;
         }
@@ -285,7 +297,7 @@ namespace Reactive.Bindings
         private void SetValue(T value)
         {
             this.LatestValue = value;
-            this.ValidationTrigger.OnNext(value);
+            this.ValidationTrigger.Value.OnNext(value);
             this.Source.OnNext(value);
             this.RaiseEventScheduler.Schedule(() => this.PropertyChanged?.Invoke(this, SingletonPropertyChangedEventArgs.Value));
         }
