@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>ReactiveProperty</id>
-    <version>2.3-pre2</version>
+    <version>2.3-pre3</version>
     <title>ReactiveProperty</title>
     <authors>neuecc xin9le okazuki</authors>
     <owners>neuecc xin9le okazuki</owners>
@@ -18,15 +18,18 @@
       <group targetFramework="net4">
         <dependency id="Rx-Main" version="2.2.5" />
         <dependency id="Microsoft.Bcl.Async" version="1.0.168" />
-        <dependency id="Microsoft.Bcl" version="1.1.9" />
+        <dependency id="Microsoft.Bcl" version="1.1.10" />
       </group>
       <group targetFramework="net45">
+        <dependency id="Rx-Main" version="2.2.5" />
+      </group>
+      <group targetFramework="net46">
         <dependency id="Rx-Main" version="2.2.5" />
       </group>
       <group targetFramework="wp80">
         <dependency id="Rx-Main" version="2.2.5" />
         <dependency id="Microsoft.Bcl.Async" version="1.0.168" />
-        <dependency id="Microsoft.Bcl" version="1.1.9" />
+        <dependency id="Microsoft.Bcl" version="1.1.10" />
       </group>
       <group targetFramework="wpa81">
         <dependency id="Rx-Main" version="2.2.5" />
@@ -95,6 +98,14 @@
     <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.XML" target="lib\net45" />
     <file src="..\Binary\PCL\ReactiveProperty.dll" target="lib\net45" />
     <file src="..\Binary\PCL\ReactiveProperty.XML" target="lib\net45" />
+    
+    <!-- WPF NET46 -->
+    <file src="..\Binary\NET46\ReactiveProperty.NET46.dll" target="lib\net46" />
+    <file src="..\Binary\NET46\ReactiveProperty.NET46.XML" target="lib\net46" />
+    <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.dll" target="lib\net46" />
+    <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.XML" target="lib\net46" />
+    <file src="..\Binary\PCL\ReactiveProperty.dll" target="lib\net46" />
+    <file src="..\Binary\PCL\ReactiveProperty.XML" target="lib\net46" />
 
     <!-- WinRT -->
     <file src="..\Binary\WinRT\ReactiveProperty.WinRT.dll" target="lib\win81" />

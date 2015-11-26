@@ -118,6 +118,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UWP", "Sample\UWP\UWP.cspro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UWP.TodoMVVM", "Sample\UWP.TodoMVVM\UWP.TodoMVVM.csproj", "{40AE1FF3-8B25-4659-8B0A-7886113E4246}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.Platform.NET46", "Source\ReactiveProperty.Platform.NET46\ReactiveProperty.Platform.NET46.csproj", "{883C5447-2778-43E4-8CDE-6A594B342ACD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -492,6 +494,26 @@ Global
 		{40AE1FF3-8B25-4659-8B0A-7886113E4246}.Release|x64.Deploy.0 = Release|x64
 		{40AE1FF3-8B25-4659-8B0A-7886113E4246}.Release|x86.ActiveCfg = Release|x86
 		{40AE1FF3-8B25-4659-8B0A-7886113E4246}.Release|x86.Deploy.0 = Release|x86
+		{883C5447-2778-43E4-8CDE-6A594B342ACD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{883C5447-2778-43E4-8CDE-6A594B342ACD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{883C5447-2778-43E4-8CDE-6A594B342ACD}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{883C5447-2778-43E4-8CDE-6A594B342ACD}.Debug|ARM.Build.0 = Debug|Any CPU
+		{883C5447-2778-43E4-8CDE-6A594B342ACD}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{883C5447-2778-43E4-8CDE-6A594B342ACD}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{883C5447-2778-43E4-8CDE-6A594B342ACD}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{883C5447-2778-43E4-8CDE-6A594B342ACD}.Debug|x64.Build.0 = Debug|Any CPU
+		{883C5447-2778-43E4-8CDE-6A594B342ACD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{883C5447-2778-43E4-8CDE-6A594B342ACD}.Debug|x86.Build.0 = Debug|Any CPU
+		{883C5447-2778-43E4-8CDE-6A594B342ACD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{883C5447-2778-43E4-8CDE-6A594B342ACD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{883C5447-2778-43E4-8CDE-6A594B342ACD}.Release|ARM.ActiveCfg = Release|Any CPU
+		{883C5447-2778-43E4-8CDE-6A594B342ACD}.Release|ARM.Build.0 = Release|Any CPU
+		{883C5447-2778-43E4-8CDE-6A594B342ACD}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{883C5447-2778-43E4-8CDE-6A594B342ACD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{883C5447-2778-43E4-8CDE-6A594B342ACD}.Release|x64.ActiveCfg = Release|Any CPU
+		{883C5447-2778-43E4-8CDE-6A594B342ACD}.Release|x64.Build.0 = Release|Any CPU
+		{883C5447-2778-43E4-8CDE-6A594B342ACD}.Release|x86.ActiveCfg = Release|Any CPU
+		{883C5447-2778-43E4-8CDE-6A594B342ACD}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -518,10 +540,11 @@ Global
 		{66249041-95E4-4DAE-AC93-3475EBE60AF0} = {9F7EFC36-593F-4521-B678-41B00A6642B1}
 		{1A284C37-BA3F-4B28-B800-7C3137E3365E} = {6356D836-36AA-4CD9-8EB2-BF037115D329}
 		{40AE1FF3-8B25-4659-8B0A-7886113E4246} = {6356D836-36AA-4CD9-8EB2-BF037115D329}
+		{883C5447-2778-43E4-8CDE-6A594B342ACD} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		BuildVersion_UseGlobalSettings = True
 		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
+		BuildVersion_UseGlobalSettings = True
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = ReactiveProperty.vsmdi
