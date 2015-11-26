@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:Sample.ViewModels;assembly=Sample.ViewModels"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-        xmlns:r="clr-namespace:Reactive.Bindings.Interactivity;assembly=ReactiveProperty.NET45"
+        xmlns:r="clr-namespace:Reactive.Bindings.Interactivity;assembly=ReactiveProperty.NET46"
         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" x:Class="WPF.Views.EventToReactiveProperty"
         Title="EventToReactive" Height="300" Width="300">
     <!-- recommend App.xaml.cs global resource -->
