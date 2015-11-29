@@ -11,6 +11,7 @@ ReactivePropertyは、Reactive ExtensionsをMVVMパターンと非同期用に�
 - .NET 4.0 Client Profile/.NET 4.5
 - Windows Phone 8.0/8.1
 - Windows ストアアプリ 8.0/8.1
+- UWP
 - Xamarin.iOS, Xamarin.Android
 
 ## リリースノート
