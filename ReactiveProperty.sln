@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24709.0
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{592AA479-AD7F-476B-AEF8-2B0268EA3BD8}"
 EndProject
@@ -438,7 +438,6 @@ Global
 		{73FB08B3-EBF3-4384-A1FB-4442BD999477}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{73FB08B3-EBF3-4384-A1FB-4442BD999477}.Release|ARM.ActiveCfg = Release|Any CPU
 		{73FB08B3-EBF3-4384-A1FB-4442BD999477}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{73FB08B3-EBF3-4384-A1FB-4442BD999477}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{73FB08B3-EBF3-4384-A1FB-4442BD999477}.Release|Mixed Platforms.Deploy.0 = Release|Any CPU
 		{73FB08B3-EBF3-4384-A1FB-4442BD999477}.Release|x64.ActiveCfg = Release|Any CPU
 		{73FB08B3-EBF3-4384-A1FB-4442BD999477}.Release|x86.ActiveCfg = Release|Any CPU
@@ -461,7 +460,6 @@ Global
 		{1A284C37-BA3F-4B28-B800-7C3137E3365E}.Release|ARM.Build.0 = Release|ARM
 		{1A284C37-BA3F-4B28-B800-7C3137E3365E}.Release|ARM.Deploy.0 = Release|ARM
 		{1A284C37-BA3F-4B28-B800-7C3137E3365E}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{1A284C37-BA3F-4B28-B800-7C3137E3365E}.Release|Mixed Platforms.Build.0 = Release|x86
 		{1A284C37-BA3F-4B28-B800-7C3137E3365E}.Release|Mixed Platforms.Deploy.0 = Release|x86
 		{1A284C37-BA3F-4B28-B800-7C3137E3365E}.Release|x64.ActiveCfg = Release|x64
 		{1A284C37-BA3F-4B28-B800-7C3137E3365E}.Release|x64.Build.0 = Release|x64
@@ -487,7 +485,6 @@ Global
 		{40AE1FF3-8B25-4659-8B0A-7886113E4246}.Release|ARM.Build.0 = Release|ARM
 		{40AE1FF3-8B25-4659-8B0A-7886113E4246}.Release|ARM.Deploy.0 = Release|ARM
 		{40AE1FF3-8B25-4659-8B0A-7886113E4246}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{40AE1FF3-8B25-4659-8B0A-7886113E4246}.Release|Mixed Platforms.Build.0 = Release|x86
 		{40AE1FF3-8B25-4659-8B0A-7886113E4246}.Release|Mixed Platforms.Deploy.0 = Release|x86
 		{40AE1FF3-8B25-4659-8B0A-7886113E4246}.Release|x64.ActiveCfg = Release|x64
 		{40AE1FF3-8B25-4659-8B0A-7886113E4246}.Release|x64.Build.0 = Release|x64
@@ -543,8 +540,8 @@ Global
 		{883C5447-2778-43E4-8CDE-6A594B342ACD} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
 		BuildVersion_UseGlobalSettings = True
+		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = ReactiveProperty.vsmdi
