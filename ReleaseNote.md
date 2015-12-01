@@ -9,6 +9,7 @@
 ### Add
 
 - Add Xamarin.Mac profile.
+- Add .NET Framework 4.6 binary.
 
 ## v2.2.8
 

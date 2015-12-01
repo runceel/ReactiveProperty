@@ -8,7 +8,7 @@ ReactiveProperty
 ReactivePropertyは、Reactive ExtensionsをMVVMパターンと非同期用に拡張したものです。
 動作環境は、以下の通りです。
 
-- .NET 4.0 Client Profile/.NET 4.5
+- .NET 4.0 Client Profile/.NET 4.5,4.6
 - Windows Phone 8.0/8.1
 - Windows ストアアプリ 8.1
 - UWP
