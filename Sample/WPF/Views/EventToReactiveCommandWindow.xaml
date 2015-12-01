@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ViewModels="clr-namespace:Sample.ViewModels;assembly=Sample.ViewModels" 
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
-    xmlns:Interactivity="clr-namespace:Reactive.Bindings.Interactivity;assembly=ReactiveProperty.NET45" 
+    xmlns:Interactivity="clr-namespace:Reactive.Bindings.Interactivity;assembly=ReactiveProperty.NET46" 
     xmlns:Views="clr-namespace:WPF.Views"
     x:Class="WPF.Views.EventToReactiveCommandWindow"
     Title="EventToReactiveCommandWindow" Height="300" Width="300">
