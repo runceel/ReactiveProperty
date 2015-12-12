@@ -95,5 +95,27 @@ namespace ReactiveProperty.Tests
             results[0].IsFalse();
             results[1].IsTrue();
         }
+
+        [TestMethod]
+        public void EnumCase()
+        {
+            var rp = new ReactiveProperty<TestEnum>();
+            var results = new List<TestEnum>();
+            rp.Subscribe(results.Add);
+            results.Is(TestEnum.None);
+
+            rp.Value = TestEnum.Enum1;
+            results.Is(TestEnum.None, TestEnum.Enum1);
+
+            rp.Value = TestEnum.Enum2;
+            results.Is(TestEnum.None, TestEnum.Enum1, TestEnum.Enum2);
+        }
+    }
+
+    enum TestEnum
+    {
+        None,
+        Enum1,
+        Enum2
     }
 }
