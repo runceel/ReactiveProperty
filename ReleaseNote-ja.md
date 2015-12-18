@@ -1,5 +1,11 @@
 # リリースノート
 
+## v2.3.1
+
+### 変更
+
+- IReadOnlyReactivePropertyの型引数をoutに変更しました。
+
 ## v2.3
 
 ### パフォーマンス

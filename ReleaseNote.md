@@ -1,5 +1,11 @@
 # Release note
 
+## v2.3.1
+
+### changes
+
+- Change IReadOnlyReactiveProperty generic parameter to out.
+
 ## v2.3
 
 ### Performance
