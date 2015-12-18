@@ -12,7 +12,7 @@ namespace Reactive.Bindings
         object Value { get; }
     }
 
-    public interface IReadOnlyReactiveProperty<T> : IReadOnlyReactiveProperty, IObservable<T>, INotifyPropertyChanged, IDisposable
+    public interface IReadOnlyReactiveProperty<out T> : IReadOnlyReactiveProperty, IObservable<T>, INotifyPropertyChanged, IDisposable
     {
         new T Value { get; }
     }
