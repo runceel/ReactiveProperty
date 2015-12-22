@@ -1,5 +1,11 @@
 # リリースノート
 
+## v2.4.0
+
+### 追加
+
+- iOS向けにUIViewにReactiveProeprty/ReactiveCommandをバインドする拡張メソッドを追加しました
+
 ## v2.3.1
 
 ### 変更

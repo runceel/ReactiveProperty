@@ -122,6 +122,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.Platform.N
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.Platform.UWP", "Source\ReactiveProperty.Platform.UWP\ReactiveProperty.Platform.UWP.csproj", "{CD8F2562-E3A0-4F6D-8285-70349597ADBC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.Platform.iOS", "Source\ReactiveProperty.Platform.iOS\ReactiveProperty.Platform.iOS.csproj", "{A54AE997-6255-4000-A4CE-3F8D6D8F0026}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -533,6 +535,26 @@ Global
 		{CD8F2562-E3A0-4F6D-8285-70349597ADBC}.Release|x64.Build.0 = Release|x64
 		{CD8F2562-E3A0-4F6D-8285-70349597ADBC}.Release|x86.ActiveCfg = Release|x86
 		{CD8F2562-E3A0-4F6D-8285-70349597ADBC}.Release|x86.Build.0 = Release|x86
+		{A54AE997-6255-4000-A4CE-3F8D6D8F0026}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A54AE997-6255-4000-A4CE-3F8D6D8F0026}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A54AE997-6255-4000-A4CE-3F8D6D8F0026}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{A54AE997-6255-4000-A4CE-3F8D6D8F0026}.Debug|ARM.Build.0 = Debug|Any CPU
+		{A54AE997-6255-4000-A4CE-3F8D6D8F0026}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A54AE997-6255-4000-A4CE-3F8D6D8F0026}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A54AE997-6255-4000-A4CE-3F8D6D8F0026}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A54AE997-6255-4000-A4CE-3F8D6D8F0026}.Debug|x64.Build.0 = Debug|Any CPU
+		{A54AE997-6255-4000-A4CE-3F8D6D8F0026}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A54AE997-6255-4000-A4CE-3F8D6D8F0026}.Debug|x86.Build.0 = Debug|Any CPU
+		{A54AE997-6255-4000-A4CE-3F8D6D8F0026}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A54AE997-6255-4000-A4CE-3F8D6D8F0026}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A54AE997-6255-4000-A4CE-3F8D6D8F0026}.Release|ARM.ActiveCfg = Release|Any CPU
+		{A54AE997-6255-4000-A4CE-3F8D6D8F0026}.Release|ARM.Build.0 = Release|Any CPU
+		{A54AE997-6255-4000-A4CE-3F8D6D8F0026}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A54AE997-6255-4000-A4CE-3F8D6D8F0026}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{A54AE997-6255-4000-A4CE-3F8D6D8F0026}.Release|x64.ActiveCfg = Release|Any CPU
+		{A54AE997-6255-4000-A4CE-3F8D6D8F0026}.Release|x64.Build.0 = Release|Any CPU
+		{A54AE997-6255-4000-A4CE-3F8D6D8F0026}.Release|x86.ActiveCfg = Release|Any CPU
+		{A54AE997-6255-4000-A4CE-3F8D6D8F0026}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -561,10 +583,11 @@ Global
 		{40AE1FF3-8B25-4659-8B0A-7886113E4246} = {6356D836-36AA-4CD9-8EB2-BF037115D329}
 		{883C5447-2778-43E4-8CDE-6A594B342ACD} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
 		{CD8F2562-E3A0-4F6D-8285-70349597ADBC} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
+		{A54AE997-6255-4000-A4CE-3F8D6D8F0026} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
 		BuildVersion_UseGlobalSettings = True
+		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = ReactiveProperty.vsmdi

@@ -1,5 +1,11 @@
 # Release note
 
+## v2.4.0
+
+### Add
+
+- Add extension method to UIView for binding ReactiveProperty/ReactiveCommand.
+
 ## v2.3.1
 
 ### changes
