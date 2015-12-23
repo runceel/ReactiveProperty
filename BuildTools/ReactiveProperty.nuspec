@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>ReactiveProperty</id>
-    <version>2.4.0-pre2</version>
+    <version>2.4.0</version>
     <title>ReactiveProperty</title>
     <authors>neuecc xin9le okazuki</authors>
     <owners>neuecc xin9le okazuki</owners>
@@ -144,7 +144,15 @@
     <file src="..\Binary\PCL\ReactiveProperty.XML" target="lib\MonoTouch" />
     <file src="..\Binary\MonoTouch\ReactiveProperty.iOS.dll" target="lib\MonoTouch" />
     <file src="..\Binary\MonoTouch\ReactiveProperty.iOS.XML" target="lib\MonoTouch" />
-   
+    
+    <!-- Xamarin.iOS10 -->
+    <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.dll" target="lib\Xamarin.iOS10" />
+    <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.XML" target="lib\Xamarin.iOS10" />
+    <file src="..\Binary\PCL\ReactiveProperty.dll" target="lib\Xamarin.iOS10" />
+    <file src="..\Binary\PCL\ReactiveProperty.XML" target="lib\Xamarin.iOS10" />
+    <file src="..\Binary\MonoTouch\ReactiveProperty.iOS.dll" target="lib\Xamarin.iOS10" />
+    <file src="..\Binary\MonoTouch\ReactiveProperty.iOS.XML" target="lib\Xamarin.iOS10" />
+
     <!-- Xamarin.Mac Unified -->
     <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.dll" target="lib\Xamarin.Mac20" />
     <file src="..\Binary\PCL\ReactiveProperty.DataAnnotations.XML" target="lib\Xamarin.Mac20" />
