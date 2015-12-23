@@ -69,7 +69,7 @@ namespace Reactive.Bindings
         /// <returns>Data binding token</returns>
         public static IDisposable SetBinding<TView, TProperty>(
             this TView self,
-            Action<TProperty> setter,
+            Action<TView, TProperty> setter,
             Func<TView, TProperty> getter,
             ReactiveProperty<TProperty> source, 
             Func<TView, IObservable<Unit>> updateSourceTrigger)
@@ -80,7 +80,7 @@ namespace Reactive.Bindings
             var isUpdating = false;
             source
                 .Where(_ => !isUpdating)
-                .Subscribe(x => setter(x))
+                .Subscribe(x => setter(self, x))
                 .AddTo(d);
             if (updateSourceTrigger != null && getter != null)
             {
@@ -112,7 +112,7 @@ namespace Reactive.Bindings
         /// <returns>Data binding token</returns>
         public static IDisposable SetBinding<TView, TProperty>(
             this TView self,
-            Action<TProperty> setter,
+            Action<TView, TProperty> setter,
             ReactiveProperty<TProperty> source)
             where TView : UIView
         {
@@ -156,14 +156,14 @@ namespace Reactive.Bindings
         /// <returns>Data binding token</returns>
         public static IDisposable SetBinding<TView, TProperty>(
             this TView self,
-            Action<TProperty> setter,
+            Action<TView, TProperty> setter,
             ReadOnlyReactiveProperty<TProperty> source)
             where TView : UIView
         {
             var d = new CompositeDisposable();
 
             source
-                .Subscribe(x => setter(x))
+                .Subscribe(x => setter(self, x))
                 .AddTo(d);
 
             return d;
