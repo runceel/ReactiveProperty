@@ -131,8 +131,8 @@ namespace Reactive.Bindings
                 return;
             }
 
-            foreach (var d in this.OfType<IDisposable>().ToArray()) { d.Dispose(); }
             this.Token.Dispose();
+            foreach (var d in this.OfType<IDisposable>().ToArray()) { d.Dispose(); }
         }
 
     }

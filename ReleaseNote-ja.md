@@ -1,5 +1,11 @@
 # リリースノート
 
+## v2.4.1
+
+### バグフィックス
+
+- ReadOnlyReactiveCollectionでDispose時にコレクションの要素のDisposeが呼ばれないケースがある問題に対応
+
 ## v2.4.0
 
 ### 追加

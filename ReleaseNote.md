@@ -1,5 +1,11 @@
 # Release note
 
+## v2.4.1
+
+### BugFix
+
+- Fixed bug, doesn't call collection element Dispose method when ReadOnlyReactiveCollection#Dispose called.
+
 ## v2.4.0
 
 ### Add
