@@ -57,7 +57,7 @@ namespace Reactive.Bindings.Extensions
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe,
             bool ignoreValidationErrorValue = false)
             where TSubject : INotifyPropertyChanged =>
-            ToReactivePropertyAsSynchronized(subject, propertySelector, UIDispatcherScheduler.Default, mode);
+            ToReactivePropertyAsSynchronized(subject, propertySelector, UIDispatcherScheduler.Default, mode, ignoreValidationErrorValue);
 
         /// <summary>
         /// <para>Converts NotificationObject's property to ReactiveProperty. Value is two-way synchronized.</para>
