@@ -1,5 +1,11 @@
 # リリースノート
 
+## v2.4.2
+
+### バグフィックス
+
+- ToReactivePropertyAsSynchronizedメソッドでignoreValidationErrorValueが効かなかったバグを修正
+
 ## v2.4.1
 
 ### バグフィックス

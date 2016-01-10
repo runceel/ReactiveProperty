@@ -1,5 +1,11 @@
 # Release note
 
+## v2.4.2
+
+### BugFix
+
+- Fixed bug, dosen't work ignoreValidationErrorValue at ToReactivePropertyAsSynchronized.
+
 ## v2.4.1
 
 ### BugFix
