@@ -286,6 +286,12 @@ namespace Reactive.Bindings
         public void ForceValidate() => this.ValidationTrigger.Value.OnNext(this.LatestValue);
 
         /// <summary>
+        /// Update value and invoke OnNext.
+        /// </summary>
+        /// <param name="value"></param>
+        public void SetValueAndForceNotify(T value) => this.SetValue(value);
+
+        /// <summary>
         /// Observe HasErrors value.
         /// </summary>
         public IObservable<bool> ObserveHasErrors => this.ObserveErrorChanged.Select(_ => this.HasErrors);
