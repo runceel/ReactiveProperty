@@ -281,6 +281,11 @@ namespace Reactive.Bindings
         public bool HasErrors => CurrentErrors != null;
 
         /// <summary>
+        /// Invoke validation process.
+        /// </summary>
+        public void ForceValidate() => this.ValidationTrigger.Value.OnNext(this.LatestValue);
+
+        /// <summary>
         /// Observe HasErrors value.
         /// </summary>
         public IObservable<bool> ObserveHasErrors => this.ObserveErrorChanged.Select(_ => this.HasErrors);

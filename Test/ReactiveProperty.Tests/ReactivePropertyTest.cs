@@ -110,6 +110,21 @@ namespace ReactiveProperty.Tests
             rp.Value = TestEnum.Enum2;
             results.Is(TestEnum.None, TestEnum.Enum1, TestEnum.Enum2);
         }
+
+        [TestMethod]
+        public void ForceValidate()
+        {
+            var minValue = 0;
+            var rp = new ReactiveProperty<int>(0)
+                .SetValidateNotifyError(x => x < minValue ? "Error" : null);
+            rp.GetErrors("Value").IsNull();
+
+            minValue = 1;
+            rp.GetErrors("Value").IsNull();
+
+            rp.ForceValidate();
+            rp.GetErrors("Value").OfType<string>().Is("Error");
+        }
     }
 
     enum TestEnum

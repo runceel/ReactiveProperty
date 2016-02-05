@@ -11,6 +11,7 @@ namespace Reactive.Bindings
     public interface IReactiveProperty : IHasErrors
     {
         object Value { get; set; }
+        void ForceValidate();
     }
 
     public interface IReactiveProperty<T> : IReactiveProperty, IObservable<T>, IDisposable, INotifyPropertyChanged, INotifyDataErrorInfo
