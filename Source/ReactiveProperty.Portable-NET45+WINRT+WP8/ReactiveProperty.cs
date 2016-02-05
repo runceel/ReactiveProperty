@@ -292,6 +292,12 @@ namespace Reactive.Bindings
         public void SetValueAndForceNotify(T value) => this.SetValue(value);
 
         /// <summary>
+        /// Invoke OnNext.
+        /// This is shortcut of rp.SetVlaueAndForceNotify(rp.Value).
+        /// </summary>
+        public void ForceNotify() => this.SetValueAndForceNotify(this.LatestValue);
+
+        /// <summary>
         /// Observe HasErrors value.
         /// </summary>
         public IObservable<bool> ObserveHasErrors => this.ObserveErrorChanged.Select(_ => this.HasErrors);

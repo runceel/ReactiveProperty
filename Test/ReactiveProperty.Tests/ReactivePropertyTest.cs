@@ -132,7 +132,7 @@ namespace ReactiveProperty.Tests
             var rp = new ReactiveProperty<int>(0); // DistinctUntilChanged
             var collecter = new List<int>();
             rp.Subscribe(collecter.Add);
-
+            
             collecter.Is(0);
 
             rp.Value = 0;
@@ -143,6 +143,18 @@ namespace ReactiveProperty.Tests
 
             rp.SetValueAndForceNotify(1); // force notify
             collecter.Is(0, 1, 1);
+        }
+
+        [TestMethod]
+        public void ForceNotify()
+        {
+            var rp = new ReactiveProperty<int>(0);
+            var collecter = new List<int>();
+            rp.Subscribe(collecter.Add);
+
+            collecter.Is(0);
+            rp.ForceNotify();
+            collecter.Is(0, 0);
         }
     }
 
