@@ -1,5 +1,10 @@
 # Release note
 
+## v2.5
+
+### Add
+- Add ForceNotify/ForceValidate/SetValueAndForceNotify method.
+
 ## v2.4.2
 
 ### BugFix

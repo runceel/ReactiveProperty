@@ -1,5 +1,10 @@
 # リリースノート
 
+## v2.5
+
+### Add
+- ForceNotify/ForceValidate/SetValueAndForceNotifyメソッドを追加しました
+
 ## v2.4.2
 
 ### バグフィックス
