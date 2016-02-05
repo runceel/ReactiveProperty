@@ -125,6 +125,25 @@ namespace ReactiveProperty.Tests
             rp.ForceValidate();
             rp.GetErrors("Value").OfType<string>().Is("Error");
         }
+
+        [TestMethod]
+        public void SetValueAndForceNotify()
+        {
+            var rp = new ReactiveProperty<int>(0); // DistinctUntilChanged
+            var collecter = new List<int>();
+            rp.Subscribe(collecter.Add);
+
+            collecter.Is(0);
+
+            rp.Value = 0;
+            collecter.Is(0);
+
+            rp.Value = 1;
+            collecter.Is(0, 1);
+
+            rp.SetValueAndForceNotify(1); // force notify
+            collecter.Is(0, 1, 1);
+        }
     }
 
     enum TestEnum
