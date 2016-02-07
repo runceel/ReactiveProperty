@@ -128,25 +128,6 @@ namespace ReactiveProperty.Tests
         }
 
         [TestMethod]
-        public void SetValueAndForceNotify()
-        {
-            var rp = new ReactiveProperty<int>(0); // DistinctUntilChanged
-            var collecter = new List<int>();
-            rp.Subscribe(collecter.Add);
-            
-            collecter.Is(0);
-
-            rp.Value = 0;
-            collecter.Is(0);
-
-            rp.Value = 1;
-            collecter.Is(0, 1);
-
-            rp.SetValueAndForceNotify(1); // force notify
-            collecter.Is(0, 1, 1);
-        }
-
-        [TestMethod]
         public void ForceNotify()
         {
             var rp = new ReactiveProperty<int>(0);
@@ -156,36 +137,6 @@ namespace ReactiveProperty.Tests
             collecter.Is(0);
             rp.ForceNotify();
             collecter.Is(0, 0);
-        }
-
-        [TestMethod]
-        public void ResetValue()
-        {
-            var rp = new ReactiveProperty<int>(0);
-            rp.Value.Is(0);
-            rp.Value = 1;
-            rp.Value.Is(1);
-            rp.ResetValue();
-            rp.Value.Is(0);
-        }
-
-        [TestMethod]
-        public void RestValueCreateFromIObservable()
-        {
-            var o = new Subject<int>();
-            var rp = o.ToReactiveProperty();
-            rp.Value.Is(0);
-            rp.Value = 1;
-            rp.Value.Is(1);
-            rp.ResetValue();
-            rp.Value.Is(0);
-
-            o.OnNext(10);
-            rp.Value.Is(10);
-            rp.Value = 11;
-            rp.Value.Is(11);
-            rp.ResetValue();
-            rp.Value.Is(10);
         }
     }
 

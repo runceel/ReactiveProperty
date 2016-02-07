@@ -3,7 +3,7 @@
 ## v2.5
 
 ### Add
-- Add ResetValue/ForceNotify/ForceValidate/SetValueAndForceNotify method.
+- Add ForceNotify/ForceValidate method.
 
 ## v2.4.2
 

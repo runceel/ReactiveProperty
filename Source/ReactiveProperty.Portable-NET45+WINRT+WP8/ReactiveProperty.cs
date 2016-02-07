@@ -41,7 +41,6 @@ namespace Reactive.Bindings
         public event PropertyChangedEventHandler PropertyChanged;
 
         private T LatestValue { get; set; }
-        private T InitialValue { get; set; }
         private bool IsDisposed { get; set; } = false;
         private IScheduler RaiseEventScheduler { get; }
         private bool IsDistinctUntilChanged { get; }
@@ -77,7 +76,6 @@ namespace Reactive.Bindings
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe)
         {
             this.RaiseEventScheduler = raiseEventScheduler;
-            this.InitialValue = initialValue;
             this.LatestValue = initialValue;
 
             this.IsRaiseLatestValueOnSubscribe = mode.HasFlag(ReactivePropertyMode.RaiseLatestValueOnSubscribe);
@@ -103,11 +101,7 @@ namespace Reactive.Bindings
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe)
             : this(raiseEventScheduler, initialValue, mode)
         {
-            this.SourceDisposable = source.Subscribe(x =>
-            {
-                this.InitialValue = x;
-                this.Value = x;
-            });
+            this.SourceDisposable = source.Subscribe(x => this.Value = x);
         }
 
         /// <summary>
@@ -146,14 +140,6 @@ namespace Reactive.Bindings
         }
 
         object IReadOnlyReactiveProperty.Value => Value;
-
-        /// <summary>
-        /// Reset value to latest source value.
-        /// </summary>
-        public void ResetValue()
-        {
-            this.Value = this.InitialValue;
-        }
 
         /// <summary>
         /// Subscribe source.
@@ -300,16 +286,9 @@ namespace Reactive.Bindings
         public void ForceValidate() => this.ValidationTrigger.Value.OnNext(this.LatestValue);
 
         /// <summary>
-        /// Update value and invoke OnNext.
-        /// </summary>
-        /// <param name="value"></param>
-        public void SetValueAndForceNotify(T value) => this.SetValue(value);
-
-        /// <summary>
         /// Invoke OnNext.
-        /// This is shortcut of rp.SetVlaueAndForceNotify(rp.Value).
         /// </summary>
-        public void ForceNotify() => this.SetValueAndForceNotify(this.LatestValue);
+        public void ForceNotify() => this.SetValue(this.LatestValue);
 
         /// <summary>
         /// Observe HasErrors value.

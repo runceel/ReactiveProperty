@@ -3,7 +3,7 @@
 ## v2.5
 
 ### Add
-- ResetValue/ForceNotify/ForceValidate/SetValueAndForceNotifyメソッドを追加しました
+- ForceNotify/ForceValidateメソッドを追加しました
 
 ## v2.4.2
 
