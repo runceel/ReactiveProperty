@@ -8,6 +8,7 @@ using System.Text;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using System.Reactive.Subjects;
 
 namespace ReactiveProperty.Tests
 {
@@ -155,6 +156,36 @@ namespace ReactiveProperty.Tests
             collecter.Is(0);
             rp.ForceNotify();
             collecter.Is(0, 0);
+        }
+
+        [TestMethod]
+        public void ResetValue()
+        {
+            var rp = new ReactiveProperty<int>(0);
+            rp.Value.Is(0);
+            rp.Value = 1;
+            rp.Value.Is(1);
+            rp.ResetValue();
+            rp.Value.Is(0);
+        }
+
+        [TestMethod]
+        public void RestValueCreateFromIObservable()
+        {
+            var o = new Subject<int>();
+            var rp = o.ToReactiveProperty();
+            rp.Value.Is(0);
+            rp.Value = 1;
+            rp.Value.Is(1);
+            rp.ResetValue();
+            rp.Value.Is(0);
+
+            o.OnNext(10);
+            rp.Value.Is(10);
+            rp.Value = 11;
+            rp.Value.Is(11);
+            rp.ResetValue();
+            rp.Value.Is(10);
         }
     }
 
