@@ -76,6 +76,7 @@
     <Compile Include="ReactiveCollection.cs" />
     <Compile Include="ReactiveCommand.cs" />
     <Compile Include="ReactiveProperty.cs" />
+    <Compile Include="ReactivePropertyScheduler.cs" />
     <Compile Include="ReactiveTimer.cs" />
     <Compile Include="ReadOnlyReactiveCollection.cs" />
     <Compile Include="ReadOnlyReactiveProperty.cs" />

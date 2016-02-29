@@ -30,7 +30,7 @@ namespace Reactive.Bindings
             : base(source)
         {
             this.Source = source;
-            scheduler = scheduler ?? UIDispatcherScheduler.Default;
+            scheduler = scheduler ?? ReactivePropertyScheduler.Default;
             var subject = new Subject<CollectionChanged<T>>();
 
             ox.Subscribe(subject.OnNext, subject.OnError, subject.OnCompleted).AddTo(this.Token);
@@ -95,7 +95,7 @@ namespace Reactive.Bindings
         public ReadOnlyReactiveCollection(IObservable<T> ox, ObservableCollection<T> source, IObservable<Unit> onReset = null, IScheduler scheduler = null) : base(source)
         {
             this.Source = source;
-            scheduler = scheduler ?? UIDispatcherScheduler.Default;
+            scheduler = scheduler ?? ReactivePropertyScheduler.Default;
 
             ox
                 .ObserveOn(scheduler)

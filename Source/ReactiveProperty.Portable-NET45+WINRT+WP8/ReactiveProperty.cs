@@ -56,17 +56,17 @@ namespace Reactive.Bindings
         private Lazy<BehaviorSubject<IEnumerable>> ErrorsTrigger { get; }
         private Lazy<List<Func<IObservable<T>, IObservable<IEnumerable>>>> ValidatorStore { get; } = new Lazy<List<Func<IObservable<T>, IObservable<IEnumerable>>>>(() => new List<Func<IObservable<T>, IObservable<IEnumerable>>>());
 
-        /// <summary>PropertyChanged raise on UIDispatcherScheduler</summary>
+        /// <summary>PropertyChanged raise on ReactivePropertyScheduler</summary>
         public ReactiveProperty()
             : this(default(T), ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe)
         {
         }
 
-        /// <summary>PropertyChanged raise on UIDispatcherScheduler</summary>
+        /// <summary>PropertyChanged raise on ReactivePropertyScheduler</summary>
         public ReactiveProperty(
             T initialValue = default(T),
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe)
-            : this(UIDispatcherScheduler.Default, initialValue, mode)
+            : this(ReactivePropertyScheduler.Default, initialValue, mode)
         { }
 
         /// <summary>PropertyChanged raise on selected scheduler</summary>
@@ -90,7 +90,7 @@ namespace Reactive.Bindings
             IObservable<T> source,
             T initialValue = default(T),
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe)
-            : this(source, UIDispatcherScheduler.Default, initialValue, mode)
+            : this(source, ReactivePropertyScheduler.Default, initialValue, mode)
         {
         }
 
@@ -312,14 +312,14 @@ namespace Reactive.Bindings
         /// <summary>
         /// <para>Convert plain object to ReactiveProperty.</para>
         /// <para>Value is OneWayToSource(ReactiveProperty -> Object) synchronized.</para>
-        /// <para>PropertyChanged raise on UIDispatcherScheduler</para>
+        /// <para>PropertyChanged raise on ReactivePropertyScheduler</para>
         /// </summary>
         public static ReactiveProperty<TProperty> FromObject<TTarget, TProperty>(
             TTarget target,
             Expression<Func<TTarget, TProperty>> propertySelector,
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe,
             bool ignoreValidationErrorValue = false) =>
-            FromObject(target, propertySelector, UIDispatcherScheduler.Default, mode, ignoreValidationErrorValue);
+            FromObject(target, propertySelector, ReactivePropertyScheduler.Default, mode, ignoreValidationErrorValue);
 
         /// <summary>
         /// <para>Convert plain object to ReactiveProperty.</para>
@@ -348,7 +348,7 @@ namespace Reactive.Bindings
         /// <summary>
         /// <para>Convert plain object to ReactiveProperty.</para>
         /// <para>Value is OneWayToSource(ReactiveProperty -> Object) synchronized.</para>
-        /// <para>PropertyChanged raise on UIDispatcherScheduler</para>
+        /// <para>PropertyChanged raise on ReactivePropertyScheduler</para>
         /// </summary>
         public static ReactiveProperty<TResult> FromObject<TTarget, TProperty, TResult>(
             TTarget target,
@@ -357,7 +357,7 @@ namespace Reactive.Bindings
             Func<TResult, TProperty> convertBack,
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe,
             bool ignoreValidationErrorValue = false) =>
-            FromObject(target, propertySelector, convert, convertBack, UIDispatcherScheduler.Default, mode, ignoreValidationErrorValue);
+            FromObject(target, propertySelector, convert, convertBack, ReactivePropertyScheduler.Default, mode, ignoreValidationErrorValue);
 
         /// <summary>
         /// <para>Convert plain object to ReactiveProperty.</para>
@@ -389,7 +389,7 @@ namespace Reactive.Bindings
 
         /// <summary>
         /// <para>Convert to two-way bindable IObservable&lt;T&gt;</para>
-        /// <para>PropertyChanged raise on UIDispatcherScheduler</para>
+        /// <para>PropertyChanged raise on ReactivePropertyScheduler</para>
         /// </summary>
         public static ReactiveProperty<T> ToReactiveProperty<T>(this IObservable<T> source,
             T initialValue = default(T),

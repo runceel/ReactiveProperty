@@ -76,10 +76,10 @@ namespace Reactive.Bindings
         }
 
         /// <summary>
-        /// CanExecuteChanged is called from canExecute sequence on UIDispatcherScheduler.
+        /// CanExecuteChanged is called from canExecute sequence on ReactivePropertyScheduler.
         /// </summary>
         public ReactiveCommand(IObservable<bool> canExecuteSource, bool initialValue = true)
-            : this(canExecuteSource, UIDispatcherScheduler.Default, initialValue)
+            : this(canExecuteSource, ReactivePropertyScheduler.Default, initialValue)
         {
         }
 
