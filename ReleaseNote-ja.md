@@ -1,5 +1,9 @@
 # リリースノート
 
+## v2.6
+### 変更
+- デフォルトのスケジューラをUIDispatcherSchedulerからReactivePropertySchedulerに変更しました
+
 ## v2.5
 
 ### Add
