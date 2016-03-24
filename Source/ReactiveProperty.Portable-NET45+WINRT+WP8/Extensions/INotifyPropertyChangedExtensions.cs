@@ -46,7 +46,7 @@ namespace Reactive.Bindings.Extensions
 
         /// <summary>
         /// <para>Converts NotificationObject's property to ReactiveProperty. Value is two-way synchronized.</para>
-        /// <para>PropertyChanged raise on UIDispatcherScheduler.</para>
+        /// <para>PropertyChanged raise on ReactivePropertyScheduler.</para>
         /// </summary>
         /// <param name="propertySelector">Argument is self, Return is target property.</param>
         /// <param name="mode">ReactiveProperty mode.</param>
@@ -57,7 +57,7 @@ namespace Reactive.Bindings.Extensions
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe,
             bool ignoreValidationErrorValue = false)
             where TSubject : INotifyPropertyChanged =>
-            ToReactivePropertyAsSynchronized(subject, propertySelector, UIDispatcherScheduler.Default, mode, ignoreValidationErrorValue);
+            ToReactivePropertyAsSynchronized(subject, propertySelector, ReactivePropertyScheduler.Default, mode, ignoreValidationErrorValue);
 
         /// <summary>
         /// <para>Converts NotificationObject's property to ReactiveProperty. Value is two-way synchronized.</para>
@@ -88,7 +88,7 @@ namespace Reactive.Bindings.Extensions
 
         /// <summary>
         /// <para>Converts NotificationObject's property to ReactiveProperty. Value is two-way synchronized.</para>
-        /// <para>PropertyChanged raise on UIDispatcherScheduler.</para>
+        /// <para>PropertyChanged raise on ReactivePropertyScheduler.</para>
         /// </summary>
         /// <param name="propertySelector">Argument is self, Return is target property.</param>
         /// <param name="convert">Convert selector to ReactiveProperty.</param>
@@ -103,7 +103,7 @@ namespace Reactive.Bindings.Extensions
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged|ReactivePropertyMode.RaiseLatestValueOnSubscribe,
             bool ignoreValidationErrorValue = false)
             where TSubject : INotifyPropertyChanged =>
-            ToReactivePropertyAsSynchronized(subject, propertySelector, convert, convertBack, UIDispatcherScheduler.Default, mode, ignoreValidationErrorValue);
+            ToReactivePropertyAsSynchronized(subject, propertySelector, convert, convertBack, ReactivePropertyScheduler.Default, mode, ignoreValidationErrorValue);
 
         /// <summary>
         /// <para>Converts NotificationObject's property to ReactiveProperty. Value is two-way synchronized.</para>

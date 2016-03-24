@@ -1,5 +1,10 @@
 # リリースノート
 
+## v2.6
+### 変更
+- デフォルトのスケジューラをUIDispatcherSchedulerからReactivePropertySchedulerに変更しました
+- UWP使用時にBehaviorSDKではなくMicrosoft.Xaml.Behaviors.Uwp.Managedを参照するように変更しました
+
 ## v2.5
 
 ### Add

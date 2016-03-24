@@ -18,7 +18,7 @@ namespace Reactive.Bindings
 
         /// <summary>Operate scheduler is UIDispatcherScheduler.</summary>
         public ReactiveCollection()
-            : this(UIDispatcherScheduler.Default)
+            : this(ReactivePropertyScheduler.Default)
         { }
 
         /// <summary>Operate scheduler is argument's scheduler.</summary>
@@ -30,7 +30,7 @@ namespace Reactive.Bindings
 
         /// <summary>Source sequence as ObservableCollection. Operate scheduler is UIDispatcherScheduler.</summary>
         public ReactiveCollection(IObservable<T> source)
-            : this(source, UIDispatcherScheduler.Default)
+            : this(source, ReactivePropertyScheduler.Default)
         {
         }
 
@@ -89,7 +89,7 @@ namespace Reactive.Bindings
 
     public static partial class ReactiveCollectionObservableExtensions
     {
-        /// <summary>Source sequence as ObservableCollection. Operate scheduler is UIDispatcherScheduler.</summary>
+        /// <summary>Source sequence as ObservableCollection. Operate scheduler is ReactivePropertyScheduler.</summary>
         public static ReactiveCollection<T> ToReactiveCollection<T>(this IObservable<T> source) =>
             new ReactiveCollection<T>(source);
 

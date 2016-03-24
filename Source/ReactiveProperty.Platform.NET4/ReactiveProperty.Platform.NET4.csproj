@@ -189,6 +189,9 @@
     <Compile Include="..\ReactiveProperty.Portable-NET45+WINRT+WP8\ReactiveProperty.cs">
       <Link>ReactiveProperty.cs</Link>
     </Compile>
+    <Compile Include="..\ReactiveProperty.Portable-NET45+WINRT+WP8\ReactivePropertyScheduler.cs">
+      <Link>ReactivePropertyScheduler.cs</Link>
+    </Compile>
     <Compile Include="..\ReactiveProperty.Portable-NET45+WINRT+WP8\ReactiveTimer.cs">
       <Link>ReactiveTimer.cs</Link>
     </Compile>

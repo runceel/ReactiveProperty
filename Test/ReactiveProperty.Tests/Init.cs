@@ -6,6 +6,7 @@ using System.Net;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Reactive.Bindings;
 using System.Threading;
+using System.Reactive.Concurrency;
 
 namespace ReactiveProperty.Tests
 {
@@ -16,7 +17,7 @@ namespace ReactiveProperty.Tests
         public static void Initialize(TestContext context)
         {
             ServicePointManager.Expect100Continue = false;
-            SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
+            ReactivePropertyScheduler.SetDefault(Scheduler.CurrentThread);
         }
     }
 }

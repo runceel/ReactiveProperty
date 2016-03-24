@@ -40,7 +40,7 @@ namespace Reactive.Bindings
                     this.LatestValue = x;
                     this.InnerSource.OnNext(x);
                 })
-                .ObserveOn(eventScheduler ?? UIDispatcherScheduler.Default)
+                .ObserveOn(eventScheduler ?? ReactivePropertyScheduler.Default)
                 .Subscribe(_ =>
                 {
                     this.PropertyChanged?.Invoke(this, SingletonPropertyChangedEventArgs.Value);
