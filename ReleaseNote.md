@@ -3,6 +3,7 @@
 ## v2.6
 ### Change
 - Change default scheduler to ReactivePropertyScheduler from UIDispatcherScheduler.
+- Change reference BehaviorSDK to Microsoft.Xaml.Behaviors.Uwp.Managed in UWP.
 
 ## v2.5
 
