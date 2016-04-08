@@ -154,6 +154,7 @@
     <Compile Include="Helpers\FilteredReadOnlyObservableCollectionTest.cs" />
     <Compile Include="Init.cs" />
     <Compile Include="Interactivity\EventToReactiveTest.cs" />
+    <Compile Include="Notifiers\BusyNotifierTest.cs" />
     <Compile Include="Notifiers\ScheduledNotifierTest.cs" />
     <Compile Include="Notifiers\BooleanNotifierTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

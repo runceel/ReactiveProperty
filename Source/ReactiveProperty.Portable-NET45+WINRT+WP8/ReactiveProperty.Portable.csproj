@@ -69,6 +69,7 @@
     <Compile Include="IReactiveProperty.cs" />
     <Compile Include="IReadOnlyReactiveProperty.cs" />
     <Compile Include="Notifiers\BooleanNotifier.cs" />
+    <Compile Include="Notifiers\BusyNotifier.cs" />
     <Compile Include="Notifiers\CountNotifier.cs" />
     <Compile Include="Notifiers\ScheduledNotifier.cs" />
     <Compile Include="ObservableEx.cs" />
