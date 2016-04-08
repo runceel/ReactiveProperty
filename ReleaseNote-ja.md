@@ -1,5 +1,9 @@
 # リリースノート
 
+## v2.7
+### 追加
+- BusyNotifierを追加しました。
+
 ## v2.6
 ### 変更
 - デフォルトのスケジューラをUIDispatcherSchedulerからReactivePropertySchedulerに変更しました

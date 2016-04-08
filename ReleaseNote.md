@@ -1,5 +1,9 @@
 # Release note
 
+## v2.7
+### Add
+- Add BusyNotifier.
+
 ## v2.6
 ### Change
 - Change default scheduler to ReactivePropertyScheduler from UIDispatcherScheduler.
