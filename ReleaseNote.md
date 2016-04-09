@@ -1,4 +1,7 @@
 # Release note
+## v2.7.1
+### Add
+- Add IO<bool>#Inverse extension method.
 
 ## v2.7
 ### Add
