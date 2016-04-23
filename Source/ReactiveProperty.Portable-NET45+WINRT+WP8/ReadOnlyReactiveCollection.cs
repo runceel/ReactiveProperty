@@ -33,10 +33,10 @@ namespace Reactive.Bindings
             scheduler = scheduler ?? ReactivePropertyScheduler.Default;
             var subject = new Subject<CollectionChanged<T>>();
 
-            ox.Subscribe(subject.OnNext, subject.OnError, subject.OnCompleted).AddTo(this.Token);
+            ox.ObserveOn(scheduler)
+                .Subscribe(subject.OnNext, subject.OnError, subject.OnCompleted).AddTo(this.Token);
 
             subject.Where(v => v.Action == NotifyCollectionChangedAction.Add)
-                .ObserveOn(scheduler)
                 .Subscribe(v =>
                 {
                     this.Source.Insert(v.Index, v.Value);
@@ -44,7 +44,6 @@ namespace Reactive.Bindings
                 .AddTo(this.Token);
 
             subject.Where(v => v.Action == NotifyCollectionChangedAction.Remove)
-                .ObserveOn(scheduler)
                 .Subscribe(v =>
                 {
                     var d = this.Source[v.Index] as IDisposable;
@@ -54,7 +53,6 @@ namespace Reactive.Bindings
                 .AddTo(this.Token);
 
             subject.Where(v => v.Action == NotifyCollectionChangedAction.Replace)
-                .ObserveOn(scheduler)
                 .Subscribe(v =>
                 {
                     var d = this.Source[v.Index] as IDisposable;
@@ -64,7 +62,6 @@ namespace Reactive.Bindings
                 .AddTo(this.Token);
 
             subject.Where(v => v.Action == NotifyCollectionChangedAction.Reset)
-                .ObserveOn(scheduler)
                 .Subscribe(v =>
                 {
                     foreach (var item in source)
@@ -77,7 +74,6 @@ namespace Reactive.Bindings
                 .AddTo(this.Token);
 
             subject.Where(x => x.Action == NotifyCollectionChangedAction.Move)
-                .ObserveOn(scheduler)
                 .Subscribe(x =>
                 {
                     var targetValue = this.Source[x.OldIndex];
