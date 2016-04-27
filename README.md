@@ -331,8 +331,297 @@ public PersonViewModel(Person model)
 }
 ```
 
+## TwoWay synchronize
+
+Previous example is onw way synchronize model to viewmodel.
+ReactiveProperty provide two way synchronize model to viewmodel.
+ToReactivePropertyAsSynchronized extension method provide two way synchronize model(It must implements INotifyPropertyChanged) to viewmodel.
+
+Follows.
+
+```cs
+public PersonViewModel(Person model)
+{
+    this.Name = model.ToReactivePropertyAsSynchronized(x => x.Name)
+        .AddTo(this.Disposable);
+}
+```
+
+The arguments convert and convertBack can setting custom convert logic.
+
+```cs
+public PersonViewModel(Person model)
+{
+    this.Name = model.ToReactivePropertyAsSynchronized(x => x.Name,
+        convert: x => $"{x}-san",
+        convertBack: x => x.Replace("-san", ""))
+        .AddTo(this.Disposable);
+}
+```
+
+# Connect to model what doesn't implement INotifyPropertyChanged
+
+Get initial value from model to ReactiveProperty, 
+Then, to set the value to the Model when it changed the value of the ReactiveProperty.
+
+ReactiveProperty.FromObject method provide that function.
+
+Follows.
+
+```cs
+public PersonViewModel(Person model)
+{
+    this.Name = ReactiveProperty.FromObject(model, x => x.Name);
+}
+```
+
+FromObject method have convert and convertBack arguments, same to ToReactivePropertyAsSynchronized.
 
 
+## Validation
+
+ReactiveProperty provide validation. Most simple way, After create to ReactiveProperty, call SetValidateNotifyError method.
+For example, required value follows.
+
+```cs
+public class PersonViewModel
+{
+    public ReactiveProperty<string> Name { get; }
+
+    public PersonViewModel()
+    {
+        this.Name = new ReactiveProperty<string>()
+            .SetValidateNotifyError(x => string.IsNullOrWhiteSpace(x) ? "Error!!" : null);
+    }
+
+}
+```
+
+ReactiveProperty implements INotifyDataErrorInfo. That means can use WPF validation error message function.
+UWP case use ObserveErrorChanged property.
+
+Follows.
+
+```cs
+public class PersonViewModel
+{
+    public ReactiveProperty<string> Name { get; }
+
+    public ReadOnlyReactiveProperty<string> NameErrorMessage { get; }
+
+    public PersonViewModel()
+    {
+        this.Name = new ReactiveProperty<string>()
+            .SetValidateNotifyError(x => string.IsNullOrWhiteSpace(x) ? "Error!!" : null);
+        this.NameErrorMessage = this.Name
+            .ObserveErrorChanged
+            .Select(x => x?.Cast<string>()?.FirstOrDefault())
+            .ToReadOnlyReactiveProperty();
+    }
+
+}
+```
+
+Bind this ViewModel to View.
+
+
+```xml
+<Page x:Class="App1.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:App1"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+
+    <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <TextBox Text="{x:Bind ViewModel.Name.Value, Mode=TwoWay}" />
+        <TextBlock Text="{x:Bind ViewModel.NameErrorMessage.Value, Mode=OneWay}" />
+    </StackPanel>
+</Page>
+```
+
+When you run will be as follows.
+
+![Validation error1](Images/error1.png)
+
+![Validation error2](Images/error2.png)
+
+If the platform support DataAnnotatio then you can use SetValidationAttribute method.
+
+Follows.
+
+```cs
+public class PersonViewModel
+{
+    [Required(ErrorMessage = "Error!!")]
+    public ReactiveProperty<string> Name { get; }
+
+    public ReadOnlyReactiveProperty<string> NameErrorMessage { get; }
+
+    public PersonViewModel()
+    {
+        this.Name = new ReactiveProperty<string>()
+            .SetValidateAttribute(() => this.Name);
+        this.NameErrorMessage = this.Name
+            .ObserveErrorChanged
+            .Select(x => x?.Cast<string>()?.FirstOrDefault())
+            .ToReadOnlyReactiveProperty();
+    }
+
+}
+```
+
+## Validation and model synchronization
+
+ToReactivePropertyAsSynchronized method and FromObject method have an ignoreValidationErrorValue arguments.
+Set to true this argument when ignore validation error value.
+
+Set to ViewModel to Model when passed required validation. 
+Follows.
+ 
+ ```cs
+ public class PersonViewModel
+{
+    [Required(ErrorMessage = "Error!!")]
+    public ReactiveProperty<string> Name { get; }
+
+    public ReadOnlyReactiveProperty<string> NameErrorMessage { get; }
+
+    public PersonViewModel(Person model)
+    {
+        this.Name = model.ToReactivePropertyAsSynchronized(x => x.Name,
+            ignoreValidationErrorValue: true)
+            .SetValidateAttribute(() => this.Name);
+        this.NameErrorMessage = this.Name
+            .ObserveErrorChanged
+            .Select(x => x?.Cast<string>()?.FirstOrDefault())
+            .ToReadOnlyReactiveProperty();
+    }
+
+}
+```
+
+## Observe validation error
+
+ReactiveProperty provide ObserveHasErrors property.
+You observe this property. It means that you can observe validation error status.
+
+Follows.
+
+```cs
+public class PersonViewModel
+{
+    [Required(ErrorMessage = "Error!!")]
+    public ReactiveProperty<string> Name { get; }
+
+    [Required(ErrorMessage = "Error!!")]
+    [RegularExpression("[0-9]+", ErrorMessage = "Error!!")]
+    public ReactiveProperty<string> Age { get; }
+
+    public PersonViewModel(Person model)
+    {
+        this.Name = new ReactiveProperty<string>()
+            .SetValidateAttribute(() => this.Name);
+        this.Age = new ReactiveProperty<string>()
+            .SetValidateAttribute(() => this.Age);
+
+        new[]
+            {
+                this.Name.ObserveHasErrors,
+                this.Age.ObserveHasErrors
+            }
+            .CombineLatest(x => x.All(y => !y))
+            .Where(x => x)
+            .Subscribe(_ =>
+            {
+                Debug.WriteLine("No error!!");
+            });
+
+    }
+
+}
+```
+
+# ReactiveCommand
+
+ReactiveProperty provide ReactiveCommand. That is implementation of ICommand interface.
+ReactiveCommand can create from IObservable&lt;bool&gt;.
+ToReactiveCommand extension method can call IObservable&lt;bool&gt;.
+it mean can execute ReactiveCommand when push true value from IObservable&lt;bool&gt;.
+
+Process to subscribe method when executed command.
+
+For example, if all ReactiveProperty doesn't have validation error then it can execute command.
+Follows.
+
+```cs
+
+public class PersonViewModel
+{
+    [Required(ErrorMessage = "Error!!")]
+    public ReactiveProperty<string> Name { get; }
+
+    [Required(ErrorMessage = "Error!!")]
+    [RegularExpression("[0-9]+", ErrorMessage = "Error!!")]
+    public ReactiveProperty<string> Age { get; }
+
+    public ReactiveCommand CommitCommand { get; }
+
+    public PersonViewModel()
+    {
+        this.Name = new ReactiveProperty<string>()
+            .SetValidateAttribute(() => this.Name);
+        this.Age = new ReactiveProperty<string>()
+            .SetValidateAttribute(() => this.Age);
+
+        this.CommitCommand = new[]
+            {
+                this.Name.ObserveHasErrors,
+                this.Age.ObserveHasErrors
+            }
+            .CombineLatest(x => x.All(y => !y))
+            .ToReactiveCommand();
+        this.CommitCommand.Subscribe(async _ => await new MessageDialog("OK").ShowAsync());
+
+    }
+
+}
+```
+
+Bind to View.
+
+```xml
+<Page x:Class="App1.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:App1"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+
+    <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <TextBox Text="{x:Bind ViewModel.Name.Value, Mode=TwoWay}" />
+        <TextBox Text="{x:Bind ViewModel.Age.Value, Mode=TwoWay}" />
+        <Button Content="Commit"
+                Command="{x:Bind ViewModel.CommitCommand}" />
+    </StackPanel>
+</Page>
+```
+
+Can't push button when validation error.
+
+![ReactiveCommand1](Images/reactivecommand1.png)
+
+Can push button when no validation error.
+
+![ReactiveCommand2](Images/reactivecommand2.png)
+
+ReactiveCommand have ReactiveCommand&lt;T&gt; version. It can use command parameter.
+
+
+http://blog.okazuki.jp/entry/2015/12/05/221154
+ReactiveCollection
 
 ## Sample program 1
 
