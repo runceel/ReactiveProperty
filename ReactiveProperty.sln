@@ -81,13 +81,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.Platform.N
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{97EC2EDF-8B92-4DB1-B2D7-09E4124B9DE0}"
 	ProjectSection(SolutionItems) = preProject
-		Images\basics.png = Images\basics.png
-		Images\eventtoreactive.PNG = Images\eventtoreactive.PNG
-		Images\EventToReactiveCommand1.PNG = Images\EventToReactiveCommand1.PNG
-		Images\EventToReactiveCommand2.PNG = Images\EventToReactiveCommand2.PNG
+		Images\delay.png = Images\delay.png
+		Images\interval.png = Images\interval.png
 		Images\rpsummary.png = Images\rpsummary.png
+		Images\synchronize.png = Images\synchronize.png
 		Images\todomvvm.png = Images\todomvvm.png
-		Images\validation.PNG = Images\validation.PNG
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.Platform.Android", "Source\ReactiveProperty.Platform.Android\ReactiveProperty.Platform.Android.csproj", "{ABF4F434-E274-4980-B1D1-AADCF75685A0}"
@@ -586,8 +584,8 @@ Global
 		{A54AE997-6255-4000-A4CE-3F8D6D8F0026} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
 		BuildVersion_UseGlobalSettings = True
+		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = ReactiveProperty.vsmdi
