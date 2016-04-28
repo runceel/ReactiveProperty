@@ -665,7 +665,7 @@ You can switch scheduler to the constructor argument.
 
 This class is read-only collection and can synchronize to ObservableCollection and ReactiveCollection.
 ToReadOnlyReactiveCollection extension method can create ReadOnlyReactiveCollection from ObservableCollection and ReactiveCollection.
-Then pass convert logic(Func&ltT, U&gt;) at argument, you can get converted type collection.
+Then pass convert logic(Func&lt;T, U&gt;) at argument, you can get converted type collection.
 
 Follows.
 
