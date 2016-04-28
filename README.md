@@ -325,7 +325,7 @@ And use select extension method. Then can convert model value to ViewModel.
 public PersonViewModel(Person model)
 {
     this.Name = model.ObserveProperty(x => x.Name)
-        .Select(x => $"{x}В≥Вс")
+        .Select(x => $"{x}-san")
         .ToReactiveProperty()
         .AddTo(this.Disposable);
 }
