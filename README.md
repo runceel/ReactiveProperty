@@ -762,9 +762,281 @@ col.ObserveElementProperty(x => x.Name)
 
 If element property type is ReactiveProperty. This case can use to ObserveElementObservableProperty extension method.
 
+## Other
 
-http://blog.okazuki.jp/entry/2015/12/05/221154
-‚»‚Ì‚Ù‚©‚É‚à‚©‚ç
+ReactiveProperty provide many extension methods in Reactive.Bindings.Extensions namespace.
+Please see this namespace.
+
+# Notifier classes
+
+ReactiveProperty provide useful classes, that is Notifier classes in Reactive.Bindings.Notifiers namespace.
+
+## BooleanNotifier
+
+It's simplify class. It is IObservable&lt;bool&gt; and it can switch true/false.
+
+```cs
+var n = new BooleanNotifier();
+n.Subscribe(x => Debug.WriteLine(x));
+
+n.TurnOn(); // true
+n.TurnOff(); // false
+n.Value = true; // true
+n.Value = false; // false
+```
+
+It can use to source of ReactiveCommand.
+
+## CountNotifier
+
+CountNotifier is counter.
+It provide Increment and Decrement methods.
+That method return IDisposable interface. 
+When dispose method called that reverted value.
+
+CountNotifier is IObservable&lt;CountChangedStatus&gt;.
+CountChanangedStatus enum is follows.
+
+```cs
+/// <summary>Event kind of CountNotifier.</summary>
+public enum CountChangedStatus
+{
+    /// <summary>Count incremented.</summary>
+    Increment,
+    /// <summary>Count decremented.</summary>
+    Decrement,
+    /// <summary>Count is zero.</summary>
+    Empty,
+    /// <summary>Count arrived max.</summary>
+    Max
+}
+```
+
+It can use that.
+
+```cs
+var c = new CountNotifier();
+// output status.
+c.Subscribe(x => Debug.WriteLine(x));
+// output current value.
+c.Select(_ => c.Count).Subscribe(x => Debug.WriteLine(x));
+// increment
+var d = c.Increment(10);
+// revert increment
+d.Dispose();
+// increment and decrement
+c.Increment(10);
+c.Decrement(5);
+// output current value.
+Debug.WriteLine(c.Count);
+```
+
+Output is follows.
+
+```cs
+Increment
+10
+Decrement
+0
+Empty
+0
+Increment
+10
+Decrement
+5
+5
+```
+
+You can set max value of CountNotifier from constructor argument.
+
+## ScheduledNotifier
+
+ScheduledNotifier only notify value after seted timespan on scheduler(Default scheduler is current thread.)
+
+```cs
+var n = new ScheduledNotifier<string>();
+n.Subscribe(x => Debug.WriteLine(x));
+// execute now
+n.Report("Hello world");
+// after 2 second.
+n.Report("After 2 second.", TimeSpan.FromSeconds(2));
+```
+
+## BusyNotifier
+
+BusyNotifyer class is very useful to defence of double click.
+IsBusy property can get current status is busy?
+ProcessStart method start process and return value is IDsposable interface.
+When Dispose method call that is exit process.
+
+```cs
+private BusyNotifier Busy { get; } = new BusyNotifier();
+
+// when heavy process
+using (this.Busy.ProcessStart())
+{
+    // some heavy process
+}
+```
+
+BusyNotifyer cal use to ReactivePropertys source.
+
+```cs
+// when create isbusy and isidle property that is define properties.
+private BusyNotifyer BusyNotifier { get; } = new BusyNotifier();
+public ReadOnlyReactiveProperty<bool> IsBusy { get; }
+public ReadOnlyReactiveProperty<bool> IsIdle { get; }
+
+// constructor code
+this.IsBusy = this.BusyNotifyer.ToReadOnlyReactiveProperty();
+this.IsIdle = this.BusyNotifier.Inverse().ToReadOnlyReactiveProperty(); // Inverse extension methods in Extensions namespace.
+```
+
+# Event transfer View to viewmodel
+
+EventToReactiveProperty and EventToReactiveCommand classes transfer event to ReactiveProperty and ReactiveCommand.
+It implements Behaviors `Action`.
+It use EventTrigger together.
+
+It can use ReactiveConverter&lt;T, U&gt;. It is convert event to some object.
+It is very powerful. Because it can buffering, throttle and many Rx methods.
+
+```cs
+using System;
+using System.Linq;
+using System.Reactive.Linq;
+using Windows.Storage.Pickers;
+using Windows.UI.Xaml;
+
+namespace App1
+{
+    public class FileOpenReactiveConverter : ReactiveConverter<RoutedEventArgs, string>
+    {
+        protected override IObservable<string> OnConvert(IObservable<RoutedEventArgs> source)
+        {
+            return source.SelectMany(async _ =>
+            {
+                var picker = new FileOpenPicker();
+                picker.FileTypeFilter.Add(".snippet");
+                var f = await picker.PickSingleFileAsync();
+                return f?.Path;
+            })
+            .Where(x => x != null);
+
+        }
+    }
+}
+```
+
+You can use this converter, and binding event to ReactiveCommand.
+
+```cs
+<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:App1"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+      xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
+      xmlns:Interactivity1="using:Reactive.Bindings.Interactivity"
+      x:Class="App1.MainPage"
+      mc:Ignorable="d">
+
+    <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Button Content="OpenFile...">
+            <Interactivity:Interaction.Behaviors>
+                <Core:EventTriggerBehavior EventName="Click">
+                    <Interactivity1:EventToReactiveCommand Command="{x:Bind ViewModel.SelectFileCommand}">
+                        <local:FileOpenReactiveConverter />
+                    </Interactivity1:EventToReactiveCommand>
+                </Core:EventTriggerBehavior>
+            </Interactivity:Interaction.Behaviors>
+        </Button>
+        <TextBlock Text="{x:Bind ViewModel.FileName.Value, Mode=OneWay}" />
+    </StackPanel>
+</Page>
+```
+
+Code behind and ViewModel is follows.
+
+```cs
+using Reactive.Bindings;
+using Windows.UI.Xaml.Controls;
+
+namespace App1
+{
+    public sealed partial class MainPage : Page
+    {
+        public MainPageViewModel ViewModel { get; } = new MainPageViewModel();
+
+        public MainPage()
+        {
+            this.InitializeComponent();
+        }
+    }
+
+    public class MainPageViewModel
+    {
+        public ReactiveCommand<string> SelectFileCommand { get; }
+        public ReadOnlyReactiveProperty<string> FileName { get; }
+
+        public MainPageViewModel()
+        {
+            this.SelectFileCommand = new ReactiveCommand<string>();
+            this.FileName = this.SelectFileCommand.ToReadOnlyReactiveProperty();
+        }
+    }
+
+}
+```
+
+It can select file and shown file name.
+EventToReactiveProperty is deferent to can set ReactiveCommand or ReactiveProperty.
+
+Omit EventToReactiveProperty.
+
+
+# IFilteredReadOnlyObservableCollection interface
+
+This provide realtime filtering collection.
+ToFilteredReadOnlyObservableCollection extension method can create IFilteredReadOnlyObservableCollection from collection.
+Argument is filter condition.
+
+```cs
+var collection = new ObservableCollection<Person>();
+// ignore tanaka
+var filtered = collection.ToFilteredReadOnlyObservableCollection(x => x.Name.IndexOf("tanaka") == -1);
+
+collection.Add(new Person { Name = "okazuki1" });
+collection.Add(new Person { Name = "okazuki2" });
+collection.Add(new Person { Name = "okazuki3" });
+collection.Add(new Person { Name = "tanaka1" });
+
+// okazuki1, okazuki2, okazuki3
+Console.WriteLine("---");
+foreach (var p in filtered)
+{
+    Console.WriteLine(p.Name);
+}
+
+collection[1].Name = "tanaka2";
+
+// okazuki1, okazuki3
+Console.WriteLine("---");
+foreach (var p in filtered)
+{
+    Console.WriteLine(p.Name);
+}
+```
+
+# Change to default scheduler
+
+ReactiveProperty use the ReactivePropertyScheduler.Default by default.
+ReactivePropertyScheduler.Default return UIDispatcherScheduler.Default.
+Therefore ReactiveProperty raise event on UI thread.
+
+ReactivePropertyScheduler.SetDefault method can change default scheduler.
+It usecase is UnitTest and ConsoleApplication(ConsoleApplication doesn't have UI thread.)
 
 ## Sample program 1
 
