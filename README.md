@@ -619,9 +619,152 @@ Can push button when no validation error.
 
 ReactiveCommand have ReactiveCommand&lt;T&gt; version. It can use command parameter.
 
+# ReactiveCollection
+
+ReactiveCollection provide to run process on scheduler.(Default is UI thread.)
+And ReactiveCollection extends ObservableCollection.
+
+ToReactiveCollection extension method create ReactiveCollection from IObservable.
+For example, that code add to collection at interval one-second.
+
+```cs
+public class PersonViewModel
+{
+    public ReactiveCollection<long> TimerCollection { get; } = Observable
+        .Interval(TimeSpan.FromSeconds(1))
+        .ToReactiveCollection();
+}
+```
+
+And also AddOnScheduler, RemoveOnScheduler etc... like ***OnScheduler methods can run process on scheduler.
+
+```cs
+public class PersonViewModel
+{
+    public ReactiveCollection<long> SampleCollection { get; } = new ReactiveCollection<long>();
+
+    private Random Random { get; } = new Random();
+
+    public ReactiveCommand AddCommand { get; } = new ReactiveCommand();
+
+    public PersonViewModel()
+    {
+        this.AddCommand.Subscribe(async _ => await Task.Run(() => 
+        {
+            // You can run on UI thread.
+            this.SampleCollection.AddOnScheduler(this.Random.Next());
+        }));
+    }
+}
+```
+
+You can switch scheduler to the constructor argument.
+
+
+# ReadOnlyReactiveCollection
+
+This class is read-only collection and can synchronize to ObservableCollection and ReactiveCollection.
+ToReadOnlyReactiveCollection extension method can create ReadOnlyReactiveCollection from ObservableCollection and ReactiveCollection.
+Then pass convert logic(Func&ltT, U&gt;) at argument, you can get converted type collection.
+
+Follows.
+
+```cs
+public class MainPageViewModel
+{
+    private PeopleManager Model { get; } = new PeopleManager();
+    public ReadOnlyReactiveCollection<PersonViewModel> People { get; }
+
+    public MainPageViewModel()
+    {
+        // convert Person collection to PersonViewModel collection.
+        this.People = this.Model.People.ToReadOnlyReactiveCollection(x => new PersonViewModel(x));
+    }
+}
+
+public class PersonViewModel
+{
+    public PersonViewModel(Person model)
+    {
+	    // connect model to viewmodel
+    }
+}
+
+public class PeopleManager
+{
+    public ObservableCollection<Person> People { get; } = new ObservableCollection<Person>();
+
+    // some logic
+}
+
+public class Person : INotifyPropertyChanged
+{
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    // properties
+}
+```
+
+# Convert method to IObservable from many classes
+
+ReactiveProperty provide many extension method, convert to IObservable from many classes.
+Because ReactiveProperty can create from IObservable.
+
+## Convert from INotifyPropertyChanged
+
+PropertyChangedAsObservable extension method can create IObservable&lt;NotifyPropertyChangedEventArgs&gt;.
+
+```cs
+var p = new Person();
+p.PropertyChangedAsObservable()
+    .Subscribe(x => Debug.WriteLine($"{x.PropertyName} changed"));
+```
+
+Otherwise specific version one property. That is ObserveProperty method.
+
+```cs
+var p = new Person();
+p.ObserveProperty(x => x.Name) // overve name property
+    .Subscribe(x => Debug.WriteLine($"changed value is {x}"));
+```
+
+## Convert from INotifyCollectionChanged
+
+Observe CollectionChanged event like PropertyChanged event.
+
+```cs
+var col = new ObservableCollection<Person>();
+col.CollectionChangedAsObservable()
+    .Subscribe(x => Debug.WriteLine($"{x.Action} executed!!"));
+```
+
+Otherwise specific version add, remove, etc... That is ObserveXXXChanged method.
+
+```cs
+var col = new ObservableCollection<Person>();
+col.ObserveAddChanged()
+    .Subscribe(x => Debug.WriteLine($"{x.Name} added"));
+```
+
+## Observe PropertyChanged in collection
+
+ObserveElementPropertyChanged extension method can observe element PropertyChanged event.
+
+```cs
+var col = new ObservableCollection<Person>();
+// observe some propertychanged
+col.ObserveElementPropertyChanged()
+    .Subscribe(x => Debug.WriteLine($"{x.EventArgs} {x.Sender}"));
+// observe specific propertychanged
+col.ObserveElementProperty(x => x.Name)
+    .Subscribe(x => Debug.WriteLine($"{x.Instance} {x.Property} {x.Value}"));
+```
+
+If element property type is ReactiveProperty. This case can use to ObserveElementObservableProperty extension method.
+
 
 http://blog.okazuki.jp/entry/2015/12/05/221154
-ReactiveCollection
+‚»‚Ì‚Ù‚©‚É‚à‚©‚ç
 
 ## Sample program 1
 
