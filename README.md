@@ -5,8 +5,8 @@ ReactiveProperty
 
 ![ReactiveProperty overview](Images/rpsummary.png)
 
-ReactiveProperty is MVVM and Asynchronous Extensions for Reactive Extensions.
-Target Framework is .NET 4.0, .NET 4.5, .NET 4.6, Windows Phone 8.0/8.1, Windows store app 8.1, UWP, Xamarin.iOS, Xamarin.Android.
+ReactiveProperty provides MVVM and asynchronous support features under Reactive Extensions.
+Target framework is .NET 4.0 and .NET 4.5, .NET 4.6, Windows Phone 8.0/8.1, Windows store app 8.1, UWP, Xamarin.iOS, Xamarin.Android.
 
 ## Release note
 
@@ -14,22 +14,21 @@ Target Framework is .NET 4.0, .NET 4.5, .NET 4.6, Windows Phone 8.0/8.1, Windows
 
 ## Features
 
-ReactiveProperty is MVVM support library. ReactiveProperty has functions follows.
-
-- ReactiveProeprty class.
-- ReactiveCommand class.
-- ReactiveCollection class.
-- ReadOnlyReactiveCollection class.
-- Convert to IObservable from INotifyPropertyChanged/INotifyCollectionChanged.
-- Many IObservable factory methods.
+- `ReactiveProeprty` class.
+- `ReactiveCommand` class.
+- `ReactiveCollection` class.
+- `ReadOnlyReactiveCollection` class.
+- Convert to IObservable&lt;T&gt; from `INotifyPropertyChanged`/`INotifyCollectionChanged`.
+- Lots of useful IObservable&lt;T&gt; factory methods.
 - Notifier classes.
-- IFilteredReadOnlyObservableCollection interface.
+- `IFilteredReadOnlyObservableCollection` interface.
+- etc...
 
 ## ReactiveProperty class.
-This is core class in this library. ReactiveProperty can define notify property very easy.
-But, little longer more than normal property when XAML data binding.
+This is core class in this library. You can define property which has `INotifyPropertyChanged` feature easily.
+When you use this class, data binding path description is longer than normal one. However, just only add `.Value` property.
 
-For example, define Name property in ViewModel follows.
+For example, when you wanna define `Name` property in ViewModel, ViewModel is written like following.
 
 ```cs
 public class PersonViewModel
@@ -38,9 +37,7 @@ public class PersonViewModel
 }
 ```
 
-Set and get value to Value property from ReactiveProperty class.
-So, It implements INotifyPropertyChanged interface.
-It can use follows.
+You can set and get value using `.Value` property with `ReactiveProperty` class, `ReactivePeoperty` class implements `INotifyPropertyChanged` interface. You can use it like below.
 
 ```cs
 // Must set Scheduler in Console Application
@@ -55,7 +52,7 @@ vm.Name.Value = "kimura";
 Console.ReadKey();
 ```
 
-Output is follows.
+Following is its output.
 
 ```
 Name changed tanaka
@@ -64,12 +61,10 @@ Name changed kimura
 
 ## How to use XAML platform
 
-ReactiveProperty can use XAML platform application.
-It can use Universal Windows Platform, WPF and Xamarin.
-Here, I would like to explain the use of in the UWP.
+ReactiveProperty can use XAML platform application (ex. UWP / WPF / Xamarin).
+This article explains how to use this library on UWP.
 
-Binding to MainPage with previous PersonViewModel.
-Write code behind.
+Bind above `PersonViewModel` to `MainPage` like following.
 
 ```cs
 public sealed partial class MainPage : Page
@@ -83,7 +78,7 @@ public sealed partial class MainPage : Page
 }
 ```
 
-MUST use Value property in BindingPath.
+MUST use `Value` property in BindingPath.
 
 ```xml
 <Page x:Class="App1.MainPage"
@@ -101,16 +96,16 @@ MUST use Value property in BindingPath.
 </Page>
 ```
 
-When execute this program, synchronize TextBox and TextBlock.
+When execute this program, synchronize `TextBox` and `TextBlock`.
 
 ![Synchronize TextBox and TextBlock](Images/synchronize.png)
 
 ## ReactiveProperty can generate from IObservable
 
-ReactiveProperty provide to easy way notify property. It doesn't extend ViewModel base class.
-Otherwise ReactiveProperty can create from IObservable interface.
+`ReactiveProperty` provides easy way to notify property changed. It doesn't extend `ViewModelBase` class.
+In addition, `ReactiveProperty` can be created from `IObservable` interface.
 
-Call ToReactiveProperty extension method to IObservable interface.
+Call `ToReactiveProperty` extension method to IObservable interface.
 ReactiveProperty will store value when pushed value from IObservable.
 
 For example follows.
