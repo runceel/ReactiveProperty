@@ -28,6 +28,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{A9542547-5
 	ProjectSection(SolutionItems) = preProject
 		Docs\(JPN)Session_SilverlightSquareInTokyo4.pptx = Docs\(JPN)Session_SilverlightSquareInTokyo4.pptx
 		Docs\Asset.pptx = Docs\Asset.pptx
+		Documentation\DocumentationProject\bin\Documentation\ReactiveProperty.chm = Documentation\DocumentationProject\bin\Documentation\ReactiveProperty.chm
 		Docs\ReactivePropertyIcon_100x100.png = Docs\ReactivePropertyIcon_100x100.png
 		Docs\ReactivePropertyIcon_511x511.png = Docs\ReactivePropertyIcon_511x511.png
 		Docs\ReadMe.txt = Docs\ReadMe.txt
