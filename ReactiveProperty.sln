@@ -127,13 +127,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.Platform.U
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.Platform.iOS", "Source\ReactiveProperty.Platform.iOS\ReactiveProperty.Platform.iOS.csproj", "{A54AE997-6255-4000-A4CE-3F8D6D8F0026}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{CC8FB0EA-23C1-43C3-8C1A-99C9AD3E912C}"
-EndProject
-Project("{7CF6DF6D-3B04-46F8-A40B-537D21BCA0B4}") = "DocumentationProject", "Documentation\DocumentationProject\DocumentationProject.shfbproj", "{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4}"
-	ProjectSection(ProjectDependencies) = postProject
-		{D5FCE62E-0718-43C4-A103-69C155D8D402} = {D5FCE62E-0718-43C4-A103-69C155D8D402}
-		{B2E97BFE-1956-4688-9486-C78D3A8F20E1} = {B2E97BFE-1956-4688-9486-C78D3A8F20E1}
-	EndProjectSection
+Project("{7CF6DF6D-3B04-46F8-A40B-537D21BCA0B4}") = "DocumentationProject", "Docs\DocumentationProject\DocumentationProject.shfbproj", "{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -808,6 +802,7 @@ Global
 		{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4}.Documentation|x86.ActiveCfg = Documentation|Any CPU
 		{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4}.Documentation|x86.Build.0 = Documentation|Any CPU
 		{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4}.Release|ARM.ActiveCfg = Release|Any CPU
 		{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4}.Release|ARM.Build.0 = Release|Any CPU
 		{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
@@ -845,7 +840,7 @@ Global
 		{883C5447-2778-43E4-8CDE-6A594B342ACD} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
 		{CD8F2562-E3A0-4F6D-8285-70349597ADBC} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
 		{A54AE997-6255-4000-A4CE-3F8D6D8F0026} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
-		{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4} = {CC8FB0EA-23C1-43C3-8C1A-99C9AD3E912C}
+		{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4} = {A9542547-5556-442E-ACCB-6DB437E5E25C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
