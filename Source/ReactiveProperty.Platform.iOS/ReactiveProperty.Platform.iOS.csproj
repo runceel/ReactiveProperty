@@ -34,6 +34,16 @@
     <CodesignKey>iPhone Developer</CodesignKey>
     <DocumentationFile>..\..\Binary\MonoTouch\ReactiveProperty.iOS.XML</DocumentationFile>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Documentation|AnyCPU'">
+    <OutputPath>bin\Documentation\</OutputPath>
+    <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;</DefineConstants>
+    <DocumentationFile>..\..\Binary\MonoTouch\ReactiveProperty.iOS.XML</DocumentationFile>
+    <Optimize>true</Optimize>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="BindingSupportExtensions.cs" />
     <Compile Include="Internal\AccessorCache.cs" />

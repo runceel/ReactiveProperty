@@ -12,6 +12,10 @@ Target framework is .NET 4.0 and .NET 4.5, .NET 4.6, Windows Phone 8.0/8.1, Wind
 
 [Release note](ReleaseNote.md)
 
+## API Reference
+
+[API Reference](APIReference/Home.md)
+
 ## Features
 
 - `ReactiveProeprty` class.
