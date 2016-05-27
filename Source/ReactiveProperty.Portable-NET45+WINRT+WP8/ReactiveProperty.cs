@@ -51,7 +51,7 @@ namespace Reactive.Bindings
         private bool IsValueChanging { get; set; } = false;
 
         // for Validation
-        private Lazy<Subject<T>> ValidationTrigger { get; } = new Lazy<Subject<T>>(() => new Subject<T>());
+        private Subject<T> ValidationTrigger { get; } = new Subject<T>();
         private SerialDisposable ValidateNotifyErrorSubscription { get; } = new SerialDisposable();
         private Lazy<BehaviorSubject<IEnumerable>> ErrorsTrigger { get; }
         private Lazy<List<Func<IObservable<T>, IObservable<IEnumerable>>>> ValidatorStore { get; } = new Lazy<List<Func<IObservable<T>, IObservable<IEnumerable>>>>(() => new List<Func<IObservable<T>, IObservable<IEnumerable>>>());
@@ -167,10 +167,7 @@ namespace Reactive.Bindings
             IsDisposed = true;
             this.Source.OnCompleted();
             this.Source.Dispose();
-            if (this.ValidationTrigger.IsValueCreated)
-            {
-                this.ValidationTrigger.Value.Dispose();
-            }
+            this.ValidationTrigger.Dispose();
             SourceDisposable.Dispose();
             ValidateNotifyErrorSubscription.Dispose();
             if (ErrorsTrigger.IsValueCreated)
@@ -205,7 +202,7 @@ namespace Reactive.Bindings
         {
             this.ValidatorStore.Value.Add(validator);     //--- cache validation functions
             var validators = this.ValidatorStore.Value
-                            .Select(x => x(this.ValidationTrigger.Value.StartWith(this.LatestValue)))
+                            .Select(x => x(this.ValidationTrigger.StartWith(this.LatestValue)))
                             .ToArray();     //--- use copy
             this.ValidateNotifyErrorSubscription.Disposable
                 = Observable.CombineLatest(validators)
@@ -283,7 +280,7 @@ namespace Reactive.Bindings
         /// <summary>
         /// Invoke validation process.
         /// </summary>
-        public void ForceValidate() => this.ValidationTrigger.Value.OnNext(this.LatestValue);
+        public void ForceValidate() => this.ValidationTrigger.OnNext(this.LatestValue);
 
         /// <summary>
         /// Invoke OnNext.
@@ -298,7 +295,7 @@ namespace Reactive.Bindings
         private void SetValue(T value)
         {
             this.LatestValue = value;
-            this.ValidationTrigger.Value.OnNext(value);
+            this.ValidationTrigger.OnNext(value);
             this.Source.OnNext(value);
             this.RaiseEventScheduler.Schedule(() => this.PropertyChanged?.Invoke(this, SingletonPropertyChangedEventArgs.Value));
         }
