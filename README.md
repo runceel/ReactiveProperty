@@ -30,6 +30,14 @@ Please download and unblock.
 - `IFilteredReadOnlyObservableCollection` interface.
 - etc...
 
+## How to install
+
+Install from NuGet.
+
+```
+> Install-Package ReactiveProperty
+```
+
 ## ReactiveProperty class.
 This is core class in this library. You can define property which has `INotifyPropertyChanged` feature easily.
 When you use this class, data binding path description is longer than normal one. However, just only add `.Value` property.
