@@ -771,6 +771,32 @@ col.ObserveElementProperty(x => x.Name)
 
 If element property type is ReactiveProperty. This case can use to ObserveElementObservableProperty extension method.
 
+## ObserveEveryValueChanged(WPF only)
+
+You can observe all properties that is not implements  INotifyPropertyChanged.
+
+```cs
+public class MyClass
+{
+    public int MyProperty { get; set; }
+}
+
+
+public partial class MainWindow : Window
+{
+    MyClass model;
+    IReadOnlyReactiveProperty<int> MyClassMyProperty { get; }
+
+    public MainWindow()
+    {
+        InitializeComponent();
+
+        model = new MyClass();
+        this.MyClassMyProperty = mc.ObserveEveryValueChanged(x => x.MyProperty).ToReadOnlyReactiveProperty();
+    }
+}
+```
+
 ## Other
 
 ReactiveProperty provide many extension methods in Reactive.Bindings.Extensions namespace.

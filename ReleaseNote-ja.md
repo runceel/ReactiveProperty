@@ -1,4 +1,10 @@
 # リリースノート
+
+## v2.7.2
+
+### Add
+- ObserveEveryValueChanged拡張メソッドを追加しました。(WPFのみ)
+
 ## v2.7.1
 ### 追加
 - IO<bool>#Inverse拡張メソッドを追加しました。

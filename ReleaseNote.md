@@ -1,4 +1,10 @@
 # Release note
+
+## v2.7.2
+
+### Add
+- Add ObserveEveryValueChanged extension method.(WPF only)
+
 ## v2.7.1
 ### Add
 - Add IO<bool>#Inverse extension method.

@@ -77,6 +77,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\ObserveEveryValueChangedExtensions.cs" />
     <Compile Include="Interactivity\EventToReactive.cs" />
     <Compile Include="Interactivity\EventToReactiveCommand.cs" />
     <Compile Include="Interactivity\EventToReactiveProperty.cs" />

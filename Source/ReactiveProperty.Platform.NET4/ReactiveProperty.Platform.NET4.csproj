@@ -100,6 +100,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\ReactiveProperty.Platform.NET46\Extensions\ObserveEveryValueChangedExtensions.cs">
+      <Link>Extensions\ObserveEveryValueChangedExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\ReactiveProperty.Platform.NET46\Interactivity\EventToReactive.cs">
       <Link>Interactivity\EventToReactive.cs</Link>
     </Compile>
