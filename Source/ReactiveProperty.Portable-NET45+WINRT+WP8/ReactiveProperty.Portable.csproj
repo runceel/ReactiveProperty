@@ -82,6 +82,7 @@
     <Compile Include="Notifiers\BooleanNotifier.cs" />
     <Compile Include="Notifiers\BusyNotifier.cs" />
     <Compile Include="Notifiers\CountNotifier.cs" />
+    <Compile Include="Notifiers\MessageBroker.cs" />
     <Compile Include="Notifiers\ScheduledNotifier.cs" />
     <Compile Include="ObservableEx.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
