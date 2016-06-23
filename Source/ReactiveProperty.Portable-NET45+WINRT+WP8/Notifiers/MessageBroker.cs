@@ -45,6 +45,9 @@ namespace Reactive.Bindings.Notifiers
         Task PublishAsync<T>(T message);
     }
 
+    /// <summary>
+    /// In-Memory PubSub filtered by Type.
+    /// </summary>
     public interface IAsyncMessageSubscriber
     {
         /// <summary>
@@ -53,6 +56,9 @@ namespace Reactive.Bindings.Notifiers
         IDisposable Subscribe<T>(Func<T, Task> asyncAction);
     }
 
+    /// <summary>
+    /// In-Memory PubSub filtered by Type.
+    /// </summary>
     public interface IAsyncMessageBroker : IAsyncMessagePublisher, IAsyncMessageSubscriber
     {
     }
@@ -295,7 +301,15 @@ namespace Reactive.Bindings.Notifiers
         {
             return Observable.Create<T>(observer =>
             {
-                var d = messageSubscriber.Subscribe<T>(x => observer.OnNext(x));
+                var gate = new object();
+                var d = messageSubscriber.Subscribe<T>(x =>
+                {
+                    // needs synchronize
+                    lock (gate)
+                    {
+                        observer.OnNext(x);
+                    }
+                });
                 return d;
             });
         }
