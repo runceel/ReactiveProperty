@@ -927,6 +927,105 @@ this.IsBusy = this.BusyNotifyer.ToReadOnlyReactiveProperty();
 this.IsIdle = this.BusyNotifier.Inverse().ToReadOnlyReactiveProperty(); // Inverse extension methods in Extensions namespace.
 ```
 
+## MessageBroker
+
+I suggest new notifier called  MessageBroker , in-memory pubsub.
+ This is Rx and async friendly  EventAggregator  or  MessageBus  or etc.
+ We can use this for messenger pattern.
+
+If reviewer accept this code, please add to all platforms.
+
+Sample Code:
+
+```cs
+using Reactive.Bindings.Notifiers;
+using System;
+using System.Reactive.Linq;
+using System.Threading.Tasks;
+
+public class MyClass
+{
+    public int MyProperty { get; set; }
+
+    public override string ToString()
+    {
+        return "MP:" + MyProperty;
+    }
+}
+class Program
+{
+    static void RunMessageBroker()
+    {
+        // global scope pub-sub messaging
+        MessageBroker.Default.Subscribe<MyClass>(x =>
+        {
+            Console.WriteLine("A:" + x);
+        });
+
+        var d = MessageBroker.Default.Subscribe<MyClass>(x =>
+        {
+            Console.WriteLine("B:" + x);
+        });
+
+        // support convert to IObservable<T>
+        MessageBroker.Default.ToObservable<MyClass>().Subscribe(x =>
+        {
+            Console.WriteLine("C:" + x);
+        });
+
+        MessageBroker.Default.Publish(new MyClass { MyProperty = 100 });
+        MessageBroker.Default.Publish(new MyClass { MyProperty = 200 });
+        MessageBroker.Default.Publish(new MyClass { MyProperty = 300 });
+
+        d.Dispose(); // unsubscribe
+        MessageBroker.Default.Publish(new MyClass { MyProperty = 400 });
+    }
+
+    static async Task RunAsyncMessageBroker()
+    {
+        // asynchronous message pub-sub
+        AsyncMessageBroker.Default.Subscribe<MyClass>(async x =>
+        {
+            Console.WriteLine("A:" + x);
+            await Task.Delay(TimeSpan.FromSeconds(1));
+        });
+
+        var d = AsyncMessageBroker.Default.Subscribe<MyClass>(async x =>
+        {
+            Console.WriteLine("B:" + x);
+            await Task.Delay(TimeSpan.FromSeconds(2));
+        });
+
+        // await all subscriber complete
+        await AsyncMessageBroker.Default.PublishAsync(new MyClass { MyProperty = 100 });
+        await AsyncMessageBroker.Default.PublishAsync(new MyClass { MyProperty = 200 });
+        await AsyncMessageBroker.Default.PublishAsync(new MyClass { MyProperty = 300 });
+
+        d.Dispose(); // unsubscribe
+        await AsyncMessageBroker.Default.PublishAsync(new MyClass { MyProperty = 400 });
+    }
+
+    static void Main(string[] args)
+    {
+        Console.WriteLine("MessageBroker");
+        RunMessageBroker();
+
+        Console.WriteLine("AsyncMessageBroker");
+        RunAsyncMessageBroker().Wait();
+    }
+}
+```
+messenger pattern's multi thread dispatch can handle easily by Rx.
+
+```cs
+MessageBroker.Default.ToObservable<MyClass>()
+    .ObserveOn(Dispatcher) // Rx Magic!
+    .Subscribe(x =>
+    {
+        Console.WriteLine(x);
+    });
+```
+
 # Event transfer View to viewmodel
 
 EventToReactiveProperty and EventToReactiveCommand classes transfer event to ReactiveProperty and ReactiveCommand.
