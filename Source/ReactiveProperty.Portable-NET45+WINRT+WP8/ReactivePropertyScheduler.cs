@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reactive.Concurrency;
+using System.Threading;
 
 namespace Reactive.Bindings
 {
@@ -8,12 +9,32 @@ namespace Reactive.Bindings
     /// </summary>
     public static class ReactivePropertyScheduler
     {
-        private static IScheduler DefaultScheduler { get; set; }
+        static IScheduler defaultScheduler;
 
         /// <summary>
         /// Get ReactiveProperty default scheduler.
         /// </summary>
-        public static IScheduler Default => DefaultScheduler ?? UIDispatcherScheduler.Default;
+        public static IScheduler Default
+        {
+            get
+            {
+                if (defaultScheduler != null)
+                {
+                    return defaultScheduler;
+                }
+                if (UIDispatcherScheduler.IsSchedulerCreated)
+                {
+                    return UIDispatcherScheduler.Default;
+                }
+
+                if (SynchronizationContext.Current == null)
+                {
+                    return ImmediateScheduler.Instance;
+                }
+
+                return UIDispatcherScheduler.Default;
+            }
+        }
 
         /// <summary>
         /// set default scheduler.
@@ -21,7 +42,7 @@ namespace Reactive.Bindings
         /// <param name="defaultScheduler"></param>
         public static void SetDefault(IScheduler defaultScheduler)
         {
-            DefaultScheduler = defaultScheduler;
+            ReactivePropertyScheduler.defaultScheduler = defaultScheduler;
         }
     }
 }

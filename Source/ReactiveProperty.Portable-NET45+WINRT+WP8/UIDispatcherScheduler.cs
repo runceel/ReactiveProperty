@@ -27,7 +27,9 @@ namespace Reactive.Bindings
         /// <para>UIDIspatcherScheduler is created when access to UIDispatcher.Default first in the whole application.</para>
         /// <para>If you want to explicitly initialize, call UIDispatcherScheduler.Initialize() in App.xaml.cs.</para>
         /// </summary>
-        public static IScheduler Default => DefaultScheduler.Value; 
+        public static IScheduler Default => DefaultScheduler.Value;
+
+        internal static bool IsSchedulerCreated = DefaultScheduler.IsValueCreated;
 
         /// <summary>
         /// Create UIDispatcherSchedule on called thread if is not initialized yet.
