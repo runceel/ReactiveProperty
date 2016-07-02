@@ -187,9 +187,6 @@
     <Compile Include="..\ReactiveProperty.Portable-NET45+WINRT+WP8\Notifiers\CountNotifier.cs">
       <Link>Notifiers\CountNotifier.cs</Link>
     </Compile>
-    <Compile Include="..\ReactiveProperty.Portable-NET45+WINRT+WP8\Notifiers\MessageBroker.cs">
-      <Link>Notifiers\MessageBroker.cs</Link>
-    </Compile>
     <Compile Include="..\ReactiveProperty.Portable-NET45+WINRT+WP8\Notifiers\ScheduledNotifier.cs">
       <Link>Notifiers\ScheduledNotifier.cs</Link>
     </Compile>
