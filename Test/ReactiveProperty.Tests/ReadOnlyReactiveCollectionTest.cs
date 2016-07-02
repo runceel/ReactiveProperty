@@ -124,7 +124,7 @@ namespace ReactiveProperty.Tests
             var s = new ObservableCollection<string>();
             var target = ((IEnumerable<string>)s).ToReadOnlyReactiveCollection(
                 s.ToCollectionChanged(),
-                x => new StringHolder { Value = x }, 
+                x => new StringHolder { Value = x },
                 Scheduler.CurrentThread);
 
             target.Count.Is(0);
@@ -209,6 +209,28 @@ namespace ReactiveProperty.Tests
             counter.Is(1);
             collection.Remove("abc");
             counter.Is(1);
+        }
+
+        [TestMethod]
+        public void InvokeDisposeTrue()
+        {
+            var c1 = new ObservableCollection<IDisposable>();
+            bool invoked = false;
+            c1.Add(Disposable.Create(() => invoked = true));
+            var item = c1.ToReadOnlyReactiveCollection();
+            c1.Clear();
+            invoked.IsTrue();
+        }
+
+        [TestMethod]
+        public void InvokeDisposeFalse()
+        {
+            var c1 = new ObservableCollection<IDisposable>();
+            bool invoked = false;
+            c1.Add(Disposable.Create(() => invoked = true));
+            var item = c1.ToReadOnlyReactiveCollection(disposeElement: false);
+            c1.Clear();
+            invoked.IsFalse();
         }
     }
 

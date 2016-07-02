@@ -16,7 +16,7 @@ namespace WPF
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             // Initialize UIDispatcherScheduler
-            Reactive.Bindings.UIDispatcherScheduler.Initialize();
+            //Reactive.Bindings.UIDispatcherScheduler.Initialize();
         }
     }
 }

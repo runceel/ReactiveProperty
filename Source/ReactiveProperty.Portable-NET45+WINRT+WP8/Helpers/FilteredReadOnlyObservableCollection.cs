@@ -10,6 +10,7 @@ using Reactive.Bindings.Extensions;
 using System.Reactive.Disposables;
 using System.Collections;
 using Reactive.Bindings.Notifiers;
+using System.Reactive.Concurrency;
 
 namespace Reactive.Bindings.Helpers
 {
@@ -328,9 +329,9 @@ namespace Reactive.Bindings.Helpers
         /// <typeparam name="T"></typeparam>
         /// <param name="self"></param>
         /// <returns></returns>
-        public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this IFilteredReadOnlyObservableCollection<T> self)
+        public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this IFilteredReadOnlyObservableCollection<T> self, IScheduler scheduler = null, bool disposeElement = true)
             where T : class, INotifyPropertyChanged =>
-            self.ToReadOnlyReactiveCollection(x => x);
+            self.ToReadOnlyReactiveCollection(x => x, scheduler, disposeElement);
 
         /// <summary>
         /// create ReadOnlyReactiveCollection from IFilteredReadOnlyObservableCollection
@@ -340,10 +341,12 @@ namespace Reactive.Bindings.Helpers
         /// <param name="self"></param>
         /// <param name="converter"></param>
         /// <returns></returns>
-        public static ReadOnlyReactiveCollection<U> ToReadOnlyReactiveCollection<T, U>(this IFilteredReadOnlyObservableCollection<T> self, Func<T, U> converter)
+        public static ReadOnlyReactiveCollection<U> ToReadOnlyReactiveCollection<T, U>(this IFilteredReadOnlyObservableCollection<T> self, Func<T, U> converter, IScheduler scheduler = null, bool disposeElement = true)
             where T : class, INotifyPropertyChanged =>
             self.ToReadOnlyReactiveCollection(
                 self.ToCollectionChanged<T>(),
-                converter);
+                converter,
+                scheduler,
+                disposeElement);
     }
 }
