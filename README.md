@@ -675,6 +675,7 @@ You can switch scheduler to the constructor argument.
 This class is read-only collection and can synchronize to ObservableCollection and ReactiveCollection.
 ToReadOnlyReactiveCollection extension method can create ReadOnlyReactiveCollection from ObservableCollection and ReactiveCollection.
 Then pass convert logic(Func&lt;T, U&gt;) at argument, you can get converted type collection.
+When item removed then dispose method called automatically.
 
 Follows.
 
@@ -691,12 +692,17 @@ public class MainPageViewModel
     }
 }
 
-public class PersonViewModel
+public class PersonViewModel : IDisposable
 {
     public PersonViewModel(Person model)
     {
 	    // connect model to viewmodel
     }
+
+	public void Dispose()
+	{
+	    // cleanup logic
+	}
 }
 
 public class PeopleManager

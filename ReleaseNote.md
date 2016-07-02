@@ -1,5 +1,11 @@
 # Release note
 
+## v2.8
+### Add
+- Add disposeElement argument at ToReadOnlyReactiveCollection. Default value is true.
+### Change
+- Default scheduler create logic.(You can use ReactiveProperty in ConsoleApplication.)
+
 ## v2.7.2
 
 ### Add
