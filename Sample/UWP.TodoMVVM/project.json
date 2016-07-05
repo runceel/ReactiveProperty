@@ -2,8 +2,7 @@
   "dependencies": {
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0",
     "Newtonsoft.Json": "7.0.1",
-    "Prism.Unity": "6.1.1",
-    "Rx-Main": "2.2.5"
+    "Prism.Unity": "6.1.1"
   },
   "frameworks": {
     "uap10.0": {}
