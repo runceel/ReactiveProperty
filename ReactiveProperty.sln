@@ -78,8 +78,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.Platform.W
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.Platform.WPA81", "Source\ReactiveProperty.Platform.WPA81\ReactiveProperty.Platform.WPA81.csproj", "{43B1B5E4-FFF6-4A61-8C63-3C85C3BA3E98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.Platform.NET4", "Source\ReactiveProperty.Platform.NET4\ReactiveProperty.Platform.NET4.csproj", "{1F4DEECC-84CE-4DCF-9D88-518CE8DA7DE3}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{97EC2EDF-8B92-4DB1-B2D7-09E4124B9DE0}"
 	ProjectSection(SolutionItems) = preProject
 		Images\delay.png = Images\delay.png
@@ -545,31 +543,6 @@ Global
 		{43B1B5E4-FFF6-4A61-8C63-3C85C3BA3E98}.Release|x64.ActiveCfg = Release|Any CPU
 		{43B1B5E4-FFF6-4A61-8C63-3C85C3BA3E98}.Release|x86.ActiveCfg = Release|x86
 		{43B1B5E4-FFF6-4A61-8C63-3C85C3BA3E98}.Release|x86.Build.0 = Release|x86
-		{1F4DEECC-84CE-4DCF-9D88-518CE8DA7DE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1F4DEECC-84CE-4DCF-9D88-518CE8DA7DE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1F4DEECC-84CE-4DCF-9D88-518CE8DA7DE3}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{1F4DEECC-84CE-4DCF-9D88-518CE8DA7DE3}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{1F4DEECC-84CE-4DCF-9D88-518CE8DA7DE3}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{1F4DEECC-84CE-4DCF-9D88-518CE8DA7DE3}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{1F4DEECC-84CE-4DCF-9D88-518CE8DA7DE3}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{1F4DEECC-84CE-4DCF-9D88-518CE8DA7DE3}.Debug|x86.Build.0 = Debug|Any CPU
-		{1F4DEECC-84CE-4DCF-9D88-518CE8DA7DE3}.Documentation|Any CPU.ActiveCfg = Documentation|Any CPU
-		{1F4DEECC-84CE-4DCF-9D88-518CE8DA7DE3}.Documentation|ARM.ActiveCfg = Documentation|Any CPU
-		{1F4DEECC-84CE-4DCF-9D88-518CE8DA7DE3}.Documentation|ARM.Build.0 = Documentation|Any CPU
-		{1F4DEECC-84CE-4DCF-9D88-518CE8DA7DE3}.Documentation|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{1F4DEECC-84CE-4DCF-9D88-518CE8DA7DE3}.Documentation|Mixed Platforms.Build.0 = Release|Any CPU
-		{1F4DEECC-84CE-4DCF-9D88-518CE8DA7DE3}.Documentation|x64.ActiveCfg = Documentation|Any CPU
-		{1F4DEECC-84CE-4DCF-9D88-518CE8DA7DE3}.Documentation|x64.Build.0 = Documentation|Any CPU
-		{1F4DEECC-84CE-4DCF-9D88-518CE8DA7DE3}.Documentation|x86.ActiveCfg = Documentation|Any CPU
-		{1F4DEECC-84CE-4DCF-9D88-518CE8DA7DE3}.Documentation|x86.Build.0 = Documentation|Any CPU
-		{1F4DEECC-84CE-4DCF-9D88-518CE8DA7DE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1F4DEECC-84CE-4DCF-9D88-518CE8DA7DE3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1F4DEECC-84CE-4DCF-9D88-518CE8DA7DE3}.Release|ARM.ActiveCfg = Release|Any CPU
-		{1F4DEECC-84CE-4DCF-9D88-518CE8DA7DE3}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{1F4DEECC-84CE-4DCF-9D88-518CE8DA7DE3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{1F4DEECC-84CE-4DCF-9D88-518CE8DA7DE3}.Release|x64.ActiveCfg = Release|Any CPU
-		{1F4DEECC-84CE-4DCF-9D88-518CE8DA7DE3}.Release|x86.ActiveCfg = Release|Any CPU
-		{1F4DEECC-84CE-4DCF-9D88-518CE8DA7DE3}.Release|x86.Build.0 = Release|Any CPU
 		{ABF4F434-E274-4980-B1D1-AADCF75685A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{ABF4F434-E274-4980-B1D1-AADCF75685A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ABF4F434-E274-4980-B1D1-AADCF75685A0}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -822,7 +795,6 @@ Global
 		{A7CDD57C-DB43-4BF7-B46E-0541AF519A2C} = {6356D836-36AA-4CD9-8EB2-BF037115D329}
 		{D534328B-496E-4F76-ACB1-2EB29BA990CF} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
 		{43B1B5E4-FFF6-4A61-8C63-3C85C3BA3E98} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
-		{1F4DEECC-84CE-4DCF-9D88-518CE8DA7DE3} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
 		{ABF4F434-E274-4980-B1D1-AADCF75685A0} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
 		{73FB08B3-EBF3-4384-A1FB-4442BD999477} = {6356D836-36AA-4CD9-8EB2-BF037115D329}
 		{B087D3DF-7BED-4296-8A2F-CCE3324CC45B} = {9F7EFC36-593F-4521-B678-41B00A6642B1}
@@ -835,8 +807,8 @@ Global
 		{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4} = {A9542547-5556-442E-ACCB-6DB437E5E25C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
 		BuildVersion_UseGlobalSettings = True
+		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = ReactiveProperty.vsmdi
