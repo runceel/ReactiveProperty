@@ -242,13 +242,9 @@
       <Project>{883c5447-2778-43e4-8cde-6a594b342acd}</Project>
       <Name>ReactiveProperty.Platform.NET46</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Source\ReactiveProperty.Portable-NET45+WINRT+WP8\ReactiveProperty.Portable.csproj">
+    <ProjectReference Include="..\..\Source\ReactiveProperty.Portable\ReactiveProperty.Portable.csproj">
       <Project>{d5fce62e-0718-43c4-a103-69c155d8d402}</Project>
       <Name>ReactiveProperty.Portable</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Source\ReactiveProperty.Portable-NET45+WINRT\ReactiveProperty.DataAnnotations.csproj">
-      <Project>{b2e97bfe-1956-4688-9486-c78d3a8f20e1}</Project>
-      <Name>ReactiveProperty.DataAnnotations</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sample.ViewModels.WPF+WinRT\Sample.ViewModels.WPF+WinRT.csproj">
       <Project>{4f3ced2a-fff9-4000-b49b-1de1724a90b3}</Project>

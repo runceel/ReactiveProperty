@@ -190,10 +190,6 @@
       <Project>{43b1b5e4-fff6-4a61-8c63-3c85c3ba3e98}</Project>
       <Name>ReactiveProperty.Platform.WPA81</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Source\ReactiveProperty.Portable-NET45+WINRT+WP8\ReactiveProperty.Portable.csproj">
-      <Project>{d5fce62e-0718-43c4-a103-69c155d8d402}</Project>
-      <Name>ReactiveProperty.Portable</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="BehaviorsXamlSDKManaged, Version=12.0">

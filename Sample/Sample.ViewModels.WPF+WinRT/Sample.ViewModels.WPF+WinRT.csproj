@@ -87,13 +87,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Source\ReactiveProperty.Portable-NET45+WINRT+WP8\ReactiveProperty.Portable.csproj">
+    <ProjectReference Include="..\..\Source\ReactiveProperty.Portable\ReactiveProperty.Portable.csproj">
       <Project>{d5fce62e-0718-43c4-a103-69c155d8d402}</Project>
       <Name>ReactiveProperty.Portable</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Source\ReactiveProperty.Portable-NET45+WINRT\ReactiveProperty.DataAnnotations.csproj">
-      <Project>{b2e97bfe-1956-4688-9486-c78d3a8f20e1}</Project>
-      <Name>ReactiveProperty.DataAnnotations</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sample.ViewModels\Sample.ViewModels.csproj">
       <Project>{4aa39c19-6571-4a9f-8722-2d7240d425d1}</Project>

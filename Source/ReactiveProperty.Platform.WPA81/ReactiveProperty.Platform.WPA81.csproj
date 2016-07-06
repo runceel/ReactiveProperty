@@ -133,12 +133,6 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ReactiveProperty.Portable-NET45+WINRT+WP8\ReactiveProperty.Portable.csproj">
-      <Project>{d5fce62e-0718-43c4-a103-69c155d8d402}</Project>
-      <Name>ReactiveProperty.Portable</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="System.Reactive.Core, Version=3.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Reactive.Core.3.0.0\lib\wpa81\System.Reactive.Core.dll</HintPath>
       <Private>True</Private>

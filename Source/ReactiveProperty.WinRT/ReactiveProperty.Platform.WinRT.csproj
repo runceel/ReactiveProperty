@@ -138,12 +138,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ReactiveProperty.Portable-NET45+WINRT+WP8\ReactiveProperty.Portable.csproj">
-      <Project>{d5fce62e-0718-43c4-a103-69c155d8d402}</Project>
-      <Name>ReactiveProperty.Portable</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="System.Reactive.Core, Version=3.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Reactive.Core.3.0.0\lib\netcore451\System.Reactive.Core.dll</HintPath>
       <Private>True</Private>
@@ -168,6 +162,12 @@
       <HintPath>..\..\packages\System.Reactive.WindowsRuntime.3.0.0\lib\netcore451\System.Reactive.WindowsRuntime.dll</HintPath>
       <Private>True</Private>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ReactiveProperty.Portable\ReactiveProperty.Portable.csproj">
+      <Project>{d5fce62e-0718-43c4-a103-69c155d8d402}</Project>
+      <Name>ReactiveProperty.Portable</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>
