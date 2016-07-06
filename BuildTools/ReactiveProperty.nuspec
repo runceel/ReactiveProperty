@@ -16,29 +16,29 @@
     <tags>rx mvvm async rx-main</tags>
     <dependencies>
       <group targetFramework="net45">
-        <dependency id="Rx-Main" version="2.2.5" />
+        <dependency id="System.Reactive" version="3.0.0" />
       </group>
       <group targetFramework="net46">
-        <dependency id="Rx-Main" version="2.2.5" />
+        <dependency id="System.Reactive" version="3.0.0" />
       </group>
       <group targetFramework="uap10.0">
-        <dependency id="Rx-Main" version="2.2.5" />
+        <dependency id="System.Reactive" version="3.0.0" />
         <dependency id="Microsoft.Xaml.Behaviors.Uwp.Managed" version="1.1.0" />
       </group>
       <group targetFramework="netcore451">
-        <dependency id="Rx-Main" version="2.2.5" />
+        <dependency id="System.Reactive" version="3.0.0" />
       </group>
       <group targetFramework="MonoAndroid">
-        <dependency id="Rx-Main" version="2.2.5" />
+        <dependency id="System.Reactive" version="3.0.0" />
       </group>
       <group targetFramework="MonoTouch">
-        <dependency id="Rx-Main" version="2.2.5" />
+        <dependency id="System.Reactive" version="3.0.0" />
       </group>
       <group targetFramework="Xamarin.Mac20">
-        <dependency id="Rx-Main" version="2.2.5" />
+        <dependency id="System.Reactive" version="3.0.0" />
       </group>
       <group targetFramework="portable-net45+win81+MonoTouch+MonoAndroid">
-        <dependency id="Rx-Main" version="2.2.5" />
+        <dependency id="System.Reactive" version="3.0.0" />
       </group>
     </dependencies>
     <frameworkAssemblies>
