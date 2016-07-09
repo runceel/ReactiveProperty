@@ -16,6 +16,7 @@ namespace ReactiveProperty.Tests
     [TestClass]
     public class EventToReactiveTest : ReactiveTest
     {
+#pragma warning disable 0618
         [TestMethod]
         public void Invoke()
         {
@@ -51,5 +52,6 @@ namespace ReactiveProperty.Tests
                 OnNext(0, Unit.Default),
                 OnNext(0, Unit.Default));
         }
+#pragma warning restore 0618
     }
 }

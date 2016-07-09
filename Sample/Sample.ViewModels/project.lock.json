@@ -574,9 +574,8 @@
   },
   "libraries": {
     "Microsoft.CSharp/4.0.1": {
-      "sha512": "045zIUQQkowd7GbVeNmDVMYUX7TPZOXqHhX42+3pqJqiGX/1Jg96n702VvOF8+BJ3OC9A6vkdzzeQF1CDwNvOg==",
+      "sha512": "17h8b5mXa87XYKrrVqdgZ38JefSUqLChUQpXgSnpzsM0nDOhE40FTeNWOJ/YmySGV6tG6T8+hjz6vxbknHJr6A==",
       "type": "package",
-      "path": "Microsoft.CSharp/4.0.1",
       "files": [
         "Microsoft.CSharp.4.0.1.nupkg.sha512",
         "Microsoft.CSharp.nuspec",
