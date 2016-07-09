@@ -1,6 +1,7 @@
 ﻿{
   "dependencies": {
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
+    "Microsoft.Xaml.Behaviors.Uwp.Managed": "1.1.0",
     "System.Reactive": "3.0.0"
   },
   "frameworks": {
