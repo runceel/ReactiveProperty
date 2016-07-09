@@ -47,9 +47,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPF", "Sample\WPF\WPF.cspro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.Tests", "Test\ReactiveProperty.Tests\ReactiveProperty.Tests.csproj", "{9B3C2CF3-0AFD-4FB8-BAB1-2B7931C2AF18}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.Platform.NET45", "Source\ReactiveProperty.NET45\ReactiveProperty.Platform.NET45.csproj", "{DF40885E-7FCF-409E-A297-D8B3C76E8019}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.Platform.NET45", "Source\ReactiveProperty.Platform.NET45\ReactiveProperty.Platform.NET45.csproj", "{DF40885E-7FCF-409E-A297-D8B3C76E8019}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.Platform.WinRT", "Source\ReactiveProperty.WinRT\ReactiveProperty.Platform.WinRT.csproj", "{6DE1AF3C-394A-47D2-B869-1BC6DB8CF000}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.Platform.WinRT", "Source\ReactiveProperty.Platform.WinRT\ReactiveProperty.Platform.WinRT.csproj", "{6DE1AF3C-394A-47D2-B869-1BC6DB8CF000}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.ViewModels", "Sample\Sample.ViewModels\Sample.ViewModels.csproj", "{4AA39C19-6571-4A9F-8722-2D7240D425D1}"
 EndProject
