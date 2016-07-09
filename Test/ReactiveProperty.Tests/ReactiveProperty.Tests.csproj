@@ -215,7 +215,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Source\ReactiveProperty.NET45\ReactiveProperty.Platform.NET45.csproj">
+    <ProjectReference Include="..\..\Source\ReactiveProperty.Platform.NET45\ReactiveProperty.Platform.NET45.csproj">
       <Project>{df40885e-7fcf-409e-a297-d8b3c76e8019}</Project>
       <Name>ReactiveProperty.Platform.NET45</Name>
     </ProjectReference>

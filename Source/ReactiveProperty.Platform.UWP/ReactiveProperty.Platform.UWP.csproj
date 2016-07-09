@@ -118,34 +118,34 @@
     <Compile Include="..\ReactiveProperty.Platform.NET46\Interactivity\EventToReactiveProperty.cs">
       <Link>Interactivity\EventToReactiveProperty.cs</Link>
     </Compile>
-    <Compile Include="..\ReactiveProperty.WinRT\Interactivity\Behavior.cs">
+    <Compile Include="..\ReactiveProperty.Platform.WinRT\Interactivity\Behavior.cs">
       <Link>Interactivity\Behavior.cs</Link>
     </Compile>
-    <Compile Include="..\ReactiveProperty.WinRT\Interactivity\Behavior.Internal.cs">
+    <Compile Include="..\ReactiveProperty.Platform.WinRT\Interactivity\Behavior.Internal.cs">
       <Link>Interactivity\Behavior.Internal.cs</Link>
     </Compile>
-    <Compile Include="..\ReactiveProperty.WinRT\Interactivity\ConditionBehavior.cs">
+    <Compile Include="..\ReactiveProperty.Platform.WinRT\Interactivity\ConditionBehavior.cs">
       <Link>Interactivity\ConditionBehavior.cs</Link>
     </Compile>
-    <Compile Include="..\ReactiveProperty.WinRT\Interactivity\PreviewInvokeEventArgs.cs">
+    <Compile Include="..\ReactiveProperty.Platform.WinRT\Interactivity\PreviewInvokeEventArgs.cs">
       <Link>Interactivity\PreviewInvokeEventArgs.cs</Link>
     </Compile>
-    <Compile Include="..\ReactiveProperty.WinRT\Interactivity\TargetedTriggerAction.cs">
+    <Compile Include="..\ReactiveProperty.Platform.WinRT\Interactivity\TargetedTriggerAction.cs">
       <Link>Interactivity\TargetedTriggerAction.cs</Link>
     </Compile>
-    <Compile Include="..\ReactiveProperty.WinRT\Interactivity\TargetedTriggerAction.Internal.cs">
+    <Compile Include="..\ReactiveProperty.Platform.WinRT\Interactivity\TargetedTriggerAction.Internal.cs">
       <Link>Interactivity\TargetedTriggerAction.Internal.cs</Link>
     </Compile>
-    <Compile Include="..\ReactiveProperty.WinRT\Interactivity\TriggerAction.cs">
+    <Compile Include="..\ReactiveProperty.Platform.WinRT\Interactivity\TriggerAction.cs">
       <Link>Interactivity\TriggerAction.cs</Link>
     </Compile>
-    <Compile Include="..\ReactiveProperty.WinRT\Interactivity\TriggerAction.Internal.cs">
+    <Compile Include="..\ReactiveProperty.Platform.WinRT\Interactivity\TriggerAction.Internal.cs">
       <Link>Interactivity\TriggerAction.Internal.cs</Link>
     </Compile>
-    <Compile Include="..\ReactiveProperty.WinRT\Interactivity\TriggerBase.cs">
+    <Compile Include="..\ReactiveProperty.Platform.WinRT\Interactivity\TriggerBase.cs">
       <Link>Interactivity\TriggerBase.cs</Link>
     </Compile>
-    <Compile Include="..\ReactiveProperty.WinRT\Interactivity\TriggerBase.Internal.cs">
+    <Compile Include="..\ReactiveProperty.Platform.WinRT\Interactivity\TriggerBase.Internal.cs">
       <Link>Interactivity\TriggerBase.Internal.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
