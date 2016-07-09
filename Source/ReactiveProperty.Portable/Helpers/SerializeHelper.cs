@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -8,6 +9,7 @@ using System.Xml;
 
 namespace Reactive.Bindings.Helpers
 {
+    [Obsolete("Please use JSON.NET")]
     public static class SerializeHelper
     {
         static IEnumerable<PropertyInfo> GetIValueProperties(object target) =>

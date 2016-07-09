@@ -1,0 +1,20 @@
+﻿{
+  "supports": {},
+  "dependencies": {
+    "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
+    "NETStandard.Library": "1.6.0",
+    "System.Reactive": "3.0.0",
+    "System.Runtime": "4.1.0",
+    "System.Collections": "4.0.11",
+    "System.ObjectModel": "4.0.12",
+    "System.Reflection": "4.1.0",
+    "System.Reflection.Extensions": "4.0.1",
+    "System.Runtime.Serialization.Primitives": "4.1.1",
+    "System.Runtime.Serialization.Xml": "4.1.1",
+    "System.Xml.ReaderWriter": "4.0.11",
+    "System.ComponentModel.Annotations": "4.1.0"
+  },
+  "frameworks": {
+    "netstandard1.1": {}
+  }
+}
