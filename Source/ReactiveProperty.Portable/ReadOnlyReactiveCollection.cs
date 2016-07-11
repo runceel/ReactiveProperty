@@ -90,9 +90,10 @@ namespace Reactive.Bindings
         /// </summary>
         /// <param name="ox">Add</param>
         /// <param name="onReset">Clear</param>
-        public ReadOnlyReactiveCollection(IObservable<T> ox, ObservableCollection<T> source, IObservable<Unit> onReset = null, IScheduler scheduler = null) : base(source)
+        public ReadOnlyReactiveCollection(IObservable<T> ox, ObservableCollection<T> source, IObservable<Unit> onReset = null, IScheduler scheduler = null, bool disposeElement = true) : base(source)
         {
             this.Source = source;
+            this.DisposeElement = disposeElement;
             scheduler = scheduler ?? ReactivePropertyScheduler.Default;
 
             ox
@@ -252,8 +253,8 @@ namespace Reactive.Bindings
         /// <typeparam name="T"></typeparam>
         /// <param name="self"></param>
         /// <returns></returns>
-        public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this IObservable<CollectionChanged<T>> self) =>
-            new ReadOnlyReactiveCollection<T>(self, new ObservableCollection<T>());
+        public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this IObservable<CollectionChanged<T>> self, bool disposeElement = true) =>
+            new ReadOnlyReactiveCollection<T>(self, new ObservableCollection<T>(), disposeElement: disposeElement);
 
         /// <summary>
         /// Create ReadOnlyReactiveCollection
@@ -262,7 +263,16 @@ namespace Reactive.Bindings
         /// <param name="self"></param>
         /// <returns></returns>
         public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this IObservable<CollectionChanged<T>> self, IScheduler scheduler) =>
-            new ReadOnlyReactiveCollection<T>(self, new ObservableCollection<T>(), scheduler);
+            new ReadOnlyReactiveCollection<T>(self, new ObservableCollection<T>(), scheduler, true);
+
+        /// <summary>
+        /// Create ReadOnlyReactiveCollection
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this IObservable<CollectionChanged<T>> self, IScheduler scheduler, bool disposeElement) =>
+            new ReadOnlyReactiveCollection<T>(self, new ObservableCollection<T>(), scheduler, disposeElement: disposeElement);
 
         /// <summary>
         /// Create ReadOnlyReactiveCollection
@@ -271,8 +281,8 @@ namespace Reactive.Bindings
         /// <param name="self"></param>
         /// <param name="onReset"></param>
         /// <returns></returns>
-        public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this IObservable<T> self, IObservable<Unit> onReset = null, IScheduler scheduler = null) =>
-            new ReadOnlyReactiveCollection<T>(self, new ObservableCollection<T>(), onReset, scheduler);
+        public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this IObservable<T> self, IObservable<Unit> onReset = null, IScheduler scheduler = null, bool disposeElement = true) =>
+            new ReadOnlyReactiveCollection<T>(self, new ObservableCollection<T>(), onReset, scheduler, disposeElement: disposeElement);
 
         /// <summary>
         /// convert INotifyCollectionChanged to IO&lt;CollectionChanged&gt;
@@ -348,8 +358,9 @@ namespace Reactive.Bindings
         public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(
             this IEnumerable<T> self, 
             IObservable<CollectionChanged<T>> collectionChanged, 
-            IScheduler scheduler = null) =>
-            self.ToReadOnlyReactiveCollection<T, T>(collectionChanged, x => x, scheduler);
+            IScheduler scheduler = null,
+            bool disposeElement = true) =>
+            self.ToReadOnlyReactiveCollection<T, T>(collectionChanged, x => x, scheduler, disposeElement);
 
         /// <summary>
         /// Convert IEnumerable to ReadOnlyReactiveCollection
