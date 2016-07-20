@@ -53,6 +53,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AsyncReactiveCommand.cs" />
     <Compile Include="Binding\RxBindingExtensions.cs" />
     <Compile Include="Binding\RxCommandExtensions.cs" />
     <Compile Include="Extensions\AccessorCache.cs" />
