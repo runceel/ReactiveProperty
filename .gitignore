@@ -114,3 +114,6 @@ UpgradeLog*.XML
 [Tt]humbs.db
 Binary
 BuildTools/*.nupkg
+
+# project.json
+project.lock.json

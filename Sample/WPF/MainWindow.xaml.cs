@@ -23,6 +23,8 @@ namespace WPF
         public ReactiveCommand NavigateSynchronize { get; private set; }
         public ReactiveCommand NavigateEventToReactiveCommand { get; private set; }
 
+        public ReactiveCommand NavigateAsyncReactiveCommand { get; }
+
         public MainWindowViewModel()
         {
             NavigateBasics = new ReactiveCommand();
@@ -39,6 +41,8 @@ namespace WPF
             NavigateSynchronize.Subscribe(_ => new SynchronizeObject().Show());
             NavigateEventToReactiveCommand = new ReactiveCommand();
             NavigateEventToReactiveCommand.Subscribe(_ => new EventToReactiveCommandWindow().Show());
+            NavigateAsyncReactiveCommand = new ReactiveCommand();
+            NavigateAsyncReactiveCommand.Subscribe(_ => new Views.AsyncReactiveCommand().Show());
         }
     }
 }
