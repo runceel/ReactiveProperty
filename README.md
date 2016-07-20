@@ -628,6 +628,57 @@ Can push button when no validation error.
 
 ReactiveCommand have ReactiveCommand&lt;T&gt; version. It can use command parameter.
 
+## AsyncReactiveCommand
+
+Async version ReactiveCommand. Create from IObservable&lt;bool&gt;, IReactiveProperty&lt;bool&gt; and default constructor.
+
+Subscribe method can accept Func&lt;T, Task&gt;.
+While executing task return false at CanExecute method.
+
+```cs
+class TestViewModel
+{
+    public AsyncReactiveCommand TestCommand { get; }
+
+    public TestViewModel()
+    {
+        var reactiveCommand = new AsyncReactiveCommand();
+
+        reactiveCommand.Subscribe(async _ =>
+        {
+            await Task.Delay(TimeSpan.FromSeconds(3)); // heavy work...
+        });
+    }
+}
+
+class TestViewModel2
+{
+    public IReadOnlyReactiveProperty<bool> IsBusy { get; }
+    public AsyncReactiveCommand TestCommand1 { get; }
+    public AsyncReactiveCommand TestCommand2 { get; }
+
+    public TestViewModel2()
+    {
+        var isBusy = new ReactiveProperty<bool>(false);
+        IsBusy = isBusy;
+
+        // shared busy source.
+        TestCommand1 = isBusy.ToAsyncReactiveCommand();
+        TestCommand1.Subscribe(async _ =>
+        {
+            await Task.Delay(TimeSpan.FromSeconds(3)); // heavy work1...
+        });
+
+        TestCommand2 = isBusy.ToAsyncReactiveCommand();
+        TestCommand2.Subscribe(async _ =>
+        {
+            await Task.Delay(TimeSpan.FromSeconds(3)); // heavy work2...
+        });
+    }
+}
+```
+
+
 # ReactiveCollection
 
 ReactiveCollection provide to run process on scheduler.(Default is UI thread.)

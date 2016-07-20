@@ -1,8 +1,13 @@
 # リリースノート
 
+## v2.9
+### 追加
+- AsyncReactiveCommandを追加しました。
+
 ## v2.8
 ### 追加
 - disposeElement引数とToReadOnlyReactiveCollectionメソッドに追加しました。デフォルト値はtrue（今までと同じ動き）です。
+
 ### 変更
 - デフォルトのスケジューラ作成ロジックを変更しました。コンソールアプリケーションでも例外が出ずに使えます。
 

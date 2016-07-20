@@ -1,8 +1,15 @@
 # Release note
 
+## v2.9
+
+### Add
+- Add AsyncReactiveCommand class.
+
 ## v2.8
+
 ### Add
 - Add disposeElement argument at ToReadOnlyReactiveCollection. Default value is true.
+
 ### Change
 - Default scheduler create logic.(You can use ReactiveProperty in ConsoleApplication.)
 
