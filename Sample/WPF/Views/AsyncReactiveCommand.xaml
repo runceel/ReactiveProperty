@@ -1,0 +1,24 @@
+﻿<Window x:Class="WPF.Views.AsyncReactiveCommand"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPF.Views"
+        xmlns:ViewModels="clr-namespace:Sample.ViewModels;assembly=Sample.ViewModels"
+        mc:Ignorable="d"
+        Title="AsyncReactiveCommand"
+        Height="300"
+        Width="300">
+    <Window.DataContext>
+        <ViewModels:AsyncReactiveCommandViewModel />
+    </Window.DataContext>
+    <StackPanel>
+        <Button Content="Heavy process"
+                Command="{Binding HeavyProcessCommand}" />
+        <Separator />
+        <Button Content="Share source 1"
+                Command="{Binding ShareSourceCommand1}" />
+        <Button Content="Share source 2"
+                Command="{Binding ShareSourceCommand2}" />
+    </StackPanel>
+</Window>

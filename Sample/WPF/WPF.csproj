@@ -148,6 +148,9 @@
     <Compile Include="Views\Asynchronous.xaml.cs">
       <DependentUpon>Asynchronous.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\AsyncReactiveCommand.xaml.cs">
+      <DependentUpon>AsyncReactiveCommand.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\EventToReactiveProperty.xaml.cs">
       <DependentUpon>EventToReactiveProperty.xaml</DependentUpon>
     </Compile>
@@ -179,6 +182,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\Asynchronous.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AsyncReactiveCommand.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
