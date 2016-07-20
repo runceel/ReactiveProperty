@@ -179,6 +179,7 @@
     <Compile Include="ReadOnlyReactiveCollectionTest.cs" />
     <Compile Include="ReadOnlyReactivePropertyTest.cs" />
     <Compile Include="ReactivePropertyPerformanceTest.cs" />
+    <Compile Include="AsyncReactiveCommandTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
