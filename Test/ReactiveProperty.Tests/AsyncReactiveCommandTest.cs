@@ -91,5 +91,41 @@ namespace ReactiveProperty.Tests
             canExecutedCounter1.Is(5);
 
         }
+
+        [TestMethod]
+        public void DefaultConstructor()
+        {
+            var command = new AsyncReactiveCommand();
+            var task1 = new TaskCompletionSource<object>();
+            var task2 = new TaskCompletionSource<object>();
+
+            command.Subscribe(_ => task1.Task);
+            command.Subscribe(_ => task2.Task);
+
+            command.Execute();
+            command.CanExecute().IsFalse();
+            task1.SetResult(null);
+            command.CanExecute().IsFalse();
+            task2.SetResult(null);
+            command.CanExecute().IsTrue();
+        }
+
+        [TestMethod]
+        public void RemoveSubscription()
+        {
+            var command = new AsyncReactiveCommand();
+            var task1 = new TaskCompletionSource<object>();
+            var task2 = new TaskCompletionSource<object>();
+
+            var subscription1 = command.Subscribe(_ => task1.Task);
+            var subscription2 = command.Subscribe(_ => task2.Task);
+
+            subscription2.Dispose();
+
+            command.Execute();
+            command.CanExecute().IsFalse();
+            task1.SetResult(null);
+            command.CanExecute().IsTrue();
+        }
     }
 }
