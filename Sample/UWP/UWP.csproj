@@ -130,23 +130,14 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Source\ReactiveProperty.Portable-NET45+WINRT+WP8\ReactiveProperty.Portable.csproj">
+    <ProjectReference Include="..\..\Source\ReactiveProperty.Platform.UWP\ReactiveProperty.Platform.UWP.csproj">
+      <Project>{cd8f2562-e3a0-4f6d-8285-70349597adbc}</Project>
+      <Name>ReactiveProperty.Platform.UWP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Source\ReactiveProperty.Portable\ReactiveProperty.Portable.csproj">
       <Project>{d5fce62e-0718-43c4-a103-69c155d8d402}</Project>
       <Name>ReactiveProperty.Portable</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Source\ReactiveProperty.Portable-NET45+WINRT\ReactiveProperty.DataAnnotations.csproj">
-      <Project>{b2e97bfe-1956-4688-9486-c78d3a8f20e1}</Project>
-      <Name>ReactiveProperty.DataAnnotations</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Source\ReactiveProperty.WinRT\ReactiveProperty.Platform.WinRT.csproj">
-      <Project>{6de1af3c-394a-47d2-b869-1bc6db8cf000}</Project>
-      <Name>ReactiveProperty.Platform.WinRT</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <SDKReference Include="BehaviorsXamlSDKManaged, Version=12.0">
-      <Name>Behaviors SDK %28XAML%29</Name>
-    </SDKReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

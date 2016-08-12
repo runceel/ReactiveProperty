@@ -9,6 +9,7 @@ using System.Runtime.Serialization;
 
 namespace Sample.ViewModels
 {
+#pragma warning disable 0618
     public class SerializationViewModel
     {
         // [IgnoreDataMember] ignore serialize
@@ -51,10 +52,11 @@ namespace Sample.ViewModels
                 // Deseirlization order is same as DataContract.
                 // Can control DataMemberAttribute's Order Property.
                 // more info see http://msdn.microsoft.com/en-us/library/ms729813.aspx
-                SerializeHelper.UnpackReactivePropertyValue(this, serializedString.Value);
+               SerializeHelper.UnpackReactivePropertyValue(this, serializedString.Value);
 
                 serializedString.Value = null; // push to command canExecute
             });
         }
     }
+#pragma warning restore 0618
 }

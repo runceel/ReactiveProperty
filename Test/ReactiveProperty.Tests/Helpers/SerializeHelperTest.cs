@@ -12,6 +12,7 @@ using System.Xml.Serialization;
 
 namespace ReactiveProperty.Tests.Serialization
 {
+#pragma warning disable 0618
     [TestClass]
     public class SerializeHelperTest
     {
@@ -101,4 +102,5 @@ namespace ReactiveProperty.Tests.Serialization
             }
         }
     }
+#pragma warning restore 0618
 }

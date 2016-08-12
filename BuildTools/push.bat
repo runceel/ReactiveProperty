@@ -1,1 +1,1 @@
-nuget push ReactiveProperty*.nupkg
+nuget push -Source nuget.org ReactiveProperty*.nupkg
