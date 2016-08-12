@@ -17,6 +17,10 @@ ReactivePropertyは、Reactive ExtensionsをMVVMパターンと非同期用に�
 
 [ReactivePropertyオーバービュー](http://blog.okazuki.jp/entry/2015/12/05/221154)
 
+## Xamarin.Formsで使う場合
+
+[Xamarin.FormsでReactivePropertyを使う手順](HowToUseXF-ja.md)を参照してください。
+
 ## サンプル
 
 UWPTodoMVVMプロジェクトという[TodoMVC](http://todomvc.com/)ライクなTodoアプリのサンプルがSampleフォルダにあります。

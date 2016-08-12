@@ -11,6 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample", "Sample", "{6356D8
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6EA82B8C-E3AE-4CEF-8666-DD67FEBDE192}"
 	ProjectSection(SolutionItems) = preProject
+		HowToUseXF-ja.md = HowToUseXF-ja.md
 		HowToUseXF.md = HowToUseXF.md
 		LICENSE.txt = LICENSE.txt
 		Local.testsettings = Local.testsettings
