@@ -117,3 +117,4 @@ BuildTools/*.nupkg
 
 # project.json
 project.lock.json
+/.vs
