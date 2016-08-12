@@ -1,5 +1,10 @@
 # リリースノート
 
+## v3.0.0
+
+### 更新
+- Reactive Extensions 3.0に更新しました。
+
 ## v2.9
 ### 追加
 - AsyncReactiveCommandを追加しました。

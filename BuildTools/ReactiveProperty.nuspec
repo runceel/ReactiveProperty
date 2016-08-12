@@ -10,10 +10,10 @@
     <projectUrl>https://github.com/runceel/ReactiveProperty</projectUrl>
     <iconUrl>http://neue.cc/ReactivePropertyIcon_100x100.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>ReactiveProperty is MVVM and Asynchronous Extensions for Reactive Extensions(Rx-Main). Target is .NET 4.x, Windows store apps(Win8.1), UWP ,Xamarin(Android, iOS, Forms) and .NET Standard 1.1.</description>
+    <description>ReactiveProperty is MVVM and Asynchronous Extensions for Reactive Extensions(System.Reactive). Target is .NET 4.5, .NET 4.6, UWP ,Xamarin(Android, iOS, Forms) and .NET Standard 1.1.</description>
     <summary />
     <language>en-US</language>
-    <tags>rx mvvm async rx-main</tags>
+    <tags>rx mvvm async rx-main reactive</tags>
     <dependencies>
       <group targetFramework="net45">
         <dependency id="System.Reactive" version="3.0.0" />

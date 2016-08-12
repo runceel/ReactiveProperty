@@ -1,5 +1,10 @@
 # Release note
 
+## v3.0.0
+
+### Update
+- Update Reactive Extension 3.0.
+
 ## v2.9
 
 ### Add
