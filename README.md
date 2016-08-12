@@ -38,6 +38,10 @@ Install from NuGet.
 > Install-Package ReactiveProperty
 ```
 
+### Xamarin.Forms case
+
+[Xamarin.Forms install step by step](HowToUseXF.md)
+
 ## ReactiveProperty class.
 This is core class in this library. You can define property which has `INotifyPropertyChanged` feature easily.
 When you use this class, data binding path description is longer than normal one. However, just only add `.Value` property.

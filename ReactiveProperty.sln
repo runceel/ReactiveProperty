@@ -11,6 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample", "Sample", "{6356D8
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6EA82B8C-E3AE-4CEF-8666-DD67FEBDE192}"
 	ProjectSection(SolutionItems) = preProject
+		HowToUseXF.md = HowToUseXF.md
 		LICENSE.txt = LICENSE.txt
 		Local.testsettings = Local.testsettings
 		ReactiveProperty.vsmdi = ReactiveProperty.vsmdi
@@ -60,12 +61,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{97EC2E
 		Images\delay.png = Images\delay.png
 		Images\error1.png = Images\error1.png
 		Images\error2.png = Images\error2.png
+		Images\installrp.PNG = Images\installrp.PNG
 		Images\interval.png = Images\interval.png
 		Images\reactivecommand1.png = Images\reactivecommand1.png
 		Images\reactivecommand2.png = Images\reactivecommand2.png
+		Images\removenugetpackage.png = Images\removenugetpackage.png
+		Images\removewinandwpproject.PNG = Images\removewinandwpproject.PNG
 		Images\rpsummary.png = Images\rpsummary.png
 		Images\synchronize.png = Images\synchronize.png
+		Images\targetnetplatformstandard.png = Images\targetnetplatformstandard.png
 		Images\todomvvm.png = Images\todomvvm.png
+		Images\upgradexf.png = Images\upgradexf.png
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.Platform.Android", "Source\ReactiveProperty.Platform.Android\ReactiveProperty.Platform.Android.csproj", "{ABF4F434-E274-4980-B1D1-AADCF75685A0}"
@@ -579,8 +585,8 @@ Global
 		{D5FCE62E-0718-43C4-A103-69C155D8D402} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		BuildVersion_UseGlobalSettings = True
 		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
+		BuildVersion_UseGlobalSettings = True
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = ReactiveProperty.vsmdi
