@@ -6,7 +6,7 @@ ReactiveProperty
 ![ReactiveProperty overview](Images/rpsummary.png)
 
 ReactiveProperty provides MVVM and asynchronous support features under Reactive Extensions.
-Target framework is .NET 4.0 and .NET 4.5, .NET 4.6, Windows Phone 8.0/8.1, Windows store app 8.1, UWP, Xamarin.iOS, Xamarin.Android.
+Target framework is .NET 4.5, .NET 4.6, UWP, Xamarin.iOS, Xamarin.Android and .NET Standard 1.1.
 
 ## Release note
 
