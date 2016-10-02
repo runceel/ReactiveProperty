@@ -15,6 +15,8 @@ Remove all nuget reference at portable library project.
 
 ![Remove nuget reference](Images/removenugetpackage.png)
 
+### .NET Standard(optional)
+
 Open properties page at portable library project.
 Click `Target .NET Platform Standard` at `Library` tab.
 

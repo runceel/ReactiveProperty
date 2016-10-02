@@ -5,20 +5,22 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{ABF4F434-E274-4980-B1D1-AADCF75685A0}</ProjectGuid>
+    <ProjectGuid>{73FB08B3-EBF3-4384-A1FB-4442BD999477}</ProjectGuid>
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Reactive.Bindings</RootNamespace>
-    <AssemblyName>ReactiveProperty.Android</AssemblyName>
+    <RootNamespace>XamarinAndroid</RootNamespace>
+    <AssemblyName>XamarinAndroid</AssemblyName>
     <FileAlignment>512</FileAlignment>
+    <AndroidApplication>true</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
     <DevInstrumentationEnabled>True</DevInstrumentationEnabled>
+    <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <TargetFrameworkVersion>v7.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v6.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -28,20 +30,22 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AndroidUseSharedRuntime>True</AndroidUseSharedRuntime>
+    <AndroidLinkMode>None</AndroidLinkMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\Binary\MonoAndroid\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\Binary\MonoAndroid\ReactiveProperty.Android.XML</DocumentationFile>
+    <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
+    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Documentation|AnyCPU'">
     <OutputPath>bin\Documentation\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
-    <DocumentationFile>..\..\Binary\MonoAndroid\ReactiveProperty.Android.XML</DocumentationFile>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -54,6 +58,7 @@
     <Reference Include="mscorlib" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ObjectModel" />
     <Reference Include="System.Reactive.Core, Version=3.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Reactive.Core.3.0.0\lib\netstandard1.3\System.Reactive.Core.dll</HintPath>
       <Private>True</Private>
@@ -70,30 +75,64 @@
       <HintPath>..\..\packages\System.Reactive.PlatformServices.3.0.0\lib\netstandard1.3\System.Reactive.PlatformServices.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Runtime" />
+    <Reference Include="System.Runtime.InteropServices.WindowsRuntime, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Runtime.InteropServices.WindowsRuntime.4.0.1\lib\netstandard1.3\System.Runtime.InteropServices.WindowsRuntime.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Threading.Tasks" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BindingSupportExtensions.cs" />
-    <Compile Include="Extensions\ViewEventExtensions.cs" />
-    <Compile Include="Internal\AccessorCache.cs" />
-    <Compile Include="ListAdapter.cs" />
-    <Compile Include="ObservableCollectionAdapter.cs" />
+    <Compile Include="ViewModels\DisposableHolder.cs" />
+    <Compile Include="ViewModels\ListAdapterActivityViewModel.cs" />
+    <Compile Include="ViewModels\MainActivityViewModel.cs" />
+    <Compile Include="Views\ListAdapterActivity.cs" />
+    <Compile Include="Views\MainActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\ReactivePropertyBasicsActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Resources\AboutResources.txt" />
+    <None Include="Assets\AboutAssets.txt" />
+    <AndroidResource Include="Resources\layout\ReactivePropertyBasics.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\ListAdapterHeader.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\ListAdapterPersonTemplate.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\Values\Strings.xml" />
+    <AndroidResource Include="Resources\layout\Main.axml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ReactiveProperty.Portable\ReactiveProperty.Portable.csproj">
+    <AndroidResource Include="Resources\values\Strings.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\Icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Properties\AndroidManifest.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Source\ReactiveProperty.Platform.Android\ReactiveProperty.Platform.Android.csproj">
+      <Project>{abf4f434-e274-4980-b1d1-aadcf75685a0}</Project>
+      <Name>ReactiveProperty.Platform.Android</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Source\ReactiveProperty.Portable\ReactiveProperty.Portable.csproj">
       <Project>{d5fce62e-0718-43c4-a103-69c155d8d402}</Project>
       <Name>ReactiveProperty.Portable</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sample.ViewModels\Sample.ViewModels.csproj">
+      <Project>{4aa39c19-6571-4a9f-8722-2d7240d425d1}</Project>
+      <Name>Sample.ViewModels</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
@@ -105,7 +144,7 @@
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
   </Target>-->
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
+     Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
   <Target Name="AfterBuild">

@@ -14,6 +14,7 @@ WindowsとWinPhoneプロジェクトをソリューションから削除します。
 
 ![Remove nuget reference](Images/removenugetpackage.png)
 
+## .NET Standard(しなくても平気)
 ポータブルクラスライブラリのプロジェクトのプロパティページを開きます。
 そして、`ライブラリ`タブの`Target .NET Platform Standard`をクリックします。
 
