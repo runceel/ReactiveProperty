@@ -12,7 +12,7 @@ namespace Reactive.Bindings.Extensions
 
         public static Func<TType, TProperty> LookupGet<TProperty>(Expression<Func<TType, TProperty>> propertySelector, out string propertyName)
         {
-            propertyName = ((MemberExpression)propertySelector.Body).Member.Name;
+            propertyName = GetPropertyName(propertySelector);
             Delegate accessor;
 
             lock (getCache)
@@ -27,9 +27,23 @@ namespace Reactive.Bindings.Extensions
             return (Func<TType, TProperty>)accessor;
         }
 
+        private static string GetPropertyName<TProperty>(Expression<Func<TType, TProperty>> propertySelector)
+        {
+            var memberExpression = propertySelector.Body as MemberExpression;
+            if (memberExpression == null)
+            {
+                var unaryExpression = propertySelector.Body as UnaryExpression;
+                if (unaryExpression == null) { throw new ArgumentException(nameof(propertySelector)); }
+                memberExpression = unaryExpression.Operand as MemberExpression;
+                if (memberExpression == null) { throw new ArgumentException(nameof(propertySelector)); }
+            }
+
+            return memberExpression.Member.Name;
+        }
+
         public static Action<TType, TProperty> LookupSet<TProperty>(Expression<Func<TType, TProperty>> propertySelector, out string propertyName)
         {
-            propertyName = ((MemberExpression)propertySelector.Body).Member.Name;
+            propertyName = GetPropertyName(propertySelector);
             Delegate accessor;
 
             lock (setCache)

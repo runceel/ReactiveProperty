@@ -128,7 +128,15 @@ namespace Reactive.Bindings.Extensions
             if (source == null)           throw new ArgumentNullException(nameof(source));
             if (propertySelector == null) throw new ArgumentNullException(nameof(propertySelector));
 
-            var memberExpression = (MemberExpression)propertySelector.Body;
+            var memberExpression = propertySelector.Body as MemberExpression;
+            if (memberExpression == null)
+            {
+                var unaryExpression = propertySelector.Body as UnaryExpression;
+                if (unaryExpression == null) { throw new ArgumentException(nameof(propertySelector)); }
+                memberExpression = unaryExpression.Operand as MemberExpression;
+                if (memberExpression == null) { throw new ArgumentException(nameof(propertySelector)); }
+            }
+
             var propertyInfo = memberExpression.Member as PropertyInfo;
             if (propertyInfo == null)
                 throw new ArgumentException($"{nameof(propertySelector)} is not property expression");
