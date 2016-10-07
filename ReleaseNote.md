@@ -1,5 +1,8 @@
 # Release note
 
+## v3.1.0
+- Support VB PropertySelector expression.
+
 ## v3.0.0
 
 ### Update
