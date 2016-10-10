@@ -1,5 +1,11 @@
 # Release note
 
+## v3.2.0
+
+### Add
+
+- More `SetBinding` extension method for iOS.
+
 ## v3.1.0
 - Support VB PropertySelector expression.
 

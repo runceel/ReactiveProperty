@@ -1,5 +1,11 @@
 # リリースノート
 
+## v3.2.0
+
+### 追加
+
+- iOS用に`SetBinding`メソッドを追加しました。
+
 ## v3.1.0
 
 - VBのPropertySelectorのサポート
