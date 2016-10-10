@@ -1,6 +1,7 @@
 using Reactive.Bindings.Extensions;
 using Reactive.Bindings.Internal;
 using System;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reactive;
 using System.Reactive.Disposables;
@@ -9,7 +10,7 @@ using UIKit;
 
 namespace Reactive.Bindings
 {
-    public static class BindingSupportExtensions
+    public static class UIResponderExtensions
     {
         /// <summary>
         /// Data binding method.
@@ -25,7 +26,7 @@ namespace Reactive.Bindings
             this TView self,
             Expression<Func<TView, TProperty>> propertySelector,
             ReactiveProperty<TProperty> source, Func<TView, IObservable<Unit>> updateSourceTrigger = null)
-            where TView : UIView
+            where TView : UIResponder
         {
             var d = new CompositeDisposable();
 
@@ -71,9 +72,9 @@ namespace Reactive.Bindings
             this TView self,
             Action<TView, TProperty> setter,
             Func<TView, TProperty> getter,
-            ReactiveProperty<TProperty> source, 
+            ReactiveProperty<TProperty> source,
             Func<TView, IObservable<Unit>> updateSourceTrigger)
-            where TView : UIView
+            where TView : UIResponder
         {
             var d = new CompositeDisposable();
 
@@ -114,7 +115,7 @@ namespace Reactive.Bindings
             this TView self,
             Action<TView, TProperty> setter,
             ReactiveProperty<TProperty> source)
-            where TView : UIView
+            where TView : UIResponder
         {
             return SetBinding(self, setter, null, source, null);
         }
@@ -132,7 +133,7 @@ namespace Reactive.Bindings
             this TView self,
             Expression<Func<TView, TProperty>> propertySelector,
             ReadOnlyReactiveProperty<TProperty> source)
-            where TView : UIView
+            where TView : UIResponder
         {
             var d = new CompositeDisposable();
 
@@ -158,7 +159,7 @@ namespace Reactive.Bindings
             this TView self,
             Action<TView, TProperty> setter,
             ReadOnlyReactiveProperty<TProperty> source)
-            where TView : UIView
+            where TView : UIResponder
         {
             var d = new CompositeDisposable();
 
@@ -168,30 +169,6 @@ namespace Reactive.Bindings
 
             return d;
         }
-
-        /// <summary>
-        /// Command binding method.
-        /// </summary>
-        /// <typeparam name="T">Command type.</typeparam>
-        /// <param name="self">IObservable</param>
-        /// <param name="command">Command</param>
-        /// <returns>Command binding token</returns>
-        public static IDisposable SetCommand<T>(this IObservable<T> self, ReactiveCommand<T> command) =>
-            self
-                .Where(_ => command.CanExecute())
-                .Subscribe(x => command.Execute(x));
-
-        /// <summary>
-        /// Command binding method.
-        /// </summary>
-        /// <typeparam name="T">IObservable type</typeparam>
-        /// <param name="self">IObservable</param>
-        /// <param name="command">Command</param>
-        /// <returns>Command binding token</returns>
-        public static IDisposable SetCommand<T>(this IObservable<T> self, ReactiveCommand command) =>
-            self
-                .Where(_ => command.CanExecute())
-                .Subscribe(x => command.Execute());
 
     }
 }

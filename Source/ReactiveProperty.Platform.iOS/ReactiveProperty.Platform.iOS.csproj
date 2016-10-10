@@ -48,7 +48,11 @@
   <ItemGroup>
     <Compile Include="BindingSupportExtensions.cs" />
     <Compile Include="Internal\AccessorCache.cs" />
+    <Compile Include="IUICollectionViewDataSourceExtensions.cs" />
+    <Compile Include="IUITableViewDataSourceExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UIBarItemExtensions.cs" />
+    <Compile Include="UIResponderExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
