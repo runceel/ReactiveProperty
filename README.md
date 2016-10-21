@@ -1245,11 +1245,11 @@ UWPTodoMVVM project in Sample folder is like [TodoMVC](http://todomvc.com/) todo
 
 ## Author info
 
-Yoshifumi Kawai a.k.a. neuecc is software developer in Tokyo, Japan.
+Yoshifumi Kawai a.k.a. [@neuecc](https://twitter.com/neuecc) is software developer in Tokyo, Japan.
 Awarded Microsoft MVP for Visual Studio and Development Technologies since April, 2011.
 
-Takaaki Suzuki a.k.a. xin9le software devleoper in Tokyo, Japan.
-Awarded Microsoft MVP for Visual Studio and Development Technologies July, 2012.
+Takaaki Suzuki a.k.a. [@xin9le](https://twitter.com/xin9le) software devleoper in Fukui, Japan.
+Awarded Microsoft MVP for Visual Studio and Development Technologies since July, 2012.
 
-Kazuki Ota a.k.a. okazuki software developer in Tokyo, Japan.
+Kazuki Ota a.k.a. [@okazuki](https://twitter.com/okazuki) software developer in Tokyo, Japan.
 Awarded Microsoft MVP for Windows Development since July, 2011.
