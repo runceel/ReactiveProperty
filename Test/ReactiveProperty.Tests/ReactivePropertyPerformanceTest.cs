@@ -13,7 +13,7 @@ namespace ReactiveProperty.Tests
     public class ReactivePropertyPerformanceTest
     {
         [TestMethod]
-        [Timeout(1000)]
+        [Timeout(1500)]
         public void PerformanceCheck()
         {
             var source = Observable.Return(1);

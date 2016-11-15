@@ -1,5 +1,10 @@
 # Release note
 
+## v3.3.0
+
+- Update to Rx 3.1.0
+- Update to UWP Behavior v2.0.0
+
 ## v3.2.0
 
 ### Add
