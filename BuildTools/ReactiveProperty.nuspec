@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>ReactiveProperty</id>
-    <version>3.3.0</version>
+    <version>3.3.1</version>
     <title>ReactiveProperty</title>
     <authors>neuecc xin9le okazuki</authors>
     <owners>neuecc xin9le okazuki</owners>
@@ -22,7 +22,7 @@
         <dependency id="System.Reactive" version="3.1.0" />
       </group>
       <group targetFramework="uap10.0">
-        <dependency id="System.Reactive" version="3.0.0" />
+        <dependency id="System.Reactive" version="3.1.0" />
         <dependency id="Microsoft.Xaml.Behaviors.Uwp.Managed" version="2.0.0" />
       </group>
       <group targetFramework="MonoAndroid">
