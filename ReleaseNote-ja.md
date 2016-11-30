@@ -8,7 +8,6 @@
 - DependencyObjectにObserveDependencyProperty拡張メソッドを追加しました。(UWPとWPF)
 - DependencyObjectにToReadOnlyReactiveProperty拡張メソッドを追加しました。(UWPとWPF)
 - DependencyObjectにToRReactiveProperty拡張メソッドを追加しました。(UWPとWPF)
-- Add ToReadOnlyReactiveProperty extension method to DependencyObject(UWP and WPF)
 
 ## v3.3.0
 
