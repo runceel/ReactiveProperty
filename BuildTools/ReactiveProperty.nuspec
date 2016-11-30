@@ -16,29 +16,29 @@
     <tags>rx mvvm async rx-main reactive</tags>
     <dependencies>
       <group targetFramework="net45">
-        <dependency id="System.Reactive" version="3.1.0" />
+        <dependency id="System.Reactive" version="3.1.1" />
       </group>
       <group targetFramework="net46">
-        <dependency id="System.Reactive" version="3.1.0" />
+        <dependency id="System.Reactive" version="3.1.1" />
       </group>
       <group targetFramework="uap10.0">
-        <dependency id="System.Reactive" version="3.1.0" />
+        <dependency id="System.Reactive" version="3.1.1" />
         <dependency id="Microsoft.Xaml.Behaviors.Uwp.Managed" version="2.0.0" />
       </group>
       <group targetFramework="MonoAndroid">
-        <dependency id="System.Reactive" version="3.1.0" />
+        <dependency id="System.Reactive" version="3.1.1" />
       </group>
       <group targetFramework="MonoTouch">
-        <dependency id="System.Reactive" version="3.1.0" />
+        <dependency id="System.Reactive" version="3.1.1" />
       </group>
       <group targetFramework="Xamarin.Mac20">
-        <dependency id="System.Reactive" version="3.1.0" />
+        <dependency id="System.Reactive" version="3.1.1" />
       </group>
       <group targetFramework="portable-net45+win81+MonoTouch+MonoAndroid">
-        <dependency id="System.Reactive" version="3.1.0" />
+        <dependency id="System.Reactive" version="3.1.1" />
       </group>
       <group targetFramework="netstandard1.1">
-        <dependency id="System.Reactive" version="3.1.0" />
+        <dependency id="System.Reactive" version="3.1.1" />
         <dependency id="System.Runtime" version="4.1.0" />
         <dependency id="System.Collections" version="4.0.11" />
         <dependency id="System.ObjectModel" version="4.0.12" />

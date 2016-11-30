@@ -109,6 +109,9 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\ReactiveProperty.Platform.NET46\Extensions\DependencyObjectExtensions.cs">
+      <Link>Extensions\DependencyObjectExtensions.cs</Link>
+    </Compile>
     <Compile Include="Interactivity\Behavior.cs" />
     <Compile Include="Interactivity\Behavior.Internal.cs" />
     <Compile Include="Interactivity\ConditionBehavior.cs" />

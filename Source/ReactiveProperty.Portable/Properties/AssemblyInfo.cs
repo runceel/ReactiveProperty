@@ -16,6 +16,10 @@ using System.Runtime.CompilerServices;
 [assembly: NeutralResourcesLanguage("ja")]
 
 [assembly: InternalsVisibleTo("ReactiveProperty.Tests")]
+[assembly: InternalsVisibleTo("ReactiveProperty.UWP.Tests")]
+[assembly: InternalsVisibleTo("ReactiveProperty.NET46")]
+[assembly: InternalsVisibleTo("ReactiveProperty.NET45")]
+[assembly: InternalsVisibleTo("ReactiveProperty.UWP")]
 
 // アセンブリのバージョン情報は、以下の 4 つの値で構成されています:
 //
