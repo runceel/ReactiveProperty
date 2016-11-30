@@ -1,5 +1,14 @@
 # Release note
 
+## v3.4.0
+### Update
+- Update to Rx 3.1.1
+
+### Add
+- Add ObserveDependencyProperty extension method to DependencyObject(UWP and WPF).
+- Add ToReadOnlyReactiveProperty extension method to DependencyObject(UWP and WPF)
+- Add ToRReactiveProperty extension method to DependencyObject(UWP and WPF)
+
 ## v3.3.0
 
 - Update to Rx 3.1.0

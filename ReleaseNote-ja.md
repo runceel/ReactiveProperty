@@ -1,5 +1,15 @@
 # リリースノート
 
+## v3.4.0
+### 更新
+- Rx 3.1.1に更新しました
+
+### 追加
+- DependencyObjectにObserveDependencyProperty拡張メソッドを追加しました。(UWPとWPF)
+- DependencyObjectにToReadOnlyReactiveProperty拡張メソッドを追加しました。(UWPとWPF)
+- DependencyObjectにToRReactiveProperty拡張メソッドを追加しました。(UWPとWPF)
+- Add ToReadOnlyReactiveProperty extension method to DependencyObject(UWP and WPF)
+
 ## v3.3.0
 
 - Rx 3.1.0にアップデートしました
