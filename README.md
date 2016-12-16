@@ -830,7 +830,15 @@ col.ObserveElementProperty(x => x.Name)
     .Subscribe(x => Debug.WriteLine($"{x.Instance} {x.Property} {x.Value}"));
 ```
 
-If element property type is ReactiveProperty. This case can use to ObserveElementObservableProperty extension method.
+### Observe PropertyChanged on ReactiveProperty
+
+Use the extension method `ObserveElementObservableProperty` if the element property is of type `ReactiveProperty<T>`. 
+
+```cs
+var col = new ObservableCollection<PersonViewModel>();
+col.ObserveElementObservableProperty(x => x.Name)
+    .Subscribe(x => Debug.WriteLine($"{x.Instance} {x.Property} {x.Value}"));
+```
 
 ## ObserveEveryValueChanged(WPF only)
 
