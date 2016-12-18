@@ -109,7 +109,15 @@ Project("{7CF6DF6D-3B04-46F8-A40B-537D21BCA0B4}") = "DocumentationProject", "Doc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.Portable", "Source\ReactiveProperty.Portable\ReactiveProperty.Portable.csproj", "{D5FCE62E-0718-43C4-A103-69C155D8D402}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ReactiveProperty.Platform.Shared", "Source\ReactiveProperty.Platform.Shared\ReactiveProperty.Platform.Shared.shproj", "{523E5506-24DF-44CA-83CC-6AA02454F150}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Source\ReactiveProperty.Platform.Shared\ReactiveProperty.Platform.Shared.projitems*{523e5506-24df-44ca-83cc-6aa02454f150}*SharedItemsImports = 13
+		Source\ReactiveProperty.Platform.Shared\ReactiveProperty.Platform.Shared.projitems*{883c5447-2778-43e4-8cde-6a594b342acd}*SharedItemsImports = 4
+		Source\ReactiveProperty.Platform.Shared\ReactiveProperty.Platform.Shared.projitems*{cd8f2562-e3a0-4f6d-8285-70349597adbc}*SharedItemsImports = 4
+		Source\ReactiveProperty.Platform.Shared\ReactiveProperty.Platform.Shared.projitems*{df40885e-7fcf-409e-a297-d8b3c76e8019}*SharedItemsImports = 4
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|ARM = Debug|ARM
@@ -507,10 +515,11 @@ Global
 		{A54AE997-6255-4000-A4CE-3F8D6D8F0026} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
 		{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4} = {A9542547-5556-442E-ACCB-6DB437E5E25C}
 		{D5FCE62E-0718-43C4-A103-69C155D8D402} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
+		{523E5506-24DF-44CA-83CC-6AA02454F150} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
 		BuildVersion_UseGlobalSettings = True
+		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = ReactiveProperty.vsmdi

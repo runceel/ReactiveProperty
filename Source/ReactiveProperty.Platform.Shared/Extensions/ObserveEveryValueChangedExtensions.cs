@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !WINDOWS_UWP
+using System;
 using System.Collections.Generic;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -87,3 +88,4 @@ namespace Reactive.Bindings.Extensions
         }
     }
 }
+#endif

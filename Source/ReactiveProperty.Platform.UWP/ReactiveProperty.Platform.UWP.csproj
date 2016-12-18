@@ -109,9 +109,6 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\ReactiveProperty.Platform.NET46\Extensions\DependencyObjectExtensions.cs">
-      <Link>Extensions\DependencyObjectExtensions.cs</Link>
-    </Compile>
     <Compile Include="Interactivity\Behavior.cs" />
     <Compile Include="Interactivity\Behavior.Internal.cs" />
     <Compile Include="Interactivity\ConditionBehavior.cs" />
@@ -131,6 +128,7 @@
       <Name>ReactiveProperty.Portable</Name>
     </ProjectReference>
   </ItemGroup>
+  <Import Project="..\ReactiveProperty.Platform.Shared\ReactiveProperty.Platform.Shared.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

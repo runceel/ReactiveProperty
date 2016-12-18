@@ -89,21 +89,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\ReactiveProperty.Platform.NET46\Extensions\DependencyObjectExtensions.cs">
-      <Link>Extensions\DependencyObjectExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\ReactiveProperty.Platform.NET46\Extensions\ObserveEveryValueChangedExtensions.cs">
-      <Link>Extensions\ObserveEveryValueChangedExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\ReactiveProperty.Platform.NET46\Interactivity\EventToReactive.cs">
-      <Link>Interactivity\EventToReactive.cs</Link>
-    </Compile>
-    <Compile Include="..\ReactiveProperty.Platform.NET46\Interactivity\EventToReactiveCommand.cs">
-      <Link>Interactivity\EventToReactiveCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\ReactiveProperty.Platform.NET46\Interactivity\EventToReactiveProperty.cs">
-      <Link>Interactivity\EventToReactiveProperty.cs</Link>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -116,6 +101,7 @@
       <Name>ReactiveProperty.Portable</Name>
     </ProjectReference>
   </ItemGroup>
+  <Import Project="..\ReactiveProperty.Platform.Shared\ReactiveProperty.Platform.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
