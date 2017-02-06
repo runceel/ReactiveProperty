@@ -7,7 +7,7 @@
 ### Add
 - Add ObserveDependencyProperty extension method to DependencyObject(UWP and WPF).
 - Add ToReadOnlyReactiveProperty extension method to DependencyObject(UWP and WPF)
-- Add ToRReactiveProperty extension method to DependencyObject(UWP and WPF)
+- Add ToReactiveProperty extension method to DependencyObject(UWP and WPF)
 
 ## v3.3.0
 
