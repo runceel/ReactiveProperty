@@ -18,6 +18,11 @@ Target framework is .NET 4.5, .NET 4.6, UWP, Xamarin.iOS, Xamarin.Android and .N
 
 Please download and unblock.
 
+## ReSharper plugin
+
+- [ReactiveProperty XAML Binding Corrector](https://resharper-plugins.jetbrains.com/packages/ReSharper.RpCorrector/)
+    - Highlight the missing of ReactiveProperty ".Value" in XAML.
+
 ## Features
 
 - `ReactiveProeprty` class.
