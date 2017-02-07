@@ -63,9 +63,6 @@ public class PersonViewModel
 You can set and get value using `.Value` property with `ReactiveProperty` class, `ReactivePeoperty` class implements `INotifyPropertyChanged` interface. You can use it like below.
 
 ```cs
-// Must set Scheduler in Console Application
-ReactivePropertyScheduler.SetDefault(CurrentThreadScheduler.Default);
-
 var vm = new PersonViewModel();
 vm.Name.PropertyChanged += (_, __) => Console.WriteLine($"Name changed {vm.Name.Value}");
 
