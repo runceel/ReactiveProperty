@@ -245,6 +245,26 @@ namespace ReactiveProperty.Tests.Helpers
             buffer[1].Is(x => x.Action == NotifyCollectionChangedAction.Remove && x.OldStartingIndex == 1 && x.OldItems.Cast<Person>().First().Name == "tanaka5");
         }
 
+        [TestMethod]
+        public void RefreshTest()
+        {
+            var source = new ObservableCollection<Person>(new[]
+            {
+                new Person { Name = "tanaka1", IsRemoved = false },
+                new Person { Name = "tanaka2", IsRemoved = true },
+                new Person { Name = "tanaka3", IsRemoved = false },
+                new Person { Name = "tanaka4", IsRemoved = true },
+                new Person { Name = "tanaka5", IsRemoved = false },
+            });
+
+            var filtered = source.ToFilteredReadOnlyObservableCollection(x => !x.IsRemoved);
+            var buffer = new List<NotifyCollectionChangedEventArgs>();
+
+            filtered.Is(source[0], source[2], source[4]);
+            filtered.Refresh(x => x.IsRemoved);
+            filtered.Is(source[1], source[3]);
+        }
+
         #region private class
         private class Person : INotifyPropertyChanged
         {

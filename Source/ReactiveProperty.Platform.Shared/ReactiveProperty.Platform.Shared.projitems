@@ -10,9 +10,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\DependencyObjectExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Extensions\ObserveEveryValueChangedExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interactivity\EventToReactive.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interactivity\EventToReactiveCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interactivity\EventToReactiveProperty.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ObjectExtensions\ObserveEveryValueChangedExtensions.cs" />
   </ItemGroup>
 </Project>

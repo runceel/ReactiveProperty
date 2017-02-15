@@ -32,6 +32,8 @@ namespace Reactive.Bindings.Helpers
         /// <param name="index">index</param>
         /// <returns>item</returns>
         T this[int index] { get; }
+
+        void Refresh(Func<T, bool> filter);
     }
 
     /// <summary>
@@ -44,7 +46,7 @@ namespace Reactive.Bindings.Helpers
         where TElement : class, INotifyPropertyChanged
     {
         private TCollection Source { get; }
-        private Func<TElement, bool> Filter { get; }
+        private Func<TElement, bool> Filter { get; set; }
         private List<int?> IndexList { get; } = new List<int?>();
         private CompositeDisposable Subscription { get; } = new CompositeDisposable();
         private int ItemsCount { get; set; }
@@ -65,19 +67,7 @@ namespace Reactive.Bindings.Helpers
             this.Source = source;
             this.Filter = filter;
 
-            {
-                // initialize
-                foreach (var item in source)
-                {
-                    var isTarget = filter(item);
-                    this.IndexList.Add(isTarget ? (int?)ItemsCount : null);
-                    if (isTarget)
-                    {
-                        this.ItemsCount++;
-                        this.InnerCollection.Add(item);
-                    }
-                }
-            }
+            this.Initialize();
 
             {
                 // propertychanged
@@ -172,6 +162,24 @@ namespace Reactive.Bindings.Helpers
                         }
                     })
                     .AddTo(this.Subscription);
+            }
+        }
+
+        private void Initialize()
+        {
+            this.IndexList.Clear();
+            this.ItemsCount = 0;
+            this.InnerCollection.Clear();
+
+            foreach (var item in this.Source)
+            {
+                var isTarget = this.Filter(item);
+                this.IndexList.Add(isTarget ? (int?)ItemsCount : null);
+                if (isTarget)
+                {
+                    this.ItemsCount++;
+                    this.InnerCollection.Add(item);
+                }
             }
         }
 
@@ -294,6 +302,12 @@ namespace Reactive.Bindings.Helpers
         }
 
         void ICollection.CopyTo(Array array, int index) => this.InnerCollection.CopyTo((TElement[])array, index);
+
+        public void Refresh(Func<TElement, bool> filter)
+        {
+            this.Filter = filter;
+            this.Initialize();
+        }
     }
 
     /// <summary>

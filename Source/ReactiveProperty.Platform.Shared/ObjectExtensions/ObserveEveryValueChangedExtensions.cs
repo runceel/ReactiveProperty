@@ -5,7 +5,7 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Windows.Media;
 
-namespace Reactive.Bindings.Extensions
+namespace Reactive.Bindings.ObjectExtensions
 {
     public static class ObserveEveryValueChangedExtensions
     {
