@@ -33,6 +33,10 @@ namespace Reactive.Bindings.Helpers
         /// <returns>item</returns>
         T this[int index] { get; }
 
+        /// <summary>
+        /// Refresh filter.
+        /// </summary>
+        /// <param name="filter">filter</param>
         void Refresh(Func<T, bool> filter);
     }
 
@@ -76,7 +80,7 @@ namespace Reactive.Bindings.Helpers
                     {
                         var index = source.IndexOf(x.Sender);
                         var filteredIndex = this.IndexList[index];
-                        var isTarget = filter(x.Sender);
+                        var isTarget = this.Filter(x.Sender);
                         if (isTarget && filteredIndex == null)
                         {
                             // add
@@ -102,7 +106,7 @@ namespace Reactive.Bindings.Helpers
                             case NotifyCollectionChangedAction.Add:
                                 // appear
                                 this.IndexList.Insert(x.NewStartingIndex, null);
-                                if (filter(x.NewItems.Cast<TElement>().Single()))
+                                if (this.Filter(x.NewItems.Cast<TElement>().Single()))
                                 {
                                     this.AppearNewItem(x.NewStartingIndex);
                                 }
@@ -307,6 +311,7 @@ namespace Reactive.Bindings.Helpers
         {
             this.Filter = filter;
             this.Initialize();
+            this.CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
     }
 

@@ -101,6 +101,26 @@ namespace ReactiveProperty.Tests.Helpers
         }
 
         [TestMethod]
+        public void CollectionChangedRefreshAndAddTest()
+        {
+            var source = new ObservableCollection<Person>();
+            var filtered = source.ToFilteredReadOnlyObservableCollection(x => x.IsRemoved);
+            filtered.Refresh(x => !x.IsRemoved);
+            var buffer = new List<NotifyCollectionChangedEventArgs>();
+            filtered.CollectionChangedAsObservable().Subscribe(buffer.Add);
+
+            source.Add(new Person { Name = "a", IsRemoved = true });
+            buffer.Count.Is(0);
+            source.Add(new Person { Name = "b", IsRemoved = false });
+            buffer.Count.Is(1);
+            buffer[0].Is(x => x.Action == NotifyCollectionChangedAction.Add && x.NewItems.Cast<Person>().First().Name == "b" && x.NewStartingIndex == 0);
+
+            source[0].IsRemoved = false;
+            buffer.Count.Is(2);
+            buffer[1].Is(x => x.Action == NotifyCollectionChangedAction.Add && x.NewItems.Cast<Person>().First().Name == "a" && x.NewStartingIndex == 0);
+        }
+
+        [TestMethod]
         public void CollectionChangedRemoveTest()
         {
             var source = new ObservableCollection<Person>(new[]
@@ -112,6 +132,31 @@ namespace ReactiveProperty.Tests.Helpers
             });
 
             var filtered = source.ToFilteredReadOnlyObservableCollection(x => !x.IsRemoved);
+            var buffer = new List<NotifyCollectionChangedEventArgs>();
+            filtered.CollectionChangedAsObservable().Subscribe(buffer.Add);
+
+            source.RemoveAt(2); // tanaka3 remove
+            buffer.Count.Is(0);
+            source.RemoveAt(0); // tanaka1 remove
+            buffer.Count.Is(1);
+            buffer[0].Is(x => x.Action == NotifyCollectionChangedAction.Remove && x.OldStartingIndex == 0 && x.OldItems.Cast<Person>().First().Name == "tanaka1");
+            source[0].IsRemoved = true;
+            buffer.Count.Is(2);
+        }
+
+        [TestMethod]
+        public void CollectionChangedRefreshAndRemoveTest()
+        {
+            var source = new ObservableCollection<Person>(new[]
+            {
+                new Person { Name = "tanaka1", IsRemoved = false },
+                new Person { Name = "tanaka2", IsRemoved = false },
+                new Person { Name = "tanaka3", IsRemoved = true },
+                new Person { Name = "tanaka4", IsRemoved = false },
+            });
+
+            var filtered = source.ToFilteredReadOnlyObservableCollection(x => x.IsRemoved);
+            filtered.Refresh(x => !x.IsRemoved);
             var buffer = new List<NotifyCollectionChangedEventArgs>();
             filtered.CollectionChangedAsObservable().Subscribe(buffer.Add);
 
@@ -149,6 +194,31 @@ namespace ReactiveProperty.Tests.Helpers
         }
 
         [TestMethod]
+        public void CollectionChangedRefreshAndReplaceTest()
+        {
+            var source = new ObservableCollection<Person>(new[]
+            {
+                new Person { Name = "tanaka1", IsRemoved = false },
+                new Person { Name = "tanaka2", IsRemoved = false },
+                new Person { Name = "tanaka3", IsRemoved = true },
+                new Person { Name = "tanaka4", IsRemoved = false },
+            });
+
+            var filtered = source.ToFilteredReadOnlyObservableCollection(x => x.IsRemoved);
+            filtered.Refresh(x => !x.IsRemoved);
+            var buffer = new List<NotifyCollectionChangedEventArgs>();
+            filtered.CollectionChangedAsObservable().Subscribe(buffer.Add);
+
+            source[0] = new Person { Name = "tanaka1 replaced", IsRemoved = false };
+            buffer.Count.Is(1);
+            buffer[0].Is(x => x.Action == NotifyCollectionChangedAction.Replace && x.NewStartingIndex == 0 && x.NewItems.Cast<Person>().First().Name == "tanaka1 replaced");
+
+            source[1] = new Person { Name = "tanaka2 replaced", IsRemoved = true };
+            buffer.Count.Is(2);
+            buffer[1].Is(x => x.Action == NotifyCollectionChangedAction.Remove && x.OldStartingIndex == 1 && x.OldItems.Cast<Person>().First().Name == "tanaka2");
+        }
+
+        [TestMethod]
         public void CollectionChangedClearTest()
         {
             var source = new ObservableCollection<Person>(new[]
@@ -160,6 +230,27 @@ namespace ReactiveProperty.Tests.Helpers
             });
 
             var filtered = source.ToFilteredReadOnlyObservableCollection(x => !x.IsRemoved);
+            var buffer = new List<NotifyCollectionChangedEventArgs>();
+            filtered.CollectionChangedAsObservable().Subscribe(buffer.Add);
+
+            source.Clear();
+            buffer.Count.Is(1);
+            buffer[0].Is(x => x.Action == NotifyCollectionChangedAction.Reset);
+        }
+
+        [TestMethod]
+        public void CollectionChangedRefreshAndClearTest()
+        {
+            var source = new ObservableCollection<Person>(new[]
+            {
+                new Person { Name = "tanaka1", IsRemoved = false },
+                new Person { Name = "tanaka2", IsRemoved = false },
+                new Person { Name = "tanaka3", IsRemoved = true },
+                new Person { Name = "tanaka4", IsRemoved = false },
+            });
+
+            var filtered = source.ToFilteredReadOnlyObservableCollection(x => x.IsRemoved);
+            filtered.Refresh(x => !x.IsRemoved);
             var buffer = new List<NotifyCollectionChangedEventArgs>();
             filtered.CollectionChangedAsObservable().Subscribe(buffer.Add);
 

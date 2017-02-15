@@ -25,6 +25,8 @@ namespace WPF
 
         public ReactiveCommand NavigateAsyncReactiveCommand { get; }
 
+        public ReactiveCommand NavigateFilteredCollectionCommand { get; }
+
         public MainWindowViewModel()
         {
             NavigateBasics = new ReactiveCommand();
@@ -43,6 +45,8 @@ namespace WPF
             NavigateEventToReactiveCommand.Subscribe(_ => new EventToReactiveCommandWindow().Show());
             NavigateAsyncReactiveCommand = new ReactiveCommand();
             NavigateAsyncReactiveCommand.Subscribe(_ => new Views.AsyncReactiveCommand().Show());
+            NavigateFilteredCollectionCommand = new ReactiveCommand();
+            NavigateFilteredCollectionCommand.Subscribe(_ => new Views.FilteredReadOnlyObservableCollectionBasics().Show());
         }
     }
 }

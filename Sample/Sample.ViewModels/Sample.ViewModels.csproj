@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="AsyncReactiveCommandViewModel.cs" />
     <Compile Include="EventToReactiveCommandViewModel.cs" />
+    <Compile Include="FilteredReadOnlyObservableCollectionBasicsViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AsynchronousViewModel.cs" />
     <Compile Include="EventToReactivePropertyViewModel.cs" />
