@@ -1,5 +1,12 @@
 # リリースノート
 
+## v3.5.0
+### 破壊的変更
+- ObserveEveryValueChanged拡張メソッドの名前空間をExtensionsからObjectExtensions変更しました.
+
+### 追加
+- RefreshメソッドをIFilteredReadOnlyObservableCollectionに追加しました.
+
 ## v3.4.0
 ### 更新
 - Rx 3.1.1に更新しました

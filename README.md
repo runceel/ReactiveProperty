@@ -1232,6 +1232,15 @@ foreach (var p in filtered)
 {
     Console.WriteLine(p.Name);
 }
+
+// Refresh filter
+filtered.Refresh(x => x.Name.IndexOf("okazuki") == -1);
+// tanaka2, tanaka1
+Console.WriteLine("---");
+foreach (var p in filtered)
+{
+    Console.WriteLine(p.Name);
+}
 ```
 
 # Change to default scheduler

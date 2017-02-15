@@ -1,5 +1,12 @@
 # Release note
 
+## v3.5.0
+### Breaking change
+- Change ObserveEveryValueChanged method namespace Extensions to ObjectExtensions.
+
+### Add
+- Add Refresh method to IFilteredReadOnlyObservableCollection.
+
 ## v3.4.0
 ### Update
 - Update to Rx 3.1.1
