@@ -77,6 +77,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinAndroid", "Sample\Xa
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "csharp5", "csharp5", "{B087D3DF-7BED-4296-8A2F-CCE3324CC45B}"
 	ProjectSection(SolutionItems) = preProject
+		Snippet\csharp5\AsyncReactiveCommand.snippet = Snippet\csharp5\AsyncReactiveCommand.snippet
+		Snippet\csharp5\AsyncReactiveCommandGeneric.snippet = Snippet\csharp5\AsyncReactiveCommandGeneric.snippet
 		Snippet\csharp5\ReactiveCollection.snippet = Snippet\csharp5\ReactiveCollection.snippet
 		Snippet\csharp5\ReactiveCommand.snippet = Snippet\csharp5\ReactiveCommand.snippet
 		Snippet\csharp5\ReactiveCommandGeneric.snippet = Snippet\csharp5\ReactiveCommandGeneric.snippet
@@ -87,6 +89,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "csharp5", "csharp5", "{B087
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "csharp6", "csharp6", "{66249041-95E4-4DAE-AC93-3475EBE60AF0}"
 	ProjectSection(SolutionItems) = preProject
+		Snippet\csharp6\AsyncReactiveCommand.snippet = Snippet\csharp6\AsyncReactiveCommand.snippet
+		Snippet\csharp6\AsyncReactiveCommandGeneric.snippet = Snippet\csharp6\AsyncReactiveCommandGeneric.snippet
 		Snippet\csharp6\ReactiveCollection.snippet = Snippet\csharp6\ReactiveCollection.snippet
 		Snippet\csharp6\ReactiveCommand.snippet = Snippet\csharp6\ReactiveCommand.snippet
 		Snippet\csharp6\ReactiveCommandGeneric.snippet = Snippet\csharp6\ReactiveCommandGeneric.snippet
