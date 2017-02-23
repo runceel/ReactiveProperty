@@ -42,9 +42,9 @@ namespace Reactive.Bindings
 
         private T LatestValue { get; set; }
         private bool IsDisposed { get; set; } = false;
-        private IScheduler RaiseEventScheduler { get; }
-        private bool IsDistinctUntilChanged { get; }
-        private bool IsRaiseLatestValueOnSubscribe { get; }
+        public IScheduler RaiseEventScheduler { get; }
+        public bool IsDistinctUntilChanged { get; }
+        public bool IsRaiseLatestValueOnSubscribe { get; }
 
         private Subject<T> Source { get; } = new Subject<T>();
         private IDisposable SourceDisposable { get; }
