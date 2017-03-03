@@ -36,4 +36,3 @@ Takaaki Suzuki a.k.a. [@xin9le](https://twitter.com/xin9le) software devleoper i
 Awarded Microsoft MVP for Visual Studio and Development Technologies since July, 2012.
 
 Kazuki Ota a.k.a. [@okazuki](https://twitter.com/okazuki) software developer in Tokyo, Japan.
-Awarded Microsoft MVP for Windows Development since July, 2011.
