@@ -46,6 +46,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="BindingSupportExtensions.cs" />
     <Compile Include="Internal\AccessorCache.cs" />
     <Compile Include="IUICollectionViewDataSourceExtensions.cs" />
     <Compile Include="IUITableViewDataSourceExtensions.cs" />
