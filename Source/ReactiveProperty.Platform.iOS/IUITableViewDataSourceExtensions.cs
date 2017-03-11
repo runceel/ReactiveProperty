@@ -22,7 +22,7 @@ namespace Reactive.Bindings
         /// <param name="source">Source property</param>
         /// <param name="updateSourceTrigger">Update source trigger</param>
         /// <returns>Data binding token</returns>
-        public static IDisposable SetBinding<TView, TProperty>(
+        public static IDisposable SetBindingTableViewDataSource<TView, TProperty>(
             this TView self,
             Expression<Func<TView, TProperty>> propertySelector,
             ReactiveProperty<TProperty> source, Func<TView, IObservable<Unit>> updateSourceTrigger = null)
@@ -68,7 +68,7 @@ namespace Reactive.Bindings
         /// <param name="source">Source property</param>
         /// <param name="updateSourceTrigger">Update source trigger</param>
         /// <returns>Data binding token</returns>
-        public static IDisposable SetBinding<TView, TProperty>(
+        public static IDisposable SetBindingTableViewDataSource<TView, TProperty>(
             this TView self,
             Action<TView, TProperty> setter,
             Func<TView, TProperty> getter,
@@ -111,13 +111,13 @@ namespace Reactive.Bindings
         /// <param name="setter">Target value setter</param>
         /// <param name="source">Source property</param>
         /// <returns>Data binding token</returns>
-        public static IDisposable SetBinding<TView, TProperty>(
+        public static IDisposable SetBindingTableViewDataSource<TView, TProperty>(
             this TView self,
             Action<TView, TProperty> setter,
             ReactiveProperty<TProperty> source)
             where TView : IUITableViewDataSource
         {
-            return SetBinding(self, setter, null, source, null);
+            return SetBindingTableViewDataSource(self, setter, null, source, null);
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace Reactive.Bindings
         /// <param name="propertySelector">Target property selector</param>
         /// <param name="source">Source property</param>
         /// <returns>Data binding token</returns>
-        public static IDisposable SetBinding<TView, TProperty>(
+        public static IDisposable SetBindingTableViewDataSource<TView, TProperty>(
             this TView self,
             Expression<Func<TView, TProperty>> propertySelector,
             ReadOnlyReactiveProperty<TProperty> source)
@@ -155,7 +155,7 @@ namespace Reactive.Bindings
         /// <param name="setter">Target value setter</param>
         /// <param name="source">Source property</param>
         /// <returns>Data binding token</returns>
-        public static IDisposable SetBinding<TView, TProperty>(
+        public static IDisposable SetBindingTableViewDataSource<TView, TProperty>(
             this TView self,
             Action<TView, TProperty> setter,
             ReadOnlyReactiveProperty<TProperty> source)
