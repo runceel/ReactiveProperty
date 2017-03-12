@@ -1,4 +1,4 @@
-using Reactive.Bindings.Extensions;
+﻿using Reactive.Bindings.Extensions;
 using Reactive.Bindings.Internal;
 using System;
 using System.Linq;
@@ -10,7 +10,7 @@ using UIKit;
 
 namespace Reactive.Bindings
 {
-    public static class IUICollectionViewDataSourceExtensions
+    public static class UICollectionViewSourceExtensions
     {
         /// <summary>
         /// Data binding method.
@@ -22,11 +22,11 @@ namespace Reactive.Bindings
         /// <param name="source">Source property</param>
         /// <param name="updateSourceTrigger">Update source trigger</param>
         /// <returns>Data binding token</returns>
-        public static IDisposable SetBindingCollectionViewDataSource<TView, TProperty>(
+        public static IDisposable SetBindingCollectionViewSource<TView, TProperty>(
             this TView self,
             Expression<Func<TView, TProperty>> propertySelector,
             ReactiveProperty<TProperty> source, Func<TView, IObservable<Unit>> updateSourceTrigger = null)
-            where TView : IUICollectionViewDataSource
+            where TView : UICollectionViewSource
         {
             var d = new CompositeDisposable();
 
@@ -68,13 +68,13 @@ namespace Reactive.Bindings
         /// <param name="source">Source property</param>
         /// <param name="updateSourceTrigger">Update source trigger</param>
         /// <returns>Data binding token</returns>
-        public static IDisposable SetBindingCollectionViewDataSource<TView, TProperty>(
+        public static IDisposable SetBindingCollectionViewSource<TView, TProperty>(
             this TView self,
             Action<TView, TProperty> setter,
             Func<TView, TProperty> getter,
             ReactiveProperty<TProperty> source,
             Func<TView, IObservable<Unit>> updateSourceTrigger)
-            where TView : IUICollectionViewDataSource
+            where TView : UICollectionViewSource
         {
             var d = new CompositeDisposable();
 
@@ -111,13 +111,13 @@ namespace Reactive.Bindings
         /// <param name="setter">Target value setter</param>
         /// <param name="source">Source property</param>
         /// <returns>Data binding token</returns>
-        public static IDisposable SetBindingCollectionViewDataSource<TView, TProperty>(
+        public static IDisposable SetBindingCollectionViewSource<TView, TProperty>(
             this TView self,
             Action<TView, TProperty> setter,
             ReactiveProperty<TProperty> source)
-            where TView : IUICollectionViewDataSource
+            where TView : UICollectionViewSource
         {
-            return SetBindingCollectionViewDataSource(self, setter, null, source, null);
+            return SetBindingCollectionViewSource(self, setter, null, source, null);
         }
 
         /// <summary>
@@ -129,11 +129,11 @@ namespace Reactive.Bindings
         /// <param name="propertySelector">Target property selector</param>
         /// <param name="source">Source property</param>
         /// <returns>Data binding token</returns>
-        public static IDisposable SetBindingCollectionViewDataSource<TView, TProperty>(
+        public static IDisposable SetBindingCollectionViewSource<TView, TProperty>(
             this TView self,
             Expression<Func<TView, TProperty>> propertySelector,
             ReadOnlyReactiveProperty<TProperty> source)
-            where TView : IUICollectionViewDataSource
+            where TView : UICollectionViewSource
         {
             var d = new CompositeDisposable();
 
@@ -155,11 +155,11 @@ namespace Reactive.Bindings
         /// <param name="setter">Target value setter</param>
         /// <param name="source">Source property</param>
         /// <returns>Data binding token</returns>
-        public static IDisposable SetBindingCollectionViewDataSource<TView, TProperty>(
+        public static IDisposable SetBindingCollectionViewSource<TView, TProperty>(
             this TView self,
             Action<TView, TProperty> setter,
             ReadOnlyReactiveProperty<TProperty> source)
-            where TView : IUICollectionViewDataSource
+            where TView : UICollectionViewSource
         {
             var d = new CompositeDisposable();
 
