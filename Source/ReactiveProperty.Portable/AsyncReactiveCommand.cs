@@ -41,6 +41,10 @@ namespace Reactive.Bindings
         {
             Execute(null);
         }
+
+        /// <summary>Subscribe execute.</summary>
+        public IDisposable Subscribe(Func<Task> asyncAction)
+            => this.Subscribe(async _ => await asyncAction());
     }
 
     public class AsyncReactiveCommand<T> : ICommand, IDisposable

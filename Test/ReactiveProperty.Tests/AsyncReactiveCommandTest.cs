@@ -127,5 +127,25 @@ namespace ReactiveProperty.Tests
             task1.SetResult(null);
             command.CanExecute().IsTrue();
         }
+
+        [TestMethod]
+        public void SubscribeAction()
+        {
+            var command = new AsyncReactiveCommand();
+            var task1 = new TaskCompletionSource<object>();
+            var task2 = new TaskCompletionSource<object>();
+            Func<Task> asyncAction1 = () => task1.Task;
+            Func<Task> asyncAction2 = () => task2.Task;
+
+            command.Subscribe(asyncAction1);
+            command.Subscribe(asyncAction2);
+
+            command.Execute();
+            command.CanExecute().IsFalse();
+            task1.SetResult(null);
+            command.CanExecute().IsFalse();
+            task2.SetResult(null);
+            command.CanExecute().IsTrue();
+        }
     }
 }

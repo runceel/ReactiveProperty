@@ -47,6 +47,10 @@ namespace Reactive.Bindings
         {
             Execute(null);
         }
+
+        /// <summary>Subscribe execute.</summary>
+        public IDisposable Subscribe(Action onNext)
+            => this.Subscribe(_ => onNext());
     }
 
     public class ReactiveCommand<T> : IObservable<T>, ICommand, IDisposable

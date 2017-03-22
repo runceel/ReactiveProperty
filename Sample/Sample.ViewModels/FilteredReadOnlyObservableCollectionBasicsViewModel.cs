@@ -35,11 +35,13 @@ namespace Sample.ViewModels
             this.AddCommand.Subscribe(_ => this.PeopleSource.Add(new Person()));
 
             this.RefreshCommand = new ReactiveCommand();
-            this.RefreshCommand.Subscribe(_ =>
-            {
-                this.People.Refresh(this.UseRemovedFilter ? this.NotRemovedFilter : this.RemovedFilter);
-                this.UseRemovedFilter = !this.UseRemovedFilter;
-            });
+            this.RefreshCommand.Subscribe(Refresh);
+        }
+
+        private void Refresh()
+        {
+            this.People.Refresh(this.UseRemovedFilter ? this.NotRemovedFilter : this.RemovedFilter);
+            this.UseRemovedFilter = !this.UseRemovedFilter;
         }
     }
 

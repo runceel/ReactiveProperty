@@ -23,12 +23,17 @@ namespace Sample.ViewModels
         public AsyncReactiveCommandViewModel()
         {
             this.HeavyProcessCommand = new AsyncReactiveCommand();
-            this.HeavyProcessCommand.Subscribe(async _ => await Task.Delay(3000));
+            this.HeavyProcessCommand.Subscribe(HeavyWork);
 
             this.ShareSourceCommand1 = this.ShareSource.ToAsyncReactiveCommand();
-            this.ShareSourceCommand1.Subscribe(async _ => await Task.Delay(3000));
+            this.ShareSourceCommand1.Subscribe(async _ => await Task.Delay(500));
             this.ShareSourceCommand2 = this.ShareSource.ToAsyncReactiveCommand();
-            this.ShareSourceCommand2.Subscribe(async _ => await Task.Delay(3000));
+            this.ShareSourceCommand2.Subscribe(async _ => await Task.Delay(2000));
+        }
+
+        private static async Task HeavyWork()
+        {
+            await Task.Delay(3000);
         }
     }
 }
