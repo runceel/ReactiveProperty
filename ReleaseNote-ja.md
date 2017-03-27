@@ -1,4 +1,11 @@
 # リリースノート
+## v3.6.0
+### 破壊的変更
+- iOS向けのSetBindingメソッドをSetBindingXXXXX(対象のクラス名)に変更しました
+
+### Add
+- AsyncReactiveCommand#Subscribe メソッドに引数なしバージョンを追加しました
+- ReactiveCommand#Subscribe メソッドに引数なしバージョンを追加しました
 
 ## v3.5.0
 ### 破壊的変更

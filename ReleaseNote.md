@@ -1,5 +1,13 @@
 # Release note
 
+## v3.6.0
+### Breaking change
+- Rename iOS SetBinding method to SetBindingXXXXX(target class name).
+
+### Add
+- Add non argument version AsyncReactiveCommand#Subscribe method.
+- Add non argument version ReactiveCommand#Subscribe method.
+
 ## v3.5.0
 ### Breaking change
 - Change ObserveEveryValueChanged method namespace Extensions to ObjectExtensions.
