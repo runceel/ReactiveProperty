@@ -78,10 +78,6 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Runtime" />
-    <Reference Include="System.Runtime.InteropServices.WindowsRuntime, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Runtime.InteropServices.WindowsRuntime.4.0.1\lib\netstandard1.3\System.Runtime.InteropServices.WindowsRuntime.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Threading.Tasks" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
