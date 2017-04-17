@@ -307,6 +307,25 @@ namespace Reactive.Bindings
     public static class ReactiveProperty
     {
         /// <summary>
+        /// <para>Create an instance of ReactiveProperty.</para>
+        /// <para>PropertyChanged raise on ReactivePropertyScheduler.</para>
+        /// </summary>
+        public static ReactiveProperty<T> Create<T>(
+            T initialValue = default(T),
+            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe) =>
+            new ReactiveProperty<T>(initialValue, mode);
+
+        /// <summary>
+        /// <para>Create an instance of ReactiveProperty.</para>
+        /// <para>PropertyChanged raise on the selected scheduler.</para>
+        /// </summary>
+        public static ReactiveProperty<T> Create<T>(
+            IScheduler raiseEventScheduler,
+            T initialValue = default(T),
+            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe) =>
+            new ReactiveProperty<T>(raiseEventScheduler, initialValue, mode);
+
+        /// <summary>
         /// <para>Convert plain object to ReactiveProperty.</para>
         /// <para>Value is OneWayToSource(ReactiveProperty -> Object) synchronized.</para>
         /// <para>PropertyChanged raise on ReactivePropertyScheduler</para>
