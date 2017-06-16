@@ -1,66 +1,67 @@
 # How to use ReactiveProeprty in Xamarin.Forms
 
-## Step1. Create project
-Create Blank App (Xamarin.Forms Portable).
+## Step 1. Create project
 
-## Step2. Remove Windows and WinPhone project
-ReactiveProeprty 3.0 is not support Windows8.1 and Windows Phone 8.1.
-Remove Windows and WinPhone project at solution.
+Create `Cross Platform App (Xamarin)` project.
+I use 'HowToUseRp' project name here.
 
-![Remove project](Images/removewinandwpproject.PNG)
+![Create project](Images/xf-howtouserp-createproject-en.png)
 
-## Step3. Upgrade to .NET Standard
+## Step 2. Create .NET Standard project
 
-Remove all nuget reference at portable library project.
+Create .NET Standard class library project.
+I use `HowToUseRp.NetStandard` project name.
 
-![Remove nuget reference](Images/removenugetpackage.png)
+Open project property then change Default namespace to `HowToUseRp`.
+And see higher than 1.3 to target framework version.
 
-### .NET Standard(optional)
+## Step 3. Add reference
 
-Open properties page at portable library project.
-Click `Target .NET Platform Standard` at `Library` tab.
+Edit project file. Right click at HowToUseRp.NetStandard project then click `Edit HowToUseRp.NetStandard.csproj`,
 
-![Remove nuget reference](Images/targetnetplatformstandard.png)
+Add `PackageTargetFallback` tag.
 
-And change to .NET Standard 1.2.
+```xml
+<Project Sdk="Microsoft.NET.Sdk">
 
-Add imports at project.json.
+  <PropertyGroup>
+    <TargetFramework>netstandard1.4</TargetFramework>
+    <RootNamespace>HowToUseRp</RootNamespace>
+    <PackageTargetFallback>portable-net46+uap</PackageTargetFallback>
+  </PropertyGroup>
 
-```javascript
-{
-  "supports": {},
-  "dependencies": {
-    "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
-    "NETStandard.Library": "1.6.0"
-  },
-  "frameworks": {
-    "netstandard1.2": {
-      "imports": "portable-uap+net45"
-    }
-  }
-}
+</Project>
 ```
-## Step4. Upgrade Micfosoft.NETCore.UniversalWindowsPlatform
 
-Open `Manage nuget package for solution...`.
-And upgrade Micfosoft.NETCore.UniversalWindowsPlatform package to v5.2.2(or higher).
+Add reference to HowToUseRp.NetStandard follows.
 
-## Step5. Upgrade Xamarin.Forms
+- Xamarin.Forms
 
-Upgrade to Latest stable version Xamarin.Forms all project.
+Update Xamarin.Forms library version in all projects.
 
-![Upgrade XF](Images/upgradexf.png)
+Add ReactiveProperty(higher v4.0.0) reference from NuGet package to HowToUseRp.NetStandard, HowToUseRp.Android, HowToUseRp.iOS and HowToUseRp.UWP projects.
 
-## Step6. Install ReactiveProperty all project
+## Step 4. Move code files from PCL to .NET Standard project.
 
-Install ReactiveProeprty v3.x from NuGet.
+Remove Class1.cs from HowToUseRp.NetStandard project.
+Move source code files from HowToUseRp project to HowToUseRp.NetStandard project.
+Target files is follows:
 
-![Install RP](Images/installrp.PNG)
+- App.xaml
+- App.xaml.cs
+- MainPage.xaml
+- MainPage.xaml.cs
 
-## Step7. Remove reference at Droid project
+Remove HowToUseRp project then add project reference to these projects.
 
-Remove `System.Runtime.InteropService.WindowsRuntime` reference at Droid project.(IMPORTANT!)
+- HowToUseRp.Android
+- HowToUseRp.iOS
+- HowToUseRp.UWP
 
-## Step8. Write your code
+## Step 5. Run
+
+Run to projects.
+
+## Step 6. Write your code
 
 Write your code!!
