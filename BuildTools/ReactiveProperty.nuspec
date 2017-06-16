@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>ReactiveProperty</id>
-    <version>3.6.0.1</version>
+    <version>4.0.0-pre1</version>
     <title>ReactiveProperty</title>
     <authors>neuecc xin9le okazuki</authors>
     <owners>neuecc xin9le okazuki</owners>
@@ -10,56 +10,41 @@
     <projectUrl>https://github.com/runceel/ReactiveProperty</projectUrl>
     <iconUrl>http://neue.cc/ReactivePropertyIcon_100x100.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>ReactiveProperty is MVVM and Asynchronous Extensions for Reactive Extensions(System.Reactive). Target is .NET 4.5, .NET 4.6, UWP ,Xamarin(Android, iOS, Forms) and .NET Standard 1.1.</description>
+    <description>ReactiveProperty is MVVM and Asynchronous Extensions for Reactive Extensions(System.Reactive). Target is .NET 4.6, UWP ,Xamarin(Android, iOS, Forms) and .NET Standard 1.3.</description>
     <summary />
     <language>en-US</language>
     <tags>rx mvvm async rx-main reactive</tags>
     <dependencies>
-      <group targetFramework="net45">
-        <dependency id="System.Reactive" version="3.1.1" />
-      </group>
       <group targetFramework="net46">
-        <dependency id="System.Reactive" version="3.1.1" />
+        <dependency id="System.Reactive" version="4.0.0-preview00001" />
       </group>
       <group targetFramework="uap10.0">
-        <dependency id="System.Reactive" version="3.1.1" />
+        <dependency id="System.Reactive" version="4.0.0-preview00001" />
         <dependency id="Microsoft.Xaml.Behaviors.Uwp.Managed" version="2.0.0" />
       </group>
       <group targetFramework="MonoAndroid">
-        <dependency id="System.Reactive" version="3.1.1" />
+        <dependency id="System.Reactive" version="4.0.0-preview00001" />
       </group>
       <group targetFramework="MonoTouch">
-        <dependency id="System.Reactive" version="3.1.1" />
+        <dependency id="System.Reactive" version="4.0.0-preview00001" />
       </group>
       <group targetFramework="Xamarin.Mac20">
-        <dependency id="System.Reactive" version="3.1.1" />
+        <dependency id="System.Reactive" version="4.0.0-preview00001" />
       </group>
       <group targetFramework="portable-net45+win81+MonoTouch+MonoAndroid">
-        <dependency id="System.Reactive" version="3.1.1" />
+        <dependency id="System.Reactive" version="4.0.0-preview00001" />
       </group>
-      <group targetFramework="netstandard1.1">
-        <dependency id="System.Reactive" version="3.1.1" />
+      <group targetFramework="netstandard1.3">
+        <dependency id="System.Reactive" version="4.0.0-preview00001" />
         <dependency id="System.Runtime" version="4.3.0" />
         <dependency id="System.Collections" version="4.3.0" />
         <dependency id="System.ObjectModel" version="4.3.0" />
         <dependency id="System.Reflection" version="4.3.0" />
         <dependency id="System.Reflection.Extensions" version="4.3.0" />
-        <dependency id="System.Runtime.Serialization.Primitives" version="4.3.0" />
-        <dependency id="System.Runtime.Serialization.Xml" version="4.3.0" />
-        <dependency id="System.Xml.ReaderWriter" version="4.3.0" />
         <dependency id="System.ComponentModel.Annotations" version="4.3.0" />
       </group>
     </dependencies>
     <frameworkAssemblies>
-      <!-- net45 -->
-      <frameworkAssembly assemblyName="System" targetFramework=".NETFramework4.5" />
-      <frameworkAssembly assemblyName="PresentationCore" targetFramework=".NETFramework4.5" />
-      <frameworkAssembly assemblyName="WindowsBase" targetFramework=".NETFramework4.5" />
-      <frameworkAssembly assemblyName="PresentationFramework" targetFramework=".NETFramework4.5" />
-      <frameworkAssembly assemblyName="System.Xaml" targetFramework=".NETFramework4.5" />
-      <frameworkAssembly assemblyName="System.Core" targetFramework=".NETFramework4.5" />
-      <frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations" targetFramework=".NETFramework4.5" />
-      <frameworkAssembly assemblyName="System.Runtime.Serialization" targetFramework=".NETFramework4.5" />
       <!-- net46 -->
       <frameworkAssembly assemblyName="System" targetFramework=".NETFramework4.6" />
       <frameworkAssembly assemblyName="PresentationCore" targetFramework=".NETFramework4.6" />
@@ -68,14 +53,10 @@
       <frameworkAssembly assemblyName="System.Xaml" targetFramework=".NETFramework4.6" />
       <frameworkAssembly assemblyName="System.Core" targetFramework=".NETFramework4.6" />
       <frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations" targetFramework=".NETFramework4.6" />
-      <frameworkAssembly assemblyName="System.Runtime.Serialization" targetFramework=".NETFramework4.6" />
       <!-- xamarin -->
       <frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations" targetFramework="MonoAndroid" />
-      <frameworkAssembly assemblyName="System.Runtime.Serialization" targetFramework="MonoAndroid" />
       <frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations" targetFramework="MonoTouch" />
-      <frameworkAssembly assemblyName="System.Runtime.Serialization" targetFramework="MonoTouch" />
       <frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations" targetFramework="Xamarin.Mac20" />
-      <frameworkAssembly assemblyName="System.Runtime.Serialization" targetFramework="Xamarin.Mac20" />
     </frameworkAssemblies>
   </metadata>
   <files>
@@ -84,67 +65,59 @@
     <file src="..\LICENSE.txt" target="\" />
 
     <!-- platform -->
-    <!-- WPF NET45 -->
-    <file src="..\Binary\NET45\ReactiveProperty.NET45.dll" target="lib\net45" />
-    <file src="..\Binary\NET45\ReactiveProperty.NET45.XML" target="lib\net45" />
-    <file src="..\Binary\NET45\ReactiveProperty.NET45.pdb" target="lib\net45" />
-    <file src="..\Binary\PCL\ReactiveProperty.dll" target="lib\net45" />
-    <file src="..\Binary\PCL\ReactiveProperty.XML" target="lib\net45" />
-    <file src="..\Binary\PCL\ReactiveProperty.pdb" target="lib\net45" />
-    
     <!-- WPF NET46 -->
     <file src="..\Binary\NET46\ReactiveProperty.NET46.dll" target="lib\net46" />
     <file src="..\Binary\NET46\ReactiveProperty.NET46.XML" target="lib\net46" />
     <file src="..\Binary\NET46\ReactiveProperty.NET46.pdb" target="lib\net46" />
-    <file src="..\Binary\PCL\ReactiveProperty.dll" target="lib\net46" />
-    <file src="..\Binary\PCL\ReactiveProperty.XML" target="lib\net46" />
-    <file src="..\Binary\PCL\ReactiveProperty.pdb" target="lib\net46" />
+    <file src="..\Binary\netstandard1.3\ReactiveProperty.dll" target="lib\net46" />
+    <file src="..\Binary\netstandard1.3\ReactiveProperty.xml" target="lib\net46" />
+    <file src="..\Binary\netstandard1.3\ReactiveProperty.pdb" target="lib\net46" />
 
     <!-- UWP -->
     <file src="..\Binary\UWP\ReactiveProperty.UWP.dll" target="lib\uap10.0" />
     <file src="..\Binary\UWP\ReactiveProperty.UWP.XML" target="lib\uap10.0" />
     <file src="..\Binary\UWP\ReactiveProperty.UWP.pdb" target="lib\uap10.0" />
-    <file src="..\Binary\PCL\ReactiveProperty.dll" target="lib\uap10.0" />
-    <file src="..\Binary\PCL\ReactiveProperty.XML" target="lib\uap10.0" />
-    <file src="..\Binary\PCL\ReactiveProperty.pdb" target="lib\uap10.0" />
+    <file src="..\Binary\netstandard1.3\ReactiveProperty.dll" target="lib\uap10.0" />
+    <file src="..\Binary\netstandard1.3\ReactiveProperty.xml" target="lib\uap10.0" />
+    <file src="..\Binary\netstandard1.3\ReactiveProperty.pdb" target="lib\uap10.0" />
     
     <!-- Mono.Android -->
-    <file src="..\Binary\PCL\ReactiveProperty.dll" target="lib\MonoAndroid" />
-    <file src="..\Binary\PCL\ReactiveProperty.XML" target="lib\MonoAndroid" />
-    <file src="..\Binary\PCL\ReactiveProperty.pdb" target="lib\MonoAndroid" />
+    <file src="..\Binary\netstandard1.3\ReactiveProperty.dll" target="lib\MonoAndroid" />
+    <file src="..\Binary\netstandard1.3\ReactiveProperty.xml" target="lib\MonoAndroid" />
+    <file src="..\Binary\netstandard1.3\ReactiveProperty.pdb" target="lib\MonoAndroid" />
     <file src="..\Binary\MonoAndroid\ReactiveProperty.Android.dll" target="lib\MonoAndroid" />
     <file src="..\Binary\MonoAndroid\ReactiveProperty.Android.XML" target="lib\MonoAndroid" />
     <file src="..\Binary\MonoAndroid\ReactiveProperty.Android.pdb" target="lib\MonoAndroid" />
 
     <!-- Mono.Touch -->
-    <file src="..\Binary\PCL\ReactiveProperty.dll" target="lib\MonoTouch" />
-    <file src="..\Binary\PCL\ReactiveProperty.XML" target="lib\MonoTouch" />
-    <file src="..\Binary\PCL\ReactiveProperty.pdb" target="lib\MonoTouch" />
+    <file src="..\Binary\netstandard1.3\ReactiveProperty.dll" target="lib\MonoTouch" />
+    <file src="..\Binary\netstandard1.3\ReactiveProperty.xml" target="lib\MonoTouch" />
+    <file src="..\Binary\netstandard1.3\ReactiveProperty.pdb" target="lib\MonoTouch" />
     <file src="..\Binary\MonoTouch\ReactiveProperty.iOS.dll" target="lib\MonoTouch" />
     <file src="..\Binary\MonoTouch\ReactiveProperty.iOS.XML" target="lib\MonoTouch" />
     <file src="..\Binary\MonoTouch\ReactiveProperty.iOS.pdb" target="lib\MonoTouch" />
     
     <!-- Xamarin.iOS10 -->
-    <file src="..\Binary\PCL\ReactiveProperty.dll" target="lib\Xamarin.iOS10" />
-    <file src="..\Binary\PCL\ReactiveProperty.XML" target="lib\Xamarin.iOS10" />
-    <file src="..\Binary\PCL\ReactiveProperty.pdb" target="lib\Xamarin.iOS10" />
+    <file src="..\Binary\netstandard1.3\ReactiveProperty.dll" target="lib\Xamarin.iOS10" />
+    <file src="..\Binary\netstandard1.3\ReactiveProperty.xml" target="lib\Xamarin.iOS10" />
+    <file src="..\Binary\netstandard1.3\ReactiveProperty.pdb" target="lib\Xamarin.iOS10" />
     <file src="..\Binary\MonoTouch\ReactiveProperty.iOS.dll" target="lib\Xamarin.iOS10" />
     <file src="..\Binary\MonoTouch\ReactiveProperty.iOS.XML" target="lib\Xamarin.iOS10" />
     <file src="..\Binary\MonoTouch\ReactiveProperty.iOS.pdb" target="lib\Xamarin.iOS10" />
 
     <!-- Xamarin.Mac Unified -->
-    <file src="..\Binary\PCL\ReactiveProperty.dll" target="lib\Xamarin.Mac20" />
-    <file src="..\Binary\PCL\ReactiveProperty.XML" target="lib\Xamarin.Mac20" />
-    <file src="..\Binary\PCL\ReactiveProperty.pdb" target="lib\Xamarin.Mac20" />
+    <file src="..\Binary\netstandard1.3\ReactiveProperty.dll" target="lib\Xamarin.Mac20" />
+    <file src="..\Binary\netstandard1.3\ReactiveProperty.xml" target="lib\Xamarin.Mac20" />
+    <file src="..\Binary\netstandard1.3\ReactiveProperty.pdb" target="lib\Xamarin.Mac20" />
 
     <!-- PCL -->
-    <file src="..\Binary\PCL\ReactiveProperty.dll" target="lib\portable-net45+win81+MonoTouch+MonoAndroid" />
-    <file src="..\Binary\PCL\ReactiveProperty.XML" target="lib\portable-net45+win81+MonoTouch+MonoAndroid" />
-    <file src="..\Binary\PCL\ReactiveProperty.pdb" target="lib\portable-net45+win81+MonoTouch+MonoAndroid" />
+    <file src="..\Binary\netstandard1.3\ReactiveProperty.dll" target="lib\portable-net46+uap+MonoTouch+MonoAndroid" />
+    <file src="..\Binary\netstandard1.3\ReactiveProperty.xml" target="lib\portable-net46+uap+MonoTouch+MonoAndroid" />
+    <file src="..\Binary\netstandard1.3\ReactiveProperty.pdb" target="lib\portable-net46+uap+MonoTouch+MonoAndroid" />
     
     <!-- .net standard -->
-    <file src="..\Binary\PCL\ReactiveProperty.dll" target="lib\netstandard1.1" />
-    <file src="..\Binary\PCL\ReactiveProperty.XML" target="lib\netstandard1.1" />
-    <file src="..\Binary\PCL\ReactiveProperty.pdb" target="lib\netstandard1.1" />
+    <file src="..\Binary\netstandard1.3\ReactiveProperty.dll" target="lib\netstandard1.3" />
+    <file src="..\Binary\netstandard1.3\ReactiveProperty.xml" target="lib\netstandard1.3" />
+    <file src="..\Binary\netstandard1.3\ReactiveProperty.pdb" target="lib\netstandard1.3" />
   </files>
 </package>
