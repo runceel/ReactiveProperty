@@ -11,11 +11,13 @@ using Android.Views;
 using Android.Widget;
 using System.Reactive.Linq;
 
+
 namespace Reactive.Bindings.Extensions
 {
+#pragma warning disable 1591
+#pragma warning disable 0618
     public static class ViewEventExtensions
     {
-#pragma warning disable 0618
         public static IObservable<Android.InputMethodServices.KeyboardView.KeyEventArgs> KeyAsObservable(this Android.InputMethodServices.KeyboardView self)
         {
             return Observable.FromEvent<EventHandler<Android.InputMethodServices.KeyboardView.KeyEventArgs>, Android.InputMethodServices.KeyboardView.KeyEventArgs>(
@@ -10460,7 +10462,7 @@ namespace Reactive.Bindings.Extensions
                 h => self.FocusChange += h,
                 h => self.FocusChange -= h);
         }
-#pragma warning restore 0618
-
     }
+#pragma warning restore 1591
+#pragma warning restore 0618
 }
