@@ -1,5 +1,19 @@
 # Release note
 
+## v4.0.0-pre1
+### Update
+- Update System.Reactive v4.0.0-preview00001
+
+### Change
+- Change ReaciveProperty constructor accessibility from internal to public
+- Change ReadOnlyReaciveProperty constructor accessibility from internal to public
+
+### Breaking change
+- Remove SerializeHelper
+- Change .NET Standard version from 1.1 to 1.3
+    - Disable .NET Framework 4.5
+	- Disable Windows store app
+
 ## v3.6.0
 ### Breaking change
 - Rename iOS SetBinding method to SetBindingXXXXX(target class name).
