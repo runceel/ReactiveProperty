@@ -8,6 +8,11 @@
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\..\Binary</OutputPath>
+    <DocumentationFile>..\..\Binary\netstandard1.3\ReactiveProperty.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="System.Collections" Version="4.3.0" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.3.0" />
