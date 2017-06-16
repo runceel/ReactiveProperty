@@ -85,9 +85,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ReactiveProperty.Portable\ReactiveProperty.Portable.csproj">
-      <Project>{d5fce62e-0718-43c4-a103-69c155d8d402}</Project>
-      <Name>ReactiveProperty.Portable</Name>
+    <ProjectReference Include="..\ReactiveProperty.NETStandard\ReactiveProperty.NETStandard.csproj">
+      <Project>{157f0f88-34ac-4c49-971f-7027aac757ae}</Project>
+      <Name>ReactiveProperty.NETStandard</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

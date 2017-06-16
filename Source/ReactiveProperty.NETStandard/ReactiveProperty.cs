@@ -10,6 +10,7 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using Reactive.Bindings.Extensions;
+using Reactive.Bindings.Internals;
 
 namespace Reactive.Bindings
 {
@@ -85,8 +86,7 @@ namespace Reactive.Bindings
             this.ErrorsTrigger = new Lazy<BehaviorSubject<IEnumerable>>(() => new BehaviorSubject<IEnumerable>(this.GetErrors(null)));
         }
 
-        // ToReactiveProperty Only
-        internal ReactiveProperty(
+        public ReactiveProperty(
             IObservable<T> source,
             T initialValue = default(T),
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe)
@@ -94,7 +94,7 @@ namespace Reactive.Bindings
         {
         }
 
-        internal ReactiveProperty(
+        public ReactiveProperty(
             IObservable<T> source,
             IScheduler raiseEventScheduler,
             T initialValue = default(T),

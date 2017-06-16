@@ -13,7 +13,6 @@
         <Button Command="{Binding NavigateBasics}">ReactiveProperty Basics</Button>
         <Button Command="{Binding NavigateAsync}">Asynchronous</Button>
         <Button Command="{Binding NavigateValidation}">Validation</Button>
-        <Button Command="{Binding NavigateSerialization}">Serialization</Button>
         <Button Command="{Binding NavigateEventToReactive}">EventToReactive Trigger</Button>
         <Button Command="{Binding NavigateSynchronize}">Synchronize Object</Button>
         <Button Command="{Binding NavigateEventToReactiveCommand}">EventToReactiveCommand</Button>

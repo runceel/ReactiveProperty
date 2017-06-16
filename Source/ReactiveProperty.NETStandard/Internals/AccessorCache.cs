@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Reactive.Bindings.Extensions
+namespace Reactive.Bindings.Internals
 {
-    internal static class AccessorCache<TType>
+    public static class AccessorCache<TType>
     {
         private static readonly Dictionary<string, Delegate> getCache = new Dictionary<string, Delegate>();
         private static readonly Dictionary<string, Delegate> setCache = new Dictionary<string, Delegate>();

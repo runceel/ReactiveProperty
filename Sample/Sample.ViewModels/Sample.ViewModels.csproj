@@ -54,7 +54,6 @@
     <Compile Include="AsynchronousViewModel.cs" />
     <Compile Include="EventToReactivePropertyViewModel.cs" />
     <Compile Include="ReactivePropertyBasicsViewModel.cs" />
-    <Compile Include="SerializationViewModel.cs" />
     <Compile Include="SynchronizeObjectViewModel.cs" />
     <Compile Include="ValidationViewModel.cs" />
   </ItemGroup>
@@ -63,9 +62,9 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Source\ReactiveProperty.Portable\ReactiveProperty.Portable.csproj">
-      <Project>{d5fce62e-0718-43c4-a103-69c155d8d402}</Project>
-      <Name>ReactiveProperty.Portable</Name>
+    <ProjectReference Include="..\..\Source\ReactiveProperty.NETStandard\ReactiveProperty.NETStandard.csproj">
+      <Project>{157f0f88-34ac-4c49-971f-7027aac757ae}</Project>
+      <Name>ReactiveProperty.NETStandard</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

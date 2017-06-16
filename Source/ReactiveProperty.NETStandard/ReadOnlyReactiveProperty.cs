@@ -24,7 +24,7 @@ namespace Reactive.Bindings
 
         private bool IsRaiseLatestValueOnSubscribe { get; }
 
-        internal ReadOnlyReactiveProperty(
+        public ReadOnlyReactiveProperty(
             IObservable<T> source, 
             T initialValue = default(T), 
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe,

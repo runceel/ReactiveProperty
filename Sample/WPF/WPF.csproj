@@ -220,9 +220,6 @@
     <Compile Include="Views\ReactivePropertyBasics.xaml.cs">
       <DependentUpon>ReactivePropertyBasics.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Serialization.xaml.cs">
-      <DependentUpon>Serialization.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\SynchronizeObject.xaml.cs">
       <DependentUpon>SynchronizeObject.xaml</DependentUpon>
     </Compile>
@@ -265,10 +262,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Serialization.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\SynchronizeObject.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -305,13 +298,13 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Source\ReactiveProperty.NETStandard\ReactiveProperty.NETStandard.csproj">
+      <Project>{157f0f88-34ac-4c49-971f-7027aac757ae}</Project>
+      <Name>ReactiveProperty.NETStandard</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Source\ReactiveProperty.Platform.NET46\ReactiveProperty.Platform.NET46.csproj">
       <Project>{883c5447-2778-43e4-8cde-6a594b342acd}</Project>
       <Name>ReactiveProperty.Platform.NET46</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Source\ReactiveProperty.Portable\ReactiveProperty.Portable.csproj">
-      <Project>{d5fce62e-0718-43c4-a103-69c155d8d402}</Project>
-      <Name>ReactiveProperty.Portable</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sample.ViewModels\Sample.ViewModels.csproj">
       <Project>{4aa39c19-6571-4a9f-8722-2d7240d425d1}</Project>

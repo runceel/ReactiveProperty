@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Reactive.Bindings.Extensions;
+using Reactive.Bindings.Internals;
 
 namespace ReactiveProperty.Tests.Extensions
 {

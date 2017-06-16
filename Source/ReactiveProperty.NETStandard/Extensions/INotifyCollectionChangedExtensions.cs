@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Reactive.Bindings.Internals;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;

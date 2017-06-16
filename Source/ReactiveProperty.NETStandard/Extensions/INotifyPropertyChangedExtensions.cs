@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using System.Reactive.Linq;
 using System.Reactive.Concurrency;
 using System.Collections;
+using Reactive.Bindings.Internals;
 
 namespace Reactive.Bindings.Extensions
 {

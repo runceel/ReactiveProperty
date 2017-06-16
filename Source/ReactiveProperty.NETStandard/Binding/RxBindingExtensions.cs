@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using System.Reactive;
 using System.Reactive.Disposables;
 using Reactive.Bindings.Extensions;
+using Reactive.Bindings.Internals;
 
 namespace Reactive.Bindings.Binding
 {

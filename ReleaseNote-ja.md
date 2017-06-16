@@ -1,4 +1,19 @@
 # リリースノート
+
+## v4.0.0-pre1
+### 更新
+- System.Reactive v4.0.0-preview00001 に更新
+
+### 変更
+- ReactiveProperty の internal なコンストラクタを public に変更しました
+- ReadOnlyReactiveProperty の internal なコンストラクタを public に変更しました
+
+### 破壊的変更
+- SerializeHelper の削除
+- .NET Standard 1.1 から .NET Standard 1.3 に変更
+    - .NET Framework 4.5 を対応プラットフォームから外しました
+	- Windows store app を対応プラットフォームから外しました
+
 ## v3.6.0
 ### 破壊的変更
 - iOS向けのSetBindingメソッドをSetBindingXXXXX(対象のクラス名)に変更しました
