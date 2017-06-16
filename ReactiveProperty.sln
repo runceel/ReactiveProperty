@@ -38,7 +38,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{A9542547-5
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildTools", "BuildTools", "{217A0F6B-BDE7-4D6A-BF3D-8B273FB2AA69}"
 	ProjectSection(SolutionItems) = preProject
-		BuildTools\Ionic.Zip.dll = BuildTools\Ionic.Zip.dll
 		BuildTools\NuGet.exe = BuildTools\NuGet.exe
 		BuildTools\pack.bat = BuildTools\pack.bat
 		BuildTools\push.bat = BuildTools\push.bat
@@ -493,8 +492,8 @@ Global
 		{157F0F88-34AC-4C49-971F-7027AAC757AE} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		BuildVersion_UseGlobalSettings = True
 		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
+		BuildVersion_UseGlobalSettings = True
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = ReactiveProperty.vsmdi
