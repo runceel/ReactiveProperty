@@ -6,7 +6,7 @@ namespace Reactive.Bindings
 {
     /// <summary>
     /// <para>If call Schedule on UIThread then schedule immediately else dispatch BeginInvoke.</para>
-    /// <para>UIDIspatcherScheduler is created when access to UIDispatcher.Default first in the whole application.</para>
+    /// <para>UIDispatcherScheduler is created when access to UIDispatcher.Default first in the whole application.</para>
     /// <para>If you want to explicitly initialize, call UIDispatcherScheduler.Initialize() in App.xaml.cs.</para>
     /// </summary>
     public static class UIDispatcherScheduler
@@ -24,7 +24,7 @@ namespace Reactive.Bindings
 
         /// <summary>
         /// <para>If call Schedule on UIThread then schedule immediately else dispatch BeginInvoke.</para>
-        /// <para>UIDIspatcherScheduler is created when access to UIDispatcher.Default first in the whole application.</para>
+        /// <para>UIDispatcherScheduler is created when access to UIDispatcher.Default first in the whole application.</para>
         /// <para>If you want to explicitly initialize, call UIDispatcherScheduler.Initialize() in App.xaml.cs.</para>
         /// </summary>
         public static IScheduler Default => DefaultScheduler.Value;
