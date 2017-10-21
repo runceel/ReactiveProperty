@@ -1,11 +1,11 @@
 ﻿{
   "dependencies": {
-    "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
+    "Microsoft.NETCore.UniversalWindowsPlatform": "6.0.1",
     "Microsoft.Xaml.Behaviors.Uwp.Managed": "2.0.0",
     "System.Reactive": "4.0.0-preview00001"
   },
   "frameworks": {
-    "uap10.0": {}
+    "uap10.0.10240": {}
   },
   "runtimes": {
     "win10-arm": {},

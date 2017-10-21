@@ -20,7 +20,7 @@
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <TargetFrameworkVersion>v6.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v7.1</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -61,6 +61,9 @@
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.ObjectModel" />
+    <Reference Include="System.Reactive, Version=4.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Reactive.4.0.0-preview00001\lib\netstandard1.3\System.Reactive.dll</HintPath>
+    </Reference>
     <Reference Include="System.Reactive.Core, Version=3.0.3000.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Reactive.Core.3.1.1\lib\netstandard1.3\System.Reactive.Core.dll</HintPath>
       <Private>True</Private>
@@ -120,13 +123,13 @@
     <Content Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Source\ReactiveProperty.NETStandard\ReactiveProperty.NETStandard.csproj">
+      <Project>{157f0f88-34ac-4c49-971f-7027aac757ae}</Project>
+      <Name>ReactiveProperty.NETStandard</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Source\ReactiveProperty.Platform.Android\ReactiveProperty.Platform.Android.csproj">
       <Project>{abf4f434-e274-4980-b1d1-aadcf75685a0}</Project>
       <Name>ReactiveProperty.Platform.Android</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Source\ReactiveProperty.Portable\ReactiveProperty.Portable.csproj">
-      <Project>{d5fce62e-0718-43c4-a103-69c155d8d402}</Project>
-      <Name>ReactiveProperty.Portable</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sample.ViewModels\Sample.ViewModels.csproj">
       <Project>{4aa39c19-6571-4a9f-8722-2d7240d425d1}</Project>
