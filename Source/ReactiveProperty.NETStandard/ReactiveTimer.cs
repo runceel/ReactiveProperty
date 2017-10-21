@@ -2,19 +2,23 @@
 using System.Reactive.Subjects;
 using System.Reactive.Disposables;
 using System.Reactive.Concurrency;
+using System.ComponentModel;
 
 namespace Reactive.Bindings
 {
     /// <summary>
     /// Hot(stoppable/continuable) observable timer.
     /// </summary>
-    public class ReactiveTimer : IObservable<long>, IDisposable
+    public class ReactiveTimer : IObservable<long>, IDisposable, INotifyPropertyChanged
     {
+        private static PropertyChangedEventArgs IsEnabledPropertyChangedEventArs { get; } = new PropertyChangedEventArgs(nameof(IsEnabled));
         private long Count { get; set; } = 0;
         private bool IsDisposed { get; set; } = false;
         private SerialDisposable Disposable { get; } = new SerialDisposable();
         private IScheduler Scheduler { get; }
         private Subject<long> Subject { get; } = new Subject<long>();
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>Operate scheduler ThreadPoolScheduler.</summary>
         public ReactiveTimer(TimeSpan interval)
@@ -31,17 +35,41 @@ namespace Reactive.Bindings
         /// <summary>Timer interval.</summary>
         public TimeSpan Interval { get; set; }
 
+        private bool isEnabled;
+
+        public bool IsEnabled
+        {
+            get => this.isEnabled;
+            private set
+            {
+                if (this.isEnabled == value)
+                {
+                    return;
+                }
+
+                this.isEnabled = value;
+                this.PropertyChanged?.Invoke(this, IsEnabledPropertyChangedEventArs);
+            }
+        }
+
         /// <summary>Start timer immediately.</summary>
         public void Start() => Start(TimeSpan.Zero);
 
         /// <summary>Start timer after dueTime.</summary>
-        public void Start(TimeSpan dueTime) =>
-            Disposable.Disposable = Scheduler.Schedule(dueTime,
-                self =>
-                {
-                    Subject.OnNext(Count++);
-                    self(Interval);
-                });
+        public void Start(TimeSpan dueTime)
+        {
+            Disposable.Disposable = new CompositeDisposable
+            {
+                Scheduler.Schedule(dueTime,
+                    self =>
+                    {
+                        Subject.OnNext(Count++);
+                        self(Interval);
+                    }),
+                System.Reactive.Disposables.Disposable.Create(() => this.IsEnabled = false),
+            };
+            this.IsEnabled = true;
+        }
 
         /// <summary>Stop timer.</summary>
         public void Stop() =>

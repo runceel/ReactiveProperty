@@ -1,5 +1,9 @@
 # Release note
 
+## v4.0.0-pre4
+### Add
+- Add IsEnabled property to ReactiveTimer class.
+
 ## v4.0.0-pre1
 ### Update
 - Update System.Reactive v4.0.0-preview00001
