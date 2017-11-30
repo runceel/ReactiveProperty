@@ -1,5 +1,9 @@
 # Release note
 
+## v4.0.0-preXXX
+### Add
+- Add PropertyChanged event to Interval property of ReactiveTimer class.
+
 ## v4.0.0-pre4
 ### Add
 - Add IsEnabled property to ReactiveTimer class.
