@@ -12,6 +12,7 @@ namespace Reactive.Bindings
     public class ReactiveTimer : IObservable<long>, IDisposable, INotifyPropertyChanged
     {
         private static PropertyChangedEventArgs IsEnabledPropertyChangedEventArs { get; } = new PropertyChangedEventArgs(nameof(IsEnabled));
+        private static PropertyChangedEventArgs IntervalPropertyChangedEventArgs { get; } = new PropertyChangedEventArgs(nameof(Interval));
         private long Count { get; set; } = 0;
         private bool IsDisposed { get; set; } = false;
         private SerialDisposable Disposable { get; } = new SerialDisposable();
@@ -32,8 +33,25 @@ namespace Reactive.Bindings
             this.Scheduler = scheduler;
         }
 
+        private TimeSpan interval;
+
         /// <summary>Timer interval.</summary>
-        public TimeSpan Interval { get; set; }
+        public TimeSpan Interval
+        {
+            get { return this.interval; }
+            set
+            {
+                if (this.interval == value)
+                {
+                    return;
+                }
+
+                this.interval = value;
+                this.PropertyChanged?.Invoke(this, IntervalPropertyChangedEventArgs);
+            }
+        }
+
+
 
         private bool isEnabled;
 

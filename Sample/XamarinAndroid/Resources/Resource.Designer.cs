@@ -27,7 +27,6 @@ namespace XamarinAndroid
 		public static void UpdateIdValues()
 		{
 			global::Reactive.Bindings.Resource.String.ApplicationName = global::XamarinAndroid.Resource.String.ApplicationName;
-			global::Reactive.Bindings.Resource.String.Hello = global::XamarinAndroid.Resource.String.Hello;
 		}
 		
 		public partial class Attribute
@@ -130,11 +129,8 @@ namespace XamarinAndroid
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f040001
-			public const int ApplicationName = 2130968577;
-			
 			// aapt resource value: 0x7f040000
-			public const int Hello = 2130968576;
+			public const int ApplicationName = 2130968576;
 			
 			static String()
 			{
