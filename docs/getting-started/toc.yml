@@ -1,6 +1,0 @@
-- name: Universal Windows Platform
-  href: uwp.md
-- name: Windows Presentation Foundation
-  href: wpf.md
-- name: Xamarin.Forms
-  href: xamarin.forms.md
