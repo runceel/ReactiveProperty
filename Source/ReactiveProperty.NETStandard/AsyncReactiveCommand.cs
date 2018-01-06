@@ -47,10 +47,12 @@ namespace Reactive.Bindings
             => this.Subscribe(async _ => await asyncAction());
     }
 
+    /// <summary>
+    /// Async version ReactiveCommand
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class AsyncReactiveCommand<T> : ICommand, IDisposable
     {
-        static readonly Task EmptyTask = Task.FromResult<object>(null);
-
         public event EventHandler CanExecuteChanged;
 
         readonly object gate = new object();
@@ -126,7 +128,7 @@ namespace Reactive.Bindings
                 {
                     try
                     {
-                        var asyncState = a[0].Invoke(parameter) ?? EmptyTask;
+                        var asyncState = a[0].Invoke(parameter) ?? Task.CompletedTask;
                         await asyncState;
                     }
                     finally
@@ -141,7 +143,7 @@ namespace Reactive.Bindings
                     {
                         for (int i = 0; i < a.Length; i++)
                         {
-                            xs[i] = a[i].Invoke(parameter) ?? EmptyTask;
+                            xs[i] = a[i].Invoke(parameter) ?? Task.CompletedTask;
                         }
 
                         await Task.WhenAll(xs);
@@ -205,6 +207,9 @@ namespace Reactive.Bindings
         }
     }
 
+    /// <summary>
+    /// AsyncReactiveCommand factory and extension methods.
+    /// </summary>
     public static class AsyncReactiveCommandExtensions
     {
         /// <summary>
@@ -233,5 +238,34 @@ namespace Reactive.Bindings
         /// </summary>
         public static AsyncReactiveCommand<T> ToAsyncReactiveCommand<T>(this IReactiveProperty<bool> sharedCanExecute) =>
             new AsyncReactiveCommand<T>(sharedCanExecute);
+
+        /// <summary>
+        /// Subscribe execute.
+        /// </summary>
+        /// <param name="self">AsyncReactiveCommand</param>
+        /// <param name="asyncAction">Action</param>
+        /// <param name="postProcess">Handling of the subscription.</param>
+        /// <returns>Same of self argument</returns>
+        public static AsyncReactiveCommand WithSubscribe(this AsyncReactiveCommand self, Func<Task> asyncAction, Action<IDisposable> postProcess = null)
+        {
+            var d = self.Subscribe(asyncAction);
+            postProcess?.Invoke(d);
+            return self;
+        }
+
+        /// <summary>
+        /// Subscribe execute.
+        /// </summary>
+        /// <typeparam name="T">AsyncReactiveCommand type argument.</typeparam>
+        /// <param name="self">AsyncReactiveCommand</param>
+        /// <param name="asyncAction">Action</param>
+        /// <param name="postProcess">Handling of the subscription.</param>
+        /// <returns>Same of self argument</returns>
+        public static AsyncReactiveCommand<T> WithSubscribe<T>(this AsyncReactiveCommand<T> self, Func<T, Task> asyncAction, Action<IDisposable> postProcess = null)
+        {
+            var d = self.Subscribe(asyncAction);
+            postProcess?.Invoke(d);
+            return self;
+        }
     }
 }

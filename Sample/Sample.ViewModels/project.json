@@ -1,7 +1,7 @@
 ﻿{
   "supports": {},
   "dependencies": {
-    "Microsoft.CSharp": "4.4.0",
+    "Microsoft.CSharp": "4.4.1",
     "System.Reactive": "4.0.0-preview00001"
   },
   "frameworks": {

@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 
 namespace Reactive.Bindings
 {
-    // for EventToReactive and Serialization
+    /// <summary>
+    /// for EventToReactive and Serialization
+    /// </summary>
     public interface IReactiveProperty : IHasErrors
     {
         object Value { get; set; }

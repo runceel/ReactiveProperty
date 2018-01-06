@@ -53,8 +53,15 @@ namespace Reactive.Bindings
             => this.Subscribe(_ => onNext());
     }
 
+    /// <summary>
+    /// ICommand and IObservable&lt;T&gt; implementation class.
+    /// </summary>
+    /// <typeparam name="T">Type of command argument.</typeparam>
     public class ReactiveCommand<T> : IObservable<T>, ICommand, IDisposable
     {
+        /// <summary>
+        /// ICommand#CanExecuteChanged
+        /// </summary>
         public event EventHandler CanExecuteChanged;
 
         private Subject<T> Trigger { get; } = new Subject<T>();
@@ -137,13 +144,15 @@ namespace Reactive.Bindings
                 Scheduler.Schedule(() =>
                 {
                     IsCanExecute = false;
-                    var handler = CanExecuteChanged;
-                    if (handler != null) handler(this, EventArgs.Empty);
+                    CanExecuteChanged?.Invoke(this, EventArgs.Empty);
                 });
             }
         }
     }
 
+    /// <summary>
+    /// ReactiveCommand factory extension methods.
+    /// </summary>
     public static class ReactiveCommandExtensions
     {
         /// <summary>
@@ -169,5 +178,34 @@ namespace Reactive.Bindings
         /// </summary>
         public static ReactiveCommand<T> ToReactiveCommand<T>(this IObservable<bool> canExecuteSource, IScheduler scheduler, bool initialValue = true) =>
             new ReactiveCommand<T>(canExecuteSource, scheduler, initialValue);
+
+        /// <summary>
+        /// Subscribe execute.
+        /// </summary>
+        /// <param name="self">ReactiveCommand</param>
+        /// <param name="onNext">Action</param>
+        /// <param name="postProcess">Handling of the subscription.</param>
+        /// <returns>Same of self argument</returns>
+        public static ReactiveCommand WithSubscribe(this ReactiveCommand self, Action onNext, Action<IDisposable> postProcess = null)
+        {
+            var d = self.Subscribe(onNext);
+            postProcess?.Invoke(d);
+            return self;
+        }
+
+        /// <summary>
+        /// Subscribe execute.
+        /// </summary>
+        /// <typeparam name="T">ReactiveCommand type argument.</typeparam>
+        /// <param name="self">ReactiveCommand</param>
+        /// <param name="onNext">Action</param>
+        /// <param name="postProcess">Handling of the subscription.</param>
+        /// <returns>Same of self argument</returns>
+        public static ReactiveCommand<T> WithSubscribe<T>(this ReactiveCommand<T> self, Action<T> onNext, Action<IDisposable> postProcess = null)
+        {
+            var d = self.Subscribe(onNext);
+            postProcess?.Invoke(d);
+            return self;
+        }
     }
 }

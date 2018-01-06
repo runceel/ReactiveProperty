@@ -23,9 +23,15 @@ namespace Reactive.Bindings
         public static readonly DataErrorsChangedEventArgs Value = new DataErrorsChangedEventArgs(nameof(ReactiveProperty<object>.Value));
     }
 
+    /// <summary>
+    /// Mode of ReactiveProperty
+    /// </summary>
     [Flags]
     public enum ReactivePropertyMode
     {
+        /// <summary>
+        /// None
+        /// </summary>
         None = 0x00,
         /// <summary>If next value is same as current, not set and not notify.</summary>
         DistinctUntilChanged = 0x01,
@@ -39,6 +45,9 @@ namespace Reactive.Bindings
     /// <typeparam name="T"></typeparam>
     public class ReactiveProperty<T> : IReactiveProperty<T>, IReadOnlyReactiveProperty<T>
     {
+        /// <summary>
+        /// Implements of INotifyPropertyChanged.
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
         private T LatestValue { get; set; }

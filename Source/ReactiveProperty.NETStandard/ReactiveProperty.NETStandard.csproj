@@ -6,6 +6,7 @@
     <RootNamespace>ReactiveProperty</RootNamespace>
     <Description>ReactiveProperty</Description>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <Version>4.0.0-pre5</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -15,7 +16,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.Collections" Version="4.3.0" />
-    <PackageReference Include="System.ComponentModel.Annotations" Version="4.4.0" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.4.1" />
     <PackageReference Include="System.ObjectModel" Version="4.3.0" />
     <PackageReference Include="System.Reactive" Version="4.0.0-preview00001" />
     <PackageReference Include="System.Reflection" Version="4.3.0" />

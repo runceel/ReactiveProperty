@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using Reactive.Bindings;
+using System.Reactive.Disposables;
 
 namespace ReactiveProperty.Tests
 {
@@ -145,6 +146,44 @@ namespace ReactiveProperty.Tests
             task1.SetResult(null);
             command.CanExecute().IsFalse();
             task2.SetResult(null);
+            command.CanExecute().IsTrue();
+        }
+
+        [TestMethod]
+        public void WithSubscribe()
+        {
+            var task1 = new TaskCompletionSource<object>();
+            var task2 = new TaskCompletionSource<object>();
+
+            var subscription = new CompositeDisposable();
+            var command = new AsyncReactiveCommand()
+                .WithSubscribe(() => task1.Task)
+                .WithSubscribe(() => task2.Task, subscription.Add);
+
+            subscription.Dispose();
+
+            command.Execute();
+            command.CanExecute().IsFalse();
+            task1.SetResult(null);
+            command.CanExecute().IsTrue();
+        }
+
+        [TestMethod]
+        public void WithSubscribeGenericVersion()
+        {
+            var task1 = new TaskCompletionSource<object>();
+            var task2 = new TaskCompletionSource<object>();
+
+            var subscription = new CompositeDisposable();
+            var command = new AsyncReactiveCommand<string>()
+                .WithSubscribe(_ => task1.Task)
+                .WithSubscribe(_ => task2.Task, subscription.Add);
+
+            subscription.Dispose();
+
+            command.Execute("x");
+            command.CanExecute().IsFalse();
+            task1.SetResult(null);
             command.CanExecute().IsTrue();
         }
     }

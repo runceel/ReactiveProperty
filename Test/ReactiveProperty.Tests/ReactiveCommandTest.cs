@@ -8,6 +8,7 @@ using System.Reactive.Linq;
 using Microsoft.Reactive.Testing;
 using System.Reactive.Subjects;
 using System.Threading;
+using System.Reactive.Disposables;
 
 namespace ReactiveProperty.Tests
 {
@@ -77,6 +78,78 @@ namespace ReactiveProperty.Tests
                 OnNext(0, 1),
                 OnNext(10, 2),
                 OnNext(20, 3));
+        }
+
+        [TestMethod]
+        public void WithSubscribe()
+        {
+            var testScheduler = new TestScheduler();
+            var recorder1 = testScheduler.CreateObserver<string>();
+            var recorder2 = testScheduler.CreateObserver<string>();
+            var recorder3 = testScheduler.CreateObserver<string>();
+
+            var disposable1 = new CompositeDisposable();
+            var disposable2 = new CompositeDisposable();
+            var cmd = new ReactiveCommand()
+                .WithSubscribe(() => recorder1.OnNext("x"), disposable1.Add)
+                .WithSubscribe(() => recorder2.OnNext("x"), disposable2.Add)
+                .WithSubscribe(() => recorder3.OnNext("x"));
+
+            cmd.Execute();
+            testScheduler.AdvanceBy(10);
+
+            disposable1.Dispose();
+            cmd.Execute();
+            testScheduler.AdvanceBy(10);
+
+            disposable2.Dispose();
+            cmd.Execute();
+
+            recorder1.Messages.Is(
+                OnNext(0, "x"));
+            recorder2.Messages.Is(
+                OnNext(0, "x"),
+                OnNext(10, "x"));
+            recorder3.Messages.Is(
+                OnNext(0, "x"),
+                OnNext(10, "x"),
+                OnNext(20, "x"));
+        }
+
+        [TestMethod]
+        public void WithSubscribeGenericVersion()
+        {
+            var testScheduler = new TestScheduler();
+            var recorder1 = testScheduler.CreateObserver<string>();
+            var recorder2 = testScheduler.CreateObserver<string>();
+            var recorder3 = testScheduler.CreateObserver<string>();
+
+            var disposable1 = new CompositeDisposable();
+            var disposable2 = new CompositeDisposable();
+            var cmd = new ReactiveCommand<string>()
+                .WithSubscribe(x => recorder1.OnNext(x), disposable1.Add)
+                .WithSubscribe(x => recorder2.OnNext(x), disposable2.Add)
+                .WithSubscribe(x => recorder3.OnNext(x));
+
+            cmd.Execute("a");
+            testScheduler.AdvanceBy(10);
+
+            disposable1.Dispose();
+            cmd.Execute("b");
+            testScheduler.AdvanceBy(10);
+
+            disposable2.Dispose();
+            cmd.Execute("c");
+
+            recorder1.Messages.Is(
+                OnNext(0, "a"));
+            recorder2.Messages.Is(
+                OnNext(0, "a"),
+                OnNext(10, "b"));
+            recorder3.Messages.Is(
+                OnNext(0, "a"),
+                OnNext(10, "b"),
+                OnNext(20, "c"));
         }
     }
 }
