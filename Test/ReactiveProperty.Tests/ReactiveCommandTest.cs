@@ -151,5 +151,78 @@ namespace ReactiveProperty.Tests
                 OnNext(10, "b"),
                 OnNext(20, "c"));
         }
+
+        [TestMethod]
+        public void WithSubscribeDisposableOverride()
+        {
+            var testScheduler = new TestScheduler();
+            var recorder1 = testScheduler.CreateObserver<string>();
+            var recorder2 = testScheduler.CreateObserver<string>();
+            var recorder3 = testScheduler.CreateObserver<string>();
+
+            IDisposable disposable1;
+            IDisposable disposable2;
+            var cmd = new ReactiveCommand()
+                .WithSubscribe(() => recorder1.OnNext("x"), out disposable1)
+                .WithSubscribe(() => recorder2.OnNext("x"), out disposable2)
+                .WithSubscribe(() => recorder3.OnNext("x"));
+
+            cmd.Execute();
+            testScheduler.AdvanceBy(10);
+
+            disposable1.Dispose();
+            cmd.Execute();
+            testScheduler.AdvanceBy(10);
+
+            disposable2.Dispose();
+            cmd.Execute();
+
+            recorder1.Messages.Is(
+                OnNext(0, "x"));
+            recorder2.Messages.Is(
+                OnNext(0, "x"),
+                OnNext(10, "x"));
+            recorder3.Messages.Is(
+                OnNext(0, "x"),
+                OnNext(10, "x"),
+                OnNext(20, "x"));
+        }
+
+        [TestMethod]
+        public void WithSubscribeDisposableOverrideGenericVersion()
+        {
+            var testScheduler = new TestScheduler();
+            var recorder1 = testScheduler.CreateObserver<string>();
+            var recorder2 = testScheduler.CreateObserver<string>();
+            var recorder3 = testScheduler.CreateObserver<string>();
+
+            IDisposable disposable1;
+            IDisposable disposable2;
+            var cmd = new ReactiveCommand<string>()
+                .WithSubscribe(x => recorder1.OnNext(x), out disposable1)
+                .WithSubscribe(x => recorder2.OnNext(x), out disposable2)
+                .WithSubscribe(x => recorder3.OnNext(x));
+
+            cmd.Execute("a");
+            testScheduler.AdvanceBy(10);
+
+            disposable1.Dispose();
+            cmd.Execute("b");
+            testScheduler.AdvanceBy(10);
+
+            disposable2.Dispose();
+            cmd.Execute("c");
+
+            recorder1.Messages.Is(
+                OnNext(0, "a"));
+            recorder2.Messages.Is(
+                OnNext(0, "a"),
+                OnNext(10, "b"));
+            recorder3.Messages.Is(
+                OnNext(0, "a"),
+                OnNext(10, "b"),
+                OnNext(20, "c"));
+        }
+
     }
 }

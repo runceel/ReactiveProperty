@@ -267,5 +267,32 @@ namespace Reactive.Bindings
             postProcess?.Invoke(d);
             return self;
         }
+
+        /// <summary>
+        /// Subscribe execute.
+        /// </summary>
+        /// <param name="self">AsyncReactiveCommand</param>
+        /// <param name="asyncAction">Action</param>
+        /// <param name="disposable">The return value of self.Subscribe(asyncAction)</param>
+        /// <returns>Same of self argument</returns>
+        public static AsyncReactiveCommand WithSubscribe(this AsyncReactiveCommand self, Func<Task> asyncAction, out IDisposable disposable)
+        {
+            disposable = self.Subscribe(asyncAction);
+            return self;
+        }
+
+        /// <summary>
+        /// Subscribe execute.
+        /// </summary>
+        /// <typeparam name="T">AsyncReactiveCommand type argument.</typeparam>
+        /// <param name="self">AsyncReactiveCommand</param>
+        /// <param name="asyncAction">Action</param>
+        /// <param name="disposable">The return value of self.Subscribe(asyncAction)</param>
+        /// <returns>Same of self argument</returns>
+        public static AsyncReactiveCommand<T> WithSubscribe<T>(this AsyncReactiveCommand<T> self, Func<T, Task> asyncAction, out IDisposable disposable)
+        {
+            disposable = self.Subscribe(asyncAction);
+            return self;
+        }
     }
 }

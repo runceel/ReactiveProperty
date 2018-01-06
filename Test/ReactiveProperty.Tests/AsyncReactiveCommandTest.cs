@@ -186,5 +186,43 @@ namespace ReactiveProperty.Tests
             task1.SetResult(null);
             command.CanExecute().IsTrue();
         }
+
+        [TestMethod]
+        public void WithSubscribeDisposableOverride()
+        {
+            var task1 = new TaskCompletionSource<object>();
+            var task2 = new TaskCompletionSource<object>();
+
+            IDisposable subscription;
+            var command = new AsyncReactiveCommand()
+                .WithSubscribe(() => task1.Task)
+                .WithSubscribe(() => task2.Task, out subscription);
+
+            subscription.Dispose();
+
+            command.Execute();
+            command.CanExecute().IsFalse();
+            task1.SetResult(null);
+            command.CanExecute().IsTrue();
+        }
+
+        [TestMethod]
+        public void WithSubscribeDisposableOverrideGenericVersion()
+        {
+            var task1 = new TaskCompletionSource<object>();
+            var task2 = new TaskCompletionSource<object>();
+
+            IDisposable subscription;
+            var command = new AsyncReactiveCommand<string>()
+                .WithSubscribe(_ => task1.Task)
+                .WithSubscribe(_ => task2.Task, out subscription);
+
+            subscription.Dispose();
+
+            command.Execute("x");
+            command.CanExecute().IsFalse();
+            task1.SetResult(null);
+            command.CanExecute().IsTrue();
+        }
     }
 }
