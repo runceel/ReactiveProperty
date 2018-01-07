@@ -2,7 +2,7 @@
 
 ## Create a project
 - Create a WPF App (.NET Framework) project.
-- Install the ReactiveProperty from NuGet.
+- Install ReactiveProperty from NuGet.
 
 ## Edit codes
 - Create a MainWindowViewModel.cs file.
