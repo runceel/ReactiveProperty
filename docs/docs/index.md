@@ -1,10 +1,10 @@
-# ReactiveProperty documentation
+# What is ReactiveProperty
 
 ReactiveProperty provides MVVM and asynchronous support features under Reactive Extensions. Target framework is .NET 4.6, UWP, Xamarin.iOS, Xamarin.Android, Xamarin.Mac, Xamarin.Forms and .NET Standard 1.3.
 
 ![Summary](images/rpsummary.png)
 
-Concept of ReactiveProperty is `Fun the programing.`
+Concept of ReactiveProperty is <b>Fun programing</b>.
 You can write MVVM pattern program using ReactiveProperty very fun.
 
 ![UWP](images/launch-uwp-app.gif)
@@ -39,7 +39,7 @@ class ViewModel
 }
 ```
 
-ReactiveProperty is implemented the IObservable&lt;T&gt;. Yes! You can use the LINQ.
+ReactiveProperty is implemented the IObservable&lt;T&gt;. Yes! You can use LINQ.
 
 ```cs
 var name = new ReactiveProperty<string>();
@@ -67,9 +67,9 @@ class ViewModel
 }
 ```
 
-I think that this method chain is very cool.
+This method chain is very cool.
 
-And we provide the ReactiveCommand class what implements ICommand and IObservable&lt;T&gt; interface. ReactiveCommand can create from IObservable&lt;bool&gt;
+And we provide ReactiveCommand class what implements ICommand and IObservable&lt;T&gt; interfaces. ReactiveCommand can create from an IObservable&lt;bool&gt;
 
 ```cs
 var command = Observable.Interval(TimeSpan.FromSecond(1))
@@ -83,8 +83,11 @@ command.Subscribe(_ =>
 
 You can start the ReactiveProperty from following links.
 
-- Getting started
-    - [WPF](getting-started/wpf.md)
-    - [UWP](getting-started/uwp.md)
-    - [Xamarin.Forms](getting-started/xamarin-forms.md)
-    
+- [Windows Presentation Foundation](getting-started/Windows-Presentation-Foundation.md)
+- [Universal Windows Platform](getting-started/Universal-Windows-Platform.md)
+- [Xamarin.Forms](getting-started/Xamarin-Forms.md)
+
+And learn to core features at following links.
+
+- [ReactiveProperty](features/ReactiveProperty.md)
+- [Commanding](features/Commanding.md)

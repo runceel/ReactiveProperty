@@ -1,4 +1,4 @@
-# UWP
+# Universal Windows Platform
 
 ## Create a project
 - Create a Blank App (Universal Windows) project.
@@ -6,9 +6,9 @@
 
       ![Target version](images/uwp-target-version.png)
       
-      The ReactiveProperty target the .NET Standard 1.3. You can use this library with the another version UWP. My recomended version is after the Createors Update. After this version can use compile time binding.
+      ReactiveProperty target the .NET Standard 1.3. You can use this library with the another version UWP. My recomended version is after the Createors Update. After this version can use compile time binding.
 
-- Install the ReactiveProperty package from NuGet.
+- Install ReactiveProperty package from NuGet.
 
 ## Edit codes
 - Create a MainPageViewModel.cs file.
