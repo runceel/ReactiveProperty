@@ -1,6 +1,6 @@
 The MIT License (MIT)
 
-Copyright (c) 2016 neuecc, xin9le, okazuki
+Copyright (c) 2018 neuecc, xin9le, okazuki
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
