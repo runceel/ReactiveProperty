@@ -1,3 +1,0 @@
-# Windows Presentation Foundation
-
-TODO

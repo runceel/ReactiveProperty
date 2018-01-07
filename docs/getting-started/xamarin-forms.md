@@ -1,3 +1,0 @@
-# Xamarin.Forms
-
-TDB

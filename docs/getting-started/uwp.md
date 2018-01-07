@@ -1,3 +1,0 @@
-# Universal Windows Platform
-
-TODO

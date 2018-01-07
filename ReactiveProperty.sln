@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.13
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{592AA479-AD7F-476B-AEF8-2B0268EA3BD8}"
 EndProject
@@ -25,16 +25,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Snippet", "Snippet", "{9F7EFC36-593F-4521-B678-41B00A6642B1}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{A9542547-5556-442E-ACCB-6DB437E5E25C}"
-	ProjectSection(SolutionItems) = preProject
-		Docs\(JPN)Session_SilverlightSquareInTokyo4.pptx = Docs\(JPN)Session_SilverlightSquareInTokyo4.pptx
-		Docs\Asset.pptx = Docs\Asset.pptx
-		Docs\ReactiveProperty.chm = Docs\ReactiveProperty.chm
-		Docs\ReactivePropertyIcon_100x100.png = Docs\ReactivePropertyIcon_100x100.png
-		Docs\ReactivePropertyIcon_511x511.png = Docs\ReactivePropertyIcon_511x511.png
-		Docs\ReadMe.txt = Docs\ReadMe.txt
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildTools", "BuildTools", "{217A0F6B-BDE7-4D6A-BF3D-8B273FB2AA69}"
 	ProjectSection(SolutionItems) = preProject
@@ -103,11 +93,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.Platform.U
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.Platform.iOS", "Source\ReactiveProperty.Platform.iOS\ReactiveProperty.Platform.iOS.csproj", "{A54AE997-6255-4000-A4CE-3F8D6D8F0026}"
 EndProject
-Project("{7CF6DF6D-3B04-46F8-A40B-537D21BCA0B4}") = "DocumentationProject", "Docs\DocumentationProject\DocumentationProject.shfbproj", "{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4}"
-EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ReactiveProperty.Platform.Shared", "Source\ReactiveProperty.Platform.Shared\ReactiveProperty.Platform.Shared.shproj", "{523E5506-24DF-44CA-83CC-6AA02454F150}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.NETStandard", "Source\ReactiveProperty.NETStandard\ReactiveProperty.NETStandard.csproj", "{157F0F88-34AC-4C49-971F-7027AAC757AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReactiveProperty.NETStandard", "Source\ReactiveProperty.NETStandard\ReactiveProperty.NETStandard.csproj", "{157F0F88-34AC-4C49-971F-7027AAC757AE}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -409,34 +397,6 @@ Global
 		{A54AE997-6255-4000-A4CE-3F8D6D8F0026}.Release|x64.Build.0 = Release|Any CPU
 		{A54AE997-6255-4000-A4CE-3F8D6D8F0026}.Release|x86.ActiveCfg = Release|Any CPU
 		{A54AE997-6255-4000-A4CE-3F8D6D8F0026}.Release|x86.Build.0 = Release|Any CPU
-		{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4}.Debug|ARM.Build.0 = Debug|Any CPU
-		{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4}.Debug|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4}.Debug|x64.Build.0 = Debug|Any CPU
-		{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4}.Debug|x86.Build.0 = Debug|Any CPU
-		{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4}.Documentation|Any CPU.ActiveCfg = Documentation|Any CPU
-		{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4}.Documentation|Any CPU.Build.0 = Documentation|Any CPU
-		{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4}.Documentation|ARM.ActiveCfg = Documentation|Any CPU
-		{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4}.Documentation|ARM.Build.0 = Documentation|Any CPU
-		{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4}.Documentation|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4}.Documentation|Mixed Platforms.Build.0 = Release|Any CPU
-		{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4}.Documentation|x64.ActiveCfg = Documentation|Any CPU
-		{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4}.Documentation|x64.Build.0 = Documentation|Any CPU
-		{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4}.Documentation|x86.ActiveCfg = Documentation|Any CPU
-		{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4}.Documentation|x86.Build.0 = Documentation|Any CPU
-		{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4}.Release|ARM.ActiveCfg = Release|Any CPU
-		{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4}.Release|ARM.Build.0 = Release|Any CPU
-		{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4}.Release|x64.ActiveCfg = Release|Any CPU
-		{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4}.Release|x64.Build.0 = Release|Any CPU
-		{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4}.Release|x86.ActiveCfg = Release|Any CPU
-		{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4}.Release|x86.Build.0 = Release|Any CPU
 		{157F0F88-34AC-4C49-971F-7027AAC757AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{157F0F88-34AC-4C49-971F-7027AAC757AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{157F0F88-34AC-4C49-971F-7027AAC757AE}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -484,13 +444,13 @@ Global
 		{883C5447-2778-43E4-8CDE-6A594B342ACD} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
 		{CD8F2562-E3A0-4F6D-8285-70349597ADBC} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
 		{A54AE997-6255-4000-A4CE-3F8D6D8F0026} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
-		{12BFF19F-18EB-4AFB-AAAB-B024CCF558D4} = {A9542547-5556-442E-ACCB-6DB437E5E25C}
 		{523E5506-24DF-44CA-83CC-6AA02454F150} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
 		{157F0F88-34AC-4C49-971F-7027AAC757AE} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		BuildVersion_UseGlobalSettings = True
 		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
+		BuildVersion_UseGlobalSettings = True
+		SolutionGuid = {5AC43AC2-86FE-46EF-B243-5C8E75EAB89B}
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = ReactiveProperty.vsmdi
