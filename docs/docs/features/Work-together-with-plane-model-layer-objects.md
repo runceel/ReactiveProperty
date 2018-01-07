@@ -1,4 +1,4 @@
-# Work with plane model layer objects
+# Work together with plane model layer objects
 
 The classes of this library can work together with POCO classes.
 
