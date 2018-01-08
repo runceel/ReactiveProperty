@@ -1,8 +1,8 @@
 # Release note
 
-## v4.0.0-preXXX
-### Add
-- Add PropertyChanged event to Interval property of ReactiveTimer class.
+New release notes see below.
+
+[Releases](https://github.com/runceel/ReactiveProperty/releases)
 
 ## v4.0.0-pre4
 ### Add

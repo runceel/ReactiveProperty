@@ -13,4 +13,5 @@ pages:
     - 'Useful classes which implement IObservable': 'features/Notifiers.md'
     - 'Extension methods': 'features/Extension-methods.md'
     - 'Transfer event to ViewModel from View': 'features/Event-transfer-to-ViewModel-from-View.md'
+- Samples: 'samples.md'
 theme: readthedocs

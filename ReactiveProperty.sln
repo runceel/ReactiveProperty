@@ -11,13 +11,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample", "Sample", "{6356D8
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6EA82B8C-E3AE-4CEF-8666-DD67FEBDE192}"
 	ProjectSection(SolutionItems) = preProject
-		HowToUseXF-ja.md = HowToUseXF-ja.md
-		HowToUseXF.md = HowToUseXF.md
 		LICENSE.txt = LICENSE.txt
 		Local.testsettings = Local.testsettings
 		ReactiveProperty.vsmdi = ReactiveProperty.vsmdi
-		README-Android.md = README-Android.md
-		README-ja.md = README-ja.md
 		README.md = README.md
 		ReleaseNote-ja.md = ReleaseNote-ja.md
 		ReleaseNote.md = ReleaseNote.md
@@ -448,9 +444,9 @@ Global
 		{157F0F88-34AC-4C49-971F-7027AAC757AE} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
-		BuildVersion_UseGlobalSettings = True
 		SolutionGuid = {5AC43AC2-86FE-46EF-B243-5C8E75EAB89B}
+		BuildVersion_UseGlobalSettings = True
+		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = ReactiveProperty.vsmdi
