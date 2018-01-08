@@ -83,9 +83,9 @@ command.Subscribe(_ =>
 
 You can start the ReactiveProperty from following links.
 
-- [Windows Presentation Foundation](getting-started/Windows-Presentation-Foundation.md)
-- [Universal Windows Platform](getting-started/Universal-Windows-Platform.md)
-- [Xamarin.Forms](getting-started/Xamarin-Forms.md)
+- [Windows Presentation Foundation](getting-started/wpf.md)
+- [Universal Windows Platform](getting-started/uwp.md)
+- [Xamarin.Forms](getting-started/xf.md)
 
 And learn to core features at following links.
 
