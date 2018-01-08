@@ -19,7 +19,7 @@ ReactiveProperty provides MVVM and asynchronous support features under Reactive 
 Yoshifumi Kawai a.k.a. [@neuecc](https://twitter.com/neuecc) is software developer in Tokyo, Japan.
 Awarded Microsoft MVP for Visual Studio and Development Technologies since April, 2011.
 
-Takaaki Suzuki a.k.a. [@xin9le](https://twitter.com/xin9le) software devleoper in Fukui, Japan.
+Takaaki Suzuki a.k.a. [@xin9le](https://twitter.com/xin9le) software devleoper in Tokyo, Japan.
 Awarded Microsoft MVP for Visual Studio and Development Technologies since July, 2012.
 
 Kazuki Ota a.k.a. [@okazuki](https://twitter.com/okazuki) software developer in Tokyo, Japan.
