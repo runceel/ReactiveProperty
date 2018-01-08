@@ -1,5 +1,3 @@
-# Work together with plane model layer objects
-
 The classes of this library can work together with POCO classes.
 
 ## Connect to classes that implement INotifyPropertyChanged
@@ -184,3 +182,34 @@ public class ViewModel
 ```
 
 ![Ignore validation error value](images/work-together-with-poco-two-way-synchronization-and-ignoreValidationError.gif)
+
+### One-time synchronization
+
+The FromObject method creates a ReactiveProperty instance from POCO.
+This method set Value property from POCO when the ReactiveProperty instance created.
+
+```cs
+using Reactive.Bindings;
+using System;
+
+namespace ReactivePropertyEduApp
+{
+    class Sample
+    {
+        public string Property1 { get; set; }
+    }
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var sample = new Sample { Property1 = "xxx" };
+
+            var rp = ReactiveProperty.FromObject(sample, x => x.Property1);
+            Console.WriteLine(rp.Value); // -> xxx
+            sample.Property1 = "updated";
+            Console.WriteLine(rp.Value); // -> xxx
+        }
+    }
+}
+```
+

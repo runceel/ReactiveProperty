@@ -1,6 +1,5 @@
-# Commanding
-
 ReactiveCommand class implements following two interfaces.
+
 - ICommand interface
 - IObservable&lt;T&gt;
 

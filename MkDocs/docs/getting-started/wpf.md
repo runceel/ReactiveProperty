@@ -1,5 +1,3 @@
-# Windows Presentation Foundation
-
 ## Create a project
 - Create a WPF App (.NET Framework) project.
 - Install ReactiveProperty from NuGet.

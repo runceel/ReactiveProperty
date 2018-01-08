@@ -91,3 +91,4 @@ And learn to core features at following links.
 
 - [ReactiveProperty](features/ReactiveProperty.md)
 - [Commanding](features/Commanding.md)
+- [Collections](features/Collections.md)

@@ -1,5 +1,3 @@
-# ReactiveProperty
-
 ReactiveProperty is core class of this library.
 This has following features.
 

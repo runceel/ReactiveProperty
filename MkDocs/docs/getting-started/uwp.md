@@ -1,5 +1,3 @@
-# Universal Windows Platform
-
 ## Create a project
 - Create a Blank App (Universal Windows) project.
     - Set a `Target version` item to Windows 10 Fall Creators Update (1.0.: Build 16299) and `Minimum version` item to the same.
