@@ -87,7 +87,7 @@ You can start the ReactiveProperty from following links.
 - [Universal Windows Platform](getting-started/uwp.md)
 - [Xamarin.Forms](getting-started/xf.md)
 
-And learn to core features at following links.
+And learn to core features on following links.
 
 - [ReactiveProperty](features/ReactiveProperty.md)
 - [Commanding](features/Commanding.md)

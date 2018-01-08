@@ -1,8 +1,8 @@
 ReactiveProperty provides some collection classes.
 
-- ReactiveCollection&gt;T&lt;
-- ReadOnlyReactiveCollection&gt;T&lt;
-- IFilteredReadOnlyObservableCollection&gt;T&lt;
+- ReactiveCollection&lt;T&gt;
+- ReadOnlyReactiveCollection&lt;T&gt;
+- IFilteredReadOnlyObservableCollection&lt;T&gt;
 
 ## ReactiveCollection
 
