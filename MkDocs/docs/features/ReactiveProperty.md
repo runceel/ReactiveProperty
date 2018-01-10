@@ -8,7 +8,7 @@ This has following features.
 Yes, The value property can bind to XAML control's property.
 And the class call the IObserver&lt;T&gt;#OnNext method when set the value.
 
-A sample code is below.
+A sample code is as below.
 
 ```cs
 using Reactive.Bindings;
@@ -116,7 +116,7 @@ This is an only limitation of this library.
 <TextBox Text="{Binding Name.Value}" />
 
 <!-- In the UWP(Runtime data binding) -->
-<TextBox Text="{Binding Name}.Value" />
+<TextBox Text="{Binding Name.Value}" />
 
 <!-- In the UWP(Compile time data binding) -->
 <TextBox Text="{x:Bind ViewModel.Name.Value, Mode=TwoWay}" />
