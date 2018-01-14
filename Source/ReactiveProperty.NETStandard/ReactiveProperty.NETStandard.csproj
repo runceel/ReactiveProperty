@@ -7,6 +7,8 @@
     <Description>ReactiveProperty</Description>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <Version>4.0.0-pre5</Version>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
