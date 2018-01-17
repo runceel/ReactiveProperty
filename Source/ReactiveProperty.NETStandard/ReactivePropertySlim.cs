@@ -203,6 +203,13 @@ namespace Reactive.Bindings
             }
         }
 
+        public override string ToString()
+        {
+            return (latestValue == null)
+                ? "null"
+                : latestValue.ToString();
+        }
+
         // NotSupported validation.
 
         bool INotifyDataErrorInfo.HasErrors => throw new NotSupportedException();
@@ -375,6 +382,13 @@ namespace Reactive.Bindings
         {
             // oncompleted same as dispose.
             Dispose();
+        }
+
+        public override string ToString()
+        {
+            return (latestValue == null)
+                ? "null"
+                : latestValue.ToString();
         }
     }
 
