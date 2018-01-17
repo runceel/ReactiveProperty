@@ -251,7 +251,6 @@ namespace Reactive.Bindings
         ObserverNode<T> last;
 
         public event PropertyChangedEventHandler PropertyChanged;
-        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
         public T Value
         {
