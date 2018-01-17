@@ -114,7 +114,7 @@ namespace Reactive.Bindings
         bool IsDistinctUntilChanged => (mode & ReactivePropertyMode.DistinctUntilChanged) == ReactivePropertyMode.DistinctUntilChanged;
         bool IsRaiseLatestValueOnSubscribe => (mode & ReactivePropertyMode.RaiseLatestValueOnSubscribe) == ReactivePropertyMode.RaiseLatestValueOnSubscribe;
 
-        public ReactivePropertySlim(T initialValue = default(T), ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe, EqualityComparer<T> equalityComparer = null)
+        public ReactivePropertySlim(T initialValue = default(T), ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe, IEqualityComparer<T> equalityComparer = null)
         {
             this.latestValue = initialValue;
             this.mode = mode;
@@ -274,7 +274,7 @@ namespace Reactive.Bindings
         bool IsDistinctUntilChanged => (mode & ReactivePropertyMode.DistinctUntilChanged) == ReactivePropertyMode.DistinctUntilChanged;
         bool IsRaiseLatestValueOnSubscribe => (mode & ReactivePropertyMode.RaiseLatestValueOnSubscribe) == ReactivePropertyMode.RaiseLatestValueOnSubscribe;
 
-        public ReadOnlyReactivePropertySlim(IObservable<T> source, T initialValue = default(T), ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe, EqualityComparer<T> equalityComparer = null)
+        public ReadOnlyReactivePropertySlim(IObservable<T> source, T initialValue = default(T), ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe, IEqualityComparer<T> equalityComparer = null)
         {
             this.latestValue = initialValue;
             this.mode = mode;
@@ -394,7 +394,7 @@ namespace Reactive.Bindings
 
     public static class ReadOnlyReactivePropertySlim
     {
-        public static ReadOnlyReactivePropertySlim<T> ToReadOnlyReactivePropertySlim<T>(this IObservable<T> source, T initialValue = default(T), ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe, EqualityComparer<T> equalityComparer = null)
+        public static ReadOnlyReactivePropertySlim<T> ToReadOnlyReactivePropertySlim<T>(this IObservable<T> source, T initialValue = default(T), ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe, IEqualityComparer<T> equalityComparer = null)
         {
             return new ReadOnlyReactivePropertySlim<T>(source, initialValue, mode, equalityComparer);
         }
