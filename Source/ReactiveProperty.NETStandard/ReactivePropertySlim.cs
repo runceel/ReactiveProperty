@@ -61,7 +61,7 @@ namespace Reactive.Bindings
         // minimize field count
         T latestValue;
         ReactivePropertyMode mode; // None = 0, DistinctUntilChanged = 1, RaiseLatestValueOnSubscribe = 2, Disposed = (1 << 9)
-        readonly EqualityComparer<T> equalityComparer;
+        readonly IEqualityComparer<T> equalityComparer;
         ObserverNode<T> root;
         ObserverNode<T> last;
 
@@ -245,7 +245,7 @@ namespace Reactive.Bindings
         T latestValue;
         IDisposable sourceSubscription;
         ReactivePropertyMode mode; // None = 0, DistinctUntilChanged = 1, RaiseLatestValueOnSubscribe = 2, Disposed = (1 << 9)
-        readonly EqualityComparer<T> equalityComparer;
+        readonly IEqualityComparer<T> equalityComparer;
 
         ObserverNode<T> root;
         ObserverNode<T> last;
