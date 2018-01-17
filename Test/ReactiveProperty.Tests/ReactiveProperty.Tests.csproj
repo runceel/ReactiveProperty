@@ -12,7 +12,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ReactiveProperty.Tests</RootNamespace>
     <AssemblyName>ReactiveProperty.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <IsWebBootstrapper>false</IsWebBootstrapper>
@@ -209,11 +209,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Notifiers\CountNotifierTest.cs" />
     <Compile Include="ReactiveCommandTest.cs" />
+    <Compile Include="ReactivePropertySlimTest.cs" />
     <Compile Include="ReactivePropertyTest.cs" />
     <Compile Include="ReactiveTimerTest.cs" />
     <Compile Include="ReactivePropertyTest.Static.cs" />
     <Compile Include="ReactivePropertyValidationTest.cs" />
     <Compile Include="ReadOnlyReactiveCollectionTest.cs" />
+    <Compile Include="ReadOnlyReactivePropertySlimTest.cs" />
     <Compile Include="ReadOnlyReactivePropertyTest.cs" />
     <Compile Include="ReactivePropertyPerformanceTest.cs" />
     <Compile Include="AsyncReactiveCommandTest.cs" />
