@@ -9,7 +9,7 @@ ReactivePropertySlim provides following features:
 
 And ReactivePropertySlim is hight performance.
 
-ReactivePropertySlim can use same as ReactiveProperty.
+This class can use same as ReactiveProperty.
 
 ```cs
 var rp = new ReactivePropertySlim<string>("neuecc");
