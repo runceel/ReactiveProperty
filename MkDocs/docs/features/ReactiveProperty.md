@@ -440,9 +440,30 @@ Default value is `ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMo
 If you don't need this behavior, then you can set ReactivePropertyMode.None value.
 
 ```cs
-var x = new ReactiveProperty<string>("initial value", mode: ReactivePropertyMode.None);
-x.Subscribe(x => Console.WriteLine(x)); // -> don't output value
-x.Value = "initial value"; // -> initial value
+var rp = new ReactiveProperty<string>("initial value", mode: ReactivePropertyMode.None);
+rp.Subscribe(x => Console.WriteLine(x)); // -> don't output value
+rp.Value = "initial value"; // -> initial value
+```
+
+## ForceNotify
+
+If want to push the value forcibly, then can use the ForceNotify method.
+This method pushes the value to subscribers, and raise a PropertyChanged event.
+
+```cs
+var rp = new ReactiveProperty<string>("value");
+rp.Subscribe(x => Console.WriteLine(x));
+rp.PropertyChanged += (_, e) => Console.WriteLine($"{e.PropertyName} changed");
+
+rp.ForceNotify();
+```
+
+Output is as below.
+
+```
+value                  # first subscribe
+value                  # by the ForceNotify method
+Value changed          # by the ForceNotify method
 ```
 
 ## ReadOnlyReactiveProperty class

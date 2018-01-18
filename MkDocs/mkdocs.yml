@@ -1,4 +1,5 @@
 site_name: ReactiveProperty documentation
+site_author: 'neuecc, xin9le, okazuki'
 pages:
 - Home: 'index.md'
 - Getting started:
@@ -7,6 +8,7 @@ pages:
     - 'Xamarin.Forms': 'getting-started/xf.md'
 - Features:
     - 'ReactiveProperty': 'features/ReactiveProperty.md'
+    - 'ReactivePropertySlim': 'features/ReactivePropertySlim.md'
     - 'Commanding': 'features/Commanding.md'
     - 'Collections': 'features/Collections.md'
     - 'Work together with plane model layer objects': 'features/Work-together-with-plane-model-layer-objects.md'
