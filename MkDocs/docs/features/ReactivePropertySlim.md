@@ -9,7 +9,7 @@ ReactivePropertySlim provides following features:
 - Provides a Value property.
 - Provides a ForceNotify method.
 
-And ReactivePropertySlim is hight performance.
+And ReactivePropertySlim is high performance.
 
 This class can use like same as ReactiveProperty.
 
@@ -41,7 +41,7 @@ If want to create Slim class's instance from IObservable&lt;T&gt;, then use the 
 var rp = Observable.Interval(TimeSpan.FromSeconds(1)).ToReadOnlyReactivePropertySlim();
 ```
 
-## Dispatch to the UI thread
+## Dispatch to UI thread
 
 ReactivePropertySlim class doesn't dispatch to UI thread automaticaly.
 If want this feature, then use the ReactiveProperty or dispatch to UI thread expressly.
@@ -51,3 +51,8 @@ var rp = Observable.Interval(TimeSpan.FromSeconds(1))
     .ObserveOnUIDispatcher() // dispatch to UI thread
     .ToReadOnlyReactivePropertySlim();
 ```
+
+## Validation
+
+Slim class doesn't provide the validation feature.
+If want to this feature, then use to ReactiveProperty class.
