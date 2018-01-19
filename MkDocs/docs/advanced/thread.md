@@ -35,3 +35,31 @@ var immediateRp = new ReactiveProperty<string>();
 taskPoolRp.Value = "changed"; // raise event on the TaskPoolScheduler thread.
 immediateRp.Value = "changed"; // raise event on the ImmediateScheduler thread.
 ```
+
+# Rx operator
+
+Of cource, you can use ObserveOn extension method.
+
+```cs
+var rp = Observable.Interval(TimeSpan.FromSeconds(1))
+    .ObserveOn(someScheduler)
+    .ToReactiveProperty();
+```
+
+And we provide ObserveOnUIDispatcher extension method. 
+This is a shortcut of `ObserveOn(ReactiveProeprtyScheduler.Default)`.
+
+```cs
+var rp = Observable.Interval(TimeSpan.FromSeconds(1))
+    .ObserveOnUIDispatcher()
+    .ToReactiveProperty();
+```
+
+# Limitations
+
+ReactiveProperty was designed for single UI thread platform.
+It means it doesn't work on the multi UI thread platform which is like UWP platform.
+
+UWP has multi UI thread in the single process when multi Window create.
+If you create multi-window in UWP, then should set ImmediateScheduler to ReactivePropertyScheduler, when the app was launched.
+Or use ReactivePropertySlim / ReadOnlyReactivePropertySlim classes.
