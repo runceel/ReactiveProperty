@@ -210,9 +210,9 @@ namespace Reactive.Bindings
                 : latestValue.ToString();
         }
 
-        // NotSupported validation.
+        // NotSupported, return always true/empty.
 
-        bool INotifyDataErrorInfo.HasErrors => throw new NotSupportedException();
+        bool INotifyDataErrorInfo.HasErrors => false;
 
         IObservable<IEnumerable> IHasErrors.ObserveErrorChanged => throw new NotSupportedException();
 
@@ -222,18 +222,15 @@ namespace Reactive.Bindings
         {
             add
             {
-                throw new NotSupportedException();
             }
-
             remove
             {
-                throw new NotSupportedException();
             }
         }
 
         IEnumerable INotifyDataErrorInfo.GetErrors(string propertyName)
         {
-            throw new NotSupportedException();
+            return System.Linq.Enumerable.Empty<object>();
         }
     }
 
