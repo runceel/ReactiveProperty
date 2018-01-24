@@ -6,6 +6,7 @@ pages:
     - 'Windows Presentation Foundation': 'getting-started/wpf.md'
     - 'Universal Windows Platform': 'getting-started/uwp.md'
     - 'Xamarin.Forms': 'getting-started/xf.md'
+    - 'Avalonia': 'getting-started/avalonia.md'
 - Features:
     - 'ReactiveProperty': 'features/ReactiveProperty.md'
     - 'ReactivePropertySlim': 'features/ReactivePropertySlim.md'
