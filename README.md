@@ -6,6 +6,32 @@ ReactiveProperty provides MVVM and asynchronous support features under Reactive 
 
 ![ReactiveProperty overview](Images/rpsummary.png)
 
+ReactiveProperty is very powful and simple library.
+
+![Delay and Select](images/launch-uwp-app.gif)
+
+This sample app's ViewModel code is as below:
+
+```cs
+public class MainPageViewModel
+{
+    public ReactiveProperty<string> Input { get; }
+    public ReadOnlyReactiveProperty<string> Output { get; }
+    public MainPageViewModel()
+    {
+        Input = new ReactiveProperty<string>("");
+        Output = Input
+            .Delay(TimeSpan.FromSeconds(1))
+            .Select(x => x.ToUpper())
+            .ToReadOnlyReactiveProperty();
+    }
+}
+```
+
+It's LINQ and Rx magic.
+
+All steps are written getting started section in the [ReactiveProperty documentation](https://runceel.github.io/ReactiveProperty/).
+
 This library's concept is "Fun programing". 
 ViewModel code which using ReactiveProperty is very simple.
 
