@@ -8,7 +8,7 @@ ReactiveProperty provides MVVM and asynchronous support features under Reactive 
 
 ReactiveProperty is very powful and simple library.
 
-![Delay and Select](images/launch-uwp-app.gif)
+![Delay and Select](Images/launch-uwp-app.gif)
 
 This sample app's ViewModel code is as below:
 
