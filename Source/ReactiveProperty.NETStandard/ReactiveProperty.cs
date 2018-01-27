@@ -76,15 +76,17 @@ namespace Reactive.Bindings
         /// <summary>PropertyChanged raise on ReactivePropertyScheduler</summary>
         public ReactiveProperty(
             T initialValue = default(T),
-            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe)
-            : this(ReactivePropertyScheduler.Default, initialValue, mode)
+            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe,
+            IEqualityComparer<T> equalityComparer = null)
+            : this(ReactivePropertyScheduler.Default, initialValue, mode, equalityComparer)
         { }
 
         /// <summary>PropertyChanged raise on selected scheduler</summary>
         public ReactiveProperty(
             IScheduler raiseEventScheduler,
             T initialValue = default(T),
-            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe, IEqualityComparer<T> equalityComparer = null)
+            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe,
+            IEqualityComparer<T> equalityComparer = null)
         {
             this.RaiseEventScheduler = raiseEventScheduler;
             this.LatestValue = initialValue;
