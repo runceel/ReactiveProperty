@@ -127,18 +127,6 @@ namespace Reactive.Bindings
             get { return LatestValue; }
             set
             {
-                if (this.LatestValue == null || value == null)
-                {
-                    // null case
-                    if (this.IsDistinctUntilChanged && this.LatestValue == null && value == null)
-                    {
-                        return;
-                    }
-
-                    this.SetValue(value);
-                    return;
-                }
-
                 if (this.IsDistinctUntilChanged && equalityComparer.Equals(this.LatestValue, value))
                 {
                     return;

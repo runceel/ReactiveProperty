@@ -74,6 +74,19 @@ namespace ReactiveProperty.Tests
         }
 
         [TestMethod]
+        public void CustomEqualityComparerToReactivePropertyCase()
+        {
+            var source = new Subject<string>();
+            var rp = source.ToReactiveProperty(equalityComparer: new IgnoreCaseComparer());
+            var list = new List<string>();
+            rp.Subscribe(list.Add);
+            source.OnNext("Hello world");
+            source.OnNext("HELLO WORLD");
+            source.OnNext("Hello japan");
+            list.Is(null, "Hello world", "Hello japan");
+        }
+
+        [TestMethod]
         public void ObserveErrors()
         {
             var rp = new ReactiveProperty<string>()
