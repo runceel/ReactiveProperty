@@ -52,6 +52,27 @@ namespace ReactiveProperty.Tests
             list.Is(null, "Hello world", "Hello world", "Hello japan");
         }
 
+        class IgnoreCaseComparer : EqualityComparer<string>
+        {
+            public override bool Equals(string x, string y)
+                => x?.ToLower() == y?.ToLower();
+
+            public override int GetHashCode(string obj)
+                => (obj?.ToLower()).GetHashCode();
+        }
+
+        [TestMethod]
+        public void CustomEqualityComparer()
+        {
+            var rp = new ReactiveProperty<string>(equalityComparer: new IgnoreCaseComparer());
+            var list = new List<string>();
+            rp.Subscribe(list.Add);
+            rp.Value = "Hello world";
+            rp.Value = "HELLO WORLD";
+            rp.Value = "Hello japan";
+            list.Is(null, "Hello world", "Hello japan");
+        }
+
         [TestMethod]
         public void ObserveErrors()
         {

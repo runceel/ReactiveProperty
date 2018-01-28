@@ -55,6 +55,7 @@ namespace Reactive.Bindings
         public IScheduler RaiseEventScheduler { get; }
         public bool IsDistinctUntilChanged { get; }
         public bool IsRaiseLatestValueOnSubscribe { get; }
+        private readonly IEqualityComparer<T> equalityComparer;
 
         private Subject<T> Source { get; } = new Subject<T>();
         private IDisposable SourceDisposable { get; }
@@ -75,18 +76,21 @@ namespace Reactive.Bindings
         /// <summary>PropertyChanged raise on ReactivePropertyScheduler</summary>
         public ReactiveProperty(
             T initialValue = default(T),
-            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe)
-            : this(ReactivePropertyScheduler.Default, initialValue, mode)
+            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe,
+            IEqualityComparer<T> equalityComparer = null)
+            : this(ReactivePropertyScheduler.Default, initialValue, mode, equalityComparer)
         { }
 
         /// <summary>PropertyChanged raise on selected scheduler</summary>
         public ReactiveProperty(
             IScheduler raiseEventScheduler,
             T initialValue = default(T),
-            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe)
+            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe,
+            IEqualityComparer<T> equalityComparer = null)
         {
             this.RaiseEventScheduler = raiseEventScheduler;
             this.LatestValue = initialValue;
+            this.equalityComparer = equalityComparer ?? EqualityComparer<T>.Default;
 
             this.IsRaiseLatestValueOnSubscribe = mode.HasFlag(ReactivePropertyMode.RaiseLatestValueOnSubscribe);
             this.IsDistinctUntilChanged = mode.HasFlag(ReactivePropertyMode.DistinctUntilChanged);
@@ -133,7 +137,7 @@ namespace Reactive.Bindings
                     return;
                 }
 
-                if (this.IsDistinctUntilChanged && (EqualityComparer<T>.Default.Equals(this.LatestValue, value)))
+                if (this.IsDistinctUntilChanged && equalityComparer.Equals(this.LatestValue, value))
                 {
                     return;
                 }
