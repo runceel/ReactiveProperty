@@ -1,5 +1,6 @@
 ﻿using Reactive.Bindings.Extensions;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
@@ -14,6 +15,8 @@ namespace Reactive.Bindings
     /// <typeparam name="T">Type of property.</typeparam>
     public class ReadOnlyReactiveProperty<T> : IReadOnlyReactiveProperty<T>
     {
+        private IEqualityComparer<T> EqualityComparer { get; }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private Subject<T> InnerSource { get; } = new Subject<T>();
@@ -28,11 +31,13 @@ namespace Reactive.Bindings
             IObservable<T> source, 
             T initialValue = default(T), 
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe,
-            IScheduler eventScheduler = null)
+            IScheduler eventScheduler = null,
+            IEqualityComparer<T> equalityComparer = null)
         {
             this.LatestValue = initialValue;
+            this.EqualityComparer = equalityComparer ?? EqualityComparer<T>.Default;
             var ox = mode.HasFlag(ReactivePropertyMode.DistinctUntilChanged)
-                ? source.DistinctUntilChanged()
+                ? source.DistinctUntilChanged(EqualityComparer)
                 : source;
 
             ox.Do(x =>
@@ -96,11 +101,13 @@ namespace Reactive.Bindings
         public static ReadOnlyReactiveProperty<T> ToReadOnlyReactiveProperty<T>(this IObservable<T> self,
             T initialValue = default(T),
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe,
-            IScheduler eventScheduler = null) =>
+            IScheduler eventScheduler = null,
+            IEqualityComparer<T> equalityComparer = null) =>
             new ReadOnlyReactiveProperty<T>(
                 self,
                 initialValue,
                 mode,
-                eventScheduler);
+                eventScheduler,
+                equalityComparer);
     }
 }
