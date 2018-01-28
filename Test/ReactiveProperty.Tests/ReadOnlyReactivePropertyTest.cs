@@ -136,6 +136,29 @@ namespace ReactiveProperty.Tests
             buffer.Count.Is(3);
         }
 
+        class IgnoreCaseComparer : EqualityComparer<string>
+        {
+            public override bool Equals(string x, string y)
+                => x?.ToLower() == y?.ToLower();
+
+            public override int GetHashCode(string obj)
+                => (obj?.ToLower()).GetHashCode();
+        }
+
+        [TestMethod]
+        public void CustomEqualityComparerToReactivePropertyCase()
+        {
+            var source = new Subject<string>();
+            var rp = source.ToReadOnlyReactiveProperty(equalityComparer: new IgnoreCaseComparer());
+            var list = new List<string>();
+            rp.Subscribe(list.Add);
+            source.OnNext("Hello world");
+            source.OnNext("HELLO WORLD");
+            source.OnNext("Hello japan");
+            list.Is(null, "Hello world", "Hello japan");
+        }
+
+
         [TestMethod]
         public void BehaviorSubjectTest()
         {
