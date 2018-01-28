@@ -464,7 +464,37 @@ Output is as below.
 value                  # first subscribe
 value                  # by the ForceNotify method
 Value changed          # by the ForceNotify method
+
+## Change comparer logic
+
+Can change comparer logic by the equalityComparer argument of constructor and factory methods.
+
+For example, ignore case comparer:
+
+```cs
+class IgnoreCaseComparer : EqualityComparer<string>
+{
+    public override bool Equals(string x, string y)
+        => x?.ToLower() == y?.ToLower();
+
+    public override int GetHashCode(string obj)
+        => (obj?.ToLower()).GetHashCode();
+}
+
+// Constructor
+var rp = new ReactiveProperty<string>(equalityComparer: new IgnoreCaseComparer());
+rp.Value = "Hello world"; // change to "Hello world" from null
+rp.Value = "HELLO WORLD"; // don't change
+rp.Value = "Hello japan"; // change to "Hello japan" from "Hello world"
+
+// Factory method
+var source = new Subject<string>();
+var rp = source.ToReactiveProperty(equalityComparer: new IgnoreCaseComparer());
+source.OnNext("Hello world"); // change to "Hello world" from null
+source.OnNext("HELLO WORLD"); // don't change
+source.OnNext("Hello japan"); // change to "Hello japan" from "Hello world"
 ```
+
 
 ## ReadOnlyReactiveProperty class
 
@@ -518,4 +548,3 @@ public class ViewModel : IDisposable
     }
 }
 ```
-
