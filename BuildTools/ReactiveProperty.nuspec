@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>ReactiveProperty</id>
-    <version>4.1.1</version>
+    <version>4.2.0</version>
     <title>ReactiveProperty</title>
     <authors>neuecc xin9le okazuki</authors>
     <owners>neuecc xin9le okazuki</owners>
@@ -31,7 +31,7 @@
       <group targetFramework="Xamarin.Mac20">
         <dependency id="System.Reactive" version="3.1.1" />
       </group>
-      <group targetFramework="portable-net45+win81+MonoTouch+MonoAndroid">
+      <group targetFramework="portable-net46+uap+MonoTouch+MonoAndroid">
         <dependency id="System.Reactive" version="3.1.1" />
       </group>
       <group targetFramework="netstandard1.3">
