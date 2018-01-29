@@ -464,6 +464,7 @@ Output is as below.
 value                  # first subscribe
 value                  # by the ForceNotify method
 Value changed          # by the ForceNotify method
+```
 
 ## Change comparer logic
 
