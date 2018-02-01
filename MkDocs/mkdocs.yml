@@ -20,3 +20,6 @@ pages:
     - 'Thread control': 'advanced/thread.md'
 - Samples: 'samples.md'
 theme: readthedocs
+google_analytics: 
+    - 'UA-113459349-1'
+    - 'auto'
