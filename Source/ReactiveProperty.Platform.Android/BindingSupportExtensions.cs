@@ -24,7 +24,7 @@ namespace Reactive.Bindings
         public static IDisposable SetBinding<TView, TProperty>(
             this TView self,
             Expression<Func<TView, TProperty>> propertySelector,
-            ReactiveProperty<TProperty> source, Func<TView, IObservable<Unit>> updateSourceTrigger = null)
+            IReactiveProperty<TProperty> source, Func<TView, IObservable<Unit>> updateSourceTrigger = null)
             where TView : View
         {
             var d = new CompositeDisposable();
@@ -68,7 +68,7 @@ namespace Reactive.Bindings
         public static IDisposable SetBinding<TView, TProperty>(
             this TView self,
             Expression<Func<TView, TProperty>> propertySelector,
-            ReadOnlyReactiveProperty<TProperty> source)
+            IReadOnlyReactiveProperty<TProperty> source)
             where TView : View
         {
             var d = new CompositeDisposable();
