@@ -105,5 +105,29 @@ namespace Reactive.Bindings
                 .Where(_ => command.CanExecute())
                 .Subscribe(x => command.Execute());
 
+        /// <summary>
+        /// Command binding method.
+        /// </summary>
+        /// <typeparam name="T">Command type.</typeparam>
+        /// <param name="self">IObservable</param>
+        /// <param name="command">Command</param>
+        /// <returns>Command binding token</returns>
+        public static IDisposable SetCommand<T>(this IObservable<T> self, AsyncReactiveCommand<T> command) =>
+            self
+                .Where(_ => command.CanExecute())
+                .Subscribe(x => command.Execute(x));
+
+        /// <summary>
+        /// Command binding method.
+        /// </summary>
+        /// <typeparam name="T">IObservable type</typeparam>
+        /// <param name="self">IObservable</param>
+        /// <param name="command">Command</param>
+        /// <returns>Command binding token</returns>
+        public static IDisposable SetCommand<T>(this IObservable<T> self, AsyncReactiveCommand command) =>
+            self
+                .Where(_ => command.CanExecute())
+                .Subscribe(x => command.Execute());
+
     }
 }
