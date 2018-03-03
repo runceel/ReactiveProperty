@@ -24,7 +24,7 @@ namespace Reactive.Bindings
         public static IDisposable SetBinding<TView, TProperty>(
             this TView self,
             Expression<Func<TView, TProperty>> propertySelector,
-            ReactiveProperty<TProperty> source, Func<TView, IObservable<Unit>> updateSourceTrigger = null)
+            IReactiveProperty<TProperty> source, Func<TView, IObservable<Unit>> updateSourceTrigger = null)
             where TView : View
         {
             var d = new CompositeDisposable();
@@ -68,7 +68,7 @@ namespace Reactive.Bindings
         public static IDisposable SetBinding<TView, TProperty>(
             this TView self,
             Expression<Func<TView, TProperty>> propertySelector,
-            ReadOnlyReactiveProperty<TProperty> source)
+            IReadOnlyReactiveProperty<TProperty> source)
             where TView : View
         {
             var d = new CompositeDisposable();
@@ -101,6 +101,30 @@ namespace Reactive.Bindings
         /// <param name="command">Command</param>
         /// <returns>Command binding token</returns>
         public static IDisposable SetCommand<T>(this IObservable<T> self, ReactiveCommand command) =>
+            self
+                .Where(_ => command.CanExecute())
+                .Subscribe(x => command.Execute());
+
+        /// <summary>
+        /// Command binding method.
+        /// </summary>
+        /// <typeparam name="T">Command type.</typeparam>
+        /// <param name="self">IObservable</param>
+        /// <param name="command">Command</param>
+        /// <returns>Command binding token</returns>
+        public static IDisposable SetCommand<T>(this IObservable<T> self, AsyncReactiveCommand<T> command) =>
+            self
+                .Where(_ => command.CanExecute())
+                .Subscribe(x => command.Execute(x));
+
+        /// <summary>
+        /// Command binding method.
+        /// </summary>
+        /// <typeparam name="T">IObservable type</typeparam>
+        /// <param name="self">IObservable</param>
+        /// <param name="command">Command</param>
+        /// <returns>Command binding token</returns>
+        public static IDisposable SetCommand<T>(this IObservable<T> self, AsyncReactiveCommand command) =>
             self
                 .Where(_ => command.CanExecute())
                 .Subscribe(x => command.Execute());
