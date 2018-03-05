@@ -4,6 +4,9 @@
 
 ReactiveProperty provides MVVM and asynchronous support features under Reactive Extensions. Target framework is .NET 4.6, UWP, Xamarin.iOS, Xamarin.Android, Xamarin.Mac, Xamarin.Forms and .NET Standard 1.3.
 
+![](https://img.shields.io/nuget/v/ReactiveProperty.svg)
+![](https://img.shields.io/nuget/dt/ReactiveProperty.svg)
+
 ![ReactiveProperty overview](Images/rpsummary.png)
 
 ReactiveProperty is very powful and simple library.
