@@ -111,8 +111,8 @@ namespace Reactive.Bindings
             }
         }
 
-        bool IsDistinctUntilChanged => (mode & ReactivePropertyMode.DistinctUntilChanged) == ReactivePropertyMode.DistinctUntilChanged;
-        bool IsRaiseLatestValueOnSubscribe => (mode & ReactivePropertyMode.RaiseLatestValueOnSubscribe) == ReactivePropertyMode.RaiseLatestValueOnSubscribe;
+        public bool IsDistinctUntilChanged => (mode & ReactivePropertyMode.DistinctUntilChanged) == ReactivePropertyMode.DistinctUntilChanged;
+        public bool IsRaiseLatestValueOnSubscribe => (mode & ReactivePropertyMode.RaiseLatestValueOnSubscribe) == ReactivePropertyMode.RaiseLatestValueOnSubscribe;
 
         public ReactivePropertySlim(T initialValue = default(T), ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe, IEqualityComparer<T> equalityComparer = null)
         {
