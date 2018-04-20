@@ -35,6 +35,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.Tests", "Test\ReactiveProperty.Tests\ReactiveProperty.Tests.csproj", "{9B3C2CF3-0AFD-4FB8-BAB1-2B7931C2AF18}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.ViewModels", "Sample\Sample.ViewModels\Sample.ViewModels.csproj", "{4AA39C19-6571-4A9F-8722-2D7240D425D1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{157F0F88-34AC-4C49-971F-7027AAC757AE} = {157F0F88-34AC-4C49-971F-7027AAC757AE}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{97EC2EDF-8B92-4DB1-B2D7-09E4124B9DE0}"
 	ProjectSection(SolutionItems) = preProject
@@ -84,10 +87,16 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UWP.TodoMVVM", "Sample\UWP.TodoMVVM\UWP.TodoMVVM.csproj", "{40AE1FF3-8B25-4659-8B0A-7886113E4246}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.Platform.NET46", "Source\ReactiveProperty.Platform.NET46\ReactiveProperty.Platform.NET46.csproj", "{883C5447-2778-43E4-8CDE-6A594B342ACD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{157F0F88-34AC-4C49-971F-7027AAC757AE} = {157F0F88-34AC-4C49-971F-7027AAC757AE}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.Platform.UWP", "Source\ReactiveProperty.Platform.UWP\ReactiveProperty.Platform.UWP.csproj", "{CD8F2562-E3A0-4F6D-8285-70349597ADBC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.Platform.iOS", "Source\ReactiveProperty.Platform.iOS\ReactiveProperty.Platform.iOS.csproj", "{A54AE997-6255-4000-A4CE-3F8D6D8F0026}"
+	ProjectSection(ProjectDependencies) = postProject
+		{157F0F88-34AC-4C49-971F-7027AAC757AE} = {157F0F88-34AC-4C49-971F-7027AAC757AE}
+	EndProjectSection
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ReactiveProperty.Platform.Shared", "Source\ReactiveProperty.Platform.Shared\ReactiveProperty.Platform.Shared.shproj", "{523E5506-24DF-44CA-83CC-6AA02454F150}"
 EndProject
@@ -444,9 +453,9 @@ Global
 		{157F0F88-34AC-4C49-971F-7027AAC757AE} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {5AC43AC2-86FE-46EF-B243-5C8E75EAB89B}
-		BuildVersion_UseGlobalSettings = True
 		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
+		BuildVersion_UseGlobalSettings = True
+		SolutionGuid = {5AC43AC2-86FE-46EF-B243-5C8E75EAB89B}
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = ReactiveProperty.vsmdi
