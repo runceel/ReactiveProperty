@@ -1,10 +1,8 @@
 ## Create a project
 - Create a Blank App (Universal Windows) project.
-    - Set a `Target version` item to Windows 10 Fall Creators Update (1.0.: Build 16299) and `Minimum version` item to the same.
+    - Set the `Minimum version` item to Windows 10 Fall Creators Update (1.0.: Build 16299).
 
       ![Target version](images/uwp-target-version.png)
-      
-      ReactiveProperty target the .NET Standard 1.3. You can use this library with the another version UWP. My recomended version is after the Createors Update. After this version can use compile time binding.
 
 - Install ReactiveProperty package from NuGet.
 

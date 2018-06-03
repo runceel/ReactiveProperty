@@ -1,5 +1,6 @@
 ## Create a project
 - Create a WPF App (.NET Framework) project.
+    - Have to use upper than .NET Framework 4.6.1.
 - Install ReactiveProperty from NuGet.
 
 ## Edit codes
