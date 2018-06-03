@@ -181,15 +181,16 @@ Global
 		{4AA39C19-6571-4A9F-8722-2D7240D425D1}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{4AA39C19-6571-4A9F-8722-2D7240D425D1}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{4AA39C19-6571-4A9F-8722-2D7240D425D1}.Debug|x86.Build.0 = Debug|Any CPU
-		{4AA39C19-6571-4A9F-8722-2D7240D425D1}.Documentation|Any CPU.ActiveCfg = Documentation|Any CPU
-		{4AA39C19-6571-4A9F-8722-2D7240D425D1}.Documentation|ARM.ActiveCfg = Documentation|Any CPU
-		{4AA39C19-6571-4A9F-8722-2D7240D425D1}.Documentation|ARM.Build.0 = Documentation|Any CPU
+		{4AA39C19-6571-4A9F-8722-2D7240D425D1}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AA39C19-6571-4A9F-8722-2D7240D425D1}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{4AA39C19-6571-4A9F-8722-2D7240D425D1}.Documentation|ARM.ActiveCfg = Debug|Any CPU
+		{4AA39C19-6571-4A9F-8722-2D7240D425D1}.Documentation|ARM.Build.0 = Debug|Any CPU
 		{4AA39C19-6571-4A9F-8722-2D7240D425D1}.Documentation|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{4AA39C19-6571-4A9F-8722-2D7240D425D1}.Documentation|Mixed Platforms.Build.0 = Release|Any CPU
-		{4AA39C19-6571-4A9F-8722-2D7240D425D1}.Documentation|x64.ActiveCfg = Documentation|Any CPU
-		{4AA39C19-6571-4A9F-8722-2D7240D425D1}.Documentation|x64.Build.0 = Documentation|Any CPU
-		{4AA39C19-6571-4A9F-8722-2D7240D425D1}.Documentation|x86.ActiveCfg = Documentation|Any CPU
-		{4AA39C19-6571-4A9F-8722-2D7240D425D1}.Documentation|x86.Build.0 = Documentation|Any CPU
+		{4AA39C19-6571-4A9F-8722-2D7240D425D1}.Documentation|x64.ActiveCfg = Debug|Any CPU
+		{4AA39C19-6571-4A9F-8722-2D7240D425D1}.Documentation|x64.Build.0 = Debug|Any CPU
+		{4AA39C19-6571-4A9F-8722-2D7240D425D1}.Documentation|x86.ActiveCfg = Debug|Any CPU
+		{4AA39C19-6571-4A9F-8722-2D7240D425D1}.Documentation|x86.Build.0 = Debug|Any CPU
 		{4AA39C19-6571-4A9F-8722-2D7240D425D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4AA39C19-6571-4A9F-8722-2D7240D425D1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4AA39C19-6571-4A9F-8722-2D7240D425D1}.Release|ARM.ActiveCfg = Release|Any CPU
@@ -453,9 +454,9 @@ Global
 		{157F0F88-34AC-4C49-971F-7027AAC757AE} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
-		BuildVersion_UseGlobalSettings = True
 		SolutionGuid = {5AC43AC2-86FE-46EF-B243-5C8E75EAB89B}
+		BuildVersion_UseGlobalSettings = True
+		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = ReactiveProperty.vsmdi
