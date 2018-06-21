@@ -34,14 +34,40 @@
         <dependency id="System.Reflection.Extensions" version="4.3.0" />
         <dependency id="System.Runtime" version="4.3.0" />
       </group>
+      <group targetFramework="net461">
+        <dependency id="System.Reactive" version="4.0.0" />
+      </group>
+      <group targetFramework="MonoAndroid">
+        <dependency id="System.Reactive" version="4.0.0" />
+      </group>
+      <group targetFramework="MonoTouch">
+        <dependency id="System.Reactive" version="4.0.0" />
+      </group>
+      <group targetFramework="Xamarin.Mac20">
+        <dependency id="System.Reactive" version="4.0.0" />
+      </group>
     </dependencies>
+    <frameworkAssemblies>
+      <!-- net461 -->
+      <frameworkAssembly assemblyName="System" targetFramework="net461" />
+      <frameworkAssembly assemblyName="PresentationCore" targetFramework="net461" />
+      <frameworkAssembly assemblyName="WindowsBase" targetFramework="net461" />
+      <frameworkAssembly assemblyName="PresentationFramework" targetFramework="net461" />
+      <frameworkAssembly assemblyName="System.Xaml" targetFramework="net461" />
+      <frameworkAssembly assemblyName="System.Core" targetFramework="net461" />
+      <frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations" targetFramework="net461" />
+      <!-- xamarin -->
+      <frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations" targetFramework="MonoAndroid" />
+      <frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations" targetFramework="MonoTouch" />
+      <frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations" targetFramework="Xamarin.Mac20" />
+    </frameworkAssemblies>
   </metadata>
   <files>
     <file src="..\Snippet\**.snippet" target="Snippet\" />
     <file src="..\LICENSE.txt" target="\" />
 
     <!-- platform -->
-    <!-- WPF NET46 -->
+    <!-- WPF NET461 -->
     <file src="..\Binary\NET46\ReactiveProperty.NET46.dll" target="lib\net461" />
     <file src="..\Binary\NET46\ReactiveProperty.NET46.XML" target="lib\net461" />
     <file src="..\Binary\NET46\ReactiveProperty.NET46.pdb" target="lib\net461" />
