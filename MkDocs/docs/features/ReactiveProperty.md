@@ -415,7 +415,7 @@ class ViewModel
 }
 ```
 
-Or set `IgnoreInitialValidationError` flag mode argument of constructor.
+Or set `IgnoreInitialValidationError` flag to mode argument of constructor.
 Sample code is as below:
 
 ```cs
