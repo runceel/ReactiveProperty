@@ -430,12 +430,12 @@ class ViewModel
 
     public ViewModel()
     {
+        // Add IgnoreInitialValidationError flag
         Name = new ReactiveProperty<string>(mode: ReactivePropertyMode.Default | ReactivePropertyMode.IgnoreInitialValidationError)
             .SetValidateAttribute(() => Name);
 
         // Handling an error message
         NameErrorMessage = Name.ObserveErrorChanged
-            .Skip(1) // Skip the first error.
             .Select(x => x?.OfType<string>()?.FirstOrDefault())
             .ToReactiveProperty();
     }
