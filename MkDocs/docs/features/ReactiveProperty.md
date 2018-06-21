@@ -469,8 +469,10 @@ This can be set following values.
     - This doesn't call OnNext callback if same value set.
 - ReactivePropertyMode.RaiseLatestValueOnSubscribe
     - This calls OnNext callback when Subscribe method call.
-
-Default value is `ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe`.
+- ReactivePropertyMode.Default
+    - It is default value. It is same as `ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe`.
+- ReactivePropertyMode.IgnoreInigialValidationError
+    - Ignore initial validation error.
 
 If you don't need this behavior, then you can set ReactivePropertyMode.None value.
 
