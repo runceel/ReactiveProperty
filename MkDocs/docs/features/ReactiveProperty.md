@@ -385,7 +385,7 @@ public class ViewModel
 }
 ```
 
-### Don't need initial validation error
+### Don't need an initial validation error
 
 In default behavior, ReactiveProperty report errors when validation logic set.
 If you don't need initial validation error, then you can skip the error.
@@ -414,6 +414,41 @@ class ViewModel
     }
 }
 ```
+
+Or set `IgnoreInitialValidationError` flag mode argument of constructor.
+Sample code is as below:
+
+```cs
+class ViewModel
+{
+    // Set validation attributes
+    [Required(ErrorMessage = "The name is required.")]
+    [StringLength(100, ErrorMessage = "The name length should be lower than 30.")]
+    public ReactiveProperty<string> Name { get; }
+
+    public ReactiveProperty<string> NameErrorMessage { get; }
+
+    public ViewModel()
+    {
+        Name = new ReactiveProperty<string>(mode: ReactivePropertyMode.Default | ReactivePropertyMode.IgnoreInitialValidationError)
+            .SetValidateAttribute(() => Name);
+
+        // Handling an error message
+        NameErrorMessage = Name.ObserveErrorChanged
+            .Skip(1) // Skip the first error.
+            .Select(x => x?.OfType<string>()?.FirstOrDefault())
+            .ToReactiveProperty();
+    }
+}
+```
+
+What's different between `Skip` and `IgnoreInitialValidationError`?
+In `IgnoreInitialValidationError` case, `ReactiveProperty` class doesn't report an error of initial value.
+In `Skip` case, it is just ignore error event.
+
+This different is important on the supported platform of `INotifyDataErrorInfo` like WPF.
+`Skip` approach will be feedbacked to UI by red border.
+`IgnoreInitialValidationError` approach is no feedback to UI.
 
 ## The mode of ReactiveProperty
 
