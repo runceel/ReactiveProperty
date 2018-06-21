@@ -204,6 +204,39 @@ namespace ReactiveProperty.Tests
             errors.Count.Is(2);
             errors.Last().OfType<string>().Is("error");
         }
+
+        [TestMethod]
+        public void IgnoreInitErrorAndForceNotify()
+        {
+            var rp = new ReactiveProperty<string>(mode: ReactivePropertyMode.Default | ReactivePropertyMode.IgnoreInitialValidationError)
+                .SetValidateNotifyError(x => string.IsNullOrEmpty(x) ? "error" : null);
+
+            rp.HasErrors.IsFalse();
+            rp.ForceNotify();
+            rp.HasErrors.IsTrue();
+        }
+
+        [TestMethod]
+        public void IgnoreInitErrorAndForceValidate()
+        {
+            var rp = new ReactiveProperty<string>(mode: ReactivePropertyMode.Default | ReactivePropertyMode.IgnoreInitialValidationError)
+                .SetValidateNotifyError(x => string.IsNullOrEmpty(x) ? "error" : null);
+
+            rp.HasErrors.IsFalse();
+            rp.ForceValidate();
+            rp.HasErrors.IsTrue();
+        }
+
+        [TestMethod]
+        public void IgnoreInitErrorAndUpdateValue()
+        {
+            var rp = new ReactiveProperty<string>(mode: ReactivePropertyMode.Default | ReactivePropertyMode.IgnoreInitialValidationError)
+                .SetValidateNotifyError(x => string.IsNullOrEmpty(x) ? "error" : null);
+
+            rp.HasErrors.IsFalse();
+            rp.Value = "";
+            rp.HasErrors.IsTrue();
+        }
     }
 
 

@@ -36,7 +36,11 @@ namespace Reactive.Bindings
         /// <summary>If next value is same as current, not set and not notify.</summary>
         DistinctUntilChanged = 0x01,
         /// <summary>Push notify on instance created and subscribed.</summary>
-        RaiseLatestValueOnSubscribe = 0x02
+        RaiseLatestValueOnSubscribe = 0x02,
+        /// <summary>Ignore initial validation error</summary>
+        IgnoreInitialValidationError = 0x04,
+        /// <summary>Default mode value. It is same as DistinctUntilChanged | RaiseLatestValueOnSubscribe.</summary>
+        Default = DistinctUntilChanged | RaiseLatestValueOnSubscribe,
     }
 
     /// <summary>
@@ -55,6 +59,7 @@ namespace Reactive.Bindings
         public IScheduler RaiseEventScheduler { get; }
         public bool IsDistinctUntilChanged { get; }
         public bool IsRaiseLatestValueOnSubscribe { get; }
+        public bool IsIgnoreInitialValidationError { get; }
         private readonly IEqualityComparer<T> equalityComparer;
 
         private Subject<T> Source { get; } = new Subject<T>();
@@ -69,14 +74,14 @@ namespace Reactive.Bindings
 
         /// <summary>PropertyChanged raise on ReactivePropertyScheduler</summary>
         public ReactiveProperty()
-            : this(default(T), ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe)
+            : this(default(T), ReactivePropertyMode.Default)
         {
         }
 
         /// <summary>PropertyChanged raise on ReactivePropertyScheduler</summary>
         public ReactiveProperty(
             T initialValue = default(T),
-            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe,
+            ReactivePropertyMode mode = ReactivePropertyMode.Default,
             IEqualityComparer<T> equalityComparer = null)
             : this(ReactivePropertyScheduler.Default, initialValue, mode, equalityComparer)
         { }
@@ -92,8 +97,9 @@ namespace Reactive.Bindings
             this.LatestValue = initialValue;
             this.equalityComparer = equalityComparer ?? EqualityComparer<T>.Default;
 
-            this.IsRaiseLatestValueOnSubscribe = mode.HasFlag(ReactivePropertyMode.RaiseLatestValueOnSubscribe);
-            this.IsDistinctUntilChanged = mode.HasFlag(ReactivePropertyMode.DistinctUntilChanged);
+            this.IsRaiseLatestValueOnSubscribe = (mode & ReactivePropertyMode.RaiseLatestValueOnSubscribe) == ReactivePropertyMode.RaiseLatestValueOnSubscribe;
+            this.IsDistinctUntilChanged = (mode & ReactivePropertyMode.DistinctUntilChanged) == ReactivePropertyMode.DistinctUntilChanged;
+            this.IsIgnoreInitialValidationError = (mode & ReactivePropertyMode.IgnoreInitialValidationError) == ReactivePropertyMode.IgnoreInitialValidationError;
 
             this.SourceDisposable = Disposable.Empty;
             this.ErrorsTrigger = new Lazy<BehaviorSubject<IEnumerable>>(() => new BehaviorSubject<IEnumerable>(this.GetErrors(null)));
@@ -205,7 +211,7 @@ namespace Reactive.Bindings
         {
             this.ValidatorStore.Value.Add(validator);     //--- cache validation functions
             var validators = this.ValidatorStore.Value
-                            .Select(x => x(this.ValidationTrigger.StartWith(this.LatestValue)))
+                            .Select(x => x(this.IsIgnoreInitialValidationError ? this.ValidationTrigger : this.ValidationTrigger.StartWith(this.LatestValue)))
                             .ToArray();     //--- use copy
             this.ValidateNotifyErrorSubscription.Disposable
                 = Observable.CombineLatest(validators)
