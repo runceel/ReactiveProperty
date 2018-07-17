@@ -6,6 +6,7 @@ using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using System.Threading;
 
 namespace Reactive.Bindings
 {
@@ -43,7 +44,22 @@ namespace Reactive.Bindings
             ox.Do(x =>
                 {
                     this.LatestValue = x;
+
+                    ReactivePropertyAwaiter<T> continuation = null;
+                    if (awaiter != null)
+                    {
+                        continuation = Interlocked.Exchange(ref awaiter, null);
+                    }
+
                     this.InnerSource.OnNext(x);
+
+                    if (continuation != null)
+                    {
+                        continuation.InvokeContinuation(ref x);
+
+                        // reuse continuation for perf optimization if does not raise recursively.
+                        Interlocked.CompareExchange(ref awaiter, continuation, null);
+                    }
                 })
                 .ObserveOn(eventScheduler ?? ReactivePropertyScheduler.Default)
                 .Subscribe(_ =>
@@ -81,6 +97,17 @@ namespace Reactive.Bindings
                 this.InnerSource.OnCompleted();
                 this.Subscription.Dispose();
             }
+        }
+
+        // async extension
+
+        ReactivePropertyAwaiter<T> awaiter;
+
+        public ReactivePropertyAwaiter<T> GetAwaiter()
+        {
+            if (awaiter != null) return awaiter;
+            Interlocked.CompareExchange(ref awaiter, new ReactivePropertyAwaiter<T>(), null);
+            return awaiter;
         }
     }
 

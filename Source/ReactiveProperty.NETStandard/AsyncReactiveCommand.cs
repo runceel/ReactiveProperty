@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reactive.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -124,12 +125,27 @@ namespace Reactive.Bindings
             {
                 canExecute.Value = false;
                 var a = asyncActions.Data;
+
+                ReactivePropertyAwaiter<T> continuation = null;
+                if (awaiter != null)
+                {
+                    continuation = Interlocked.Exchange(ref awaiter, null);
+                }
+
                 if (a.Length == 1)
                 {
                     try
                     {
                         var asyncState = a[0].Invoke(parameter) ?? Task.CompletedTask;
                         await asyncState;
+
+                        if (continuation != null)
+                        {
+                            continuation.InvokeContinuation(ref parameter);
+
+                            // reuse continuation if does not raise recursively.
+                            Interlocked.CompareExchange(ref awaiter, continuation, null);
+                        }
                     }
                     finally
                     {
@@ -147,6 +163,14 @@ namespace Reactive.Bindings
                         }
 
                         await Task.WhenAll(xs);
+
+                        if (continuation != null)
+                        {
+                            continuation.InvokeContinuation(ref parameter);
+
+                            // reuse continuation if does not raise recursively.
+                            Interlocked.CompareExchange(ref awaiter, continuation, null);
+                        }
                     }
                     finally
                     {
@@ -204,6 +228,15 @@ namespace Reactive.Bindings
                     parent.asyncActions = parent.asyncActions.Remove(asyncAction);
                 }
             }
+        }
+
+        ReactivePropertyAwaiter<T> awaiter;
+
+        public ReactivePropertyAwaiter<T> GetAwaiter()
+        {
+            if (awaiter != null) return awaiter;
+            Interlocked.CompareExchange(ref awaiter, new ReactivePropertyAwaiter<T>(), null);
+            return awaiter;
         }
     }
 

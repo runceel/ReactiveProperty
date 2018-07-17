@@ -178,6 +178,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AwaiterTest.cs" />
     <Compile Include="Binding\RxBindingExtensionsTest.cs" />
     <Compile Include="Binding\RxCommandExtensionsTest.cs" />
     <Compile Include="ChainingAssertion.MSTest.cs" />

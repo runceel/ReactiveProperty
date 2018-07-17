@@ -3,6 +3,7 @@ using System.Windows.Input;
 using System.Reactive.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Subjects;
+using System.Threading;
 
 namespace Reactive.Bindings
 {
@@ -118,13 +119,30 @@ namespace Reactive.Bindings
         bool ICommand.CanExecute(object parameter) => IsCanExecute;
 
         /// <summary>Push parameter to subscribers.</summary>
-        public void Execute(T parameter) => Trigger.OnNext(parameter);
+        public void Execute(T parameter)
+        {
+            ReactivePropertyAwaiter<T> continuation = null;
+            if (awaiter != null)
+            {
+                continuation = Interlocked.Exchange(ref awaiter, null);
+            }
+
+            Trigger.OnNext(parameter);
+
+            if (continuation != null)
+            {
+                continuation.InvokeContinuation(ref parameter);
+
+                // reuse continuation for perf optimization if does not raise recursively.
+                Interlocked.CompareExchange(ref awaiter, continuation, null);
+            }
+        }
 
         /// <summary>Push parameter to subscribers.</summary>
-        void ICommand.Execute(object parameter) => Trigger.OnNext((T)parameter);
+        void ICommand.Execute(object parameter) => Execute((T)parameter);
 
         /// <summary>Subscribe execute.</summary>
-        public IDisposable Subscribe(IObserver<T> observer) => Trigger.Subscribe(observer);
+        public IDisposable Subscribe(IObserver<T> observer) =>Trigger.Subscribe(observer);
 
         /// <summary>
         /// Stop all subscription and lock CanExecute is false.
@@ -147,6 +165,17 @@ namespace Reactive.Bindings
                     CanExecuteChanged?.Invoke(this, EventArgs.Empty);
                 });
             }
+        }
+
+        // async extension
+
+        ReactivePropertyAwaiter<T> awaiter;
+
+        public ReactivePropertyAwaiter<T> GetAwaiter()
+        {
+            if (awaiter != null) return awaiter;
+            Interlocked.CompareExchange(ref awaiter, new ReactivePropertyAwaiter<T>(), null);
+            return awaiter;
         }
     }
 

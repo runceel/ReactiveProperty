@@ -123,6 +123,12 @@ namespace Reactive.Bindings
 
         void OnNextAndRaiseValueChanged(ref T value)
         {
+            ReactivePropertyAwaiter<T> continuation = null;
+            if (awaiter != null)
+            {
+                continuation = Interlocked.Exchange(ref awaiter, null);
+            }
+
             // call source.OnNext
             var node = root;
             while (node != null)
@@ -132,6 +138,14 @@ namespace Reactive.Bindings
             }
 
             this.PropertyChanged?.Invoke(this, SingletonPropertyChangedEventArgs.Value);
+
+            if (continuation != null)
+            {
+                continuation.InvokeContinuation(ref value);
+
+                // reuse continuation for perf optimization if does not raise recursively.
+                Interlocked.CompareExchange(ref awaiter, continuation, null);
+            }
         }
 
         public void ForceNotify()
@@ -208,6 +222,18 @@ namespace Reactive.Bindings
             return (latestValue == null)
                 ? "null"
                 : latestValue.ToString();
+        }
+
+        // async extension
+
+
+        ReactivePropertyAwaiter<T> awaiter;
+
+        public ReactivePropertyAwaiter<T> GetAwaiter()
+        {
+            if (awaiter != null) return awaiter;
+            Interlocked.CompareExchange(ref awaiter, new ReactivePropertyAwaiter<T>(), null);
+            return awaiter;
         }
 
         // NotSupported, return always true/empty.
@@ -357,6 +383,12 @@ namespace Reactive.Bindings
             // SetValue
             this.latestValue = value;
 
+            ReactivePropertyAwaiter<T> continuation = null;
+            if (awaiter != null)
+            {
+                continuation = Interlocked.Exchange(ref awaiter, null);
+            }
+
             // call source.OnNext
             var node = root;
             while (node != null)
@@ -367,6 +399,14 @@ namespace Reactive.Bindings
 
             // Notify changed.
             this.PropertyChanged?.Invoke(this, SingletonPropertyChangedEventArgs.Value);
+
+            if (continuation != null)
+            {
+                continuation.InvokeContinuation(ref value);
+
+                // reuse continuation for perf optimization if does not raise recursively.
+                Interlocked.CompareExchange(ref awaiter, continuation, null);
+            }
         }
 
         void IObserver<T>.OnError(Exception error)
@@ -385,6 +425,18 @@ namespace Reactive.Bindings
             return (latestValue == null)
                 ? "null"
                 : latestValue.ToString();
+        }
+
+        // async extension
+
+
+        ReactivePropertyAwaiter<T> awaiter;
+
+        public ReactivePropertyAwaiter<T> GetAwaiter()
+        {
+            if (awaiter != null) return awaiter;
+            Interlocked.CompareExchange(ref awaiter, new ReactivePropertyAwaiter<T>(), null);
+            return awaiter;
         }
     }
 

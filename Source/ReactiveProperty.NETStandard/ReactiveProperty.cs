@@ -8,6 +8,7 @@ using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using System.Threading;
 using System.Threading.Tasks;
 using Reactive.Bindings.Extensions;
 using Reactive.Bindings.Internals;
@@ -303,10 +304,35 @@ namespace Reactive.Bindings
 
         private void SetValue(T value)
         {
+            ReactivePropertyAwaiter<T> continuation = null;
+            if (awaiter != null)
+            {
+                continuation = Interlocked.Exchange(ref awaiter, null);
+            }
+
             this.LatestValue = value;
             this.ValidationTrigger.OnNext(value);
             this.Source.OnNext(value);
             this.RaiseEventScheduler.Schedule(() => this.PropertyChanged?.Invoke(this, SingletonPropertyChangedEventArgs.Value));
+
+            if (continuation != null)
+            {
+                continuation.InvokeContinuation(ref value);
+
+                // reuse continuation for perf optimization if does not raise recursively.
+                Interlocked.CompareExchange(ref awaiter, continuation, null);
+            }
+        }
+
+        // async extension
+
+        ReactivePropertyAwaiter<T> awaiter;
+
+        public ReactivePropertyAwaiter<T> GetAwaiter()
+        {
+            if (awaiter != null) return awaiter;
+            Interlocked.CompareExchange(ref awaiter, new ReactivePropertyAwaiter<T>(), null);
+            return awaiter;
         }
     }
 
