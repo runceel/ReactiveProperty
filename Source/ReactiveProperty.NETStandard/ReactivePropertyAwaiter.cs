@@ -2,6 +2,7 @@
 using ReactiveProperty.Internals;
 using System;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace Reactive.Bindings
 {
@@ -79,5 +80,28 @@ namespace Reactive.Bindings
 
             throw new NotSupportedException();
         }
+
+        // for Task.WhenAll support.
+
+        public static async Task<T> ToTask<T>(this IReactiveProperty<T> source)
+        {
+            return await source;
+        }
+
+        public static async Task<T> ToTask<T>(this IReadOnlyReactiveProperty<T> source)
+        {
+            return await source;
+        }
+
+        public static async Task<T> ToTask<T>(this ReactiveCommand<T> command)
+        {
+            return await command;
+        }
+
+        public static async Task<T> ToTask<T>(this AsyncReactiveCommand<T> command)
+        {
+            return await command;
+        }
+
     }
 }
