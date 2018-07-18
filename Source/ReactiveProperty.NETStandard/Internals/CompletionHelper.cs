@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 
-namespace ReactiveProperty.Internals
+namespace Reactive.Bindings.Internals
 {
     internal static class CompletionHelper
     {

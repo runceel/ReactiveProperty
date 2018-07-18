@@ -1,5 +1,5 @@
 ﻿using Reactive.Bindings;
-using ReactiveProperty.Internals;
+using Reactive.Bindings.Internals;
 using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;

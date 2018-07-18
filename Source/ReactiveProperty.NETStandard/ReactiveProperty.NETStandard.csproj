@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>ReactiveProperty</AssemblyName>
-    <RootNamespace>ReactiveProperty</RootNamespace>
+    <RootNamespace>Reactive.Bindings</RootNamespace>
     <Description>ReactiveProperty is MVVM and Asynchronous Extensions for Reactive Extensions(System.Reactive). Target is .NET Standard 2.0.</Description>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Version>5.0.0</Version>
