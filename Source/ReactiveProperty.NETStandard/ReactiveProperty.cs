@@ -304,24 +304,12 @@ namespace Reactive.Bindings
 
         private void SetValue(T value)
         {
-            ReactivePropertyAwaiter<T> continuation = null;
-            if (awaiter != null)
-            {
-                continuation = Interlocked.Exchange(ref awaiter, null);
-            }
-
             this.LatestValue = value;
             this.ValidationTrigger.OnNext(value);
             this.Source.OnNext(value);
             this.RaiseEventScheduler.Schedule(() => this.PropertyChanged?.Invoke(this, SingletonPropertyChangedEventArgs.Value));
 
-            if (continuation != null)
-            {
-                continuation.InvokeContinuation(ref value);
-
-                // reuse continuation for perf optimization if does not raise recursively.
-                Interlocked.CompareExchange(ref awaiter, continuation, null);
-            }
+            awaiter?.InvokeContinuation(ref value);
         }
 
         // async extension

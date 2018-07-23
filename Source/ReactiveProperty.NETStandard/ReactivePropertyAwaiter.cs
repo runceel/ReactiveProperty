@@ -1,37 +1,99 @@
 ﻿using Reactive.Bindings;
 using Reactive.Bindings.Internals;
 using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace Reactive.Bindings
 {
+    // Reusable
     public class ReactivePropertyAwaiter<T> : ICriticalNotifyCompletion
     {
-        object continuationField;
-        T value;
+        T result;
+        object continuation; // Action or Queue<Action>
+        Queue<(int, T)> queueValues;
+        bool running;
+        int waitingContinuationCount;
 
         public bool IsCompleted => false;
 
-        public void InvokeContinuation(ref T value)
-        {
-            this.value = value;
-            CompletionHelper.InvokeContinuation(ref continuationField);
-        }
-
         public T GetResult()
         {
-            return value;
+            return result;
+        }
+
+        public void InvokeContinuation(ref T value)
+        {
+            if (continuation == null) return;
+
+            if (continuation is Action act)
+            {
+                this.result = value;
+                continuation = null;
+                act();
+            }
+            else
+            {
+                if (waitingContinuationCount == 0) return;
+
+                var q = (Queue<Action>)continuation;
+                if (queueValues == null) queueValues = new Queue<(int, T)>(4);
+                queueValues.Enqueue((waitingContinuationCount, value));
+                waitingContinuationCount = 0;
+
+                if (!running)
+                {
+                    running = true;
+                    try
+                    {
+                        while (queueValues.Count != 0)
+                        {
+                            var (runCount, v) = queueValues.Dequeue();
+                            this.result = v;
+                            for (int i = 0; i < runCount; i++)
+                            {
+                                q.Dequeue().Invoke();
+                            }
+                        }
+                    }
+                    finally
+                    {
+                        running = false;
+                    }
+                }
+            }
         }
 
         public void OnCompleted(Action continuation)
         {
-            CompletionHelper.AppendContinuation(ref continuationField, continuation);
+            UnsafeOnCompleted(continuation);
         }
 
-        public void UnsafeOnCompleted(Action continuation)
+        public void UnsafeOnCompleted(Action action)
         {
-            CompletionHelper.AppendContinuation(ref continuationField, continuation);
+            if (continuation == null)
+            {
+                continuation = action;
+                return;
+            }
+            else
+            {
+                if (continuation is Action act)
+                {
+                    var q = new Queue<Action>(4);
+                    q.Enqueue(act);
+                    q.Enqueue(action);
+                    continuation = q;
+                    waitingContinuationCount = 2;
+                    return;
+                }
+                else
+                {
+                    ((Queue<Action>)continuation).Enqueue(action);
+                    waitingContinuationCount++;
+                }
+            }
         }
     }
 
@@ -83,25 +145,24 @@ namespace Reactive.Bindings
 
         // for Task.WhenAll support.
 
-        public static async Task<T> ToTask<T>(this IReactiveProperty<T> source)
+        public static async Task<T> WaitUntilValueChangedAsync<T>(this IReactiveProperty<T> source)
         {
             return await source;
         }
 
-        public static async Task<T> ToTask<T>(this IReadOnlyReactiveProperty<T> source)
+        public static async Task<T> WaitUntilValueChangedAsync<T>(this IReadOnlyReactiveProperty<T> source)
         {
             return await source;
         }
 
-        public static async Task<T> ToTask<T>(this ReactiveCommand<T> command)
+        public static async Task<T> WaitUntilValueChangedAsync<T>(this ReactiveCommand<T> command)
         {
             return await command;
         }
 
-        public static async Task<T> ToTask<T>(this AsyncReactiveCommand<T> command)
+        public static async Task<T> WaitUntilValueChangedAsync<T>(this AsyncReactiveCommand<T> command)
         {
             return await command;
         }
-
     }
 }

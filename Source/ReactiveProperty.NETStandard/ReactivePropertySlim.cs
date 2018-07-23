@@ -123,12 +123,6 @@ namespace Reactive.Bindings
 
         void OnNextAndRaiseValueChanged(ref T value)
         {
-            ReactivePropertyAwaiter<T> continuation = null;
-            if (awaiter != null)
-            {
-                continuation = Interlocked.Exchange(ref awaiter, null);
-            }
-
             // call source.OnNext
             var node = root;
             while (node != null)
@@ -138,14 +132,7 @@ namespace Reactive.Bindings
             }
 
             this.PropertyChanged?.Invoke(this, SingletonPropertyChangedEventArgs.Value);
-
-            if (continuation != null)
-            {
-                continuation.InvokeContinuation(ref value);
-
-                // reuse continuation for perf optimization if does not raise recursively.
-                Interlocked.CompareExchange(ref awaiter, continuation, null);
-            }
+            awaiter?.InvokeContinuation(ref value);
         }
 
         public void ForceNotify()
@@ -225,7 +212,6 @@ namespace Reactive.Bindings
         }
 
         // async extension
-
 
         ReactivePropertyAwaiter<T> awaiter;
 
@@ -383,12 +369,6 @@ namespace Reactive.Bindings
             // SetValue
             this.latestValue = value;
 
-            ReactivePropertyAwaiter<T> continuation = null;
-            if (awaiter != null)
-            {
-                continuation = Interlocked.Exchange(ref awaiter, null);
-            }
-
             // call source.OnNext
             var node = root;
             while (node != null)
@@ -400,13 +380,7 @@ namespace Reactive.Bindings
             // Notify changed.
             this.PropertyChanged?.Invoke(this, SingletonPropertyChangedEventArgs.Value);
 
-            if (continuation != null)
-            {
-                continuation.InvokeContinuation(ref value);
-
-                // reuse continuation for perf optimization if does not raise recursively.
-                Interlocked.CompareExchange(ref awaiter, continuation, null);
-            }
+            awaiter?.InvokeContinuation(ref value);
         }
 
         void IObserver<T>.OnError(Exception error)
@@ -428,7 +402,6 @@ namespace Reactive.Bindings
         }
 
         // async extension
-
 
         ReactivePropertyAwaiter<T> awaiter;
 

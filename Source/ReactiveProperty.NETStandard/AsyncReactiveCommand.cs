@@ -33,7 +33,7 @@ namespace Reactive.Bindings
         /// The source is shared between other AsyncReactiveCommand.
         /// </summary>
         public AsyncReactiveCommand(IReactiveProperty<bool> sharedCanExecute)
-            :base(sharedCanExecute)
+            : base(sharedCanExecute)
         {
         }
 
@@ -126,12 +126,6 @@ namespace Reactive.Bindings
                 canExecute.Value = false;
                 var a = asyncActions.Data;
 
-                ReactivePropertyAwaiter<T> continuation = null;
-                if (awaiter != null)
-                {
-                    continuation = Interlocked.Exchange(ref awaiter, null);
-                }
-
                 if (a.Length == 1)
                 {
                     try
@@ -139,13 +133,7 @@ namespace Reactive.Bindings
                         var asyncState = a[0].Invoke(parameter) ?? Task.CompletedTask;
                         await asyncState;
 
-                        if (continuation != null)
-                        {
-                            continuation.InvokeContinuation(ref parameter);
-
-                            // reuse continuation if does not raise recursively.
-                            Interlocked.CompareExchange(ref awaiter, continuation, null);
-                        }
+                        awaiter?.InvokeContinuation(ref parameter);
                     }
                     finally
                     {
@@ -163,14 +151,7 @@ namespace Reactive.Bindings
                         }
 
                         await Task.WhenAll(xs);
-
-                        if (continuation != null)
-                        {
-                            continuation.InvokeContinuation(ref parameter);
-
-                            // reuse continuation if does not raise recursively.
-                            Interlocked.CompareExchange(ref awaiter, continuation, null);
-                        }
+                        awaiter?.InvokeContinuation(ref parameter);
                     }
                     finally
                     {
@@ -229,6 +210,8 @@ namespace Reactive.Bindings
                 }
             }
         }
+
+        // async extension
 
         ReactivePropertyAwaiter<T> awaiter;
 

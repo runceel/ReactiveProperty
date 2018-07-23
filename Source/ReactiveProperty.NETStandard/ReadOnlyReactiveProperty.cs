@@ -29,8 +29,8 @@ namespace Reactive.Bindings
         private bool IsRaiseLatestValueOnSubscribe { get; }
 
         public ReadOnlyReactiveProperty(
-            IObservable<T> source, 
-            T initialValue = default(T), 
+            IObservable<T> source,
+            T initialValue = default(T),
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe,
             IScheduler eventScheduler = null,
             IEqualityComparer<T> equalityComparer = null)
@@ -45,21 +45,8 @@ namespace Reactive.Bindings
                 {
                     this.LatestValue = x;
 
-                    ReactivePropertyAwaiter<T> continuation = null;
-                    if (awaiter != null)
-                    {
-                        continuation = Interlocked.Exchange(ref awaiter, null);
-                    }
-
                     this.InnerSource.OnNext(x);
-
-                    if (continuation != null)
-                    {
-                        continuation.InvokeContinuation(ref x);
-
-                        // reuse continuation for perf optimization if does not raise recursively.
-                        Interlocked.CompareExchange(ref awaiter, continuation, null);
-                    }
+                    awaiter?.InvokeContinuation(ref x);
                 })
                 .ObserveOn(eventScheduler ?? ReactivePropertyScheduler.Default)
                 .Subscribe(_ =>
