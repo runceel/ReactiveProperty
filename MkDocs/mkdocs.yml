@@ -18,6 +18,7 @@ pages:
     - 'Transfer event to ViewModel from View': 'features/Event-transfer-to-ViewModel-from-View.md'
 - Advanced topcs:
     - 'Thread control': 'advanced/thread.md'
+    - 'Work with await operator': 'advanced/awaitable.md'
 - Samples: 'samples.md'
 theme: readthedocs
 google_analytics: 
