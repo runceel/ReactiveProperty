@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>ReactiveProperty</id>
-    <version>5.1.0</version>
+    <version>5.1.1</version>
     <title>ReactiveProperty</title>
     <authors>neuecc xin9le okazuki</authors>
     <owners>neuecc xin9le okazuki</owners>
@@ -34,18 +34,6 @@
         <dependency id="System.Reflection.Extensions" version="4.3.0" />
         <dependency id="System.Runtime" version="4.3.0" />
       </group>
-      <group targetFramework="net461">
-        <dependency id="System.Reactive" version="4.0.0" />
-      </group>
-      <group targetFramework="MonoAndroid">
-        <dependency id="System.Reactive" version="4.0.0" />
-      </group>
-      <group targetFramework="MonoTouch">
-        <dependency id="System.Reactive" version="4.0.0" />
-      </group>
-      <group targetFramework="Xamarin.Mac20">
-        <dependency id="System.Reactive" version="4.0.0" />
-      </group>
     </dependencies>
     <frameworkAssemblies>
       <!-- net461 -->
@@ -55,7 +43,6 @@
       <frameworkAssembly assemblyName="PresentationFramework" targetFramework="net461" />
       <frameworkAssembly assemblyName="System.Xaml" targetFramework="net461" />
       <frameworkAssembly assemblyName="System.Core" targetFramework="net461" />
-      <frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations" targetFramework="net461" />
       <!-- xamarin -->
       <frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations" targetFramework="MonoAndroid" />
       <frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations" targetFramework="MonoTouch" />

@@ -8,6 +8,7 @@ using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using System.Threading;
 using System.Threading.Tasks;
 using Reactive.Bindings.Extensions;
 using Reactive.Bindings.Internals;
@@ -307,6 +308,19 @@ namespace Reactive.Bindings
             this.ValidationTrigger.OnNext(value);
             this.Source.OnNext(value);
             this.RaiseEventScheduler.Schedule(() => this.PropertyChanged?.Invoke(this, SingletonPropertyChangedEventArgs.Value));
+
+            awaiter?.InvokeContinuation(ref value);
+        }
+
+        // async extension
+
+        ReactivePropertyAwaiter<T> awaiter;
+
+        public ReactivePropertyAwaiter<T> GetAwaiter()
+        {
+            if (awaiter != null) return awaiter;
+            Interlocked.CompareExchange(ref awaiter, new ReactivePropertyAwaiter<T>(), null);
+            return awaiter;
         }
     }
 

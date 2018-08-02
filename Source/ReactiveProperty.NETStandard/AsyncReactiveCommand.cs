@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reactive.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -32,7 +33,7 @@ namespace Reactive.Bindings
         /// The source is shared between other AsyncReactiveCommand.
         /// </summary>
         public AsyncReactiveCommand(IReactiveProperty<bool> sharedCanExecute)
-            :base(sharedCanExecute)
+            : base(sharedCanExecute)
         {
         }
 
@@ -124,12 +125,15 @@ namespace Reactive.Bindings
             {
                 canExecute.Value = false;
                 var a = asyncActions.Data;
+
                 if (a.Length == 1)
                 {
                     try
                     {
                         var asyncState = a[0].Invoke(parameter) ?? Task.CompletedTask;
                         await asyncState;
+
+                        awaiter?.InvokeContinuation(ref parameter);
                     }
                     finally
                     {
@@ -147,6 +151,7 @@ namespace Reactive.Bindings
                         }
 
                         await Task.WhenAll(xs);
+                        awaiter?.InvokeContinuation(ref parameter);
                     }
                     finally
                     {
@@ -204,6 +209,17 @@ namespace Reactive.Bindings
                     parent.asyncActions = parent.asyncActions.Remove(asyncAction);
                 }
             }
+        }
+
+        // async extension
+
+        ReactivePropertyAwaiter<T> awaiter;
+
+        public ReactivePropertyAwaiter<T> GetAwaiter()
+        {
+            if (awaiter != null) return awaiter;
+            Interlocked.CompareExchange(ref awaiter, new ReactivePropertyAwaiter<T>(), null);
+            return awaiter;
         }
     }
 

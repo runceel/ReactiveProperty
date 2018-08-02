@@ -3,6 +3,7 @@ using System.Windows.Input;
 using System.Reactive.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Subjects;
+using System.Threading;
 
 namespace Reactive.Bindings
 {
@@ -118,10 +119,14 @@ namespace Reactive.Bindings
         bool ICommand.CanExecute(object parameter) => IsCanExecute;
 
         /// <summary>Push parameter to subscribers.</summary>
-        public void Execute(T parameter) => Trigger.OnNext(parameter);
+        public void Execute(T parameter)
+        {
+            Trigger.OnNext(parameter);
+            awaiter?.InvokeContinuation(ref parameter);
+        }
 
         /// <summary>Push parameter to subscribers.</summary>
-        void ICommand.Execute(object parameter) => Trigger.OnNext((T)parameter);
+        void ICommand.Execute(object parameter) => Execute((T)parameter);
 
         /// <summary>Subscribe execute.</summary>
         public IDisposable Subscribe(IObserver<T> observer) => Trigger.Subscribe(observer);
@@ -148,6 +153,17 @@ namespace Reactive.Bindings
                 });
             }
         }
+
+        // async extension
+
+        ReactivePropertyAwaiter<T> awaiter;
+
+        public ReactivePropertyAwaiter<T> GetAwaiter()
+        {
+            if (awaiter != null) return awaiter;
+            Interlocked.CompareExchange(ref awaiter, new ReactivePropertyAwaiter<T>(), null);
+            return awaiter;
+        }
     }
 
     /// <summary>
@@ -158,7 +174,7 @@ namespace Reactive.Bindings
         /// <summary>
         /// CanExecuteChanged is called from canExecute sequence on UIDispatcherScheduler.
         /// </summary>
-        public static ReactiveCommand ToReactiveCommand(this IObservable<bool> canExecuteSource, bool initialValue = true) => 
+        public static ReactiveCommand ToReactiveCommand(this IObservable<bool> canExecuteSource, bool initialValue = true) =>
             new ReactiveCommand(canExecuteSource, initialValue);
 
         /// <summary>
