@@ -366,3 +366,28 @@ public class ViewModel
 ```
 
 ![Share state](images/asyncreactivecommand-share-state.gif)
+
+## Thread
+
+### ReactiveCommand class
+
+When use the ReactiveCommand class, the class raise CanExecute event on a scheduler(default is UI thread scheduler.) If you want to change the behaviour then use the overload method of ToReactiveCommand which has IScheduler argument.
+
+See below:
+
+```cs
+canExecuteSource.ToReactiveCommand(theSchedulerInstanceYouWant);
+```
+
+### AsyncReactiveCommand class
+
+AsyncReactiveCommand class doesn't change thread automaticaly. If you want to change thread, then use `ObserveOn` method.
+
+See below:
+
+```cs
+canExecuteSource.ObserveOn(theSchedulerInstanceYouWant).ToAsyncReactiveCommand();
+```
+
+
+
