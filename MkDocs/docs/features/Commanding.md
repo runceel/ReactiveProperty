@@ -367,7 +367,7 @@ public class ViewModel
 
 ![Share state](images/asyncreactivecommand-share-state.gif)
 
-## Thread
+## Threading
 
 ### ReactiveCommand class
 
