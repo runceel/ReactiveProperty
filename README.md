@@ -135,12 +135,13 @@ It's means that ReactiveProperty can use together the another MVVM library like 
 
 ## NuGet
 
-[ReactiveProperrty](https://www.nuget.org/packages/ReactiveProperty)
+[ReactiveProperty](https://www.nuget.org/packages/ReactiveProperty)
 
 ## Author info
 
 Yoshifumi Kawai a.k.a. [@neuecc](https://twitter.com/neuecc) is software developer in Tokyo, Japan.
 Awarded Microsoft MVP for Visual Studio and Development Technologies since April, 2011.
+He is an original owner of ReactiveProperty.
 
 Takaaki Suzuki a.k.a. [@xin9le](https://twitter.com/xin9le) software devleoper in Tokyo, Japan.
 Awarded Microsoft MVP for Visual Studio and Development Technologies since July, 2012.
