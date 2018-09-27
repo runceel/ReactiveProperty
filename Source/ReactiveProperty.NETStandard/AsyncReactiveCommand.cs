@@ -132,8 +132,6 @@ namespace Reactive.Bindings
                     {
                         var asyncState = a[0].Invoke(parameter) ?? Task.CompletedTask;
                         await asyncState;
-
-                        awaiter?.InvokeContinuation(ref parameter);
                     }
                     finally
                     {
@@ -151,7 +149,6 @@ namespace Reactive.Bindings
                         }
 
                         await Task.WhenAll(xs);
-                        awaiter?.InvokeContinuation(ref parameter);
                     }
                     finally
                     {
@@ -209,17 +206,6 @@ namespace Reactive.Bindings
                     parent.asyncActions = parent.asyncActions.Remove(asyncAction);
                 }
             }
-        }
-
-        // async extension
-
-        ReactivePropertyAwaiter<T> awaiter;
-
-        public ReactivePropertyAwaiter<T> GetAwaiter()
-        {
-            if (awaiter != null) return awaiter;
-            Interlocked.CompareExchange(ref awaiter, new ReactivePropertyAwaiter<T>(), null);
-            return awaiter;
         }
     }
 

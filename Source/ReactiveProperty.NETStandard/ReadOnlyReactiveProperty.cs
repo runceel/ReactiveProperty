@@ -46,7 +46,6 @@ namespace Reactive.Bindings
                     this.LatestValue = x;
 
                     this.InnerSource.OnNext(x);
-                    awaiter?.InvokeContinuation(ref x);
                 })
                 .ObserveOn(eventScheduler ?? ReactivePropertyScheduler.Default)
                 .Subscribe(_ =>
@@ -84,17 +83,6 @@ namespace Reactive.Bindings
                 this.InnerSource.OnCompleted();
                 this.Subscription.Dispose();
             }
-        }
-
-        // async extension
-
-        ReactivePropertyAwaiter<T> awaiter;
-
-        public ReactivePropertyAwaiter<T> GetAwaiter()
-        {
-            if (awaiter != null) return awaiter;
-            Interlocked.CompareExchange(ref awaiter, new ReactivePropertyAwaiter<T>(), null);
-            return awaiter;
         }
     }
 
