@@ -132,7 +132,6 @@ namespace Reactive.Bindings
             }
 
             this.PropertyChanged?.Invoke(this, SingletonPropertyChangedEventArgs.Value);
-            awaiter?.InvokeContinuation(ref value);
         }
 
         public void ForceNotify()
@@ -209,17 +208,6 @@ namespace Reactive.Bindings
             return (latestValue == null)
                 ? "null"
                 : latestValue.ToString();
-        }
-
-        // async extension
-
-        ReactivePropertyAwaiter<T> awaiter;
-
-        public ReactivePropertyAwaiter<T> GetAwaiter()
-        {
-            if (awaiter != null) return awaiter;
-            Interlocked.CompareExchange(ref awaiter, new ReactivePropertyAwaiter<T>(), null);
-            return awaiter;
         }
 
         // NotSupported, return always true/empty.
@@ -379,8 +367,6 @@ namespace Reactive.Bindings
 
             // Notify changed.
             this.PropertyChanged?.Invoke(this, SingletonPropertyChangedEventArgs.Value);
-
-            awaiter?.InvokeContinuation(ref value);
         }
 
         void IObserver<T>.OnError(Exception error)
@@ -399,17 +385,6 @@ namespace Reactive.Bindings
             return (latestValue == null)
                 ? "null"
                 : latestValue.ToString();
-        }
-
-        // async extension
-
-        ReactivePropertyAwaiter<T> awaiter;
-
-        public ReactivePropertyAwaiter<T> GetAwaiter()
-        {
-            if (awaiter != null) return awaiter;
-            Interlocked.CompareExchange(ref awaiter, new ReactivePropertyAwaiter<T>(), null);
-            return awaiter;
         }
     }
 

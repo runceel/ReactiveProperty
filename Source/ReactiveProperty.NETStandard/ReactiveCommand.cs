@@ -122,7 +122,6 @@ namespace Reactive.Bindings
         public void Execute(T parameter)
         {
             Trigger.OnNext(parameter);
-            awaiter?.InvokeContinuation(ref parameter);
         }
 
         /// <summary>Push parameter to subscribers.</summary>
@@ -152,17 +151,6 @@ namespace Reactive.Bindings
                     CanExecuteChanged?.Invoke(this, EventArgs.Empty);
                 });
             }
-        }
-
-        // async extension
-
-        ReactivePropertyAwaiter<T> awaiter;
-
-        public ReactivePropertyAwaiter<T> GetAwaiter()
-        {
-            if (awaiter != null) return awaiter;
-            Interlocked.CompareExchange(ref awaiter, new ReactivePropertyAwaiter<T>(), null);
-            return awaiter;
         }
     }
 

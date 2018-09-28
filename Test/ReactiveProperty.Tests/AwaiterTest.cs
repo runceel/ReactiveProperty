@@ -1,11 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Reactive.Bindings;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reactive.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -40,45 +35,25 @@ namespace ReactiveProperty.Tests
         }
 
         [TestMethod]
-        public async Task MultipleAwaitProperty()
+        public async Task AwaitPropertyHandler()
         {
             IReactiveProperty<int> prop = new ReactiveProperty<int>();
             prop.Value = 999;
 
-            var tasks = new ConcurrentQueue<Task>();
-            var values = new ConcurrentQueue<int>();
-            Parallel.For(0, 3, async _ =>
+            using (var handler = prop.GetAsyncHandler(CancellationToken.None))
             {
-                var tcs = new TaskCompletionSource<int>();
-                tasks.Enqueue(tcs.Task);
-                values.Enqueue(await prop);
-                tcs.SetResult(0);
-            });
-            prop.Value = 1000;
-            prop.Value = 1001;
-            await Task.WhenAll(tasks);
-            values.Is(1000, 1000, 1000);
-        }
+                { var __ = Task.Delay(1000).ContinueWith(_ => prop.Value = 1000); }
+                var v1 = await handler;
+                v1.Is(1000);
 
-        [TestMethod]
-        public async Task MultipleAwaitCommand()
-        {
-            var cmd = new ReactiveCommand<int>();
-            cmd.Execute(999);
+                { var __ = Task.Delay(1000).ContinueWith(_ => prop.Value = 1001); }
+                var v2 = await handler;
+                v2.Is(1001);
 
-            var tasks = new ConcurrentQueue<Task>();
-            var values = new ConcurrentQueue<int>();
-            Parallel.For(0, 3, async _ =>
-            {
-                var tcs = new TaskCompletionSource<int>();
-                tasks.Enqueue(tcs.Task);
-                values.Enqueue(await cmd);
-                tcs.SetResult(0);
-            });
-            cmd.Execute(1000);
-            cmd.Execute(1001);
-            await Task.WhenAll(tasks);
-            values.Is(1000, 1000, 1000);
+                { var __ = Task.Delay(1000).ContinueWith(_ => prop.Value = 1002); }
+                var v3 = await handler;
+                v3.Is(1002);
+            }
         }
     }
 }
