@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Reactive.Subjects;
-using System.Reactive.Disposables;
-using System.Reactive.Concurrency;
 using System.ComponentModel;
+using System.Reactive.Concurrency;
+using System.Reactive.Disposables;
+using System.Reactive.Subjects;
 
 namespace Reactive.Bindings
 {
@@ -12,68 +12,93 @@ namespace Reactive.Bindings
     public class ReactiveTimer : IObservable<long>, IDisposable, INotifyPropertyChanged
     {
         private static PropertyChangedEventArgs IsEnabledPropertyChangedEventArs { get; } = new PropertyChangedEventArgs(nameof(IsEnabled));
+
         private static PropertyChangedEventArgs IntervalPropertyChangedEventArgs { get; } = new PropertyChangedEventArgs(nameof(Interval));
+
         private long Count { get; set; } = 0;
+
         private bool IsDisposed { get; set; } = false;
+
         private SerialDisposable Disposable { get; } = new SerialDisposable();
+
         private IScheduler Scheduler { get; }
+
         private Subject<long> Subject { get; } = new Subject<long>();
 
+        /// <summary>
+        /// Occurs when a property value changes.
+        /// </summary>
+        /// <returns></returns>
         public event PropertyChangedEventHandler PropertyChanged;
 
-        /// <summary>Operate scheduler ThreadPoolScheduler.</summary>
+        /// <summary>
+        /// Operate scheduler ThreadPoolScheduler.
+        /// </summary>
         public ReactiveTimer(TimeSpan interval)
             : this(interval, System.Reactive.Concurrency.Scheduler.Default)
         { }
 
-        /// <summary>Operate scheduler is argument's scheduler.</summary>
+        /// <summary>
+        /// Operate scheduler is argument's scheduler.
+        /// </summary>
         public ReactiveTimer(TimeSpan interval, IScheduler scheduler)
         {
             Interval = interval;
-            this.Scheduler = scheduler;
+            Scheduler = scheduler;
         }
 
         private TimeSpan interval;
 
-        /// <summary>Timer interval.</summary>
+        /// <summary>
+        /// Timer interval.
+        /// </summary>
         public TimeSpan Interval
         {
-            get { return this.interval; }
+            get
+            {
+                return interval;
+            }
+
             set
             {
-                if (this.interval == value)
-                {
+                if (interval == value) {
                     return;
                 }
 
-                this.interval = value;
-                this.PropertyChanged?.Invoke(this, IntervalPropertyChangedEventArgs);
+                interval = value;
+                PropertyChanged?.Invoke(this, IntervalPropertyChangedEventArgs);
             }
         }
-
-
 
         private bool isEnabled;
 
+        /// <summary>
+        /// Gets a value indicating whether this instance is enabled.
+        /// </summary>
+        /// <value><c>true</c> if this instance is enabled; otherwise, <c>false</c>.</value>
         public bool IsEnabled
         {
-            get => this.isEnabled;
+            get => isEnabled;
+
             private set
             {
-                if (this.isEnabled == value)
-                {
+                if (isEnabled == value) {
                     return;
                 }
 
-                this.isEnabled = value;
-                this.PropertyChanged?.Invoke(this, IsEnabledPropertyChangedEventArs);
+                isEnabled = value;
+                PropertyChanged?.Invoke(this, IsEnabledPropertyChangedEventArs);
             }
         }
 
-        /// <summary>Start timer immediately.</summary>
+        /// <summary>
+        /// Start timer immediately.
+        /// </summary>
         public void Start() => Start(TimeSpan.Zero);
 
-        /// <summary>Start timer after dueTime.</summary>
+        /// <summary>
+        /// Start timer after dueTime.
+        /// </summary>
         public void Start(TimeSpan dueTime)
         {
             Disposable.Disposable = new CompositeDisposable
@@ -84,23 +109,29 @@ namespace Reactive.Bindings
                         Subject.OnNext(Count++);
                         self(Interval);
                     }),
-                System.Reactive.Disposables.Disposable.Create(() => this.IsEnabled = false),
+                System.Reactive.Disposables.Disposable.Create(() => IsEnabled = false),
             };
-            this.IsEnabled = true;
+            IsEnabled = true;
         }
 
-        /// <summary>Stop timer.</summary>
+        /// <summary>
+        /// Stop timer.
+        /// </summary>
         public void Stop() =>
             Disposable.Disposable = System.Reactive.Disposables.Disposable.Empty;
 
-        /// <summary>Stop timer and reset count.</summary>
+        /// <summary>
+        /// Stop timer and reset count.
+        /// </summary>
         public void Reset()
         {
             Count = 0;
             Disposable.Disposable = System.Reactive.Disposables.Disposable.Empty;
         }
 
-        /// <summary>Subscribe observer.</summary>
+        /// <summary>
+        /// Subscribe observer.
+        /// </summary>
         public IDisposable Subscribe(IObserver<long> observer) =>
             Subject.Subscribe(observer);
 
@@ -109,7 +140,9 @@ namespace Reactive.Bindings
         /// </summary>
         public void Dispose()
         {
-            if (IsDisposed) return;
+            if (IsDisposed) {
+                return;
+            }
 
             IsDisposed = true;
             Subject.OnCompleted();

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Reflection;
 
-
-
 namespace Reactive.Bindings.Extensions
 {
     /// <summary>
@@ -13,26 +11,26 @@ namespace Reactive.Bindings.Extensions
     public class PropertyPack<TInstance, TValue>
     {
         #region Properies
+
         /// <summary>
         /// Gets instance which has property.
         /// </summary>
         public TInstance Instance { get; }
-
 
         /// <summary>
         /// Gets target property info.
         /// </summary>
         public PropertyInfo Property { get; }
 
-
         /// <summary>
         /// Gets target property value.
         /// </summary>
         public TValue Value { get; }
-        #endregion
 
+        #endregion Properies
 
         #region Constructor
+
         /// <summary>
         /// Create instance.
         /// </summary>
@@ -41,17 +39,17 @@ namespace Reactive.Bindings.Extensions
         /// <param name="value">Property value</param>
         internal PropertyPack(TInstance instance, PropertyInfo property, TValue value)
         {
-            if (instance == null) throw new ArgumentNullException(nameof(instance));
-            if (property == null) throw new ArgumentNullException(nameof(property));
+            if (instance == null) {
+                throw new ArgumentNullException(nameof(instance));
+            }
 
-            this.Instance = instance;
-            this.Property = property;
-            this.Value    = value;
+            Instance = instance;
+            Property = property ?? throw new ArgumentNullException(nameof(property));
+            Value = value;
         }
-        #endregion
+
+        #endregion Constructor
     }
-
-
 
     /// <summary>
     /// Provides PropertyPack static members.
@@ -66,6 +64,6 @@ namespace Reactive.Bindings.Extensions
         /// <param name="value">Property value</param>
         /// <returns>Created instance</returns>
         public static PropertyPack<TInstance, TValue> Create<TInstance, TValue>(TInstance instance, PropertyInfo property, TValue value) =>
-            new PropertyPack<TInstance,TValue>(instance, property, value);
+            new PropertyPack<TInstance, TValue>(instance, property, value);
     }
 }

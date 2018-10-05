@@ -3,37 +3,38 @@ using System.Reactive.Linq;
 
 namespace Reactive.Bindings.Extensions
 {
+    /// <summary>
+    /// Observable Pairwise Extensions
+    /// </summary>
     public static class ObservablePairwiseExtensions
     {
-        /// <summary>Projects old and new element of a sequence into a new form.</summary>
+        /// <summary>
+        /// Projects old and new element of a sequence into a new form.
+        /// </summary>
         public static IObservable<OldNewPair<T>> Pairwise<T>(this IObservable<T> source) =>
             Pairwise(source, (x, y) => new OldNewPair<T>(x, y));
 
-        /// <summary>Projects old and new element of a sequence into a new form.</summary>
+        /// <summary>
+        /// Projects old and new element of a sequence into a new form.
+        /// </summary>
         public static IObservable<TR> Pairwise<T, TR>(this IObservable<T> source, Func<T, T, TR> selector)
         {
-            var result = Observable.Create<TR>(observer =>
-            {
-                T prev = default(T);
+            var result = Observable.Create<TR>(observer => {
+                var prev = default(T);
                 var isFirst = true;
 
-                return source.Subscribe(x =>
-                {
-                    if (isFirst)
-                    {
+                return source.Subscribe(x => {
+                    if (isFirst) {
                         isFirst = false;
                         prev = x;
                         return;
                     }
 
                     TR value;
-                    try
-                    {
+                    try {
                         value = selector(prev, x);
                         prev = x;
-                    }
-                    catch (Exception ex)
-                    {
+                    } catch (Exception ex) {
                         observer.OnError(ex);
                         return;
                     }
