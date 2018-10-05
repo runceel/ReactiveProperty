@@ -16,10 +16,15 @@ namespace WPF
     public class MainWindowViewModel
     {
         public ReactiveCommand NavigateBasics { get; private set; }
+
         public ReactiveCommand NavigateAsync { get; private set; }
+
         public ReactiveCommand NavigateValidation { get; private set; }
+
         public ReactiveCommand NavigateEventToReactive { get; private set; }
+
         public ReactiveCommand NavigateSynchronize { get; private set; }
+
         public ReactiveCommand NavigateEventToReactiveCommand { get; private set; }
 
         public ReactiveCommand NavigateAsyncReactiveCommand { get; }
