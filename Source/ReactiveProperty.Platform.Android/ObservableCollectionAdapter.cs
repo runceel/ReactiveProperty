@@ -1,8 +1,8 @@
-using Android.Views;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using Android.Views;
 
 namespace Reactive.Bindings
 {
@@ -25,23 +25,29 @@ namespace Reactive.Bindings
             : base(list as IList<T>, createRowView, setRowData, getId)
         {
             if (!(list is IList<T>)) { throw new ArgumentException(nameof(list)); }
-            this.List = list;
-            this.List.CollectionChanged += this.CollectionChanged;
+            List = list;
+            List.CollectionChanged += CollectionChanged;
         }
 
+        /// <summary>
+        /// To be added.
+        /// </summary>
+        /// <param name="disposing">To be added.</param>
+        /// <remarks>To be added.</remarks>
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
-            if (disposing)
-            {
-                this.List.CollectionChanged -= this.CollectionChanged;
+            if (disposing) {
+                List.CollectionChanged -= CollectionChanged;
             }
         }
 
-        private void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => this.NotifyDataSetChanged();
-
+        private void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => NotifyDataSetChanged();
     }
 
+    /// <summary>
+    /// Observable Collection Extensions
+    /// </summary>
     public static class ObservableCollectionExtensions
     {
         /// <summary>
@@ -57,6 +63,9 @@ namespace Reactive.Bindings
             new ObservableCollectionAdapter<T>(self, createRowView, setRowData, getId);
     }
 
+    /// <summary>
+    /// ReadOnly Observable Collection Extensions
+    /// </summary>
     public static class ReadOnlyObservableCollectionExtensions
     {
         /// <summary>
