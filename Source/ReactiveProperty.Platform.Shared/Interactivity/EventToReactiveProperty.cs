@@ -33,13 +33,19 @@ namespace Reactive.Bindings.Interactivity
 
         private IDisposable disposable;
 
+        /// <summary>
+        /// Gets or sets the reactive property.
+        /// </summary>
+        /// <value>The reactive property.</value>
         public IReactiveProperty ReactiveProperty
         {
             get { return (IReactiveProperty)GetValue(ReactivePropertyProperty); }
             set { SetValue(ReactivePropertyProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Command.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// The reactive property property
+        /// </summary>
         public static readonly DependencyProperty ReactivePropertyProperty =
             DependencyProperty.Register(nameof(EventToReactiveProperty.ReactiveProperty), typeof(IReactiveProperty), typeof(EventToReactiveProperty), new PropertyMetadata(null));
 
@@ -52,38 +58,39 @@ namespace Reactive.Bindings.Interactivity
         /// <summary>
         /// set and get Value converter.
         /// </summary>
-        public List<IEventToReactiveConverter> Converters { get { return this.converters; } }
+        public List<IEventToReactiveConverter> Converters { get { return converters; } }
 
-        // Using a DependencyProperty as the backing store for Converter.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Called when [detaching].
+        /// </summary>
         protected override void OnDetaching()
         {
             base.OnDetaching();
-            this.disposable?.Dispose();
+            disposable?.Dispose();
         }
 
+        /// <summary>
+        /// Invokes the specified parameter.
+        /// </summary>
+        /// <param name="parameter">The parameter.</param>
         protected override void Invoke(object parameter)
         {
-            if (this.disposable == null)
-            {
-                IObservable<object> ox = this.source;
-                foreach (var c in this.Converters)
-                {
-                    c.AssociateObject = this.AssociatedObject;
+            if (disposable == null) {
+                IObservable<object> ox = source;
+                foreach (var c in Converters) {
+                    c.AssociateObject = AssociatedObject;
                     ox = c.Convert(ox);
                 }
-                this.disposable = ox
+                disposable = ox
                     .ObserveOnUIDispatcher()
-                    .Where(_ => this.ReactiveProperty != null)
-                    .Subscribe(x => this.ReactiveProperty.Value = x);
+                    .Where(_ => ReactiveProperty != null)
+                    .Subscribe(x => ReactiveProperty.Value = x);
             }
 
-            if (!this.IgnoreEventArgs)
-            {
-                this.source.OnNext(parameter);
-            }
-            else
-            {
-                this.source.OnNext(Unit.Default);
+            if (!IgnoreEventArgs) {
+                source.OnNext(parameter);
+            } else {
+                source.OnNext(Unit.Default);
             }
         }
 
@@ -96,6 +103,5 @@ namespace Reactive.Bindings.Interactivity
                 return source;
             }
         }
-
     }
 }
