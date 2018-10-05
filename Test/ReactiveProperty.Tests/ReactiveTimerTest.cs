@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Text;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
+using System.Text;
+using System.Threading;
+using Microsoft.Reactive.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
-using System.Reactive.Linq;
-using Microsoft.Reactive.Testing;
-using System.Reactive.Subjects;
-using System.Threading;
 
 namespace ReactiveProperty.Tests
 {
@@ -75,7 +75,7 @@ namespace ReactiveProperty.Tests
                 OnNext(TimeSpan.FromSeconds(1).Ticks + 1, 1L),
                 OnNext(TimeSpan.FromSeconds(2).Ticks + 1, 2L),
                 OnNext(TimeSpan.FromSeconds(3).Ticks + 1, 3L));
-            
+
             timer.Stop();
             recorder.Messages.Clear();
 

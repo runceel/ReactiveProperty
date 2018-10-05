@@ -11,8 +11,7 @@ namespace ReactiveProperty.Tests.Extensions
         [TestMethod]
         public void LookupGetAndSet()
         {
-            var prop = "";
-            var get = AccessorCache<Person>.LookupGet(p => p.Name, out prop);
+            var get = AccessorCache<Person>.LookupGet(p => p.Name, out var prop);
             Assert.AreEqual("Name", prop);
 
             var set = AccessorCache<Person>.LookupSet(p => p.Name, out prop);
@@ -24,7 +23,7 @@ namespace ReactiveProperty.Tests.Extensions
             person.Name.Is("kimura");
         }
 
-        class Person
+        private class Person
         {
             public string Name { get; set; }
         }

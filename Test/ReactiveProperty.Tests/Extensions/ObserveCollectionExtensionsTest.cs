@@ -6,8 +6,8 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Runtime.CompilerServices;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Reactive.Bindings.Extensions;
 using Reactive.Bindings;
+using Reactive.Bindings.Extensions;
 
 namespace ReactiveProperty.Tests.Extensions
 {
@@ -278,29 +278,29 @@ namespace ReactiveProperty.Tests.Extensions
         [TestMethod]
         public void ObserveElementPropertyTest()
         {
-            this.ObserveElementPropertyTestCore(false);
+            ObserveElementPropertyTestCore(false);
         }
 
         [TestMethod]
         public void ReadOnlyObservableCollection_ObserveElementPropertyTest()
         {
-            this.ObserveElementPropertyTestCore(true);
+            ObserveElementPropertyTestCore(true);
         }
 
         private void ObserveElementPropertyTestCore(bool wrapAsReadOnly)
         {
-            var neuecc  = new Person { Name = "neuecc",  Age = 31 };
+            var neuecc = new Person { Name = "neuecc", Age = 31 };
             var okazuki = new Person { Name = "okazuki", Age = 34 };
-            var xin9le  = new Person { Name = "xin9le",  Age = 30 };
-            var anders  = new Person { Name = "anders",  Age = 54 };
-            var collection = new ObservableCollection<Person>(new []{ neuecc, okazuki });
+            var xin9le = new Person { Name = "xin9le", Age = 30 };
+            var anders = new Person { Name = "anders", Age = 54 };
+            var collection = new ObservableCollection<Person>(new[] { neuecc, okazuki });
 
             //--- no data
             var buffer = new List<PropertyPack<Person, string>>();
             buffer.Count.Is(0);
 
             //--- subscribe all
-            var sequence    = wrapAsReadOnly
+            var sequence = wrapAsReadOnly
                             ? new ReadOnlyObservableCollection<Person>(collection).ObserveElementProperty(x => x.Name)
                             : collection.ObserveElementProperty(x => x.Name);
             var subscription = sequence.Subscribe(buffer.Add);
@@ -366,15 +366,14 @@ namespace ReactiveProperty.Tests.Extensions
             buffer.Count.Is(7);
         }
 
-
         [TestMethod]
         public void OvserveElementObservablePropertyReferenceTypeTest()
         {
-            var neuecc  = new PersonViewModel("neuecc", 31);
+            var neuecc = new PersonViewModel("neuecc", 31);
             var okazuki = new PersonViewModel("okazuki", 33);
-            var xin9le  = new PersonViewModel("xin9le", 30);
-            var anders  = new PersonViewModel("anders", 54);
-            var collection = new ObservableCollection<PersonViewModel>(new []{ neuecc, okazuki });
+            var xin9le = new PersonViewModel("xin9le", 30);
+            var anders = new PersonViewModel("anders", 54);
+            var collection = new ObservableCollection<PersonViewModel>(new[] { neuecc, okazuki });
 
             //--- no data
             var buffer = new List<PropertyPack<PersonViewModel, string>>();
@@ -445,15 +444,14 @@ namespace ReactiveProperty.Tests.Extensions
             buffer.Count.Is(7);
         }
 
-
         [TestMethod]
         public void OvserveElementObservablePropertyValueTypeTest()
         {
-            var neuecc  = new PersonViewModel("neuecc", 31);
+            var neuecc = new PersonViewModel("neuecc", 31);
             var okazuki = new PersonViewModel("okazuki", 33);
-            var xin9le  = new PersonViewModel("xin9le", 30);
-            var anders  = new PersonViewModel("anders", 54);
-            var collection = new ObservableCollection<PersonViewModel>(new []{ neuecc, okazuki });
+            var xin9le = new PersonViewModel("xin9le", 30);
+            var anders = new PersonViewModel("anders", 54);
+            var collection = new ObservableCollection<PersonViewModel>(new[] { neuecc, okazuki });
 
             //--- no data
             var buffer = new List<PropertyPack<PersonViewModel, int>>();
@@ -524,7 +522,6 @@ namespace ReactiveProperty.Tests.Extensions
             buffer.Count.Is(7);
         }
 
-
         [TestMethod]
         public void ObserveElementPropertyChanged()
         {
@@ -563,65 +560,81 @@ namespace ReactiveProperty.Tests.Extensions
         }
 
         #region private classes
+
         private class Person : INotifyPropertyChanged
         {
             #region Properties
+
             public string Name
             {
-                get { return this.name; }
+                get
+                {
+                    return name;
+                }
+
                 set
                 {
-                    if (this.name != value)
-                    {
-                        this.name = value;
-                        this.RaisePropertyChanged();
+                    if (name != value) {
+                        name = value;
+                        RaisePropertyChanged();
                     }
                 }
             }
+
             private string name;
- 
+
             public int Age
             {
-                get { return this.age; }
+                get
+                {
+                    return age;
+                }
+
                 set
                 {
-                    if (this.age != value)
-                    {
-                        this.age = value;
-                        this.RaisePropertyChanged();
+                    if (age != value) {
+                        age = value;
+                        RaisePropertyChanged();
                     }
                 }
             }
-            private int age;
-            #endregion
 
+            private int age;
+
+            #endregion Properties
 
             #region INotifyPropertyChanged members
-            public event PropertyChangedEventHandler PropertyChanged;
-            #endregion
 
+            public event PropertyChangedEventHandler PropertyChanged;
+
+            #endregion INotifyPropertyChanged members
 
             #region helpers
+
             private void RaisePropertyChanged([CallerMemberName] string propertyName = null)
             {
-                var handler = this.PropertyChanged;
-                if (handler != null)
+                var handler = PropertyChanged;
+                if (handler != null) {
                     handler(this, new PropertyChangedEventArgs(propertyName));
+                }
             }
-            #endregion
+
+            #endregion helpers
         }
 
         private class PersonViewModel
         {
             public ReactiveProperty<string> Name { get; private set; }
+
             public ReactiveProperty<int> Age { get; private set; }
 
             public PersonViewModel(string name, int age)
             {
-                this.Name = new ReactiveProperty<string>(name);
-                this.Age = new ReactiveProperty<int>(age);
+                Name = new ReactiveProperty<string>(name);
+                Age = new ReactiveProperty<int>(age);
             }
         }
-        #endregion
+
+        #endregion private classes
     }
 }

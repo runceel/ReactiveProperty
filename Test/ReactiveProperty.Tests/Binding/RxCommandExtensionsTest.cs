@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Reactive;
+using System.Reactive.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Reactive.Bindings;
 using Reactive.Bindings.Binding;
 using Reactive.Bindings.Extensions;
-using System.Reactive;
-using System.Reactive.Linq;
 
 namespace ReactiveProperty.Tests.Binding
 {
@@ -51,7 +51,7 @@ namespace ReactiveProperty.Tests.Binding
 
         public void OnClick()
         {
-            this.Click(this, EventArgs.Empty);
+            Click(this, EventArgs.Empty);
         }
     }
 }

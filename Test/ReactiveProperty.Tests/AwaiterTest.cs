@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Reactive.Bindings;
-using System.Reactive.Linq;
+﻿using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Reactive.Bindings;
 
 namespace ReactiveProperty.Tests
 {
@@ -12,8 +12,10 @@ namespace ReactiveProperty.Tests
         [TestMethod]
         public async Task AwaitProperty()
         {
-            IReactiveProperty<int> prop = new ReactiveProperty<int>();
-            prop.Value = 999;
+            IReactiveProperty<int> prop = new ReactiveProperty<int>
+            {
+                Value = 999
+            };
 
             var __ = Task.Delay(1000).ContinueWith(_ => prop.Value = 1000);
 
@@ -25,7 +27,7 @@ namespace ReactiveProperty.Tests
         [TestMethod]
         public async Task AwaitCmd()
         {
-            ReactiveCommand<int> cmd = new ReactiveCommand<int>();
+            var cmd = new ReactiveCommand<int>();
 
             var __ = Task.Delay(1000).ContinueWith(_ => cmd.Execute(9999));
 
@@ -37,11 +39,12 @@ namespace ReactiveProperty.Tests
         [TestMethod]
         public async Task AwaitPropertyHandler()
         {
-            IReactiveProperty<int> prop = new ReactiveProperty<int>();
-            prop.Value = 999;
-
-            using (var handler = prop.GetAsyncHandler(CancellationToken.None))
+            IReactiveProperty<int> prop = new ReactiveProperty<int>
             {
+                Value = 999
+            };
+
+            using (var handler = prop.GetAsyncHandler(CancellationToken.None)) {
                 { var __ = Task.Delay(1000).ContinueWith(_ => prop.Value = 1000); }
                 var v1 = await handler;
                 v1.Is(1000);

@@ -1,9 +1,9 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using Reactive.Bindings;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Reactive.Concurrency;
-using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Reactive.Bindings;
 
 namespace RxPropTest
 {
@@ -75,18 +75,14 @@ namespace RxPropTest
             var rxAge = Reactive.Bindings.ReactiveProperty.FromObject(homuhomu, x => x.Age,
                 x => Convert.ToString(x, 16), x => Convert.ToInt32(x, 16),
                 ignoreValidationErrorValue: true)
-                .SetValidateNotifyError((string x) => 
-                    {
-                        try
-                        {
-                            Convert.ToInt32(x, 16);
-                            return null;
-                        }
-                        catch
-                        {
-                            return "error";
-                        }
-                    });
+                .SetValidateNotifyError((string x) => {
+                    try {
+                        Convert.ToInt32(x, 16);
+                        return null;
+                    } catch {
+                        return "error";
+                    }
+                });
 
             rxAge.Value.Is("d");
             rxAge.Value = "3f";
@@ -97,9 +93,10 @@ namespace RxPropTest
             homuhomu.Age.Is(63);
         }
 
-        class ToaruClass
+        private class ToaruClass
         {
             public string Name { get; set; }
+
             public int Age { get; set; }
         }
     }

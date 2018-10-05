@@ -1,15 +1,15 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Reactive.Bindings.Extensions;
 using Reactive.Bindings.Helpers;
-using System.Collections.Specialized;
 
 namespace ReactiveProperty.Tests.Helpers
 {
@@ -281,6 +281,7 @@ namespace ReactiveProperty.Tests.Helpers
 
             filtered.Count.Is(1);
         }
+
         [TestMethod]
         public void InconsistencyIndexWhenSourceCollectionItemReplace()
         {
@@ -357,14 +358,16 @@ namespace ReactiveProperty.Tests.Helpers
         }
 
         #region private class
+
         private class Person : INotifyPropertyChanged
         {
             public event PropertyChangedEventHandler PropertyChanged;
+
             private void SetProperty<T>(ref T field, T value, [CallerMemberName]string propertyName = null)
             {
                 if (object.Equals(field, value)) { return; }
                 field = value;
-                var h = this.PropertyChanged;
+                var h = PropertyChanged;
                 if (h != null) { h(this, new PropertyChangedEventArgs(propertyName)); }
             }
 
@@ -372,20 +375,19 @@ namespace ReactiveProperty.Tests.Helpers
 
             public string Name
             {
-                get { return this.name; }
-                set { this.SetProperty(ref this.name, value); }
+                get { return name; }
+                set { SetProperty(ref name, value); }
             }
 
             private bool isRemoved;
 
             public bool IsRemoved
             {
-                get { return this.isRemoved; }
-                set { this.SetProperty(ref this.isRemoved, value); }
+                get { return isRemoved; }
+                set { SetProperty(ref isRemoved, value); }
             }
-
         }
 
-        #endregion
+        #endregion private class
     }
 }
