@@ -55,9 +55,9 @@
 
     <!-- platform -->
     <!-- WPF NET461 -->
-    <file src="..\Binary\NET46\ReactiveProperty.NET46.dll" target="lib\net461" />
-    <file src="..\Binary\NET46\ReactiveProperty.NET46.XML" target="lib\net461" />
-    <file src="..\Binary\NET46\ReactiveProperty.NET46.pdb" target="lib\net461" />
+    <file src="..\Binary\net461\ReactiveProperty.NET46.dll" target="lib\net461" />
+    <file src="..\Binary\net461\ReactiveProperty.NET46.XML" target="lib\net461" />
+    <file src="..\Binary\net461\ReactiveProperty.NET46.pdb" target="lib\net461" />
     <file src="..\Binary\netstandard2.0\ReactiveProperty.dll" target="lib\net461" />
     <file src="..\Binary\netstandard2.0\ReactiveProperty.xml" target="lib\net461" />
     <file src="..\Binary\netstandard2.0\ReactiveProperty.pdb" target="lib\net461" />
