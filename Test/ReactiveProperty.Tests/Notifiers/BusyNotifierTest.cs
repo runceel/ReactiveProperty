@@ -1,10 +1,10 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Reactive.Bindings.Notifiers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Reactive.Bindings.Notifiers;
 
 namespace ReactiveProperty.Tests.Notifiers
 {
@@ -16,17 +16,14 @@ namespace ReactiveProperty.Tests.Notifiers
         {
             var n = new BusyNotifier();
             var notifyPropertyChangedCounter = 0;
-            n.PropertyChanged += (_, e) =>
-            {
-                if (e.PropertyName == nameof(BusyNotifier.IsBusy))
-                {
+            n.PropertyChanged += (_, e) => {
+                if (e.PropertyName == nameof(BusyNotifier.IsBusy)) {
                     notifyPropertyChangedCounter++;
                 }
             };
             var observeNotifyIsBusyCounter = 0;
             var latestNotifyIsBusyValue = false;
-            n.Subscribe(x =>
-            {
+            n.Subscribe(x => {
                 observeNotifyIsBusyCounter++;
                 latestNotifyIsBusyValue = x;
             });
@@ -55,17 +52,14 @@ namespace ReactiveProperty.Tests.Notifiers
         {
             var n = new BusyNotifier();
             var notifyPropertyChangedCounter = 0;
-            n.PropertyChanged += (_, e) =>
-            {
-                if (e.PropertyName == nameof(BusyNotifier.IsBusy))
-                {
+            n.PropertyChanged += (_, e) => {
+                if (e.PropertyName == nameof(BusyNotifier.IsBusy)) {
                     notifyPropertyChangedCounter++;
                 }
             };
             var observeNotifyIsBusyCounter = 0;
             var latestNotifyIsBusyValue = false;
-            n.Subscribe(x =>
-            {
+            n.Subscribe(x => {
                 observeNotifyIsBusyCounter++;
                 latestNotifyIsBusyValue = x;
             });
@@ -106,8 +100,7 @@ namespace ReactiveProperty.Tests.Notifiers
 
             var observeNotifyIsBusyCounter = 0;
             var latestNotifyIsBusyValue = false;
-            n.Subscribe(x =>
-            {
+            n.Subscribe(x => {
                 observeNotifyIsBusyCounter++;
                 latestNotifyIsBusyValue = x;
             });

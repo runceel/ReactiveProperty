@@ -1,9 +1,9 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Reactive.Disposables;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Reactive.Bindings;
-using System.Reactive.Disposables;
 
 namespace ReactiveProperty.Tests
 {
@@ -90,7 +90,6 @@ namespace ReactiveProperty.Tests
             canExecutedCounter1.Is(5);
             command2.CanExecute().IsTrue();
             canExecutedCounter1.Is(5);
-
         }
 
         [TestMethod]
@@ -193,10 +192,9 @@ namespace ReactiveProperty.Tests
             var task1 = new TaskCompletionSource<object>();
             var task2 = new TaskCompletionSource<object>();
 
-            IDisposable subscription;
             var command = new AsyncReactiveCommand()
                 .WithSubscribe(() => task1.Task)
-                .WithSubscribe(() => task2.Task, out subscription);
+                .WithSubscribe(() => task2.Task, out var subscription);
 
             subscription.Dispose();
 
@@ -212,10 +210,9 @@ namespace ReactiveProperty.Tests
             var task1 = new TaskCompletionSource<object>();
             var task2 = new TaskCompletionSource<object>();
 
-            IDisposable subscription;
             var command = new AsyncReactiveCommand<string>()
                 .WithSubscribe(_ => task1.Task)
-                .WithSubscribe(_ => task2.Task, out subscription);
+                .WithSubscribe(_ => task2.Task, out var subscription);
 
             subscription.Dispose();
 

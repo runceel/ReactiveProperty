@@ -1,14 +1,14 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Reactive.Bindings;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Concurrency;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using System.Reactive.Disposables;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Reactive.Bindings;
 
 namespace ReactiveProperty.Tests
 {
@@ -46,7 +46,6 @@ namespace ReactiveProperty.Tests
             var rp = s.ToReadOnlyReactiveProperty();
             var buffer1 = new List<string>();
             rp.Subscribe(buffer1.Add);
-
 
             buffer1.Count.Is(1);
             s.OnNext("Hello world");
@@ -94,8 +93,7 @@ namespace ReactiveProperty.Tests
             var s = new Subject<string>();
             var rp = s.ToReadOnlyReactiveProperty(eventScheduler: Scheduler.CurrentThread);
             var buffer = new List<string>();
-            rp.PropertyChanged += (_, args) =>
-            {
+            rp.PropertyChanged += (_, args) => {
                 buffer.Add(args.PropertyName);
             };
 
@@ -119,8 +117,7 @@ namespace ReactiveProperty.Tests
                 mode: ReactivePropertyMode.RaiseLatestValueOnSubscribe,
                 eventScheduler: Scheduler.CurrentThread);
             var buffer = new List<string>();
-            rp.PropertyChanged += (_, args) =>
-            {
+            rp.PropertyChanged += (_, args) => {
                 buffer.Add(args.PropertyName);
             };
 
@@ -136,7 +133,7 @@ namespace ReactiveProperty.Tests
             buffer.Count.Is(3);
         }
 
-        class IgnoreCaseComparer : EqualityComparer<string>
+        private class IgnoreCaseComparer : EqualityComparer<string>
         {
             public override bool Equals(string x, string y)
                 => x?.ToLower() == y?.ToLower();
@@ -158,7 +155,6 @@ namespace ReactiveProperty.Tests
             list.Is(null, "Hello world", "Hello japan");
         }
 
-
         [TestMethod]
         public void BehaviorSubjectTest()
         {
@@ -171,8 +167,7 @@ namespace ReactiveProperty.Tests
         public void ObservableCreateTest()
         {
             var i = 0;
-            var s = Observable.Create<int>(ox =>
-            {
+            var s = Observable.Create<int>(ox => {
                 i++;
                 return Disposable.Empty;
             });

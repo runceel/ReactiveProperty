@@ -1,14 +1,14 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Reactive.Subjects;
-using System.Reactive;
-using Reactive.Bindings;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
+using System.Collections.Specialized;
+using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
-using System.Collections.Generic;
-using System.Collections.Specialized;
+using System.Reactive.Subjects;
+using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Reactive.Bindings;
 
 namespace ReactiveProperty.Tests
 {
@@ -117,7 +117,6 @@ namespace ReactiveProperty.Tests
             target.Count.Is(0);
         }
 
-
         [TestMethod]
         public void IEnumerableSourceTest()
         {
@@ -173,9 +172,11 @@ namespace ReactiveProperty.Tests
         [TestMethod]
         public void MoveTest()
         {
-            var s = new MoveSupportCollection<string>();
-            s.Add("a");
-            s.Add("b");
+            var s = new MoveSupportCollection<string>
+            {
+                "a",
+                "b"
+            };
             var target = s.ToReadOnlyReactiveCollection(s.ToCollectionChanged<string>(), Scheduler.CurrentThread);
 
             target.Is("a", "b");
@@ -186,7 +187,7 @@ namespace ReactiveProperty.Tests
         [TestMethod]
         public void ConstructorCountTest()
         {
-            int counter = 0;
+            var counter = 0;
             var collection = new ObservableCollection<string>();
             var collectionVm = collection.ToReadOnlyReactiveCollection(_ => new ConstructorCounter(ref counter), Scheduler.CurrentThread);
 
@@ -215,7 +216,7 @@ namespace ReactiveProperty.Tests
         public void InvokeDisposeTrue()
         {
             var c1 = new ObservableCollection<IDisposable>();
-            bool invoked = false;
+            var invoked = false;
             c1.Add(Disposable.Create(() => invoked = true));
             var item = c1.ToReadOnlyReactiveCollection();
             c1.Clear();
@@ -226,7 +227,7 @@ namespace ReactiveProperty.Tests
         public void InvokeDisposeFalse()
         {
             var c1 = new ObservableCollection<IDisposable>();
-            bool invoked = false;
+            var invoked = false;
             c1.Add(Disposable.Create(() => invoked = true));
             var item = c1.ToReadOnlyReactiveCollection(disposeElement: false);
             c1.Clear();
@@ -234,7 +235,7 @@ namespace ReactiveProperty.Tests
         }
     }
 
-    class ConstructorCounter
+    internal class ConstructorCounter
     {
         public ConstructorCounter(ref int count)
         {
@@ -242,26 +243,27 @@ namespace ReactiveProperty.Tests
         }
     }
 
-    class StringHolder
+    internal class StringHolder
     {
         public string Value { get; set; }
     }
 
-    class MoveSupportCollection<T> : Collection<T>, INotifyCollectionChanged
+    internal class MoveSupportCollection<T> : Collection<T>, INotifyCollectionChanged
     {
         public void Move(int oldIndex, int newIndex)
         {
             var item = this[oldIndex];
-            this.RemoveAt(oldIndex);
-            this.Insert(newIndex, item);
-            this.OnCollectionChanged(
+            RemoveAt(oldIndex);
+            Insert(newIndex, item);
+            OnCollectionChanged(
                 new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, item, newIndex, oldIndex));
         }
 
         public event NotifyCollectionChangedEventHandler CollectionChanged;
+
         private void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
-            var h = this.CollectionChanged;
+            var h = CollectionChanged;
             if (h != null) { h(this, e); }
         }
     }

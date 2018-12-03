@@ -1,15 +1,15 @@
 ﻿using System;
-using System.Text;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
+using System.Text;
+using System.Threading;
+using Microsoft.Reactive.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Reactive.Bindings;
-using System.Reactive.Linq;
-using Microsoft.Reactive.Testing;
-using System.Reactive.Subjects;
-using System.Threading;
 using Reactive.Bindings.Interactivity;
-using System.Reactive;
 
 namespace ReactiveProperty.Tests
 {
@@ -17,6 +17,7 @@ namespace ReactiveProperty.Tests
     public class EventToReactiveTest : ReactiveTest
     {
 #pragma warning disable 0618
+
         [TestMethod]
         public void Invoke()
         {
@@ -52,6 +53,7 @@ namespace ReactiveProperty.Tests
                 OnNext(0, Unit.Default),
                 OnNext(0, Unit.Default));
         }
+
 #pragma warning restore 0618
     }
 }

@@ -1,14 +1,14 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Globalization;
+using System.Reactive;
+using System.Reactive.Linq;
 using System.Runtime.CompilerServices;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Reactive.Bindings;
 using Reactive.Bindings.Binding;
 using Reactive.Bindings.Extensions;
-using System.Reactive.Linq;
-using System.Globalization;
-using System.Reactive;
-using System.Diagnostics;
 
 namespace ReactiveProperty.Tests.Binding
 {
@@ -36,7 +36,7 @@ namespace ReactiveProperty.Tests.Binding
             var obj = new Poco();
 
             target.BindTo(
-                obj, 
+                obj,
                 o => o.Name,
                 convert: i => "value is " + i);
 
@@ -75,8 +75,7 @@ namespace ReactiveProperty.Tests.Binding
                 o => o.Name,
                 mode: BindingMode.TwoWay,
                 convert: i => "value is " + i,
-                convertBack: s =>
-                {
+                convertBack: s => {
                     Debug.WriteLine(s);
                     return int.Parse(s, NumberStyles.Integer);
                 },
@@ -100,8 +99,7 @@ namespace ReactiveProperty.Tests.Binding
             target.BindTo(obj,
                 o => o.Name,
                 mode: BindingMode.OneWayToSource,
-                convertBack: s =>
-                {
+                convertBack: s => {
                     Debug.WriteLine(s);
                     return s + "!";
                 },
@@ -112,13 +110,12 @@ namespace ReactiveProperty.Tests.Binding
             obj.Name = "Hello";
             target.Value.Is("Hello!");
         }
-
-
     }
 
     public class Poco : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
+
         private void SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
         {
             field = value;
@@ -129,10 +126,8 @@ namespace ReactiveProperty.Tests.Binding
 
         public string Name
         {
-            get { return this.name; }
-            set { this.SetProperty(ref this.name, value); }
+            get { return name; }
+            set { SetProperty(ref name, value); }
         }
-
     }
-
 }

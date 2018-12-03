@@ -1,14 +1,14 @@
-﻿using Reactive.Bindings;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Threading.Tasks;
 using System.Reactive.Subjects;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Reactive.Bindings;
 
 namespace ReactiveProperty.Tests
 {
@@ -52,7 +52,7 @@ namespace ReactiveProperty.Tests
             list.Is(null, "Hello world", "Hello world", "Hello japan");
         }
 
-        class IgnoreCaseComparer : EqualityComparer<string>
+        private class IgnoreCaseComparer : EqualityComparer<string>
         {
             public override bool Equals(string x, string y)
                 => x?.ToLower() == y?.ToLower();
@@ -174,7 +174,7 @@ namespace ReactiveProperty.Tests
         }
     }
 
-    enum TestEnum
+    internal enum TestEnum
     {
         None,
         Enum1,

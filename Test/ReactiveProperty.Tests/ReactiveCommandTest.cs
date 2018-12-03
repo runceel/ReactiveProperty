@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Text;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Disposables;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
+using System.Text;
+using System.Threading;
+using Microsoft.Reactive.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Reactive.Bindings;
-using System.Reactive.Linq;
-using Microsoft.Reactive.Testing;
-using System.Reactive.Subjects;
-using System.Threading;
-using System.Reactive.Disposables;
 
 namespace ReactiveProperty.Tests
 {
@@ -58,7 +58,7 @@ namespace ReactiveProperty.Tests
             var recorder2 = testScheduler.CreateObserver<int>();
 
             var cmd = new ReactiveCommand();
-            int counter = 0;
+            var counter = 0;
             Action countUp = () => counter++;
             cmd.Subscribe(countUp);
             Action recordAction1 = () => recorder1.OnNext(counter);
@@ -159,12 +159,9 @@ namespace ReactiveProperty.Tests
             var recorder1 = testScheduler.CreateObserver<string>();
             var recorder2 = testScheduler.CreateObserver<string>();
             var recorder3 = testScheduler.CreateObserver<string>();
-
-            IDisposable disposable1;
-            IDisposable disposable2;
             var cmd = new ReactiveCommand()
-                .WithSubscribe(() => recorder1.OnNext("x"), out disposable1)
-                .WithSubscribe(() => recorder2.OnNext("x"), out disposable2)
+                .WithSubscribe(() => recorder1.OnNext("x"), out var disposable1)
+                .WithSubscribe(() => recorder2.OnNext("x"), out var disposable2)
                 .WithSubscribe(() => recorder3.OnNext("x"));
 
             cmd.Execute();
@@ -195,12 +192,9 @@ namespace ReactiveProperty.Tests
             var recorder1 = testScheduler.CreateObserver<string>();
             var recorder2 = testScheduler.CreateObserver<string>();
             var recorder3 = testScheduler.CreateObserver<string>();
-
-            IDisposable disposable1;
-            IDisposable disposable2;
             var cmd = new ReactiveCommand<string>()
-                .WithSubscribe(x => recorder1.OnNext(x), out disposable1)
-                .WithSubscribe(x => recorder2.OnNext(x), out disposable2)
+                .WithSubscribe(x => recorder1.OnNext(x), out var disposable1)
+                .WithSubscribe(x => recorder2.OnNext(x), out var disposable2)
                 .WithSubscribe(x => recorder3.OnNext(x));
 
             cmd.Execute("a");
@@ -223,6 +217,5 @@ namespace ReactiveProperty.Tests
                 OnNext(10, "b"),
                 OnNext(20, "c"));
         }
-
     }
 }
