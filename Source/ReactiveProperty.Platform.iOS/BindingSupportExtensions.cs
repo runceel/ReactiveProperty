@@ -1,15 +1,12 @@
-using Reactive.Bindings.Extensions;
-using Reactive.Bindings.Internal;
-using System;
+﻿using System;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Reactive;
-using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using UIKit;
 
 namespace Reactive.Bindings
 {
+    /// <summary>
+    /// Binding Support Extensions
+    /// </summary>
     public static class BindingSupportExtensions
     {
         /// <summary>
@@ -35,6 +32,5 @@ namespace Reactive.Bindings
             self
                 .Where(_ => command.CanExecute())
                 .Subscribe(x => command.Execute());
-
     }
 }
