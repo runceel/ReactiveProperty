@@ -1,14 +1,17 @@
-using Android.Views;
-using Reactive.Bindings.Extensions;
-using Reactive.Bindings.Internal;
-using System;
+﻿using System;
 using System.Linq.Expressions;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using Android.Views;
+using Reactive.Bindings.Extensions;
+using Reactive.Bindings.Internal;
 
 namespace Reactive.Bindings
 {
+    /// <summary>
+    /// Binding Support Extensions
+    /// </summary>
     public static class BindingSupportExtensions
     {
         /// <summary>
@@ -29,25 +32,19 @@ namespace Reactive.Bindings
         {
             var d = new CompositeDisposable();
 
-            bool isUpdating = false;
-            string propertyName;
-            var setter = AccessorCache<TView>.LookupSet(propertySelector, out propertyName);
+            var isUpdating = false;
+            var setter = AccessorCache<TView>.LookupSet(propertySelector, out var propertyName);
             source
                 .Where(_ => !isUpdating)
                 .Subscribe(x => setter(self, x))
                 .AddTo(d);
-            if (updateSourceTrigger != null)
-            {
+            if (updateSourceTrigger != null) {
                 var getter = AccessorCache<TView>.LookupGet(propertySelector, out propertyName);
-                updateSourceTrigger(self).Subscribe(_ =>
-                {
+                updateSourceTrigger(self).Subscribe(_ => {
                     isUpdating = true;
-                    try
-                    {
+                    try {
                         source.Value = getter(self);
-                    }
-                    finally
-                    {
+                    } finally {
                         isUpdating = false;
                     }
                 }).AddTo(d);
@@ -73,8 +70,7 @@ namespace Reactive.Bindings
         {
             var d = new CompositeDisposable();
 
-            string propertyName;
-            var setter = AccessorCache<TView>.LookupSet(propertySelector, out propertyName);
+            var setter = AccessorCache<TView>.LookupSet(propertySelector, out var propertyName);
             source
                 .Subscribe(x => setter(self, x))
                 .AddTo(d);
@@ -128,6 +124,5 @@ namespace Reactive.Bindings
             self
                 .Where(_ => command.CanExecute())
                 .Subscribe(x => command.Execute());
-
     }
 }

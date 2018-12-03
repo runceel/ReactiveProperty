@@ -1,7 +1,7 @@
+﻿using System;
+using System.Collections.Generic;
 using Android.Views;
 using Android.Widget;
-using System;
-using System.Collections.Generic;
 
 namespace Reactive.Bindings
 {
@@ -28,26 +28,46 @@ namespace Reactive.Bindings
         /// <param name="getId">get id</param>
         public ListAdapter(IList<T> list, Func<int, T, View> createRowView, Action<int, T, View> setRowData, Func<int, T, long> getId = null)
         {
-            if (list == null) { throw new ArgumentNullException(nameof(list)); }
-            if (createRowView == null) { throw new ArgumentNullException(nameof(createRowView)); }
-            if (setRowData == null) { throw new ArgumentNullException(nameof(setRowData)); }
-
-            this.List = list;
-            this.CreateRowView = createRowView;
-            this.SetRowData = setRowData;
-            this.GetId = getId ?? ((index, _) => index);
+            List = list ?? throw new ArgumentNullException(nameof(list));
+            CreateRowView = createRowView ?? throw new ArgumentNullException(nameof(createRowView));
+            SetRowData = setRowData ?? throw new ArgumentNullException(nameof(setRowData));
+            GetId = getId ?? ((index, _) => index);
         }
 
-        public override T this[int position] => this.List[position];
+        /// <summary>
+        /// Gets the item with the specified position.
+        /// </summary>
+        /// <value>The type.</value>
+        /// <param name="position">The position.</param>
+        /// <returns></returns>
+        public override T this[int position] => List[position];
 
-        public override int Count => this.List.Count; 
+        /// <summary>
+        /// To be added.
+        /// </summary>
+        /// <value>To be added.</value>
+        /// <remarks>To be added.</remarks>
+        public override int Count => List.Count;
 
-        public override long GetItemId(int position) => this.GetId(position, this[position]);
+        /// <summary>
+        /// To be added.
+        /// </summary>
+        /// <param name="position">To be added.</param>
+        /// <returns>To be added.</returns>
+        /// <remarks>To be added.</remarks>
+        public override long GetItemId(int position) => GetId(position, this[position]);
 
+        /// <summary>
+        /// To be added.
+        /// </summary>
+        /// <param name="position">To be added.</param>
+        /// <param name="convertView">To be added.</param>
+        /// <param name="parent">To be added.</param>
+        /// <returns>To be added.</returns>
+        /// <remarks>To be added.</remarks>
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
-            if (convertView == null)
-            {
+            if (convertView == null) {
                 convertView = CreateRowView(position, this[position]);
             }
 
@@ -56,6 +76,9 @@ namespace Reactive.Bindings
         }
     }
 
+    /// <summary>
+    /// List Extensions
+    /// </summary>
     public static class ListExtensions
     {
         /// <summary>
