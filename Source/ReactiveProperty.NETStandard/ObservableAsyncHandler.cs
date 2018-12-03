@@ -6,51 +6,65 @@ using System.Threading.Tasks;
 
 namespace Reactive.Bindings
 {
-    // Reusable
+    /// <summary>
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <seealso cref="System.IDisposable"/>
+    /// <seealso cref="System.IObserver{T}"/>
+    /// <seealso cref="System.Runtime.CompilerServices.ICriticalNotifyCompletion"/>
     public class ObservableAsyncHandler<T> : IDisposable, IObserver<T>, ICriticalNotifyCompletion
     {
-        static readonly Action<object> cancelDelegate = DisposeSelf;
-        static readonly SendOrPostCallback syncContextPost = PostInvoke;
+        private static readonly Action<object> cancelDelegate = DisposeSelf;
+        private static readonly SendOrPostCallback syncContextPost = PostInvoke;
+        private IDisposable subscription;
+        private CancellationTokenRegistration cancellationTokenRegistration;
+        private CancellationToken token;
+        private bool completed;
+        private T currentValue;
+        private ExceptionDispatchInfo exception;
+        private Action continuation;
+        private SynchronizationContext context;
+        private readonly object gate = new object();
 
-        IDisposable subscription;
-        CancellationTokenRegistration cancellationTokenRegistration;
-        CancellationToken token;
-
-        bool completed;
-        T currentValue;
-        ExceptionDispatchInfo exception;
-        Action continuation;
-        SynchronizationContext context;
-        readonly object gate = new object();
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableAsyncHandler{T}"/> class.
+        /// </summary>
+        /// <param name="source">The source.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         public ObservableAsyncHandler(IObservable<T> source, CancellationToken cancellationToken)
         {
-            if (cancellationToken.CanBeCanceled)
-            {
+            if (cancellationToken.CanBeCanceled) {
                 cancellationTokenRegistration = cancellationToken.Register(cancelDelegate, this, false);
             }
-            this.subscription = source.Subscribe(this);
-            this.context = SynchronizationContext.Current;
+            subscription = source.Subscribe(this);
+            context = SynchronizationContext.Current;
         }
 
-        // for the Task.WhenAll, WhenAny
+        /// <summary>
+        /// Ases the task.
+        /// </summary>
+        /// <returns></returns>
         public async Task AsTask()
         {
             await this;
         }
 
-        static void DisposeSelf(object state)
+        private static void DisposeSelf(object state)
         {
             var self = (ObservableAsyncHandler<T>)state;
             self.Dispose();
         }
 
-        static void PostInvoke(object state)
+        private static void PostInvoke(object state)
         {
             var continuation = (Action)state;
             continuation();
         }
 
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting
+        /// unmanaged resources.
+        /// </summary>
         public void Dispose()
         {
             completed = true;
@@ -60,19 +74,15 @@ namespace Reactive.Bindings
             TryInvokeContinuation();
         }
 
-        void TryInvokeContinuation()
+        private void TryInvokeContinuation()
         {
-            if (this.continuation != null)
-            {
-                var c = this.continuation;
-                this.continuation = null;
+            if (continuation != null) {
+                var c = continuation;
+                continuation = null;
 
-                if (this.context != null && this.context != SynchronizationContext.Current)
-                {
-                    this.context.Post(syncContextPost, c);
-                }
-                else
-                {
+                if (context != null && context != SynchronizationContext.Current) {
+                    context.Post(syncContextPost, c);
+                } else {
                     c.Invoke();
                 }
             }
@@ -80,9 +90,8 @@ namespace Reactive.Bindings
 
         void IObserver<T>.OnNext(T value)
         {
-            lock (gate)
-            {
-                this.currentValue = value;
+            lock (gate) {
+                currentValue = value;
                 TryInvokeContinuation();
             }
         }
@@ -100,6 +109,10 @@ namespace Reactive.Bindings
 
         // awaitable
 
+        /// <summary>
+        /// Gets the awaiter.
+        /// </summary>
+        /// <returns></returns>
         public ObservableAsyncHandler<T> GetAwaiter()
         {
             return this;
@@ -107,6 +120,10 @@ namespace Reactive.Bindings
 
         // awaiter
 
+        /// <summary>
+        /// Gets a value indicating whether this instance is completed.
+        /// </summary>
+        /// <value><c>true</c> if this instance is completed; otherwise, <c>false</c>.</value>
         public bool IsCompleted
         {
             get
@@ -115,18 +132,21 @@ namespace Reactive.Bindings
             }
         }
 
+        /// <summary>
+        /// Gets the result.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="System.OperationCanceledException"></exception>
         public T GetResult()
         {
-            if (exception != null)
-            {
+            if (exception != null) {
                 exception.Throw();
                 return default(T);
             }
 
             token.ThrowIfCancellationRequested();
 
-            if (completed)
-            {
+            if (completed) {
                 throw new OperationCanceledException();
             }
 
@@ -135,36 +155,68 @@ namespace Reactive.Bindings
 
         void ICriticalNotifyCompletion.UnsafeOnCompleted(Action continuation)
         {
-            if (this.continuation != null) throw new InvalidOperationException();
+            if (this.continuation != null) {
+                throw new InvalidOperationException();
+            }
+
             this.continuation = continuation;
         }
 
         void INotifyCompletion.OnCompleted(Action continuation)
         {
-            if (this.continuation != null) throw new InvalidOperationException();
+            if (this.continuation != null) {
+                throw new InvalidOperationException();
+            }
+
             this.continuation = continuation;
         }
     }
 
+    /// <summary>
+    /// Observable Async Handler Extensions
+    /// </summary>
     public static class ObservableAsyncHandlerExtensions
     {
+        /// <summary>
+        /// Gets the asynchronous handler.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source">The source.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
         public static ObservableAsyncHandler<T> GetAsyncHandler<T>(this IObservable<T> source, CancellationToken cancellationToken)
         {
             return new ObservableAsyncHandler<T>(source, cancellationToken);
         }
 
-        // not recommended, should use WaitUntilValueChanged(with CancellationToken)
-
+        /// <summary>
+        /// Gets the awaiter.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source">The source.</param>
+        /// <returns></returns>
         public static TaskAwaiter<T> GetAwaiter<T>(this IReactiveProperty<T> source)
         {
             return WaitUntilValueChangedAsync<T>(source, CancellationToken.None).GetAwaiter();
         }
 
+        /// <summary>
+        /// Gets the awaiter.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source">The source.</param>
+        /// <returns></returns>
         public static TaskAwaiter<T> GetAwaiter<T>(this IReadOnlyReactiveProperty<T> source)
         {
             return WaitUntilValueChangedAsync<T>(source, CancellationToken.None).GetAwaiter();
         }
 
+        /// <summary>
+        /// Gets the awaiter.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source">The source.</param>
+        /// <returns></returns>
         public static TaskAwaiter<T> GetAwaiter<T>(this ReactiveCommand<T> source)
         {
             return WaitUntilValueChangedAsync<T>(source, CancellationToken.None).GetAwaiter();
@@ -172,26 +224,44 @@ namespace Reactive.Bindings
 
         // one shot
 
+        /// <summary>
+        /// Waits the until value changed asynchronous.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source">The source.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
         public static async Task<T> WaitUntilValueChangedAsync<T>(this IReactiveProperty<T> source, CancellationToken cancellationToken = default(CancellationToken))
         {
-            using (var handler = GetAsyncHandler<T>(source, cancellationToken))
-            {
+            using (var handler = GetAsyncHandler<T>(source, cancellationToken)) {
                 return await handler;
             }
         }
 
+        /// <summary>
+        /// Waits the until value changed asynchronous.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source">The source.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
         public static async Task<T> WaitUntilValueChangedAsync<T>(this IReadOnlyReactiveProperty<T> source, CancellationToken cancellationToken = default(CancellationToken))
         {
-            using (var handler = GetAsyncHandler<T>(source, cancellationToken))
-            {
+            using (var handler = GetAsyncHandler<T>(source, cancellationToken)) {
                 return await handler;
             }
         }
 
+        /// <summary>
+        /// Waits the until value changed asynchronous.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source">The source.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
         public static async Task<T> WaitUntilValueChangedAsync<T>(this ReactiveCommand<T> source, CancellationToken cancellationToken = default(CancellationToken))
         {
-            using (var handler = GetAsyncHandler<T>(source, cancellationToken))
-            {
+            using (var handler = GetAsyncHandler<T>(source, cancellationToken)) {
                 return await handler;
             }
         }

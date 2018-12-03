@@ -6,16 +6,29 @@ using System.Runtime.CompilerServices;
 
 namespace Reactive.Bindings.Notifiers
 {
-    /// <summary>Event kind of CountNotifier.</summary>
+    /// <summary>
+    /// Event kind of CountNotifier.
+    /// </summary>
     public enum CountChangedStatus
     {
-        /// <summary>Count incremented.</summary>
+        /// <summary>
+        /// Count incremented.
+        /// </summary>
         Increment,
-        /// <summary>Count decremented.</summary>
+
+        /// <summary>
+        /// Count decremented.
+        /// </summary>
         Decrement,
-        /// <summary>Count is zero.</summary>
+
+        /// <summary>
+        /// Count is zero.
+        /// </summary>
         Empty,
-        /// <summary>Count arrived max.</summary>
+
+        /// <summary>
+        /// Count arrived max.
+        /// </summary>
         Max
     }
 
@@ -24,21 +37,39 @@ namespace Reactive.Bindings.Notifiers
     /// </summary>
     public class CountNotifier : IObservable<CountChangedStatus>, INotifyPropertyChanged
     {
-        readonly object lockObject = new object();
-        readonly Subject<CountChangedStatus> statusChanged = new Subject<CountChangedStatus>();
+        private readonly object lockObject = new object();
+        private readonly Subject<CountChangedStatus> statusChanged = new Subject<CountChangedStatus>();
+
+        /// <summary>
+        /// Occurs when a property value changes.
+        /// </summary>
+        /// <returns></returns>
         public event PropertyChangedEventHandler PropertyChanged;
-        readonly int max;
+
+        private readonly int max;
         private int count;
 
-        public int Max => max; 
+        /// <summary>
+        /// Gets the maximum.
+        /// </summary>
+        /// <value>The maximum.</value>
+        public int Max => max;
 
-        public int Count 
+        /// <summary>
+        /// Gets the count.
+        /// </summary>
+        /// <value>The count.</value>
+        public int Count
         {
-            get { return this.count; }
+            get
+            {
+                return count;
+            }
+
             private set
             {
-                this.count = value;
-                this.OnPropertyChanged();
+                count = value;
+                OnPropertyChanged();
             }
         }
 
@@ -47,8 +78,7 @@ namespace Reactive.Bindings.Notifiers
         /// </summary>
         public CountNotifier(int max = int.MaxValue)
         {
-            if (max <= 0)
-            {
+            if (max <= 0) {
                 throw new ArgumentException(nameof(max));
             }
 
@@ -60,21 +90,25 @@ namespace Reactive.Bindings.Notifiers
         /// </summary>
         public IDisposable Increment(int incrementCount = 1)
         {
-            if (incrementCount < 0)
-            {
+            if (incrementCount < 0) {
                 throw new ArgumentException(nameof(incrementCount));
             }
 
-            lock (lockObject)
-            {
-                if (Count == Max) return Disposable.Empty;
-                else if (incrementCount + Count > Max) Count = Max;
-                else Count += incrementCount;
+            lock (lockObject) {
+                if (Count == Max) {
+                    return Disposable.Empty;
+                } else if (incrementCount + Count > Max) {
+                    Count = Max;
+                } else {
+                    Count += incrementCount;
+                }
 
                 statusChanged.OnNext(CountChangedStatus.Increment);
-                if (Count == Max) statusChanged.OnNext(CountChangedStatus.Max);
+                if (Count == Max) {
+                    statusChanged.OnNext(CountChangedStatus.Max);
+                }
 
-                return Disposable.Create(() => this.Decrement(incrementCount));
+                return Disposable.Create(() => Decrement(incrementCount));
             }
         }
 
@@ -83,19 +117,23 @@ namespace Reactive.Bindings.Notifiers
         /// </summary>
         public void Decrement(int decrementCount = 1)
         {
-            if (decrementCount < 0)
-            {
+            if (decrementCount < 0) {
                 throw new ArgumentException(nameof(decrementCount));
             }
 
-            lock (lockObject)
-            {
-                if (Count == 0) return;
-                else if (Count - decrementCount < 0) Count = 0;
-                else Count -= decrementCount;
+            lock (lockObject) {
+                if (Count == 0) {
+                    return;
+                } else if (Count - decrementCount < 0) {
+                    Count = 0;
+                } else {
+                    Count -= decrementCount;
+                }
 
                 statusChanged.OnNext(CountChangedStatus.Decrement);
-                if (Count == 0) statusChanged.OnNext(CountChangedStatus.Empty);
+                if (Count == 0) {
+                    statusChanged.OnNext(CountChangedStatus.Empty);
+                }
             }
         }
 
@@ -105,7 +143,6 @@ namespace Reactive.Bindings.Notifiers
         public IDisposable Subscribe(IObserver<CountChangedStatus> observer) => statusChanged.Subscribe(observer);
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

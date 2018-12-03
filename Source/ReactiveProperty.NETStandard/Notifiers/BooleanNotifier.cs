@@ -10,19 +10,29 @@ namespace Reactive.Bindings.Notifiers
     /// </summary>
     public class BooleanNotifier : IObservable<bool>, INotifyPropertyChanged
     {
-
+        /// <summary>
+        /// Occurs when a property value changes.
+        /// </summary>
+        /// <returns></returns>
         public event PropertyChangedEventHandler PropertyChanged;
-        readonly Subject<bool> boolTrigger = new Subject<bool>();
 
-        bool boolValue;
-        /// <summary>Current flag value</summary>
+        private readonly Subject<bool> boolTrigger = new Subject<bool>();
+        private bool boolValue;
+
+        /// <summary>
+        /// Current flag value
+        /// </summary>
         public bool Value
         {
-            get { return boolValue; }
+            get
+            {
+                return boolValue;
+            }
+
             set
             {
                 boolValue = value;
-                this.OnPropertyChanged();
+                OnPropertyChanged();
                 boolTrigger.OnNext(value);
             }
         }
@@ -32,7 +42,7 @@ namespace Reactive.Bindings.Notifiers
         /// </summary>
         public BooleanNotifier(bool initialValue = false)
         {
-            this.Value = initialValue;
+            Value = initialValue;
         }
 
         /// <summary>
@@ -40,8 +50,7 @@ namespace Reactive.Bindings.Notifiers
         /// </summary>
         public void TurnOn()
         {
-            if (Value != true)
-            {
+            if (Value != true) {
                 Value = true;
             }
         }
@@ -51,8 +60,7 @@ namespace Reactive.Bindings.Notifiers
         /// </summary>
         public void TurnOff()
         {
-            if (Value != false)
-            {
+            if (Value != false) {
                 Value = false;
             }
         }
@@ -62,12 +70,15 @@ namespace Reactive.Bindings.Notifiers
         /// </summary>
         public void SwitchValue() => Value = !Value;
 
-
         /// <summary>
         /// Subscribe observer.
         /// </summary>
         public IDisposable Subscribe(IObserver<bool> observer) => boolTrigger.Subscribe(observer);
 
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null) => this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        /// <summary>
+        /// Called when [property changed].
+        /// </summary>
+        /// <param name="propertyName">Name of the property.</param>
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

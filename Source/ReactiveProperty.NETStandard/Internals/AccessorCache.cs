@@ -5,20 +5,29 @@ using System.Reflection;
 
 namespace Reactive.Bindings.Internals
 {
+    /// <summary>
+    /// Accessor Cache
+    /// </summary>
+    /// <typeparam name="TType">The type of the type.</typeparam>
     public static class AccessorCache<TType>
     {
         private static readonly Dictionary<string, Delegate> getCache = new Dictionary<string, Delegate>();
         private static readonly Dictionary<string, Delegate> setCache = new Dictionary<string, Delegate>();
 
+        /// <summary>
+        /// Lookups the get.
+        /// </summary>
+        /// <typeparam name="TProperty">The type of the property.</typeparam>
+        /// <param name="propertySelector">The property selector.</param>
+        /// <param name="propertyName">Name of the property.</param>
+        /// <returns></returns>
         public static Func<TType, TProperty> LookupGet<TProperty>(Expression<Func<TType, TProperty>> propertySelector, out string propertyName)
         {
             propertyName = GetPropertyName(propertySelector);
             Delegate accessor;
 
-            lock (getCache)
-            {
-                if (!getCache.TryGetValue(propertyName, out accessor))
-                {
+            lock (getCache) {
+                if (!getCache.TryGetValue(propertyName, out accessor)) {
                     accessor = propertySelector.Compile();
                     getCache.Add(propertyName, accessor);
                 }
@@ -30,8 +39,7 @@ namespace Reactive.Bindings.Internals
         private static string GetPropertyName<TProperty>(Expression<Func<TType, TProperty>> propertySelector)
         {
             var memberExpression = propertySelector.Body as MemberExpression;
-            if (memberExpression == null)
-            {
+            if (memberExpression == null) {
                 var unaryExpression = propertySelector.Body as UnaryExpression;
                 if (unaryExpression == null) { throw new ArgumentException(nameof(propertySelector)); }
                 memberExpression = unaryExpression.Operand as MemberExpression;
@@ -41,15 +49,20 @@ namespace Reactive.Bindings.Internals
             return memberExpression.Member.Name;
         }
 
+        /// <summary>
+        /// Lookups the set.
+        /// </summary>
+        /// <typeparam name="TProperty">The type of the property.</typeparam>
+        /// <param name="propertySelector">The property selector.</param>
+        /// <param name="propertyName">Name of the property.</param>
+        /// <returns></returns>
         public static Action<TType, TProperty> LookupSet<TProperty>(Expression<Func<TType, TProperty>> propertySelector, out string propertyName)
         {
             propertyName = GetPropertyName(propertySelector);
             Delegate accessor;
 
-            lock (setCache)
-            {
-                if (!setCache.TryGetValue(propertyName, out accessor))
-                {
+            lock (setCache) {
+                if (!setCache.TryGetValue(propertyName, out accessor)) {
                     accessor = CreateSetAccessor(propertySelector);
                     setCache.Add(propertyName, accessor);
                 }
