@@ -15,35 +15,29 @@ namespace Reactive.Bindings.ObjectExtensions
         public static IObservable<TProperty> ObserveEveryValueChanged<TSource, TProperty>(this TSource source, Func<TSource, TProperty> propertySelector, IEqualityComparer<TProperty> comparer = null)
             where TSource : class
         {
-            if (source == null) return Observable.Empty<TProperty>();
+            if (source == null) {
+                return Observable.Empty<TProperty>();
+            }
+
             comparer = comparer ?? EqualityComparer<TProperty>.Default;
 
             var reference = new WeakReference(source);
             source = null;
 
-            return Observable.Create<TProperty>(observer =>
-            {
+            return Observable.Create<TProperty>(observer => {
                 var currentValue = default(TProperty);
                 var prevValue = default(TProperty);
 
                 var t = reference.Target;
-                if (t != null)
-                {
-                    try
-                    {
+                if (t != null) {
+                    try {
                         currentValue = propertySelector((TSource)t);
-                    }
-                    catch (Exception ex)
-                    {
+                    } catch (Exception ex) {
                         observer.OnError(ex);
-                    }
-                    finally
-                    {
+                    } finally {
                         t = null;
                     }
-                }
-                else
-                {
+                } else {
                     observer.OnCompleted();
                     return Disposable.Empty;
                 }
@@ -55,31 +49,21 @@ namespace Reactive.Bindings.ObjectExtensions
                         h => (sender, e) => h.Invoke(e),
                         h => CompositionTarget.Rendering += h,
                         h => CompositionTarget.Rendering -= h)
-                    .Subscribe(_ =>
-                    {
+                    .Subscribe(_ => {
                         var target = reference.Target;
-                        if (target != null)
-                        {
-                            try
-                            {
+                        if (target != null) {
+                            try {
                                 currentValue = propertySelector((TSource)target);
-                            }
-                            catch (Exception ex)
-                            {
+                            } catch (Exception ex) {
                                 observer.OnError(ex);
-                            }
-                            finally
-                            {
+                            } finally {
                                 target = null;
                             }
-                        }
-                        else
-                        {
+                        } else {
                             observer.OnCompleted();
                         }
 
-                        if (!comparer.Equals(currentValue, prevValue))
-                        {
+                        if (!comparer.Equals(currentValue, prevValue)) {
                             observer.OnNext(currentValue);
                             prevValue = currentValue;
                         }

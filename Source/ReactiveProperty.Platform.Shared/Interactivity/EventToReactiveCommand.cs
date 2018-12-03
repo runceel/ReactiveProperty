@@ -10,10 +10,12 @@ using System.Collections.Generic;
 using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml;
 #else
+
 using System.Windows.Interactivity;
 using System.Windows.Markup;
 using System.ComponentModel;
 using System.Windows;
+
 #endif
 
 namespace Reactive.Bindings.Interactivity
@@ -24,6 +26,7 @@ namespace Reactive.Bindings.Interactivity
 #if NETFX_CORE
     [ContentProperty(Name = nameof(EventToReactiveCommand.Converters))]
 #else
+
     [ContentProperty(nameof(EventToReactiveCommand.Converters))]
 #endif
     public class EventToReactiveCommand : TriggerAction<FrameworkElement>
@@ -32,13 +35,19 @@ namespace Reactive.Bindings.Interactivity
 
         private IDisposable disposable;
 
+        /// <summary>
+        /// Gets or sets the command.
+        /// </summary>
+        /// <value>The command.</value>
         public ICommand Command
         {
             get { return (ICommand)GetValue(CommandProperty); }
             set { SetValue(CommandProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Command.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// The command property
+        /// </summary>
         public static readonly DependencyProperty CommandProperty =
             DependencyProperty.Register(nameof(EventToReactiveCommand.Command), typeof(ICommand), typeof(EventToReactiveCommand), new PropertyMetadata(null));
 
@@ -48,41 +57,43 @@ namespace Reactive.Bindings.Interactivity
         public bool IgnoreEventArgs { get; set; }
 
         private List<IEventToReactiveConverter> converters = new List<IEventToReactiveConverter>();
+
         /// <summary>
         /// set and get Value converter.
         /// </summary>
-        public List<IEventToReactiveConverter> Converters { get { return this.converters; } }
+        public List<IEventToReactiveConverter> Converters { get { return converters; } }
 
-        // Using a DependencyProperty as the backing store for Converter.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Called when [detaching].
+        /// </summary>
         protected override void OnDetaching()
         {
             base.OnDetaching();
-            this.disposable?.Dispose();
+            disposable?.Dispose();
         }
 
+        /// <summary>
+        /// Invokes the specified parameter.
+        /// </summary>
+        /// <param name="parameter">The parameter.</param>
         protected override void Invoke(object parameter)
         {
-            if (this.disposable == null)
-            {
-                IObservable<object> ox = this.source;
-                foreach (var c in this.Converters)
-                {
-                    c.AssociateObject = this.AssociatedObject;
+            if (disposable == null) {
+                IObservable<object> ox = source;
+                foreach (var c in Converters) {
+                    c.AssociateObject = AssociatedObject;
                     ox = c.Convert(ox);
                 }
-                this.disposable = ox
+                disposable = ox
                     .ObserveOnUIDispatcher()
-                    .Where(_ => this.Command != null)
-                    .Subscribe(x => this.Command.Execute(x));
+                    .Where(_ => Command != null)
+                    .Subscribe(x => Command.Execute(x));
             }
 
-            if (!this.IgnoreEventArgs)
-            {
-                this.source.OnNext(parameter);
-            }
-            else
-            {
-                this.source.OnNext(Unit.Default);
+            if (!IgnoreEventArgs) {
+                source.OnNext(parameter);
+            } else {
+                source.OnNext(Unit.Default);
             }
         }
 
@@ -95,6 +106,5 @@ namespace Reactive.Bindings.Interactivity
                 return source;
             }
         }
-
     }
 }
