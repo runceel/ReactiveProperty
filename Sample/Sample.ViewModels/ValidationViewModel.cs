@@ -3,11 +3,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Windows;
+using System.Threading.Tasks;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
-using System.Diagnostics;
-using System.Threading.Tasks;
 
 namespace Sample.ViewModels
 {
@@ -33,11 +31,11 @@ namespace Sample.ViewModels
 
             // null is success(have no error), string is error message
             ValidationData = new ReactiveProperty<string>()
-                .SetValidateNotifyError((string s) => 
-                    string.IsNullOrEmpty(s) ? 
+                .SetValidateNotifyError((string s) =>
+                    string.IsNullOrEmpty(s) ?
                         "required" :
-                        s.Cast<char>().All(Char.IsUpper) ? 
-                            null : 
+                        s.Cast<char>().All(Char.IsUpper) ?
+                            null :
                             "not all uppercase");
 
             // Can set both validation
@@ -51,18 +49,18 @@ namespace Sample.ViewModels
                 .SetValidateNotifyError(async x =>
                 {
                     await Task.Delay(2000);
-                    if (x == null)          return null;
-                    if (x.Contains("a"))    return "'a' shouldn't be contained";
+                    if (x == null) return null;
+                    if (x.Contains("a")) return "'a' shouldn't be contained";
                     return null;
                 })
                 .SetValidateNotifyError(xs =>
                 {
                     return xs
-					    .Throttle(TimeSpan.FromMilliseconds(500))
+                        .Throttle(TimeSpan.FromMilliseconds(500))
                         .Select(x =>
                         {
-                            if (x == null)          return null;
-                            if (x.Contains("b"))    return "'b' shouldn't be contained";
+                            if (x == null) return null;
+                            if (x.Contains("b")) return "'b' shouldn't be contained";
                             return null;
                         });
                 });

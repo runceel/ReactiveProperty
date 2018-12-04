@@ -1,6 +1,6 @@
-﻿using Reactive.Bindings.Extensions;
-using System;
+﻿using System;
 using System.Reactive.Linq;
+using Reactive.Bindings.Extensions;
 using UWP.TodoMVVM.Models;
 using UWP.TodoMVVM.ViewModels;
 

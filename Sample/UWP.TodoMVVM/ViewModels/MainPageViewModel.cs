@@ -1,9 +1,9 @@
-﻿using Reactive.Bindings;
-using Reactive.Bindings.Extensions;
-using Reactive.Bindings.Helpers;
-using System;
+﻿using System;
 using System.Linq;
 using System.Reactive.Linq;
+using Reactive.Bindings;
+using Reactive.Bindings.Extensions;
+using Reactive.Bindings.Helpers;
 using UWP.TodoMVVM.Models;
 using UWP.TodoMVVM.Services;
 

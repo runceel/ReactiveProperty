@@ -149,7 +149,8 @@ namespace ReactiveProperty.Tests
         {
             var scheduler = new TestScheduler();
             var rprop = new ReactiveProperty<string>()
-                            .SetValidateNotifyError(xs => {
+                            .SetValidateNotifyError(xs =>
+                            {
                                 return xs
                                         .Throttle(TimeSpan.FromSeconds(1), scheduler)
                                         .Select(x => string.IsNullOrEmpty(x) ? "required" : null);
@@ -258,8 +259,10 @@ namespace ReactiveProperty.Tests
                 .SetValidateNotifyError(s => string.IsNullOrWhiteSpace(s) ? "required" : null);
 
             TaskValidationTestProperty = new ReactiveProperty<string>()
-                .SetValidateNotifyError(async s => {
-                    if (string.IsNullOrWhiteSpace(s)) {
+                .SetValidateNotifyError(async s =>
+                {
+                    if (string.IsNullOrWhiteSpace(s))
+                    {
                         return await Task.FromResult("required");
                     }
                     return await Task.FromResult((string)null);

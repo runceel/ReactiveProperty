@@ -78,9 +78,11 @@ namespace Reactive.Bindings.Interactivity
         /// <param name="parameter">The parameter.</param>
         protected override void Invoke(object parameter)
         {
-            if (disposable == null) {
+            if (disposable == null)
+            {
                 IObservable<object> ox = source;
-                foreach (var c in Converters) {
+                foreach (var c in Converters)
+                {
                     c.AssociateObject = AssociatedObject;
                     ox = c.Convert(ox);
                 }
@@ -90,9 +92,12 @@ namespace Reactive.Bindings.Interactivity
                     .Subscribe(x => Command.Execute(x));
             }
 
-            if (!IgnoreEventArgs) {
+            if (!IgnoreEventArgs)
+            {
                 source.OnNext(parameter);
-            } else {
+            }
+            else
+            {
                 source.OnNext(Unit.Default);
             }
         }

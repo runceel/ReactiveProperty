@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 using System.Reactive.Linq;
-using System.Reactive.Subjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
@@ -18,7 +15,8 @@ namespace ReactiveProperty.Tests
         {
             var source = Observable.Return(1);
             var properties = new List<ReactiveProperty<int>>();
-            for (var i = 0; i < 100000; i++) {
+            for (var i = 0; i < 100000; i++)
+            {
                 properties.Add(source.ToReactiveProperty());
             }
         }

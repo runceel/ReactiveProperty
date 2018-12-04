@@ -1,9 +1,8 @@
 ﻿using System;
+using System.Reactive.Concurrency; // using Namespace
 using System.Reactive.Linq;
-using System.Windows;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
-using System.Reactive.Concurrency; // using Namespace
 
 namespace Sample.ViewModels
 {

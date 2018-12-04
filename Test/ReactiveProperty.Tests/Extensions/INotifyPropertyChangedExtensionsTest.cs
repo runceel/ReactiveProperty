@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Reactive.Linq;
-using System.Text;
 using Microsoft.Reactive.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Reactive.Bindings.Extensions;
@@ -134,7 +131,8 @@ namespace ReactiveProperty.Tests.Extensions
                 x => "Age:" + x,  // convert
                 x => int.Parse(x.Replace("Age:", "")), // convertBack
                 ignoreValidationErrorValue: true)
-                .SetValidateNotifyError((string x) => {
+                .SetValidateNotifyError((string x) =>
+                {
                     // no use
                     return int.TryParse(x.Replace("Age:", ""), out var result) ? null : "error";
                 });

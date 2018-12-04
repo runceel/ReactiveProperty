@@ -28,12 +28,17 @@ namespace Reactive.Bindings
                 MemberName = nameof(ReactiveProperty<T>.Value)
             };
 
-            if (attrs.Length != 0) {
-                self.SetValidateNotifyError(x => {
-                    try {
+            if (attrs.Length != 0)
+            {
+                self.SetValidateNotifyError(x =>
+                {
+                    try
+                    {
                         Validator.ValidateValue(x, context, attrs);
                         return null;
-                    } catch (ValidationException ex) {
+                    }
+                    catch (ValidationException ex)
+                    {
                         return ex.ValidationResult.ErrorMessage;
                     }
                 });

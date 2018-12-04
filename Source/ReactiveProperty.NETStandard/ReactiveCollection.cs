@@ -60,7 +60,8 @@ namespace Reactive.Bindings
         /// <param name="items"></param>
         public void AddRangeOnScheduler(params T[] items)
         {
-            scheduler.Schedule(() => {
+            scheduler.Schedule(() =>
+            {
                 foreach (var item in items) { Add(item); }
             });
         }

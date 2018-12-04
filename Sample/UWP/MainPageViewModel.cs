@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Reactive.Bindings.Helpers;
 using System.Collections.ObjectModel;
+using Reactive.Bindings.Helpers;
 using Windows.UI.Xaml;
-using Reactive.Bindings;
 
 namespace UWP
 {

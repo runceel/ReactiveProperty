@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reactive.Linq;
-using System.Windows;
 
 #if NETFX_CORE
 using Windows.UI.Xaml;

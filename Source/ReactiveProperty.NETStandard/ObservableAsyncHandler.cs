@@ -33,7 +33,8 @@ namespace Reactive.Bindings
         /// <param name="cancellationToken">The cancellation token.</param>
         public ObservableAsyncHandler(IObservable<T> source, CancellationToken cancellationToken)
         {
-            if (cancellationToken.CanBeCanceled) {
+            if (cancellationToken.CanBeCanceled)
+            {
                 cancellationTokenRegistration = cancellationToken.Register(cancelDelegate, this, false);
             }
             subscription = source.Subscribe(this);
@@ -76,13 +77,17 @@ namespace Reactive.Bindings
 
         private void TryInvokeContinuation()
         {
-            if (continuation != null) {
+            if (continuation != null)
+            {
                 var c = continuation;
                 continuation = null;
 
-                if (context != null && context != SynchronizationContext.Current) {
+                if (context != null && context != SynchronizationContext.Current)
+                {
                     context.Post(syncContextPost, c);
-                } else {
+                }
+                else
+                {
                     c.Invoke();
                 }
             }
@@ -90,7 +95,8 @@ namespace Reactive.Bindings
 
         void IObserver<T>.OnNext(T value)
         {
-            lock (gate) {
+            lock (gate)
+            {
                 currentValue = value;
                 TryInvokeContinuation();
             }
@@ -139,14 +145,16 @@ namespace Reactive.Bindings
         /// <exception cref="System.OperationCanceledException"></exception>
         public T GetResult()
         {
-            if (exception != null) {
+            if (exception != null)
+            {
                 exception.Throw();
                 return default(T);
             }
 
             token.ThrowIfCancellationRequested();
 
-            if (completed) {
+            if (completed)
+            {
                 throw new OperationCanceledException();
             }
 
@@ -155,7 +163,8 @@ namespace Reactive.Bindings
 
         void ICriticalNotifyCompletion.UnsafeOnCompleted(Action continuation)
         {
-            if (this.continuation != null) {
+            if (this.continuation != null)
+            {
                 throw new InvalidOperationException();
             }
 
@@ -164,7 +173,8 @@ namespace Reactive.Bindings
 
         void INotifyCompletion.OnCompleted(Action continuation)
         {
-            if (this.continuation != null) {
+            if (this.continuation != null)
+            {
                 throw new InvalidOperationException();
             }
 
@@ -233,7 +243,8 @@ namespace Reactive.Bindings
         /// <returns></returns>
         public static async Task<T> WaitUntilValueChangedAsync<T>(this IReactiveProperty<T> source, CancellationToken cancellationToken = default(CancellationToken))
         {
-            using (var handler = GetAsyncHandler<T>(source, cancellationToken)) {
+            using (var handler = GetAsyncHandler<T>(source, cancellationToken))
+            {
                 return await handler;
             }
         }
@@ -247,7 +258,8 @@ namespace Reactive.Bindings
         /// <returns></returns>
         public static async Task<T> WaitUntilValueChangedAsync<T>(this IReadOnlyReactiveProperty<T> source, CancellationToken cancellationToken = default(CancellationToken))
         {
-            using (var handler = GetAsyncHandler<T>(source, cancellationToken)) {
+            using (var handler = GetAsyncHandler<T>(source, cancellationToken))
+            {
                 return await handler;
             }
         }
@@ -261,7 +273,8 @@ namespace Reactive.Bindings
         /// <returns></returns>
         public static async Task<T> WaitUntilValueChangedAsync<T>(this ReactiveCommand<T> source, CancellationToken cancellationToken = default(CancellationToken))
         {
-            using (var handler = GetAsyncHandler<T>(source, cancellationToken)) {
+            using (var handler = GetAsyncHandler<T>(source, cancellationToken))
+            {
                 return await handler;
             }
         }

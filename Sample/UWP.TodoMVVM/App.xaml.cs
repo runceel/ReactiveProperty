@@ -1,6 +1,6 @@
-﻿using Microsoft.Practices.Unity;
+﻿using System.Threading.Tasks;
+using Microsoft.Practices.Unity;
 using Prism.Unity.Windows;
-using System.Threading.Tasks;
 using UWP.TodoMVVM.Models;
 using UWP.TodoMVVM.Services;
 using Windows.ApplicationModel.Activation;

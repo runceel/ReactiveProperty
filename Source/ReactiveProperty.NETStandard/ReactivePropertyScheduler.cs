@@ -1,5 +1,4 @@
-﻿using System;
-using System.Reactive.Concurrency;
+﻿using System.Reactive.Concurrency;
 using System.Threading;
 
 namespace Reactive.Bindings

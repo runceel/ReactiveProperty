@@ -22,7 +22,8 @@ namespace Reactive.Bindings.Extensions
             this IObservable<TSource> source, Action<TException> errorAction)
             where TException : Exception
         {
-            var result = source.Catch((TException ex) => {
+            var result = source.Catch((TException ex) =>
+            {
                 errorAction(ex);
                 return Observable.Empty<TSource>();
             });

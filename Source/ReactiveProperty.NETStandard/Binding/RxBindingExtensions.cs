@@ -40,15 +40,18 @@ namespace Reactive.Bindings.Binding
             TProperty propertyFallbackValue = default(TProperty),
             T sourceFallbackValue = default(T))
         {
-            if (convert == null) {
+            if (convert == null)
+            {
                 convert = value => (TProperty)Convert.ChangeType(value, typeof(TProperty));
             }
 
-            if (convertBack == null) {
+            if (convertBack == null)
+            {
                 convertBack = value => (T)Convert.ChangeType(value, typeof(T));
             }
 
-            switch (mode) {
+            switch (mode)
+            {
                 case BindingMode.OneWay:
                     return CreateOneWayBinding(
                         self,
@@ -85,14 +88,19 @@ namespace Reactive.Bindings.Binding
         private static IDisposable CreateOneWayToSourceBinding<T, TTarget, TProperty>(ReactiveProperty<T> self, TTarget target, Expression<Func<TTarget, TProperty>> propertySelector, Func<TProperty, T> convertBack, IObservable<Unit> targetUpdateTrigger, T sourceFallbackValue)
         {
             var propertyName = default(string);
-            if (targetUpdateTrigger == null) {
+            if (targetUpdateTrigger == null)
+            {
                 throw new NotSupportedException("OneWayToSource binding required targetUpdateTrigger parameter.");
             }
             return targetUpdateTrigger
-                .Subscribe(_ => {
-                    try {
+                .Subscribe(_ =>
+                {
+                    try
+                    {
                         self.Value = convertBack(AccessorCache<TTarget>.LookupGet(propertySelector, out propertyName)(target));
-                    } catch (Exception ex) {
+                    }
+                    catch (Exception ex)
+                    {
                         Debug.WriteLine(ex);
                         self.Value = sourceFallbackValue;
                     }
@@ -103,11 +111,15 @@ namespace Reactive.Bindings.Binding
         {
             var propertyName = default(string);
             return self
-                .Subscribe(value => {
+                .Subscribe(value =>
+                {
                     var setter = AccessorCache<TTarget>.LookupSet(propertySelector, out propertyName);
-                    try {
+                    try
+                    {
                         setter(target, convert(value));
-                    } catch (Exception ex) {
+                    }
+                    catch (Exception ex)
+                    {
                         Debug.WriteLine(ex);
                         setter(target, propertyFallbackValue);
                     }
@@ -116,7 +128,8 @@ namespace Reactive.Bindings.Binding
 
         private static IDisposable CreateTowWayBinding<T, TTarget, TProperty>(ReactiveProperty<T> self, TTarget target, Expression<Func<TTarget, TProperty>> propertySelector, Func<T, TProperty> convert, Func<TProperty, T> convertBack, IObservable<Unit> targetUpdateTrigger, TProperty propertyFallbackValue, T sourceFallbackValue)
         {
-            if (targetUpdateTrigger == null) {
+            if (targetUpdateTrigger == null)
+            {
                 throw new NotSupportedException("TwoWay binding required targetUpdateTrigger parameter.");
             }
 
@@ -125,31 +138,41 @@ namespace Reactive.Bindings.Binding
             var targetUpdating = false;
             var sourceUpdating = false;
             targetUpdateTrigger
-                .Subscribe(_ => {
-                    if (sourceUpdating) {
+                .Subscribe(_ =>
+                {
+                    if (sourceUpdating)
+                    {
                         return;
                     }
 
                     targetUpdating = true;
-                    try {
+                    try
+                    {
                         self.Value = convertBack(AccessorCache<TTarget>.LookupGet(propertySelector, out propertyName)(target));
-                    } catch (Exception ex) {
+                    }
+                    catch (Exception ex)
+                    {
                         Debug.WriteLine(ex);
                         self.Value = sourceFallbackValue;
                     }
                     targetUpdating = false;
                 })
                 .AddTo(d);
-            self.Subscribe(value => {
-                if (targetUpdating) {
+            self.Subscribe(value =>
+            {
+                if (targetUpdating)
+                {
                     return;
                 }
 
                 var setter = AccessorCache<TTarget>.LookupSet(propertySelector, out propertyName);
                 sourceUpdating = true;
-                try {
+                try
+                {
                     setter(target, convert(value));
-                } catch (Exception ex) {
+                }
+                catch (Exception ex)
+                {
                     Debug.WriteLine(ex);
                     setter(target, propertyFallbackValue);
                 }

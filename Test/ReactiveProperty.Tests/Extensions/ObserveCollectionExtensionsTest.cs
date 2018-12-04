@@ -574,7 +574,8 @@ namespace ReactiveProperty.Tests.Extensions
 
                 set
                 {
-                    if (name != value) {
+                    if (name != value)
+                    {
                         name = value;
                         RaisePropertyChanged();
                     }
@@ -592,7 +593,8 @@ namespace ReactiveProperty.Tests.Extensions
 
                 set
                 {
-                    if (age != value) {
+                    if (age != value)
+                    {
                         age = value;
                         RaisePropertyChanged();
                     }
@@ -614,7 +616,8 @@ namespace ReactiveProperty.Tests.Extensions
             private void RaisePropertyChanged([CallerMemberName] string propertyName = null)
             {
                 var handler = PropertyChanged;
-                if (handler != null) {
+                if (handler != null)
+                {
                     handler(this, new PropertyChangedEventArgs(propertyName));
                 }
             }

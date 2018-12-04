@@ -21,13 +21,17 @@ namespace Reactive.Bindings.Interactivity
         /// <param name="parameter">The parameter.</param>
         protected override void Invoke(object parameter)
         {
-            if (ReactiveProperty == null) {
+            if (ReactiveProperty == null)
+            {
                 return;
             }
 
-            if (IgnoreEventArgs) {
+            if (IgnoreEventArgs)
+            {
                 ((IReactiveProperty)ReactiveProperty).Value = new Unit();
-            } else {
+            }
+            else
+            {
                 var converter = Converter;
                 ((IReactiveProperty)ReactiveProperty).Value =
                     (converter != null) ? converter(parameter) : parameter;

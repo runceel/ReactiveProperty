@@ -67,7 +67,8 @@ namespace Reactive.Bindings
         /// <remarks>To be added.</remarks>
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
-            if (convertView == null) {
+            if (convertView == null)
+            {
                 convertView = CreateRowView(position, this[position]);
             }
 

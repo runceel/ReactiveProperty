@@ -40,28 +40,33 @@ namespace Reactive.Bindings
             var subject = new Subject<CollectionChanged<T>>();
 
             subject.Where(v => v.Action == NotifyCollectionChangedAction.Add)
-                .Subscribe(v => {
+                .Subscribe(v =>
+                {
                     Source.Insert(v.Index, v.Value);
                 })
                 .AddTo(Token);
 
             subject.Where(v => v.Action == NotifyCollectionChangedAction.Remove)
-                .Subscribe(v => {
+                .Subscribe(v =>
+                {
                     if (Source[v.Index] is IDisposable d) { InvokeDispose(d); }
                     Source.RemoveAt(v.Index);
                 })
                 .AddTo(Token);
 
             subject.Where(v => v.Action == NotifyCollectionChangedAction.Replace)
-                .Subscribe(v => {
+                .Subscribe(v =>
+                {
                     if (Source[v.Index] is IDisposable d) { InvokeDispose(d); }
                     Source[v.Index] = v.Value;
                 })
                 .AddTo(Token);
 
             subject.Where(v => v.Action == NotifyCollectionChangedAction.Reset)
-                .Subscribe(v => {
-                    foreach (var item in source) {
+                .Subscribe(v =>
+                {
+                    foreach (var item in source)
+                    {
                         if (item is IDisposable d) { InvokeDispose(d); }
                     }
                     Source.Clear();
@@ -69,7 +74,8 @@ namespace Reactive.Bindings
                 .AddTo(Token);
 
             subject.Where(x => x.Action == NotifyCollectionChangedAction.Move)
-                .Subscribe(x => {
+                .Subscribe(x =>
+                {
                     var targetValue = Source[x.OldIndex];
                     Source.RemoveAt(x.OldIndex);
                     Source.Insert(x.Index, targetValue);
@@ -96,16 +102,20 @@ namespace Reactive.Bindings
 
             ox
                 .ObserveOn(scheduler)
-                .Subscribe(value => {
+                .Subscribe(value =>
+                {
                     Source.Add(value);
                 })
             .AddTo(Token);
 
-            if (onReset != null) {
+            if (onReset != null)
+            {
                 onReset
                     .ObserveOn(scheduler)
-                    .Subscribe(_ => {
-                        foreach (var item in source) {
+                    .Subscribe(_ =>
+                    {
+                        foreach (var item in source)
+                        {
                             InvokeDispose(item);
                         }
                         Source.Clear();
@@ -118,7 +128,8 @@ namespace Reactive.Bindings
         /// </summary>
         public virtual void Dispose()
         {
-            if (Token.IsDisposed) {
+            if (Token.IsDisposed)
+            {
                 return;
             }
 
@@ -128,7 +139,8 @@ namespace Reactive.Bindings
 
         private void InvokeDispose(object item)
         {
-            if (!DisposeElement) {
+            if (!DisposeElement)
+            {
                 return;
             }
 
@@ -294,7 +306,8 @@ namespace Reactive.Bindings
         /// <returns></returns>
         public static IObservable<CollectionChanged<T>> ToCollectionChanged<T>(this INotifyCollectionChanged self)
         {
-            return Observable.Create<CollectionChanged<T>>(ox => {
+            return Observable.Create<CollectionChanged<T>>(ox =>
+            {
                 var d = new CompositeDisposable();
                 self.CollectionChangedAsObservable()
                     .Where(e => e.Action == NotifyCollectionChangedAction.Add)

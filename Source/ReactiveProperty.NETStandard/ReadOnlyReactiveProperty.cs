@@ -5,7 +5,6 @@ using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using System.Threading;
 using Reactive.Bindings.Extensions;
 
 namespace Reactive.Bindings
@@ -53,13 +52,15 @@ namespace Reactive.Bindings
                 ? source.DistinctUntilChanged(EqualityComparer)
                 : source;
 
-            ox.Do(x => {
+            ox.Do(x =>
+            {
                 LatestValue = x;
 
                 InnerSource.OnNext(x);
             })
                 .ObserveOn(eventScheduler ?? ReactivePropertyScheduler.Default)
-                .Subscribe(_ => {
+                .Subscribe(_ =>
+                {
                     PropertyChanged?.Invoke(this, SingletonPropertyChangedEventArgs.Value);
                 })
                 .AddTo(Subscription);
@@ -83,7 +84,8 @@ namespace Reactive.Bindings
         /// </returns>
         public IDisposable Subscribe(IObserver<T> observer)
         {
-            if (Subscription.IsDisposed) {
+            if (Subscription.IsDisposed)
+            {
                 observer.OnCompleted();
                 return Disposable.Empty;
             }
@@ -99,7 +101,8 @@ namespace Reactive.Bindings
         /// </summary>
         public void Dispose()
         {
-            if (!Subscription.IsDisposed) {
+            if (!Subscription.IsDisposed)
+            {
                 InnerSource.OnCompleted();
                 Subscription.Dispose();
             }

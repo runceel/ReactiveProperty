@@ -1,9 +1,6 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
-using System.Reactive;
-using System.Reactive.Linq;
 using System.Runtime.CompilerServices;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Reactive.Bindings;
@@ -75,7 +72,8 @@ namespace ReactiveProperty.Tests.Binding
                 o => o.Name,
                 mode: BindingMode.TwoWay,
                 convert: i => "value is " + i,
-                convertBack: s => {
+                convertBack: s =>
+                {
                     Debug.WriteLine(s);
                     return int.Parse(s, NumberStyles.Integer);
                 },
@@ -99,7 +97,8 @@ namespace ReactiveProperty.Tests.Binding
             target.BindTo(obj,
                 o => o.Name,
                 mode: BindingMode.OneWayToSource,
-                convertBack: s => {
+                convertBack: s =>
+                {
                     Debug.WriteLine(s);
                     return s + "!";
                 },

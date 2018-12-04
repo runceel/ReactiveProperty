@@ -14,8 +14,10 @@ namespace Reactive.Bindings.Binding
         /// <returns></returns>
         public static EventHandler ToEventHandler(this ReactiveCommand self)
         {
-            EventHandler h = (s, e) => {
-                if (self.CanExecute()) {
+            EventHandler h = (s, e) =>
+            {
+                if (self.CanExecute())
+                {
                     self.Execute();
                 }
             };
@@ -30,8 +32,10 @@ namespace Reactive.Bindings.Binding
         /// <returns></returns>
         public static EventHandler<TEventArgs> ToEventHandler<TEventArgs>(this ReactiveCommand self)
         {
-            EventHandler<TEventArgs> h = (s, e) => {
-                if (self.CanExecute()) {
+            EventHandler<TEventArgs> h = (s, e) =>
+            {
+                if (self.CanExecute())
+                {
                     self.Execute();
                 }
             };
@@ -48,9 +52,11 @@ namespace Reactive.Bindings.Binding
         /// <returns></returns>
         public static EventHandler<TEventArgs> ToEventHandler<TEventArgs, T>(this ReactiveCommand<T> self, Func<TEventArgs, T> converter)
         {
-            EventHandler<TEventArgs> h = (s, e) => {
+            EventHandler<TEventArgs> h = (s, e) =>
+            {
                 var parameter = converter(e);
-                if (self.CanExecute()) {
+                if (self.CanExecute())
+                {
                     self.Execute(parameter);
                 }
             };

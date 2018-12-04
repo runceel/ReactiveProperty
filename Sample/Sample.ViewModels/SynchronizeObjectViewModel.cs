@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Reactive.Linq;
-using System.Windows;
-using Reactive.Bindings;
 using System.ComponentModel;
+using System.Reactive.Linq;
+using Reactive.Bindings;
 using Reactive.Bindings.Extensions; // using namespace
 
 namespace Sample.ViewModels
@@ -32,7 +31,7 @@ namespace Sample.ViewModels
 
             // synchronization check
             CheckCommand = new ReactiveCommand();
-            this.AlertMessage = CheckCommand.Select(_ => 
+            this.AlertMessage = CheckCommand.Select(_ =>
                 "INPC Name:" + inpc.Name + Environment.NewLine
               + "POCO Name:" + poco.Name)
               .ToReactiveProperty(mode: ReactivePropertyMode.None);

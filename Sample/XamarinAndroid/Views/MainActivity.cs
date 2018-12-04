@@ -1,13 +1,9 @@
-﻿using System;
-using Android.App;
-using Android.Content;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
+﻿using Android.App;
 using Android.OS;
-using XamarinAndroid.ViewModels;
+using Android.Widget;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
+using XamarinAndroid.ViewModels;
 
 namespace XamarinAndroid.Views
 {

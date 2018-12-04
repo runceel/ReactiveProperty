@@ -78,7 +78,8 @@ namespace Reactive.Bindings.Notifiers
         /// </summary>
         public CountNotifier(int max = int.MaxValue)
         {
-            if (max <= 0) {
+            if (max <= 0)
+            {
                 throw new ArgumentException(nameof(max));
             }
 
@@ -90,21 +91,29 @@ namespace Reactive.Bindings.Notifiers
         /// </summary>
         public IDisposable Increment(int incrementCount = 1)
         {
-            if (incrementCount < 0) {
+            if (incrementCount < 0)
+            {
                 throw new ArgumentException(nameof(incrementCount));
             }
 
-            lock (lockObject) {
-                if (Count == Max) {
+            lock (lockObject)
+            {
+                if (Count == Max)
+                {
                     return Disposable.Empty;
-                } else if (incrementCount + Count > Max) {
+                }
+                else if (incrementCount + Count > Max)
+                {
                     Count = Max;
-                } else {
+                }
+                else
+                {
                     Count += incrementCount;
                 }
 
                 statusChanged.OnNext(CountChangedStatus.Increment);
-                if (Count == Max) {
+                if (Count == Max)
+                {
                     statusChanged.OnNext(CountChangedStatus.Max);
                 }
 
@@ -117,21 +126,29 @@ namespace Reactive.Bindings.Notifiers
         /// </summary>
         public void Decrement(int decrementCount = 1)
         {
-            if (decrementCount < 0) {
+            if (decrementCount < 0)
+            {
                 throw new ArgumentException(nameof(decrementCount));
             }
 
-            lock (lockObject) {
-                if (Count == 0) {
+            lock (lockObject)
+            {
+                if (Count == 0)
+                {
                     return;
-                } else if (Count - decrementCount < 0) {
+                }
+                else if (Count - decrementCount < 0)
+                {
                     Count = 0;
-                } else {
+                }
+                else
+                {
                     Count -= decrementCount;
                 }
 
                 statusChanged.OnNext(CountChangedStatus.Decrement);
-                if (Count == 0) {
+                if (Count == 0)
+                {
                     statusChanged.OnNext(CountChangedStatus.Empty);
                 }
             }

@@ -19,22 +19,28 @@ namespace Reactive.Bindings.Extensions
         /// </summary>
         public static IObservable<TR> Pairwise<T, TR>(this IObservable<T> source, Func<T, T, TR> selector)
         {
-            var result = Observable.Create<TR>(observer => {
+            var result = Observable.Create<TR>(observer =>
+            {
                 var prev = default(T);
                 var isFirst = true;
 
-                return source.Subscribe(x => {
-                    if (isFirst) {
+                return source.Subscribe(x =>
+                {
+                    if (isFirst)
+                    {
                         isFirst = false;
                         prev = x;
                         return;
                     }
 
                     TR value;
-                    try {
+                    try
+                    {
                         value = selector(prev, x);
                         prev = x;
-                    } catch (Exception ex) {
+                    }
+                    catch (Exception ex)
+                    {
                         observer.OnError(ex);
                         return;
                     }

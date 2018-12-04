@@ -45,14 +45,14 @@ namespace Reactive.Bindings.Extensions
         /// <summary>
         /// Create ReadOnlyReactiveProperty from DependencyObject
         /// </summary>
-        public static ReadOnlyReactiveProperty<T> ToReadOnlyReactiveProperty<T>(this DependencyObject self, 
+        public static ReadOnlyReactiveProperty<T> ToReadOnlyReactiveProperty<T>(this DependencyObject self,
             DependencyProperty dp,
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe,
             IScheduler eventScheduler = null) =>
             new ReadOnlyReactiveProperty<T>(
                 self.ObserveDependencyProperty(dp).Select(_ => (T)self.GetValue(dp)),
-                (T)self.GetValue(dp), 
-                mode, 
+                (T)self.GetValue(dp),
+                mode,
                 eventScheduler);
 
         /// <summary>

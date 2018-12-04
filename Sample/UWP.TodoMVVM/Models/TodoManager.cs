@@ -1,11 +1,11 @@
-﻿using Prism.Mvvm;
-using Reactive.Bindings.Extensions;
-using Reactive.Bindings.Helpers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Linq;
+using Prism.Mvvm;
+using Reactive.Bindings.Extensions;
+using Reactive.Bindings.Helpers;
 
 namespace UWP.TodoMVVM.Models
 {
@@ -81,7 +81,7 @@ namespace UWP.TodoMVVM.Models
 
         private void ChangeCurrentView()
         {
-            switch(this.ViewType)
+            switch (this.ViewType)
             {
                 case ViewType.All:
                     this.CurrentView = this.AllTodoItems.ToFilteredReadOnlyObservableCollection(_ => true);

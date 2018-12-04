@@ -26,8 +26,10 @@ namespace Reactive.Bindings.Internals
             propertyName = GetPropertyName(propertySelector);
             Delegate accessor;
 
-            lock (getCache) {
-                if (!getCache.TryGetValue(propertyName, out accessor)) {
+            lock (getCache)
+            {
+                if (!getCache.TryGetValue(propertyName, out accessor))
+                {
                     accessor = propertySelector.Compile();
                     getCache.Add(propertyName, accessor);
                 }
@@ -39,7 +41,8 @@ namespace Reactive.Bindings.Internals
         private static string GetPropertyName<TProperty>(Expression<Func<TType, TProperty>> propertySelector)
         {
             var memberExpression = propertySelector.Body as MemberExpression;
-            if (memberExpression == null) {
+            if (memberExpression == null)
+            {
                 var unaryExpression = propertySelector.Body as UnaryExpression;
                 if (unaryExpression == null) { throw new ArgumentException(nameof(propertySelector)); }
                 memberExpression = unaryExpression.Operand as MemberExpression;
@@ -61,8 +64,10 @@ namespace Reactive.Bindings.Internals
             propertyName = GetPropertyName(propertySelector);
             Delegate accessor;
 
-            lock (setCache) {
-                if (!setCache.TryGetValue(propertyName, out accessor)) {
+            lock (setCache)
+            {
+                if (!setCache.TryGetValue(propertyName, out accessor))
+                {
                     accessor = CreateSetAccessor(propertySelector);
                     setCache.Add(propertyName, accessor);
                 }

@@ -47,7 +47,8 @@ namespace Reactive.Bindings
         public void Dispose()
         {
             var sourceList = Interlocked.Exchange(ref list, null);
-            if (sourceList != null) {
+            if (sourceList != null)
+            {
                 sourceList.UnsubscribeNode(this);
                 sourceList = null;
             }
@@ -88,13 +89,15 @@ namespace Reactive.Bindings
 
             set
             {
-                if (IsDistinctUntilChanged && equalityComparer.Equals(latestValue, value)) {
+                if (IsDistinctUntilChanged && equalityComparer.Equals(latestValue, value))
+                {
                     return;
                 }
 
                 // Note:can set null and can set after disposed.
                 latestValue = value;
-                if (!IsDisposed) {
+                if (!IsDisposed)
+                {
                     OnNextAndRaiseValueChanged(ref value);
                 }
             }
@@ -158,7 +161,8 @@ namespace Reactive.Bindings
         {
             // call source.OnNext
             var node = root;
-            while (node != null) {
+            while (node != null)
+            {
                 node.OnNext(value);
                 node = node.Next;
             }
@@ -184,20 +188,25 @@ namespace Reactive.Bindings
         /// </returns>
         public IDisposable Subscribe(IObserver<T> observer)
         {
-            if (IsDisposed) {
+            if (IsDisposed)
+            {
                 observer.OnCompleted();
                 return Disposable.Empty;
             }
 
-            if (IsRaiseLatestValueOnSubscribe) {
+            if (IsRaiseLatestValueOnSubscribe)
+            {
                 observer.OnNext(latestValue);
             }
 
             // subscribe node, node as subscription.
             var next = new ObserverNode<T>(this, observer);
-            if (root == null) {
+            if (root == null)
+            {
                 root = last = next;
-            } else {
+            }
+            else
+            {
                 last.Next = next;
                 next.Previous = last;
                 last = next;
@@ -207,17 +216,21 @@ namespace Reactive.Bindings
 
         void IObserverLinkedList<T>.UnsubscribeNode(ObserverNode<T> node)
         {
-            if (node == root) {
+            if (node == root)
+            {
                 root = node.Next;
             }
-            if (node == last) {
+            if (node == last)
+            {
                 last = node.Previous;
             }
 
-            if (node.Previous != null) {
+            if (node.Previous != null)
+            {
                 node.Previous.Next = node.Next;
             }
-            if (node.Next != null) {
+            if (node.Next != null)
+            {
                 node.Next.Previous = node.Previous;
             }
         }
@@ -228,7 +241,8 @@ namespace Reactive.Bindings
         /// </summary>
         public void Dispose()
         {
-            if (IsDisposed) {
+            if (IsDisposed)
+            {
                 return;
             }
 
@@ -236,7 +250,8 @@ namespace Reactive.Bindings
             root = last = null;
             mode = (ReactivePropertyMode)IsDisposedFlagNumber;
 
-            while (node != null) {
+            while (node != null)
+            {
                 node.OnCompleted();
                 node = node.Next;
             }
@@ -357,20 +372,25 @@ namespace Reactive.Bindings
         /// </returns>
         public IDisposable Subscribe(IObserver<T> observer)
         {
-            if (IsDisposed) {
+            if (IsDisposed)
+            {
                 observer.OnCompleted();
                 return Disposable.Empty;
             }
 
-            if (IsRaiseLatestValueOnSubscribe) {
+            if (IsRaiseLatestValueOnSubscribe)
+            {
                 observer.OnNext(latestValue);
             }
 
             // subscribe node, node as subscription.
             var next = new ObserverNode<T>(this, observer);
-            if (root == null) {
+            if (root == null)
+            {
                 root = last = next;
-            } else {
+            }
+            else
+            {
                 last.Next = next;
                 next.Previous = last;
                 last = next;
@@ -381,17 +401,21 @@ namespace Reactive.Bindings
 
         void IObserverLinkedList<T>.UnsubscribeNode(ObserverNode<T> node)
         {
-            if (node == root) {
+            if (node == root)
+            {
                 root = node.Next;
             }
-            if (node == last) {
+            if (node == last)
+            {
                 last = node.Previous;
             }
 
-            if (node.Previous != null) {
+            if (node.Previous != null)
+            {
                 node.Previous.Next = node.Next;
             }
-            if (node.Next != null) {
+            if (node.Next != null)
+            {
                 node.Next.Previous = node.Previous;
             }
         }
@@ -402,7 +426,8 @@ namespace Reactive.Bindings
         /// </summary>
         public void Dispose()
         {
-            if (IsDisposed) {
+            if (IsDisposed)
+            {
                 return;
             }
 
@@ -410,7 +435,8 @@ namespace Reactive.Bindings
             root = last = null;
             mode = (ReactivePropertyMode)IsDisposedFlagNumber;
 
-            while (node != null) {
+            while (node != null)
+            {
                 node.OnCompleted();
                 node = node.Next;
             }
@@ -420,11 +446,13 @@ namespace Reactive.Bindings
 
         void IObserver<T>.OnNext(T value)
         {
-            if (IsDisposed) {
+            if (IsDisposed)
+            {
                 return;
             }
 
-            if (IsDistinctUntilChanged && equalityComparer.Equals(latestValue, value)) {
+            if (IsDistinctUntilChanged && equalityComparer.Equals(latestValue, value))
+            {
                 return;
             }
 
@@ -433,7 +461,8 @@ namespace Reactive.Bindings
 
             // call source.OnNext
             var node = root;
-            while (node != null) {
+            while (node != null)
+            {
                 node.OnNext(value);
                 node = node.Next;
             }

@@ -112,7 +112,8 @@ namespace Reactive.Bindings
             CanExecuteSubscription = canExecuteSource
                 .DistinctUntilChanged()
                 .ObserveOn(scheduler)
-                .Subscribe(b => {
+                .Subscribe(b =>
+                {
                     IsCanExecute = b;
                     CanExecuteChanged?.Invoke(this, EventArgs.Empty);
                 });
@@ -151,7 +152,8 @@ namespace Reactive.Bindings
         /// </summary>
         public void Dispose()
         {
-            if (IsDisposed) {
+            if (IsDisposed)
+            {
                 return;
             }
 
@@ -160,9 +162,11 @@ namespace Reactive.Bindings
             Trigger.Dispose();
             CanExecuteSubscription.Dispose();
 
-            if (IsCanExecute) {
+            if (IsCanExecute)
+            {
                 IsCanExecute = false;
-                Scheduler.Schedule(() => {
+                Scheduler.Schedule(() =>
+                {
                     IsCanExecute = false;
                     CanExecuteChanged?.Invoke(this, EventArgs.Empty);
                 });

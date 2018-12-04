@@ -15,8 +15,10 @@ namespace Reactive.Bindings.Internal
             propertyName = ((MemberExpression)propertySelector.Body).Member.Name;
             Delegate accessor;
 
-            lock (getCache) {
-                if (!getCache.TryGetValue(propertyName, out accessor)) {
+            lock (getCache)
+            {
+                if (!getCache.TryGetValue(propertyName, out accessor))
+                {
                     accessor = propertySelector.Compile();
                     getCache.Add(propertyName, accessor);
                 }
@@ -30,8 +32,10 @@ namespace Reactive.Bindings.Internal
             propertyName = ((MemberExpression)propertySelector.Body).Member.Name;
             Delegate accessor;
 
-            lock (setCache) {
-                if (!setCache.TryGetValue(propertyName, out accessor)) {
+            lock (setCache)
+            {
+                if (!setCache.TryGetValue(propertyName, out accessor))
+                {
                     accessor = CreateSetAccessor(propertySelector);
                     setCache.Add(propertyName, accessor);
                 }

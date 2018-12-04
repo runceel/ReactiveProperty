@@ -1,9 +1,5 @@
 ﻿using System;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Reactive.Concurrency;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Reactive.Bindings;
 
 namespace RxPropTest
 {
@@ -75,11 +71,15 @@ namespace RxPropTest
             var rxAge = Reactive.Bindings.ReactiveProperty.FromObject(homuhomu, x => x.Age,
                 x => Convert.ToString(x, 16), x => Convert.ToInt32(x, 16),
                 ignoreValidationErrorValue: true)
-                .SetValidateNotifyError((string x) => {
-                    try {
+                .SetValidateNotifyError((string x) =>
+                {
+                    try
+                    {
                         Convert.ToInt32(x, 16);
                         return null;
-                    } catch {
+                    }
+                    catch
+                    {
                         return "error";
                     }
                 });

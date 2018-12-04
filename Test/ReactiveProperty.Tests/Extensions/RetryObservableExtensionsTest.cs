@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Reactive.Linq;
-using System.Reactive.Subjects;
 using Microsoft.Reactive.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 
 namespace ReactiveProperty.Tests

@@ -61,7 +61,8 @@ namespace Reactive.Bindings
 
             set
             {
-                if (interval == value) {
+                if (interval == value)
+                {
                     return;
                 }
 
@@ -82,7 +83,8 @@ namespace Reactive.Bindings
 
             private set
             {
-                if (isEnabled == value) {
+                if (isEnabled == value)
+                {
                     return;
                 }
 
@@ -140,7 +142,8 @@ namespace Reactive.Bindings
         /// </summary>
         public void Dispose()
         {
-            if (IsDisposed) {
+            if (IsDisposed)
+            {
                 return;
             }
 

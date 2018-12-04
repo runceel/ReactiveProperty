@@ -39,7 +39,8 @@ namespace Reactive.Bindings.Extensions
         /// <param name="value">Property value</param>
         internal PropertyPack(TInstance instance, PropertyInfo property, TValue value)
         {
-            if (instance == null) {
+            if (instance == null)
+            {
                 throw new ArgumentNullException(nameof(instance));
             }
 

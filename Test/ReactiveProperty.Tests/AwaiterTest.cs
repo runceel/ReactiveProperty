@@ -44,7 +44,8 @@ namespace ReactiveProperty.Tests
                 Value = 999
             };
 
-            using (var handler = prop.GetAsyncHandler(CancellationToken.None)) {
+            using (var handler = prop.GetAsyncHandler(CancellationToken.None))
+            {
                 { var __ = Task.Delay(1000).ContinueWith(_ => prop.Value = 1000); }
                 var v1 = await handler;
                 v1.Is(1000);

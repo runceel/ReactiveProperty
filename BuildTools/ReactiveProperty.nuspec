@@ -20,7 +20,7 @@
         <dependency id="System.Collections" version="4.3.0" />
         <dependency id="System.ComponentModel.Annotations" version="4.5.0" />
         <dependency id="System.ObjectModel" version="4.3.0" />
-        <dependency id="System.Reactive" version="4.1.0" />
+        <dependency id="System.Reactive" version="4.1.2" />
         <dependency id="System.Reflection" version="4.3.0" />
         <dependency id="System.Reflection.Extensions" version="4.3.0" />
         <dependency id="System.Runtime" version="4.3.0" />
@@ -29,7 +29,7 @@
         <dependency id="System.Collections" version="4.3.0" />
         <dependency id="System.ComponentModel.Annotations" version="4.5.0" />
         <dependency id="System.ObjectModel" version="4.3.0" />
-        <dependency id="System.Reactive" version="4.1.0" />
+        <dependency id="System.Reactive" version="4.1.2" />
         <dependency id="System.Reflection" version="4.3.0" />
         <dependency id="System.Reflection.Extensions" version="4.3.0" />
         <dependency id="System.Runtime" version="4.3.0" />

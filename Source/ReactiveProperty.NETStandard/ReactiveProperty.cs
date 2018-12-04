@@ -8,9 +8,7 @@ using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using System.Threading;
 using System.Threading.Tasks;
-using Reactive.Bindings.Extensions;
 using Reactive.Bindings.Internals;
 
 namespace Reactive.Bindings
@@ -203,7 +201,8 @@ namespace Reactive.Bindings
 
             set
             {
-                if (IsDistinctUntilChanged && equalityComparer.Equals(LatestValue, value)) {
+                if (IsDistinctUntilChanged && equalityComparer.Equals(LatestValue, value))
+                {
                     return;
                 }
 
@@ -224,10 +223,13 @@ namespace Reactive.Bindings
         /// </summary>
         public IDisposable Subscribe(IObserver<T> observer)
         {
-            if (IsRaiseLatestValueOnSubscribe) {
+            if (IsRaiseLatestValueOnSubscribe)
+            {
                 observer.OnNext(LatestValue);
                 return Source.Subscribe(observer);
-            } else {
+            }
+            else
+            {
                 return Source.Subscribe(observer);
             }
         }
@@ -237,7 +239,8 @@ namespace Reactive.Bindings
         /// </summary>
         public void Dispose()
         {
-            if (IsDisposed) {
+            if (IsDisposed)
+            {
                 return;
             }
 
@@ -247,7 +250,8 @@ namespace Reactive.Bindings
             ValidationTrigger.Dispose();
             SourceDisposable.Dispose();
             ValidateNotifyErrorSubscription.Dispose();
-            if (ErrorsTrigger.IsValueCreated) {
+            if (ErrorsTrigger.IsValueCreated)
+            {
                 ErrorsTrigger.Value.OnCompleted();
                 ErrorsTrigger.Value.Dispose();
             }
@@ -288,12 +292,15 @@ namespace Reactive.Bindings
                             .ToArray();     //--- use copy
             ValidateNotifyErrorSubscription.Disposable
                 = Observable.CombineLatest(validators)
-                .Select(xs => {
-                    if (xs.Count == 0) {
+                .Select(xs =>
+                {
+                    if (xs.Count == 0)
+                    {
                         return null;
                     }
 
-                    if (xs.All(x => x == null)) {
+                    if (xs.All(x => x == null))
+                    {
                         return null;
                     }
 
@@ -306,10 +313,12 @@ namespace Reactive.Bindings
                                 .SelectMany(x => x.Cast<object>());
                     return strings.Concat(others);
                 })
-                .Subscribe(x => {
+                .Subscribe(x =>
+                {
                     CurrentErrors = x;
                     var handler = ErrorsChanged;
-                    if (handler != null) {
+                    if (handler != null)
+                    {
                         RaiseEventScheduler.Schedule(() => handler(this, SingletonDataErrorsChangedEventArgs.Value));
                     }
 

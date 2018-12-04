@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Reactive.Bindings;
 
@@ -92,7 +89,8 @@ namespace ReactiveProperty.Tests
             var s = new Subject<string>();
             var rp = s.ToReadOnlyReactivePropertySlim();
             var buffer = new List<string>();
-            rp.PropertyChanged += (_, args) => {
+            rp.PropertyChanged += (_, args) =>
+            {
                 buffer.Add(args.PropertyName);
             };
 
@@ -115,7 +113,8 @@ namespace ReactiveProperty.Tests
             var rp = s.ToReadOnlyReactivePropertySlim(
                 mode: ReactivePropertyMode.RaiseLatestValueOnSubscribe);
             var buffer = new List<string>();
-            rp.PropertyChanged += (_, args) => {
+            rp.PropertyChanged += (_, args) =>
+            {
                 buffer.Add(args.PropertyName);
             };
 
@@ -143,7 +142,8 @@ namespace ReactiveProperty.Tests
         public void ObservableCreateTest()
         {
             var i = 0;
-            var s = Observable.Create<int>(ox => {
+            var s = Observable.Create<int>(ox =>
+            {
                 i++;
                 return Disposable.Empty;
             });

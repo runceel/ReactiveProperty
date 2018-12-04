@@ -1,20 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Reactive.Linq;
 
 using Android.App;
-using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
 
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using Sample.ViewModels;
-using Android.Util;
 
 namespace XamarinAndroid.Views
 {
@@ -53,7 +46,7 @@ namespace XamarinAndroid.Views
                         .CanExecuteChangedAsObservable()
                         .Select(_ => this.viewModel.ReplaceTextCommand.CanExecute())
                         .ToReactiveProperty());
-            
+
         }
     }
 }

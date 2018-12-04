@@ -58,13 +58,15 @@ namespace Reactive.Bindings.Extensions
             this IObservable<TSource> source, Action<TException> onError, int retryCount, TimeSpan delay, IScheduler delayScheduler)
             where TException : Exception
         {
-            var result = Observable.Defer(() => {
+            var result = Observable.Defer(() =>
+            {
                 var dueTime = (delay.Ticks < 0) ? TimeSpan.Zero : delay;
                 var empty = Observable.Empty<TSource>();
                 var count = 0;
 
                 IObservable<TSource> self = null;
-                self = source.Catch((TException ex) => {
+                self = source.Catch((TException ex) =>
+                {
                     onError(ex);
 
                     return (++count < retryCount)

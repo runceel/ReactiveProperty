@@ -24,12 +24,7 @@ namespace Reactive.Bindings.Notifiers
         /// </summary>
         public ScheduledNotifier(IScheduler scheduler)
         {
-            if (scheduler == null)
-            {
-                throw new ArgumentNullException(nameof(scheduler));
-            }
-
-            this.scheduler = scheduler;
+            this.scheduler = scheduler ?? throw new ArgumentNullException(nameof(scheduler));
         }
 
         /// <summary>

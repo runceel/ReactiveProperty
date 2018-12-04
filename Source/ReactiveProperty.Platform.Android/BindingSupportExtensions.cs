@@ -38,13 +38,18 @@ namespace Reactive.Bindings
                 .Where(_ => !isUpdating)
                 .Subscribe(x => setter(self, x))
                 .AddTo(d);
-            if (updateSourceTrigger != null) {
+            if (updateSourceTrigger != null)
+            {
                 var getter = AccessorCache<TView>.LookupGet(propertySelector, out propertyName);
-                updateSourceTrigger(self).Subscribe(_ => {
+                updateSourceTrigger(self).Subscribe(_ =>
+                {
                     isUpdating = true;
-                    try {
+                    try
+                    {
                         source.Value = getter(self);
-                    } finally {
+                    }
+                    finally
+                    {
                         isUpdating = false;
                     }
                 }).AddTo(d);

@@ -7,7 +7,7 @@ namespace Reactive.Bindings
     {
         public static IEnumerable<T> Defer<T>(Func<IEnumerable<T>> enumerableFactory) => enumerableFactory();
 
-	    public static IEnumerable<TSource[]> Buffer<TSource>(this IEnumerable<TSource> source, int count)
+        public static IEnumerable<TSource[]> Buffer<TSource>(this IEnumerable<TSource> source, int count)
         {
             if (source == null) throw new ArgumentNullException("source");
             if (count <= 0) throw new ArgumentOutOfRangeException("count");

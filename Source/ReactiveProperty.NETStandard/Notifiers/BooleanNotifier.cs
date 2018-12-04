@@ -50,7 +50,8 @@ namespace Reactive.Bindings.Notifiers
         /// </summary>
         public void TurnOn()
         {
-            if (Value != true) {
+            if (Value != true)
+            {
                 Value = true;
             }
         }
@@ -60,7 +61,8 @@ namespace Reactive.Bindings.Notifiers
         /// </summary>
         public void TurnOff()
         {
-            if (Value != false) {
+            if (Value != false)
+            {
                 Value = false;
             }
         }

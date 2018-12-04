@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Reactive.Concurrency;
@@ -40,7 +39,8 @@ namespace Reactive.Bindings.Extensions
             var accessor = AccessorCache<TSubject>.LookupGet(propertySelector, out var propertyName);
             var isFirst = true;
 
-            var result = Observable.Defer(() => {
+            var result = Observable.Defer(() =>
+            {
                 var flag = isFirst;
                 isFirst = false;
 
