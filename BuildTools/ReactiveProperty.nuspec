@@ -17,22 +17,16 @@
     <dependencies>
       <group targetFramework="uap10.0">
         <dependency id="Microsoft.Xaml.Behaviors.Uwp.Managed" version="2.0.0" />
-        <dependency id="System.Collections" version="4.3.0" />
         <dependency id="System.ComponentModel.Annotations" version="4.5.0" />
         <dependency id="System.ObjectModel" version="4.3.0" />
         <dependency id="System.Reactive" version="4.1.2" />
-        <dependency id="System.Reflection" version="4.3.0" />
         <dependency id="System.Reflection.Extensions" version="4.3.0" />
-        <dependency id="System.Runtime" version="4.3.0" />
       </group>
       <group targetFramework="netstandard2.0">
-        <dependency id="System.Collections" version="4.3.0" />
         <dependency id="System.ComponentModel.Annotations" version="4.5.0" />
         <dependency id="System.ObjectModel" version="4.3.0" />
         <dependency id="System.Reactive" version="4.1.2" />
-        <dependency id="System.Reflection" version="4.3.0" />
         <dependency id="System.Reflection.Extensions" version="4.3.0" />
-        <dependency id="System.Runtime" version="4.3.0" />
       </group>
     </dependencies>
     <frameworkAssemblies>
@@ -69,7 +63,7 @@
     <file src="..\Binary\netstandard2.0\ReactiveProperty.dll" target="lib\uap10.0" />
     <file src="..\Binary\netstandard2.0\ReactiveProperty.xml" target="lib\uap10.0" />
     <file src="..\Binary\netstandard2.0\ReactiveProperty.pdb" target="lib\uap10.0" />
-    
+
     <!-- Mono.Android -->
     <file src="..\Binary\netstandard2.0\ReactiveProperty.dll" target="lib\MonoAndroid" />
     <file src="..\Binary\netstandard2.0\ReactiveProperty.xml" target="lib\MonoAndroid" />
@@ -85,7 +79,7 @@
     <file src="..\Binary\MonoTouch\ReactiveProperty.iOS.dll" target="lib\MonoTouch" />
     <file src="..\Binary\MonoTouch\ReactiveProperty.iOS.XML" target="lib\MonoTouch" />
     <file src="..\Binary\MonoTouch\ReactiveProperty.iOS.pdb" target="lib\MonoTouch" />
-    
+
     <!-- Xamarin.iOS10 -->
     <file src="..\Binary\netstandard2.0\ReactiveProperty.dll" target="lib\Xamarin.iOS10" />
     <file src="..\Binary\netstandard2.0\ReactiveProperty.xml" target="lib\Xamarin.iOS10" />
@@ -93,7 +87,7 @@
     <file src="..\Binary\MonoTouch\ReactiveProperty.iOS.dll" target="lib\Xamarin.iOS10" />
     <file src="..\Binary\MonoTouch\ReactiveProperty.iOS.XML" target="lib\Xamarin.iOS10" />
     <file src="..\Binary\MonoTouch\ReactiveProperty.iOS.pdb" target="lib\Xamarin.iOS10" />
-    
+
     <!-- .net standard -->
     <file src="..\Binary\netstandard2.0\ReactiveProperty.dll" target="lib\netstandard2.0" />
     <file src="..\Binary\netstandard2.0\ReactiveProperty.xml" target="lib\netstandard2.0" />
