@@ -1,3 +1,5 @@
+# Commanding
+
 ReactiveCommand class implements following two interfaces.
 
 - ICommand interface
@@ -212,7 +214,7 @@ var command = new ReactiveCommand().WithSubscribe(() => { ... some actions ... }
 subscription.Dispose();
 ```
 
-And has another override of Action<IDisposable> argument.
+And has another override of Action&lt;IDisposable&gt; argument.
 It is used together with CompositeDisposable class.
 
 ```cs
