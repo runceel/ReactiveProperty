@@ -57,4 +57,4 @@ MainWindow.xaml
 After launch the app, You can see the below window.
 The output value was displayed to upper case, after 1sec from the input.
 
-![Launch the app](images/launch-avalonia-app.gif)
+![Launch the app](./images/launch-avalonia-app.gif)

@@ -2,7 +2,7 @@
 - Create a Blank App (Universal Windows) project.
     - Set the `Minimum version` item to Windows 10 Fall Creators Update (1.0.: Build 16299).
 
-      ![Target version](images/uwp-target-version.png)
+      ![Target version](./images/uwp-target-version.png)
 
 - Install ReactiveProperty package from NuGet.
 
@@ -87,4 +87,4 @@ MainPage.xaml
 After launch the app, You can see the below window.
 The output value was displayed to upper case, after 1sec from the input.
 
-![Launch the app](images/launch-uwp-app.gif)
+![Launch the app](./images/launch-uwp-app.gif)

@@ -2,12 +2,12 @@
 
 ReactiveProperty provides MVVM and asynchronous support features under Reactive Extensions. Target framework is .NET Standard 2.0.
 
-![Summary](images/rpsummary.png)
+![Summary](./images/rpsummary.png)
 
 Concept of ReactiveProperty is <b>Fun programing</b>.
 You can write MVVM pattern program using ReactiveProperty very fun.
 
-![UWP](images/launch-uwp-app.gif)
+![UWP](./images/launch-uwp-app.gif)
 
 Following code is tow way binding between ReactiveProperty and plane object property.
 

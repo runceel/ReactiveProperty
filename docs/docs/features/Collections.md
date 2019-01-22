@@ -74,7 +74,7 @@ MainPage.xaml
 </Page>
 ```
 
-![Basic usage](images/collections-reactivecollection-basic-usage.gif)
+![Basic usage](./images/collections-reactivecollection-basic-usage.gif)
 
 ## Collection operations
 
@@ -137,7 +137,7 @@ public class ViewModel
 </Page>
 ```
 
-![Collection operations](images/collections-reactivecollection-collection-operations.gif)
+![Collection operations](./images/collections-reactivecollection-collection-operations.gif)
 
 When ReactiveCollection class was called Dispose method, then unsubscribe the source IObservable instance.
 
@@ -294,7 +294,7 @@ Test view is below.
 </Page>
 ```
 
-![ReadOnlyReactiveCollection](images/collections-reactivecollection-readonly-collection.gif)
+![ReadOnlyReactiveCollection](./images/collections-reactivecollection-readonly-collection.gif)
 
 
 When the instance was removed in the ReadOnlyReactiveCollection, then the Dispose method is called. If don't need this behavior, then set false the ToReadOnlyReactiveCollection's disposeElement argument.
@@ -351,7 +351,7 @@ public class ViewModel
 
 When the ResetCommand execute, then clear the Messages.
 
-![Reset](images/collections-reactivecollection-readonly-collection-reset.gif)
+![Reset](./images/collections-reactivecollection-readonly-collection-reset.gif)
 
 ## IFilteredReadOnlyObservableCollection
 
@@ -460,7 +460,7 @@ public class ViewModel
 </Page>
 ```
 
-![IFilteredReadOnlyObservableCollection](images/collections-filtered-collection.gif)
+![IFilteredReadOnlyObservableCollection](./images/collections-filtered-collection.gif)
 
 When the Value property is greater than 7, then display the value to the ListView which is the right side.
 

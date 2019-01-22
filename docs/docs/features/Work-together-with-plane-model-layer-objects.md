@@ -138,7 +138,7 @@ MainPage.xaml
 </Page>
 ```
 
-![Two-way synchronization](images/work-together-with-poco-two-way-synchronization.gif)
+![Two-way synchronization](./images/work-together-with-poco-two-way-synchronization.gif)
 
 ToSynchronizedReactiveProperty extension method can add convert logic and convert-back logic.
 
@@ -158,7 +158,7 @@ public class ViewModel
 }
 ```
 
-![Convert and convert-back](images/work-together-with-poco-two-way-synchronization-and-convert.gif)
+![Convert and convert-back](./images/work-together-with-poco-two-way-synchronization-and-convert.gif)
 
 When an ignoreValidationErrorValue argument set to true, then stop the synchronization if validation error occurred.
 
@@ -181,7 +181,7 @@ public class ViewModel
 }
 ```
 
-![Ignore validation error value](images/work-together-with-poco-two-way-synchronization-and-ignoreValidationError.gif)
+![Ignore validation error value](./images/work-together-with-poco-two-way-synchronization-and-ignoreValidationError.gif)
 
 ### One-time synchronization
 

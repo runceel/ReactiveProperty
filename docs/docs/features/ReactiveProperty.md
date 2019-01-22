@@ -213,7 +213,7 @@ class ViewModel
 
 WPF is integrated INotifyDataErrorInfo interface. See below.
 
-![WPF Validation](images/wpf-validation.png)
+![WPF Validation](./images/wpf-validation.png)
 
 ### Handling validation errors
 
@@ -283,7 +283,7 @@ public sealed partial class MainPage : Page
 </Page>
 ```
 
-![A validation error message](images/validation-errormessage.png)
+![A validation error message](./images/validation-errormessage.png)
 
 Next property is `ObserveHasErrors`. `ObserveHasErrors` property type is `IObservable<bool>`.
 In popular input form case, combine `ObserveHasErrors` property values very useful.
@@ -351,9 +351,9 @@ public class ViewModel
 </Page>
 ```
 
-![HasErrors](images/haserrors-handling.png)
+![HasErrors](./images/haserrors-handling.png)
 
-![HasErrors2](images/haserrors-handling2.png)
+![HasErrors2](./images/haserrors-handling2.png)
 
 Last property is `HasErrors`. It is a just bool property.
 

@@ -101,7 +101,7 @@ namespace App1
 }
 ```
 
-![EventToReactiveCommand and EventToReactiveProperty](images/event-to-reactivexxx.gif)
+![EventToReactiveCommand and EventToReactiveProperty](./images/event-to-reactivexxx.gif)
 
 
 EventToReactiveProperty sets the value converted by ReactiveConverter to ReactiveProperty.

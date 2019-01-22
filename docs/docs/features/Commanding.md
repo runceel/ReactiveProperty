@@ -91,7 +91,7 @@ public sealed partial class MainPage : Page
 </Page>
 ```
 
-![First example](images/reactivecommand-firstexample.gif)
+![First example](./images/reactivecommand-firstexample.gif)
 
 ## Work with LINQ
 
@@ -143,7 +143,7 @@ public class ViewModel
 }
 ```
 
-![Disable 5 secs](images/reactivecommand-disable5secs.gif)
+![Disable 5 secs](./images/reactivecommand-disable5secs.gif)
 
 ## Create command and subscribe, in one statement
 
@@ -276,7 +276,7 @@ public class ViewModel
 </Page>
 ```
 
-![HeavyCommand](images/asyncreactivecommand-heavyprocess.gif)
+![HeavyCommand](./images/asyncreactivecommand-heavyprocess.gif)
 
 Of cause, AsyncReactiveCommand is created from IObservable&lt;bool&gt;.
 
@@ -302,7 +302,7 @@ public class ViewModel
 }
 ```
 
-![From IObservable<bool>](images/asyncreactivecommand-from-iobool.gif)
+![From IObservable<bool>](./images/asyncreactivecommand-from-iobool.gif)
 
 And AsyncReactiveCommand implements the IDisposable interface.
 You should call the Dispose method when the another instance's event subscribe.
@@ -365,7 +365,7 @@ public class ViewModel
 </Page>
 ```
 
-![Share state](images/asyncreactivecommand-share-state.gif)
+![Share state](./images/asyncreactivecommand-share-state.gif)
 
 ## Threading
 

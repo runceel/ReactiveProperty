@@ -3,7 +3,7 @@
 - Create a Cross Platform app (Xamarin.Forms) project.
 - Setting the `New Cross Platform App` dialog like following.
   Choice the .NET Standard project. Of couse you can select shared project.
-  ![New Cross Platform App dialog](images/xf-create-project.png)
+  ![New Cross Platform App dialog](./images/xf-create-project.png)
 - Install ReactiveProperty to all projects from NuGet.
 
 ### Edit codes
@@ -58,7 +58,7 @@ MainPage.xaml
 After launch the app, you can see below window.
 The output value was displayed to upper case, after 1sec from the input.
 
-![Launch the app](images/launch-xf-app-android.gif)
+![Launch the app](./images/launch-xf-app-android.gif)
 
-![Launch the app](images/launch-xf-app-uwp.gif)
+![Launch the app](./images/launch-xf-app-uwp.gif)
 
