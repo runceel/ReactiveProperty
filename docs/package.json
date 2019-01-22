@@ -1,0 +1,14 @@
+{
+  "name": "reactiveproperty-doc",
+  "version": "1.0.0",
+  "description": "",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs"
+  },
+  "author": "@neuecc, @xin9le, @okazuki",
+  "license": "MIT"
+}
