@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Topics>
-  <Topic id="8ff7e50d-d600-4f64-a4b1-4d0642d291ca" visible="True" isDefault="true" isSelected="true" apiParentMode="InsertAfter" title="ReactiveProperty">
-    <HelpKeywords>
-      <HelpKeyword index="K" term="Welcome" />
-    </HelpKeywords>
-  </Topic>
-</Topics>
