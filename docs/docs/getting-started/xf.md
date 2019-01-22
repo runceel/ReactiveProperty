@@ -12,7 +12,7 @@
 - Edit file like following.
 
 MainPageViewModel.cs
-```cs
+```csharp
 using Reactive.Bindings;
 using System;
 using System.Reactive.Linq;

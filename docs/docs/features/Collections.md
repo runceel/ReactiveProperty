@@ -11,7 +11,7 @@ This class is created from IObservable.
 And adds an item when push a value from source IObservable.
 ReactiveCollection executes this process using IScheduler. Default scheduler run process on the UI thread.
 
-```cs
+```csharp
 public class ViewModel
 {
     public ReactiveCollection<DateTime> Records { get; }
@@ -38,7 +38,7 @@ public class ViewModel
 Example of UWP platform.
 
 MainPage.xaml.cs
-```cs
+```csharp
 public sealed partial class MainPage : Page
 {
     public ViewModel ViewModel { get; } = new ViewModel();
@@ -83,7 +83,7 @@ Those methods are run on the IScheduler.
 
 Can call from outside of UI thread.
 
-```cs
+```csharp
 public class ViewModel
 {
     public ReactiveCollection<DateTime> Records { get; }
@@ -147,7 +147,7 @@ ReadOnlyReactiveCollection class provides one-way synchronization from Observabl
 
 At first, exist a POCO classes.
 
-```cs
+```csharp
 public class BindableBase : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler PropertyChanged;
@@ -195,7 +195,7 @@ This is a simple class that counts up the Count property per second.
 
 Wrap the class to ViewModel layer using ReactiveProperty.
 
-```cs
+```csharp
 public class TimerObjectViewModel : IDisposable
 {
     public TimerObject Model { get; }
@@ -221,7 +221,7 @@ Manage TimerObject instances using the ObservableCollection.
 We should provide TimerObjectViewModel instances to View layer, can use ReadOnlyReactiveCollection class.
 ReadOnlyReactiveCollection instance is created using ToReadOnlyReactiveCollection extension method. 
 
-```cs
+```csharp
 public class ViewModel
 {
     // TimerObject collection
@@ -299,7 +299,7 @@ Test view is below.
 
 When the instance was removed in the ReadOnlyReactiveCollection, then the Dispose method is called. If don't need this behavior, then set false the ToReadOnlyReactiveCollection's disposeElement argument.
 
-```cs
+```csharp
 ViewModelCollection = ModelCollection
     .ToReadOnlyReactiveCollection(x => new TimerObjectViewModel(x), disposeElement: false);
 ```
@@ -310,7 +310,7 @@ ReadOnlyReactiveCollection can create from IObservable, it is same as the Reacti
 ToReadOnlyReactiveCollection extension method has a onReset argument which type is IObservable&lt;Unity&gt;.
 When this argument raises value, then the collection is cleared.
 
-```cs
+```csharp
 public class ViewModel
 {
     public ReadOnlyReactiveCollection<string> Messages { get; }
@@ -358,7 +358,7 @@ When the ResetCommand execute, then clear the Messages.
 This provides collection which filter realtime from ObservableCollection.
 IFilteredReadOnlyObservableCollection watch the PropertyChanged event of source collection item and the CollectionChanged event.
 
-```cs
+```csharp
 public class ValueHolder : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler PropertyChanged;

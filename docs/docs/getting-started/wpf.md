@@ -8,7 +8,7 @@
 - Edit files like following.
 
 MainWindowViewModel.cs
-```cs
+```csharp
 using Reactive.Bindings;
 using System;
 using System.ComponentModel;

@@ -12,7 +12,7 @@ When IObservable&lt;bool&gt; instance updated, CanExecuteChanged event raise.
 
 If you always want executable command, then you can create ReactiveCommand instance using the default constructor.
 
-```cs
+```csharp
 IObservable<bool> canExecuteSource = ...;
 
 ReactiveCommand someCommand = canExecuteSource.ToReactiveCommand(); // non command parameter version.
@@ -24,7 +24,7 @@ ReactiveCommand<string> alwaysExecutableAndHasCommandParameterCommand = new Reac
 And you can set the initial return value of CanExecute method using factory extension method's initalValue argument.
 The default value is true.
 
-```cs
+```csharp
 IObservable<bool> canExecuteSource = ...;
 
 ReactiveCommand someCommand = canExecuteSource.ToReactiveCommand(false);
@@ -34,7 +34,7 @@ ReactiveCommand<string> hasCommandParameterCommand = canExecuteSource.ToReactive
 When Execute method is called, ReactiveCommand call the OnNext callback.
 You can register execute logic using the Subscribe method.
 
-```cs
+```csharp
 ReactiveCommand someCommand = new ReactiveCommand();
 someCommand.Subscribe(_ => { ... some logic ... }); // set an OnNext callback
 
@@ -45,7 +45,7 @@ someCommand.Execute(); // OnNext callback is called.
 
 The first example, just use ReactiveCommand class.
 
-```cs
+```csharp
 public class ViewModel
 {
     public ReactiveCommand UpdateTimeCommand { get; }
@@ -63,7 +63,7 @@ public class ViewModel
 
 UWP platform example.
 
-```cs
+```csharp
 public sealed partial class MainPage : Page
 {
     private ViewModel ViewModel { get; } = new ViewModel();
@@ -101,7 +101,7 @@ ReactiveCommand class implements IObservable&lt;T&gt; interface.
 Can use LINQ methods, and ReactiveProperty&lt;T&gt; class can create from IObservable&lt;T&gt;.
 Yes, can change the previous example code to below.
 
-```cs
+```csharp
 public class ViewModel
 {
     public ReactiveCommand UpdateTimeCommand { get; }
@@ -123,7 +123,7 @@ public class ViewModel
 
 Change to that the UpdateTimeCommand don't invoke during 5 secs after the command invoked.
 
-```cs
+```csharp
 public class ViewModel
 {
     public ReactiveCommand UpdateTimeCommand { get; }
@@ -152,7 +152,7 @@ public class ViewModel
 In the case that doesn't use LINQ methods, can create command and subscribe, in one statement.
 WithSubscribe extension method subscribes and return ReactiveCommand instance, see below.
 
-```cs
+```csharp
 public class ViewModel
 {
     public ReactiveCommand UpdateTimeCommand { get; }
@@ -175,7 +175,7 @@ public class ViewModel
 
 WithSubscribe method is a just shortcut below code.
 
-```cs
+```csharp
 // No use the WithSubscribe
 var command = new ReactiveCommand();
 command.Subscribe(_ => { ... some actions ... });
@@ -191,7 +191,7 @@ If use LINQ methods, then separate statements create an instance and subscribe.
 
 If need that unsubscribes actions, then use Dispose method of IDisposable which Subscribe method returned.
 
-```cs
+```csharp
 var command = new ReactiveCommand();
 var subscription1 = command.Subscribe(_ => { ... some actions ... });
 var subscription2 = command.Subscribe(_ => { ... some actions ... });
@@ -206,7 +206,7 @@ command.Dispose();
 
 WithSubscribe extension method has override methods which have an IDisposable argument.
 
-```cs
+```csharp
 IDisposable subscription = null;
 var command = new ReactiveCommand().WithSubscribe(() => { ... some actions ... }, out subscription);
 
@@ -217,7 +217,7 @@ subscription.Dispose();
 And has another override of Action&lt;IDisposable&gt; argument.
 It is used together with CompositeDisposable class.
 
-```cs
+```csharp
 var subscriptions = new CompositeDisposable();
 var command = new ReactiveCommand()
     .WithSubscribe(() => { ... some actions ... }, subscriptions.Add)
@@ -240,7 +240,7 @@ So, this class can't re-execute during the async method is proceed.
 Neary the same as a ReactiveCommand class. 
 Just difference is that accept async method in Subscribe method argument, and don't implement the IObservable&lt;T&gt; interface.
 
-```cs
+```csharp
 public class ViewModel
 {
     public AsyncReactiveCommand HeavyCommand { get; }
@@ -282,7 +282,7 @@ public class ViewModel
 
 Of cause, AsyncReactiveCommand is created from IObservable&lt;bool&gt;.
 
-```cs
+```csharp
 public class ViewModel
 {
     public AsyncReactiveCommand HeavyCommand { get; }
@@ -315,7 +315,7 @@ Sometimes want only one of an async method is executing in a page.
 In this case, can share CanExecute state between AsyncReactiveCommand instances.
 When created from a same ReactiveProperty&lt;bool&gt; instance, then synchronize CanExecute state.
 
-```cs
+```csharp
 public class ViewModel
 {
     private ReactiveProperty<bool> HeavyCommandCanExecuteState { get; } = new ReactiveProperty<bool>(true);
@@ -377,7 +377,7 @@ When use the ReactiveCommand class, the class raise CanExecute event on a schedu
 
 See below:
 
-```cs
+```csharp
 canExecuteSource.ToReactiveCommand(theSchedulerInstanceYouWant);
 ```
 
@@ -387,7 +387,7 @@ AsyncReactiveCommand class doesn't change thread automaticaly. If you want to ch
 
 See below:
 
-```cs
+```csharp
 canExecuteSource.ObserveOn(theSchedulerInstanceYouWant).ToAsyncReactiveCommand();
 ```
 

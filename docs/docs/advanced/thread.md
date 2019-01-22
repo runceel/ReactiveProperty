@@ -6,7 +6,7 @@ ReactiveProperty raise PropertyChanged event on UI thread automaticaly.
 You can change this behavior using IScheduler.
 When the instance creation time, set IScheduler instance to raiseEventScheduler argument.
 
-```cs
+```csharp
 var rp = Observable.Interval(TimeSpan.FromSeconds(1))
     .ToReactiveProperty(raiseEventScheduler: ImmediateScheduler.Instance);
 ```
@@ -14,7 +14,7 @@ var rp = Observable.Interval(TimeSpan.FromSeconds(1))
 ReactiveCollection and ReadOnlyReactiveCollection raise CollectionChanged event on UI thread same as ReactiveProperty.
 This behavior can be changed using the scheduler constructor and factory method argument.
 
-```cs
+```csharp
 var collection = Observable.Interval(TimeSpan.FromSeconds(1))
     .ToReactiveCollection(scheduler: ImmediateScheduler.Instance);
 
@@ -26,7 +26,7 @@ var readOnlyCollection = Observable.Interval(TimeSpan.FromSeconds(1))
 
 Can change the ReactiveProperty's default scheduler using ReactivePropertyScheduler.SetDefault method.
 
-```cs
+```csharp
 ReactivePropertyScheduler.SetDefault(TaskPoolScheduler.Default);
 var taskPoolRp = new ReactiveProperty<string>();
 ReactivePropertyScheduler.SetDefault(ImmediateScheduler.Instance);
@@ -40,7 +40,7 @@ immediateRp.Value = "changed"; // raise event on the ImmediateScheduler thread.
 
 Of cource, you can use ObserveOn extension method.
 
-```cs
+```csharp
 var rp = Observable.Interval(TimeSpan.FromSeconds(1))
     .ObserveOn(someScheduler)
     .ToReactiveProperty();
@@ -49,7 +49,7 @@ var rp = Observable.Interval(TimeSpan.FromSeconds(1))
 And we provide ObserveOnUIDispatcher extension method. 
 This is a shortcut of `ObserveOn(ReactiveProeprtyScheduler.Default)`.
 
-```cs
+```csharp
 var rp = Observable.Interval(TimeSpan.FromSeconds(1))
     .ObserveOnUIDispatcher()
     .ToReactiveProperty();

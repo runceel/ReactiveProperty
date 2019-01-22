@@ -11,7 +11,7 @@
 - Edit files like following.
 
 MainPageViewModel.cs
-```cs
+```csharp
 using Reactive.Bindings;
 using System;
 using System.Linq;
@@ -37,7 +37,7 @@ namespace GettingStartedUWP
 ```
 
 MainPage.xaml.cs
-```cs
+```csharp
 using Windows.UI.Xaml.Controls;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
