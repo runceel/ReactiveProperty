@@ -5,7 +5,7 @@ When use `await` operator to them, then wait a next value will be published.
 
 ## For example:
 
-```cs
+```csharp
 // View with CancellationTokenSource
 public partial class SampleWindow : Window
 {

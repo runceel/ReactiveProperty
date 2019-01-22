@@ -17,7 +17,7 @@ And has some methods and property.
 The initial state can be set the constructor. The default value is false.
 
 
-```cs
+```csharp
 var n = new BooleanNotifier();
 n.Subscribe(x => Debug.WriteLine(x));
 
@@ -35,7 +35,7 @@ CountNotifier class implements IObservable&lt;CountChangedStates&gt; interface. 
 
 CountChangedStates enum is defined as below.
 
-```cs
+```csharp
 /// <summary>Event kind of CountNotifier.</summary>
 public enum CountChangedStatus
 {
@@ -54,7 +54,7 @@ CountNotifier's max value can be set from constructor argument.
 
 How to use.
 
-```cs
+```csharp
 var c = new CountNotifier(); // default max value is int.MaxValue
 // output status.
 c.Subscribe(x => Debug.WriteLine(x));
@@ -91,7 +91,7 @@ Decrement
 
 This class provides it that raise the value on the scheduler. Default scheduler is `Scheduler.Immediate`. Set the scheduler using constructor argument.
 
-```cs
+```csharp
 var n = new ScheduledNotifier<string>();
 n.Subscribe(x => Debug.WriteLine(x));
 // output the value immediately
@@ -108,7 +108,7 @@ It raises `true` during running the process, raises 'false' when all processes e
 The StartProcess method returns an IDisposable instance. When finishing the process, then call the Dispose method.
 
 
-```cs
+```csharp
 using Reactive.Bindings.Notifiers;
 using System;
 using System.Threading.Tasks;
@@ -169,7 +169,7 @@ Output is below.
 I suggest new notifier called MessageBroker , in-memory pubsub. This is Rx and async friendly EventAggregator or MessageBus or etc. We can use this for messenger pattern.
 If reviewer accept this code, please add to all platforms.
 
-```cs
+```csharp
 using Reactive.Bindings.Notifiers;
 using System;
 using System.Reactive.Linq;
@@ -250,7 +250,7 @@ class Program
 
 Messenger pattern's multi thread dispatch can handle easily by Rx.
 
-```cs
+```csharp
 MessageBroker.Default.ToObservable<MyClass>()
     .ObserveOn(Dispatcher) // Rx Magic!
     .Subscribe(x =>

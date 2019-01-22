@@ -2,16 +2,16 @@
 
 ReactiveProperty provides MVVM and asynchronous support features under Reactive Extensions. Target framework is .NET Standard 2.0.
 
-![Summary](images/rpsummary.png)
+![Summary](./images/rpsummary.png)
 
 Concept of ReactiveProperty is <b>Fun programing</b>.
 You can write MVVM pattern program using ReactiveProperty very fun.
 
-![UWP](images/launch-uwp-app.gif)
+![UWP](./images/launch-uwp-app.gif)
 
 Following code is tow way binding between ReactiveProperty and plane object property.
 
-```cs
+```csharp
 class Model : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler PropertyChanged;
@@ -41,7 +41,7 @@ class ViewModel
 
 ReactiveProperty is implemented the IObservable&lt;T&gt;. Yes! You can use LINQ.
 
-```cs
+```csharp
 var name = new ReactiveProperty<string>();
 name.Where(x => x.StartsWith("_")) // filter
     .Select(x => x.ToUpper()) // convert
@@ -50,7 +50,7 @@ name.Where(x => x.StartsWith("_")) // filter
 
 ReactiveProperty is created from IObservable&lt;T&gt;. 
 
-```cs
+```csharp
 class ViewModel
 {
     public ReactiveProperty<string> Input { get; }
@@ -71,7 +71,7 @@ This method chain is very cool.
 
 And we provide ReactiveCommand class what implements ICommand and IObservable&lt;T&gt; interfaces. ReactiveCommand can create from an IObservable&lt;bool&gt;
 
-```cs
+```csharp
 var command = Observable.Interval(TimeSpan.FromSecond(1))
     .Select(x => x % 2 == 0) // convert to IO<bool>
     .ToReactiveCommand();

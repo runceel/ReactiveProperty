@@ -12,7 +12,7 @@ ReactiveConverter class can use Rx method chain. It's very powerful.
 
 UWP sample:
 
-```cs
+```csharp
 using Reactive.Bindings.Interactivity;
 using System;
 using System.Linq;
@@ -70,7 +70,7 @@ XAML and Code behind are below.
 </Page>
 ```
 
-```cs
+```csharp
 using Reactive.Bindings;
 using Windows.UI.Xaml.Controls;
 
@@ -101,7 +101,7 @@ namespace App1
 }
 ```
 
-![EventToReactiveCommand and EventToReactiveProperty](images/event-to-reactivexxx.gif)
+![EventToReactiveCommand and EventToReactiveProperty](./images/event-to-reactivexxx.gif)
 
 
 EventToReactiveProperty sets the value converted by ReactiveConverter to ReactiveProperty.
@@ -132,7 +132,7 @@ EventToReactiveProperty sets the value converted by ReactiveConverter to Reactiv
 </Page>
 ```
 
-```cs
+```csharp
 using Reactive.Bindings;
 using Windows.UI.Xaml.Controls;
 

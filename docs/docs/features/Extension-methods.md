@@ -7,7 +7,7 @@ Collect to IDisposable instances in the method chain.
 
 In the case which doesn't use this, two statements between instance creation and adding an IDisposable instance.
 
-```cs
+```csharp
 // init
 var d = new CompositeDisposable();
 
@@ -25,7 +25,7 @@ d.Dispose();
 
 AddTo extension method's sample code:
 
-```cs
+```csharp
 // init
 var d = new CompositeDisposable();
 
@@ -47,7 +47,7 @@ It's very cool!
 
 This is that catch exception and return Observable.Empty.
 
-```cs
+```csharp
 source.CatchIgnore((Exception ex) => { ... error action ... })
     .Subscribe();
 ```
@@ -61,7 +61,7 @@ Provides two methods.
 
 This is just shortcuts, see below.
 
-```cs
+```csharp
 /// <summary>
 /// Lastest values of each sequence are all true.
 /// </summary>
@@ -83,7 +83,7 @@ public static IObservable<bool> CombineLatestValuesAreAllFalse(
 This is a extension method of ICommand interface.
 It is a shortcut the `Observable.FromEvent`.
 
-```cs
+```csharp
 /// <summary>Converts CanExecuteChanged to an observable sequence.</summary>
 public static IObservable<EventArgs> CanExecuteChangedAsObservable<T>(this T source)
     where T : ICommand =>
@@ -97,7 +97,7 @@ public static IObservable<EventArgs> CanExecuteChangedAsObservable<T>(this T sou
 
 Convert CollectionChanged event to IObservable.
 
-```cs
+```csharp
 /// <summary>Observe CollectionChanged:Remove and take single item.</summary>
 public static IObservable<T> ObserveRemoveChanged<T>(this INotifyCollectionChanged source) =>
     source.CollectionChangedAsObservable()
@@ -145,7 +145,7 @@ public static IObservable<Unit> ObserveResetChanged<T>(this INotifyCollectionCha
 
 It is typesafe version INotifyPropertyChanged extension methods.
 
-```cs
+```csharp
 /// <summary>Observe CollectionChanged:Add and take single item.</summary>
 public static IObservable<T> ObserveAddChanged<T>(this ObservableCollection<T> source) =>
     ((INotifyCollectionChanged)source).ObserveAddChanged<T>();
@@ -188,7 +188,7 @@ public static IObservable<Unit> ObserveResetChanged<T>(this ObservableCollection
 Watch PropertyChanged event of ObservableCollection's items. 
 ObserveElementProperty extension method can ovserve specific property's PropertyChanged event.
 
-```cs
+```csharp
 using Reactive.Bindings.Extensions;
 using System;
 using System.Collections.ObjectModel;
@@ -253,7 +253,7 @@ Change okazuki name to okazuki
 
 If target object's property type is ReactiveProperty, then use the ObserveElementPropertyChanged extension method.
 
-```cs
+```csharp
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using System;
@@ -317,7 +317,7 @@ Change okazuki name to okazuki
 Convert ErrorChanged event to an IObservable&lt;DataErrorsChangedEventArgs&gt;.
 It is a shortcut of FromEvent method.
 
-```cs
+```csharp
 /// <summary>Converts ErrorsChanged to an observable sequence.</summary>
 public static IObservable<DataErrorsChangedEventArgs> ErrorsChangedAsObservable<T>(this T subject)
     where T : INotifyDataErrorInfo =>
@@ -333,14 +333,14 @@ ObserveErrorInfo extension method is the version of raise the property value whe
 
 Inverse the boolean value of an IObservable&lt;bool&gt; sequence.
 
-```cs
+```csharp
 IObservable<bool> boolSequence = ...;
 IObservable<bool> inversedBoolSequence = boolSequence.Inverse();
 ```
 
 It is a same as below code.
 
-```cs
+```csharp
 IObservable<bool> boolSequence = ...;
 IObservable<bool> inversedBoolSequence = boolSequence.Select(x => !x);
 ```

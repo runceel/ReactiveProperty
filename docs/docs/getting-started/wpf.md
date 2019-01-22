@@ -8,7 +8,7 @@
 - Edit files like following.
 
 MainWindowViewModel.cs
-```cs
+```csharp
 using Reactive.Bindings;
 using System;
 using System.ComponentModel;
@@ -67,4 +67,4 @@ MainWindow.xaml
 After launch the app, You can see the below window.
 The output value was displayed to upper case, after 1sec from the input.
 
-![Launch the app](images/launch-wpf-app.gif)
+![Launch the app](./images/launch-wpf-app.gif)

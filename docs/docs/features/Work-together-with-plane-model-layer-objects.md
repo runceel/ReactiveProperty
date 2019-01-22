@@ -11,7 +11,7 @@ IObservable can convert to ReactiveProperty. It means that can be one-way synchr
 
 For example, below class is.
 
-```cs
+```csharp
 public class BindableBase : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler PropertyChanged;
@@ -51,7 +51,7 @@ public class Person : BindableBase
 
 One-way synchronization is the following code.
 
-```cs
+```csharp
 // using Reactive.Bindings.Extensions;
 public class ViewModel
 {
@@ -83,7 +83,7 @@ public class ViewModel
 
 ToReactivePropertyAsSynchronized extension method provides two-way synchronization.
 
-```cs
+```csharp
 // using Reactive.Bindings.Extensions;
 public class ViewModel
 {
@@ -102,7 +102,7 @@ UWP platfrom example is below.
 
 MainPage.xaml.cs
 
-```cs
+```csharp
 public sealed partial class MainPage : Page
 {
     private ViewModel ViewModel { get; } = new ViewModel();
@@ -138,11 +138,11 @@ MainPage.xaml
 </Page>
 ```
 
-![Two-way synchronization](images/work-together-with-poco-two-way-synchronization.gif)
+![Two-way synchronization](./images/work-together-with-poco-two-way-synchronization.gif)
 
 ToSynchronizedReactiveProperty extension method can add convert logic and convert-back logic.
 
-```cs
+```csharp
 public class ViewModel
 {
     public Person Person { get; } = new Person();
@@ -158,11 +158,11 @@ public class ViewModel
 }
 ```
 
-![Convert and convert-back](images/work-together-with-poco-two-way-synchronization-and-convert.gif)
+![Convert and convert-back](./images/work-together-with-poco-two-way-synchronization-and-convert.gif)
 
 When an ignoreValidationErrorValue argument set to true, then stop the synchronization if validation error occurred.
 
-```cs
+```csharp
 public class ViewModel
 {
     public Person Person { get; } = new Person();
@@ -181,14 +181,14 @@ public class ViewModel
 }
 ```
 
-![Ignore validation error value](images/work-together-with-poco-two-way-synchronization-and-ignoreValidationError.gif)
+![Ignore validation error value](./images/work-together-with-poco-two-way-synchronization-and-ignoreValidationError.gif)
 
 ### One-time synchronization
 
 The FromObject method creates a ReactiveProperty instance from POCO.
 This method set Value property from POCO when the ReactiveProperty instance created.
 
-```cs
+```csharp
 using Reactive.Bindings;
 using System;
 
