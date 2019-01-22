@@ -8,4 +8,4 @@ Sample programs see below:
 
 [UWPTodoMVVM project in Sample folder](https://github.com/runceel/ReactiveProperty/tree/master/Sample/UWP.TodoMVVM) is like [TodoMVC](http://todomvc.com/) todo application.
 
-![TodoMVVM](images/todomvvm.png)
+![TodoMVVM](./images/todomvvm.png)
