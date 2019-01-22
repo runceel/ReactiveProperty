@@ -1,6 +1,8 @@
 module.exports = {
+    base: '/ReactiveProeprty/',
     title: 'ReactiveProperty documentation',
     description: 'Official document for ReactiveProperty(https://github.com/runceel/ReactiveProperty)',
+    ga: 'UA-113459349-1',
     themeConfig: {
         nav: [
             { text: 'Home', link: '/' },
