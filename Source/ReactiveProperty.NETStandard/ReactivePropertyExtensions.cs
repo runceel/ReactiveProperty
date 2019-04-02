@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Linq.Expressions;
@@ -32,15 +33,13 @@ namespace Reactive.Bindings
             {
                 self.SetValidateNotifyError(x =>
                 {
-                    try
+                    var validationResults = new List<ValidationResult>();
+                    if (Validator.TryValidateValue(x, context, validationResults, attrs))
                     {
-                        Validator.ValidateValue(x, context, attrs);
                         return null;
                     }
-                    catch (ValidationException ex)
-                    {
-                        return ex.ValidationResult.ErrorMessage;
-                    }
+
+                    return validationResults[0].ErrorMessage;
                 });
             }
 
