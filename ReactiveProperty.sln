@@ -100,6 +100,8 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ReactiveProperty.Platform.S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReactiveProperty.NETStandard", "Source\ReactiveProperty.NETStandard\ReactiveProperty.NETStandard.csproj", "{157F0F88-34AC-4C49-971F-7027AAC757AE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.Platform.Android", "Source\ReactiveProperty.Platform.Android\ReactiveProperty.Platform.Android.csproj", "{BF2E72F9-149B-4687-ABCD-7B949430FFDE}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Source\ReactiveProperty.Platform.Shared\ReactiveProperty.Platform.Shared.projitems*{523e5506-24df-44ca-83cc-6aa02454f150}*SharedItemsImports = 13
@@ -221,7 +223,6 @@ Global
 		{73FB08B3-EBF3-4384-A1FB-4442BD999477}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{73FB08B3-EBF3-4384-A1FB-4442BD999477}.Release|ARM.ActiveCfg = Release|Any CPU
 		{73FB08B3-EBF3-4384-A1FB-4442BD999477}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{73FB08B3-EBF3-4384-A1FB-4442BD999477}.Release|Mixed Platforms.Deploy.0 = Release|Any CPU
 		{73FB08B3-EBF3-4384-A1FB-4442BD999477}.Release|x64.ActiveCfg = Release|Any CPU
 		{73FB08B3-EBF3-4384-A1FB-4442BD999477}.Release|x86.ActiveCfg = Release|Any CPU
 		{1A284C37-BA3F-4B28-B800-7C3137E3365E}.Debug|Any CPU.ActiveCfg = Debug|x86
@@ -251,7 +252,6 @@ Global
 		{1A284C37-BA3F-4B28-B800-7C3137E3365E}.Release|ARM.Build.0 = Release|ARM
 		{1A284C37-BA3F-4B28-B800-7C3137E3365E}.Release|ARM.Deploy.0 = Release|ARM
 		{1A284C37-BA3F-4B28-B800-7C3137E3365E}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{1A284C37-BA3F-4B28-B800-7C3137E3365E}.Release|Mixed Platforms.Deploy.0 = Release|x86
 		{1A284C37-BA3F-4B28-B800-7C3137E3365E}.Release|x64.ActiveCfg = Release|x64
 		{1A284C37-BA3F-4B28-B800-7C3137E3365E}.Release|x64.Build.0 = Release|x64
 		{1A284C37-BA3F-4B28-B800-7C3137E3365E}.Release|x64.Deploy.0 = Release|x64
@@ -284,7 +284,6 @@ Global
 		{40AE1FF3-8B25-4659-8B0A-7886113E4246}.Release|ARM.Build.0 = Release|ARM
 		{40AE1FF3-8B25-4659-8B0A-7886113E4246}.Release|ARM.Deploy.0 = Release|ARM
 		{40AE1FF3-8B25-4659-8B0A-7886113E4246}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{40AE1FF3-8B25-4659-8B0A-7886113E4246}.Release|Mixed Platforms.Deploy.0 = Release|x86
 		{40AE1FF3-8B25-4659-8B0A-7886113E4246}.Release|x64.ActiveCfg = Release|x64
 		{40AE1FF3-8B25-4659-8B0A-7886113E4246}.Release|x64.Build.0 = Release|x64
 		{40AE1FF3-8B25-4659-8B0A-7886113E4246}.Release|x64.Deploy.0 = Release|x64
@@ -408,6 +407,36 @@ Global
 		{157F0F88-34AC-4C49-971F-7027AAC757AE}.Release|x64.Build.0 = Release|Any CPU
 		{157F0F88-34AC-4C49-971F-7027AAC757AE}.Release|x86.ActiveCfg = Release|Any CPU
 		{157F0F88-34AC-4C49-971F-7027AAC757AE}.Release|x86.Build.0 = Release|Any CPU
+		{BF2E72F9-149B-4687-ABCD-7B949430FFDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF2E72F9-149B-4687-ABCD-7B949430FFDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF2E72F9-149B-4687-ABCD-7B949430FFDE}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{BF2E72F9-149B-4687-ABCD-7B949430FFDE}.Debug|ARM.Build.0 = Debug|Any CPU
+		{BF2E72F9-149B-4687-ABCD-7B949430FFDE}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{BF2E72F9-149B-4687-ABCD-7B949430FFDE}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{BF2E72F9-149B-4687-ABCD-7B949430FFDE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BF2E72F9-149B-4687-ABCD-7B949430FFDE}.Debug|x64.Build.0 = Debug|Any CPU
+		{BF2E72F9-149B-4687-ABCD-7B949430FFDE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BF2E72F9-149B-4687-ABCD-7B949430FFDE}.Debug|x86.Build.0 = Debug|Any CPU
+		{BF2E72F9-149B-4687-ABCD-7B949430FFDE}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF2E72F9-149B-4687-ABCD-7B949430FFDE}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{BF2E72F9-149B-4687-ABCD-7B949430FFDE}.Documentation|ARM.ActiveCfg = Debug|Any CPU
+		{BF2E72F9-149B-4687-ABCD-7B949430FFDE}.Documentation|ARM.Build.0 = Debug|Any CPU
+		{BF2E72F9-149B-4687-ABCD-7B949430FFDE}.Documentation|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{BF2E72F9-149B-4687-ABCD-7B949430FFDE}.Documentation|Mixed Platforms.Build.0 = Debug|Any CPU
+		{BF2E72F9-149B-4687-ABCD-7B949430FFDE}.Documentation|x64.ActiveCfg = Debug|Any CPU
+		{BF2E72F9-149B-4687-ABCD-7B949430FFDE}.Documentation|x64.Build.0 = Debug|Any CPU
+		{BF2E72F9-149B-4687-ABCD-7B949430FFDE}.Documentation|x86.ActiveCfg = Debug|Any CPU
+		{BF2E72F9-149B-4687-ABCD-7B949430FFDE}.Documentation|x86.Build.0 = Debug|Any CPU
+		{BF2E72F9-149B-4687-ABCD-7B949430FFDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF2E72F9-149B-4687-ABCD-7B949430FFDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF2E72F9-149B-4687-ABCD-7B949430FFDE}.Release|ARM.ActiveCfg = Release|Any CPU
+		{BF2E72F9-149B-4687-ABCD-7B949430FFDE}.Release|ARM.Build.0 = Release|Any CPU
+		{BF2E72F9-149B-4687-ABCD-7B949430FFDE}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{BF2E72F9-149B-4687-ABCD-7B949430FFDE}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{BF2E72F9-149B-4687-ABCD-7B949430FFDE}.Release|x64.ActiveCfg = Release|Any CPU
+		{BF2E72F9-149B-4687-ABCD-7B949430FFDE}.Release|x64.Build.0 = Release|Any CPU
+		{BF2E72F9-149B-4687-ABCD-7B949430FFDE}.Release|x86.ActiveCfg = Release|Any CPU
+		{BF2E72F9-149B-4687-ABCD-7B949430FFDE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -426,11 +455,12 @@ Global
 		{A54AE997-6255-4000-A4CE-3F8D6D8F0026} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
 		{523E5506-24DF-44CA-83CC-6AA02454F150} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
 		{157F0F88-34AC-4C49-971F-7027AAC757AE} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
+		{BF2E72F9-149B-4687-ABCD-7B949430FFDE} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {5AC43AC2-86FE-46EF-B243-5C8E75EAB89B}
-		BuildVersion_UseGlobalSettings = True
 		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
+		BuildVersion_UseGlobalSettings = True
+		SolutionGuid = {5AC43AC2-86FE-46EF-B243-5C8E75EAB89B}
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = ReactiveProperty.vsmdi
