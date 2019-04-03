@@ -9,9 +9,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Android.Runtime.ResourceDesignerAttribute("ReactiveProperty.Android.Resource", IsApplication=false)]
+[assembly: global::Android.Runtime.ResourceDesignerAttribute("Reactive.Bindings.Resource", IsApplication=false)]
 
-namespace ReactiveProperty.Android
+namespace Reactive.Bindings
 {
 	
 	
