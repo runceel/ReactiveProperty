@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WPF</RootNamespace>
     <AssemblyName>WPF</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -225,7 +225,7 @@
     </PackageReference>
     <PackageReference Include="NETStandard.Library" Version="2.0.3" />
     <PackageReference Include="System.Reactive">
-      <Version>4.1.2</Version>
+      <Version>4.1.3</Version>
     </PackageReference>
     <PackageReference Include="Unofficial.Blend.Interactivity">
       <Version>1.0.0</Version>
