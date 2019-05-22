@@ -192,5 +192,12 @@ namespace ReactiveProperty.Tests
 
             rp.Dispose();
         }
+
+        [TestMethod]
+        public void CreateFromObservableThatCompleteImmidiataly()
+        {
+            var x = Observable.Return(1).ToReadOnlyReactivePropertySlim();
+            x.Value.Is(1);
+        }
     }
 }
