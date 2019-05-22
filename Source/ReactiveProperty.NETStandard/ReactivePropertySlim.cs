@@ -360,6 +360,11 @@ namespace Reactive.Bindings
             this.mode = mode;
             this.equalityComparer = equalityComparer ?? EqualityComparer<T>.Default;
             sourceSubscription = source.Subscribe(this);
+            if (IsDisposed)
+            {
+                sourceSubscription.Dispose();
+                sourceSubscription = null;
+            }
         }
 
         /// <summary>
@@ -440,7 +445,8 @@ namespace Reactive.Bindings
                 node.OnCompleted();
                 node = node.Next;
             }
-            sourceSubscription.Dispose();
+
+            sourceSubscription?.Dispose();
             sourceSubscription = null;
         }
 

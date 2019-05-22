@@ -196,8 +196,8 @@ namespace ReactiveProperty.Tests
         [TestMethod]
         public void CreateFromObservableThatCompleteImmidiataly()
         {
-            _ = Observable.Return(1).ToReadOnlyReactivePropertySlim();
-            Assert.IsTrue(true);
+            var x = Observable.Return(1).ToReadOnlyReactivePropertySlim();
+            x.Value.Is(1);
         }
     }
 }
