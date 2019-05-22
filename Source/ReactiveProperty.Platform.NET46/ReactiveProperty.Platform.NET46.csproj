@@ -14,7 +14,7 @@
     <DocumentationFile>..\..\Binary\net461\ReactiveProperty.NET46.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.NETCore.Platforms" Version="2.2.0" />
+    <PackageReference Include="Microsoft.NETCore.Platforms" Version="2.2.1" />
     <PackageReference Include="Unofficial.Blend.Interactivity" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
