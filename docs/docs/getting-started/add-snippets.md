@@ -10,34 +10,34 @@ Following document is steps to add a snippet to Visual Studio.
 ## Provide snippets
 
 - `rprop`
-  ```cs
+  ```csharp
   public ReactiveProperty<T> PropertyName { get; }
   ```
 - `rrprop`
-  ```cs
+  ```csharp
   public ReadOnlyReactiveProperty<T> PropertyName { get; }
   ```
 - `rcom`
-  ```cs
+  ```csharp
   public ReactiveCommand CommandName { get; }
   ```
 - `rcomg`
-  ```cs
+  ```csharp
   public ReactiveCommand<T> CommandName { get; }
   ```
 - `arcom`
-  ```cs
+  ```csharp
   public AsyncReactiveCommand CommandName { get; }
   ```
 - `arcomg`
-  ```cs
+  ```csharp
   public AsyncReactiveCommand<T> CommandName { get; }
   ```
 - `rcoll`
-  ```cs
+  ```csharp
   public ReactiveCollection<T> CollectionName { get; }
   ```
 - `rrcoll`
-  ```cs
+  ```csharp
   public ReadOnlyReactiveCollection<T> CollectionName { get; }
   ```

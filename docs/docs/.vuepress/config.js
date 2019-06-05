@@ -34,6 +34,7 @@ module.exports = {
                 items: [
                     { text: 'Thread control', link: '/advanced/thread.html' },
                     { text: 'Work with await operator', link: '/advanced/awaitable.html' },
+                    { text: 'Work with other MVVM Frameworks', link: '/advanced/work-with-other-mvvm-framwork.html' },
                 ]
             },
             { text: 'Samples', link: '/samples.html' },
@@ -43,6 +44,6 @@ module.exports = {
         docsRepo: 'runceel/ReactiveProperty',
         docsDir: 'docs/docs',
         editLinks: true,
-        editLinkText: 'Help us improve this page!',
+        editLinkText: 'Help us improve this document!',
     }
 }

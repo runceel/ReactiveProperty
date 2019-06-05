@@ -19,7 +19,7 @@ When using ReactiveProperty with Prism, you can replace DelegateCommand to React
 I created a Prism Blank App(WPF) as PrismSampleApp and Prism Module (WPF) as PrismSampleModule.
 And add PrismSampleModule reference to PrismSampleApp, then edit App.xaml.cs to add the module, like below:
 
-```cs
+```csharp
 public partial class App
 {
     protected override Window CreateShell()
@@ -41,7 +41,7 @@ public partial class App
 
 At next, edit PrismSampleModuleModule.cs file to add a view for Navigation, and to show ViewA to Shell.
 
-```cs
+```csharp
 using PrismSampleModule.Views;
 using Prism.Ioc;
 using Prism.Modularity;
@@ -77,7 +77,7 @@ Add ReactiveProperty reference to all projects using NuGet. And please feel free
 
 In this case, I used ReactiveProperty features at ViewAViewModel.cs like below:
 
-```cs
+```csharp
 using Prism.Mvvm;
 using Reactive.Bindings;
 using System;
