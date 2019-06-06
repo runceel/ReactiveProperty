@@ -69,17 +69,36 @@ class ViewModel
 
 This method chain is very cool.
 
-And we provide ReactiveCommand class what implements ICommand and IObservable&lt;T&gt; interfaces. ReactiveCommand can create from an IObservable&lt;bool&gt;
+And we provide ReactiveCommand class what implements ICommand and IObservable&lt;T&gt; interfaces. ReactiveCommand can create from an IObservable&lt;bool&gt;.
+Following sample is creating a ReactiveCommand that is be able to execute when Input property is not empty.
 
 ```csharp
-var command = Observable.Interval(TimeSpan.FromSecond(1))
-    .Select(x => x % 2 == 0) // convert to IO<bool>
-    .ToReactiveCommand();
-command.Subscribe(_ =>
+class ViewModel
 {
-    // ReactiveCommand invoke an OnNext when Execute method was called.
-});
+    public ReactiveProperty<string> Input { get; }
+    public ReactiveProperty<string> Output { get; }
+
+    public ReactiveCommand ResetCommand { get; }
+
+    public ViewModel()
+    {
+        Input = new ReactiveProperty("");
+        // Same as above sample
+        Output = Input
+            .Delay(TimeSpan.FromSecond(1)) // Using a Rx method.
+            .Select(x => x.ToUpper()) // Using a LINQ method.
+            .ToReactiveProperty(); // Convert to ReactiveProperty
+        
+        ResetCommand = Input.Select(x => !string.IsNullOrWhitespace(x)) // Convert ReactiveProperty<string> to IObservable<bool>
+            .ToReactiveCommand() // You can create ReactiveCommand from IObservable<bool> (When true value was published, then the command would be able to execute.)
+            .WithSubscribe(() => Input.Value = ""); // This is a shortcut of ResetCommand.Subscribe(() => ...)
+    }
+}
 ```
+
+Cool!! It is really declarative, really cleary.
+
+## Let's start!
 
 You can start the ReactiveProperty from following links.
 
