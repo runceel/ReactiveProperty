@@ -279,26 +279,26 @@ namespace ReactiveProperty.Tests
             source.OnNext(false);
             cmd1.CanExecute().IsFalse();
             cmd2.CanExecute().IsFalse();
-            cmd1CanExecuteChangedCounter.Is(3);
-            cmd2CanExecuteChangedCounter.Is(3);
+            cmd1CanExecuteChangedCounter.Is(4);
+            cmd2CanExecuteChangedCounter.Is(4);
 
             source.OnNext(true);
             cmd1.CanExecute().IsTrue();
             cmd2.CanExecute().IsTrue();
-            cmd1CanExecuteChangedCounter.Is(4);
-            cmd2CanExecuteChangedCounter.Is(4);
+            cmd1CanExecuteChangedCounter.Is(5);
+            cmd2CanExecuteChangedCounter.Is(5);
 
             cmd2.Execute();
             cmd1.CanExecute().IsFalse();
             cmd2.CanExecute().IsFalse();
-            cmd1CanExecuteChangedCounter.Is(5);
-            cmd2CanExecuteChangedCounter.Is(5);
+            cmd1CanExecuteChangedCounter.Is(6);
+            cmd2CanExecuteChangedCounter.Is(6);
 
             task2.SetResult(null);
             cmd1.CanExecute().IsTrue();
             cmd2.CanExecute().IsTrue();
-            cmd1CanExecuteChangedCounter.Is(6);
-            cmd2CanExecuteChangedCounter.Is(6);
+            cmd1CanExecuteChangedCounter.Is(7);
+            cmd2CanExecuteChangedCounter.Is(7);
         }
     }
 }
