@@ -312,8 +312,8 @@ You should call the Dispose method when the another instance's event subscribe.
 ### Share CanExecute state
 
 Sometimes want only one of an async method is executing in a page.
-In this case, can share CanExecute state between AsyncReactiveCommand instances.
-When created from a same ReactiveProperty&lt;bool&gt; instance, then synchronize CanExecute state.
+In this case, you can share CanExecute state between AsyncReactiveCommand instances.
+When created from a same IReactiveProperty&lt;bool&gt; instance, then synchronize CanExecute state.
 
 ```csharp
 public class ViewModel
@@ -368,6 +368,96 @@ public class ViewModel
 ```
 
 ![Share state](./images/asyncreactivecommand-share-state.gif)
+
+Of cource, you can combine `IObservable<bool>` and `IReactiveProperty<bool>`. `IObservable<bool>` is for source of `AsyncReactiveCommand`, `IReactiveProperty<bool>` is for sharing state across `AsyncReactiveCommand`s.
+You can use `ToAsyncReactiveCommand(this IObservable<bool> source, IReactiveProperty<bool> sharedCanExecute = null)` method, like this:
+
+```csharp
+using Reactive.Bindings;
+using Reactive.Bindings.Extensions;
+using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
+
+namespace RPSample
+{
+    public class MainPageViewModel
+    {
+        // for shared state
+        private ReactivePropertySlim<bool> SharedCanExecute { get; }
+        // for command source
+        [Required]
+        public ReactiveProperty<string> Input { get; }
+
+        // commands
+        public AsyncReactiveCommand CommandA { get; }
+        public AsyncReactiveCommand CommandB { get; }
+
+        public MainPageViewModel()
+        {
+            Input = new ReactiveProperty<string>().SetValidateAttribute(() => Input);
+
+            // create AsyncReactiveCommands from same source and same IReactiveProperty<bool> for sharing CanExecute status.
+            SharedCanExecute = new ReactivePropertySlim<bool>(true);
+            CommandA = Input.ObserveHasErrors
+                .Inverse()
+                .ToAsyncReactiveCommand(SharedCanExecute)
+                .WithSubscribe(() => Task.Delay(3000));
+            CommandB = Input.ObserveHasErrors
+                .Inverse()
+                .ToAsyncReactiveCommand(SharedCanExecute)
+                .WithSubscribe(() => Task.Delay(3000));
+        }
+    }
+}
+```
+
+After binding the ViewModel calss to view like following:
+
+```csharp
+// code behind
+using Windows.UI.Xaml.Controls;
+
+namespace RPSample
+{
+    public sealed partial class MainPage : Page
+    {
+        private MainPageViewModel ViewModel { get; } = new MainPageViewModel();
+        public MainPage()
+        {
+            InitializeComponent();
+        }
+    }
+}
+```
+
+```xml
+<Page
+    x:Class="RPSample.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
+
+    <StackPanel>
+        <TextBox Text="{x:Bind ViewModel.Input.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <Button
+            HorizontalAlignment="Stretch"
+            Command="{x:Bind ViewModel.CommandA}"
+            Content="CommandA" />
+        <Button
+            HorizontalAlignment="Stretch"
+            Command="{x:Bind ViewModel.CommandB}"
+            Content="CommandB" />
+    </StackPanel>
+</Page>
+```
+
+It works like below:
+
+![Share state and same source](./images/asyncreactivecommand-shared-source.gif)
+
 
 ## Threading
 
