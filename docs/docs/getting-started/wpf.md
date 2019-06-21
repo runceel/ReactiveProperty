@@ -1,8 +1,7 @@
 ## Create a project
 - Create a WPF App (.NET Framework) project.
-    - Have to use upper than .NET Framework 4.6.1.
-- Install ReactiveProperty from NuGet.
-
+    - Have to use .NET Framework 4.6.1 or lator, or .NET Core 3.0 or lator.
+- Install ReactiveP
 ## Edit codes
 - Create a MainWindowViewModel.cs file.
 - Edit files like following.
