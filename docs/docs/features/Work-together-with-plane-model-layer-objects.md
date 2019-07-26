@@ -183,6 +183,31 @@ public class ViewModel
 
 ![Ignore validation error value](./images/work-together-with-poco-two-way-synchronization-and-ignoreValidationError.gif)
 
+And also, you can use LINQ at conver and convert back logic, like below:
+
+```csharp
+public class ViewModel
+{
+    public Person Person { get; } = new Person();
+
+    public ReactiveProperty<string> Name { get; }
+
+    public ViewModel()
+    {
+        Name = Person.ToReactivePropertyAsSynchronized(x => x.Name,
+            // ox is IObservable<string>. string is a type of the Name property.
+            convert: ox => Observable.Merge(
+                ox.Where(x => string.IsNullOrEmpty(x)).Select(_ => ""),
+                ox.Where(x => !string.IsNullOrEmpty(x)).Select(x => $"{x}-san")
+            ),
+            // ox is IObservable<string>. string is a result type of convert logic.
+            convertBack: ox => ox
+                .Where(x => x.Length <= 10) // You can use all LINQ methods like this.
+                .Select(x => x.Replace("-san", "")));
+    }
+}
+```
+
 ### One-time synchronization
 
 The FromObject method creates a ReactiveProperty instance from POCO.
