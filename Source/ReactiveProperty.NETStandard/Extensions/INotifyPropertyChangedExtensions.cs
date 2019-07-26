@@ -91,8 +91,7 @@ namespace Reactive.Bindings.Extensions
             bool ignoreValidationErrorValue = false)
             where TSubject : INotifyPropertyChanged
         {
-            // no use
-            var setter = AccessorCache<TSubject>.LookupSet(propertySelector, out var propertyName);
+            var setter = AccessorCache<TSubject>.LookupSet(propertySelector, out _);
 
             var result = subject.ObserveProperty(propertySelector, isPushCurrentValueAtFirst: true)
                 .ToReactiveProperty(raiseEventScheduler, mode: mode);
