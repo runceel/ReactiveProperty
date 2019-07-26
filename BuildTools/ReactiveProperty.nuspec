@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>ReactiveProperty</id>
-    <version>6.0.2</version>
+    <version>6.0.3</version>
     <title>ReactiveProperty</title>
     <authors>neuecc xin9le okazuki</authors>
     <owners>neuecc xin9le okazuki</owners>
@@ -26,6 +26,10 @@
       </group>
       <group targetFramework="net461">
         <dependency id="Microsoft.Xaml.Behaviors.Wpf" version="1.0.1" />
+        <dependency id="System.Reactive" version="4.1.5" />
+      </group>
+      <group targetFramework="netcoreapp3.0">
+        <dependency id="System.Reactive" version="4.1.5" />
       </group>
     </dependencies>
     <frameworkAssemblies>
