@@ -102,6 +102,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReactiveProperty.NETStandar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.Platform.Android", "Source\ReactiveProperty.Platform.Android\ReactiveProperty.Platform.Android.csproj", "{BF2E72F9-149B-4687-ABCD-7B949430FFDE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.Platform.NetCore", "Source\ReactiveProperty.Platform.NetCore\ReactiveProperty.Platform.NetCore.csproj", "{7BC40D74-D0B4-4736-B45D-127224D20474}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Source\ReactiveProperty.Platform.Shared\ReactiveProperty.Platform.Shared.projitems*{523e5506-24df-44ca-83cc-6aa02454f150}*SharedItemsImports = 13
@@ -437,6 +439,36 @@ Global
 		{BF2E72F9-149B-4687-ABCD-7B949430FFDE}.Release|x64.Build.0 = Release|Any CPU
 		{BF2E72F9-149B-4687-ABCD-7B949430FFDE}.Release|x86.ActiveCfg = Release|Any CPU
 		{BF2E72F9-149B-4687-ABCD-7B949430FFDE}.Release|x86.Build.0 = Release|Any CPU
+		{7BC40D74-D0B4-4736-B45D-127224D20474}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BC40D74-D0B4-4736-B45D-127224D20474}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BC40D74-D0B4-4736-B45D-127224D20474}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{7BC40D74-D0B4-4736-B45D-127224D20474}.Debug|ARM.Build.0 = Debug|Any CPU
+		{7BC40D74-D0B4-4736-B45D-127224D20474}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{7BC40D74-D0B4-4736-B45D-127224D20474}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{7BC40D74-D0B4-4736-B45D-127224D20474}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7BC40D74-D0B4-4736-B45D-127224D20474}.Debug|x64.Build.0 = Debug|Any CPU
+		{7BC40D74-D0B4-4736-B45D-127224D20474}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7BC40D74-D0B4-4736-B45D-127224D20474}.Debug|x86.Build.0 = Debug|Any CPU
+		{7BC40D74-D0B4-4736-B45D-127224D20474}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BC40D74-D0B4-4736-B45D-127224D20474}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{7BC40D74-D0B4-4736-B45D-127224D20474}.Documentation|ARM.ActiveCfg = Debug|Any CPU
+		{7BC40D74-D0B4-4736-B45D-127224D20474}.Documentation|ARM.Build.0 = Debug|Any CPU
+		{7BC40D74-D0B4-4736-B45D-127224D20474}.Documentation|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{7BC40D74-D0B4-4736-B45D-127224D20474}.Documentation|Mixed Platforms.Build.0 = Debug|Any CPU
+		{7BC40D74-D0B4-4736-B45D-127224D20474}.Documentation|x64.ActiveCfg = Debug|Any CPU
+		{7BC40D74-D0B4-4736-B45D-127224D20474}.Documentation|x64.Build.0 = Debug|Any CPU
+		{7BC40D74-D0B4-4736-B45D-127224D20474}.Documentation|x86.ActiveCfg = Debug|Any CPU
+		{7BC40D74-D0B4-4736-B45D-127224D20474}.Documentation|x86.Build.0 = Debug|Any CPU
+		{7BC40D74-D0B4-4736-B45D-127224D20474}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BC40D74-D0B4-4736-B45D-127224D20474}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BC40D74-D0B4-4736-B45D-127224D20474}.Release|ARM.ActiveCfg = Release|Any CPU
+		{7BC40D74-D0B4-4736-B45D-127224D20474}.Release|ARM.Build.0 = Release|Any CPU
+		{7BC40D74-D0B4-4736-B45D-127224D20474}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{7BC40D74-D0B4-4736-B45D-127224D20474}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{7BC40D74-D0B4-4736-B45D-127224D20474}.Release|x64.ActiveCfg = Release|Any CPU
+		{7BC40D74-D0B4-4736-B45D-127224D20474}.Release|x64.Build.0 = Release|Any CPU
+		{7BC40D74-D0B4-4736-B45D-127224D20474}.Release|x86.ActiveCfg = Release|Any CPU
+		{7BC40D74-D0B4-4736-B45D-127224D20474}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -456,11 +488,12 @@ Global
 		{523E5506-24DF-44CA-83CC-6AA02454F150} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
 		{157F0F88-34AC-4C49-971F-7027AAC757AE} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
 		{BF2E72F9-149B-4687-ABCD-7B949430FFDE} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
+		{7BC40D74-D0B4-4736-B45D-127224D20474} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
-		BuildVersion_UseGlobalSettings = True
 		SolutionGuid = {5AC43AC2-86FE-46EF-B243-5C8E75EAB89B}
+		BuildVersion_UseGlobalSettings = True
+		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = ReactiveProperty.vsmdi
