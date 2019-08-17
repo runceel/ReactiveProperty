@@ -85,7 +85,143 @@ namespace Reactive.Bindings.Binding
             }
         }
 
-        private static IDisposable CreateOneWayToSourceBinding<T, TTarget, TProperty>(ReactiveProperty<T> self, TTarget target, Expression<Func<TTarget, TProperty>> propertySelector, Func<TProperty, T> convertBack, IObservable<Unit> targetUpdateTrigger, T sourceFallbackValue)
+        /// <summary>
+        /// RxProperty POCO binding support method.
+        /// </summary>
+        /// <typeparam name="T">ReactiveProperty type parameter</typeparam>
+        /// <typeparam name="TTarget">Binding target type</typeparam>
+        /// <typeparam name="TProperty">Binding target property type</typeparam>
+        /// <param name="self">Source ReactiveProperty</param>
+        /// <param name="target">Binding target instance.</param>
+        /// <param name="propertySelector">Binding target property selector.</param>
+        /// <param name="convert">source -&gt; target converter.</param>
+        /// <param name="propertyFallbackValue">target error value.</param>
+        /// <returns>Release binding disposable.</returns>
+        public static IDisposable BindTo<T, TTarget, TProperty>(
+            this ReadOnlyReactiveProperty<T> self,
+            TTarget target,
+            Expression<Func<TTarget, TProperty>> propertySelector,
+            Func<T, TProperty> convert = null,
+            TProperty propertyFallbackValue = default(TProperty))
+        {
+            if (convert == null)
+            {
+                convert = value => (TProperty)Convert.ChangeType(value, typeof(TProperty));
+            }
+
+            return CreateOneWayBinding(
+                self,
+                target,
+                propertySelector,
+                convert,
+                propertyFallbackValue);
+        }
+
+        /// <summary>
+        /// RxProperty POCO binding support method.
+        /// </summary>
+        /// <typeparam name="T">ReactiveProperty type parameter</typeparam>
+        /// <typeparam name="TTarget">Binding target type</typeparam>
+        /// <typeparam name="TProperty">Binding target property type</typeparam>
+        /// <param name="self">Source ReactiveProperty</param>
+        /// <param name="target">Binding target instance.</param>
+        /// <param name="propertySelector">Binding target property selector.</param>
+        /// <param name="mode">Binding mode</param>
+        /// <param name="convert">source -&gt; target converter.</param>
+        /// <param name="convertBack">target -&gt; source converter.</param>
+        /// <param name="targetUpdateTrigger">targetUpdateTrigger. required TowWay and OneWayToSource</param>
+        /// <param name="propertyFallbackValue">target error value.</param>
+        /// <param name="sourceFallbackValue">source error value.</param>
+        /// <returns>Release binding disposable.</returns>
+        public static IDisposable BindTo<T, TTarget, TProperty>(
+            this ReactivePropertySlim<T> self,
+            TTarget target,
+            Expression<Func<TTarget, TProperty>> propertySelector,
+            BindingMode mode = BindingMode.OneWay,
+            Func<T, TProperty> convert = null,
+            Func<TProperty, T> convertBack = null,
+            IObservable<Unit> targetUpdateTrigger = null,
+            TProperty propertyFallbackValue = default(TProperty),
+            T sourceFallbackValue = default(T))
+        {
+            if (convert == null)
+            {
+                convert = value => (TProperty)Convert.ChangeType(value, typeof(TProperty));
+            }
+
+            if (convertBack == null)
+            {
+                convertBack = value => (T)Convert.ChangeType(value, typeof(T));
+            }
+
+            switch (mode)
+            {
+                case BindingMode.OneWay:
+                    return CreateOneWayBinding(
+                        self,
+                        target,
+                        propertySelector,
+                        convert,
+                        propertyFallbackValue);
+
+                case BindingMode.TwoWay:
+                    return CreateTowWayBinding(
+                        self,
+                        target,
+                        propertySelector,
+                        convert,
+                        convertBack,
+                        targetUpdateTrigger,
+                        propertyFallbackValue,
+                        sourceFallbackValue);
+
+                case BindingMode.OneWayToSource:
+                    return CreateOneWayToSourceBinding(
+                        self,
+                        target,
+                        propertySelector,
+                        convertBack,
+                        targetUpdateTrigger,
+                        sourceFallbackValue);
+
+                default:
+                    throw new NotSupportedException();
+            }
+        }
+
+        /// <summary>
+        /// RxProperty POCO binding support method.
+        /// </summary>
+        /// <typeparam name="T">ReactiveProperty type parameter</typeparam>
+        /// <typeparam name="TTarget">Binding target type</typeparam>
+        /// <typeparam name="TProperty">Binding target property type</typeparam>
+        /// <param name="self">Source ReactiveProperty</param>
+        /// <param name="target">Binding target instance.</param>
+        /// <param name="propertySelector">Binding target property selector.</param>
+        /// <param name="convert">source -&gt; target converter.</param>
+        /// <param name="propertyFallbackValue">target error value.</param>
+        /// <returns>Release binding disposable.</returns>
+        public static IDisposable BindTo<T, TTarget, TProperty>(
+            this ReadOnlyReactivePropertySlim<T> self,
+            TTarget target,
+            Expression<Func<TTarget, TProperty>> propertySelector,
+            Func<T, TProperty> convert = null,
+            TProperty propertyFallbackValue = default(TProperty))
+        {
+            if (convert == null)
+            {
+                convert = value => (TProperty)Convert.ChangeType(value, typeof(TProperty));
+            }
+
+            return CreateOneWayBinding(
+                self,
+                target,
+                propertySelector,
+                convert,
+                propertyFallbackValue);
+        }
+
+        private static IDisposable CreateOneWayToSourceBinding<T, TTarget, TProperty>(IReactiveProperty<T> self, TTarget target, Expression<Func<TTarget, TProperty>> propertySelector, Func<TProperty, T> convertBack, IObservable<Unit> targetUpdateTrigger, T sourceFallbackValue)
         {
             var propertyName = default(string);
             if (targetUpdateTrigger == null)
@@ -107,7 +243,7 @@ namespace Reactive.Bindings.Binding
                 });
         }
 
-        private static IDisposable CreateOneWayBinding<T, TTarget, TProperty>(ReactiveProperty<T> self, TTarget target, Expression<Func<TTarget, TProperty>> propertySelector, Func<T, TProperty> convert, TProperty propertyFallbackValue)
+        private static IDisposable CreateOneWayBinding<T, TTarget, TProperty>(IObservable<T> self, TTarget target, Expression<Func<TTarget, TProperty>> propertySelector, Func<T, TProperty> convert, TProperty propertyFallbackValue)
         {
             var propertyName = default(string);
             return self
@@ -126,7 +262,7 @@ namespace Reactive.Bindings.Binding
                 });
         }
 
-        private static IDisposable CreateTowWayBinding<T, TTarget, TProperty>(ReactiveProperty<T> self, TTarget target, Expression<Func<TTarget, TProperty>> propertySelector, Func<T, TProperty> convert, Func<TProperty, T> convertBack, IObservable<Unit> targetUpdateTrigger, TProperty propertyFallbackValue, T sourceFallbackValue)
+        private static IDisposable CreateTowWayBinding<T, TTarget, TProperty>(IReactiveProperty<T> self, TTarget target, Expression<Func<TTarget, TProperty>> propertySelector, Func<T, TProperty> convert, Func<TProperty, T> convertBack, IObservable<Unit> targetUpdateTrigger, TProperty propertyFallbackValue, T sourceFallbackValue)
         {
             if (targetUpdateTrigger == null)
             {
