@@ -9,7 +9,7 @@ using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml;
 using System.Collections.Generic;
 #else
-using System.Windows.Interactivity;
+using Microsoft.Xaml.Behaviors;
 using System.Windows.Markup;
 using System.ComponentModel;
 using System.Windows;

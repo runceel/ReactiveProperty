@@ -221,5 +221,84 @@ namespace ReactiveProperty.Tests
             task1.SetResult(null);
             command.CanExecute().IsTrue();
         }
+
+        [TestMethod]
+        public void SourceAndSharedCanExecuteTest()
+        {
+            var task1 = new TaskCompletionSource<object>();
+            var task2 = new TaskCompletionSource<object>();
+
+            var source = new BehaviorSubject<bool>(false);
+            var sharedCanExecute = new ReactivePropertySlim<bool>(true);
+
+            var cmd1CanExecuteChangedCounter = 0;
+            var cmd1 = source.ToAsyncReactiveCommand(sharedCanExecute);
+            cmd1.Subscribe(() => task1.Task);
+            cmd1.CanExecuteChanged += (_, __) => cmd1CanExecuteChangedCounter++;
+            var cmd2CanExecuteChangedCounter = 0;
+            var cmd2 = source.ToAsyncReactiveCommand(sharedCanExecute);
+            cmd2.Subscribe(() => task2.Task);
+            cmd2.CanExecuteChanged += (_, __) => cmd2CanExecuteChangedCounter++;
+
+            // check for initial state
+            cmd1.CanExecute().IsFalse();
+            cmd2.CanExecute().IsFalse();
+            cmd1CanExecuteChangedCounter.Is(0);
+            cmd2CanExecuteChangedCounter.Is(0);
+
+            // change source status
+            source.OnNext(true);
+            cmd1.CanExecute().IsTrue();
+            cmd2.CanExecute().IsTrue();
+            cmd1CanExecuteChangedCounter.Is(1);
+            cmd2CanExecuteChangedCounter.Is(1);
+
+            // execute cmd1 and check status
+            cmd1.Execute();
+            cmd1.CanExecute().IsFalse();
+            cmd2.CanExecute().IsFalse();
+            cmd1CanExecuteChangedCounter.Is(2);
+            cmd2CanExecuteChangedCounter.Is(2);
+
+            // change status from source, but can't execute because still cmd1 is executing
+            source.OnNext(false);
+            source.OnNext(true);
+            cmd1.CanExecute().IsFalse();
+            cmd2.CanExecute().IsFalse();
+            cmd1CanExecuteChangedCounter.Is(2);
+            cmd2CanExecuteChangedCounter.Is(2);
+
+            // after cmd1 finished, then can execute will be true
+            task1.SetResult(null);
+            cmd1.CanExecute().IsTrue();
+            cmd2.CanExecute().IsTrue();
+            cmd1CanExecuteChangedCounter.Is(3);
+            cmd2CanExecuteChangedCounter.Is(3);
+
+            // still, woks fine.
+            source.OnNext(false);
+            cmd1.CanExecute().IsFalse();
+            cmd2.CanExecute().IsFalse();
+            cmd1CanExecuteChangedCounter.Is(4);
+            cmd2CanExecuteChangedCounter.Is(4);
+
+            source.OnNext(true);
+            cmd1.CanExecute().IsTrue();
+            cmd2.CanExecute().IsTrue();
+            cmd1CanExecuteChangedCounter.Is(5);
+            cmd2CanExecuteChangedCounter.Is(5);
+
+            cmd2.Execute();
+            cmd1.CanExecute().IsFalse();
+            cmd2.CanExecute().IsFalse();
+            cmd1CanExecuteChangedCounter.Is(6);
+            cmd2CanExecuteChangedCounter.Is(6);
+
+            task2.SetResult(null);
+            cmd1.CanExecute().IsTrue();
+            cmd2.CanExecute().IsTrue();
+            cmd1CanExecuteChangedCounter.Is(7);
+            cmd2CanExecuteChangedCounter.Is(7);
+        }
     }
 }

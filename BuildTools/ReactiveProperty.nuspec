@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>ReactiveProperty</id>
-    <version>5.3.0</version>
+    <version>6.0.3</version>
     <title>ReactiveProperty</title>
     <authors>neuecc xin9le okazuki</authors>
     <owners>neuecc xin9le okazuki</owners>
@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/runceel/ReactiveProperty</projectUrl>
     <iconUrl>http://neue.cc/ReactivePropertyIcon_100x100.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>ReactiveProperty is MVVM and Asynchronous Extensions for Reactive Extensions(System.Reactive). Target platform is .NET Standard 2.0.</description>
+    <description>ReactiveProperty is MVVM and Asynchronous Extensions for Reactive Extensions(System.Reactive). Target platform is .NET Standard 2.0, UWP, .NET Framework 4.6.1 or lator and .NET Core 3.0.</description>
     <summary />
     <language>en-US</language>
     <tags>rx mvvm async rx-main reactive</tags>
@@ -18,15 +18,18 @@
       <group targetFramework="uap10.0">
         <dependency id="Microsoft.Xaml.Behaviors.Uwp.Managed" version="2.0.0" />
         <dependency id="System.ComponentModel.Annotations" version="4.5.0" />
-        <dependency id="System.ObjectModel" version="4.3.0" />
-        <dependency id="System.Reactive" version="4.1.2" />
-        <dependency id="System.Reflection.Extensions" version="4.3.0" />
+        <dependency id="System.Reactive" version="4.1.5" />
       </group>
       <group targetFramework="netstandard2.0">
         <dependency id="System.ComponentModel.Annotations" version="4.5.0" />
-        <dependency id="System.ObjectModel" version="4.3.0" />
-        <dependency id="System.Reactive" version="4.1.2" />
-        <dependency id="System.Reflection.Extensions" version="4.3.0" />
+        <dependency id="System.Reactive" version="4.1.5" />
+      </group>
+      <group targetFramework="net461">
+        <dependency id="Microsoft.Xaml.Behaviors.Wpf" version="1.0.1" />
+        <dependency id="System.Reactive" version="4.1.5" />
+      </group>
+      <group targetFramework="netcoreapp3.0">
+        <dependency id="System.Reactive" version="4.1.5" />
       </group>
     </dependencies>
     <frameworkAssemblies>
@@ -48,6 +51,14 @@
     <file src="..\LICENSE.txt" target="\" />
 
     <!-- platform -->
+    <!-- WPF .NET Core 3.0 -->
+    <file src="..\Binary\netcoreapp3.0\ReactiveProperty.NETCore.dll" target="lib\netcoreapp3.0" />
+    <file src="..\Binary\netcoreapp3.0\ReactiveProperty.NETCore.XML" target="lib\netcoreapp3.0" />
+    <file src="..\Binary\netcoreapp3.0\ReactiveProperty.NETCore.pdb" target="lib\netcoreapp3.0" />
+    <file src="..\Binary\netstandard2.0\ReactiveProperty.dll" target="lib\netcoreapp3.0" />
+    <file src="..\Binary\netstandard2.0\ReactiveProperty.xml" target="lib\netcoreapp3.0" />
+    <file src="..\Binary\netstandard2.0\ReactiveProperty.pdb" target="lib\netcoreapp3.0" />
+
     <!-- WPF NET461 -->
     <file src="..\Binary\net461\ReactiveProperty.NET46.dll" target="lib\net461" />
     <file src="..\Binary\net461\ReactiveProperty.NET46.XML" target="lib\net461" />

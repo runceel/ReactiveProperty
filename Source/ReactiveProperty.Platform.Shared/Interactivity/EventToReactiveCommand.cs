@@ -11,11 +11,9 @@ using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml;
 #else
 
-using System.Windows.Interactivity;
 using System.Windows.Markup;
-using System.ComponentModel;
 using System.Windows;
-
+using Microsoft.Xaml.Behaviors;
 #endif
 
 namespace Reactive.Bindings.Interactivity

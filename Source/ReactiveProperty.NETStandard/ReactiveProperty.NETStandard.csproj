@@ -6,7 +6,7 @@
     <RootNamespace>Reactive.Bindings</RootNamespace>
     <Description>ReactiveProperty is MVVM and Asynchronous Extensions for Reactive Extensions(System.Reactive). Target is .NET Standard 2.0.</Description>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Version>5.2.0</Version>
+    <Version>5.5.0</Version>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
     <Authors>neuecc xin9le okazuki</Authors>
@@ -26,8 +26,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.5.0" />
-    <PackageReference Include="System.Reactive" Version="4.1.2" />
-    <PackageReference Include="NETStandard.Library" Version="2.0.3" />
+    <PackageReference Include="System.Reactive" Version="4.1.5" />
   </ItemGroup>
 
 </Project>

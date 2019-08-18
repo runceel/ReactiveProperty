@@ -56,7 +56,7 @@
   </PropertyGroup>
   <!-- for workaround: https://github.com/runceel/ReactiveProperty/issues/87 -->
   <ItemGroup>
-    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.5.2"/>
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.5.2" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Threading.Tasks.Extensions">
@@ -121,10 +121,6 @@
     <ProjectReference Include="..\..\Source\ReactiveProperty.NETStandard\ReactiveProperty.NETStandard.csproj">
       <Project>{157f0f88-34ac-4c49-971f-7027aac757ae}</Project>
       <Name>ReactiveProperty.NETStandard</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Source\ReactiveProperty.Platform.Android\ReactiveProperty.Platform.Android.csproj">
-      <Project>{abf4f434-e274-4980-b1d1-aadcf75685a0}</Project>
-      <Name>ReactiveProperty.Platform.Android</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sample.ViewModels\Sample.ViewModels.csproj">
       <Project>{4aa39c19-6571-4a9f-8722-2d7240d425d1}</Project>

@@ -91,8 +91,7 @@ namespace Reactive.Bindings.Extensions
             bool ignoreValidationErrorValue = false)
             where TSubject : INotifyPropertyChanged
         {
-            // no use
-            var setter = AccessorCache<TSubject>.LookupSet(propertySelector, out var propertyName);
+            var setter = AccessorCache<TSubject>.LookupSet(propertySelector, out _);
 
             var result = subject.ObserveProperty(propertySelector, isPushCurrentValueAtFirst: true)
                 .ToReactiveProperty(raiseEventScheduler, mode: mode);
@@ -150,19 +149,68 @@ namespace Reactive.Bindings.Extensions
             IScheduler raiseEventScheduler,
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe,
             bool ignoreValidationErrorValue = false)
+            where TSubject : INotifyPropertyChanged => 
+            ToReactivePropertyAsSynchronized(subject, propertySelector,
+                ox => ox.Select(convert),
+                ox => ox.Select(convertBack),
+                raiseEventScheduler,
+                mode,
+                ignoreValidationErrorValue);
+
+        /// <summary>
+        /// <para>Converts NotificationObject's property to ReactiveProperty. Value is two-way synchronized.</para>
+        /// <para>PropertyChanged raise on ReactivePropertyScheduler.</para>
+        /// </summary>
+        /// <typeparam name="TSubject">The type of the subject.</typeparam>
+        /// <typeparam name="TProperty">The type of the property.</typeparam>
+        /// <typeparam name="TResult">The type of the result.</typeparam>
+        /// <param name="subject">The subject.</param>
+        /// <param name="propertySelector">Argument is self, Return is target property.</param>
+        /// <param name="convert">Convert selector to ReactiveProperty.</param>
+        /// <param name="convertBack">Convert selector to source.</param>
+        /// <param name="mode">ReactiveProperty mode.</param>
+        /// <param name="ignoreValidationErrorValue">Ignore validation error value.</param>
+        /// <returns></returns>
+        public static ReactiveProperty<TResult> ToReactivePropertyAsSynchronized<TSubject, TProperty, TResult>(
+            this TSubject subject,
+            Expression<Func<TSubject, TProperty>> propertySelector,
+            Func<IObservable<TProperty>, IObservable<TResult>> convert,
+            Func<IObservable<TResult>, IObservable<TProperty>> convertBack,
+            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe,
+            bool ignoreValidationErrorValue = false)
+            where TSubject : INotifyPropertyChanged =>
+            ToReactivePropertyAsSynchronized(subject, propertySelector, convert, convertBack, ReactivePropertyScheduler.Default, mode, ignoreValidationErrorValue);
+
+        /// <summary>
+        /// <para>Converts NotificationObject's property to ReactiveProperty. Value is two-way synchronized.</para>
+        /// <para>PropertyChanged raise on selected scheduler.</para>
+        /// </summary>
+        /// <typeparam name="TSubject">The type of the subject.</typeparam>
+        /// <typeparam name="TProperty">The type of the property.</typeparam>
+        /// <typeparam name="TResult">The type of the result.</typeparam>
+        /// <param name="subject">The subject.</param>
+        /// <param name="propertySelector">Argument is self, Return is target property.</param>
+        /// <param name="convert">Convert selector to ReactiveProperty.</param>
+        /// <param name="convertBack">Convert selector to source.</param>
+        /// <param name="raiseEventScheduler">The raise event scheduler.</param>
+        /// <param name="mode">ReactiveProperty mode.</param>
+        /// <param name="ignoreValidationErrorValue">Ignore validation error value.</param>
+        /// <returns></returns>
+        public static ReactiveProperty<TResult> ToReactivePropertyAsSynchronized<TSubject, TProperty, TResult>(
+            this TSubject subject,
+            Expression<Func<TSubject, TProperty>> propertySelector,
+            Func<IObservable<TProperty>, IObservable<TResult>> convert,
+            Func<IObservable<TResult>, IObservable<TProperty>> convertBack,
+            IScheduler raiseEventScheduler,
+            ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe,
+            bool ignoreValidationErrorValue = false)
             where TSubject : INotifyPropertyChanged
         {
-            // no use
-            var setter = AccessorCache<TSubject>.LookupSet(propertySelector, out var propertyName);
-
-            var result = subject.ObserveProperty(propertySelector, isPushCurrentValueAtFirst: true)
-                .Select(convert)
+            var setter = AccessorCache<TSubject>.LookupSet(propertySelector, out _);
+            var result = convert(subject.ObserveProperty(propertySelector, isPushCurrentValueAtFirst: true))
                 .ToReactiveProperty(raiseEventScheduler, mode: mode);
-            result
-                .Where(_ => !ignoreValidationErrorValue || !result.HasErrors)
-                .Select(convertBack)
+            convertBack(result.Where(_ => !ignoreValidationErrorValue || !result.HasErrors))
                 .Subscribe(x => setter(subject, x));
-
             return result;
         }
     }

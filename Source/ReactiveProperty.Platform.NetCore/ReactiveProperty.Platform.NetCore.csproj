@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <AssemblyName>ReactiveProperty.NETCore</AssemblyName>
+    <RootNamespace>Reactive.Bindings</RootNamespace>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>..\..\Binary\netcoreapp3.0\ReactiveProperty.NETCore.xml</DocumentationFile>
+    <OutputPath>..\..\Binary</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.0.1">
+      <NoWarn>NU1701</NoWarn>
+    </PackageReference>
+    <PackageReference Include="System.Reactive" Version="4.1.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ReactiveProperty.NETStandard\ReactiveProperty.NETStandard.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\ReactiveProperty.Platform.Shared\ReactiveProperty.Platform.Shared.projitems" Label="Shared" />
+
+</Project>
