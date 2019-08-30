@@ -227,6 +227,28 @@ namespace Reactive.Bindings
         /// <typeparam name="T"></typeparam>
         /// <param name="source">The source.</param>
         /// <returns></returns>
+        public static TaskAwaiter<T> GetAwaiter<T>(this ReactiveProperty<T> source)
+        {
+            return WaitUntilValueChangedAsync<T>(source, CancellationToken.None).GetAwaiter();
+        }
+
+        /// <summary>
+        /// Gets the awaiter.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source">The source.</param>
+        /// <returns></returns>
+        public static TaskAwaiter<T> GetAwaiter<T>(this ReactivePropertySlim<T> source)
+        {
+            return WaitUntilValueChangedAsync<T>(source, CancellationToken.None).GetAwaiter();
+        }
+
+        /// <summary>
+        /// Gets the awaiter.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source">The source.</param>
+        /// <returns></returns>
         public static TaskAwaiter<T> GetAwaiter<T>(this ReactiveCommand<T> source)
         {
             return WaitUntilValueChangedAsync<T>(source, CancellationToken.None).GetAwaiter();
@@ -257,6 +279,36 @@ namespace Reactive.Bindings
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns></returns>
         public static async Task<T> WaitUntilValueChangedAsync<T>(this IReadOnlyReactiveProperty<T> source, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            using (var handler = GetAsyncHandler<T>(source, cancellationToken))
+            {
+                return await handler;
+            }
+        }
+
+        /// <summary>
+        /// Waits the until value changed asynchronous.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source">The source.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        public static async Task<T> WaitUntilValueChangedAsync<T>(this ReactiveProperty<T> source, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            using (var handler = GetAsyncHandler<T>(source, cancellationToken))
+            {
+                return await handler;
+            }
+        }
+
+        /// <summary>
+        /// Waits the until value changed asynchronous.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source">The source.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        public static async Task<T> WaitUntilValueChangedAsync<T>(this ReactivePropertySlim<T> source, CancellationToken cancellationToken = default(CancellationToken))
         {
             using (var handler = GetAsyncHandler<T>(source, cancellationToken))
             {
