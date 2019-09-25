@@ -21,7 +21,15 @@ namespace Reactive.Bindings
         /// <summary>
         /// CanExecute is automatically changed when executing to false and finished to true.
         /// </summary>
-        public AsyncReactiveCommand(IObservable<bool> canExecuteSource, IReactiveProperty<bool> sharedCanExecute = null)
+        public AsyncReactiveCommand(IObservable<bool> canExecuteSource)
+            : base(canExecuteSource)
+        {
+        }
+
+        /// <summary>
+        /// CanExecute is automatically changed when executing to false and finished to true.
+        /// </summary>
+        public AsyncReactiveCommand(IObservable<bool> canExecuteSource, IReactiveProperty<bool> sharedCanExecute)
             : base(canExecuteSource, sharedCanExecute)
         {
         }
@@ -85,7 +93,15 @@ namespace Reactive.Bindings
         /// <summary>
         /// CanExecute is automatically changed when executing to false and finished to true.
         /// </summary>
-        public AsyncReactiveCommand(IObservable<bool> canExecuteSource, IReactiveProperty<bool> sharedCanExecute = null)
+        public AsyncReactiveCommand(IObservable<bool> canExecuteSource)
+            : this(canExecuteSource, null)
+        {
+        }
+
+        /// <summary>
+        /// CanExecute is automatically changed when executing to false and finished to true.
+        /// </summary>
+        public AsyncReactiveCommand(IObservable<bool> canExecuteSource, IReactiveProperty<bool> sharedCanExecute)
         {
             canExecute = sharedCanExecute ?? new ReactivePropertySlim<bool>(true);
             sourceSubscription = canExecute.CombineLatest(canExecuteSource, (x, y) => x && y)
@@ -235,13 +251,25 @@ namespace Reactive.Bindings
         /// <summary>
         /// CanExecute is automatically changed when executing to false and finished to true.
         /// </summary>
-        public static AsyncReactiveCommand ToAsyncReactiveCommand(this IObservable<bool> canExecuteSource, IReactiveProperty<bool> sharedCanExecute = null) =>
+        public static AsyncReactiveCommand ToAsyncReactiveCommand(this IObservable<bool> canExecuteSource) =>
+            new AsyncReactiveCommand(canExecuteSource);
+
+        /// <summary>
+        /// CanExecute is automatically changed when executing to false and finished to true.
+        /// </summary>
+        public static AsyncReactiveCommand ToAsyncReactiveCommand(this IObservable<bool> canExecuteSource, IReactiveProperty<bool> sharedCanExecute) =>
             new AsyncReactiveCommand(canExecuteSource, sharedCanExecute);
 
         /// <summary>
         /// CanExecute is automatically changed when executing to false and finished to true.
         /// </summary>
-        public static AsyncReactiveCommand<T> ToAsyncReactiveCommand<T>(this IObservable<bool> canExecuteSource, IReactiveProperty<bool> sharedCanExecute = null) =>
+        public static AsyncReactiveCommand<T> ToAsyncReactiveCommand<T>(this IObservable<bool> canExecuteSource) =>
+            new AsyncReactiveCommand<T>(canExecuteSource);
+
+        /// <summary>
+        /// CanExecute is automatically changed when executing to false and finished to true.
+        /// </summary>
+        public static AsyncReactiveCommand<T> ToAsyncReactiveCommand<T>(this IObservable<bool> canExecuteSource, IReactiveProperty<bool> sharedCanExecute) =>
             new AsyncReactiveCommand<T>(canExecuteSource, sharedCanExecute);
 
         /// <summary>
