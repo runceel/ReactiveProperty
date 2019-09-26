@@ -51,6 +51,9 @@
     <PackageReference Include="System.Reactive" Version="4.1.5" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\ReactiveProperty.Platform.Shared\Version.cs">
+      <Link>Version.cs</Link>
+    </Compile>
     <Compile Include="BindingSupportExtensions.cs" />
     <Compile Include="Internal\AccessorCache.cs" />
     <Compile Include="IUICollectionViewDataSourceExtensions.cs" />

@@ -102,7 +102,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReactiveProperty.NETStandar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.Platform.Android", "Source\ReactiveProperty.Platform.Android\ReactiveProperty.Platform.Android.csproj", "{BF2E72F9-149B-4687-ABCD-7B949430FFDE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.Platform.NetCore", "Source\ReactiveProperty.Platform.NetCore\ReactiveProperty.Platform.NetCore.csproj", "{7BC40D74-D0B4-4736-B45D-127224D20474}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReactiveProperty.Platform.NetCore", "Source\ReactiveProperty.Platform.NetCore\ReactiveProperty.Platform.NetCore.csproj", "{7BC40D74-D0B4-4736-B45D-127224D20474}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -491,9 +491,9 @@ Global
 		{7BC40D74-D0B4-4736-B45D-127224D20474} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {5AC43AC2-86FE-46EF-B243-5C8E75EAB89B}
-		BuildVersion_UseGlobalSettings = True
 		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
+		BuildVersion_UseGlobalSettings = True
+		SolutionGuid = {5AC43AC2-86FE-46EF-B243-5C8E75EAB89B}
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = ReactiveProperty.vsmdi
