@@ -137,6 +137,13 @@ It's means that ReactiveProperty can use together the another MVVM library like 
 
 [ReactiveProperty](https://www.nuget.org/packages/ReactiveProperty)
 
+## Support
+
+I'm not watching Stackoverflow and other forums to support ReactiveProperty, so please feel free ask to question at Github issues.
+I'm available Japanese(1st language) and English(2nd language).
+
+If questions became huge numbers, then I would separate posting place about feature requests, issues, questions.
+
 ## Author info
 
 Yoshifumi Kawai a.k.a. [@neuecc](https://twitter.com/neuecc) is software developer in Tokyo, Japan.
@@ -147,3 +154,5 @@ Takaaki Suzuki a.k.a. [@xin9le](https://twitter.com/xin9le) software devleoper i
 Awarded Microsoft MVP for Visual Studio and Development Technologies since July, 2012.
 
 Kazuki Ota a.k.a. [@okazuki](https://twitter.com/okazuki) software developer in Tokyo, Japan.
+Awarded Microsoft MVP for Windows Development since July 2011 to Feb 2017.
+Now, working at Microsoft Japan.
