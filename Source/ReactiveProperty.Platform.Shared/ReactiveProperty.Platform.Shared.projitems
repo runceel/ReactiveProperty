@@ -6,12 +6,13 @@
     <SharedGUID>523e5506-24df-44ca-83cc-6aa02454f150</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>ReactiveProperty</Import_RootNamespace>
+    <Import_RootNamespace>Reactive.Bindings</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\DependencyObjectExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interactivity\EventToReactiveCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interactivity\EventToReactiveProperty.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ObjectExtensions\ObserveEveryValueChangedExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Version.cs" />
   </ItemGroup>
 </Project>
