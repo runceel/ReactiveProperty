@@ -58,7 +58,7 @@ namespace Reactive.Bindings
     /// <summary>
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ReactivePropertySlim<T> : IReactiveProperty<T>, IReadOnlyReactiveProperty<T>, IObserverLinkedList<T>
+    public class ReactivePropertySlim<T> : IReactiveProperty<T>, IObserverLinkedList<T>
     {
         private const int IsDisposedFlagNumber = 1 << 9; // (reserve 0 ~ 8)
 

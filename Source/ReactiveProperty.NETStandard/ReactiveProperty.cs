@@ -59,7 +59,7 @@ namespace Reactive.Bindings
     /// Two-way bindable IObserable&lt;T&gt;
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ReactiveProperty<T> : IReactiveProperty<T>, IReadOnlyReactiveProperty<T>
+    public class ReactiveProperty<T> : IReactiveProperty<T>
     {
         /// <summary>
         /// Implements of INotifyPropertyChanged.
