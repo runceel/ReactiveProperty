@@ -56,7 +56,7 @@
   </PropertyGroup>
   <!-- for workaround: https://github.com/runceel/ReactiveProperty/issues/87 -->
   <ItemGroup>
-    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.5.2" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.6.0" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Threading.Tasks.Extensions">
