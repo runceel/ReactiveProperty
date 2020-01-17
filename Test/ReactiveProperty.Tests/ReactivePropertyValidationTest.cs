@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reactive.Linq;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.Reactive.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Reactive.Bindings;
+using ReactiveProperty.Tests.Strings;
 
 namespace ReactiveProperty.Tests
 {
@@ -136,7 +138,7 @@ namespace ReactiveProperty.Tests
             var errorMessage = "error occured!!";
             rprop.Value = "dummy";  //--- push value
             tcs.SetResult(errorMessage);    //--- validation error!
-            await Task.Yield();
+            await Task.Delay(10);
 
             rprop.HasErrors.IsTrue();
             error.IsNotNull();
@@ -237,6 +239,45 @@ namespace ReactiveProperty.Tests
             rp.Value = "";
             rp.HasErrors.IsTrue();
         }
+
+        [TestMethod]
+        public void CustomValidationErrorMessage()
+        {
+            var target = new TestTarget();
+            target.CustomValidationErrorMessageProperty.Value = "";
+            var errorMessage = target
+                .CustomValidationErrorMessageProperty
+                .GetErrors(nameof(TestTarget.CustomValidationErrorMessageProperty))
+                .Cast<string>()
+                .First();
+            errorMessage.Is("Custom validation error message for CustomValidationErrorMessageProperty");
+        }
+
+        [TestMethod]
+        public void CustomValidationErrorMessageWithDisplayName()
+        {
+            var target = new TestTarget();
+            target.CustomValidationErrorMessageWithDisplayNameProperty.Value = "";
+            var errorMessage = target
+                .CustomValidationErrorMessageWithDisplayNameProperty
+                .GetErrors(nameof(TestTarget.CustomValidationErrorMessageWithDisplayNameProperty))
+                .Cast<string>()
+                .First();
+            errorMessage.Is("Custom validation error message for CustomName");
+        }
+
+        [TestMethod]
+        public void CustomValidationErrorMessageWithResource()
+        {
+            var target = new TestTarget();
+            target.CustomValidationErrorMessageWithResourceProperty.Value = "";
+            var errorMessage = target
+                .CustomValidationErrorMessageWithResourceProperty
+                .GetErrors(nameof(TestTarget.CustomValidationErrorMessageWithResourceProperty))
+                .Cast<string>()
+                .First();
+            errorMessage.Is("Oops!? FromResource is required.");
+        }
     }
 
     internal class TestTarget
@@ -248,6 +289,17 @@ namespace ReactiveProperty.Tests
         public ReactiveProperty<string> BothProperty { get; private set; }
 
         public ReactiveProperty<string> TaskValidationTestProperty { get; private set; }
+
+        [Required(ErrorMessage = "Custom validation error message for {0}")]
+        public ReactiveProperty<string> CustomValidationErrorMessageProperty { get; }
+
+        [Required(ErrorMessage = "Custom validation error message for {0}")]
+        [Display(Name = "CustomName")]
+        public ReactiveProperty<string> CustomValidationErrorMessageWithDisplayNameProperty { get; }
+
+        [Required(ErrorMessageResourceType = typeof(Resource), ErrorMessageResourceName = nameof(Resource.ValidationErrorMessage))]
+        [Display(ResourceType = typeof(Resource), Name = nameof(Resource.ValidationTargetPropertyName))]
+        public ReactiveProperty<string> CustomValidationErrorMessageWithResourceProperty { get; }
 
         public TestTarget()
         {
@@ -267,6 +319,15 @@ namespace ReactiveProperty.Tests
                     }
                     return await Task.FromResult((string)null);
                 });
+
+            CustomValidationErrorMessageProperty = new ReactiveProperty<string>()
+                .SetValidateAttribute(() => CustomValidationErrorMessageProperty);
+
+            CustomValidationErrorMessageWithDisplayNameProperty = new ReactiveProperty<string>()
+                .SetValidateAttribute(() => CustomValidationErrorMessageWithDisplayNameProperty);
+
+            CustomValidationErrorMessageWithResourceProperty = new ReactiveProperty<string>()
+                .SetValidateAttribute(() => CustomValidationErrorMessageWithResourceProperty);
         }
     }
 }

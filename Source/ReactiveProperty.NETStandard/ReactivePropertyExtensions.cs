@@ -23,10 +23,12 @@ namespace Reactive.Bindings
         {
             var memberExpression = (MemberExpression)selfSelector.Body;
             var propertyInfo = (PropertyInfo)memberExpression.Member;
+            var display = propertyInfo.GetCustomAttribute<DisplayAttribute>();
             var attrs = propertyInfo.GetCustomAttributes<ValidationAttribute>().ToArray();
             var context = new ValidationContext(self)
             {
-                MemberName = nameof(ReactiveProperty<T>.Value)
+                DisplayName = display?.GetName() ?? propertyInfo.Name,
+                MemberName = nameof(ReactiveProperty<T>.Value),
             };
 
             if (attrs.Length != 0)
