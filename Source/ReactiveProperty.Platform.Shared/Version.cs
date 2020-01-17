@@ -6,6 +6,6 @@ namespace Reactive.Bindings
 {
     internal static class Version
     {
-        public const string Number = "6.1.3";
+        public const string Number = "6.2.0";
     }
 }
