@@ -138,7 +138,7 @@ namespace ReactiveProperty.Tests
             var errorMessage = "error occured!!";
             rprop.Value = "dummy";  //--- push value
             tcs.SetResult(errorMessage);    //--- validation error!
-            await Task.Yield();
+            await Task.Delay(10);
 
             rprop.HasErrors.IsTrue();
             error.IsNotNull();
