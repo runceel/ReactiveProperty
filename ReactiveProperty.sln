@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28729.10
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.960
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{592AA479-AD7F-476B-AEF8-2B0268EA3BD8}"
 EndProject
@@ -64,8 +64,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "csharp5", "csharp5", "{B087
 		Snippet\csharp5\ReactiveCommand.snippet = Snippet\csharp5\ReactiveCommand.snippet
 		Snippet\csharp5\ReactiveCommandGeneric.snippet = Snippet\csharp5\ReactiveCommandGeneric.snippet
 		Snippet\csharp5\ReactiveProperty.snippet = Snippet\csharp5\ReactiveProperty.snippet
+		Snippet\csharp5\ReactivePropertySlim.snippet = Snippet\csharp5\ReactivePropertySlim.snippet
 		Snippet\csharp5\ReadOnlyReactiveCollection.snippet = Snippet\csharp5\ReadOnlyReactiveCollection.snippet
 		Snippet\csharp5\ReadOnlyReactiveProperty.snippet = Snippet\csharp5\ReadOnlyReactiveProperty.snippet
+		Snippet\csharp5\ReadOnlyReactivePropertySlim.snippet = Snippet\csharp5\ReadOnlyReactivePropertySlim.snippet
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "csharp6", "csharp6", "{66249041-95E4-4DAE-AC93-3475EBE60AF0}"
@@ -76,8 +78,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "csharp6", "csharp6", "{6624
 		Snippet\csharp6\ReactiveCommand.snippet = Snippet\csharp6\ReactiveCommand.snippet
 		Snippet\csharp6\ReactiveCommandGeneric.snippet = Snippet\csharp6\ReactiveCommandGeneric.snippet
 		Snippet\csharp6\ReactiveProperty.snippet = Snippet\csharp6\ReactiveProperty.snippet
+		Snippet\csharp6\ReactivePropertySlim.snippet = Snippet\csharp6\ReactivePropertySlim.snippet
 		Snippet\csharp6\ReadOnlyReactiveCollection.snippet = Snippet\csharp6\ReadOnlyReactiveCollection.snippet
 		Snippet\csharp6\ReadOnlyReactiveProperty.snippet = Snippet\csharp6\ReadOnlyReactiveProperty.snippet
+		Snippet\csharp6\ReadOnlyReactivePropertySlim.snippet = Snippet\csharp6\ReadOnlyReactivePropertySlim.snippet
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UWP", "Sample\UWP\UWP.csproj", "{1A284C37-BA3F-4B28-B800-7C3137E3365E}"
@@ -108,7 +112,6 @@ Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Source\ReactiveProperty.Platform.Shared\ReactiveProperty.Platform.Shared.projitems*{523e5506-24df-44ca-83cc-6aa02454f150}*SharedItemsImports = 13
 		Source\ReactiveProperty.Platform.Shared\ReactiveProperty.Platform.Shared.projitems*{883c5447-2778-43e4-8cde-6a594b342acd}*SharedItemsImports = 4
-		Source\ReactiveProperty.Platform.Shared\ReactiveProperty.Platform.Shared.projitems*{cd8f2562-e3a0-4f6d-8285-70349597adbc}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -491,9 +494,9 @@ Global
 		{7BC40D74-D0B4-4736-B45D-127224D20474} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
-		BuildVersion_UseGlobalSettings = True
 		SolutionGuid = {5AC43AC2-86FE-46EF-B243-5C8E75EAB89B}
+		BuildVersion_UseGlobalSettings = True
+		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = ReactiveProperty.vsmdi
