@@ -58,8 +58,8 @@ var rp = Observable.Interval(TimeSpan.FromSeconds(1))
 # Limitations
 
 ReactiveProperty was designed for single UI thread platform.
-It means it doesn't work on the multi UI thread platform which is like UWP platform.
+It means a few features don't work on multi UI thread platforms such as UWP.
 
-UWP has multi UI thread in the single process when multi Window create.
-If you create multi-window in UWP, then should set ImmediateScheduler to ReactivePropertyScheduler, when the app was launched.
+UWP has multi UI thread in the single process when multi Windows were created.
+If you create multi-windows on UWP, then you should set ImmediateScheduler to ReactivePropertyScheduler, when the app was launched.
 Or use ReactivePropertySlim / ReadOnlyReactivePropertySlim classes.
