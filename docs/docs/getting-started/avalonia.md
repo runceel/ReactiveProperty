@@ -1,11 +1,11 @@
-Avalonia is cross platform .NET UI Framework!
+Avalonia is a cross platform .NET UI Framework!
 
 See below:
 
 [Avalonia UI Framework](http://avaloniaui.net/)
 
 ## Create a project
-- Create a Avalonia .NET Core Application project.(Of cource! Avalonia Application project can use ReactiveProperty same as .NET Core project.)
+- Create an Avalonia .NET Core Application project.(Of course! An Avalonia application project can use the same ReactiveProperty as .NET Core projects.)
 - Install ReactiveProperty from NuGet.
 
 ## Edit codes
@@ -54,7 +54,7 @@ MainWindow.xaml
 
 ## Launch the application.
 
-After launch the app, You can see the below window.
+After launching the app, you can see the below window.
 The output value was displayed to upper case, after 1sec from the input.
 
 ![Launch the app](./images/launch-avalonia-app.gif)

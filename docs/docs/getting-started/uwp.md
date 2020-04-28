@@ -84,7 +84,7 @@ MainPage.xaml
 
 ## Launch the application
 
-After launch the app, You can see the below window.
+After launching the app, you can see the below window.
 The output value was displayed to upper case, after 1sec from the input.
 
 ![Launch the app](./images/launch-uwp-app.gif)

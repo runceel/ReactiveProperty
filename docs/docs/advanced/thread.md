@@ -1,17 +1,17 @@
 ReactiveProperty provides execution thread control feature.
-ReactiveProperty raise PropertyChanged event on UI thread automaticaly. 
+ReactiveProperty raises `PropertyChanged` event on UI thread automatically. 
 
 # Change the scheduler
 
-You can change this behavior using IScheduler.
-When the instance creation time, set IScheduler instance to raiseEventScheduler argument.
+You can change this behavior using `IScheduler`.
+When the instance is created, set `IScheduler` instance to `raiseEventScheduler` argument.
 
 ```csharp
 var rp = Observable.Interval(TimeSpan.FromSeconds(1))
     .ToReactiveProperty(raiseEventScheduler: ImmediateScheduler.Instance);
 ```
 
-ReactiveCollection and ReadOnlyReactiveCollection raise CollectionChanged event on UI thread same as ReactiveProperty.
+`ReactiveCollection` and `ReadOnlyReactiveCollection` raise `CollectionChanged` event on UI thread same as `ReactiveProperty`.
 This behavior can be changed using the scheduler constructor and factory method argument.
 
 ```csharp
@@ -22,9 +22,9 @@ var readOnlyCollection = Observable.Interval(TimeSpan.FromSeconds(1))
     .ToReadOnlyReactiveProperty(scheduler: ImmediateScheduler.Instance);
 ```
 
-# Change the gloabl scheduler
+# Change the global scheduler
 
-Can change the ReactiveProperty's default scheduler using ReactivePropertyScheduler.SetDefault method.
+You can change the ReactiveProperty's default scheduler using `ReactivePropertyScheduler.SetDefault` method.
 
 ```csharp
 ReactivePropertyScheduler.SetDefault(TaskPoolScheduler.Default);
@@ -38,7 +38,7 @@ immediateRp.Value = "changed"; // raise event on the ImmediateScheduler thread.
 
 # Rx operator
 
-Of cource, you can use ObserveOn extension method.
+Of course, you can use the `ObserveOn` extension method.
 
 ```csharp
 var rp = Observable.Interval(TimeSpan.FromSeconds(1))
@@ -46,7 +46,7 @@ var rp = Observable.Interval(TimeSpan.FromSeconds(1))
     .ToReactiveProperty();
 ```
 
-And we provide ObserveOnUIDispatcher extension method. 
+And we provide the `ObserveOnUIDispatcher` extension method. 
 This is a shortcut of `ObserveOn(ReactiveProeprtyScheduler.Default)`.
 
 ```csharp
@@ -58,8 +58,8 @@ var rp = Observable.Interval(TimeSpan.FromSeconds(1))
 # Limitations
 
 ReactiveProperty was designed for single UI thread platform.
-It means a few features don't work on multi UI thread platforms such as UWP.
+This means a few features don't work on multi UI thread platforms such as UWP.
 
-UWP has multi UI thread in the single process when multi Windows were created.
-If you create multi-windows on UWP, then you should set ImmediateScheduler to ReactivePropertyScheduler, when the app was launched.
-Or use ReactivePropertySlim / ReadOnlyReactivePropertySlim classes.
+UWP has multi UI threads in the single process when multiple Windows are created.
+If you create multi-windows on UWP, then you should set `ImmediateScheduler` to `ReactivePropertyScheduler`, when the app was launched.
+Or use `ReactivePropertySlim` / `ReadOnlyReactivePropertySlim` classes.

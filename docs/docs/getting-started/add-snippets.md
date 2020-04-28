@@ -1,9 +1,9 @@
 # Add code snippets
 
-We provides snippet files [here](https://github.com/runceel/ReactiveProperty/tree/master/Snippet).
-If you want to use it, then please install the snippets manually.
+We provide snippet files [here](https://github.com/runceel/ReactiveProperty/tree/master/Snippet).
+If you want to use them, please install the snippets manually.
 
-Following document is steps to add a snippet to Visual Studio.
+The following document lists steps to add a snippet to Visual Studio.
 
 - [Add a code snippet to Visual Studio](https://docs.microsoft.com/en-us/visualstudio/ide/walkthrough-creating-a-code-snippet?view=vs-2019#add-a-code-snippet-to-visual-studio)
 

@@ -6,10 +6,10 @@ ReactiveProperty provides some collection classes.
 
 ## ReactiveCollection
 
-ReactiveCollection hnherits ObservableCollection.
-This class is created from IObservable.
-And adds an item when push a value from source IObservable.
-ReactiveCollection executes this process using IScheduler. Default scheduler run process on the UI thread.
+`ReactiveCollection` inherits `ObservableCollection`.
+This class is created from `IObservable`.
+It adds an item when a value is provided from the source `IObservable`.
+`ReactiveCollection` executes this process using `IScheduler`. The default `IScheduler` dispatches to the UI thread.
 
 ```csharp
 public class ViewModel
@@ -32,7 +32,7 @@ public class ViewModel
 }
 ```
 
-> ToUnit extension method is defined in the Reactive.Bindings.Extensions namespace.
+> `ToUnit` extension method is defined in the Reactive.Bindings.Extensions namespace.
 > This extension method is same as `.Select(_ => Unide.Default)`.
 
 Example of UWP platform.
@@ -78,10 +78,8 @@ MainPage.xaml
 
 ## Collection operations
 
-ReactiveCollection class has XxxxOnScheduler methods. For example, AddOnScheduler, RemoveOnScheduler, ClearOnScheduler, GetOnScheduler, etc...
-Those methods are run on the IScheduler.
-
-Can call from outside of UI thread.
+`ReactiveCollection` class has `XxxxOnScheduler` methods. For example, `AddOnScheduler`, `RemoveOnScheduler`, `ClearOnScheduler`, `GetOnScheduler`, etc...
+Those methods run on the `IScheduler` and can be called from outside of the UI thread.
 
 ```csharp
 public class ViewModel
@@ -139,13 +137,13 @@ public class ViewModel
 
 ![Collection operations](./images/collections-reactivecollection-collection-operations.gif)
 
-When ReactiveCollection class was called Dispose method, then unsubscribe the source IObservable instance.
+When `ReactiveCollection` class is `Dispose`d, it unsubscribes from the source IObservable instance.
 
 ## ReadOnlyReactiveCollection
 
-ReadOnlyReactiveCollection class provides one-way synchronization from ObservableCollection. Can set a converting logic, and dispatch CollectionChanged event raise on the IScheduler. Default IScheduler dispatch to the UI thread.
+`ReadOnlyReactiveCollection` class provides one-way synchronization from `ObservableCollection`. Can set converting logic, and dispatch `CollectionChanged` event raise on the `IScheduler`. The default `IScheduler` dispatches to the UI thread.
 
-At first, exist a POCO classes.
+At first, create a POCO classes.
 
 ```csharp
 public class BindableBase : INotifyPropertyChanged
@@ -191,7 +189,7 @@ public class TimerObject : BindableBase, IDisposable
 }
 ```
 
-This is a simple class that counts up the Count property per second.
+This is a simple class that counts up the `Count` property per second.
 
 Wrap the class to ViewModel layer using ReactiveProperty.
 
@@ -217,9 +215,9 @@ public class TimerObjectViewModel : IDisposable
 }
 ```
 
-Manage TimerObject instances using the ObservableCollection.
-We should provide TimerObjectViewModel instances to View layer, can use ReadOnlyReactiveCollection class.
-ReadOnlyReactiveCollection instance is created using ToReadOnlyReactiveCollection extension method. 
+Manage `TimerObject` instances using the `ObservableCollection`.
+We should provide `TimerObjectViewModel` instances to View layer, can use `ReadOnlyReactiveCollection` class.
+`ReadOnlyReactiveCollection` instance is created using `ToReadOnlyReactiveCollection` extension method. 
 
 ```csharp
 public class ViewModel
@@ -297,7 +295,7 @@ Test view is below.
 ![ReadOnlyReactiveCollection](./images/collections-reactivecollection-readonly-collection.gif)
 
 
-When the instance was removed in the ReadOnlyReactiveCollection, then the Dispose method is called. If don't need this behavior, then set false the ToReadOnlyReactiveCollection's disposeElement argument.
+When the instance was removed in the `ReadOnlyReactiveCollection`, then the `Dispose` method is called. If you don't need this behavior, then set the `disposeElement` argument to `false` in `ToReadOnlyReactiveCollection()`.
 
 ```csharp
 ViewModelCollection = ModelCollection
@@ -306,9 +304,9 @@ ViewModelCollection = ModelCollection
 
 ### Create from IObservable
 
-ReadOnlyReactiveCollection can create from IObservable, it is same as the ReactiveCollection. But, ReadOnlyReactiveCollection doesn't have collection operation methods.
-ToReadOnlyReactiveCollection extension method has a onReset argument which type is IObservable&lt;Unity&gt;.
-When this argument raises value, then the collection is cleared.
+`ReadOnlyReactiveCollection` can be created from `IObservable`, it is the same as the `ReactiveCollection`. But, `ReadOnlyReactiveCollection` doesn't have collection operation methods.
+`ToReadOnlyReactiveCollection` extension method has an `onReset` argument which is `IObservable&lt;Unity&gt;`.
+When this argument raises a value, then the collection is cleared.
 
 ```csharp
 public class ViewModel
@@ -349,14 +347,14 @@ public class ViewModel
 </Page>
 ```
 
-When the ResetCommand execute, then clear the Messages.
+When the `ResetCommand` is executed, clear the Messages.
 
 ![Reset](./images/collections-reactivecollection-readonly-collection-reset.gif)
 
 ## IFilteredReadOnlyObservableCollection
 
-This provides collection which filter realtime from ObservableCollection.
-IFilteredReadOnlyObservableCollection watch the PropertyChanged event of source collection item and the CollectionChanged event.
+A collection which filters in realtime from `ObservableCollection`.
+`IFilteredReadOnlyObservableCollection` watches the `PropertyChanged` event of the source collection item and the `CollectionChanged` event.
 
 ```csharp
 public class ValueHolder : INotifyPropertyChanged
@@ -405,7 +403,7 @@ public class ViewModel
 }
 ```
 
-> ObserveOnUIDispatcher extension method switch to the UI thread from the current thread.
+> `ObserveOnUIDispatcher` extension method switches to the UI thread from the current thread.
 
 
 ```xml
@@ -462,5 +460,5 @@ public class ViewModel
 
 ![IFilteredReadOnlyObservableCollection](./images/collections-filtered-collection.gif)
 
-When the Value property is greater than 7, then display the value to the ListView which is the right side.
+When the Value property is greater than 7, then display the value in the Filtered Values ListView (right side).
 

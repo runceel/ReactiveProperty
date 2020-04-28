@@ -1,7 +1,7 @@
 # Awaitable
 
-You can use `await` operator to `ReactiveProperty`(includes Slim), `ReadOnlyReactiveProperty`(includes Slim), `ReactiveCommand`.
-When use `await` operator to them, then wait a next value will be published.
+You can use `await` operator on `ReactiveProperty`(includes `ReactivePropertySlim`), `ReadOnlyReactiveProperty`(includes `ReadOnlyReactivePropertySlim`), and `ReactiveCommand`.
+When using the `await` operator, the program will wait until the next value is published.
 
 ## For example:
 

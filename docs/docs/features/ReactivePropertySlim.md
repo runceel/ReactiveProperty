@@ -1,17 +1,17 @@
-# ReactivePropertySlim
+# `ReactivePropertySlim`
 
-ReactivePropertySlim is a lightweight version ReactiveProperty.
+`ReactivePropertySlim` is a lightweight version `ReactiveProperty`.
 
-ReactivePropertySlim provides following features:
+`ReactivePropertySlim` provides following features:
 
-- Implements INotifyPropertyChanged interface.
-- Implements IObservable&lt;T&gt; interface.
-- Provides a Value property.
-- Provides a ForceNotify method.
+- Implements `INotifyPropertyChanged` interface.
+- Implements `IObservable&lt;T&gt;` interface.
+- Provides a `Value` property.
+- Provides a `ForceNotify` method.
 
-And ReactivePropertySlim is high performance.
+`ReactivePropertySlim` is high performance.
 
-This class can use like same as ReactiveProperty.
+This class can be used like a `ReactiveProperty`.
 
 ```csharp
 var rp = new ReactivePropertySlim<string>("neuecc");
@@ -28,14 +28,14 @@ xin9le-san
 okazuki-san
 ```
 
-One different which compare the ReactiveProperty is that ReactivePropertySlim can't create from IObservable&lt;T&gt;.
+One difference to `ReactiveProperty` is that `ReactivePropertySlim` can't be created from `IObservable&lt;T&gt;`.
 
 ```csharp
 // It isn't valid code.
 var rp = Observable.Interval(TimeSpan.FromSeconds(1)).ToReactivePropertySlim();
 ```
 
-If want to create Slim class's instance from IObservable&lt;T&gt;, then use the ToReadOnlyReactivePropertySlim extension method.
+If you want to create Slim class's instance from `IObservable&lt;T&gt;`, then use the `ToReadOnlyReactivePropertySlim` extension method.
 
 ```csharp
 var rp = Observable.Interval(TimeSpan.FromSeconds(1)).ToReadOnlyReactivePropertySlim();
@@ -43,8 +43,8 @@ var rp = Observable.Interval(TimeSpan.FromSeconds(1)).ToReadOnlyReactiveProperty
 
 ## Dispatch to UI thread
 
-ReactivePropertySlim class doesn't dispatch to UI thread automaticaly.
-If want this feature, then use the ReactiveProperty or dispatch to UI thread expressly.
+`ReactivePropertySlim` class doesn't dispatch to the UI thread automatically.
+If you need this, then use the `ReactiveProperty` or dispatch to the UI thread explicitly.
 
 ```csharp
 var rp = Observable.Interval(TimeSpan.FromSeconds(1))
@@ -54,5 +54,5 @@ var rp = Observable.Interval(TimeSpan.FromSeconds(1))
 
 ## Validation
 
-Slim class doesn't provide the validation feature.
-If want to this feature, then use to ReactiveProperty class.
+`ReactivePropertySlim` class doesn't provide the validation feature.
+If you want this feature, then use the `ReactiveProperty` class.

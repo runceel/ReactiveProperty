@@ -1,16 +1,16 @@
 # Commanding
 
-ReactiveCommand class implements following two interfaces.
+`ReactiveCommand` class implements the following two interfaces.
 
-- ICommand interface
-- IObservable&lt;T&gt;
+- `ICommand` interface
+- `IObservable&lt;T&gt;`
 
 ## Basic usage
 
-This class can be created using ToReactiveCommand extension method from IObservable&lt;bool&gt; instance.
-When IObservable&lt;bool&gt; instance updated, CanExecuteChanged event raise.
+This class can be created using `ToReactiveCommand` extension method from `IObservable&lt;bool&gt;` instance.
+When the `IObservable&lt;bool&gt;` instance is updated, the `CanExecuteChanged` event is raised.
 
-If you always want executable command, then you can create ReactiveCommand instance using the default constructor.
+If you always want an executable command, then you can create a `ReactiveCommand` instance using the default constructor.
 
 ```csharp
 IObservable<bool> canExecuteSource = ...;
@@ -21,8 +21,8 @@ ReactiveCommand alwaysExecutableCommand = new ReactiveCommand(); // non command 
 ReactiveCommand<string> alwaysExecutableAndHasCommandParameterCommand = new ReactiveCommand<string>(); // has command parameter and always can execute version.
 ```
 
-And you can set the initial return value of CanExecute method using factory extension method's initalValue argument.
-The default value is true.
+You can set the initial return value of `CanExecute` method using the factory extension method's `initalValue` argument.
+The default value is `true`.
 
 ```csharp
 IObservable<bool> canExecuteSource = ...;
@@ -31,8 +31,8 @@ ReactiveCommand someCommand = canExecuteSource.ToReactiveCommand(false);
 ReactiveCommand<string> hasCommandParameterCommand = canExecuteSource.ToReactiveCommand<string>(false);
 ```
 
-When Execute method is called, ReactiveCommand call the OnNext callback.
-You can register execute logic using the Subscribe method.
+When the `Execute` method is called, `ReactiveCommand` calls the `OnNext` callback.
+You can register execute logic using the `Subscribe` method.
 
 ```csharp
 ReactiveCommand someCommand = new ReactiveCommand();
@@ -43,7 +43,7 @@ someCommand.Execute(); // OnNext callback is called.
 
 ## Using in ViewModel class
 
-The first example, just use ReactiveCommand class.
+The first example, just use `ReactiveCommand` class.
 
 ```csharp
 public class ViewModel
@@ -97,9 +97,9 @@ public sealed partial class MainPage : Page
 
 ## Work with LINQ
 
-ReactiveCommand class implements IObservable&lt;T&gt; interface. 
-Can use LINQ methods, and ReactiveProperty&lt;T&gt; class can create from IObservable&lt;T&gt;.
-Yes, can change the previous example code to below.
+`ReactiveCommand` class implements the `IObservable&lt;T&gt;` interface. 
+Can use LINQ methods, and `ReactiveProperty&lt;T&gt;` class can be created from `IObservable&lt;T&gt;`.
+The previous example code can be changed to this:
 
 ```csharp
 public class ViewModel
@@ -119,9 +119,9 @@ public class ViewModel
 }
 ```
 
-## Create from IObservable&lt;bool&gt;
+## Create from `IObservable&lt;bool&gt;`
 
-Change to that the UpdateTimeCommand don't invoke during 5 secs after the command invoked.
+Change so that the `UpdateTimeCommand` doesn't invoke for 5 secs after the command is invoked.
 
 ```csharp
 public class ViewModel
@@ -149,8 +149,8 @@ public class ViewModel
 
 ## Create command and subscribe, in one statement
 
-In the case that doesn't use LINQ methods, can create command and subscribe, in one statement.
-WithSubscribe extension method subscribes and return ReactiveCommand instance, see below.
+In the case that you aren't using LINQ methods, you can create a command and subscribe in one statement.
+`WithSubscribe` extension method subscribes and returns the `ReactiveCommand` instance:
 
 ```csharp
 public class ViewModel
@@ -173,7 +173,7 @@ public class ViewModel
 }
 ```
 
-WithSubscribe method is a just shortcut below code.
+`WithSubscribe` method is just a shortcut:
 
 ```csharp
 // No use the WithSubscribe
@@ -185,11 +185,11 @@ var command = new ReactiveCommand()
     .WithSubscribe(() => { ... some actions ... });
 ```
 
-If use LINQ methods, then separate statements create an instance and subscribe.
+If you use LINQ methods, then separate statements create an instance and subscribe.
 
 ## Unsubscribe actions
 
-If need that unsubscribes actions, then use Dispose method of IDisposable which Subscribe method returned.
+If need to unsubscribe actions, then use the `Dispose` method of `IDisposable` which the `Subscribe` method returned.
 
 ```csharp
 var command = new ReactiveCommand();
@@ -204,7 +204,7 @@ subscription2.Dispose();
 command.Dispose();
 ```
 
-WithSubscribe extension method has override methods which have an IDisposable argument.
+`WithSubscribe` extension method has override methods which have an `IDisposable` argument.
 
 ```csharp
 IDisposable subscription = null;
@@ -214,8 +214,8 @@ var command = new ReactiveCommand().WithSubscribe(() => { ... some actions ... }
 subscription.Dispose();
 ```
 
-And has another override of Action&lt;IDisposable&gt; argument.
-It is used together with CompositeDisposable class.
+And has another override of `Action&lt;IDisposable&gt;` argument.
+It is used together with `CompositeDisposable` class.
 
 ```csharp
 var subscriptions = new CompositeDisposable();
@@ -227,18 +227,18 @@ var command = new ReactiveCommand()
 subscription.Dispose();
 ```
 
-In other instance's events subscribe, then you should call the Dispose method of ReactiveCommand class when the end of ViewModel lifecycle.
+In other instance's events subscribe, then you should call the `Dispose` method of `ReactiveCommand` class at the end of the ViewModel lifecycle.
 
 ## Async version ReactiveCommand
 
-AsyncReactiveCommand class is async version ReactiveCommand class.
-This class can subscribe async methods, and when executing async method then CanExecute method returns false.
-So, this class can't re-execute during the async method is proceed.
+`AsyncReactiveCommand` class is an `async` version `ReactiveCommand` class.
+This class can subscribe using `async` methods, and when executing an async method then `CanExecute` method returns `false`.
+So, this class can't re-execute while the async method is running.
 
 ### Basic usage
 
-Neary the same as a ReactiveCommand class. 
-Just difference is that accept async method in Subscribe method argument, and don't implement the IObservable&lt;T&gt; interface.
+Nearly the same as a `ReactiveCommand` class. 
+The only difference is that it accepts an `async` method in `Subscribe` method argument, and doesn't implement the `IObservable&lt;T&gt;` interface.
 
 ```csharp
 public class ViewModel
@@ -280,7 +280,7 @@ public class ViewModel
 
 ![HeavyCommand](./images/asyncreactivecommand-heavyprocess.gif)
 
-Of cause, AsyncReactiveCommand is created from IObservable&lt;bool&gt;.
+Of course, `AsyncReactiveCommand` is created from `IObservable&lt;bool&gt;`.
 
 ```csharp
 public class ViewModel
@@ -306,14 +306,14 @@ public class ViewModel
 
 ![From IObservable<bool>](./images/asyncreactivecommand-from-iobool.gif)
 
-And AsyncReactiveCommand implements the IDisposable interface.
-You should call the Dispose method when the another instance's event subscribe.
+And `AsyncReactiveCommand` implements the `IDisposable` interface.
+You should call the `Dispose` method when the another instance's event subscribe.
 
-### Share CanExecute state
+### Share `CanExecute` state
 
-Sometimes want only one of an async method is executing in a page.
-In this case, you can share CanExecute state between AsyncReactiveCommand instances.
-When created from a same IReactiveProperty&lt;bool&gt; instance, then synchronize CanExecute state.
+Sometimes you want only one async method is to be executing in a page.
+In this case, you can share `CanExecute` state between `AsyncReactiveCommand` instances.
+When it's created from a same `IReactiveProperty&lt;bool&gt;` instance, you can synchronize the `CanExecute` state.
 
 ```csharp
 public class ViewModel
@@ -369,7 +369,7 @@ public class ViewModel
 
 ![Share state](./images/asyncreactivecommand-share-state.gif)
 
-Of cource, you can combine `IObservable<bool>` and `IReactiveProperty<bool>`. `IObservable<bool>` is for source of `AsyncReactiveCommand`, `IReactiveProperty<bool>` is for sharing state across `AsyncReactiveCommand`s.
+Of course, you can combine `IObservable<bool>` and `IReactiveProperty<bool>`. `IObservable<bool>` for source of `AsyncReactiveCommand`, `IReactiveProperty<bool>` is for sharing state across `AsyncReactiveCommand`s.
 You can use `ToAsyncReactiveCommand(this IObservable<bool> source, IReactiveProperty<bool> sharedCanExecute = null)` method, like this:
 
 ```csharp
@@ -411,7 +411,7 @@ namespace RPSample
 }
 ```
 
-After binding the ViewModel calss to view like following:
+After binding the ViewModel class to view:
 
 ```csharp
 // code behind
@@ -454,16 +454,16 @@ namespace RPSample
 </Page>
 ```
 
-It works like below:
+It works like this:
 
 ![Share state and same source](./images/asyncreactivecommand-shared-source.gif)
 
 
 ## Threading
 
-### ReactiveCommand class
+### `ReactiveCommand` class
 
-When use the ReactiveCommand class, the class raise CanExecute event on a scheduler(default is UI thread scheduler.) If you want to change the behaviour then use the overload method of ToReactiveCommand which has IScheduler argument.
+When using the `ReactiveCommand` class, the class raises the `CanExecute` event on a scheduler(default is UI thread scheduler.) If you want to change the behaviour then use the overload method of `ToReactiveCommand` which has an `IScheduler` argument.
 
 See below:
 
@@ -471,9 +471,9 @@ See below:
 canExecuteSource.ToReactiveCommand(theSchedulerInstanceYouWant);
 ```
 
-### AsyncReactiveCommand class
+### `AsyncReactiveCommand` class
 
-AsyncReactiveCommand class doesn't change thread automaticaly. If you want to change thread, then use `ObserveOn` method.
+`AsyncReactiveCommand` class doesn't change thread automatically. If you want to change the thread, then use `ObserveOn` method.
 
 See below:
 
