@@ -6,7 +6,7 @@ ReactiveProperty.XamarinAndroid is MVVM support library for ReactiveProperty + X
 # Features
 
 - OneWay and TwoWay databinding, between View's property and ReactiveProperty.
-- IList, ObservableCollection<T> and ReadOnlyObservableCollectoion<T> convert to IListAdapter.
+- IList, ObservableCollection<T> and ReadOnlyObservableCollection<T> convert to IListAdapter.
 - View classes(ex, Button, TextView...) event provide extension method "EventName"AsObservable.
 
 ## DataBinding

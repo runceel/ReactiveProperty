@@ -13,8 +13,8 @@ New release notes see below.
 - Update System.Reactive v4.0.0-preview00001
 
 ### Change
-- Change ReaciveProperty constructor accessibility from internal to public
-- Change ReadOnlyReaciveProperty constructor accessibility from internal to public
+- Change ReactiveProperty constructor accessibility from internal to public
+- Change ReadOnlyReactiveProperty constructor accessibility from internal to public
 
 ### Breaking change
 - Remove SerializeHelper
@@ -105,7 +105,7 @@ New release notes see below.
 
 ### BugFix
 
-- Fixed bug, dosen't work ignoreValidationErrorValue at ToReactivePropertyAsSynchronized.
+- Fixed bug, doesn't work ignoreValidationErrorValue at ToReactivePropertyAsSynchronized.
 
 ## v2.4.1
 
@@ -140,7 +140,7 @@ New release notes see below.
 
 ### Changes
 
-- Changed implements interface to ReactiveProeprty and ReadOnlyReactiveProperty. Issue #11.
+- Changed implements interface to ReactiveProperty and ReadOnlyReactiveProperty. Issue #11.
 
 ## v2.2.7
 
@@ -209,13 +209,13 @@ New release notes see below.
 
 ## v2.1.6
 
-- Implemented ObserveElementReactiveProperty extension method, to observe ReactiveProeprty which ObservableCollection and ReadOnlyObservableCollection elements have changing.
+- Implemented ObserveElementReactiveProperty extension method, to observe ReactiveProperty which ObservableCollection and ReadOnlyObservableCollection elements have changing.
 - Implemented ObserveElementPropertyChanged extension method, to observe PropertyChanged event which ObservableCollection and ReadOnlyObservableCollection elements have.
 - Implemented ReadOnlyReactiveProperty<T> class. ToReadOnlyReactiveProperty extension method creates its instance from IObservable<T>.  
 
 ### Breaking change
 
-- Changed accesibility of ObserveElementProperty method to 'internal' from 'public'. 
+- Changed accessibility of ObserveElementProperty method to 'internal' from 'public'. 
 
 ## v2.1.5
 
@@ -242,7 +242,7 @@ New release notes see below.
 
 ### Change
 
-- Remove class constranit from ToReadOnlyObservableCollection extension method.
+- Remove class constraint from ToReadOnlyObservableCollection extension method.
 
 ## v2.1.1
 
@@ -274,9 +274,9 @@ New release notes see below.
 - Change namespace Codeplex.Reactive to Reactive.Bindings
 - Rename ReactiveProperty#ObserveHasError to ReactiveProperty#ObserveHasErrors.
 
-### Obsolate
+### Obsolete
 
-- EventToReactive obsolated. Please use EventToReactiveProperty or EventToReactiveCommand.
+- EventToReactive obsoleted. Please use EventToReactiveProperty or EventToReactiveCommand.
 
 ### Change
 

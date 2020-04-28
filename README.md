@@ -149,7 +149,7 @@ Yoshifumi Kawai a.k.a. [@neuecc](https://twitter.com/neuecc) is software develop
 Awarded Microsoft MVP for Visual Studio and Development Technologies since April, 2011.
 He is an original owner of ReactiveProperty.
 
-Takaaki Suzuki a.k.a. [@xin9le](https://twitter.com/xin9le) software devleoper in Tokyo, Japan.
+Takaaki Suzuki a.k.a. [@xin9le](https://twitter.com/xin9le) software developer in Tokyo, Japan.
 Awarded Microsoft MVP for Visual Studio and Development Technologies since July, 2012.
 
 Kazuki Ota a.k.a. [@okazuki](https://twitter.com/okazuki) software developer in Tokyo, Japan.
