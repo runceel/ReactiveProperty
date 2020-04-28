@@ -42,7 +42,7 @@ namespace Reactive.Bindings
         }
 
         /// <summary>
-        /// Ases the task.
+        /// Converts this into a <see cref="Task"/>
         /// </summary>
         /// <returns></returns>
         public async Task AsTask()

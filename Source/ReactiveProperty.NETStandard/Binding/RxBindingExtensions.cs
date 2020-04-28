@@ -330,7 +330,7 @@ namespace Reactive.Bindings.Binding
         OneWay,
 
         /// <summary>
-        /// sync souce and target.
+        /// sync source and target.
         /// </summary>
         TwoWay,
 

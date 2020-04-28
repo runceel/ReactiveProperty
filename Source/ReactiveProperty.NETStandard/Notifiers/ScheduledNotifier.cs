@@ -5,7 +5,7 @@ using System.Reactive.Subjects;
 namespace Reactive.Bindings.Notifiers
 {
     /// <summary>
-    /// Notify value on setuped scheduler.
+    /// Notify value on provided scheduler.
     /// </summary>
     public class ScheduledNotifier<T> : IObservable<T>, IProgress<T>
     {
@@ -28,17 +28,17 @@ namespace Reactive.Bindings.Notifiers
         }
 
         /// <summary>
-        /// Push value to subscribers on setuped scheduler.
+        /// Push value to subscribers on provided scheduler.
         /// </summary>
         public void Report(T value) => scheduler.Schedule(() => trigger.OnNext(value));
 
         /// <summary>
-        /// Push value to subscribers on setuped scheduler.
+        /// Push value to subscribers on provided scheduler.
         /// </summary>
         public IDisposable Report(T value, TimeSpan dueTime) => scheduler.Schedule(dueTime, () => trigger.OnNext(value));
 
         /// <summary>
-        /// Push value to subscribers on setuped scheduler.
+        /// Push value to subscribers on provided scheduler.
         /// </summary>
         public IDisposable Report(T value, DateTimeOffset dueTime) => scheduler.Schedule(dueTime, () => trigger.OnNext(value));
 

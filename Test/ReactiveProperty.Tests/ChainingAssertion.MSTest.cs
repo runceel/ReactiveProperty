@@ -411,7 +411,7 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting
             }
         }
 
-        /// <summary>execute action and return exception when catched otherwise return null</summary>
+        /// <summary>execute action and return exception when caught otherwise return null</summary>
         private static Exception ExecuteCode(Action testCode)
         {
             try

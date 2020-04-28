@@ -6,7 +6,7 @@ using Reactive.Bindings.Extensions; // using namespace
 
 namespace Sample.ViewModels
 {
-    // Synchroinize exsiting models.
+    // Synchronize existing models.
     public class SynchronizeObjectViewModel
     {
         public ReactiveProperty<string> TwoWay { get; }
