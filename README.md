@@ -9,7 +9,7 @@ ReactiveProperty provides MVVM and asynchronous support features under Reactive 
 
 ![ReactiveProperty overview](Images/rpsummary.png)
 
-ReactiveProperty is very powful and simple library.
+ReactiveProperty is a very powerful and simple library.
 
 ![Delay and Select](Images/launch-uwp-app.gif)
 
@@ -33,13 +33,13 @@ public class MainPageViewModel
 
 It's LINQ and Rx magic.
 
-All steps are written getting started section in the [ReactiveProperty documentation](https://runceel.github.io/ReactiveProperty/).
+All steps are written in the "Getting Started" section in the [ReactiveProperty documentation](https://runceel.github.io/ReactiveProperty/).
 
 This library's concept is "Fun programing". 
-ViewModel code which using ReactiveProperty is very simple.
+ViewModel code using ReactiveProperties is very simple.
 
 
-ViewModel's popular implementation is as below:
+ViewModel's popular implementation:
 ```cs
 public class AViewModel : INotifyPropertyChanged
 {
@@ -86,13 +86,13 @@ public class AViewModel : INotifyPropertyChanged
 }
 ```
 
-Binding code is as below:
+Binding code:
 ```xml
 <TextBlock Text="{Binding Name}">
 <TextBlock Text="{Binding Memo}">
 ```
 
-ViewModel's implementation using ReactiveProperty is as below:
+ViewModel's implementation using ReactiveProperty:
 ```cs
 public class AViewModel
 {
@@ -118,7 +118,7 @@ public class AViewModel
 }
 ```
 
-Binding code is as below:
+Binding code:
 ```xml
 <TextBlock Text="{Binding Name.Value}">
 <TextBlock Text="{Binding Memo.Value}">
@@ -126,8 +126,7 @@ Binding code is as below:
 
 It's very simple.
 
-ReactiveProperty doesn't provide base class by ViewModel.
-It's means that ReactiveProperty can use together the another MVVM library like Prism, MVVMLight, etc...
+ReactiveProperty doesn't provide base class by ViewModel, which means that ReactiveProperty can be used together with another MVVM library like Prism, MVVMLight, etc...
 
 ## Documentation
 
@@ -139,10 +138,10 @@ It's means that ReactiveProperty can use together the another MVVM library like 
 
 ## Support
 
-I'm not watching Stackoverflow and other forums to support ReactiveProperty, so please feel free ask to question at Github issues.
+I'm not watching StackOverflow and other forums to support ReactiveProperty, so please feel free to post questions at Github issues.
 I'm available Japanese(1st language) and English(2nd language).
 
-If questions became huge numbers, then I would separate posting place about feature requests, issues, questions.
+If too many questions are posted, then I plan to separate posting place about feature requests, issues, questions.
 
 ## Author info
 
