@@ -159,42 +159,42 @@ namespace ReactiveProperty.Tests
             var source = new ReactivePropertySlim<int>(mode: ReactivePropertyMode.None);
             var rp = source.ToReadOnlyReactivePropertySlim(mode: ReactivePropertyMode.None);
 
-            var collecter = new List<(string, int)>();
-            var a = rp.Select(x => ("a", x)).Subscribe(collecter.Add);
-            var b = rp.Select(x => ("b", x)).Subscribe(collecter.Add);
-            var c = rp.Select(x => ("c", x)).Subscribe(collecter.Add);
+            var collector = new List<(string, int)>();
+            var a = rp.Select(x => ("a", x)).Subscribe(collector.Add);
+            var b = rp.Select(x => ("b", x)).Subscribe(collector.Add);
+            var c = rp.Select(x => ("c", x)).Subscribe(collector.Add);
 
             source.Value = 99;
-            collecter.Is(("a", 99), ("b", 99), ("c", 99));
+            collector.Is(("a", 99), ("b", 99), ("c", 99));
 
-            collecter.Clear();
+            collector.Clear();
             a.Dispose();
 
             source.Value = 40;
-            collecter.Is(("b", 40), ("c", 40));
+            collector.Is(("b", 40), ("c", 40));
 
-            collecter.Clear();
+            collector.Clear();
             c.Dispose();
 
             source.Value = 50;
-            collecter.Is(("b", 50));
+            collector.Is(("b", 50));
 
-            collecter.Clear();
+            collector.Clear();
             b.Dispose();
 
             source.Value = 9999;
-            collecter.Count.Is(0);
+            collector.Count.Is(0);
 
-            var d = rp.Select(x => ("d", x)).Subscribe(collecter.Add);
+            var d = rp.Select(x => ("d", x)).Subscribe(collector.Add);
 
             source.Value = 9;
-            collecter.Is(("d", 9));
+            collector.Is(("d", 9));
 
             rp.Dispose();
         }
 
         [TestMethod]
-        public void CreateFromObservableThatCompleteImmidiataly()
+        public void CreateFromObservableThatCompleteImmediately()
         {
             var x = Observable.Return(1).ToReadOnlyReactivePropertySlim();
             x.Value.Is(1);

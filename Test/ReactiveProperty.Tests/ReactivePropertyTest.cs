@@ -162,12 +162,12 @@ namespace ReactiveProperty.Tests
         public void ForceNotify()
         {
             var rp = new ReactiveProperty<int>(0);
-            var collecter = new List<int>();
-            rp.Subscribe(collecter.Add);
+            var collector = new List<int>();
+            rp.Subscribe(collector.Add);
 
-            collecter.Is(0);
+            collector.Is(0);
             rp.ForceNotify();
-            collecter.Is(0, 0);
+            collector.Is(0, 0);
         }
     }
 

@@ -7,7 +7,7 @@
         <vm:ReactivePropertyBasicsViewModel />
     </Window.DataContext>
     <StackPanel>
-        <TextBlock>Appears chracter after 1 second.</TextBlock>
+        <TextBlock>Shows character after 1 second.</TextBlock>
         <!-- ReactiveProperty binding ".Value" -->
         <TextBox Text="{Binding InputText.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         <TextBlock Text="{Binding DisplayText.Value}" />

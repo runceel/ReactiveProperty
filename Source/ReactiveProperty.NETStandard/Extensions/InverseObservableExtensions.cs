@@ -7,7 +7,7 @@ namespace Reactive.Bindings.Extensions
     /// <summary>
     /// IObservable of bool extension methods.
     /// </summary>
-    public static class InvereObservableExtensions
+    public static class InverseObservableExtensions
     {
         /// <summary>
         /// Inverse bool value.
