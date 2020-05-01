@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/runceel/ReactiveProperty</projectUrl>
     <iconUrl>http://neue.cc/ReactivePropertyIcon_100x100.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>ReactiveProperty is MVVM and Asynchronous Extensions for Reactive Extensions(System.Reactive). Target platform is .NET Standard 2.0, UWP, .NET Framework 4.6.1 or lator and .NET Core 3.0.</description>
+    <description>ReactiveProperty is MVVM and Asynchronous Extensions for Reactive Extensions(System.Reactive). Target platform is .NET Standard 2.0, UWP, .NET Framework 4.6.1 or later and .NET Core 3.0.</description>
     <summary />
     <language>en-US</language>
     <tags>rx mvvm async rx-main reactive</tags>

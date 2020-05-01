@@ -108,7 +108,7 @@ namespace Reactive.Bindings
         public void SetOnScheduler(int index, T value) => scheduler.Schedule(() => this[index] = value);
 
         /// <summary>
-        /// Unsubcribe source sequence.
+        /// Unsubscribe source sequence.
         /// </summary>
         public void Dispose() => subscription.Dispose();
     }

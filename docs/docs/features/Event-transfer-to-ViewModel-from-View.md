@@ -1,13 +1,13 @@
-EventToReactiveProperty and EventToReactiveCommand classes transfer event to ReactiveProeprty and ReactiveCommand from View layer.
-Those classes extend TriggerAction. Those are designed that uses together with EventTrigger.
+`EventToReactiveProperty` and `EventToReactiveCommand` classes transfer events to a `ReactiveProperty` and `ReactiveCommand` from the View layer.
+Those classes extend `TriggerAction`. Those are designed that uses together with `EventTrigger`.
 
 <b>Note:</b> 
 > This feature provides to only WPF and UWP.
 > Xamarin.Forms can't use this feature.
 
-Those classes can convert EventArgs to any types object using ReactiveConverter&lt;T, U&gt;.
+Those classes can convert `EventArgs` to any types object using `ReactiveConverter&lt;T, U&gt;`.
 
-ReactiveConverter class can use Rx method chain. It's very powerful.
+`ReactiveConverter` class can use Rx method chain. It's very powerful.
 
 
 UWP sample:
@@ -40,7 +40,7 @@ namespace App1
 }
 ```
 
-It convert RoutedEventArgs to the file path.
+It converts the `RoutedEventArgs` to the file path.
 
 XAML and Code behind are below.
 
@@ -104,7 +104,7 @@ namespace App1
 ![EventToReactiveCommand and EventToReactiveProperty](./images/event-to-reactivexxx.gif)
 
 
-EventToReactiveProperty sets the value converted by ReactiveConverter to ReactiveProperty.
+`EventToReactiveProperty` sets the value converted by `ReactiveConverter` to `ReactiveProperty`.
 
 ```xml
 <Page x:Class="App1.MainPage"

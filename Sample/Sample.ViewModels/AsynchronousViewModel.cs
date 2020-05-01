@@ -10,7 +10,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Text;
-using System.IO;   // namespace for Extensions(OnErroRetry etc...)
+using System.IO;   // namespace for Extensions(OnErrorRetry etc...)
 
 namespace Sample.ViewModels
 {
@@ -24,7 +24,7 @@ namespace Sample.ViewModels
 
         public AsynchronousViewModel()
         {
-            // Notifier of network connecitng status/count
+            // Notifier of network connecting status/count
             var connect = new CountNotifier();
             // Notifier of network progress report
             var progress = new ScheduledNotifier<Tuple<long, long>>(); // current, total
@@ -33,8 +33,8 @@ namespace Sample.ViewModels
             SearchTerm = new ReactiveProperty<string>(mode: ReactivePropertyMode.DistinctUntilChanged);
 
             // Search asynchronous & result direct bind
-            // if network error, use OnErroRetry
-            // that catch exception and do action and resubscript.
+            // if network error, use OnErrorRetry
+            // that catches exception and performs action and re-subscribe.
             SearchResults = SearchTerm
                 .Select(async term =>
                 {
@@ -88,7 +88,7 @@ namespace Sample.ViewModels
             {
                 await memory.WriteAsync(buffer, 0, size);
                 progress.Report(Tuple.Create(memory.Length, length));
-                // if you want to see progress this line uncomment.
+                // if you want to see progress, uncomment this line.
                 // await Task.Delay(100); 
             }
 

@@ -5,11 +5,11 @@ ReactiveProperty provides MVVM and asynchronous support features under Reactive 
 ![Summary](./images/rpsummary.png)
 
 Concept of ReactiveProperty is <b>Fun programing</b>.
-You can write MVVM pattern program using ReactiveProperty very fun.
+You can write MVVM pattern programs using ReactiveProperty. It's very fun!
 
 ![UWP](./images/launch-uwp-app.gif)
 
-Following code is tow way binding between ReactiveProperty and plane object property.
+Following code is two way binding between ReactiveProperty and plain object property.
 
 ```csharp
 class Model : INotifyPropertyChanged
@@ -39,7 +39,7 @@ class ViewModel
 }
 ```
 
-ReactiveProperty is implemented the IObservable&lt;T&gt;. Yes! You can use LINQ.
+ReactiveProperty is implemented through IObservable&lt;T&gt;. Yes! You can use LINQ.
 
 ```csharp
 var name = new ReactiveProperty<string>();
@@ -69,8 +69,8 @@ class ViewModel
 
 This method chain is very cool.
 
-And we provide ReactiveCommand class what implements ICommand and IObservable&lt;T&gt; interfaces. ReactiveCommand can create from an IObservable&lt;bool&gt;.
-Following sample is creating a ReactiveCommand that is be able to execute when Input property is not empty.
+And we provide `ReactiveCommand` class which implements `ICommand` and `IObservable&lt;T&gt;` interfaces. `ReactiveCommand` can be created from an `IObservable&lt;bool&gt;`.
+Following sample creates a `ReactiveCommand` that is able to be executed when the `Input` property is not empty.
 
 ```csharp
 class ViewModel
@@ -96,17 +96,17 @@ class ViewModel
 }
 ```
 
-Cool!! It is really declarative, really cleary.
+Cool!! It is really declarative, really clear.
 
 ## Let's start!
 
-You can start the ReactiveProperty from following links.
+You can start using ReactiveProperty from the following links.
 
 - [Windows Presentation Foundation](getting-started/wpf.md)
 - [Universal Windows Platform](getting-started/uwp.md)
 - [Xamarin.Forms](getting-started/xf.md)
 
-And learn to core features on following links.
+And learn the core features on following links.
 
 - [ReactiveProperty](features/ReactiveProperty.md)
 - [Commanding](features/Commanding.md)

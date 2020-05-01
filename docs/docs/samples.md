@@ -1,4 +1,4 @@
-Sample programs see below:
+Sample programs:
 
 # WPF sample
 

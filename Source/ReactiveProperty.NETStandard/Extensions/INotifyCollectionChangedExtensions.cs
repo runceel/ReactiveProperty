@@ -243,8 +243,8 @@ namespace Reactive.Bindings.Extensions
                 {
                     foreach (var x in elements)
                     {
-                        var subsctiption = subscribeAction(x, observer);
-                        subscriptionCache.Add(x, subsctiption);
+                        var subscription = subscribeAction(x, observer);
+                        subscriptionCache.Add(x, subscription);
                     }
                 }
                 void unsubscribeAll()

@@ -1,4 +1,4 @@
-# How to use ReactiveProeprty in Xamarin.Forms
+# How to use ReactiveProperty in Xamarin.Forms
 
 ## Step 1. Create project
 

@@ -87,48 +87,48 @@ namespace ReactiveProperty.Tests
         public void ForceNotify()
         {
             var rp = new ReactivePropertySlim<int>(0);
-            var collecter = new List<int>();
-            rp.Subscribe(collecter.Add);
+            var collector = new List<int>();
+            rp.Subscribe(collector.Add);
 
-            collecter.Is(0);
+            collector.Is(0);
             rp.ForceNotify();
-            collecter.Is(0, 0);
+            collector.Is(0, 0);
         }
 
         [TestMethod]
         public void UnsubscribeTest()
         {
             var rp = new ReactivePropertySlim<int>(mode: ReactivePropertyMode.None);
-            var collecter = new List<(string, int)>();
-            var a = rp.Select(x => ("a", x)).Subscribe(collecter.Add);
-            var b = rp.Select(x => ("b", x)).Subscribe(collecter.Add);
-            var c = rp.Select(x => ("c", x)).Subscribe(collecter.Add);
+            var collector = new List<(string, int)>();
+            var a = rp.Select(x => ("a", x)).Subscribe(collector.Add);
+            var b = rp.Select(x => ("b", x)).Subscribe(collector.Add);
+            var c = rp.Select(x => ("c", x)).Subscribe(collector.Add);
 
             rp.Value = 99;
-            collecter.Is(("a", 99), ("b", 99), ("c", 99));
+            collector.Is(("a", 99), ("b", 99), ("c", 99));
 
-            collecter.Clear();
+            collector.Clear();
             a.Dispose();
 
             rp.Value = 40;
-            collecter.Is(("b", 40), ("c", 40));
+            collector.Is(("b", 40), ("c", 40));
 
-            collecter.Clear();
+            collector.Clear();
             c.Dispose();
 
             rp.Value = 50;
-            collecter.Is(("b", 50));
+            collector.Is(("b", 50));
 
-            collecter.Clear();
+            collector.Clear();
             b.Dispose();
 
             rp.Value = 9999;
-            collecter.Count.Is(0);
+            collector.Count.Is(0);
 
-            var d = rp.Select(x => ("d", x)).Subscribe(collecter.Add);
+            var d = rp.Select(x => ("d", x)).Subscribe(collector.Add);
 
             rp.Value = 9;
-            collecter.Is(("d", 9));
+            collector.Is(("d", 9));
 
             rp.Dispose();
         }

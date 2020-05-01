@@ -4,12 +4,12 @@ namespace UWP.TodoMVVM.Models
 {
     class TodoItem : BindableBase
     {
-        private string titl;
+        private string title;
 
         public string Title
         {
-            get { return this.titl; }
-            set { this.SetProperty(ref this.titl, value); }
+            get { return this.title; }
+            set { this.SetProperty(ref this.title, value); }
         }
 
         private bool completed;

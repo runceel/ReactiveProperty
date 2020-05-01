@@ -47,7 +47,7 @@ namespace Sample.ViewModels
 
     // EventToReactiveProperty converter.
     // Converter/IgnoreEventArgs is useful for unit testings.
-    // For example, MouseMovoe.Value = new Point(10, 10) is simulate MouseMove
+    // For example, MouseMove.Value = new Point(10, 10) is simulate MouseMove
     // MouseEnter.Value = new Unit() is simulate raise MouseEnter event.
     public class MouseEventToPointConverter : ReactiveConverter<dynamic, Tuple<int, int>>
     {

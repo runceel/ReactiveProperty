@@ -1,7 +1,7 @@
 # Work with other MVVM Framework
 
 ReactiveProperty doesn't provide base classes for ViewModel and other layers.
-It means you can use ReactiveProperty with other MVVM Frameworks like Prism, MVVM Light Toolkit and others.
+This means you can use ReactiveProperty with other MVVM Frameworks like Prism, MVVM Light Toolkit and others.
 
 In this section, we explain how to use ReactiveProperty with Prism.
 
@@ -9,12 +9,12 @@ Let's start!
 
 ## Create a Prism project
 
-Prism provides Prism Template Pack extension for Visual Stduio.
-After installed the extension, you can create an app from Project Templates.
+Prism provides Prism Template Pack extension for Visual Studio.
+After installing the extension, you can create an app from Project Templates.
 
 ![](./images/create-project.png)
 
-When using ReactiveProperty with Prism, you can replace DelegateCommand to ReactiveCommand, and you can also use all other ReactiveProperty features with Prism.
+When using ReactiveProperty with Prism, you can replace `DelegateCommand` with `ReactiveCommand`, and you can also use all other ReactiveProperty features with Prism.
 
 I created a Prism Blank App(WPF) as PrismSampleApp and Prism Module (WPF) as PrismSampleModule.
 And add PrismSampleModule reference to PrismSampleApp, then edit App.xaml.cs to add the module, like below:
@@ -39,7 +39,7 @@ public partial class App
 }
 ```
 
-At next, edit PrismSampleModuleModule.cs file to add a view for Navigation, and to show ViewA to Shell.
+Next, edit PrismSampleModuleModule.cs file to add a view for Navigation, and to show ViewA to Shell.
 
 ```csharp
 using PrismSampleModule.Views;
@@ -138,4 +138,4 @@ It works fine. :)
 ## Wrap up
 
 ReactiveProperty doesn't provide base classes.
-So, as explaining in this section, you can use ReactiveProperty and other MVVM Frameworks together.
+So, as explained in this section, you can use ReactiveProperty and other MVVM Frameworks together.

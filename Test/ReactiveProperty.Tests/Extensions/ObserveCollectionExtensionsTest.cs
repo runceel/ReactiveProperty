@@ -445,7 +445,7 @@ namespace ReactiveProperty.Tests.Extensions
         }
 
         [TestMethod]
-        public void OvserveElementObservablePropertyValueTypeTest()
+        public void ObserveElementObservablePropertyValueTypeTest()
         {
             var neuecc = new PersonViewModel("neuecc", 31);
             var okazuki = new PersonViewModel("okazuki", 33);

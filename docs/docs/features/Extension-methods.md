@@ -1,11 +1,11 @@
-Reactive.Bindings.Extensions namespace provides useful extension methods.
+The `Reactive.Bindings.Extensions` namespace provides useful extension methods.
 
-## AddTo
+## `AddTo`
 
-This is a most usefulest extension method in this namespace.
-Collect to IDisposable instances in the method chain.
+This is a very useful extension method in this namespace.
+It collects `IDisposable` instances in the method chain.
 
-In the case which doesn't use this, two statements between instance creation and adding an IDisposable instance.
+In the case which doesn't use this, two statements between instance creation and adding an `IDisposable` instance.
 
 ```csharp
 // init
@@ -23,7 +23,7 @@ d.Add(Age);
 d.Dispose();
 ```
 
-AddTo extension method's sample code:
+`AddTo` extension method's sample code:
 
 ```csharp
 // init
@@ -43,23 +43,23 @@ d.Dispose();
 
 It's very cool!
 
-## CatchIgnore
+## `CatchIgnore`
 
-This is that catch exception and return Observable.Empty.
+This extension method catches exceptions and returns `Observable.Empty`.
 
 ```csharp
 source.CatchIgnore((Exception ex) => { ... error action ... })
     .Subscribe();
 ```
 
-## CombineLatestsValuesAreAllXXXX 
+## `CombineLatestsValuesAreAllXXXX` 
 
 Provides two methods.
 
-- CombineLatestValuesAreAllTrue
-- CombineLatestValuesAreAllFalse
+- `CombineLatestValuesAreAllTrue`
+- `CombineLatestValuesAreAllFalse`
 
-This is just shortcuts, see below.
+These are just shortcuts:
 
 ```csharp
 /// <summary>
@@ -78,10 +78,10 @@ public static IObservable<bool> CombineLatestValuesAreAllFalse(
     sources.CombineLatest(xs => xs.All(x => !x));
 ```
 
-## CanExecuteChangedAsObservable
+## `CanExecuteChangedAsObservable`
 
-This is a extension method of ICommand interface.
-It is a shortcut the `Observable.FromEvent`.
+This is an extension method of the `ICommand` interface.
+It is a shortcut for the `Observable.FromEvent`.
 
 ```csharp
 /// <summary>Converts CanExecuteChanged to an observable sequence.</summary>
@@ -93,9 +93,9 @@ public static IObservable<EventArgs> CanExecuteChangedAsObservable<T>(this T sou
         h => source.CanExecuteChanged -= h);
 ```
 
-## INotifyCollectionChanged extension methods
+## `INotifyCollectionChanged` extension methods
 
-Convert CollectionChanged event to IObservable.
+Convert `CollectionChanged` event to `IObservable`.
 
 ```csharp
 /// <summary>Observe CollectionChanged:Remove and take single item.</summary>
@@ -141,9 +141,9 @@ public static IObservable<Unit> ObserveResetChanged<T>(this INotifyCollectionCha
         .Select(_ => new Unit());
 ```
 
-## ObservableCollection extension methods
+## `ObservableCollection` extension methods
 
-It is typesafe version INotifyPropertyChanged extension methods.
+It is a typesafe version of `INotifyPropertyChanged` extension methods.
 
 ```csharp
 /// <summary>Observe CollectionChanged:Add and take single item.</summary>
@@ -183,10 +183,10 @@ public static IObservable<Unit> ObserveResetChanged<T>(this ObservableCollection
     ((INotifyCollectionChanged)source).ObserveResetChanged<T>();
 ```
 
-## Observe PropertyChanged events of ObservableCollection's items
+## Observe `PropertyChanged` events of `ObservableCollection`'s items
 
-Watch PropertyChanged event of ObservableCollection's items. 
-ObserveElementProperty extension method can ovserve specific property's PropertyChanged event.
+Watch `PropertyChanged` event of `ObservableCollection`'s items. 
+`ObserveElementProperty` extension method can observe specific property's `PropertyChanged` event.
 
 ```csharp
 using Reactive.Bindings.Extensions;
@@ -251,7 +251,7 @@ Remove okazuki from collection
 Change okazuki name to okazuki
 ```
 
-If target object's property type is ReactiveProperty, then use the ObserveElementPropertyChanged extension method.
+If the target object's property type is `ReactiveProperty`, then use the `ObserveElementPropertyChanged` extension method.
 
 ```csharp
 using Reactive.Bindings;
@@ -312,10 +312,10 @@ Remove okazuki from collection
 Change okazuki name to okazuki
 ```
 
-## INotifyDataErrorInfo extension methods
+## `INotifyDataErrorInfo` extension methods
 
-Convert ErrorChanged event to an IObservable&lt;DataErrorsChangedEventArgs&gt;.
-It is a shortcut of FromEvent method.
+Convert `ErrorChanged` event to an `IObservable&lt;DataErrorsChangedEventArgs&gt;`.
+It is a shortcut of `FromEvent` method.
 
 ```csharp
 /// <summary>Converts ErrorsChanged to an observable sequence.</summary>
@@ -327,18 +327,18 @@ public static IObservable<DataErrorsChangedEventArgs> ErrorsChangedAsObservable<
         h => subject.ErrorsChanged -= h);
 ```
 
-ObserveErrorInfo extension method is the version of raise the property value when ErrorChanged event occured.
+`ObserveErrorInfo` extension method is the version that raises the property value when the `ErrorChanged` event is raised.
 
-## Inverse
+## `Inverse`
 
-Inverse the boolean value of an IObservable&lt;bool&gt; sequence.
+Inverts the boolean value of an `IObservable&lt;bool&gt;` sequence.
 
 ```csharp
 IObservable<bool> boolSequence = ...;
 IObservable<bool> inversedBoolSequence = boolSequence.Inverse();
 ```
 
-It is a same as below code.
+It is a same as the below code:
 
 ```csharp
 IObservable<bool> boolSequence = ...;

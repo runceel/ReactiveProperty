@@ -18,7 +18,7 @@ namespace Reactive.Bindings.Extensions
             source.Retry();
 
         /// <summary>
-        /// When catched exception, do onError action and repeat observable sequence.
+        /// When exception is caught, do onError action and repeat observable sequence.
         /// </summary>
         public static IObservable<TSource> OnErrorRetry<TSource, TException>(
             this IObservable<TSource> source, Action<TException> onError)
@@ -26,7 +26,7 @@ namespace Reactive.Bindings.Extensions
             source.OnErrorRetry(onError, TimeSpan.Zero);
 
         /// <summary>
-        /// When catched exception, do onError action and repeat observable sequence after delay time.
+        /// When exception is caught, do onError action and repeat observable sequence after delay time.
         /// </summary>
         public static IObservable<TSource> OnErrorRetry<TSource, TException>(
             this IObservable<TSource> source, Action<TException> onError, TimeSpan delay)
@@ -34,7 +34,7 @@ namespace Reactive.Bindings.Extensions
             source.OnErrorRetry(onError, int.MaxValue, delay);
 
         /// <summary>
-        /// When catched exception, do onError action and repeat observable sequence during within retryCount.
+        /// When exception is caught, do onError action and repeat observable sequence during within retryCount.
         /// </summary>
         public static IObservable<TSource> OnErrorRetry<TSource, TException>(
             this IObservable<TSource> source, Action<TException> onError, int retryCount)
@@ -42,7 +42,7 @@ namespace Reactive.Bindings.Extensions
             source.OnErrorRetry(onError, retryCount, TimeSpan.Zero);
 
         /// <summary>
-        /// When catched exception, do onError action and repeat observable sequence after delay time
+        /// When exception is caught, do onError action and repeat observable sequence after delay time
         /// during within retryCount.
         /// </summary>
         public static IObservable<TSource> OnErrorRetry<TSource, TException>(
@@ -51,7 +51,7 @@ namespace Reactive.Bindings.Extensions
             source.OnErrorRetry(onError, retryCount, delay, Scheduler.Default);
 
         /// <summary>
-        /// When catched exception, do onError action and repeat observable sequence after delay
+        /// When exception is caught, do onError action and repeat observable sequence after delay
         /// time(work on delayScheduler) during within retryCount.
         /// </summary>
         public static IObservable<TSource> OnErrorRetry<TSource, TException>(

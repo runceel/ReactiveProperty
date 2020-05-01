@@ -1,17 +1,17 @@
-Reactive.Bindings.Notifiers namespace provides many useful classes which implements IObservable interface.
+`Reactive.Bindings.Notifiers` namespace provides many useful classes which implement `IObservable` interface.
 
-## BooleanNotifier
+## `BooleanNotifier`
 
-BooleanNotifier class implements IObservable&lt;bool&gt; interface.
+`BooleanNotifier` class implements the `IObservable&lt;bool&gt;` interface.
 And has some methods and property.
 
-- TurnOn method
+- `TurnOn` method
     - Change state to true.
-- TurnOff method
+- `TurnOff` method
     - Change state to false.
-- SwitchValue method
+- `SwitchValue` method
     - Switch state.
-- Value property
+- `Value` property
     - Set state
 
 The initial state can be set the constructor. The default value is false.
@@ -27,11 +27,11 @@ n.Value = true; // true
 n.Value = false; // false
 ```
 
-It can use to source of ReactiveCommand.
+It can use to source of `ReactiveCommand`.
 
-## CountNotifier
+## `CountNotifier`
 
-CountNotifier class implements IObservable&lt;CountChangedStates&gt; interface. It provides increment and decrement features, and raise a CountChangedStates value when the state changed.
+`CountNotifier` class implements the `IObservable&lt;CountChangedStates&gt;` interface. It provides increment and decrement features, and raise a `CountChangedStates` value when the state changes.
 
 CountChangedStates enum is defined as below.
 
@@ -50,9 +50,7 @@ public enum CountChangedStatus
 }
 ```
 
-CountNotifier's max value can be set from constructor argument.
-
-How to use.
+`CountNotifier`'s max value can be set from constructor argument:
 
 ```csharp
 var c = new CountNotifier(); // default max value is int.MaxValue
@@ -87,9 +85,9 @@ Decrement
 5
 ```
 
-## ScheduledNotifier
+## `ScheduledNotifier`
 
-This class provides it that raise the value on the scheduler. Default scheduler is `Scheduler.Immediate`. Set the scheduler using constructor argument.
+This class raises the value on the scheduler. The default scheduler is `Scheduler.Immediate`. Set the scheduler using constructor argument.
 
 ```csharp
 var n = new ScheduledNotifier<string>();
@@ -100,12 +98,12 @@ n.Report("Hello world");
 n.Report("After 2 seconds.", TimeSpan.FromSeconds(2));
 ```
 
-## BusyNotifier
+## `BusyNotifier`
 
-This class implements IObservable&lt;bool&gt; interface.
-It raises `true` during running the process, raises 'false' when all processes end.
+This class implements the `IObservable&lt;bool&gt;` interface.
+It raises `true` during running the process, raises `false` when all processes end.
 
-The StartProcess method returns an IDisposable instance. When finishing the process, then call the Dispose method.
+The `StartProcess` method returns an `IDisposable` instance. When the process finishes, call the Dispose method.
 
 
 ```csharp
@@ -164,9 +162,9 @@ Output is below.
 ```
 
 
-## MessageBroker
+## `MessageBroker`
 
-I suggest new notifier called MessageBroker , in-memory pubsub. This is Rx and async friendly EventAggregator or MessageBus or etc. We can use this for messenger pattern.
+I suggest creating a new notifier called `MessageBroker`: an in-memory pubsub. This is an Rx and async friendly `EventAggregator` or `MessageBus`, etc. We can use this for the messenger pattern.
 If reviewer accept this code, please add to all platforms.
 
 ```csharp
@@ -248,7 +246,7 @@ class Program
 }
 ```
 
-Messenger pattern's multi thread dispatch can handle easily by Rx.
+Messenger pattern's multi thread dispatch can be handled easily by Rx.
 
 ```csharp
 MessageBroker.Default.ToObservable<MyClass>()

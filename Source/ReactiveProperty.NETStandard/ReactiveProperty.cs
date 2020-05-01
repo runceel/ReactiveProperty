@@ -56,7 +56,7 @@ namespace Reactive.Bindings
     }
 
     /// <summary>
-    /// Two-way bindable IObserable&lt;T&gt;
+    /// Two-way bindable IObservable&lt;T&gt;
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class ReactiveProperty<T> : IReactiveProperty<T>
@@ -235,7 +235,7 @@ namespace Reactive.Bindings
         }
 
         /// <summary>
-        /// Unsubcribe all subscription.
+        /// Unsubscribe all subscription.
         /// </summary>
         public void Dispose()
         {
@@ -352,7 +352,7 @@ namespace Reactive.Bindings
             SetValidateNotifyError(xs => xs.SelectMany(x => validator(x)));
 
         /// <summary>
-        /// Set INofityDataErrorInfo validation.
+        /// Set INotifyDataErrorInfo validation.
         /// </summary>
         /// <param name="validator">Validation logic</param>
         /// <returns>Self.</returns>
@@ -360,7 +360,7 @@ namespace Reactive.Bindings
             SetValidateNotifyError(xs => xs.Select(x => validator(x)));
 
         /// <summary>
-        /// Set INofityDataErrorInfo validation.
+        /// Set INotifyDataErrorInfo validation.
         /// </summary>
         /// <param name="validator">Validation logic</param>
         /// <returns>Self.</returns>
