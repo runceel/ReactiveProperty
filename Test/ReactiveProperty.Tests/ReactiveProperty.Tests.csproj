@@ -1,9 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
-    <TargetFrameworks>net472</TargetFrameworks>
+    <TargetFrameworks>net472;netcoreapp3.1</TargetFrameworks>
     <RootNamespace>ReactiveProperty.Tests</RootNamespace>
     <AssemblyName>ReactiveProperty.Tests</AssemblyName>
+    <UseWpf>true</UseWpf>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
   </PropertyGroup>
@@ -23,9 +24,7 @@
     <ProjectReference Include="..\..\Source\ReactiveProperty.NETStandard\ReactiveProperty.NETStandard.csproj">
       <Name>ReactiveProperty.NETStandard</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Source\ReactiveProperty.Platform.NET46\ReactiveProperty.Platform.NET46.csproj">
-      <Name>ReactiveProperty.Platform.NET46</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\..\Source\ReactiveProperty.Platform.WPF\ReactiveProperty.Platform.WPF.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />

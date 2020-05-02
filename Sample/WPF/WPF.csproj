@@ -210,10 +210,6 @@
       <Project>{157f0f88-34ac-4c49-971f-7027aac757ae}</Project>
       <Name>ReactiveProperty.NETStandard</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Source\ReactiveProperty.Platform.NET46\ReactiveProperty.Platform.NET46.csproj">
-      <Project>{883c5447-2778-43e4-8cde-6a594b342acd}</Project>
-      <Name>ReactiveProperty.Platform.NET46</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Sample.ViewModels\Sample.ViewModels.csproj">
       <Project>{4aa39c19-6571-4a9f-8722-2d7240d425d1}</Project>
       <Name>Sample.ViewModels</Name>
