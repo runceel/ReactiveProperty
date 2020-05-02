@@ -12,7 +12,7 @@
     -->
     <GenerateLibraryLayout>false</GenerateLibraryLayout>
     <AssemblyName>ReactiveProperty.UWP</AssemblyName>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
