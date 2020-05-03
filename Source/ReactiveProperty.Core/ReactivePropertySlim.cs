@@ -9,52 +9,6 @@ namespace Reactive.Bindings
 {
     // This file includes ReactivePropertySlim and ReadOnlyReactivePropertySlim.
 
-    internal interface IObserverLinkedList<T>
-    {
-        void UnsubscribeNode(ObserverNode<T> node);
-    }
-
-    internal sealed class ObserverNode<T> : IObserver<T>, IDisposable
-    {
-        private readonly IObserver<T> observer;
-        private IObserverLinkedList<T> list;
-
-        public ObserverNode<T> Previous { get; internal set; }
-
-        public ObserverNode<T> Next { get; internal set; }
-
-        public ObserverNode(IObserverLinkedList<T> list, IObserver<T> observer)
-        {
-            this.list = list;
-            this.observer = observer;
-        }
-
-        public void OnNext(T value)
-        {
-            observer.OnNext(value);
-        }
-
-        public void OnError(Exception error)
-        {
-            observer.OnError(error);
-        }
-
-        public void OnCompleted()
-        {
-            observer.OnCompleted();
-        }
-
-        public void Dispose()
-        {
-            var sourceList = Interlocked.Exchange(ref list, null);
-            if (sourceList != null)
-            {
-                sourceList.UnsubscribeNode(this);
-                sourceList = null;
-            }
-        }
-    }
-
     /// <summary>
     /// </summary>
     /// <typeparam name="T"></typeparam>
@@ -63,12 +17,12 @@ namespace Reactive.Bindings
         private const int IsDisposedFlagNumber = 1 << 9; // (reserve 0 ~ 8)
 
         // minimize field count
-        private T latestValue;
+        private T _latestValue;
 
-        private ReactivePropertyMode mode; // None = 0, DistinctUntilChanged = 1, RaiseLatestValueOnSubscribe = 2, Disposed = (1 << 9)
-        private readonly IEqualityComparer<T> equalityComparer;
-        private ObserverNode<T> root;
-        private ObserverNode<T> last;
+        private ReactivePropertyMode _mode; // None = 0, DistinctUntilChanged = 1, RaiseLatestValueOnSubscribe = 2, Disposed = (1 << 9)
+        private readonly IEqualityComparer<T> _equalityComparer;
+        private ObserverNode<T> _root;
+        private ObserverNode<T> _last;
 
         /// <summary>
         /// Occurs when a property value changes.
@@ -84,18 +38,18 @@ namespace Reactive.Bindings
         {
             get
             {
-                return latestValue;
+                return _latestValue;
             }
 
             set
             {
-                if (IsDistinctUntilChanged && equalityComparer.Equals(latestValue, value))
+                if (IsDistinctUntilChanged && _equalityComparer.Equals(_latestValue, value))
                 {
                     return;
                 }
 
                 // Note:can set null and can set after disposed.
-                latestValue = value;
+                _latestValue = value;
                 if (!IsDisposed)
                 {
                     OnNextAndRaiseValueChanged(ref value);
@@ -107,7 +61,7 @@ namespace Reactive.Bindings
         /// Gets a value indicating whether this instance is disposed.
         /// </summary>
         /// <value><c>true</c> if this instance is disposed; otherwise, <c>false</c>.</value>
-        public bool IsDisposed => (int)mode == IsDisposedFlagNumber;
+        public bool IsDisposed => (int)_mode == IsDisposedFlagNumber;
 
         object IReactiveProperty.Value
         {
@@ -134,7 +88,7 @@ namespace Reactive.Bindings
         /// Gets a value indicating whether this instance is distinct until changed.
         /// </summary>
         /// <value><c>true</c> if this instance is distinct until changed; otherwise, <c>false</c>.</value>
-        public bool IsDistinctUntilChanged => (mode & ReactivePropertyMode.DistinctUntilChanged) == ReactivePropertyMode.DistinctUntilChanged;
+        public bool IsDistinctUntilChanged => (_mode & ReactivePropertyMode.DistinctUntilChanged) == ReactivePropertyMode.DistinctUntilChanged;
 
         /// <summary>
         /// Gets a value indicating whether this instance is raise latest value on subscribe.
@@ -142,7 +96,7 @@ namespace Reactive.Bindings
         /// <value>
         /// <c>true</c> if this instance is raise latest value on subscribe; otherwise, <c>false</c>.
         /// </value>
-        public bool IsRaiseLatestValueOnSubscribe => (mode & ReactivePropertyMode.RaiseLatestValueOnSubscribe) == ReactivePropertyMode.RaiseLatestValueOnSubscribe;
+        public bool IsRaiseLatestValueOnSubscribe => (_mode & ReactivePropertyMode.RaiseLatestValueOnSubscribe) == ReactivePropertyMode.RaiseLatestValueOnSubscribe;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReactivePropertySlim{T}"/> class.
@@ -150,17 +104,17 @@ namespace Reactive.Bindings
         /// <param name="initialValue">The initial value.</param>
         /// <param name="mode">The mode.</param>
         /// <param name="equalityComparer">The equality comparer.</param>
-        public ReactivePropertySlim(T initialValue = default(T), ReactivePropertyMode mode = ReactivePropertyMode.Default, IEqualityComparer<T> equalityComparer = null)
+        public ReactivePropertySlim(T initialValue = default, ReactivePropertyMode mode = ReactivePropertyMode.Default, IEqualityComparer<T> equalityComparer = null)
         {
-            latestValue = initialValue;
-            this.mode = mode;
-            this.equalityComparer = equalityComparer ?? EqualityComparer<T>.Default;
+            _latestValue = initialValue;
+            _mode = mode;
+            _equalityComparer = equalityComparer ?? EqualityComparer<T>.Default;
         }
 
         private void OnNextAndRaiseValueChanged(ref T value)
         {
             // call source.OnNext
-            var node = root;
+            var node = _root;
             while (node != null)
             {
                 node.OnNext(value);
@@ -175,7 +129,7 @@ namespace Reactive.Bindings
         /// </summary>
         public void ForceNotify()
         {
-            OnNextAndRaiseValueChanged(ref latestValue);
+            OnNextAndRaiseValueChanged(ref _latestValue);
         }
 
         /// <summary>
@@ -196,33 +150,33 @@ namespace Reactive.Bindings
 
             if (IsRaiseLatestValueOnSubscribe)
             {
-                observer.OnNext(latestValue);
+                observer.OnNext(_latestValue);
             }
 
             // subscribe node, node as subscription.
             var next = new ObserverNode<T>(this, observer);
-            if (root == null)
+            if (_root == null)
             {
-                root = last = next;
+                _root = _last = next;
             }
             else
             {
-                last.Next = next;
-                next.Previous = last;
-                last = next;
+                _last.Next = next;
+                next.Previous = _last;
+                _last = next;
             }
             return next;
         }
 
         void IObserverLinkedList<T>.UnsubscribeNode(ObserverNode<T> node)
         {
-            if (node == root)
+            if (node == _root)
             {
-                root = node.Next;
+                _root = node.Next;
             }
-            if (node == last)
+            if (node == _last)
             {
-                last = node.Previous;
+                _last = node.Previous;
             }
 
             if (node.Previous != null)
@@ -246,9 +200,9 @@ namespace Reactive.Bindings
                 return;
             }
 
-            var node = root;
-            root = last = null;
-            mode = (ReactivePropertyMode)IsDisposedFlagNumber;
+            var node = _root;
+            _root = _last = null;
+            _mode = (ReactivePropertyMode)IsDisposedFlagNumber;
 
             while (node != null)
             {
@@ -258,14 +212,14 @@ namespace Reactive.Bindings
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// Returns a <see cref="string"/> that represents this instance.
         /// </summary>
-        /// <returns>A <see cref="System.String"/> that represents this instance.</returns>
+        /// <returns>A <see cref="string"/> that represents this instance.</returns>
         public override string ToString()
         {
-            return (latestValue == null)
+            return (_latestValue == null)
                 ? "null"
-                : latestValue.ToString();
+                : _latestValue.ToString();
         }
 
         // NotSupported, return always true/empty.
@@ -303,13 +257,13 @@ namespace Reactive.Bindings
         private const int IsDisposedFlagNumber = 1 << 9; // (reserve 0 ~ 8)
 
         // minimize field count
-        private T latestValue;
+        private T _latestValue;
 
-        private IDisposable sourceSubscription;
-        private ReactivePropertyMode mode; // None = 0, DistinctUntilChanged = 1, RaiseLatestValueOnSubscribe = 2, Disposed = (1 << 9)
-        private readonly IEqualityComparer<T> equalityComparer;
-        private ObserverNode<T> root;
-        private ObserverNode<T> last;
+        private IDisposable _sourceSubscription;
+        private ReactivePropertyMode _mode; // None = 0, DistinctUntilChanged = 1, RaiseLatestValueOnSubscribe = 2, Disposed = (1 << 9)
+        private readonly IEqualityComparer<T> _equalityComparer;
+        private ObserverNode<T> _root;
+        private ObserverNode<T> _last;
 
         /// <summary>
         /// Occurs when a property value changes.
@@ -325,7 +279,7 @@ namespace Reactive.Bindings
         {
             get
             {
-                return latestValue;
+                return _latestValue;
             }
         }
 
@@ -333,19 +287,13 @@ namespace Reactive.Bindings
         /// Gets a value indicating whether this instance is disposed.
         /// </summary>
         /// <value><c>true</c> if this instance is disposed; otherwise, <c>false</c>.</value>
-        public bool IsDisposed => (int)mode == IsDisposedFlagNumber;
+        public bool IsDisposed => (int)_mode == IsDisposedFlagNumber;
 
-        object IReadOnlyReactiveProperty.Value
-        {
-            get
-            {
-                return Value;
-            }
-        }
+        object IReadOnlyReactiveProperty.Value => Value;
 
-        private bool IsDistinctUntilChanged => (mode & ReactivePropertyMode.DistinctUntilChanged) == ReactivePropertyMode.DistinctUntilChanged;
+        private bool IsDistinctUntilChanged => (_mode & ReactivePropertyMode.DistinctUntilChanged) == ReactivePropertyMode.DistinctUntilChanged;
 
-        private bool IsRaiseLatestValueOnSubscribe => (mode & ReactivePropertyMode.RaiseLatestValueOnSubscribe) == ReactivePropertyMode.RaiseLatestValueOnSubscribe;
+        private bool IsRaiseLatestValueOnSubscribe => (_mode & ReactivePropertyMode.RaiseLatestValueOnSubscribe) == ReactivePropertyMode.RaiseLatestValueOnSubscribe;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyReactivePropertySlim{T}"/> class.
@@ -354,16 +302,16 @@ namespace Reactive.Bindings
         /// <param name="initialValue">The initial value.</param>
         /// <param name="mode">The mode.</param>
         /// <param name="equalityComparer">The equality comparer.</param>
-        public ReadOnlyReactivePropertySlim(IObservable<T> source, T initialValue = default(T), ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe, IEqualityComparer<T> equalityComparer = null)
+        public ReadOnlyReactivePropertySlim(IObservable<T> source, T initialValue = default, ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe, IEqualityComparer<T> equalityComparer = null)
         {
-            latestValue = initialValue;
-            this.mode = mode;
-            this.equalityComparer = equalityComparer ?? EqualityComparer<T>.Default;
-            sourceSubscription = source.Subscribe(this);
+            _latestValue = initialValue;
+            _mode = mode;
+            _equalityComparer = equalityComparer ?? EqualityComparer<T>.Default;
+            _sourceSubscription = source.Subscribe(this);
             if (IsDisposed)
             {
-                sourceSubscription.Dispose();
-                sourceSubscription = null;
+                _sourceSubscription.Dispose();
+                _sourceSubscription = null;
             }
         }
 
@@ -385,20 +333,20 @@ namespace Reactive.Bindings
 
             if (IsRaiseLatestValueOnSubscribe)
             {
-                observer.OnNext(latestValue);
+                observer.OnNext(_latestValue);
             }
 
             // subscribe node, node as subscription.
             var next = new ObserverNode<T>(this, observer);
-            if (root == null)
+            if (_root == null)
             {
-                root = last = next;
+                _root = _last = next;
             }
             else
             {
-                last.Next = next;
-                next.Previous = last;
-                last = next;
+                _last.Next = next;
+                next.Previous = _last;
+                _last = next;
             }
 
             return next;
@@ -406,13 +354,13 @@ namespace Reactive.Bindings
 
         void IObserverLinkedList<T>.UnsubscribeNode(ObserverNode<T> node)
         {
-            if (node == root)
+            if (node == _root)
             {
-                root = node.Next;
+                _root = node.Next;
             }
-            if (node == last)
+            if (node == _last)
             {
-                last = node.Previous;
+                _last = node.Previous;
             }
 
             if (node.Previous != null)
@@ -436,9 +384,9 @@ namespace Reactive.Bindings
                 return;
             }
 
-            var node = root;
-            root = last = null;
-            mode = (ReactivePropertyMode)IsDisposedFlagNumber;
+            var node = _root;
+            _root = _last = null;
+            _mode = (ReactivePropertyMode)IsDisposedFlagNumber;
 
             while (node != null)
             {
@@ -446,8 +394,8 @@ namespace Reactive.Bindings
                 node = node.Next;
             }
 
-            sourceSubscription?.Dispose();
-            sourceSubscription = null;
+            _sourceSubscription?.Dispose();
+            _sourceSubscription = null;
         }
 
         void IObserver<T>.OnNext(T value)
@@ -457,16 +405,16 @@ namespace Reactive.Bindings
                 return;
             }
 
-            if (IsDistinctUntilChanged && equalityComparer.Equals(latestValue, value))
+            if (IsDistinctUntilChanged && _equalityComparer.Equals(_latestValue, value))
             {
                 return;
             }
 
             // SetValue
-            latestValue = value;
+            _latestValue = value;
 
             // call source.OnNext
-            var node = root;
+            var node = _root;
             while (node != null)
             {
                 node.OnNext(value);
@@ -489,14 +437,14 @@ namespace Reactive.Bindings
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// Returns a <see cref="string"/> that represents this instance.
         /// </summary>
-        /// <returns>A <see cref="System.String"/> that represents this instance.</returns>
+        /// <returns>A <see cref="string"/> that represents this instance.</returns>
         public override string ToString()
         {
-            return (latestValue == null)
+            return (_latestValue == null)
                 ? "null"
-                : latestValue.ToString();
+                : _latestValue.ToString();
         }
     }
 
@@ -516,7 +464,7 @@ namespace Reactive.Bindings
         /// <param name="mode">The mode.</param>
         /// <param name="equalityComparer">The equality comparer.</param>
         /// <returns></returns>
-        public static ReadOnlyReactivePropertySlim<T> ToReadOnlyReactivePropertySlim<T>(this IObservable<T> source, T initialValue = default(T), ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe, IEqualityComparer<T> equalityComparer = null)
+        public static ReadOnlyReactivePropertySlim<T> ToReadOnlyReactivePropertySlim<T>(this IObservable<T> source, T initialValue = default, ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe, IEqualityComparer<T> equalityComparer = null)
         {
             return new ReadOnlyReactivePropertySlim<T>(source, initialValue, mode, equalityComparer);
         }
