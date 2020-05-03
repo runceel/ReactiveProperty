@@ -145,7 +145,7 @@ namespace Reactive.Bindings
             if (IsDisposed)
             {
                 observer.OnCompleted();
-                return Disposable.Empty;
+                return InternalDisposable.Empty;
             }
 
             if (IsRaiseLatestValueOnSubscribe)
@@ -328,7 +328,7 @@ namespace Reactive.Bindings
             if (IsDisposed)
             {
                 observer.OnCompleted();
-                return Disposable.Empty;
+                return InternalDisposable.Empty;
             }
 
             if (IsRaiseLatestValueOnSubscribe)
