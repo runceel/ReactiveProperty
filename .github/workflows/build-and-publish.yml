@@ -24,7 +24,9 @@ jobs:
     - name: Test
       run: dotnet test ReactiveProperty.sln --no-restore --verbosity normal
     - name: Copy package files
-      run:  'Copy-Item (Get-ChildItem -Path "Source/**/*.nupkg" -Recurse) -Destination dist'
+      run:
+        mkdir dist
+        Copy-Item (Get-ChildItem -Path "Source/**/*.nupkg" -Recurse) -Destination dist
       shell: pwsh
     - name: Archive NuGet packages
       uses: actions/upload-artifact@v1
