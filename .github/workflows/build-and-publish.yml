@@ -18,6 +18,6 @@ jobs:
     - name: Install dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build ReactiveProperty.sln --configuration Release --no-restore
+      run: msbuild.exe ReactiveProperty.sln -p:Configuration=Relase
     - name: Test
       run: dotnet test ReactiveProperty.sln --no-restore --verbosity normal
