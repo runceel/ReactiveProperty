@@ -24,7 +24,7 @@ jobs:
     - name: Test
       run: dotnet test ReactiveProperty.sln --no-restore --verbosity normal
     - name: Copy package files
-      run:
+      run: |
         mkdir dist
         Copy-Item (Get-ChildItem -Path "Source/**/*.nupkg" -Recurse) -Destination dist
       shell: pwsh
