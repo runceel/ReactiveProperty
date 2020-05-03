@@ -9,10 +9,10 @@ namespace Reactive.Bindings.Internals
     /// Accessor Cache
     /// </summary>
     /// <typeparam name="TType">The type of the type.</typeparam>
-    public static class AccessorCache<TType>
+    internal static class AccessorCache<TType>
     {
-        private static readonly Dictionary<string, Delegate> getCache = new Dictionary<string, Delegate>();
-        private static readonly Dictionary<string, Delegate> setCache = new Dictionary<string, Delegate>();
+        private static readonly Dictionary<string, Delegate> s_getCache = new Dictionary<string, Delegate>();
+        private static readonly Dictionary<string, Delegate> s_setCache = new Dictionary<string, Delegate>();
 
         /// <summary>
         /// Lookups the get.
@@ -26,12 +26,12 @@ namespace Reactive.Bindings.Internals
             propertyName = GetPropertyName(propertySelector);
             Delegate accessor;
 
-            lock (getCache)
+            lock (s_getCache)
             {
-                if (!getCache.TryGetValue(propertyName, out accessor))
+                if (!s_getCache.TryGetValue(propertyName, out accessor))
                 {
                     accessor = propertySelector.Compile();
-                    getCache.Add(propertyName, accessor);
+                    s_getCache.Add(propertyName, accessor);
                 }
             }
 
@@ -40,11 +40,9 @@ namespace Reactive.Bindings.Internals
 
         private static string GetPropertyName<TProperty>(Expression<Func<TType, TProperty>> propertySelector)
         {
-            var memberExpression = propertySelector.Body as MemberExpression;
-            if (memberExpression == null)
+            if (!(propertySelector.Body is MemberExpression memberExpression))
             {
-                var unaryExpression = propertySelector.Body as UnaryExpression;
-                if (unaryExpression == null) { throw new ArgumentException(nameof(propertySelector)); }
+                if (!(propertySelector.Body is UnaryExpression unaryExpression)) { throw new ArgumentException(nameof(propertySelector)); }
                 memberExpression = unaryExpression.Operand as MemberExpression;
                 if (memberExpression == null) { throw new ArgumentException(nameof(propertySelector)); }
             }
@@ -64,12 +62,12 @@ namespace Reactive.Bindings.Internals
             propertyName = GetPropertyName(propertySelector);
             Delegate accessor;
 
-            lock (setCache)
+            lock (s_setCache)
             {
-                if (!setCache.TryGetValue(propertyName, out accessor))
+                if (!s_setCache.TryGetValue(propertyName, out accessor))
                 {
                     accessor = CreateSetAccessor(propertySelector);
-                    setCache.Add(propertyName, accessor);
+                    s_setCache.Add(propertyName, accessor);
                 }
             }
 

@@ -67,7 +67,7 @@ namespace Reactive.Bindings
         /// </value>
         public bool IsIgnoreInitialValidationError => (_mode & ReactivePropertyMode.IgnoreInitialValidationError) == ReactivePropertyMode.IgnoreInitialValidationError;
 
-        private readonly IEqualityComparer<T> equalityComparer;
+        private readonly IEqualityComparer<T> _equalityComparer;
 
         private ReactivePropertyMode _mode; // None = 0, DistinctUntilChanged = 1, RaiseLatestValueOnSubscribe = 2, Disposed = (1 << 9)
         private ObserverNode<T> _root;
@@ -88,7 +88,7 @@ namespace Reactive.Bindings
         /// PropertyChanged raise on ReactivePropertyScheduler
         /// </summary>
         public ReactiveProperty()
-            : this(default(T), ReactivePropertyMode.Default)
+            : this(default, ReactivePropertyMode.Default)
         {
         }
 
@@ -96,7 +96,7 @@ namespace Reactive.Bindings
         /// PropertyChanged raise on ReactivePropertyScheduler
         /// </summary>
         public ReactiveProperty(
-            T initialValue = default(T),
+            T initialValue = default,
             ReactivePropertyMode mode = ReactivePropertyMode.Default,
             IEqualityComparer<T> equalityComparer = null)
             : this(ReactivePropertyScheduler.Default, initialValue, mode, equalityComparer)
@@ -107,13 +107,13 @@ namespace Reactive.Bindings
         /// </summary>
         public ReactiveProperty(
             IScheduler raiseEventScheduler,
-            T initialValue = default(T),
+            T initialValue = default,
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe,
             IEqualityComparer<T> equalityComparer = null)
         {
             RaiseEventScheduler = raiseEventScheduler;
             LatestValue = initialValue;
-            this.equalityComparer = equalityComparer ?? EqualityComparer<T>.Default;
+            _equalityComparer = equalityComparer ?? EqualityComparer<T>.Default;
 
             _mode = mode;
 
@@ -130,7 +130,7 @@ namespace Reactive.Bindings
         /// <param name="equalityComparer">The equality comparer.</param>
         public ReactiveProperty(
             IObservable<T> source,
-            T initialValue = default(T),
+            T initialValue = default,
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe,
             IEqualityComparer<T> equalityComparer = null)
             : this(source, ReactivePropertyScheduler.Default, initialValue, mode, equalityComparer)
@@ -148,7 +148,7 @@ namespace Reactive.Bindings
         public ReactiveProperty(
             IObservable<T> source,
             IScheduler raiseEventScheduler,
-            T initialValue = default(T),
+            T initialValue = default,
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe,
             IEqualityComparer<T> equalityComparer = null)
             : this(raiseEventScheduler, initialValue, mode, equalityComparer)
@@ -168,7 +168,7 @@ namespace Reactive.Bindings
 
             set
             {
-                if (IsDistinctUntilChanged && equalityComparer.Equals(LatestValue, value))
+                if (IsDistinctUntilChanged && _equalityComparer.Equals(LatestValue, value))
                 {
                     return;
                 }
@@ -247,9 +247,9 @@ namespace Reactive.Bindings
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// Returns a <see cref="string"/> that represents this instance.
         /// </summary>
-        /// <returns>A <see cref="System.String"/> that represents this instance.</returns>
+        /// <returns>A <see cref="string"/> that represents this instance.</returns>
         public override string ToString() =>
             (LatestValue == null)
                 ? "null"
@@ -514,7 +514,7 @@ namespace Reactive.Bindings
         /// <para>PropertyChanged raise on ReactivePropertyScheduler</para>
         /// </summary>
         public static ReactiveProperty<T> ToReactiveProperty<T>(this IObservable<T> source,
-            T initialValue = default(T),
+            T initialValue = default,
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe, IEqualityComparer<T> equalityComparer = null) =>
             new ReactiveProperty<T>(source, initialValue, mode, equalityComparer);
 
@@ -524,7 +524,7 @@ namespace Reactive.Bindings
         /// </summary>
         public static ReactiveProperty<T> ToReactiveProperty<T>(this IObservable<T> source,
             IScheduler raiseEventScheduler,
-            T initialValue = default(T),
+            T initialValue = default,
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe,
             IEqualityComparer<T> equalityComparer = null) =>
             new ReactiveProperty<T>(source, raiseEventScheduler, initialValue, mode, equalityComparer);

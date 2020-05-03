@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Reactive.Bindings.Internals
 {
-    internal static class Disposable
+    internal static class InternalDisposable
     {
         public static readonly IDisposable Empty = new EmptyDisposable();
 

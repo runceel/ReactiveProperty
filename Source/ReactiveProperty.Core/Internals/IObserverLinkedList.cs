@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Reactive.Bindings.Internals
 {
-    public interface IObserverLinkedList<T>
+    internal interface IObserverLinkedList<T>
     {
         void UnsubscribeNode(ObserverNode<T> node);
     }

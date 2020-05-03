@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace Reactive.Bindings.Internals
 {
-    public sealed class ObserverNode<T> : IObserver<T>, IDisposable
+    internal sealed class ObserverNode<T> : IObserver<T>, IDisposable
     {
         private readonly IObserver<T> _observer;
         private IObserverLinkedList<T> _list;
