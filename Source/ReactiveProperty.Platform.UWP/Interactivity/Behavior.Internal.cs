@@ -20,7 +20,7 @@ namespace Reactive.Bindings.Interactivity
         /// <summary>
         /// The associated object changed
         /// </summary>
-        public EventHandler AssociatedObjectChanged;
+        public event EventHandler AssociatedObjectChanged;
 
         /// <summary>
         /// Gets the <see cref="T:Windows.UI.Xaml.DependencyObject"/> to which the <seealso

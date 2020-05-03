@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml;
 #else
-
 using System.Windows.Markup;
 using System.Windows;
 using Microsoft.Xaml.Behaviors;

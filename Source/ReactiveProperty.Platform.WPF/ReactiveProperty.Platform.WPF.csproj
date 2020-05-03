@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp3.1;net461</TargetFrameworks>
+    <AssemblyName>ReactiveProperty.WPF</AssemblyName>
+    <UseWPF>true</UseWPF>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
+    <Description>ReactiveProperty.WPF provides behaviors such as EventToReactiveCommand and EventToReactiveProperty.</Description>
+  </PropertyGroup>
+
+  <Import Project="../SharedProperties.csproj" />
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.19" />
+    <PackageReference Include="System.Reactive" Version="4.4.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ReactiveProperty.NETStandard\ReactiveProperty.NETStandard.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\ReactiveProperty.Platform.Shared\ReactiveProperty.Platform.Shared.projitems" Label="Shared" />
+
+</Project>

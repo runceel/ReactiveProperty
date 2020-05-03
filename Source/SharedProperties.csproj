@@ -1,0 +1,23 @@
+<Project>
+  <PropertyGroup>
+    <RootNamespace>Reactive.Bindings</RootNamespace>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Version>7.0.0-pre1</Version>
+    <Authors>neuecc xin9le okazuki</Authors>
+    <PackageProjectUrl>https://github.com/runceel/ReactiveProperty</PackageProjectUrl>
+    <PackageTags>rx mvvm async rx-main reactive</PackageTags>
+    <PackageReleaseNotes>Update dependency library version to System.Reactive 4.1.0</PackageReleaseNotes>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIcon>ReactivePropertyIcon_100x100.png</PackageIcon>
+    <RepositoryUrl>https://github.com/runceel/ReactiveProperty</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="../../Assets/ReactivePropertyIcon_100x100.png" LinkBase="Assets" Pack="true" PackagePath="/" />
+  </ItemGroup>
+</Project>

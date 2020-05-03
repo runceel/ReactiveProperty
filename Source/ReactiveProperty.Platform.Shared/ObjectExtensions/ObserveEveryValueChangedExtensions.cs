@@ -20,7 +20,7 @@ namespace Reactive.Bindings.ObjectExtensions
                 return Observable.Empty<TProperty>();
             }
 
-            comparer = comparer ?? EqualityComparer<TProperty>.Default;
+            comparer ??= EqualityComparer<TProperty>.Default;
 
             var reference = new WeakReference(source);
             source = null;
