@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageId>ReactiveProperty.Core</PackageId>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>ReactiveProperty.Core</AssemblyName>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
+    <Description>ReactiveProperty.Core includes minimum core classes such as ReactivePropertySlim and ReadOnlyReactivePropertySlim.</Description>
+  </PropertyGroup>
+
+  <Import Project="../SharedProperties.csproj" />
+</Project>

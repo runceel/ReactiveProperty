@@ -2,8 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Reactive.Disposables;
 using System.Threading;
+using Reactive.Bindings.Internals;
 
 namespace Reactive.Bindings
 {
