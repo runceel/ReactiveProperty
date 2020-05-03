@@ -34,6 +34,7 @@ jobs:
       run: |
         mkdir dist
         Copy-Item (Get-ChildItem -Path "Source/**/*.nupkg" -Recurse) -Destination dist
+        Copy-Item (Get-ChildItem -Path "Source/**/*.snupkg" -Recurse) -Destination dist
       shell: pwsh
     - name: Archive NuGet packages
       uses: actions/upload-artifact@v1
@@ -41,7 +42,7 @@ jobs:
         name: dist
         path: dist
 
-  pre-release:
+  release-to-nuget:
     runs-on: windows-latest
     needs: [build]
     if: github.ref == 'refs/heads/pre-release' || github.ref == 'refs/heads/release'
