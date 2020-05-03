@@ -3,31 +3,12 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>ReactiveProperty</AssemblyName>
-    <RootNamespace>Reactive.Bindings</RootNamespace>
-    <Description>ReactiveProperty is MVVM and Asynchronous Extensions for Reactive Extensions(System.Reactive). Target is .NET Standard 2.0.</Description>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Version>6.1.3</Version>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
-    <Authors>neuecc xin9le okazuki</Authors>
-    <PackageLicenseUrl>https://github.com/runceel/ReactiveProperty/blob/master/LICENSE.txt</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/runceel/ReactiveProperty</PackageProjectUrl>
-    <PackageIconUrl>http://neue.cc/ReactivePropertyIcon_100x100.png</PackageIconUrl>
-    <PackageTags>rx mvvm async rx-main reactive</PackageTags>
-    <PackageReleaseNotes>Update dependency library version to System.Reactive 4.1.0</PackageReleaseNotes>
-    <NeutralLanguage>en-US</NeutralLanguage>
-    <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Description>ReactiveProperty is MVVM and Asynchronous Extensions for Reactive Extensions(System.Reactive). Target is .NET Standard 2.0.</Description>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>..\..\Binary</OutputPath>
-    <DocumentationFile>..\..\Binary\netstandard2.0\ReactiveProperty.xml</DocumentationFile>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Include="..\ReactiveProperty.Platform.Shared\Version.cs" Link="Version.cs" />
-  </ItemGroup>
+  <Import Project="../SharedProperties.csproj" />
 
   <ItemGroup>
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />

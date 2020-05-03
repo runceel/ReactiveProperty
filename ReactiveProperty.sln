@@ -88,9 +88,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UWP", "Sample\UWP\UWP.cspro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UWP.TodoMVVM", "Sample\UWP.TodoMVVM\UWP.TodoMVVM.csproj", "{40AE1FF3-8B25-4659-8B0A-7886113E4246}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.Platform.UWP", "Source\ReactiveProperty.Platform.UWP\ReactiveProperty.Platform.UWP.csproj", "{CD8F2562-E3A0-4F6D-8285-70349597ADBC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReactiveProperty.Platform.UWP", "Source\ReactiveProperty.Platform.UWP\ReactiveProperty.Platform.UWP.csproj", "{CD8F2562-E3A0-4F6D-8285-70349597ADBC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.Platform.iOS", "Source\ReactiveProperty.Platform.iOS\ReactiveProperty.Platform.iOS.csproj", "{A54AE997-6255-4000-A4CE-3F8D6D8F0026}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReactiveProperty.Platform.iOS", "Source\ReactiveProperty.Platform.iOS\ReactiveProperty.Platform.iOS.csproj", "{A54AE997-6255-4000-A4CE-3F8D6D8F0026}"
 	ProjectSection(ProjectDependencies) = postProject
 		{157F0F88-34AC-4C49-971F-7027AAC757AE} = {157F0F88-34AC-4C49-971F-7027AAC757AE}
 	EndProjectSection
@@ -99,7 +99,7 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ReactiveProperty.Platform.S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReactiveProperty.NETStandard", "Source\ReactiveProperty.NETStandard\ReactiveProperty.NETStandard.csproj", "{157F0F88-34AC-4C49-971F-7027AAC757AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.Platform.Android", "Source\ReactiveProperty.Platform.Android\ReactiveProperty.Platform.Android.csproj", "{BF2E72F9-149B-4687-ABCD-7B949430FFDE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReactiveProperty.Platform.Android", "Source\ReactiveProperty.Platform.Android\ReactiveProperty.Platform.Android.csproj", "{BF2E72F9-149B-4687-ABCD-7B949430FFDE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReactiveProperty.Platform.WPF", "Source\ReactiveProperty.Platform.WPF\ReactiveProperty.Platform.WPF.csproj", "{75521693-A60A-4042-AE39-9FDAA14902BA}"
 EndProject
