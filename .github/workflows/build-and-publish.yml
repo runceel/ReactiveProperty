@@ -18,7 +18,7 @@ jobs:
     - name: Setup MSBuild.exe
       uses: warrenbuckley/Setup-MSBuild@v1
     - name: Update version number
-      if: github.ref == 'refs/heads/master'
+      if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/pre-release'
       shell: pwsh
       run: |
         $doc = [XML](Get-Content 'Source\SharedProperties.csproj')
@@ -40,3 +40,15 @@ jobs:
       with:
         name: dist
         path: dist
+
+  pre-release:
+    runs-on: windows-latest
+    needs: [build]
+    if: github.ref == 'refs/heads/pre-release' || github.ref == 'refs/heads/release'
+    steps:
+      - name: Download archives
+        uses: actions/download-artifact@v2
+        with:
+          name: dist
+      - name: Publish packages
+        run: dotnet nuget push **/*.nupkg --skip-duplicate -k ${{ secrets.NUGET_APIKEY }} -s https://api.nuget.org/v3/index.json
