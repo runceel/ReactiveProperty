@@ -3,17 +3,13 @@
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.1;net461</TargetFrameworks>
     <AssemblyName>ReactiveProperty.WPF</AssemblyName>
-    <RootNamespace>Reactive.Bindings</RootNamespace>
     <UseWPF>true</UseWPF>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
+    <Description>ReactiveProperty.WPF provides behaviors such as EventToReactiveCommand and EventToReactiveProperty.</Description>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>..\..\Binary\netcoreapp3.0\ReactiveProperty.NETCore.xml</DocumentationFile>
-    <OutputPath>..\..\Binary</OutputPath>
-  </PropertyGroup>
+  <Import Project="../SharedProperties.csproj" />
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.19" />

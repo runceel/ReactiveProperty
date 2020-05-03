@@ -13,6 +13,5 @@
     <Compile Include="$(MSBuildThisFileDirectory)Interactivity\EventToReactiveCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interactivity\EventToReactiveProperty.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ObjectExtensions\ObserveEveryValueChangedExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Version.cs" />
   </ItemGroup>
 </Project>

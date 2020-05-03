@@ -107,6 +107,7 @@ Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Source\ReactiveProperty.Platform.Shared\ReactiveProperty.Platform.Shared.projitems*{523e5506-24df-44ca-83cc-6aa02454f150}*SharedItemsImports = 13
 		Source\ReactiveProperty.Platform.Shared\ReactiveProperty.Platform.Shared.projitems*{75521693-a60a-4042-ae39-9fdaa14902ba}*SharedItemsImports = 5
+		Source\ReactiveProperty.Platform.Shared\ReactiveProperty.Platform.Shared.projitems*{cd8f2562-e3a0-4f6d-8285-70349597adbc}*SharedItemsImports = 5
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
