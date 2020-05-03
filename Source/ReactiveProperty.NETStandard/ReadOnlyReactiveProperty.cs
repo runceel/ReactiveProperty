@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
-using System.Reactive.Linq;
-using System.Reactive.Subjects;
-using Reactive.Bindings.Extensions;
+using Reactive.Bindings.Internals;
 
 namespace Reactive.Bindings
 {
@@ -13,9 +11,9 @@ namespace Reactive.Bindings
     /// Read only version ReactiveProperty.
     /// </summary>
     /// <typeparam name="T">Type of property.</typeparam>
-    public class ReadOnlyReactiveProperty<T> : IReadOnlyReactiveProperty<T>
+    public class ReadOnlyReactiveProperty<T> : IReadOnlyReactiveProperty<T>, IObserverLinkedList<T>, IObserver<T>
     {
-        private IEqualityComparer<T> EqualityComparer { get; }
+        private const int IsDisposedFlagNumber = 1 << 9; // (reserve 0 ~ 8)
 
         /// <summary>
         /// Occurs when a property value changes.
@@ -23,13 +21,16 @@ namespace Reactive.Bindings
         /// <returns></returns>
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private Subject<T> InnerSource { get; } = new Subject<T>();
+        private T _latestValue;
+        private IDisposable _sourceSubscription;
+        private ReactivePropertyMode _mode; // None = 0, DistinctUntilChanged = 1, RaiseLatestValueOnSubscribe = 2, Disposed = (1 << 9)
+        private readonly IEqualityComparer<T> _equalityComparer;
+        private ObserverNode<T> _root;
+        private ObserverNode<T> _last;
+        private readonly IScheduler _raiseEventScheduler;
 
-        private T LatestValue { get; set; }
-
-        private CompositeDisposable Subscription { get; } = new CompositeDisposable();
-
-        private bool IsRaiseLatestValueOnSubscribe { get; }
+        private bool IsRaiseLatestValueOnSubscribe => (_mode & ReactivePropertyMode.RaiseLatestValueOnSubscribe) == ReactivePropertyMode.RaiseLatestValueOnSubscribe;
+        private bool IsDistinctUntilChanged => (_mode & ReactivePropertyMode.DistinctUntilChanged) == ReactivePropertyMode.DistinctUntilChanged;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyReactiveProperty{T}"/> class.
@@ -41,38 +42,31 @@ namespace Reactive.Bindings
         /// <param name="equalityComparer">The equality comparer.</param>
         public ReadOnlyReactiveProperty(
             IObservable<T> source,
-            T initialValue = default(T),
+            T initialValue = default,
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe,
             IScheduler eventScheduler = null,
             IEqualityComparer<T> equalityComparer = null)
         {
-            LatestValue = initialValue;
-            EqualityComparer = equalityComparer ?? EqualityComparer<T>.Default;
-            var ox = mode.HasFlag(ReactivePropertyMode.DistinctUntilChanged)
-                ? source.DistinctUntilChanged(EqualityComparer)
-                : source;
-
-            ox.Do(x =>
+            _latestValue = initialValue;
+            _raiseEventScheduler = eventScheduler ?? ReactivePropertyScheduler.Default;
+            _equalityComparer = equalityComparer ?? EqualityComparer<T>.Default;
+            _mode = mode;
+            _sourceSubscription = source.Subscribe(this);
+            if (IsDisposed)
             {
-                LatestValue = x;
-
-                InnerSource.OnNext(x);
-            })
-                .ObserveOn(eventScheduler ?? ReactivePropertyScheduler.Default)
-                .Subscribe(_ =>
-                {
-                    PropertyChanged?.Invoke(this, SingletonPropertyChangedEventArgs.Value);
-                })
-                .AddTo(Subscription);
-            IsRaiseLatestValueOnSubscribe = mode.HasFlag(ReactivePropertyMode.RaiseLatestValueOnSubscribe);
+                _sourceSubscription.Dispose();
+                _sourceSubscription = null;
+            }
         }
 
         /// <summary>
         /// Get latest value.
         /// </summary>
-        public T Value => LatestValue;
+        public T Value => _latestValue;
 
         object IReadOnlyReactiveProperty.Value => Value;
+
+        public bool IsDisposed => (int)_mode == IsDisposedFlagNumber;
 
         /// <summary>
         /// Notifies the provider that an observer is to receive notifications.
@@ -84,16 +78,54 @@ namespace Reactive.Bindings
         /// </returns>
         public IDisposable Subscribe(IObserver<T> observer)
         {
-            if (Subscription.IsDisposed)
+            if (IsDisposed)
             {
                 observer.OnCompleted();
                 return Disposable.Empty;
             }
 
-            var result = InnerSource.Subscribe(observer);
-            if (IsRaiseLatestValueOnSubscribe) { observer.OnNext(LatestValue); }
-            return result;
+            if (IsRaiseLatestValueOnSubscribe)
+            {
+                observer.OnNext(_latestValue);
+            }
+
+            // subscribe node, node as subscription.
+            var next = new ObserverNode<T>(this, observer);
+            if (_root == null)
+            {
+                _root = _last = next;
+            }
+            else
+            {
+                _last.Next = next;
+                next.Previous = _last;
+                _last = next;
+            }
+
+            return next;
         }
+
+        void IObserverLinkedList<T>.UnsubscribeNode(ObserverNode<T> node)
+        {
+            if (node == _root)
+            {
+                _root = node.Next;
+            }
+            if (node == _last)
+            {
+                _last = node.Previous;
+            }
+
+            if (node.Previous != null)
+            {
+                node.Previous.Next = node.Next;
+            }
+            if (node.Next != null)
+            {
+                node.Next.Previous = node.Previous;
+            }
+        }
+
 
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting
@@ -101,11 +133,61 @@ namespace Reactive.Bindings
         /// </summary>
         public void Dispose()
         {
-            if (!Subscription.IsDisposed)
+            if (IsDisposed)
             {
-                InnerSource.OnCompleted();
-                Subscription.Dispose();
+                return;
             }
+
+            var node = _root;
+            _root = _last = null;
+            _mode = (ReactivePropertyMode)IsDisposedFlagNumber;
+
+            while (node != null)
+            {
+                node.OnCompleted();
+                node = node.Next;
+            }
+
+            _sourceSubscription?.Dispose();
+            _sourceSubscription = null;
+        }
+
+        void IObserver<T>.OnNext(T value)
+        {
+            if (IsDisposed)
+            {
+                return;
+            }
+
+            if (IsDistinctUntilChanged && _equalityComparer.Equals(_latestValue, value))
+            {
+                return;
+            }
+
+            // SetValue
+            _latestValue = value;
+
+            // call source.OnNext
+            var node = _root;
+            while (node != null)
+            {
+                node.OnNext(value);
+                node = node.Next;
+            }
+
+            // Notify changed.
+            _raiseEventScheduler.Schedule(() => PropertyChanged?.Invoke(this, SingletonPropertyChangedEventArgs.Value));
+        }
+
+        void IObserver<T>.OnError(Exception error)
+        {
+            // do nothing.
+        }
+
+        void IObserver<T>.OnCompleted()
+        {
+            // oncompleted same as dispose.
+            Dispose();
         }
     }
 
@@ -125,7 +207,7 @@ namespace Reactive.Bindings
         /// <param name="equalityComparer">The equality comparer.</param>
         /// <returns></returns>
         public static ReadOnlyReactiveProperty<T> ToReadOnlyReactiveProperty<T>(this IObservable<T> self,
-            T initialValue = default(T),
+            T initialValue = default,
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe,
             IScheduler eventScheduler = null,
             IEqualityComparer<T> equalityComparer = null) =>

@@ -13,54 +13,19 @@ using Reactive.Bindings.Internals;
 
 namespace Reactive.Bindings
 {
-    internal class SingletonPropertyChangedEventArgs
-    {
-        public static readonly PropertyChangedEventArgs Value = new PropertyChangedEventArgs(nameof(ReactiveProperty<object>.Value));
-    }
-
     internal class SingletonDataErrorsChangedEventArgs
     {
         public static readonly DataErrorsChangedEventArgs Value = new DataErrorsChangedEventArgs(nameof(ReactiveProperty<object>.Value));
     }
 
     /// <summary>
-    /// Mode of ReactiveProperty
-    /// </summary>
-    [Flags]
-    public enum ReactivePropertyMode
-    {
-        /// <summary>
-        /// None
-        /// </summary>
-        None = 0x00,
-
-        /// <summary>
-        /// If next value is same as current, not set and not notify.
-        /// </summary>
-        DistinctUntilChanged = 0x01,
-
-        /// <summary>
-        /// Push notify on instance created and subscribed.
-        /// </summary>
-        RaiseLatestValueOnSubscribe = 0x02,
-
-        /// <summary>
-        /// Ignore initial validation error
-        /// </summary>
-        IgnoreInitialValidationError = 0x04,
-
-        /// <summary>
-        /// Default mode value. It is same as DistinctUntilChanged | RaiseLatestValueOnSubscribe.
-        /// </summary>
-        Default = DistinctUntilChanged | RaiseLatestValueOnSubscribe,
-    }
-
-    /// <summary>
     /// Two-way bindable IObservable&lt;T&gt;
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ReactiveProperty<T> : IReactiveProperty<T>
+    public class ReactiveProperty<T> : IReactiveProperty<T>, IObserverLinkedList<T>
     {
+        private const int IsDisposedFlagNumber = 1 << 9; // (reserve 0 ~ 8)
+
         /// <summary>
         /// Implements of INotifyPropertyChanged.
         /// </summary>
@@ -68,7 +33,11 @@ namespace Reactive.Bindings
 
         private T LatestValue { get; set; }
 
-        private bool IsDisposed { get; set; } = false;
+        /// <summary>
+        /// Gets a value indicating whether this instance is disposed.
+        /// </summary>
+        /// <value><c>true</c> if this instance is disposed; otherwise, <c>false</c>.</value>
+        public bool IsDisposed => (int)_mode == IsDisposedFlagNumber;
 
         /// <summary>
         /// Gets the raise event scheduler.
@@ -80,7 +49,7 @@ namespace Reactive.Bindings
         /// Gets a value indicating whether this instance is distinct until changed.
         /// </summary>
         /// <value><c>true</c> if this instance is distinct until changed; otherwise, <c>false</c>.</value>
-        public bool IsDistinctUntilChanged { get; }
+        public bool IsDistinctUntilChanged => (_mode & ReactivePropertyMode.DistinctUntilChanged) == ReactivePropertyMode.DistinctUntilChanged;
 
         /// <summary>
         /// Gets a value indicating whether this instance is raise latest value on subscribe.
@@ -88,7 +57,7 @@ namespace Reactive.Bindings
         /// <value>
         /// <c>true</c> if this instance is raise latest value on subscribe; otherwise, <c>false</c>.
         /// </value>
-        public bool IsRaiseLatestValueOnSubscribe { get; }
+        public bool IsRaiseLatestValueOnSubscribe => (_mode & ReactivePropertyMode.RaiseLatestValueOnSubscribe) == ReactivePropertyMode.RaiseLatestValueOnSubscribe;
 
         /// <summary>
         /// Gets a value indicating whether this instance is ignore initial validation error.
@@ -96,15 +65,15 @@ namespace Reactive.Bindings
         /// <value>
         /// <c>true</c> if this instance is ignore initial validation error; otherwise, <c>false</c>.
         /// </value>
-        public bool IsIgnoreInitialValidationError { get; }
+        public bool IsIgnoreInitialValidationError => (_mode & ReactivePropertyMode.IgnoreInitialValidationError) == ReactivePropertyMode.IgnoreInitialValidationError;
 
         private readonly IEqualityComparer<T> equalityComparer;
 
-        private Subject<T> Source { get; } = new Subject<T>();
+        private ReactivePropertyMode _mode; // None = 0, DistinctUntilChanged = 1, RaiseLatestValueOnSubscribe = 2, Disposed = (1 << 9)
+        private ObserverNode<T> _root;
+        private ObserverNode<T> _last;
 
         private IDisposable SourceDisposable { get; }
-
-        private bool IsValueChanging { get; set; } = false;
 
         // for Validation
         private Subject<T> ValidationTrigger { get; } = new Subject<T>();
@@ -146,9 +115,7 @@ namespace Reactive.Bindings
             LatestValue = initialValue;
             this.equalityComparer = equalityComparer ?? EqualityComparer<T>.Default;
 
-            IsRaiseLatestValueOnSubscribe = (mode & ReactivePropertyMode.RaiseLatestValueOnSubscribe) == ReactivePropertyMode.RaiseLatestValueOnSubscribe;
-            IsDistinctUntilChanged = (mode & ReactivePropertyMode.DistinctUntilChanged) == ReactivePropertyMode.DistinctUntilChanged;
-            IsIgnoreInitialValidationError = (mode & ReactivePropertyMode.IgnoreInitialValidationError) == ReactivePropertyMode.IgnoreInitialValidationError;
+            _mode = mode;
 
             SourceDisposable = Disposable.Empty;
             ErrorsTrigger = new Lazy<BehaviorSubject<IEnumerable>>(() => new BehaviorSubject<IEnumerable>(GetErrors(null)));
@@ -223,15 +190,30 @@ namespace Reactive.Bindings
         /// </summary>
         public IDisposable Subscribe(IObserver<T> observer)
         {
+            if (IsDisposed)
+            {
+                observer.OnCompleted();
+                return Disposable.Empty;
+            }
+
             if (IsRaiseLatestValueOnSubscribe)
             {
                 observer.OnNext(LatestValue);
-                return Source.Subscribe(observer);
+            }
+
+            // subscribe node, node as subscription.
+            var next = new ObserverNode<T>(this, observer);
+            if (_root == null)
+            {
+                _root = _last = next;
             }
             else
             {
-                return Source.Subscribe(observer);
+                _last.Next = next;
+                next.Previous = _last;
+                _last = next;
             }
+            return next;
         }
 
         /// <summary>
@@ -244,9 +226,16 @@ namespace Reactive.Bindings
                 return;
             }
 
-            IsDisposed = true;
-            Source.OnCompleted();
-            Source.Dispose();
+            var node = _root;
+            _root = _last = null;
+            _mode = (ReactivePropertyMode)IsDisposedFlagNumber;
+
+            while (node != null)
+            {
+                node.OnCompleted();
+                node = node.Next;
+            }
+
             ValidationTrigger.Dispose();
             SourceDisposable.Dispose();
             ValidateNotifyErrorSubscription.Dispose();
@@ -288,10 +277,10 @@ namespace Reactive.Bindings
         {
             ValidatorStore.Value.Add(validator);     //--- cache validation functions
             var validators = ValidatorStore.Value
-                            .Select(x => x(IsIgnoreInitialValidationError ? ValidationTrigger : ValidationTrigger.StartWith(LatestValue)))
-                            .ToArray();     //--- use copy
-            ValidateNotifyErrorSubscription.Disposable
-                = Observable.CombineLatest(validators)
+                .Select(x => x(IsIgnoreInitialValidationError ? ValidationTrigger : ValidationTrigger.StartWith(LatestValue)))
+                .ToArray();     //--- use copy
+            ValidateNotifyErrorSubscription.Disposable = Observable
+                .CombineLatest(validators)
                 .Select(xs =>
                 {
                     if (xs.Count == 0)
@@ -305,12 +294,12 @@ namespace Reactive.Bindings
                     }
 
                     var strings = xs
-                                .OfType<string>()
-                                .Where(x => x != null);
+                        .OfType<string>()
+                        .Where(x => x != null);
                     var others = xs
-                                .Where(x => !(x is string))
-                                .Where(x => x != null)
-                                .SelectMany(x => x.Cast<object>());
+                        .Where(x => !(x is string))
+                        .Where(x => x != null)
+                        .SelectMany(x => x.Cast<object>());
                     return strings.Concat(others);
                 })
                 .Subscribe(x =>
@@ -370,7 +359,7 @@ namespace Reactive.Bindings
         /// <summary>
         /// Get INotifyDataErrorInfo's error store
         /// </summary>
-        public System.Collections.IEnumerable GetErrors(string propertyName) => CurrentErrors;
+        public IEnumerable GetErrors(string propertyName) => CurrentErrors;
 
         /// <summary>
         /// Get INotifyDataErrorInfo's error store
@@ -395,9 +384,46 @@ namespace Reactive.Bindings
         private void SetValue(T value)
         {
             LatestValue = value;
-            ValidationTrigger.OnNext(value);
-            Source.OnNext(value);
+            if (!IsDisposed)
+            {
+                ValidationTrigger.OnNext(value);
+                OnNextAndRaiseValueChanged(ref value);
+            }
+        }
+
+        private void OnNextAndRaiseValueChanged(ref T value)
+        {
+            // call source.OnNext
+            var node = _root;
+            while (node != null)
+            {
+                node.OnNext(value);
+                node = node.Next;
+            }
+
             RaiseEventScheduler.Schedule(() => PropertyChanged?.Invoke(this, SingletonPropertyChangedEventArgs.Value));
+        }
+
+
+        void IObserverLinkedList<T>.UnsubscribeNode(ObserverNode<T> node)
+        {
+            if (node == _root)
+            {
+                _root = node.Next;
+            }
+            if (node == _last)
+            {
+                _last = node.Previous;
+            }
+
+            if (node.Previous != null)
+            {
+                node.Previous.Next = node.Next;
+            }
+            if (node.Next != null)
+            {
+                node.Next.Previous = node.Previous;
+            }
         }
     }
 
