@@ -6,7 +6,7 @@
     <AssemblyName>ReactiveProperty.XamarinAndroid</AssemblyName>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
-    <Description>ReactiveProperty is MVVM and Asynchronous Extensions for Reactive Extensions(System.Reactive). Target is monoandroid90.</Description>
+    <Description>ReactiveProperty.XamarinAndroid provides many useful extension methods for Xamarin.Android that can be used with ReactiveProperty.</Description>
   </PropertyGroup>
   
   <Import Project="../SharedProperties.csproj" />
