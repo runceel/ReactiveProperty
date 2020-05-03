@@ -16,8 +16,9 @@
     <RepositoryType>git</RepositoryType>
     <LangVersion>8.0</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
-
   <ItemGroup>
     <None Include="../../Assets/ReactivePropertyIcon_100x100.png" LinkBase="Assets" Pack="true" PackagePath="/" />
   </ItemGroup>
