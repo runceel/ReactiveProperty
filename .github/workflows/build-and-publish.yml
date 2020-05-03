@@ -17,6 +17,13 @@ jobs:
         dotnet-version: 3.1.201
     - name: Setup MSBuild.exe
       uses: warrenbuckley/Setup-MSBuild@v1
+    - name: Update version number
+      if: github.ref == 'refs/heads/master'
+      shell: pwsh
+      run: |
+        $doc = [XML](Get-Content 'Source\SharedProperties.csproj')
+        $doc.Project.PropertyGroup.Version += '-ci' + (Get-Date).ToString("yyyyMMddHHmmss")
+        $doc.Save('Source\SharedProperties.csproj')
     - name: Install dependencies
       run: dotnet restore
     - name: Build
