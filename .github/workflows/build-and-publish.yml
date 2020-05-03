@@ -23,8 +23,13 @@ jobs:
       run: msbuild ReactiveProperty.sln -p:Configuration=Release -p:Platform="Any CPU"
     - name: Test
       run: dotnet test ReactiveProperty.sln --no-restore --verbosity normal
+    - name: copy file
+      uses: canastro/copy-file-action@master
+      with:
+        source: "**/*.nupkg"
+        target: "dist"
     - name: Archive NuGet packages
       uses: actions/upload-artifact@v1
       with:
         name: dist
-        path: '**/*.nupkg'
+        path: dist
