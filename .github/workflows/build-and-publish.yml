@@ -17,9 +17,26 @@ jobs:
         dotnet-version: 3.1.201
     - name: Setup MSBuild.exe
       uses: warrenbuckley/Setup-MSBuild@v1
+    - name: Update version number
+      if: github.ref == 'refs/heads/master'
+      shell: pwsh
+      run: |
+        $doc = [XML](Get-Content 'Source\SharedProperties.csproj')
+        $doc.Project.PropertyGroup.Version += '-ci' + (Get-Date).ToString("yyyyMMddHHmmss")
+        $doc.Save('Source\SharedProperties.csproj')
     - name: Install dependencies
       run: dotnet restore
     - name: Build
       run: msbuild ReactiveProperty.sln -p:Configuration=Release -p:Platform="Any CPU"
     - name: Test
       run: dotnet test ReactiveProperty.sln --no-restore --verbosity normal
+    - name: Copy package files
+      run: |
+        mkdir dist
+        Copy-Item (Get-ChildItem -Path "Source/**/*.nupkg" -Recurse) -Destination dist
+      shell: pwsh
+    - name: Archive NuGet packages
+      uses: actions/upload-artifact@v1
+      with:
+        name: dist
+        path: dist
