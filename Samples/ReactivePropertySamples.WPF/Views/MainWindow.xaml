@@ -15,5 +15,6 @@
         <Label Content="Samples:" Style="{StaticResource TitleLabel}" />
         <Button Content="Basic usages" Click="BasicUsagesButton_Click" />
         <Button Content="ReactiveCommand" Click="ReactiveCommandButton_Click" />
+        <Button Content="Collections" Click="CollectionsButton_Click" />
     </StackPanel>
 </Window>
