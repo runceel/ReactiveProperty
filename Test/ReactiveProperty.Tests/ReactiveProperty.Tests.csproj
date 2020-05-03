@@ -27,10 +27,6 @@
     <ProjectReference Include="..\..\Source\ReactiveProperty.Platform.WPF\ReactiveProperty.Platform.WPF.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Update="Strings\Resource.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
