@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project>
   <PropertyGroup>
     <RootNamespace>Reactive.Bindings</RootNamespace>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
