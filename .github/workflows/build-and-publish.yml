@@ -23,3 +23,8 @@ jobs:
       run: msbuild ReactiveProperty.sln -p:Configuration=Release -p:Platform="Any CPU"
     - name: Test
       run: dotnet test ReactiveProperty.sln --no-restore --verbosity normal
+    - name: Archive NuGet packages
+      uses: actions/upload-artifact@v1
+      with:
+        name: dist
+        path: '**/*.nupkg'
