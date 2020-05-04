@@ -13,9 +13,12 @@
              d:DataContext="{d:DesignInstance Type={x:Type viewModels:CommandsViewModel}, IsDesignTimeCreatable=False}">
     <UserControl.Resources>
         <Style x:Key="BorderLessButton" TargetType="{x:Type Button}" BasedOn="{StaticResource MahApps.Styles.Button}">
-            <Setter Property="BorderBrush" Value="{DynamicResource MahApps.Brushes.Button.Border}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource MahApps.Brushes.Accent4}" />
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="controls:ControlsHelper.ContentCharacterCasing" Value="Normal" />
+            <Setter Property="MinWidth" Value="75" />
+            <Setter Property="Margin" Value="2.5,0" />
+            <Setter Property="Focusable" Value="False" />
         </Style>
         <converters:TargetViewTypeToThicknessConverter x:Key="TargetViewTypeToThicknessConverter" />
     </UserControl.Resources>
@@ -27,17 +30,17 @@
         <StackPanel HorizontalAlignment="Center"
                     Orientation="Horizontal">
             <Button Content="All"
-                    Command="{Binding ChangeTaretViewTypeCommand}"
+                    Command="{Binding ChangeTargetViewTypeCommand}"
                     CommandParameter="{x:Static events:TargetViewType.All}"
                     BorderThickness="{Binding TargetViewType.Value, Converter={StaticResource TargetViewTypeToThicknessConverter}, ConverterParameter={x:Static events:TargetViewType.All}}"
                     Style="{DynamicResource BorderLessButton}" />
             <Button Content="Active"
-                    Command="{Binding ChangeTaretViewTypeCommand}"
+                    Command="{Binding ChangeTargetViewTypeCommand}"
                     CommandParameter="{x:Static events:TargetViewType.Active}" 
                     BorderThickness="{Binding TargetViewType.Value, Converter={StaticResource TargetViewTypeToThicknessConverter}, ConverterParameter={x:Static events:TargetViewType.Active}}"
                     Style="{DynamicResource BorderLessButton}" />
             <Button Content="Completed"
-                    Command="{Binding ChangeTaretViewTypeCommand}"
+                    Command="{Binding ChangeTargetViewTypeCommand}"
                     CommandParameter="{x:Static events:TargetViewType.Completed}"
                     BorderThickness="{Binding TargetViewType.Value, Converter={StaticResource TargetViewTypeToThicknessConverter}, ConverterParameter={x:Static events:TargetViewType.Completed}}"
                     Style="{DynamicResource BorderLessButton}" />

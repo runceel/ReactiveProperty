@@ -16,16 +16,16 @@ namespace Reactive.Todo.Main.ViewModels
     public class CommandsViewModel : ViewModelBase
     {
         public ReadOnlyReactivePropertySlim<TargetViewType> TargetViewType { get; }
-        public ReactiveCommand<TargetViewType> ChangeTaretViewTypeCommand { get; }
+        public ReactiveCommand<TargetViewType> ChangeTargetViewTypeCommand { get; }
         public ReadOnlyReactivePropertySlim<int> CountOfItemsLeft { get; }
         public ReactiveCommand ClearCompletedCommand { get; }
         public CommandsViewModel(TodoApp todoApp, IMessageBroker messageBroker)
         {
-            ChangeTaretViewTypeCommand = new ReactiveCommand<TargetViewType>()
+            ChangeTargetViewTypeCommand = new ReactiveCommand<TargetViewType>()
                 .WithSubscribe(x => messageBroker.Publish(new TargetViewChangedEvent(x)), Disposables.Add)
                 .AddTo(Disposables);
 
-            TargetViewType = ChangeTaretViewTypeCommand.ToReadOnlyReactivePropertySlim()
+            TargetViewType = ChangeTargetViewTypeCommand.ToReadOnlyReactivePropertySlim()
                 .AddTo(Disposables);
             CountOfItemsLeft = todoApp.AllTodoItems
                 .ObserveElementProperty(x => x.Done)

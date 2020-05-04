@@ -14,7 +14,7 @@ namespace Reactive.Todo.Main.Converters
         {
             var x = (TargetViewType)value;
             var p = (TargetViewType)parameter;
-            return x == p ? new Thickness(1) : new Thickness();
+            return x == p ? new Thickness(2) : new Thickness();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
