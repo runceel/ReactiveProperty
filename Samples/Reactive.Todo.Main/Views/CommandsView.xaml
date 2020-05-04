@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="Reactive.Todo.Main.Views.CommandsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:prism="http://prismlibrary.com/"           
+             xmlns:events="clr-namespace:Reactive.Todo.Main.Events"
+             xmlns:viewModels="clr-namespace:Reactive.Todo.Main.ViewModels"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type={x:Type viewModels:CommandsViewModel}, IsDesignTimeCreatable=False}">
+    <Grid>
+        <TextBlock>
+            <Run Text="{Binding CountOfItemsLeft.Value, Mode=OneWay}" />
+            <Run Text=" items left" />
+        </TextBlock>
+        <StackPanel HorizontalAlignment="Center"
+                    Orientation="Horizontal">
+            <Button Content="All"
+                    Command="{Binding ChangeTaretViewTypeCommand}"
+                    CommandParameter="{x:Static events:TargetViewType.All}" />
+            <Button Content="Active"
+                    Command="{Binding ChangeTaretViewTypeCommand}"
+                    CommandParameter="{x:Static events:TargetViewType.Active}" />
+            <Button Content="Completed"
+                    Command="{Binding ChangeTaretViewTypeCommand}"
+                    CommandParameter="{x:Static events:TargetViewType.Completed}" />
+        </StackPanel>
+        <Button Content="Clear completed"
+                Command="{Binding ClearCompletedCommand}" 
+                HorizontalAlignment="Right" />
+    </Grid>
+</UserControl>
