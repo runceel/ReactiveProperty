@@ -14,6 +14,8 @@
     <StackPanel Margin="10">
         <Label Content="Samples:" Style="{StaticResource TitleLabel}" />
         <Button Content="Basic usages" Click="BasicUsagesButton_Click" />
+        <Button Content="Create from objects" Click="CreateFromObjectsButton_Click" />
+        <Button Content="Validation" Click="ValidationButton_Click" />
         <Button Content="ReactiveCommand" Click="ReactiveCommandButton_Click" />
         <Button Content="Collections" Click="CollectionsButton_Click" />
     </StackPanel>

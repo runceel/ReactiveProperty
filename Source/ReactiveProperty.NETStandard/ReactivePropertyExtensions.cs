@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reactive.Linq;
 using System.Reflection;
 
 namespace Reactive.Bindings
@@ -47,5 +48,14 @@ namespace Reactive.Bindings
 
             return self;
         }
+
+        /// <summary>
+        /// Create an IObservable instance to observe validation error messages of ReactiveProperty.
+        /// </summary>
+        /// <typeparam name="T">Property type</typeparam>
+        /// <param name="self">Target ReactiveProperty</param>
+        public static IObservable<string> ObserveValidationErrorMessage<T>(this ReactiveProperty<T> self) =>
+            self.ObserveErrorChanged
+                .Select(x => x?.OfType<string>()?.FirstOrDefault());
     }
 }

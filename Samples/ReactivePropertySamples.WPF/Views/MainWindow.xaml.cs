@@ -27,5 +27,9 @@ namespace ReactivePropertySamples.WPF.Views
         private void ReactiveCommandButton_Click(object sender, RoutedEventArgs e) => new ReactiveCommandWindow().Show();
 
         private void CollectionsButton_Click(object sender, RoutedEventArgs e) => new CollectionsWindow().Show();
+
+        private void CreateFromObjectsButton_Click(object sender, RoutedEventArgs e) => new CreateFromPocoWindow().Show();
+
+        private void ValidationButton_Click(object sender, RoutedEventArgs e) => new ValidationWindow().Show();
     }
 }
