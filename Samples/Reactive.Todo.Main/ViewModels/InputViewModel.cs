@@ -15,7 +15,6 @@ namespace Reactive.Todo.Main.ViewModels
     {
         private readonly TodoApp _todoApp;
 
-        [Required]
         public ReactiveProperty<string> Input { get; }
 
         public ReactiveCommand AddCommand { get; }
@@ -27,9 +26,7 @@ namespace Reactive.Todo.Main.ViewModels
             _todoApp = todoApp;
 
             Input = new ReactiveProperty<string>();
-            AddCommand = Input.ObserveHasErrors
-                .Inverse()
-                .ToReactiveCommand()
+            AddCommand = new ReactiveCommand()
                 .WithSubscribe(AddTodoItem, Disposables.Add)
                 .AddTo(Disposables);
 
@@ -40,6 +37,11 @@ namespace Reactive.Todo.Main.ViewModels
 
         private void AddTodoItem()
         {
+            if (string.IsNullOrWhiteSpace(Input.Value))
+            {
+                return;
+            }
+
             _todoApp.AddTodoItem(new TodoItem(Input.Value, false));
             Input.Value = "";
         }

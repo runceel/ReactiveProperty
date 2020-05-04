@@ -4,7 +4,7 @@
         xmlns:prism="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="True"
         Title="{Binding Title}" Height="350" Width="525" >
-    <DockPanel>
+    <DockPanel Margin="5">
         <TextBlock Text="todos" DockPanel.Dock="Top" 
                    HorizontalAlignment="Center"
                    FontSize="32"/>
