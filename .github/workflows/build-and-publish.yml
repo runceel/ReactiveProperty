@@ -25,7 +25,7 @@ jobs:
         $doc.Project.PropertyGroup.Version += '-ci' + (Get-Date).ToString("yyyyMMddHHmmss")
         $doc.Save('Source\SharedProperties.csproj')
     - name: Install dependencies
-      run: dotnet restore
+      run: dotnet restore ReactiveProperty.sln
     - name: Build
       run: msbuild ReactiveProperty.sln -p:Configuration=Release -p:Platform="Any CPU"
     - name: Test
