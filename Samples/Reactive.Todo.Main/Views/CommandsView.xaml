@@ -6,9 +6,19 @@
              xmlns:prism="http://prismlibrary.com/"           
              xmlns:events="clr-namespace:Reactive.Todo.Main.Events"
              xmlns:viewModels="clr-namespace:Reactive.Todo.Main.ViewModels"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:converters="clr-namespace:Reactive.Todo.Main.Converters"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type={x:Type viewModels:CommandsViewModel}, IsDesignTimeCreatable=False}">
+    <UserControl.Resources>
+        <Style x:Key="BorderLessButton" TargetType="{x:Type Button}" BasedOn="{StaticResource MahApps.Styles.Button}">
+            <Setter Property="BorderBrush" Value="{DynamicResource MahApps.Brushes.Button.Border}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="controls:ControlsHelper.ContentCharacterCasing" Value="Normal" />
+        </Style>
+        <converters:TargetViewTypeToThicknessConverter x:Key="TargetViewTypeToThicknessConverter" />
+    </UserControl.Resources>
     <Grid>
         <TextBlock>
             <Run Text="{Binding CountOfItemsLeft.Value, Mode=OneWay}" />
@@ -18,16 +28,23 @@
                     Orientation="Horizontal">
             <Button Content="All"
                     Command="{Binding ChangeTaretViewTypeCommand}"
-                    CommandParameter="{x:Static events:TargetViewType.All}" />
+                    CommandParameter="{x:Static events:TargetViewType.All}"
+                    BorderThickness="{Binding TargetViewType.Value, Converter={StaticResource TargetViewTypeToThicknessConverter}, ConverterParameter={x:Static events:TargetViewType.All}}"
+                    Style="{DynamicResource BorderLessButton}" />
             <Button Content="Active"
                     Command="{Binding ChangeTaretViewTypeCommand}"
-                    CommandParameter="{x:Static events:TargetViewType.Active}" />
+                    CommandParameter="{x:Static events:TargetViewType.Active}" 
+                    BorderThickness="{Binding TargetViewType.Value, Converter={StaticResource TargetViewTypeToThicknessConverter}, ConverterParameter={x:Static events:TargetViewType.Active}}"
+                    Style="{DynamicResource BorderLessButton}" />
             <Button Content="Completed"
                     Command="{Binding ChangeTaretViewTypeCommand}"
-                    CommandParameter="{x:Static events:TargetViewType.Completed}" />
+                    CommandParameter="{x:Static events:TargetViewType.Completed}"
+                    BorderThickness="{Binding TargetViewType.Value, Converter={StaticResource TargetViewTypeToThicknessConverter}, ConverterParameter={x:Static events:TargetViewType.Completed}}"
+                    Style="{DynamicResource BorderLessButton}" />
         </StackPanel>
         <Button Content="Clear completed"
                 Command="{Binding ClearCompletedCommand}" 
-                HorizontalAlignment="Right" />
+                HorizontalAlignment="Right" 
+                Style="{StaticResource BorderLessButton}" />
     </Grid>
 </UserControl>

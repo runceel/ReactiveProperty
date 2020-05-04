@@ -4,7 +4,7 @@ namespace Reactive.Todo.ViewModels
 {
     public class MainWindowViewModel : BindableBase
     {
-        private string _title = "Prism Application";
+        private string _title = "Prism & ReactiveProperty todo app";
         public string Title
         {
             get { return _title; }

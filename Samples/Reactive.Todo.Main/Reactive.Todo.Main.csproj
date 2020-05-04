@@ -5,6 +5,7 @@
     <AssemblyName>Reactive.Todo.Main</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0775" />
     <PackageReference Include="Prism.Wpf" Version="7.2.0.1422" />
   </ItemGroup>
   <ItemGroup>
