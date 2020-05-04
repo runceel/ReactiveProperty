@@ -18,5 +18,6 @@
         <Button Content="Validation" Click="ValidationButton_Click" />
         <Button Content="ReactiveCommand" Click="ReactiveCommandButton_Click" />
         <Button Content="Collections" Click="CollectionsButton_Click" />
+        <Button Content="EventToReactiveXXX" Click="EventToReactiveButton_Click" />
     </StackPanel>
 </Window>

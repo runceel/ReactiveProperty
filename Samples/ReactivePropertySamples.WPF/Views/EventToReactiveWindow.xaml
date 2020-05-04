@@ -1,0 +1,50 @@
+﻿<Window x:Class="ReactivePropertySamples.WPF.Views.EventToReactiveWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ReactivePropertySamples.WPF.Views"
+        xmlns:interactivity="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:behaviors="clr-namespace:ReactivePropertySamples.WPF.Behaviors"
+        xmlns:viewModels="clr-namespace:ReactivePropertySamples.ViewModels;assembly=ReactivePropertySamples.Shared"
+        xmlns:reactiveProperty="clr-namespace:Reactive.Bindings.Interactivity;assembly=ReactiveProperty.WPF"
+        xmlns:converters="clr-namespace:ReactivePropertySamples.WPF.Converters"
+        mc:Ignorable="d"
+        Title="EventToReactiveWindow" Height="450" Width="800">
+    <interactivity:Interaction.Behaviors>
+        <behaviors:DisposeViewModelWhenClosedBehavior />
+    </interactivity:Interaction.Behaviors>
+    <Window.DataContext>
+        <viewModels:EventToReactiveViewModel />
+    </Window.DataContext>
+    <StackPanel Margin="10">
+        <Label Content="EventToReactiveProperty:" Style="{StaticResource TitleLabel}" />
+        <TextBlock>
+            <Run Text="Mouse position: " />
+            <Run Text="{Binding MousePosition.Value}" />
+        </TextBlock>
+        <Border Height="100"
+                Background="LightGoldenrodYellow" 
+                BorderThickness="1"
+                BorderBrush="DarkRed">
+            <interactivity:Interaction.Triggers>
+                <interactivity:EventTrigger EventName="MouseMove">
+                    <reactiveProperty:EventToReactiveProperty ReactiveProperty="{Binding MousePosition}">
+                        <converters:MouseEventConverter />
+                    </reactiveProperty:EventToReactiveProperty>
+                </interactivity:EventTrigger>
+            </interactivity:Interaction.Triggers>
+        </Border>
+        <Label Content="EventToReactiveCommand:" Style="{StaticResource TitleLabel}" />
+        <Button Content="Open file">
+            <interactivity:Interaction.Triggers>
+                <interactivity:EventTrigger EventName="Click">
+                    <reactiveProperty:EventToReactiveCommand Command="{Binding OpenFileCommand}">
+                        <converters:OpenFileConverter />
+                    </reactiveProperty:EventToReactiveCommand>
+                </interactivity:EventTrigger>
+            </interactivity:Interaction.Triggers>
+        </Button>
+        <TextBlock Text="{Binding OpenedFile.Value}" />
+    </StackPanel>
+</Window>
