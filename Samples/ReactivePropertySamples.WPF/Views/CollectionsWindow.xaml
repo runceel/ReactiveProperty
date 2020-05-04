@@ -1,0 +1,72 @@
+﻿<Window x:Class="ReactivePropertySamples.WPF.Views.CollectionsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ReactivePropertySamples.WPF.Views"
+        xmlns:viewModels="clr-namespace:ReactivePropertySamples.ViewModels;assembly=ReactivePropertySamples.Shared"
+        xmlns:intaractivity="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:behaviors="clr-namespace:ReactivePropertySamples.WPF.Behaviors"
+        mc:Ignorable="d"
+        Title="CollectionsWindow" Height="800" Width="800">
+    <intaractivity:Interaction.Behaviors>
+        <behaviors:DisposeViewModelWhenClosedBehavior />
+    </intaractivity:Interaction.Behaviors>
+    <Window.DataContext>
+        <viewModels:CollectionsViewModel />
+    </Window.DataContext>
+    <StackPanel Margin="10">
+        <Label Content="Collections:" Style="{StaticResource TitleLabel}" />
+        <Label Content="ReactiveCollection#***OnScheduler:" />
+        <Button Content="Add" Command="{Binding AddToReactiveCollectionCommand}" />
+        <Button Content="ClearOnScheduler" Command="{Binding ClearReactiveCollectionCommand}" />
+        <ListBox Height="100" ItemsSource="{Binding ReactiveCollection}" />
+
+        <Label Content="ReadOnlyReactiveCollection:" />
+        <Button Content="Add a GUID to model" Command="{Binding AddGuidToModelCommand}" />
+        <Button Content="Clear GUIDs from model" Command="{Binding ClearModelGuidsCommand}" />
+        <ListBox Height="100" ItemsSource="{Binding GuidViewModels}">
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="{x:Type viewModels:GuidViewModel}">
+                    <TextBlock Text="{Binding Text}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <Label Content="FilteredColletion:" />
+        <Button Content="Add to source" Command="{Binding AddToFilterSourceItemsCommand}" />
+        <Button Content="Clear source" Command="{Binding ClearFromFilterSourceItemsCommand}" />
+        <Grid Height="150">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <DockPanel>
+                <Label Content="Source:" DockPanel.Dock="Top" />
+                <ListBox ItemsSource="{Binding FilterSourceItems}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="{x:Type viewModels:FilterSourceItem}">
+                            <TextBlock>
+                                <Run Text="Count is " />
+                                <Run Text="{Binding Count, Mode=OneWay}" />
+                            </TextBlock>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
+            <DockPanel Grid.Column="1">
+                <Label Content="Filtered values(not less than 7):" DockPanel.Dock="Top" />
+                <ListBox ItemsSource="{Binding FilteredItems}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="{x:Type viewModels:FilterSourceItem}">
+                            <TextBlock>
+                                <Run Text="Count is " />
+                                <Run Text="{Binding Count, Mode=OneWay}" />
+                            </TextBlock>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
+        </Grid>
+    </StackPanel>
+</Window>

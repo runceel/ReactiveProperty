@@ -5,7 +5,7 @@ namespace Reactive.Bindings
 {
     /// <summary>
     /// </summary>
-    public interface IReadOnlyReactiveProperty
+    public interface IReadOnlyReactiveProperty : INotifyPropertyChanged
     {
         /// <summary>
         /// Gets the value.
@@ -17,7 +17,7 @@ namespace Reactive.Bindings
     /// <summary>
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IReadOnlyReactiveProperty<out T> : IReadOnlyReactiveProperty, IObservable<T>, INotifyPropertyChanged, IDisposable
+    public interface IReadOnlyReactiveProperty<out T> : IReadOnlyReactiveProperty, IObservable<T>, IDisposable
     {
         /// <summary>
         /// Gets the value.

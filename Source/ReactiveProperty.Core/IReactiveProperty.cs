@@ -6,7 +6,7 @@ namespace Reactive.Bindings
     /// <summary>
     /// for EventToReactive and Serialization
     /// </summary>
-    public interface IReactiveProperty : IReadOnlyReactiveProperty, IHasErrors
+    public interface IReactiveProperty : IReadOnlyReactiveProperty, IHasErrors, INotifyPropertyChanged
     {
         /// <summary>
         /// Gets or sets the value.
@@ -19,7 +19,7 @@ namespace Reactive.Bindings
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <seealso cref="Reactive.Bindings.IHasErrors"/>
-    public interface IReactiveProperty<T> : IReactiveProperty, IReadOnlyReactiveProperty<T>, IObservable<T>, IDisposable, INotifyPropertyChanged, INotifyDataErrorInfo
+    public interface IReactiveProperty<T> : IReactiveProperty, IReadOnlyReactiveProperty<T>, IObservable<T>, IDisposable, INotifyDataErrorInfo
     {
         /// <summary>
         /// Gets or sets the value.
