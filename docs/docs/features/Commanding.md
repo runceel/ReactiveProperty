@@ -3,12 +3,12 @@
 `ReactiveCommand` class implements the following two interfaces.
 
 - `ICommand` interface
-- `IObservable&lt;T&gt;`
+- `IObservable<T>`
 
 ## Basic usage
 
-This class can be created using `ToReactiveCommand` extension method from `IObservable&lt;bool&gt;` instance.
-When the `IObservable&lt;bool&gt;` instance is updated, the `CanExecuteChanged` event is raised.
+This class can be created using `ToReactiveCommand` extension method from `IObservable<bool>` instance.
+When the `IObservable<bool>` instance is updated, the `CanExecuteChanged` event is raised.
 
 If you always want an executable command, then you can create a `ReactiveCommand` instance using the default constructor.
 
@@ -97,8 +97,8 @@ public sealed partial class MainPage : Page
 
 ## Work with LINQ
 
-`ReactiveCommand` class implements the `IObservable&lt;T&gt;` interface. 
-Can use LINQ methods, and `ReactiveProperty&lt;T&gt;` class can be created from `IObservable&lt;T&gt;`.
+`ReactiveCommand` class implements the `IObservable<T>` interface. 
+Can use LINQ methods, and `ReactiveProperty<T>` class can be created from `IObservable<T>`.
 The previous example code can be changed to this:
 
 ```csharp
@@ -119,7 +119,7 @@ public class ViewModel
 }
 ```
 
-## Create from `IObservable&lt;bool&gt;`
+## Create from `IObservable<bool>`
 
 Change so that the `UpdateTimeCommand` doesn't invoke for 5 secs after the command is invoked.
 
@@ -214,7 +214,7 @@ var command = new ReactiveCommand().WithSubscribe(() => { ... some actions ... }
 subscription.Dispose();
 ```
 
-And has another override of `Action&lt;IDisposable&gt;` argument.
+And has another override of `Action<IDisposable>` argument.
 It is used together with `CompositeDisposable` class.
 
 ```csharp
@@ -238,7 +238,7 @@ So, this class can't re-execute while the async method is running.
 ### Basic usage
 
 Nearly the same as a `ReactiveCommand` class. 
-The only difference is that it accepts an `async` method in `Subscribe` method argument, and doesn't implement the `IObservable&lt;T&gt;` interface.
+The only difference is that it accepts an `async` method in `Subscribe` method argument, and doesn't implement the `IObservable<T>` interface.
 
 ```csharp
 public class ViewModel
@@ -280,7 +280,7 @@ public class ViewModel
 
 ![HeavyCommand](./images/asyncreactivecommand-heavyprocess.gif)
 
-Of course, `AsyncReactiveCommand` is created from `IObservable&lt;bool&gt;`.
+Of course, `AsyncReactiveCommand` is created from `IObservable<bool>`.
 
 ```csharp
 public class ViewModel
@@ -313,7 +313,7 @@ You should call the `Dispose` method when the another instance's event subscribe
 
 Sometimes you want only one async method is to be executing in a page.
 In this case, you can share `CanExecute` state between `AsyncReactiveCommand` instances.
-When it's created from a same `IReactiveProperty&lt;bool&gt;` instance, you can synchronize the `CanExecute` state.
+When it's created from a same `IReactiveProperty<bool>` instance, you can synchronize the `CanExecute` state.
 
 ```csharp
 public class ViewModel

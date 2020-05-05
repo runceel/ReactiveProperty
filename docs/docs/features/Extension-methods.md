@@ -1,3 +1,5 @@
+# Extension methods
+
 The `Reactive.Bindings.Extensions` namespace provides useful extension methods.
 
 ## `AddTo`
@@ -314,7 +316,7 @@ Change okazuki name to okazuki
 
 ## `INotifyDataErrorInfo` extension methods
 
-Convert `ErrorChanged` event to an `IObservable&lt;DataErrorsChangedEventArgs&gt;`.
+Convert `ErrorChanged` event to an `IObservable<DataErrorsChangedEventArgs>`.
 It is a shortcut of `FromEvent` method.
 
 ```csharp
@@ -331,7 +333,7 @@ public static IObservable<DataErrorsChangedEventArgs> ErrorsChangedAsObservable<
 
 ## `Inverse`
 
-Inverts the boolean value of an `IObservable&lt;bool&gt;` sequence.
+Inverts the boolean value of an `IObservable<bool>` sequence.
 
 ```csharp
 IObservable<bool> boolSequence = ...;

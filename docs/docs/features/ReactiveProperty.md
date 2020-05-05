@@ -1,12 +1,14 @@
+# ReactiveProperty
+
 `ReactiveProperty` is the core class of this library.
 This has following features.
 
 - Implements the `INotifyPropertyChanged` interface.
     - The value property raise the `PropertyChanged` event.
-- Implements the `IObservable&lt;T&gt;` interface.
+- Implements the `IObservable<T>` interface.
 
 Yes, The value property can bind to XAML control's property.
-And the class call the `IObserver&lt;T&gt;`#OnNext method when the value is set.
+And the class call the `IObserver<T>`#OnNext method when the value is set.
 
 A sample code is as below.
 
@@ -147,9 +149,9 @@ var name = new ReactiveProperty<string>("okazuki");
 Console.WriteLine(name.Value); // -> okazuki
 ```
 
-### Create from `IObservable&lt;T&gt;`
+### Create from `IObservable<T>`
 
-This can created from `IObservable&lt;T&gt;`.
+This can created from `IObservable<T>`.
 Just calls `ToReactiveProperty` method.
 
 ```csharp
@@ -313,7 +315,7 @@ class ViewModel
 Next property is `ObserveHasErrors`. `ObserveHasErrors` property type is `IObservable<bool>`.
 In the popular input form case, combining `ObserveHasErrors` property values is very useful.
 
-This sample program creates the `HasErrors` property that is of type `ReactiveProperty&lt;bool&gt;` that combine two `ReactiveProperty`'s `ObserveHasErrors` properties.
+This sample program creates the `HasErrors` property that is of type `ReactiveProperty<bool>` that combine two `ReactiveProperty`'s `ObserveHasErrors` properties.
 
 ```csharp
 public class ViewModel

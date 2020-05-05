@@ -1,11 +1,12 @@
-# `ReactivePropertySlim`
+# ReactivePropertySlim
 
-`ReactivePropertySlim` is a lightweight version `ReactiveProperty`.
+`ReactivePropertySlim` is a lightweight version `ReactiveProperty`. 
+`ReactivePropertySlim` is five times faster than `ReactiveProperty`.
 
 `ReactivePropertySlim` provides following features:
 
 - Implements `INotifyPropertyChanged` interface.
-- Implements `IObservable&lt;T&gt;` interface.
+- Implements `IObservable<T>` interface.
 - Provides a `Value` property.
 - Provides a `ForceNotify` method.
 
@@ -28,14 +29,14 @@ xin9le-san
 okazuki-san
 ```
 
-One difference to `ReactiveProperty` is that `ReactivePropertySlim` can't be created from `IObservable&lt;T&gt;`.
+One difference to `ReactiveProperty` is that `ReactivePropertySlim` can't be created from `IObservable<T>`.
 
 ```csharp
 // It isn't valid code.
 var rp = Observable.Interval(TimeSpan.FromSeconds(1)).ToReactivePropertySlim();
 ```
 
-If you want to create Slim class's instance from `IObservable&lt;T&gt;`, then use the `ToReadOnlyReactivePropertySlim` extension method.
+If you want to create Slim class's instance from `IObservable<T>`, then use the `ToReadOnlyReactivePropertySlim` extension method.
 
 ```csharp
 var rp = Observable.Interval(TimeSpan.FromSeconds(1)).ToReadOnlyReactivePropertySlim();

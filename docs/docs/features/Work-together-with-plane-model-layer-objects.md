@@ -1,3 +1,5 @@
+# Work together with POCO
+
 The classes of this library can work together with POCO classes.
 
 ## Connect to classes that implement `INotifyPropertyChanged`
@@ -6,7 +8,7 @@ ReactiveProperty provides many features that synchronize to POCO class instance.
 
 ### One-way synchronization
 
-`ToObserveProperty` extension method of `INotifyPropertyChanged` interface convert `INotifyPropertyChanged` to `IObservable&lt;T&gt;`.
+`ToObserveProperty` extension method of `INotifyPropertyChanged` interface convert `INotifyPropertyChanged` to `IObservable<T>`.
 `IObservable` can be converted to `ReactiveProperty`. It means that you can have one-way synchronization to `ReactiveProperty` from `INotifyPropertyChanged`.
 
 For example:
@@ -208,10 +210,10 @@ public class ViewModel
 }
 ```
 
-### One-time synchronization
+### One-way synchronization to source
 
 The `FromObject` method creates a `ReactiveProperty` instance from a POCO.
-This method sets the `Value` property from the POCO when the `ReactiveProperty` instance is created.
+This method sets the `Value` property from the POCO when the `ReactiveProperty` instance is created, when the `Value` property updated, then update the source value.
 
 ```csharp
 using Reactive.Bindings;
