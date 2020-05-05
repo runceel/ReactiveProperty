@@ -36,7 +36,8 @@ namespace ReactivePropertySamples.ViewModels
         {
             InvokedDateTime = new ReactivePropertySlim<string>();
             CreateAndSubscribeCommand = new ReactiveCommand()
-                .WithSubscribe(() => InvokedDateTime.Value = $"The command was invoked at {DateTime.Now}.", Disposables.Add);
+                .WithSubscribe(() => InvokedDateTime.Value = $"The command was invoked at {DateTime.Now}.")
+                .AddTo(Disposables);
 
             InvokedDateTimeFromCommand = CreateAndSubscribeCommand
                 .Select(_ => $"The command was invoked at {DateTime.Now}.")
@@ -83,7 +84,8 @@ namespace ReactivePropertySamples.ViewModels
                 })
                 .AddTo(Disposables);
 
-            var sharedStatus = new ReactivePropertySlim<bool>(true);
+            var sharedStatus = new ReactivePropertySlim<bool>(true)
+                .AddTo(Disposables);
             IsCheckedForSharedStatus = new ReactivePropertySlim<bool>()
                 .AddTo(Disposables);
             SharedStatusOutput = new ReactivePropertySlim<string>()

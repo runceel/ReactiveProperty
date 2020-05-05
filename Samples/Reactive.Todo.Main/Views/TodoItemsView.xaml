@@ -36,7 +36,7 @@
                 <DataGridTemplateColumn Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate DataType="{x:Type models:TodoItem}">
-                            <CheckBox IsChecked="{Binding Done.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <CheckBox IsChecked="{Binding Completed.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -44,7 +44,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate DataType="{x:Type models:TodoItem}">
                             <TextBlock Text="{Binding Text.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                       TextDecorations="{Binding Done.Value, Converter={StaticResource BooleanToTextDecorationCollectionConverter}}"/>
+                                       TextDecorations="{Binding Completed.Value, Converter={StaticResource BooleanToTextDecorationCollectionConverter}}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                     <DataGridTemplateColumn.CellEditingTemplate>

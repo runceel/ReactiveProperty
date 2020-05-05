@@ -25,32 +25,32 @@ namespace Reactive.Todo.Main.Models
         {
             _todoItems = new ObservableCollection<TodoItem>();
             AllTodoItems = new ReadOnlyObservableCollection<TodoItem>(_todoItems);
-            ActiveTodoItems = AllTodoItems.ToFilteredReadOnlyObservableCollection(x => !x.Done.Value).AddTo(_disposables);
-            CompletedTodoitems = AllTodoItems.ToFilteredReadOnlyObservableCollection(x => x.Done.Value).AddTo(_disposables);
+            ActiveTodoItems = AllTodoItems.ToFilteredReadOnlyObservableCollection(x => !x.Completed.Value).AddTo(_disposables);
+            CompletedTodoitems = AllTodoItems.ToFilteredReadOnlyObservableCollection(x => x.Completed.Value).AddTo(_disposables);
 
-            IsCompletedAllItems = AllTodoItems.ObserveElementProperty(x => x.Done)
+            IsCompletedAllItems = AllTodoItems.ObserveElementProperty(x => x.Completed)
                 .ToUnit()
                 .Merge(AllTodoItems.CollectionChangedAsObservable().ToUnit())
                 .Throttle(TimeSpan.FromMilliseconds(10))
-                .Select(_ => AllTodoItems.Count != 0 && AllTodoItems.All(x => x.Done.Value))
+                .Select(_ => AllTodoItems.Count != 0 && AllTodoItems.All(x => x.Completed.Value))
                 .ToReadOnlyReactivePropertySlim()
                 .AddTo(_disposables);
         }
 
         public void AddTodoItem(TodoItem newTodoItem) => _todoItems.Add(newTodoItem);
 
-        public void CheckAll()
+        public void CompleteAll()
         {
-            var status = _todoItems.Any(x => !x.Done.Value);
+            var status = _todoItems.Any(x => !x.Completed.Value);
             foreach (var item in _todoItems)
             {
-                item.Done.Value = status;
+                item.Completed.Value = status;
             }
         }
 
         public void ClearCompletedItems()
         {
-            var targets = _todoItems.Where(x => x.Done.Value).ToArray();
+            var targets = _todoItems.Where(x => x.Completed.Value).ToArray();
             foreach (var target in targets)
             {
                 _todoItems.Remove(target);

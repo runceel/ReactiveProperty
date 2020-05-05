@@ -9,18 +9,18 @@ namespace Reactive.Todo.Main.Models
     public class TodoItem : BindableBase
     {
         public ReactivePropertySlim<string> Text { get; }
-        public ReactivePropertySlim<bool> Done { get; }
+        public ReactivePropertySlim<bool> Completed { get; }
 
         public TodoItem() : this(null, false)
         {
         }
 
-        public TodoItem(string text, bool done)
+        public TodoItem(string text, bool completed)
         {
             Text = new ReactivePropertySlim<string>(text);
-            Done = new ReactivePropertySlim<bool>(done);
+            Completed = new ReactivePropertySlim<bool>(completed);
             Text.Subscribe(_ => RaisePropertyChanged(nameof(Text)));
-            Done.Subscribe(_ => RaisePropertyChanged(nameof(Done)));
+            Completed.Subscribe(_ => RaisePropertyChanged(nameof(Completed)));
         }
     }
 }
