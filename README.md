@@ -6,6 +6,7 @@ ReactiveProperty provides MVVM and asynchronous support features under Reactive 
 
 ![](https://img.shields.io/nuget/v/ReactiveProperty.svg)
 ![](https://img.shields.io/nuget/dt/ReactiveProperty.svg)
+![Build and Release](https://github.com/runceel/ReactiveProperty/workflows/Build%20and%20Release/badge.svg)
 
 ![ReactiveProperty overview](Images/rpsummary.png)
 
