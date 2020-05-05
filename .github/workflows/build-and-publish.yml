@@ -3,6 +3,9 @@ name: .NET Core
 on:
   push:
     branches: [ master, pre-release, release ]
+  pull_request:
+    types: [opened, synchronize]
+    branches: [ master, pre-release, release ]
 
 jobs:
   build:
@@ -22,7 +25,7 @@ jobs:
       shell: pwsh
       run: |
         $doc = [XML](Get-Content 'Source\SharedProperties.csproj')
-        $doc.Project.PropertyGroup.Version += '-ci' + (Get-Date).ToString("yyyyMMddHHmmss")
+        $doc.Project.PropertyGroup.Version += '-pre' + (Get-Date).ToString("yyyyMMddHHmm")
         $doc.Save('Source\SharedProperties.csproj')
     - name: Install dependencies
       run: dotnet restore ReactiveProperty.sln
@@ -45,7 +48,7 @@ jobs:
   release-to-nuget:
     runs-on: windows-latest
     needs: [build]
-    if: github.ref == 'refs/heads/pre-release' || github.ref == 'refs/heads/release'
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/pre-release' || github.ref == 'refs/heads/release')
     steps:
       - name: Download archives
         uses: actions/download-artifact@v2
