@@ -231,7 +231,7 @@ class ViewModel
     [StringLength(100, ErrorMessage = "The name length should be lower than 30.")]
     public ReactiveProperty<string> Name { get; }
 
-    public ReactiveProperty<string> NameErrorMessage { get; }
+    public ReadOnlyReactiveProperty<string> NameErrorMessage { get; }
 
     public ViewModel()
     {
@@ -242,7 +242,7 @@ class ViewModel
         // Handling an error message
         NameErrorMessage = Name.ObserveErrorChanged
             .Select(x => x?.OfType<string>()?.FirstOrDefault())
-            .ToReactiveProperty();
+            .ToReadOnlyReactiveProperty();
     }
 }
 ```
@@ -285,6 +285,31 @@ public sealed partial class MainPage : Page
 
 ![A validation error message](./images/validation-errormessage.png)
 
+ReactiveProperty v7.0.0 or later, there is `ObserveValidationErrorMessage` extension method instead of `ObserveErrorChanged.Select(x => x?.OfType<string>()?.FirstOrDefault())`. The above code is as below:
+
+```csharp
+class ViewModel
+{
+    // Set validation attributes
+    [Required(ErrorMessage = "The name is required.")]
+    [StringLength(100, ErrorMessage = "The name length should be lower than 30.")]
+    public ReactiveProperty<string> Name { get; }
+
+    public ReadOnlyReactiveProperty<string> NameErrorMessage { get; }
+
+    public ViewModel()
+    {
+        Name = new ReactiveProperty<string>()
+            // Set validation attributes into the ReactiveProperty.
+            .SetValidateAttribute(() => Name);
+
+        // Handling an error message
+        NameErrorMessage = Name.ObserveValidationErrorMessage()
+            .ToReadOnlyReactiveProperty();
+    }
+}
+```
+
 Next property is `ObserveHasErrors`. `ObserveHasErrors` property type is `IObservable<bool>`.
 In the popular input form case, combining `ObserveHasErrors` property values is very useful.
 
@@ -301,7 +326,7 @@ public class ViewModel
     [Required(ErrorMessage = "The memo is required.")]
     public ReactiveProperty<string> Memo { get; }
 
-    public ReactiveProperty<bool> HasErrors { get; }
+    public ReadOnlyReactiveProperty<bool> HasErrors { get; }
 
     public ViewModel()
     {
@@ -317,7 +342,7 @@ public class ViewModel
                 Name.ObserveHasErrors,
                 Memo.ObserveHasErrors,
             }.CombineLatest(x => x.Any(y => y))
-            .ToReactiveProperty();
+            .ToReadOnlyReactiveProperty();
     }
 }
 ```
@@ -399,7 +424,7 @@ class ViewModel
     [StringLength(100, ErrorMessage = "The name length should be lower than 30.")]
     public ReactiveProperty<string> Name { get; }
 
-    public ReactiveProperty<string> NameErrorMessage { get; }
+    public ReadOnlyReactiveProperty<string> NameErrorMessage { get; }
 
     public ViewModel()
     {
@@ -410,7 +435,7 @@ class ViewModel
         NameErrorMessage = Name.ObserveErrorChanged
             .Skip(1) // Skip the first error.
             .Select(x => x?.OfType<string>()?.FirstOrDefault())
-            .ToReactiveProperty();
+            .ToReadOnlyReactiveProperty();
     }
 }
 ```
@@ -425,7 +450,7 @@ class ViewModel
     [StringLength(100, ErrorMessage = "The name length should be lower than 30.")]
     public ReactiveProperty<string> Name { get; }
 
-    public ReactiveProperty<string> NameErrorMessage { get; }
+    public ReadOnlyReactiveProperty<string> NameErrorMessage { get; }
 
     public ViewModel()
     {
@@ -436,7 +461,7 @@ class ViewModel
         // Handling an error message
         NameErrorMessage = Name.ObserveErrorChanged
             .Select(x => x?.OfType<string>()?.FirstOrDefault())
-            .ToReactiveProperty();
+            .ToReadOnlyReactiveProperty();
     }
 }
 ```
