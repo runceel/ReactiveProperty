@@ -2,8 +2,7 @@
 Those classes extend `TriggerAction`. Those are designed that uses together with `EventTrigger`.
 
 <b>Note:</b> 
-> This feature provides to only WPF and UWP.
-> Xamarin.Forms can't use this feature.
+> This feature available only WPF and UWP. Xamarin.Forms can't use this. If you would like to use it, then please add `ReactiveProperty.WPF` package for WPF or R`eactiveProperty.UWP` package for UWP to your project.
 
 Those classes can convert `EventArgs` to any types object using `ReactiveConverter&lt;T, U&gt;`.
 
