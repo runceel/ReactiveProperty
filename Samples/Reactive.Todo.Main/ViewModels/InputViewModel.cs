@@ -18,7 +18,7 @@ namespace Reactive.Todo.Main.ViewModels
         public ReactiveProperty<string> Input { get; }
 
         public ReactiveCommand AddCommand { get; }
-        public ReactiveCommand CheckAllCommand { get; }
+        public ReactiveCommand CompleteAllCommand { get; }
         public ReadOnlyReactivePropertySlim<bool> IsCompletedAllItems => _todoApp.IsCompletedAllItems;
 
         public InputViewModel(TodoApp todoApp)
@@ -27,11 +27,11 @@ namespace Reactive.Todo.Main.ViewModels
 
             Input = new ReactiveProperty<string>();
             AddCommand = new ReactiveCommand()
-                .WithSubscribe(AddTodoItem, Disposables.Add)
+                .WithSubscribe(AddTodoItem)
                 .AddTo(Disposables);
 
-            CheckAllCommand = new ReactiveCommand()
-                .WithSubscribe(() => _todoApp.CheckAll(), Disposables.Add)
+            CompleteAllCommand = new ReactiveCommand()
+                .WithSubscribe(() => _todoApp.CompleteAll())
                 .AddTo(Disposables);
         }
 

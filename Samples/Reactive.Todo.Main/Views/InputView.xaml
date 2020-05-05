@@ -12,7 +12,7 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <Button Command="{Binding CheckAllCommand}"
+        <Button Command="{Binding CompleteAllCommand}"
                 Focusable="False"
                 Margin="5">
             <Button.Template>

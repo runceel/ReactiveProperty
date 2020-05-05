@@ -22,19 +22,19 @@ namespace Reactive.Todo.Main.ViewModels
         public CommandsViewModel(TodoApp todoApp, IMessageBroker messageBroker)
         {
             ChangeTargetViewTypeCommand = new ReactiveCommand<TargetViewType>()
-                .WithSubscribe(x => messageBroker.Publish(new TargetViewChangedEvent(x)), Disposables.Add)
+                .WithSubscribe(x => messageBroker.Publish(new TargetViewChangedEvent(x)))
                 .AddTo(Disposables);
 
             TargetViewType = ChangeTargetViewTypeCommand.ToReadOnlyReactivePropertySlim()
                 .AddTo(Disposables);
             CountOfItemsLeft = todoApp.AllTodoItems
-                .ObserveElementProperty(x => x.Done)
+                .ObserveElementProperty(x => x.Completed)
                 .Select(_ => todoApp.ActiveTodoItems.Count)
                 .ToReadOnlyReactivePropertySlim()
                 .AddTo(Disposables);
 
             ClearCompletedCommand = new ReactiveCommand()
-                .WithSubscribe(() => todoApp.ClearCompletedItems(), Disposables.Add)
+                .WithSubscribe(() => todoApp.ClearCompletedItems())
                 .AddTo(Disposables);
         }
     }

@@ -62,7 +62,7 @@ namespace ReactivePropertySamples.ViewModels
                 .ToFilteredReadOnlyObservableCollection(x => x.Count >= 7)
                 .AddTo(Disposables);
             AddToFilterSourceItemsCommand = new ReactiveCommand()
-                .WithSubscribe(() => FilterSourceItems.Add(new FilterSourceItem()), Disposables.Add)
+                .WithSubscribe(() => FilterSourceItems.Add(new FilterSourceItem()))
                 .AddTo(Disposables);
             ClearFromFilterSourceItemsCommand = FilterSourceItems.ObserveProperty(x => x.Count)
                 .Select(x => x != 0)
@@ -75,7 +75,7 @@ namespace ReactivePropertySamples.ViewModels
                     }
 
                     FilterSourceItems.Clear();
-                }, Disposables.Add)
+                })
                 .AddTo(Disposables);
         }
     }

@@ -6,7 +6,6 @@
     <Authors>neuecc xin9le okazuki</Authors>
     <PackageProjectUrl>https://github.com/runceel/ReactiveProperty</PackageProjectUrl>
     <PackageTags>rx mvvm async rx-main reactive</PackageTags>
-    <PackageReleaseNotes>Update dependency library version to System.Reactive 4.1.0</PackageReleaseNotes>
     <NeutralLanguage>en-US</NeutralLanguage>
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
