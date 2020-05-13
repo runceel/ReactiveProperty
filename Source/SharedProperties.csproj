@@ -7,7 +7,6 @@
     <PackageTags>rx mvvm async rx-main reactive</PackageTags>
     <NeutralLanguage>en-US</NeutralLanguage>
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>ReactivePropertyIcon_100x100.png</PackageIcon>
     <RepositoryUrl>https://github.com/runceel/ReactiveProperty</RepositoryUrl>
