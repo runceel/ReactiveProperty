@@ -1,0 +1,17 @@
+﻿<controls:MetroWindow x:Class="Reactive.Todo.Views.MainWindow"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:prism="http://prismlibrary.com/"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      prism:ViewModelLocator.AutoWireViewModel="True"
+                      TitleCharacterCasing="Normal"
+                      Title="{Binding Title}" Height="350" Width="525" >
+    <DockPanel Margin="5">
+        <TextBlock Text="todos" DockPanel.Dock="Top" 
+                   HorizontalAlignment="Center"
+                   FontSize="32"/>
+        <ContentControl prism:RegionManager.RegionName="InputRegion" DockPanel.Dock="Top" />
+        <ContentControl prism:RegionManager.RegionName="CommandsRegion" DockPanel.Dock="Bottom" />
+        <ContentControl prism:RegionManager.RegionName="ListRegion" />
+    </DockPanel>
+</controls:MetroWindow>

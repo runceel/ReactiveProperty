@@ -1,0 +1,59 @@
+﻿<UserControl x:Class="Reactive.Todo.Main.Views.TodoItemsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:models="clr-namespace:Reactive.Todo.Main.Models" xmlns:converters="clr-namespace:Reactive.Todo.Main.Converters"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <UserControl.Resources>
+        <converters:BooleanToTextDecorationCollectionConverter x:Key="BooleanToTextDecorationCollectionConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <DataGrid ItemsSource="{Binding TodoItems.Value}"
+                  HeadersVisibility="None"
+                  AutoGenerateColumns="False"
+                  GridLinesVisibility="None"
+                  SelectionMode="Single"
+                  CanUserAddRows="False"
+                  ColumnWidth="*">
+            <DataGrid.CellStyle>
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Setter Property="BorderThickness" Value="0" />
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                    <Setter Property="Margin" Value="5" />
+                </Style>
+            </DataGrid.CellStyle>
+            <DataGrid.RowStyle>
+                <Style TargetType="{x:Type DataGridRow}">
+                    <Style.Resources>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="Black" />
+                    </Style.Resources>
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="{x:Type models:TodoItem}">
+                            <CheckBox IsChecked="{Binding Completed.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="{x:Type models:TodoItem}">
+                            <TextBlock Text="{Binding Text.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                       TextDecorations="{Binding Completed.Value, Converter={StaticResource BooleanToTextDecorationCollectionConverter}}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate DataType="{x:Type models:TodoItem}">
+                            <TextBox Text="{Binding Text.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

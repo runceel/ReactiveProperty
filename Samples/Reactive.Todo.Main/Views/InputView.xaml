@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="Reactive.Todo.Main.Views.InputView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"     
+             xmlns:rp="clr-namespace:Reactive.Bindings.Interactivity;assembly=ReactiveProperty.WPF"
+             xmlns:interactivity="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:converters="clr-namespace:Reactive.Todo.Main.Converters"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Button Command="{Binding CompleteAllCommand}"
+                Focusable="False"
+                Margin="5">
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid Background="White">
+                        <Border Margin="{TemplateBinding Margin}" Padding="{TemplateBinding Padding}">
+                            <CheckBox IsHitTestVisible="False" 
+                                  IsChecked="{Binding IsCompletedAllItems.Value, Mode=OneWay}" 
+                                  Focusable="False"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"/>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <TextBox Text="{Binding Input.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 VerticalAlignment="Center"
+                 Grid.Column="1">
+            <interactivity:Interaction.Triggers>
+                <interactivity:EventTrigger EventName="KeyDown">
+                    <rp:EventToReactiveCommand Command="{Binding AddCommand}">
+                        <converters:EnterKeyEventFilter />
+                    </rp:EventToReactiveCommand>
+                </interactivity:EventTrigger>
+            </interactivity:Interaction.Triggers>
+        </TextBox>
+    </Grid>
+</UserControl>
