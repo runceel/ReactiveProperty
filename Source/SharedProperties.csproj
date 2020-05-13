@@ -1,7 +1,6 @@
 <Project>
   <PropertyGroup>
     <RootNamespace>Reactive.Bindings</RootNamespace>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Version>7.0.0</Version>
     <Authors>neuecc xin9le okazuki</Authors>
     <PackageProjectUrl>https://github.com/runceel/ReactiveProperty</PackageProjectUrl>
