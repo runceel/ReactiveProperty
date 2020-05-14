@@ -1,7 +1,9 @@
+# Threading
+
 ReactiveProperty provides execution thread control feature.
 ReactiveProperty raises `PropertyChanged` event on UI thread automatically. 
 
-# Change the scheduler
+## Change the scheduler
 
 You can change this behavior using `IScheduler`.
 When the instance is created, set `IScheduler` instance to `raiseEventScheduler` argument.
@@ -22,7 +24,7 @@ var readOnlyCollection = Observable.Interval(TimeSpan.FromSeconds(1))
     .ToReadOnlyReactiveProperty(scheduler: ImmediateScheduler.Instance);
 ```
 
-# Change the global scheduler
+## Change the global scheduler
 
 You can change the ReactiveProperty's default scheduler using `ReactivePropertyScheduler.SetDefault` method.
 
@@ -36,7 +38,7 @@ taskPoolRp.Value = "changed"; // raise event on the TaskPoolScheduler thread.
 immediateRp.Value = "changed"; // raise event on the ImmediateScheduler thread.
 ```
 
-# Rx operator
+## Rx operator
 
 Of course, you can use the `ObserveOn` extension method.
 
@@ -55,7 +57,7 @@ var rp = Observable.Interval(TimeSpan.FromSeconds(1))
     .ToReactiveProperty();
 ```
 
-# Limitations
+## Limitations
 
 ReactiveProperty was designed for single UI thread platform.
 This means a few features don't work on multi UI thread platforms such as UWP.

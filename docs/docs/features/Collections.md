@@ -1,3 +1,5 @@
+# Collections
+
 ReactiveProperty provides some collection classes.
 
 - ReactiveCollection&lt;T&gt;
@@ -305,7 +307,7 @@ ViewModelCollection = ModelCollection
 ### Create from IObservable
 
 `ReadOnlyReactiveCollection` can be created from `IObservable`, it is the same as the `ReactiveCollection`. But, `ReadOnlyReactiveCollection` doesn't have collection operation methods.
-`ToReadOnlyReactiveCollection` extension method has an `onReset` argument which is `IObservable&lt;Unity&gt;`.
+`ToReadOnlyReactiveCollection` extension method has an `onReset` argument which is `IObservable<Unit>`.
 When this argument raises a value, then the collection is cleared.
 
 ```csharp

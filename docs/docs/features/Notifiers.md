@@ -1,8 +1,10 @@
+# Notifiers
+
 `Reactive.Bindings.Notifiers` namespace provides many useful classes which implement `IObservable` interface.
 
 ## `BooleanNotifier`
 
-`BooleanNotifier` class implements the `IObservable&lt;bool&gt;` interface.
+`BooleanNotifier` class implements the `IObservable<bool>` interface.
 And has some methods and property.
 
 - `TurnOn` method
@@ -31,7 +33,7 @@ It can use to source of `ReactiveCommand`.
 
 ## `CountNotifier`
 
-`CountNotifier` class implements the `IObservable&lt;CountChangedStates&gt;` interface. It provides increment and decrement features, and raise a `CountChangedStates` value when the state changes.
+`CountNotifier` class implements the `IObservable<CountChangedStates>` interface. It provides increment and decrement features, and raise a `CountChangedStates` value when the state changes.
 
 CountChangedStates enum is defined as below.
 
@@ -100,7 +102,7 @@ n.Report("After 2 seconds.", TimeSpan.FromSeconds(2));
 
 ## `BusyNotifier`
 
-This class implements the `IObservable&lt;bool&gt;` interface.
+This class implements the `IObservable<bool>` interface.
 It raises `true` during running the process, raises `false` when all processes end.
 
 The `StartProcess` method returns an `IDisposable` instance. When the process finishes, call the Dispose method.
