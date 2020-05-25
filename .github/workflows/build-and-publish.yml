@@ -3,9 +3,6 @@ name: Build and Release
 on:
   push:
     branches: [ master, pre-release, release ]
-  pull_request:
-    types: [opened, synchronize]
-    branches: [ master, pre-release, release ]
 
 jobs:
   build:
