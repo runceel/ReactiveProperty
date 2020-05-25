@@ -30,11 +30,11 @@ namespace Reactive.Bindings.Extensions
             return Observable.Create<Unit>(ox =>
             {
 #if WINDOWS_UWP
-                DependencyPropertyChangedCallback h = (_, __) => ox.OnNext(Unit.Default);
+                void h(DependencyObject _, DependencyProperty __) => ox.OnNext(Unit.Default);
                 var token = self.RegisterPropertyChangedCallback(dp, h);
                 return () => self.UnregisterPropertyChangedCallback(dp, token);
 #else
-                EventHandler h = (_, __) => ox.OnNext(Unit.Default);
+                void h(object _, EventArgs __) => ox.OnNext(Unit.Default);
                 var descriptor = DependencyPropertyDescriptor.FromProperty(dp, typeof(T));
                 descriptor.AddValueChanged(self, h);
                 return () => descriptor.RemoveValueChanged(self, h);
