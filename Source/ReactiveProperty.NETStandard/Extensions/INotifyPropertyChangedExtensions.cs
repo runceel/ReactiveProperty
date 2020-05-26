@@ -45,7 +45,7 @@ namespace Reactive.Bindings.Extensions
                 isFirst = false;
 
                 var q = subject.PropertyChangedAsObservable()
-                    .Where(e => e.PropertyName == propertyName)
+                    .Where(e => e.PropertyName == propertyName || string.IsNullOrEmpty(e.PropertyName))
                     .Select(_ => accessor.Invoke(subject));
                 return (isPushCurrentValueAtFirst && flag) ? q.StartWith(accessor.Invoke(subject)) : q;
             });

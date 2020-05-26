@@ -91,6 +91,31 @@ namespace ReactiveProperty.Tests.Extensions
         }
 
         [TestMethod]
+        public void PropertyChangedWithEmptyPropertyName()
+        {
+            var testScheduler = new TestScheduler();
+            var recorderForName = testScheduler.CreateObserver<string>();
+            var recorderForAge = testScheduler.CreateObserver<int>();
+
+            var m = new Model { Name = "aaa", Age = 10 };
+            m.ObserveProperty(x => x.Name)
+                .Do(x => recorderForName.OnNext(x))
+                .Subscribe();
+            m.ObserveProperty(x => x.Age)
+                .Do(x => recorderForAge.OnNext(x))
+                .Subscribe();
+
+            m.BatchUpdateProperties("bbb", 100);
+
+            recorderForName.Messages.Is(
+                OnNext(0, "aaa"),
+                OnNext(0, "bbb"));
+            recorderForAge.Messages.Is(
+                OnNext(0, 10),
+                OnNext(0, 100));
+        }
+
+        [TestMethod]
         public void ToReactivePropertyAsSynchronized()
         {
             var model = new Model() { Name = "homuhomu" };
@@ -229,6 +254,12 @@ namespace ReactiveProperty.Tests.Extensions
             {
                 get { return age; }
                 set { age = value; PropertyChanged(this, new PropertyChangedEventArgs("Age")); }
+            }
+
+            public void BatchUpdateProperties(string name, int age)
+            {
+                (this.name, this.age) = (name, age);
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(""));
             }
 
             public event PropertyChangedEventHandler PropertyChanged = (_, __) => { };
