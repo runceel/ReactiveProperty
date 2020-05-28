@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using Microsoft.Reactive.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Reactive.Bindings;
 
 namespace ReactiveProperty.Tests
 {
     [TestClass]
-    public class ReadOnlyReactivePropertyTest
+    public class ReadOnlyReactivePropertyTest : ReactiveTest
     {
         [TestMethod]
         public void NormalPattern()
@@ -175,6 +177,18 @@ namespace ReactiveProperty.Tests
             i.Is(0);
             var rp = s.ToReadOnlyReactiveProperty();
             i.Is(1);
+        }
+
+        [TestMethod]
+        public void CreateFromCompletedObservableTest()
+        {
+            var rp = Observable.Return("1").ToReadOnlyReactiveProperty();
+            var testScheduler = new TestScheduler();
+            var recorder = testScheduler.CreateObserver<string>();
+            rp.Subscribe(recorder);
+
+            recorder.Messages.Count.Is(1);
+            recorder.Messages.Is(OnCompleted<string>(0));
         }
     }
 }
