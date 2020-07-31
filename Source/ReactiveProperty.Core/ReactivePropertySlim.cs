@@ -295,6 +295,8 @@ namespace Reactive.Bindings
 
         private bool IsRaiseLatestValueOnSubscribe => (_mode & ReactivePropertyMode.RaiseLatestValueOnSubscribe) == ReactivePropertyMode.RaiseLatestValueOnSubscribe;
 
+        private bool IsDisposeChangedValue => (_mode & ReactivePropertyMode.DisposeChangedValue) == ReactivePropertyMode.DisposeChangedValue;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyReactivePropertySlim{T}"/> class.
         /// </summary>
@@ -410,6 +412,11 @@ namespace Reactive.Bindings
                 return;
             }
 
+            if (IsDisposeChangedValue && _latestValue is IDisposable disposable)
+            {
+                disposable.Dispose();
+            }
+
             // SetValue
             _latestValue = value;
 
@@ -427,11 +434,21 @@ namespace Reactive.Bindings
 
         void IObserver<T>.OnError(Exception error)
         {
-            // do nothing.
+            if (IsDisposeChangedValue && _latestValue is IDisposable disposable)
+            {
+                disposable.Dispose();
+            }
+
+            // do nothing.            
         }
 
         void IObserver<T>.OnCompleted()
         {
+            if (IsDisposeChangedValue && _latestValue is IDisposable disposable)
+            {
+                disposable.Dispose();
+            }
+
             // oncompleted same as dispose.
             Dispose();
         }

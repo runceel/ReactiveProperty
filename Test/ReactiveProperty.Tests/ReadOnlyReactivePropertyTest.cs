@@ -190,5 +190,31 @@ namespace ReactiveProperty.Tests
             recorder.Messages.Count.Is(1);
             recorder.Messages.Is(OnCompleted<string>(0));
         }
+
+        [TestMethod]
+        public void NormalPatternDisposeChangeValue()
+        {
+            var s = new Subject<Disposable>();
+
+            var rp = s.ToReadOnlyReactiveProperty(eventScheduler: Scheduler.CurrentThread, mode: ReactivePropertyMode.DisposeChangedValue);
+            var buffer = new List<Disposable>();
+            rp.Subscribe(buffer.Add);
+
+            s.OnNext(new Disposable());
+            buffer[0].Is(d => !d.IsDisposed);
+
+            s.OnNext(new Disposable());
+            buffer[0].Is(d => d.IsDisposed);
+        }
+
+        private class Disposable : IDisposable
+        {           
+            public bool IsDisposed { get; private set; }
+
+            public void Dispose()
+            {
+                IsDisposed = true;
+            }
+        }
     }
 }

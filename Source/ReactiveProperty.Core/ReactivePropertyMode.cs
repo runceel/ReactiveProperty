@@ -29,6 +29,11 @@ namespace Reactive.Bindings
         IgnoreInitialValidationError = 0x04,
 
         /// <summary>
+        /// Dispose previous value when changed if it implements IDisposable.
+        /// </summary>
+        DisposeChangedValue = 0x05,
+
+        /// <summary>
         /// Default mode value. It is same as DistinctUntilChanged | RaiseLatestValueOnSubscribe.
         /// </summary>
         Default = DistinctUntilChanged | RaiseLatestValueOnSubscribe,

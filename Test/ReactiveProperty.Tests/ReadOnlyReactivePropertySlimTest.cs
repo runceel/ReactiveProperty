@@ -199,5 +199,31 @@ namespace ReactiveProperty.Tests
             var x = Observable.Return(1).ToReadOnlyReactivePropertySlim();
             x.Value.Is(1);
         }
+
+        [TestMethod]
+        public void NormalPatternDisposeChangeValue()
+        {
+            var s = new Subject<Disposable>();
+
+            var rp = s.ToReadOnlyReactivePropertySlim(mode: ReactivePropertyMode.DisposeChangedValue);
+            var buffer = new List<Disposable>();
+            rp.Subscribe(buffer.Add);
+
+            s.OnNext(new Disposable());
+            buffer[0].Is(d => !d.IsDisposed);
+
+            s.OnNext(new Disposable());
+            buffer[0].Is(d => d.IsDisposed);
+        }
+
+        private class Disposable : IDisposable
+        {
+            public bool IsDisposed { get; private set; }
+
+            public void Dispose()
+            {
+                IsDisposed = true;
+            }
+        }
     }
 }

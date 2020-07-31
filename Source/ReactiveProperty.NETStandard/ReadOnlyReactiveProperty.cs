@@ -31,6 +31,7 @@ namespace Reactive.Bindings
 
         private bool IsRaiseLatestValueOnSubscribe => (_mode & ReactivePropertyMode.RaiseLatestValueOnSubscribe) == ReactivePropertyMode.RaiseLatestValueOnSubscribe;
         private bool IsDistinctUntilChanged => (_mode & ReactivePropertyMode.DistinctUntilChanged) == ReactivePropertyMode.DistinctUntilChanged;
+        private bool IsDisposeChangedValue => (_mode & ReactivePropertyMode.DisposeChangedValue) == ReactivePropertyMode.DisposeChangedValue;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyReactiveProperty{T}"/> class.
@@ -164,6 +165,11 @@ namespace Reactive.Bindings
                 return;
             }
 
+            if (IsDisposeChangedValue && _latestValue is IDisposable disposable)
+            {
+                disposable.Dispose();
+            }
+
             // SetValue
             _latestValue = value;
 
@@ -181,11 +187,21 @@ namespace Reactive.Bindings
 
         void IObserver<T>.OnError(Exception error)
         {
+            if (IsDisposeChangedValue && _latestValue is IDisposable disposable)
+            {
+                disposable.Dispose();
+            }
+
             // do nothing.
         }
 
         void IObserver<T>.OnCompleted()
         {
+            if (IsDisposeChangedValue && _latestValue is IDisposable disposable)
+            {
+                disposable.Dispose();
+            }
+
             // oncompleted same as dispose.
             Dispose();
         }
