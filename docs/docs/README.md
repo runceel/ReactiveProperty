@@ -39,7 +39,7 @@ class ViewModel
 }
 ```
 
-ReactiveProperty is implemented through IObservable&lt;T&gt;. Yes! You can use LINQ.
+ReactiveProperty is implemented through `IObservable<T>`. Yes! You can use LINQ.
 
 ```csharp
 var name = new ReactiveProperty<string>();
@@ -48,7 +48,7 @@ name.Where(x => x.StartsWith("_")) // filter
     .Subscribe(x => { ... some action ... });
 ```
 
-ReactiveProperty is created from IObservable&lt;T&gt;. 
+ReactiveProperty is created from `IObservable<T>`. 
 
 ```csharp
 class ViewModel
@@ -69,7 +69,7 @@ class ViewModel
 
 This method chain is very cool.
 
-And we provide `ReactiveCommand` class which implements `ICommand` and `IObservable&lt;T&gt;` interfaces. `ReactiveCommand` can be created from an `IObservable&lt;bool&gt;`.
+And we provide `ReactiveCommand` class which implements `ICommand` and `IObservable<T>` interfaces. `ReactiveCommand` can be created from an `IObservable<bool>`.
 Following sample creates a `ReactiveCommand` that is able to be executed when the `Input` property is not empty.
 
 ```csharp
