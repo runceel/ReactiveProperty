@@ -1,4 +1,5 @@
 Remove-Item .\docs\.vuepress\dist
+npm install
 npm run docs:build
 
 Set-Location docs/.vuepress/dist

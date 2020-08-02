@@ -10,5 +10,8 @@
     "docs:build": "vuepress build docs"
   },
   "author": "@neuecc, @xin9le, @okazuki",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "vuepress": "^1.5.2"
+  }
 }

@@ -3,6 +3,7 @@
 set -e
 
 rm -rf docs/.vuepress/dist
+npm install
 npm run docs:build
 
 cd docs/.vuepress/dist
