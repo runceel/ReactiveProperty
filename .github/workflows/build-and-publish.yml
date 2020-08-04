@@ -3,9 +3,6 @@ name: Build and Release
 on:
   push:
     branches: [ master, pre-release, release ]
-  pull_request:
-    types: [opened, synchronize]
-    branches: [ master, pre-release, release ]
 
 jobs:
   build:
@@ -17,7 +14,7 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.201
+        dotnet-version: 3.1.301
     - name: Setup MSBuild.exe
       uses: warrenbuckley/Setup-MSBuild@v1
     - name: Update version number
