@@ -359,7 +359,7 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting
             }
             else if (!typeof(T).IsInstanceOfType(exception))
             {
-                var formatted = string.Format("{0} Caught:{1}{2}", headerMsg, exception.GetType().Name, additionalMsg);
+                var formatted = string.Format("{0} Catched:{1}{2}", headerMsg, exception.GetType().Name, additionalMsg);
                 throw new AssertFailedException(formatted);
             }
 
@@ -375,7 +375,7 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting
             {
                 var headerMsg = "Failed Throws<" + typeof(T).Name + ">.";
                 var additionalMsg = string.IsNullOrEmpty(message) ? "" : ", " + message;
-                var formatted = string.Format("{0} Caught:{1}{2}", headerMsg, exception.GetType().Name, additionalMsg);
+                var formatted = string.Format("{0} Catched:{1}{2}", headerMsg, exception.GetType().Name, additionalMsg);
                 throw new AssertFailedException(formatted);
             }
 
@@ -394,7 +394,7 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting
             }
 
             var additionalMsg = string.IsNullOrEmpty(message) ? "" : ", " + message;
-            var formatted = string.Format("Thrown Exception is not ContractException. Caught:{0}{1}",
+            var formatted = string.Format("Throwed Exception is not ContractException. Catched:{0}{1}",
                 exception.GetType().Name, additionalMsg);
 
             throw new AssertFailedException(formatted);
@@ -406,12 +406,12 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting
             var exception = ExecuteCode(testCode);
             if (exception != null)
             {
-                var formatted = string.Format("Failed DoesNotThrow. Caught:{0}{1}", exception.GetType().Name, string.IsNullOrEmpty(message) ? "" : ", " + message);
+                var formatted = string.Format("Failed DoesNotThrow. Catched:{0}{1}", exception.GetType().Name, string.IsNullOrEmpty(message) ? "" : ", " + message);
                 throw new AssertFailedException(formatted);
             }
         }
 
-        /// <summary>execute action and return exception when caught otherwise return null</summary>
+        /// <summary>execute action and return exception when catched otherwise return null</summary>
         private static Exception ExecuteCode(Action testCode)
         {
             try
@@ -516,12 +516,12 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting
             }
         }
 
-        static EqualInfo SequenceEqual(IEnumerable leftEnumerable, IEnumerable rightEnumerable, IEnumerable<string> names)
+        static EqualInfo SequenceEqual(IEnumerable leftEnumerable, IEnumerable rightEnumarable, IEnumerable<string> names)
         {
             var le = leftEnumerable.GetEnumerator();
             using (le as IDisposable)
             {
-                var re = rightEnumerable.GetEnumerator();
+                var re = rightEnumarable.GetEnumerator();
 
                 using (re as IDisposable)
                 {
@@ -553,7 +553,7 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting
                     }
                 }
             }
-            return new EqualInfo { IsEquals = true, Left = leftEnumerable, Right = rightEnumerable, Names = names };
+            return new EqualInfo { IsEquals = true, Left = leftEnumerable, Right = rightEnumarable, Names = names };
         }
 
         static EqualInfo StructuralEqual(object left, object right, IEnumerable<string> names)
