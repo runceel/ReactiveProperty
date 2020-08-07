@@ -21,14 +21,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Snippet", "Snippet", "{9F7EFC36-593F-4521-B678-41B00A6642B1}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildTools", "BuildTools", "{217A0F6B-BDE7-4D6A-BF3D-8B273FB2AA69}"
-	ProjectSection(SolutionItems) = preProject
-		BuildTools\NuGet.exe = BuildTools\NuGet.exe
-		BuildTools\pack.bat = BuildTools\pack.bat
-		BuildTools\push.bat = BuildTools\push.bat
-		BuildTools\ReactiveProperty.nuspec = BuildTools\ReactiveProperty.nuspec
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{97EC2EDF-8B92-4DB1-B2D7-09E4124B9DE0}"
 	ProjectSection(SolutionItems) = preProject
 		Images\delay.png = Images\delay.png
@@ -91,7 +83,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReactiveProperty.Core", "So
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReactiveProperty.NETStandard.Tests", "Test\ReactiveProperty.NETStandard.Tests\ReactiveProperty.NETStandard.Tests.csproj", "{30D6C298-9EE3-4185-AEAF-18EC93B0C087}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.WPF.Tests", "Test\ReactiveProperty.WPF.Tests\ReactiveProperty.WPF.Tests.csproj", "{BDB9A031-5463-4C47-8990-0D27A31DFE91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReactiveProperty.WPF.Tests", "Test\ReactiveProperty.WPF.Tests\ReactiveProperty.WPF.Tests.csproj", "{BDB9A031-5463-4C47-8990-0D27A31DFE91}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -375,9 +367,9 @@ Global
 		{BDB9A031-5463-4C47-8990-0D27A31DFE91} = {6B13388E-F781-4F55-AF8B-2E991EA59DB8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {5AC43AC2-86FE-46EF-B243-5C8E75EAB89B}
-		BuildVersion_UseGlobalSettings = True
 		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
+		BuildVersion_UseGlobalSettings = True
+		SolutionGuid = {5AC43AC2-86FE-46EF-B243-5C8E75EAB89B}
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = ReactiveProperty.vsmdi
