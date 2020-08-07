@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Work with other MVVM Framework | ReactiveProperty documentation</title>
+    <meta name="generator" content="VuePress 1.5.2">
+    
+    <meta name="description" content="Official document for ReactiveProperty(https://github.com/runceel/ReactiveProperty)">
+    <link rel="preload" href="/ReactiveProperty/assets/css/0.styles.f0009bdc.css" as="style"><link rel="preload" href="/ReactiveProperty/assets/js/app.1d782c6c.js" as="script"><link rel="preload" href="/ReactiveProperty/assets/js/2.be6052cd.js" as="script"><link rel="preload" href="/ReactiveProperty/assets/js/10.d4785a55.js" as="script"><link rel="prefetch" href="/ReactiveProperty/assets/js/11.cf487698.js"><link rel="prefetch" href="/ReactiveProperty/assets/js/12.3736a0a2.js"><link rel="prefetch" href="/ReactiveProperty/assets/js/13.a98bad3b.js"><link rel="prefetch" href="/ReactiveProperty/assets/js/14.d86fac75.js"><link rel="prefetch" href="/ReactiveProperty/assets/js/15.c593dbc7.js"><link rel="prefetch" href="/ReactiveProperty/assets/js/16.3a01ed4e.js"><link rel="prefetch" href="/ReactiveProperty/assets/js/17.3c973b99.js"><link rel="prefetch" href="/ReactiveProperty/assets/js/18.f3674b2a.js"><link rel="prefetch" href="/ReactiveProperty/assets/js/19.f253cbe3.js"><link rel="prefetch" href="/ReactiveProperty/assets/js/20.6b583a13.js"><link rel="prefetch" href="/ReactiveProperty/assets/js/21.7cc47800.js"><link rel="prefetch" href="/ReactiveProperty/assets/js/22.7a76bf28.js"><link rel="prefetch" href="/ReactiveProperty/assets/js/3.59b9594e.js"><link rel="prefetch" href="/ReactiveProperty/assets/js/4.2bf2a90d.js"><link rel="prefetch" href="/ReactiveProperty/assets/js/5.c38c2aff.js"><link rel="prefetch" href="/ReactiveProperty/assets/js/6.f9c4c181.js"><link rel="prefetch" href="/ReactiveProperty/assets/js/7.62e0f72d.js"><link rel="prefetch" href="/ReactiveProperty/assets/js/8.fceb5283.js"><link rel="prefetch" href="/ReactiveProperty/assets/js/9.0194a865.js">
+    <link rel="stylesheet" href="/ReactiveProperty/assets/css/0.styles.f0009bdc.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container no-sidebar"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/ReactiveProperty/" class="home-link router-link-active"><!----> <span class="site-name">ReactiveProperty documentation</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/ReactiveProperty/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Getting started" class="dropdown-title"><span class="title">Getting started</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/ReactiveProperty/getting-started/wpf.html" class="nav-link">
+  Windows Presentation Foundation
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/getting-started/uwp.html" class="nav-link">
+  Universal Windows Platform
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/getting-started/xf.html" class="nav-link">
+  Xamarin.Forms
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/getting-started/avalonia.html" class="nav-link">
+  Avalonia
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/getting-started/add-snippets.html" class="nav-link">
+  Add code snippets
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Features" class="dropdown-title"><span class="title">Features</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/ReactiveProperty/features/ReactiveProperty.html" class="nav-link">
+  ReactiveProperty
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/features/ReactivePropertySlim.html" class="nav-link">
+  ReactivePropertySlim
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/features/Commanding.html" class="nav-link">
+  Commanding
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/features/Collections.html" class="nav-link">
+  Collections
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/features/Work-together-with-plane-model-layer-objects.html" class="nav-link">
+  Work together with plane model layer objects
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/features/Notifiers.html" class="nav-link">
+  Useful classes which implement IObservable
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/features/Extension-methods.html" class="nav-link">
+  Extension methods
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/features/Event-transfer-to-ViewModel-from-View.html" class="nav-link">
+  Transfer event to ViewModel from View
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Advanced topics" class="dropdown-title"><span class="title">Advanced topics</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/ReactiveProperty/advanced/thread.html" class="nav-link">
+  Thread control
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/advanced/awaitable.html" class="nav-link">
+  Work with await operator
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/advanced/work-with-other-mvvm-framwork.html" aria-current="page" class="nav-link router-link-exact-active router-link-active">
+  Work with other MVVM Frameworks
+</a></li></ul></div></div><div class="nav-item"><a href="/ReactiveProperty/samples.html" class="nav-link">
+  Samples
+</a></div> <a href="https://github.com/runceel/ReactiveProperty" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/ReactiveProperty/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Getting started" class="dropdown-title"><span class="title">Getting started</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/ReactiveProperty/getting-started/wpf.html" class="nav-link">
+  Windows Presentation Foundation
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/getting-started/uwp.html" class="nav-link">
+  Universal Windows Platform
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/getting-started/xf.html" class="nav-link">
+  Xamarin.Forms
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/getting-started/avalonia.html" class="nav-link">
+  Avalonia
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/getting-started/add-snippets.html" class="nav-link">
+  Add code snippets
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Features" class="dropdown-title"><span class="title">Features</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/ReactiveProperty/features/ReactiveProperty.html" class="nav-link">
+  ReactiveProperty
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/features/ReactivePropertySlim.html" class="nav-link">
+  ReactivePropertySlim
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/features/Commanding.html" class="nav-link">
+  Commanding
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/features/Collections.html" class="nav-link">
+  Collections
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/features/Work-together-with-plane-model-layer-objects.html" class="nav-link">
+  Work together with plane model layer objects
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/features/Notifiers.html" class="nav-link">
+  Useful classes which implement IObservable
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/features/Extension-methods.html" class="nav-link">
+  Extension methods
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/features/Event-transfer-to-ViewModel-from-View.html" class="nav-link">
+  Transfer event to ViewModel from View
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Advanced topics" class="dropdown-title"><span class="title">Advanced topics</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/ReactiveProperty/advanced/thread.html" class="nav-link">
+  Thread control
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/advanced/awaitable.html" class="nav-link">
+  Work with await operator
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/advanced/work-with-other-mvvm-framwork.html" aria-current="page" class="nav-link router-link-exact-active router-link-active">
+  Work with other MVVM Frameworks
+</a></li></ul></div></div><div class="nav-item"><a href="/ReactiveProperty/samples.html" class="nav-link">
+  Samples
+</a></div> <a href="https://github.com/runceel/ReactiveProperty" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav>  <!----> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="work-with-other-mvvm-framework"><a href="#work-with-other-mvvm-framework" class="header-anchor">#</a> Work with other MVVM Framework</h1> <p>ReactiveProperty doesn't provide base classes for ViewModel and other layers.
+This means you can use ReactiveProperty with other MVVM Frameworks like Prism, MVVM Light Toolkit and others.</p> <p>In this section, we explain how to use ReactiveProperty with Prism.</p> <p>Let's start!</p> <h2 id="create-a-prism-project"><a href="#create-a-prism-project" class="header-anchor">#</a> Create a Prism project</h2> <p>Prism provides Prism Template Pack extension for Visual Studio.
+After installing the extension, you can create an app from Project Templates.</p> <p><img src="/ReactiveProperty/assets/img/create-project.c4b56b28.png" alt=""></p> <p>When using ReactiveProperty with Prism, you can replace <code>DelegateCommand</code> with <code>ReactiveCommand</code>, and you can also use all other ReactiveProperty features with Prism.</p> <p>I created a Prism Blank App(WPF) as PrismSampleApp and Prism Module (WPF) as PrismSampleModule.
+And add PrismSampleModule reference to PrismSampleApp, then edit App.xaml.cs to add the module, like below:</p> <div class="language-csharp extra-class"><pre class="language-csharp"><code><span class="token keyword">public</span> <span class="token keyword">partial</span> <span class="token keyword">class</span> <span class="token class-name">App</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">protected</span> <span class="token keyword">override</span> <span class="token return-type class-name">Window</span> <span class="token function">CreateShell</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> Container<span class="token punctuation">.</span><span class="token generic-method"><span class="token function">Resolve</span><span class="token generic class-name"><span class="token punctuation">&lt;</span>MainWindow<span class="token punctuation">&gt;</span></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">protected</span> <span class="token keyword">override</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">RegisterTypes</span><span class="token punctuation">(</span><span class="token class-name">IContainerRegistry</span> containerRegistry<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">protected</span> <span class="token keyword">override</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">ConfigureModuleCatalog</span><span class="token punctuation">(</span><span class="token class-name">IModuleCatalog</span> moduleCatalog<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        moduleCatalog<span class="token punctuation">.</span><span class="token generic-method"><span class="token function">AddModule</span><span class="token generic class-name"><span class="token punctuation">&lt;</span>PrismSampleModuleModule<span class="token punctuation">&gt;</span></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>Next, edit PrismSampleModuleModule.cs file to add a view for Navigation, and to show ViewA to Shell.</p> <div class="language-csharp extra-class"><pre class="language-csharp"><code><span class="token keyword">using</span> <span class="token namespace">PrismSampleModule<span class="token punctuation">.</span>Views</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">Prism<span class="token punctuation">.</span>Ioc</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">Prism<span class="token punctuation">.</span>Modularity</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">Prism<span class="token punctuation">.</span>Regions</span><span class="token punctuation">;</span>
+
+<span class="token keyword">namespace</span> <span class="token namespace">PrismSampleModule</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">PrismSampleModuleModule</span> <span class="token punctuation">:</span> <span class="token type-list"><span class="token class-name">IModule</span></span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">private</span> <span class="token keyword">readonly</span> <span class="token class-name">IRegionManager</span> _regionManager<span class="token punctuation">;</span>
+
+        <span class="token keyword">public</span> <span class="token function">PrismSampleModuleModule</span><span class="token punctuation">(</span><span class="token class-name">IRegionManager</span> regionManager<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            _regionManager <span class="token operator">=</span> regionManager<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">OnInitialized</span><span class="token punctuation">(</span><span class="token class-name">IContainerProvider</span> containerProvider<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            _regionManager<span class="token punctuation">.</span><span class="token function">RequestNavigate</span><span class="token punctuation">(</span><span class="token string">&quot;ContentRegion&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;ViewA&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">RegisterTypes</span><span class="token punctuation">(</span><span class="token class-name">IContainerRegistry</span> containerRegistry<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            containerRegistry<span class="token punctuation">.</span><span class="token generic-method"><span class="token function">RegisterForNavigation</span><span class="token generic class-name"><span class="token punctuation">&lt;</span>ViewA<span class="token punctuation">&gt;</span></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h2 id="using-reactiveproperty"><a href="#using-reactiveproperty" class="header-anchor">#</a> Using ReactiveProperty</h2> <p>Add ReactiveProperty reference to all projects using NuGet. And please feel free use classes of ReactiveProperty.</p> <p>In this case, I used ReactiveProperty features at ViewAViewModel.cs like below:</p> <div class="language-csharp extra-class"><pre class="language-csharp"><code><span class="token keyword">using</span> <span class="token namespace">Prism<span class="token punctuation">.</span>Mvvm</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">Reactive<span class="token punctuation">.</span>Bindings</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Linq</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Reactive<span class="token punctuation">.</span>Linq</span><span class="token punctuation">;</span>
+
+<span class="token keyword">namespace</span> <span class="token namespace">PrismSampleModule<span class="token punctuation">.</span>ViewModels</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ViewAViewModel</span> <span class="token punctuation">:</span> <span class="token type-list"><span class="token class-name">BindableBase</span></span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">public</span> <span class="token return-type class-name">ReactiveProperty<span class="token punctuation">&lt;</span><span class="token keyword">string</span><span class="token punctuation">&gt;</span></span> Input <span class="token punctuation">{</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+        <span class="token keyword">public</span> <span class="token return-type class-name">ReadOnlyReactiveProperty<span class="token punctuation">&lt;</span><span class="token keyword">string</span><span class="token punctuation">&gt;</span></span> Output <span class="token punctuation">{</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+
+        <span class="token keyword">public</span> <span class="token return-type class-name">ReactiveCommand</span> ResetCommand <span class="token punctuation">{</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+
+        <span class="token keyword">public</span> <span class="token function">ViewAViewModel</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            Input <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">ReactiveProperty<span class="token punctuation">&lt;</span><span class="token keyword">string</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span><span class="token string">&quot;&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            Output <span class="token operator">=</span> Input<span class="token punctuation">.</span><span class="token function">Delay</span><span class="token punctuation">(</span>TimeSpan<span class="token punctuation">.</span><span class="token function">FromSeconds</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">Select</span><span class="token punctuation">(</span>x <span class="token operator">=&gt;</span> x<span class="token punctuation">.</span><span class="token function">ToUpper</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">ToReadOnlyReactiveProperty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            ResetCommand <span class="token operator">=</span> Input<span class="token punctuation">.</span><span class="token function">Select</span><span class="token punctuation">(</span>x <span class="token operator">=&gt;</span> <span class="token operator">!</span><span class="token keyword">string</span><span class="token punctuation">.</span><span class="token function">IsNullOrWhiteSpace</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">ToReactiveCommand</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">WithSubscribe</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> Input<span class="token punctuation">.</span>Value <span class="token operator">=</span> <span class="token string">&quot;&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>And next, edit <code>ViewA.xaml</code>.</p> <div class="language-xml extra-class"><pre class="language-xml"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>UserControl</span> <span class="token attr-name"><span class="token namespace">x:</span>Class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>PrismSampleModule.Views.ViewA<span class="token punctuation">&quot;</span></span>
+             <span class="token attr-name">xmlns</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>http://schemas.microsoft.com/winfx/2006/xaml/presentation<span class="token punctuation">&quot;</span></span>
+             <span class="token attr-name"><span class="token namespace">xmlns:</span>x</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>http://schemas.microsoft.com/winfx/2006/xaml<span class="token punctuation">&quot;</span></span>
+             <span class="token attr-name"><span class="token namespace">xmlns:</span>local</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>clr-namespace:PrismSampleModule.Views<span class="token punctuation">&quot;</span></span>
+             <span class="token attr-name"><span class="token namespace">xmlns:</span>mc</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>http://schemas.openxmlformats.org/markup-compatibility/2006<span class="token punctuation">&quot;</span></span> 
+             <span class="token attr-name"><span class="token namespace">xmlns:</span>viewModels</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>clr-namespace:PrismSampleModule.ViewModels<span class="token punctuation">&quot;</span></span>
+             <span class="token attr-name"><span class="token namespace">xmlns:</span>d</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>http://schemas.microsoft.com/expression/blend/2008<span class="token punctuation">&quot;</span></span>
+             <span class="token attr-name"><span class="token namespace">mc:</span>Ignorable</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>d<span class="token punctuation">&quot;</span></span> 
+             <span class="token attr-name"><span class="token namespace">d:</span>DesignHeight</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>300<span class="token punctuation">&quot;</span></span> <span class="token attr-name"><span class="token namespace">d:</span>DesignWidth</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>300<span class="token punctuation">&quot;</span></span>
+             <span class="token attr-name"><span class="token namespace">xmlns:</span>prism</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>http://prismlibrary.com/<span class="token punctuation">&quot;</span></span>
+             <span class="token attr-name"><span class="token namespace">d:</span>DataContext</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>{d:DesignInstance Type=viewModels:ViewAViewModel, IsDesignTimeCreatable=False}<span class="token punctuation">&quot;</span></span>
+             <span class="token attr-name"><span class="token namespace">prism:</span>ViewModelLocator.AutoWireViewModel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>True<span class="token punctuation">&quot;</span></span> <span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>StackPanel</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>TextBox</span> <span class="token attr-name">Text</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>{Binding Input.Value, UpdateSourceTrigger=PropertyChanged}<span class="token punctuation">&quot;</span></span> <span class="token punctuation">/&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>TextBlock</span> <span class="token attr-name">Text</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>{Binding Output.Value}<span class="token punctuation">&quot;</span></span> <span class="token punctuation">/&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Button</span> <span class="token attr-name">Content</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>Reset<span class="token punctuation">&quot;</span></span> <span class="token attr-name">Command</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>{Binding ResetCommand}<span class="token punctuation">&quot;</span></span> <span class="token punctuation">/&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>StackPanel</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>UserControl</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div><p>It works fine. 😃</p> <p><img src="/ReactiveProperty/assets/img/hello-world.3373e184.gif" alt=""></p> <h2 id="wrap-up"><a href="#wrap-up" class="header-anchor">#</a> Wrap up</h2> <p>ReactiveProperty doesn't provide base classes.
+So, as explained in this section, you can use ReactiveProperty and other MVVM Frameworks together.</p></div> <footer class="page-edit"><div class="edit-link"><a href="https://github.com/runceel/ReactiveProperty/edit/master/docs/docs/advanced/work-with-other-mvvm-framwork.md" target="_blank" rel="noopener noreferrer">Help us improve this document!</a> <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></div> <div class="last-updated"><span class="prefix">Last Updated:</span> <span class="time">8/2/2020, 9:32:29 AM</span></div></footer> <!----> </main></div><div class="global-ui"></div></div>
+    <script src="/ReactiveProperty/assets/js/app.1d782c6c.js" defer></script><script src="/ReactiveProperty/assets/js/2.be6052cd.js" defer></script><script src="/ReactiveProperty/assets/js/10.d4785a55.js" defer></script>
+  </body>
+</html>

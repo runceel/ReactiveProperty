@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Notifiers | ReactiveProperty documentation</title>
+    <meta name="generator" content="VuePress 1.5.2">
+    
+    <meta name="description" content="Official document for ReactiveProperty(https://github.com/runceel/ReactiveProperty)">
+    <link rel="preload" href="/ReactiveProperty/assets/css/0.styles.f0009bdc.css" as="style"><link rel="preload" href="/ReactiveProperty/assets/js/app.1d782c6c.js" as="script"><link rel="preload" href="/ReactiveProperty/assets/js/2.be6052cd.js" as="script"><link rel="preload" href="/ReactiveProperty/assets/js/20.6b583a13.js" as="script"><link rel="prefetch" href="/ReactiveProperty/assets/js/10.d4785a55.js"><link rel="prefetch" href="/ReactiveProperty/assets/js/11.cf487698.js"><link rel="prefetch" href="/ReactiveProperty/assets/js/12.3736a0a2.js"><link rel="prefetch" href="/ReactiveProperty/assets/js/13.a98bad3b.js"><link rel="prefetch" href="/ReactiveProperty/assets/js/14.d86fac75.js"><link rel="prefetch" href="/ReactiveProperty/assets/js/15.c593dbc7.js"><link rel="prefetch" href="/ReactiveProperty/assets/js/16.3a01ed4e.js"><link rel="prefetch" href="/ReactiveProperty/assets/js/17.3c973b99.js"><link rel="prefetch" href="/ReactiveProperty/assets/js/18.f3674b2a.js"><link rel="prefetch" href="/ReactiveProperty/assets/js/19.f253cbe3.js"><link rel="prefetch" href="/ReactiveProperty/assets/js/21.7cc47800.js"><link rel="prefetch" href="/ReactiveProperty/assets/js/22.7a76bf28.js"><link rel="prefetch" href="/ReactiveProperty/assets/js/3.59b9594e.js"><link rel="prefetch" href="/ReactiveProperty/assets/js/4.2bf2a90d.js"><link rel="prefetch" href="/ReactiveProperty/assets/js/5.c38c2aff.js"><link rel="prefetch" href="/ReactiveProperty/assets/js/6.f9c4c181.js"><link rel="prefetch" href="/ReactiveProperty/assets/js/7.62e0f72d.js"><link rel="prefetch" href="/ReactiveProperty/assets/js/8.fceb5283.js"><link rel="prefetch" href="/ReactiveProperty/assets/js/9.0194a865.js">
+    <link rel="stylesheet" href="/ReactiveProperty/assets/css/0.styles.f0009bdc.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container no-sidebar"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/ReactiveProperty/" class="home-link router-link-active"><!----> <span class="site-name">ReactiveProperty documentation</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/ReactiveProperty/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Getting started" class="dropdown-title"><span class="title">Getting started</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/ReactiveProperty/getting-started/wpf.html" class="nav-link">
+  Windows Presentation Foundation
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/getting-started/uwp.html" class="nav-link">
+  Universal Windows Platform
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/getting-started/xf.html" class="nav-link">
+  Xamarin.Forms
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/getting-started/avalonia.html" class="nav-link">
+  Avalonia
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/getting-started/add-snippets.html" class="nav-link">
+  Add code snippets
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Features" class="dropdown-title"><span class="title">Features</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/ReactiveProperty/features/ReactiveProperty.html" class="nav-link">
+  ReactiveProperty
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/features/ReactivePropertySlim.html" class="nav-link">
+  ReactivePropertySlim
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/features/Commanding.html" class="nav-link">
+  Commanding
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/features/Collections.html" class="nav-link">
+  Collections
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/features/Work-together-with-plane-model-layer-objects.html" class="nav-link">
+  Work together with plane model layer objects
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/features/Notifiers.html" aria-current="page" class="nav-link router-link-exact-active router-link-active">
+  Useful classes which implement IObservable
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/features/Extension-methods.html" class="nav-link">
+  Extension methods
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/features/Event-transfer-to-ViewModel-from-View.html" class="nav-link">
+  Transfer event to ViewModel from View
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Advanced topics" class="dropdown-title"><span class="title">Advanced topics</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/ReactiveProperty/advanced/thread.html" class="nav-link">
+  Thread control
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/advanced/awaitable.html" class="nav-link">
+  Work with await operator
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/advanced/work-with-other-mvvm-framwork.html" class="nav-link">
+  Work with other MVVM Frameworks
+</a></li></ul></div></div><div class="nav-item"><a href="/ReactiveProperty/samples.html" class="nav-link">
+  Samples
+</a></div> <a href="https://github.com/runceel/ReactiveProperty" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/ReactiveProperty/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Getting started" class="dropdown-title"><span class="title">Getting started</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/ReactiveProperty/getting-started/wpf.html" class="nav-link">
+  Windows Presentation Foundation
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/getting-started/uwp.html" class="nav-link">
+  Universal Windows Platform
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/getting-started/xf.html" class="nav-link">
+  Xamarin.Forms
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/getting-started/avalonia.html" class="nav-link">
+  Avalonia
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/getting-started/add-snippets.html" class="nav-link">
+  Add code snippets
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Features" class="dropdown-title"><span class="title">Features</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/ReactiveProperty/features/ReactiveProperty.html" class="nav-link">
+  ReactiveProperty
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/features/ReactivePropertySlim.html" class="nav-link">
+  ReactivePropertySlim
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/features/Commanding.html" class="nav-link">
+  Commanding
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/features/Collections.html" class="nav-link">
+  Collections
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/features/Work-together-with-plane-model-layer-objects.html" class="nav-link">
+  Work together with plane model layer objects
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/features/Notifiers.html" aria-current="page" class="nav-link router-link-exact-active router-link-active">
+  Useful classes which implement IObservable
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/features/Extension-methods.html" class="nav-link">
+  Extension methods
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/features/Event-transfer-to-ViewModel-from-View.html" class="nav-link">
+  Transfer event to ViewModel from View
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Advanced topics" class="dropdown-title"><span class="title">Advanced topics</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/ReactiveProperty/advanced/thread.html" class="nav-link">
+  Thread control
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/advanced/awaitable.html" class="nav-link">
+  Work with await operator
+</a></li><li class="dropdown-item"><!----> <a href="/ReactiveProperty/advanced/work-with-other-mvvm-framwork.html" class="nav-link">
+  Work with other MVVM Frameworks
+</a></li></ul></div></div><div class="nav-item"><a href="/ReactiveProperty/samples.html" class="nav-link">
+  Samples
+</a></div> <a href="https://github.com/runceel/ReactiveProperty" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav>  <!----> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="notifiers"><a href="#notifiers" class="header-anchor">#</a> Notifiers</h1> <p><code>Reactive.Bindings.Notifiers</code> namespace provides many useful classes which implement <code>IObservable</code> interface.</p> <h2 id="booleannotifier"><a href="#booleannotifier" class="header-anchor">#</a> <code>BooleanNotifier</code></h2> <p><code>BooleanNotifier</code> class implements the <code>IObservable&lt;bool&gt;</code> interface.
+And has some methods and property.</p> <ul><li><code>TurnOn</code> method
+<ul><li>Change state to true.</li></ul></li> <li><code>TurnOff</code> method
+<ul><li>Change state to false.</li></ul></li> <li><code>SwitchValue</code> method
+<ul><li>Switch state.</li></ul></li> <li><code>Value</code> property
+<ul><li>Set state</li></ul></li></ul> <p>The initial state can be set the constructor. The default value is false.</p> <div class="language-csharp extra-class"><pre class="language-csharp"><code><span class="token class-name"><span class="token keyword">var</span></span> n <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">BooleanNotifier</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+n<span class="token punctuation">.</span><span class="token function">Subscribe</span><span class="token punctuation">(</span>x <span class="token operator">=&gt;</span> Debug<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+n<span class="token punctuation">.</span><span class="token function">TurnOn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span>
+n<span class="token punctuation">.</span><span class="token function">TurnOff</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// false</span>
+n<span class="token punctuation">.</span>Value <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span> <span class="token comment">// true</span>
+n<span class="token punctuation">.</span>Value <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span> <span class="token comment">// false</span>
+</code></pre></div><p>It can use to source of <code>ReactiveCommand</code>.</p> <h2 id="countnotifier"><a href="#countnotifier" class="header-anchor">#</a> <code>CountNotifier</code></h2> <p><code>CountNotifier</code> class implements the <code>IObservable&lt;CountChangedStates&gt;</code> interface. It provides increment and decrement features, and raise a <code>CountChangedStates</code> value when the state changes.</p> <p>CountChangedStates enum is defined as below.</p> <div class="language-csharp extra-class"><pre class="language-csharp"><code><span class="token comment">/// &lt;summary&gt;Event kind of CountNotifier.&lt;/summary&gt;</span>
+<span class="token keyword">public</span> <span class="token keyword">enum</span> <span class="token class-name">CountChangedStatus</span>
+<span class="token punctuation">{</span>
+    <span class="token comment">/// &lt;summary&gt;Count incremented.&lt;/summary&gt;</span>
+    Increment<span class="token punctuation">,</span>
+    <span class="token comment">/// &lt;summary&gt;Count decremented.&lt;/summary&gt;</span>
+    Decrement<span class="token punctuation">,</span>
+    <span class="token comment">/// &lt;summary&gt;Count is zero.&lt;/summary&gt;</span>
+    Empty<span class="token punctuation">,</span>
+    <span class="token comment">/// &lt;summary&gt;Count arrived max.&lt;/summary&gt;</span>
+    Max
+<span class="token punctuation">}</span>
+</code></pre></div><p><code>CountNotifier</code>'s max value can be set from constructor argument:</p> <div class="language-csharp extra-class"><pre class="language-csharp"><code><span class="token class-name"><span class="token keyword">var</span></span> c <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">CountNotifier</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// default max value is int.MaxValue</span>
+<span class="token comment">// output status.</span>
+c<span class="token punctuation">.</span><span class="token function">Subscribe</span><span class="token punctuation">(</span>x <span class="token operator">=&gt;</span> Debug<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// output current value.</span>
+c<span class="token punctuation">.</span><span class="token function">Select</span><span class="token punctuation">(</span>_ <span class="token operator">=&gt;</span> c<span class="token punctuation">.</span>Count<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Subscribe</span><span class="token punctuation">(</span>x <span class="token operator">=&gt;</span> Debug<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// increment</span>
+<span class="token class-name"><span class="token keyword">var</span></span> d <span class="token operator">=</span> c<span class="token punctuation">.</span><span class="token function">Increment</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// revert increment</span>
+d<span class="token punctuation">.</span><span class="token function">Dispose</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// increment and decrement</span>
+c<span class="token punctuation">.</span><span class="token function">Increment</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+c<span class="token punctuation">.</span><span class="token function">Decrement</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// output current value.</span>
+Debug<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>c<span class="token punctuation">.</span>Count<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><p>Output is below.</p> <div class="language- extra-class"><pre class="language-text"><code>Increment
+10
+Decrement
+0
+Empty
+0
+Increment
+10
+Decrement
+5
+5
+</code></pre></div><h2 id="schedulednotifier"><a href="#schedulednotifier" class="header-anchor">#</a> <code>ScheduledNotifier</code></h2> <p>This class raises the value on the scheduler. The default scheduler is <code>Scheduler.Immediate</code>. Set the scheduler using constructor argument.</p> <div class="language-csharp extra-class"><pre class="language-csharp"><code><span class="token class-name"><span class="token keyword">var</span></span> n <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">ScheduledNotifier<span class="token punctuation">&lt;</span><span class="token keyword">string</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+n<span class="token punctuation">.</span><span class="token function">Subscribe</span><span class="token punctuation">(</span>x <span class="token operator">=&gt;</span> Debug<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// output the value immediately</span>
+n<span class="token punctuation">.</span><span class="token function">Report</span><span class="token punctuation">(</span><span class="token string">&quot;Hello world&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// output the value after 2 seconds.</span>
+n<span class="token punctuation">.</span><span class="token function">Report</span><span class="token punctuation">(</span><span class="token string">&quot;After 2 seconds.&quot;</span><span class="token punctuation">,</span> TimeSpan<span class="token punctuation">.</span><span class="token function">FromSeconds</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><h2 id="busynotifier"><a href="#busynotifier" class="header-anchor">#</a> <code>BusyNotifier</code></h2> <p>This class implements the <code>IObservable&lt;bool&gt;</code> interface.
+It raises <code>true</code> during running the process, raises <code>false</code> when all processes end.</p> <p>The <code>StartProcess</code> method returns an <code>IDisposable</code> instance. When the process finishes, call the Dispose method.</p> <div class="language-csharp extra-class"><pre class="language-csharp"><code><span class="token keyword">using</span> <span class="token namespace">Reactive<span class="token punctuation">.</span>Bindings<span class="token punctuation">.</span>Notifiers</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Threading<span class="token punctuation">.</span>Tasks</span><span class="token punctuation">;</span>
+
+<span class="token keyword">namespace</span> <span class="token namespace">ReactivePropertyEduApp</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">class</span> <span class="token class-name">Program</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Main</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> args<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token function">MainAsync</span><span class="token punctuation">(</span>args<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Wait</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token keyword">static</span> <span class="token keyword">async</span> <span class="token return-type class-name">Task</span> <span class="token function">MainAsync</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> args<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token class-name"><span class="token keyword">var</span></span> b <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">BusyNotifier</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            b<span class="token punctuation">.</span><span class="token function">Subscribe</span><span class="token punctuation">(</span>x <span class="token operator">=&gt;</span> Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token interpolation-string"><span class="token string">$&quot;</span><span class="token interpolation"><span class="token punctuation">{</span><span class="token expression language-csharp">DateTime<span class="token punctuation">.</span>Now<span class="token punctuation">.</span><span class="token function">ToString</span><span class="token punctuation">(</span><span class="token string">&quot;HH:mm:ss&quot;</span><span class="token punctuation">)</span></span><span class="token punctuation">}</span></span><span class="token string">: OnNext: </span><span class="token interpolation"><span class="token punctuation">{</span><span class="token expression language-csharp">x</span><span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token keyword">await</span> Task<span class="token punctuation">.</span><span class="token function">WhenAll</span><span class="token punctuation">(</span>
+                Task<span class="token punctuation">.</span><span class="token function">Run</span><span class="token punctuation">(</span><span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span>
+                <span class="token punctuation">{</span>
+                    <span class="token keyword">using</span> <span class="token punctuation">(</span>b<span class="token punctuation">.</span><span class="token function">ProcessStart</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                    <span class="token punctuation">{</span>
+                        Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token interpolation-string"><span class="token string">$&quot;</span><span class="token interpolation"><span class="token punctuation">{</span><span class="token expression language-csharp">DateTime<span class="token punctuation">.</span>Now<span class="token punctuation">.</span><span class="token function">ToString</span><span class="token punctuation">(</span><span class="token string">&quot;HH:mm:ss&quot;</span><span class="token punctuation">)</span></span><span class="token punctuation">}</span></span><span class="token string">: Process1 started.&quot;</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        <span class="token keyword">await</span> Task<span class="token punctuation">.</span><span class="token function">Delay</span><span class="token punctuation">(</span>TimeSpan<span class="token punctuation">.</span><span class="token function">FromSeconds</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token interpolation-string"><span class="token string">$&quot;</span><span class="token interpolation"><span class="token punctuation">{</span><span class="token expression language-csharp">DateTime<span class="token punctuation">.</span>Now<span class="token punctuation">.</span><span class="token function">ToString</span><span class="token punctuation">(</span><span class="token string">&quot;HH:mm:ss&quot;</span><span class="token punctuation">)</span></span><span class="token punctuation">}</span></span><span class="token string">: Process1 finished.&quot;</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                Task<span class="token punctuation">.</span><span class="token function">Run</span><span class="token punctuation">(</span><span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span>
+                <span class="token punctuation">{</span>
+                    <span class="token keyword">using</span> <span class="token punctuation">(</span>b<span class="token punctuation">.</span><span class="token function">ProcessStart</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                    <span class="token punctuation">{</span>
+                        Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token interpolation-string"><span class="token string">$&quot;</span><span class="token interpolation"><span class="token punctuation">{</span><span class="token expression language-csharp">DateTime<span class="token punctuation">.</span>Now<span class="token punctuation">.</span><span class="token function">ToString</span><span class="token punctuation">(</span><span class="token string">&quot;HH:mm:ss&quot;</span><span class="token punctuation">)</span></span><span class="token punctuation">}</span></span><span class="token string">: Process2 started.&quot;</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        <span class="token keyword">await</span> Task<span class="token punctuation">.</span><span class="token function">Delay</span><span class="token punctuation">(</span>TimeSpan<span class="token punctuation">.</span><span class="token function">FromSeconds</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token interpolation-string"><span class="token string">$&quot;</span><span class="token interpolation"><span class="token punctuation">{</span><span class="token expression language-csharp">DateTime<span class="token punctuation">.</span>Now<span class="token punctuation">.</span><span class="token function">ToString</span><span class="token punctuation">(</span><span class="token string">&quot;HH:mm:ss&quot;</span><span class="token punctuation">)</span></span><span class="token punctuation">}</span></span><span class="token string">: Process2 finished.&quot;</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>Output is below.</p> <div class="language- extra-class"><pre class="language-text"><code>15:07:45: OnNext: False
+15:07:45: OnNext: True
+15:07:45: Process1 started.
+15:07:45: Process2 started.
+15:07:46: Process1 finished.
+15:07:47: Process2 finished.
+15:07:47: OnNext: False
+</code></pre></div><h2 id="messagebroker"><a href="#messagebroker" class="header-anchor">#</a> <code>MessageBroker</code></h2> <p>I suggest creating a new notifier called <code>MessageBroker</code>: an in-memory pubsub. This is an Rx and async friendly <code>EventAggregator</code> or <code>MessageBus</code>, etc. We can use this for the messenger pattern.
+If reviewer accept this code, please add to all platforms.</p> <div class="language-csharp extra-class"><pre class="language-csharp"><code><span class="token keyword">using</span> <span class="token namespace">Reactive<span class="token punctuation">.</span>Bindings<span class="token punctuation">.</span>Notifiers</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Reactive<span class="token punctuation">.</span>Linq</span><span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token namespace">System<span class="token punctuation">.</span>Threading<span class="token punctuation">.</span>Tasks</span><span class="token punctuation">;</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MyClass</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">int</span></span> MyProperty <span class="token punctuation">{</span> <span class="token keyword">get</span><span class="token punctuation">;</span> <span class="token keyword">set</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">override</span> <span class="token return-type class-name"><span class="token keyword">string</span></span> <span class="token function">ToString</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">&quot;MP:&quot;</span> <span class="token operator">+</span> MyProperty<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">class</span> <span class="token class-name">Program</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">RunMessageBroker</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token comment">// global scope pub-sub messaging</span>
+        MessageBroker<span class="token punctuation">.</span>Default<span class="token punctuation">.</span><span class="token generic-method"><span class="token function">Subscribe</span><span class="token generic class-name"><span class="token punctuation">&lt;</span>MyClass<span class="token punctuation">&gt;</span></span></span><span class="token punctuation">(</span>x <span class="token operator">=&gt;</span>
+        <span class="token punctuation">{</span>
+            Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">&quot;A:&quot;</span> <span class="token operator">+</span> x<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token class-name"><span class="token keyword">var</span></span> d <span class="token operator">=</span> MessageBroker<span class="token punctuation">.</span>Default<span class="token punctuation">.</span><span class="token generic-method"><span class="token function">Subscribe</span><span class="token generic class-name"><span class="token punctuation">&lt;</span>MyClass<span class="token punctuation">&gt;</span></span></span><span class="token punctuation">(</span>x <span class="token operator">=&gt;</span>
+        <span class="token punctuation">{</span>
+            Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">&quot;B:&quot;</span> <span class="token operator">+</span> x<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// support convert to IObservable&lt;T&gt;</span>
+        MessageBroker<span class="token punctuation">.</span>Default<span class="token punctuation">.</span><span class="token generic-method"><span class="token function">ToObservable</span><span class="token generic class-name"><span class="token punctuation">&lt;</span>MyClass<span class="token punctuation">&gt;</span></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Subscribe</span><span class="token punctuation">(</span>x <span class="token operator">=&gt;</span>
+        <span class="token punctuation">{</span>
+            Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">&quot;C:&quot;</span> <span class="token operator">+</span> x<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        MessageBroker<span class="token punctuation">.</span>Default<span class="token punctuation">.</span><span class="token function">Publish</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token constructor-invocation class-name">MyClass</span> <span class="token punctuation">{</span> MyProperty <span class="token operator">=</span> <span class="token number">100</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        MessageBroker<span class="token punctuation">.</span>Default<span class="token punctuation">.</span><span class="token function">Publish</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token constructor-invocation class-name">MyClass</span> <span class="token punctuation">{</span> MyProperty <span class="token operator">=</span> <span class="token number">200</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        MessageBroker<span class="token punctuation">.</span>Default<span class="token punctuation">.</span><span class="token function">Publish</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token constructor-invocation class-name">MyClass</span> <span class="token punctuation">{</span> MyProperty <span class="token operator">=</span> <span class="token number">300</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        d<span class="token punctuation">.</span><span class="token function">Dispose</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// unsubscribe</span>
+        MessageBroker<span class="token punctuation">.</span>Default<span class="token punctuation">.</span><span class="token function">Publish</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token constructor-invocation class-name">MyClass</span> <span class="token punctuation">{</span> MyProperty <span class="token operator">=</span> <span class="token number">400</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">static</span> <span class="token keyword">async</span> <span class="token return-type class-name">Task</span> <span class="token function">RunAsyncMessageBroker</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token comment">// asynchronous message pub-sub</span>
+        AsyncMessageBroker<span class="token punctuation">.</span>Default<span class="token punctuation">.</span><span class="token generic-method"><span class="token function">Subscribe</span><span class="token generic class-name"><span class="token punctuation">&lt;</span>MyClass<span class="token punctuation">&gt;</span></span></span><span class="token punctuation">(</span><span class="token keyword">async</span> x <span class="token operator">=&gt;</span>
+        <span class="token punctuation">{</span>
+            Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">&quot;A:&quot;</span> <span class="token operator">+</span> x<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">await</span> Task<span class="token punctuation">.</span><span class="token function">Delay</span><span class="token punctuation">(</span>TimeSpan<span class="token punctuation">.</span><span class="token function">FromSeconds</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token class-name"><span class="token keyword">var</span></span> d <span class="token operator">=</span> AsyncMessageBroker<span class="token punctuation">.</span>Default<span class="token punctuation">.</span><span class="token generic-method"><span class="token function">Subscribe</span><span class="token generic class-name"><span class="token punctuation">&lt;</span>MyClass<span class="token punctuation">&gt;</span></span></span><span class="token punctuation">(</span><span class="token keyword">async</span> x <span class="token operator">=&gt;</span>
+        <span class="token punctuation">{</span>
+            Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">&quot;B:&quot;</span> <span class="token operator">+</span> x<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">await</span> Task<span class="token punctuation">.</span><span class="token function">Delay</span><span class="token punctuation">(</span>TimeSpan<span class="token punctuation">.</span><span class="token function">FromSeconds</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// await all subscriber complete</span>
+        <span class="token keyword">await</span> AsyncMessageBroker<span class="token punctuation">.</span>Default<span class="token punctuation">.</span><span class="token function">PublishAsync</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token constructor-invocation class-name">MyClass</span> <span class="token punctuation">{</span> MyProperty <span class="token operator">=</span> <span class="token number">100</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">await</span> AsyncMessageBroker<span class="token punctuation">.</span>Default<span class="token punctuation">.</span><span class="token function">PublishAsync</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token constructor-invocation class-name">MyClass</span> <span class="token punctuation">{</span> MyProperty <span class="token operator">=</span> <span class="token number">200</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">await</span> AsyncMessageBroker<span class="token punctuation">.</span>Default<span class="token punctuation">.</span><span class="token function">PublishAsync</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token constructor-invocation class-name">MyClass</span> <span class="token punctuation">{</span> MyProperty <span class="token operator">=</span> <span class="token number">300</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        d<span class="token punctuation">.</span><span class="token function">Dispose</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// unsubscribe</span>
+        <span class="token keyword">await</span> AsyncMessageBroker<span class="token punctuation">.</span>Default<span class="token punctuation">.</span><span class="token function">PublishAsync</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token constructor-invocation class-name">MyClass</span> <span class="token punctuation">{</span> MyProperty <span class="token operator">=</span> <span class="token number">400</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Main</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> args<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">&quot;MessageBroker&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">RunMessageBroker</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">&quot;AsyncMessageBroker&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">RunAsyncMessageBroker</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Wait</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>Messenger pattern's multi thread dispatch can be handled easily by Rx.</p> <div class="language-csharp extra-class"><pre class="language-csharp"><code>MessageBroker<span class="token punctuation">.</span>Default<span class="token punctuation">.</span><span class="token generic-method"><span class="token function">ToObservable</span><span class="token generic class-name"><span class="token punctuation">&lt;</span>MyClass<span class="token punctuation">&gt;</span></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">ObserveOn</span><span class="token punctuation">(</span>Dispatcher<span class="token punctuation">)</span> <span class="token comment">// Rx Magic!</span>
+    <span class="token punctuation">.</span><span class="token function">Subscribe</span><span class="token punctuation">(</span>x <span class="token operator">=&gt;</span>
+    <span class="token punctuation">{</span>
+        Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div></div> <footer class="page-edit"><div class="edit-link"><a href="https://github.com/runceel/ReactiveProperty/edit/master/docs/docs/features/Notifiers.md" target="_blank" rel="noopener noreferrer">Help us improve this document!</a> <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></div> <div class="last-updated"><span class="prefix">Last Updated:</span> <span class="time">8/2/2020, 9:32:29 AM</span></div></footer> <!----> </main></div><div class="global-ui"></div></div>
+    <script src="/ReactiveProperty/assets/js/app.1d782c6c.js" defer></script><script src="/ReactiveProperty/assets/js/2.be6052cd.js" defer></script><script src="/ReactiveProperty/assets/js/20.6b583a13.js" defer></script>
+  </body>
+</html>
