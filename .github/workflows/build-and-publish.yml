@@ -2,7 +2,7 @@ name: Build and Release
 
 on:
   push:
-    branches: [ master, pre-release, release ]
+    branches: [ main, pre-release, release ]
 
 jobs:
   build:
