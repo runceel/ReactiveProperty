@@ -27,7 +27,9 @@
             "type": "shell",
             "args": [
                 "test",
-                "${workspaceFolder}/Test/ReactiveProperty.Tests/ReactiveProperty.Tests.csproj"
+                "${workspaceFolder}/Test/ReactiveProperty.NETStandard.Tests/ReactiveProperty.NETStandard.Tests.csproj",
+                "-f",
+                "netcoreapp3.1"
             ]
         }
     ]
