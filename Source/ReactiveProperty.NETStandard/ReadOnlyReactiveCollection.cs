@@ -74,15 +74,11 @@ namespace Reactive.Bindings
                 .AddTo(Token);
 
             subject.Where(x => x.Action == NotifyCollectionChangedAction.Move)
-                .Subscribe(x =>
-                {
-                    var targetValue = Source[x.OldIndex];
-                    Source.Move(x.OldIndex, x.Index);
-                })
+                .Subscribe(x => Source.Move(x.OldIndex, x.Index))
                 .AddTo(Token);
 
             ox.ObserveOn(scheduler)
-                .Subscribe(subject.OnNext, subject.OnError, subject.OnCompleted).AddTo(Token);
+                .Subscribe(subject).AddTo(Token);
         }
 
         /// <summary>
