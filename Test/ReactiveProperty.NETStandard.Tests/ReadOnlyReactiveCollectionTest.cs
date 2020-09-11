@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
@@ -231,6 +232,26 @@ namespace ReactiveProperty.Tests
             var item = c1.ToReadOnlyReactiveCollection(disposeElement: false);
             c1.Clear();
             invoked.IsFalse();
+        }
+
+        [TestMethod]
+        public void MoveCollectionChangedEventTest()
+        {
+            var records = new List<NotifyCollectionChangedEventArgs>();
+            var source = new ObservableCollection<string>();
+            var rc = source.ToReadOnlyReactiveCollection();
+            ((INotifyCollectionChanged)rc).CollectionChanged += (s, e) => records.Add(e);
+            source.Add("a");
+            source.Add("b");
+            source.Move(0, 1);
+
+            source.Is("b", "a");
+            rc.Is("b", "a");
+
+            records.Select(x => x.Action).Is(
+                NotifyCollectionChangedAction.Add,
+                NotifyCollectionChangedAction.Add,
+                NotifyCollectionChangedAction.Move);
         }
     }
 
