@@ -77,8 +77,7 @@ namespace Reactive.Bindings
                 .Subscribe(x =>
                 {
                     var targetValue = Source[x.OldIndex];
-                    Source.RemoveAt(x.OldIndex);
-                    Source.Insert(x.Index, targetValue);
+                    Source.Move(x.OldIndex, x.Index);
                 })
                 .AddTo(Token);
 
