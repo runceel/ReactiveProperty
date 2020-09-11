@@ -153,7 +153,7 @@ If too many questions are posted, then I plan to separate posting place about fe
 
 ## Author info
 
-Yoshifumi Kawai a.k.a. [@neuecc](https://twitter.com/neuecc) is software developer in Tokyo, Japan.
+Yoshifumi Kawai a.k.a. [@neuecc](https://twitter.com/neuecc) is Founder/CEO/CTO of Cysharp, Inc in Tokyo, Japan.
 Awarded Microsoft MVP for Visual Studio and Development Technologies since April, 2011.
 He is an original owner of ReactiveProperty.
 

@@ -1,284 +1,284 @@
-# ƒŠƒŠ[ƒXƒm[ƒg
+# ãƒªãƒªãƒ¼ã‚¹ãƒãƒ¼ãƒˆ
 
 ## v4.0.0-pre1
-### XV
-- System.Reactive v4.0.0-preview00001 ‚ÉXV
+### æ›´æ–°
+- System.Reactive v4.0.0-preview00001 ã«æ›´æ–°
 
-### •ÏX
-- ReactiveProperty ‚Ì internal ‚ÈƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ğ public ‚É•ÏX‚µ‚Ü‚µ‚½
-- ReadOnlyReactiveProperty ‚Ì internal ‚ÈƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ğ public ‚É•ÏX‚µ‚Ü‚µ‚½
+### å¤‰æ›´
+- ReactiveProperty ã® internal ãªã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‚’ public ã«å¤‰æ›´ã—ã¾ã—ãŸ
+- ReadOnlyReactiveProperty ã® internal ãªã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‚’ public ã«å¤‰æ›´ã—ã¾ã—ãŸ
 
-### ”j‰ó“I•ÏX
-- SerializeHelper ‚Ìíœ
-- .NET Standard 1.1 ‚©‚ç .NET Standard 1.3 ‚É•ÏX
-    - .NET Framework 4.5 ‚ğ‘Î‰ƒvƒ‰ƒbƒgƒtƒH[ƒ€‚©‚çŠO‚µ‚Ü‚µ‚½
-	- Windows store app ‚ğ‘Î‰ƒvƒ‰ƒbƒgƒtƒH[ƒ€‚©‚çŠO‚µ‚Ü‚µ‚½
+### ç ´å£Šçš„å¤‰æ›´
+- SerializeHelper ã®å‰Šé™¤
+- .NET Standard 1.1 ã‹ã‚‰ .NET Standard 1.3 ã«å¤‰æ›´
+    - .NET Framework 4.5 ã‚’å¯¾å¿œãƒ—ãƒ©ãƒƒãƒˆãƒ•ã‚©ãƒ¼ãƒ ã‹ã‚‰å¤–ã—ã¾ã—ãŸ
+	- Windows store app ã‚’å¯¾å¿œãƒ—ãƒ©ãƒƒãƒˆãƒ•ã‚©ãƒ¼ãƒ ã‹ã‚‰å¤–ã—ã¾ã—ãŸ
 
 ## v3.6.0
-### ”j‰ó“I•ÏX
-- iOSŒü‚¯‚ÌSetBindingƒƒ\ƒbƒh‚ğSetBindingXXXXX(‘ÎÛ‚ÌƒNƒ‰ƒX–¼)‚É•ÏX‚µ‚Ü‚µ‚½
+### ç ´å£Šçš„å¤‰æ›´
+- iOSå‘ã‘ã®SetBindingãƒ¡ã‚½ãƒƒãƒ‰ã‚’SetBindingXXXXX(å¯¾è±¡ã®ã‚¯ãƒ©ã‚¹å)ã«å¤‰æ›´ã—ã¾ã—ãŸ
 
 ### Add
-- AsyncReactiveCommand#Subscribe ƒƒ\ƒbƒh‚Éˆø”‚È‚µƒo[ƒWƒ‡ƒ“‚ğ’Ç‰Á‚µ‚Ü‚µ‚½
-- ReactiveCommand#Subscribe ƒƒ\ƒbƒh‚Éˆø”‚È‚µƒo[ƒWƒ‡ƒ“‚ğ’Ç‰Á‚µ‚Ü‚µ‚½
+- AsyncReactiveCommand#Subscribe ãƒ¡ã‚½ãƒƒãƒ‰ã«å¼•æ•°ãªã—ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã‚’è¿½åŠ ã—ã¾ã—ãŸ
+- ReactiveCommand#Subscribe ãƒ¡ã‚½ãƒƒãƒ‰ã«å¼•æ•°ãªã—ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã‚’è¿½åŠ ã—ã¾ã—ãŸ
 
 ## v3.5.0
-### ”j‰ó“I•ÏX
-- ObserveEveryValueChangedŠg’£ƒƒ\ƒbƒh‚Ì–¼‘O‹óŠÔ‚ğExtensions‚©‚çObjectExtensions•ÏX‚µ‚Ü‚µ‚½.
+### ç ´å£Šçš„å¤‰æ›´
+- ObserveEveryValueChangedæ‹¡å¼µãƒ¡ã‚½ãƒƒãƒ‰ã®åå‰ç©ºé–“ã‚’Extensionsã‹ã‚‰ObjectExtensionså¤‰æ›´ã—ã¾ã—ãŸ.
 
-### ’Ç‰Á
-- Refreshƒƒ\ƒbƒh‚ğIFilteredReadOnlyObservableCollection‚É’Ç‰Á‚µ‚Ü‚µ‚½.
+### è¿½åŠ 
+- Refreshãƒ¡ã‚½ãƒƒãƒ‰ã‚’IFilteredReadOnlyObservableCollectionã«è¿½åŠ ã—ã¾ã—ãŸ.
 
 ## v3.4.0
-### XV
-- Rx 3.1.1‚ÉXV‚µ‚Ü‚µ‚½
+### æ›´æ–°
+- Rx 3.1.1ã«æ›´æ–°ã—ã¾ã—ãŸ
 
-### ’Ç‰Á
-- DependencyObject‚ÉObserveDependencyPropertyŠg’£ƒƒ\ƒbƒh‚ğ’Ç‰Á‚µ‚Ü‚µ‚½B(UWP‚ÆWPF)
-- DependencyObject‚ÉToReadOnlyReactivePropertyŠg’£ƒƒ\ƒbƒh‚ğ’Ç‰Á‚µ‚Ü‚µ‚½B(UWP‚ÆWPF)
-- DependencyObject‚ÉToRReactivePropertyŠg’£ƒƒ\ƒbƒh‚ğ’Ç‰Á‚µ‚Ü‚µ‚½B(UWP‚ÆWPF)
+### è¿½åŠ 
+- DependencyObjectã«ObserveDependencyPropertyæ‹¡å¼µãƒ¡ã‚½ãƒƒãƒ‰ã‚’è¿½åŠ ã—ã¾ã—ãŸã€‚(UWPã¨WPF)
+- DependencyObjectã«ToReadOnlyReactivePropertyæ‹¡å¼µãƒ¡ã‚½ãƒƒãƒ‰ã‚’è¿½åŠ ã—ã¾ã—ãŸã€‚(UWPã¨WPF)
+- DependencyObjectã«ToRReactivePropertyæ‹¡å¼µãƒ¡ã‚½ãƒƒãƒ‰ã‚’è¿½åŠ ã—ã¾ã—ãŸã€‚(UWPã¨WPF)
 
 ## v3.3.0
 
-- Rx 3.1.0‚ÉƒAƒbƒvƒf[ƒg‚µ‚Ü‚µ‚½
-- UWP‚ÌƒrƒwƒCƒrƒA‚ğv2.0.0‚ÉƒAƒbƒvƒf[ƒg‚µ‚Ü‚µ‚½
+- Rx 3.1.0ã«ã‚¢ãƒƒãƒ—ãƒ‡ãƒ¼ãƒˆã—ã¾ã—ãŸ
+- UWPã®ãƒ“ãƒ˜ã‚¤ãƒ“ã‚¢ã‚’v2.0.0ã«ã‚¢ãƒƒãƒ—ãƒ‡ãƒ¼ãƒˆã—ã¾ã—ãŸ
 
 ## v3.2.0
 
-### ’Ç‰Á
+### è¿½åŠ 
 
-- iOS—p‚É`SetBinding`ƒƒ\ƒbƒh‚ğ’Ç‰Á‚µ‚Ü‚µ‚½B
+- iOSç”¨ã«`SetBinding`ãƒ¡ã‚½ãƒƒãƒ‰ã‚’è¿½åŠ ã—ã¾ã—ãŸã€‚
 
 ## v3.1.0
 
-- VB‚ÌPropertySelector‚ÌƒTƒ|[ƒg
+- VBã®PropertySelectorã®ã‚µãƒãƒ¼ãƒˆ
 
 ## v3.0.0
 
-### XV
-- Reactive Extensions 3.0‚ÉXV‚µ‚Ü‚µ‚½B
+### æ›´æ–°
+- Reactive Extensions 3.0ã«æ›´æ–°ã—ã¾ã—ãŸã€‚
 
 ## v2.9
-### ’Ç‰Á
-- AsyncReactiveCommand‚ğ’Ç‰Á‚µ‚Ü‚µ‚½B
+### è¿½åŠ 
+- AsyncReactiveCommandã‚’è¿½åŠ ã—ã¾ã—ãŸã€‚
 
 ## v2.8
-### ’Ç‰Á
-- disposeElementˆø”‚ÆToReadOnlyReactiveCollectionƒƒ\ƒbƒh‚É’Ç‰Á‚µ‚Ü‚µ‚½BƒfƒtƒHƒ‹ƒg’l‚Ítruei¡‚Ü‚Å‚Æ“¯‚¶“®‚«j‚Å‚·B
+### è¿½åŠ 
+- disposeElementå¼•æ•°ã¨ToReadOnlyReactiveCollectionãƒ¡ã‚½ãƒƒãƒ‰ã«è¿½åŠ ã—ã¾ã—ãŸã€‚ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã¯trueï¼ˆä»Šã¾ã§ã¨åŒã˜å‹•ãï¼‰ã§ã™ã€‚
 
-### •ÏX
-- ƒfƒtƒHƒ‹ƒg‚ÌƒXƒPƒWƒ…[ƒ‰ì¬ƒƒWƒbƒN‚ğ•ÏX‚µ‚Ü‚µ‚½BƒRƒ“ƒ\[ƒ‹ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Å‚à—áŠO‚ªo‚¸‚Ég‚¦‚Ü‚·B
+### å¤‰æ›´
+- ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ã‚¹ã‚±ã‚¸ãƒ¥ãƒ¼ãƒ©ä½œæˆãƒ­ã‚¸ãƒƒã‚¯ã‚’å¤‰æ›´ã—ã¾ã—ãŸã€‚ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã§ã‚‚ä¾‹å¤–ãŒå‡ºãšã«ä½¿ãˆã¾ã™ã€‚
 
 
 ## v2.7.2
 
 ### Add
-- ObserveEveryValueChangedŠg’£ƒƒ\ƒbƒh‚ğ’Ç‰Á‚µ‚Ü‚µ‚½B(WPF‚Ì‚İ)
+- ObserveEveryValueChangedæ‹¡å¼µãƒ¡ã‚½ãƒƒãƒ‰ã‚’è¿½åŠ ã—ã¾ã—ãŸã€‚(WPFã®ã¿)
 
 ## v2.7.1
-### ’Ç‰Á
-- IO<bool>#InverseŠg’£ƒƒ\ƒbƒh‚ğ’Ç‰Á‚µ‚Ü‚µ‚½B
+### è¿½åŠ 
+- IO<bool>#Inverseæ‹¡å¼µãƒ¡ã‚½ãƒƒãƒ‰ã‚’è¿½åŠ ã—ã¾ã—ãŸã€‚
 
 ## v2.7
-### ’Ç‰Á
-- BusyNotifier‚ğ’Ç‰Á‚µ‚Ü‚µ‚½B
+### è¿½åŠ 
+- BusyNotifierã‚’è¿½åŠ ã—ã¾ã—ãŸã€‚
 
 ## v2.6
-### •ÏX
-- ƒfƒtƒHƒ‹ƒg‚ÌƒXƒPƒWƒ…[ƒ‰‚ğUIDispatcherScheduler‚©‚çReactivePropertyScheduler‚É•ÏX‚µ‚Ü‚µ‚½
-- UWPg—p‚ÉBehaviorSDK‚Å‚Í‚È‚­Microsoft.Xaml.Behaviors.Uwp.Managed‚ğQÆ‚·‚é‚æ‚¤‚É•ÏX‚µ‚Ü‚µ‚½
+### å¤‰æ›´
+- ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ã‚¹ã‚±ã‚¸ãƒ¥ãƒ¼ãƒ©ã‚’UIDispatcherSchedulerã‹ã‚‰ReactivePropertySchedulerã«å¤‰æ›´ã—ã¾ã—ãŸ
+- UWPä½¿ç”¨æ™‚ã«BehaviorSDKã§ã¯ãªãMicrosoft.Xaml.Behaviors.Uwp.Managedã‚’å‚ç…§ã™ã‚‹ã‚ˆã†ã«å¤‰æ›´ã—ã¾ã—ãŸ
 
 ## v2.5
 
 ### Add
-- ForceNotify/ForceValidateƒƒ\ƒbƒh‚ğ’Ç‰Á‚µ‚Ü‚µ‚½
+- ForceNotify/ForceValidateãƒ¡ã‚½ãƒƒãƒ‰ã‚’è¿½åŠ ã—ã¾ã—ãŸ
 
 ## v2.4.2
 
-### ƒoƒOƒtƒBƒbƒNƒX
+### ãƒã‚°ãƒ•ã‚£ãƒƒã‚¯ã‚¹
 
-- ToReactivePropertyAsSynchronizedƒƒ\ƒbƒh‚ÅignoreValidationErrorValue‚ªŒø‚©‚È‚©‚Á‚½ƒoƒO‚ğC³
+- ToReactivePropertyAsSynchronizedãƒ¡ã‚½ãƒƒãƒ‰ã§ignoreValidationErrorValueãŒåŠ¹ã‹ãªã‹ã£ãŸãƒã‚°ã‚’ä¿®æ­£
 
 ## v2.4.1
 
-### ƒoƒOƒtƒBƒbƒNƒX
+### ãƒã‚°ãƒ•ã‚£ãƒƒã‚¯ã‚¹
 
-- ReadOnlyReactiveCollection‚ÅDispose‚ÉƒRƒŒƒNƒVƒ‡ƒ“‚Ì—v‘f‚ÌDispose‚ªŒÄ‚Î‚ê‚È‚¢ƒP[ƒX‚ª‚ ‚é–â‘è‚É‘Î‰
+- ReadOnlyReactiveCollectionã§Disposeæ™‚ã«ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã®è¦ç´ ã®DisposeãŒå‘¼ã°ã‚Œãªã„ã‚±ãƒ¼ã‚¹ãŒã‚ã‚‹å•é¡Œã«å¯¾å¿œ
 
 ## v2.4.0
 
-### ’Ç‰Á
+### è¿½åŠ 
 
-- iOSŒü‚¯‚ÉUIView‚ÉReactiveProeprty/ReactiveCommand‚ğƒoƒCƒ“ƒh‚·‚éŠg’£ƒƒ\ƒbƒh‚ğ’Ç‰Á‚µ‚Ü‚µ‚½
+- iOSå‘ã‘ã«UIViewã«ReactiveProeprty/ReactiveCommandã‚’ãƒã‚¤ãƒ³ãƒ‰ã™ã‚‹æ‹¡å¼µãƒ¡ã‚½ãƒƒãƒ‰ã‚’è¿½åŠ ã—ã¾ã—ãŸ
 
 ## v2.3.1
 
-### •ÏX
+### å¤‰æ›´
 
-- IReadOnlyReactiveProperty‚ÌŒ^ˆø”‚ğout‚É•ÏX‚µ‚Ü‚µ‚½B
+- IReadOnlyReactivePropertyã®å‹å¼•æ•°ã‚’outã«å¤‰æ›´ã—ã¾ã—ãŸã€‚
 
 ## v2.3
 
-### ƒpƒtƒH[ƒ}ƒ“ƒX
+### ãƒ‘ãƒ•ã‚©ãƒ¼ãƒãƒ³ã‚¹
 
-- ReactivePropertyƒNƒ‰ƒX‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Ìˆ—«”\‚ğ‰ü‘P‚µ‚Ü‚µ‚½B
+- ReactivePropertyã‚¯ãƒ©ã‚¹ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã®å‡¦ç†æ€§èƒ½ã‚’æ”¹å–„ã—ã¾ã—ãŸã€‚
 
-### ’Ç‰Á
+### è¿½åŠ 
 
-- Xamarin.Mac‚Ìƒvƒƒtƒ@ƒCƒ‹‚ğ’Ç‰Á‚µ‚Ü‚µ‚½
-- .NET Framework 4.6‚ÌƒoƒCƒiƒŠ‚ğì¬‚µ‚Ü‚µ‚½
+- Xamarin.Macã®ãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«ã‚’è¿½åŠ ã—ã¾ã—ãŸ
+- .NET Framework 4.6ã®ãƒã‚¤ãƒŠãƒªã‚’ä½œæˆã—ã¾ã—ãŸ
 
 ## v2.2.8
 
-### •ÏX
+### å¤‰æ›´
 
-- ReactiveProperty‚ÆReadOnlyReactiveProperty‚ÌÀ‘•ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğ•ÏX‚µ‚Ü‚µ‚½B Issue #11.
+- ReactivePropertyã¨ReadOnlyReactivePropertyã®å®Ÿè£…ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã‚’å¤‰æ›´ã—ã¾ã—ãŸã€‚ Issue #11.
 
 ## v2.2.7
 
-### •ÏX
+### å¤‰æ›´
 
-- IFilteredReadOnlyObservableCollection‚Ì“à•”À‘•‚ğ•ÏX
+- IFilteredReadOnlyObservableCollectionã®å†…éƒ¨å®Ÿè£…ã‚’å¤‰æ›´
 
 ## v2.2.6
 
-### ’Ç‰Á
+### è¿½åŠ 
 
-- ReactiveCollectionƒNƒ‰ƒX‚ÉAddRangeOnSchedulerƒƒ\ƒbƒh‚ğ’Ç‰Á.
+- ReactiveCollectionã‚¯ãƒ©ã‚¹ã«AddRangeOnSchedulerãƒ¡ã‚½ãƒƒãƒ‰ã‚’è¿½åŠ .
 
 ## v2.2.5
 
-### XV
+### æ›´æ–°
 
-- System.Windows.InteractivityƒAƒZƒ“ƒuƒŠ‚Ö‚ÌQÆ‚ğXV.
+- System.Windows.Interactivityã‚¢ã‚»ãƒ³ãƒ–ãƒªã¸ã®å‚ç…§ã‚’æ›´æ–°.
 
 ## v2.2.4
 
-### ƒoƒOƒtƒBƒbƒNƒX
+### ãƒã‚°ãƒ•ã‚£ãƒƒã‚¯ã‚¹
 
-- FilteredReadOnlyObservableCollection‚Éíœ‚ÌƒCƒ“ƒfƒbƒNƒXŠÇ—‚Ì–â‘è‚ğC³
-- FilteredReadOnlyObservableCollection‚É’l‚Ì“ü‚ê‘Ö‚¦‚ÌƒCƒ“ƒfƒbƒNƒXŠÇ—‚Ì–â‘è‚ğC³
+- FilteredReadOnlyObservableCollectionã«å‰Šé™¤æ™‚ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ç®¡ç†ã®å•é¡Œã‚’ä¿®æ­£
+- FilteredReadOnlyObservableCollectionã«å€¤ã®å…¥ã‚Œæ›¿ãˆæ™‚ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ç®¡ç†ã®å•é¡Œã‚’ä¿®æ­£
 
 ## v2.2.3
 
-### ƒoƒOƒtƒBƒbƒNƒX
+### ãƒã‚°ãƒ•ã‚£ãƒƒã‚¯ã‚¹
 
-- ReadOnlyReactiveCollection‚ÅRemove‚ÉConverter‚ªÀs‚³‚ê‚Ä‚¢‚½–â‘è‚ğC³
+- ReadOnlyReactiveCollectionã§Removeæ™‚ã«ConverterãŒå®Ÿè¡Œã•ã‚Œã¦ã„ãŸå•é¡Œã‚’ä¿®æ­£
 
 ## v2.2.2
 
-### ƒoƒOƒtƒBƒbƒNƒX
+### ãƒã‚°ãƒ•ã‚£ãƒƒã‚¯ã‚¹
 
-- FilteredReadOnlyObservableCollection‚Ì‰Šú‰»ˆ—‚ÅƒCƒ“ƒfƒbƒNƒX‚ÌŠÇ—‚É–â‘è‚ª‚ ‚Á‚½‚Ì‚ğC³
+- FilteredReadOnlyObservableCollectionã®åˆæœŸåŒ–å‡¦ç†ã§ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã®ç®¡ç†ã«å•é¡ŒãŒã‚ã£ãŸã®ã‚’ä¿®æ­£
 
 ## v2.2.1
 
-### ƒoƒOƒtƒBƒbƒNƒX
+### ãƒã‚°ãƒ•ã‚£ãƒƒã‚¯ã‚¹
 
-- ReadOnlyReactiveProperty‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Å•¡”‰ñSubscribeƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚Ä‚¢‚½•s‹ï‡‚ğC³‚µ‚Ü‚µ‚½B
+- ReadOnlyReactivePropertyã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§è¤‡æ•°å›Subscribeãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã³å‡ºã—ã¦ã„ãŸä¸å…·åˆã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚
 
 ## v2.2
 
-### ”j‰ó“I•ÏX
+### ç ´å£Šçš„å¤‰æ›´
 
-- ObserveElementReactiveProperty Šg’£ƒƒ\ƒbƒh‚ğíœ‚µ‚Ü‚µ‚½B
+- ObserveElementReactiveProperty æ‹¡å¼µãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‰Šé™¤ã—ã¾ã—ãŸã€‚
 
 ### Add
 
-- ObserveElementObservableProperty Šg’£ƒƒ\ƒbƒh‚ğ’Ç‰Á‚µ‚Ü‚µ‚½B
+- ObserveElementObservableProperty æ‹¡å¼µãƒ¡ã‚½ãƒƒãƒ‰ã‚’è¿½åŠ ã—ã¾ã—ãŸã€‚
 
 ## v2.1.8
 
-### ’Ç‰Á
+### è¿½åŠ 
 
-- Helpers–¼‘O‹óŠÔ‚ÉƒŠƒAƒ‹ƒ^ƒCƒ€‚ÉƒRƒŒƒNƒVƒ‡ƒ“‚Ì—v‘f‚ğƒtƒBƒ‹ƒ^ƒŠƒ“ƒO‚·‚éƒRƒŒƒNƒVƒ‡ƒ“ FilteredReadOnlyObservableCollection<T> ‚ğ’Ç‰Á‚µ‚Ü‚µ‚½B
+- Helpersåå‰ç©ºé–“ã«ãƒªã‚¢ãƒ«ã‚¿ã‚¤ãƒ ã«ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã®è¦ç´ ã‚’ãƒ•ã‚£ãƒ«ã‚¿ãƒªãƒ³ã‚°ã™ã‚‹ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ FilteredReadOnlyObservableCollection<T> ã‚’è¿½åŠ ã—ã¾ã—ãŸã€‚
 
 ## v2.1.7
 
-### ƒoƒOƒtƒBƒbƒNƒX
+### ãƒã‚°ãƒ•ã‚£ãƒƒã‚¯ã‚¹
 
-- ReadOnlyReactiveProperty ‚ª BehaviorSubject<T> ‚ğƒ\[ƒX‚Éì‚Á‚½‚É BehaviorSubject<T> ‚©‚çÅ‰‚É”­s‚³‚ê‚é’l‚ğ‰Šú’l‚Æ‚µ‚Äg‚Á‚Ä‚¢‚È‚©‚Á‚½•s‹ï‡‚ğC³‚µ‚Ü‚µ‚½B
+- ReadOnlyReactiveProperty ãŒ BehaviorSubject<T> ã‚’ã‚½ãƒ¼ã‚¹ã«ä½œã£ãŸæ™‚ã« BehaviorSubject<T> ã‹ã‚‰æœ€åˆã«ç™ºè¡Œã•ã‚Œã‚‹å€¤ã‚’åˆæœŸå€¤ã¨ã—ã¦ä½¿ã£ã¦ã„ãªã‹ã£ãŸä¸å…·åˆã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚
 
 ## v2.1.6
 
-### ’Ç‰Á
+### è¿½åŠ 
 
-- ObservableCollection ‚Æ ReadOnlyObservableCollection ‚Ì—v‘f‚Ì ReactiveProperty ‚Ì•ÏX‚ğŠÄ‹‚·‚é ObserveElementReactiveProperty Šg’£ƒƒ\ƒbƒh‚ğÀ‘•‚µ‚Ü‚µ‚½B
-- ObservableCollection ‚Æ ReadOnlyObservableCollection ‚Ì—v‘f‚Ì PropertyChanged ƒCƒxƒ“ƒg‚ğŠÄ‹‚·‚é ObserveElementPropertyChanged Šg’£ƒƒ\ƒbƒh‚ğÀ‘•‚µ‚Ü‚µ‚½B
-- “Ç‚İæ‚èê—p‚Ì ReactiveProperty ‚Å‚ ‚é ReadOnlyReactiveProperty<T> ‚ğÀ‘•‚µ‚Ü‚µ‚½BIObservable<T> ‚©‚ç ToReadOnlyReactiveProperty Šg’£ƒƒ\ƒbƒh‚Å¶¬‚Å‚«‚Ü‚·B
+- ObservableCollection ã¨ ReadOnlyObservableCollection ã®è¦ç´ ã® ReactiveProperty ã®å¤‰æ›´ã‚’ç›£è¦–ã™ã‚‹ ObserveElementReactiveProperty æ‹¡å¼µãƒ¡ã‚½ãƒƒãƒ‰ã‚’å®Ÿè£…ã—ã¾ã—ãŸã€‚
+- ObservableCollection ã¨ ReadOnlyObservableCollection ã®è¦ç´ ã® PropertyChanged ã‚¤ãƒ™ãƒ³ãƒˆã‚’ç›£è¦–ã™ã‚‹ ObserveElementPropertyChanged æ‹¡å¼µãƒ¡ã‚½ãƒƒãƒ‰ã‚’å®Ÿè£…ã—ã¾ã—ãŸã€‚
+- èª­ã¿å–ã‚Šå°‚ç”¨ã® ReactiveProperty ã§ã‚ã‚‹ ReadOnlyReactiveProperty<T> ã‚’å®Ÿè£…ã—ã¾ã—ãŸã€‚IObservable<T> ã‹ã‚‰ ToReadOnlyReactiveProperty æ‹¡å¼µãƒ¡ã‚½ãƒƒãƒ‰ã§ç”Ÿæˆã§ãã¾ã™ã€‚
 
-### ”j‰ó“I•ÏX
+### ç ´å£Šçš„å¤‰æ›´
 
-- INotifyCollectionChanged ‚ÌŠg’£ƒƒ\ƒbƒh‚Æ‚µ‚Ä’ñ‹Ÿ‚³‚ê‚Ä‚¢‚½ ObserveElementProperty ƒƒ\ƒbƒh‚ÌƒAƒNƒZƒVƒrƒŠƒeƒB‚ğ internal ‚É‚µ‚Ü‚µ‚½B
+- INotifyCollectionChanged ã®æ‹¡å¼µãƒ¡ã‚½ãƒƒãƒ‰ã¨ã—ã¦æä¾›ã•ã‚Œã¦ã„ãŸ ObserveElementProperty ãƒ¡ã‚½ãƒƒãƒ‰ã®ã‚¢ã‚¯ã‚»ã‚·ãƒ“ãƒªãƒ†ã‚£ã‚’ internal ã«ã—ã¾ã—ãŸã€‚
 
 ## v2.1.5
 
-### ’Ç‰Á
+### è¿½åŠ 
 
-- IEnumerable‚©‚çReadOnlyReactiveCollection‚ğì¬‚·‚éŠg’£ƒƒ\ƒbƒh‚ğ’Ç‰Á‚µ‚Ü‚µ‚½B
+- IEnumerableã‹ã‚‰ReadOnlyReactiveCollectionã‚’ä½œæˆã™ã‚‹æ‹¡å¼µãƒ¡ã‚½ãƒƒãƒ‰ã‚’è¿½åŠ ã—ã¾ã—ãŸã€‚
 
 ## v2.1.4
 
-- Œ‡”Ô
+- æ¬ ç•ª
 
 ## v2.1.3
 
-### ”j‰ó“I•ÏX
+### ç ´å£Šçš„å¤‰æ›´
 
-- ObserveElementProperty ‚Å’l‚É•ÏX‚ª‚ ‚Á‚½ƒCƒ“ƒXƒ^ƒ“ƒX‚à’Ê’m‚Å‚«‚é‚æ‚¤‚É‚µ‚Ü‚µ‚½B
+- ObserveElementProperty ã§å€¤ã«å¤‰æ›´ãŒã‚ã£ãŸã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚‚é€šçŸ¥ã§ãã‚‹ã‚ˆã†ã«ã—ã¾ã—ãŸã€‚
 
 ## v2.1.2
 
-### ’Ç‰Á
+### è¿½åŠ 
 
-- ObservableCollection ‚Æ ReadOnlyObservableCollection ‚Ì—v‘f‚ÌƒvƒƒpƒeƒB•ÏX‚ğŠÄ‹‚·‚é ObserveElementProperty Šg’£ƒƒ\ƒbƒh‚ğÀ‘•‚µ‚Ü‚µ‚½B
-- INotifyCollectionChanged ‚É‘Î‚µ‚Ä ObserveXxxChanged Šg’£ƒƒ\ƒbƒh‚ğ’Ç‰Á‚µ‚Ü‚µ‚½B
+- ObservableCollection ã¨ ReadOnlyObservableCollection ã®è¦ç´ ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å¤‰æ›´ã‚’ç›£è¦–ã™ã‚‹ ObserveElementProperty æ‹¡å¼µãƒ¡ã‚½ãƒƒãƒ‰ã‚’å®Ÿè£…ã—ã¾ã—ãŸã€‚
+- INotifyCollectionChanged ã«å¯¾ã—ã¦ ObserveXxxChanged æ‹¡å¼µãƒ¡ã‚½ãƒƒãƒ‰ã‚’è¿½åŠ ã—ã¾ã—ãŸã€‚
 
-### •ÏX
+### å¤‰æ›´
 
-- ToReadOnlyReactiveCollection Šg’£ƒƒ\ƒbƒh‚©‚çQÆŒ^§–ñ‚ğœ‹‚µ‚Ü‚µ‚½B
+- ToReadOnlyReactiveCollection æ‹¡å¼µãƒ¡ã‚½ãƒƒãƒ‰ã‹ã‚‰å‚ç…§å‹åˆ¶ç´„ã‚’é™¤å»ã—ã¾ã—ãŸã€‚
 
 ## v2.1.1
 
-### •ÏX
+### å¤‰æ›´
 
-- SynchronizationContext.Current ‚ª null ‚Ìê‡‚É UIDispatcherScheduler ‚ğ‰Šú‰»‚·‚é‚Æ”­¶‚·‚é—áŠO‚ğ•ÏX‚µ‚Ü‚µ‚½B 
+- SynchronizationContext.Current ãŒ null ã®å ´åˆã« UIDispatcherScheduler ã‚’åˆæœŸåŒ–ã™ã‚‹ã¨ç™ºç”Ÿã™ã‚‹ä¾‹å¤–ã‚’å¤‰æ›´ã—ã¾ã—ãŸã€‚ 
 
 ## v2.1.0
 
-### ’Ç‰Á
+### è¿½åŠ 
 
-- ReadOnlyReactiveCollection‚ğReadOnlyObservableCollection‚©‚çì¬‚Å‚«‚é‚æ‚¤‚É‚µ‚Ü‚µ‚½
+- ReadOnlyReactiveCollectionã‚’ReadOnlyObservableCollectionã‹ã‚‰ä½œæˆã§ãã‚‹ã‚ˆã†ã«ã—ã¾ã—ãŸ
 	- readOnlyObservableCollectionInstance.ToReadOnlyReactiveCollection(x => CreateViewModel(x))
 
-### •ÏX
+### å¤‰æ›´
 
-- ReadOnlyReactiveCollection‚ÌDisposeƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚½‚Æ‚«‚ÉAƒRƒŒƒNƒVƒ‡ƒ““à•”‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚É‘Î‚µ‚Ä‚àDispose‚ğŒÄ‚Ô‚æ‚¤‚É‚µ‚Ü‚µ‚½
+- ReadOnlyReactiveCollectionã®Disposeãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã³å‡ºã—ãŸã¨ãã«ã€ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³å†…éƒ¨ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã«å¯¾ã—ã¦ã‚‚Disposeã‚’å‘¼ã¶ã‚ˆã†ã«ã—ã¾ã—ãŸ
 
 ## v2.0.1
 
-### •ÏX
+### å¤‰æ›´
 
-- BooleanNotifierƒNƒ‰ƒX‚ÉINotifyPropertyChanged‚ğÀ‘•‚µ‚Ü‚µ‚½B
+- BooleanNotifierã‚¯ãƒ©ã‚¹ã«INotifyPropertyChangedã‚’å®Ÿè£…ã—ã¾ã—ãŸã€‚
 
 ## v2.0.0
 
-### ”j‰ó“I•ÏX
+### ç ´å£Šçš„å¤‰æ›´
 
-- –¼‘O‹óŠÔ‚ª Codeplex.Reactive ‚©‚ç Reactive.Bindings ‚É•Ï‚í‚è‚Ü‚µ‚½B
-- ReactiveProperty#ObserveHasError ƒƒ\ƒbƒh‚ğObserveHasErrors‚É•ÏX‚µ‚Ä‚­‚¾‚³‚¢B
+- åå‰ç©ºé–“ãŒ Codeplex.Reactive ã‹ã‚‰ Reactive.Bindings ã«å¤‰ã‚ã‚Šã¾ã—ãŸã€‚
+- ReactiveProperty#ObserveHasError ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ObserveHasErrorsã«å¤‰æ›´ã—ã¦ãã ã•ã„ã€‚
 
-### ”ñ„§
+### éæ¨å¥¨
 
-- EventToReactive‚ğ”ñ„§‚É‚µ‚Ü‚µ‚½BEventToReactiveProperty‚©EventToReactiveCommand‚ğg‚Á‚Ä‚­‚¾‚³‚¢B
+- EventToReactiveã‚’éæ¨å¥¨ã«ã—ã¾ã—ãŸã€‚EventToReactivePropertyã‹EventToReactiveCommandã‚’ä½¿ã£ã¦ãã ã•ã„ã€‚
 
-### •ÏX“_
+### å¤‰æ›´ç‚¹
 
-- ReadOnlyReactiveProperty‚ª—v‘f‚ğíœ‚·‚é‚Æ‚«‚ÉDisposeƒƒ\ƒbƒh‚ğŒÄ‚Ô‚æ‚¤‚É‚È‚è‚Ü‚µ‚½B
-- CountNotifierƒNƒ‰ƒX‚ÉINotifyPropertyChanged‚ğÀ‘•‚µ‚Ü‚µ‚½B
+- ReadOnlyReactivePropertyãŒè¦ç´ ã‚’å‰Šé™¤ã™ã‚‹ã¨ãã«Disposeãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã¶ã‚ˆã†ã«ãªã‚Šã¾ã—ãŸã€‚
+- CountNotifierã‚¯ãƒ©ã‚¹ã«INotifyPropertyChangedã‚’å®Ÿè£…ã—ã¾ã—ãŸã€‚
 
-### ’Ç‰Á
+### è¿½åŠ 
 
-- Xamarin.Android—p‚Ì‹@”\‚ğ’Ç‰Á‚µ‚Ü‚µ‚½
-    - ViewƒNƒ‰ƒX‚ÉSetBindingŠg’£ƒƒ\ƒbƒh‚ğ’Ç‰Á‚µ‚Ü‚µ‚½B
-    - IObservable<T>‚ÉSetCommandŠg’£ƒƒ\ƒbƒh‚ğ’Ç‰Á‚µ‚Ü‚µ‚½B
+- Xamarin.Androidç”¨ã®æ©Ÿèƒ½ã‚’è¿½åŠ ã—ã¾ã—ãŸ
+    - Viewã‚¯ãƒ©ã‚¹ã«SetBindingæ‹¡å¼µãƒ¡ã‚½ãƒƒãƒ‰ã‚’è¿½åŠ ã—ã¾ã—ãŸã€‚
+    - IObservable<T>ã«SetCommandæ‹¡å¼µãƒ¡ã‚½ãƒƒãƒ‰ã‚’è¿½åŠ ã—ã¾ã—ãŸã€‚
