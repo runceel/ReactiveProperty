@@ -1,7 +1,7 @@
 <Project>
   <PropertyGroup>
     <RootNamespace>Reactive.Bindings</RootNamespace>
-    <Version>7.2.1</Version>
+    <Version>7.3.0</Version>
     <Authors>neuecc xin9le okazuki</Authors>
     <PackageProjectUrl>https://github.com/runceel/ReactiveProperty</PackageProjectUrl>
     <PackageTags>rx mvvm async rx-main reactive</PackageTags>
