@@ -31,8 +31,8 @@ jobs:
       working-directory: docs
     - name: git setting
       run: |
-        git config --local user.email "k_ota28@hotmail.com"
-        git config --local user.name "runceel"
+        git config --global user.email "k_ota28@hotmail.com"
+        git config --global user.name "runceel"
     - run: |
         git init
         git add --all
