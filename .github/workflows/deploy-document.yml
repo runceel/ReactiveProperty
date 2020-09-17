@@ -29,6 +29,10 @@ jobs:
         npm install
         npm run docs:build
       working-directory: docs
+    - name: git setting
+      run: |
+        git config --local user.email "k_ota28@hotmail.com"
+        git config --local user.name "runceel"
     - run: |
         git init
         git add --all
