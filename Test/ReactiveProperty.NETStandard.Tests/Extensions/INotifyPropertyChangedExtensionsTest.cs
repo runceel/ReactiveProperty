@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Reactive.Linq;
 using Microsoft.Reactive.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -182,20 +184,20 @@ namespace ReactiveProperty.Tests.Extensions
         [TestMethod]
         public void ToReactivePropertyAsSynchronizedMultipleConvertBack()
         {
-            var model = new PointModel { Point = Tuple.Create(0, 1) };
+            var model = new PointModel { Point = (0, 1) };
             var propX = model.ToReactivePropertyAsSynchronized(
                 x => x.Point,
-                x => x.Item1,
-                x => Tuple.Create(x, model.Point.Item2));
+                x => x.x,
+                x => (x, model.Point.y));
             var propY = model.ToReactivePropertyAsSynchronized(
                 x => x.Point,
-                x => x.Item2,
-                x => Tuple.Create(model.Point.Item1, x));
+                x => x.y,
+                x => (model.Point.x, x));
 
             propX.Value.Is(0);
             propY.Value.Is(1);
 
-            model.Point = Tuple.Create(10, 20);
+            model.Point = (10, 20);
             propX.Value.Is(10);
             propY.Value.Is(20);
 
@@ -238,6 +240,100 @@ namespace ReactiveProperty.Tests.Extensions
             source.Value.Is(10);
         }
 
+        // ToReactivePropertySlimSynchronized
+        [TestMethod]
+        public void ToReactivePropertyAsSynchronizedSlim()
+        {
+            var model = new Model() { Name = "homuhomu" };
+            var prop = model.ToReactivePropertySlimAsSynchronized(x => x.Name);
+
+            prop.Value.Is("homuhomu");
+
+            prop.Value = "madomado";
+            model.Name.Is("madomado");
+
+            model.Name = "mamimami";
+            prop.Value.Is("mamimami");
+        }
+
+        [TestMethod]
+        public void ToReactivePropertySlimAsSynchronizedConvert()
+        {
+            var model = new Model() { Age = 30 };
+            var prop = model.ToReactivePropertySlimAsSynchronized(
+                x => x.Age, // property selector
+                x => "Age:" + x,  // convert
+                x => int.Parse(x.Replace("Age:", ""))); // convertBack
+
+            prop.Value.Is("Age:30");
+
+            prop.Value = "Age:50";
+            model.Age.Is(50);
+
+            model.Age = 80;
+            prop.Value.Is("Age:80");
+        }
+
+        [TestMethod]
+        public void ToReactivePropertySlimAsSynchronizedMultipleConvertBack()
+        {
+            var model = new PointModel { Point = (0, 1) };
+            var propX = model.ToReactivePropertySlimAsSynchronized(
+                x => x.Point,
+                x => x.x,
+                x => (x, model.Point.y));
+            var propY = model.ToReactivePropertySlimAsSynchronized(
+                x => x.Point,
+                x => x.y,
+                x => (model.Point.x, x));
+
+            propX.Value.Is(0);
+            propY.Value.Is(1);
+
+            model.Point = (10, 20);
+            propX.Value.Is(10);
+            propY.Value.Is(20);
+
+            propX.Value = 100;
+            model.Point.Is(x => x.Item1 == 100 && x.Item2 == 20);
+
+            propY.Value = 200;
+            model.Point.Is(x => x.Item1 == 100 && x.Item2 == 200);
+        }
+
+        [TestMethod]
+        public void ToReactivePropertySlimAsSynchronizedObservableCase()
+        {
+            var source = new ReactivePropertySlim<int>(100);
+            var target = source.ToReactivePropertySlimAsSynchronized(x => x.Value,
+                ox => ox.Select(x => x.ToString()),
+                ox => ox.Where(x => int.TryParse(x, out _)).Select(x => int.Parse(x)));
+
+            target.Value.Is("100");
+            target.Value = "10";
+            source.Value.Is(10);
+            target.Value = "xxx";
+            source.Value.Is(10);
+        }
+
+        [TestMethod]
+        public void ToReactivePropertySlimAsSynchronizedEnsureClearEventHandler()
+        {
+            var source = new PointModel();
+            var rp = source.ToReactivePropertySlimAsSynchronized(x => x.Point);
+            var scheduler = new TestScheduler();
+            var observer = scheduler.CreateObserver<(int x, int y)>();
+            rp.Subscribe(observer); // OnNext((0, 0))
+
+            source.Handlers.Count.Is(1);
+            observer.Messages.Is(OnNext(0, (0, 0)));
+
+            rp.Dispose();
+            source.Handlers.Any().IsFalse();
+            source.Point = (10, 10);
+            observer.Messages.Is(OnNext(0, (0, 0)), OnCompleted<(int, int)>(0));
+        }
+
         private class Model : INotifyPropertyChanged
         {
             private string name;
@@ -267,24 +363,49 @@ namespace ReactiveProperty.Tests.Extensions
 
         private class PointModel : INotifyPropertyChanged
         {
-            public event PropertyChangedEventHandler PropertyChanged;
+            private readonly object _lock = new object();
+            public List<PropertyChangedEventHandler> Handlers { get; } = new List<PropertyChangedEventHandler>();
+            public event PropertyChangedEventHandler PropertyChanged
+            {
+                add
+                {
+                    lock(_lock)
+                    {
+                        Handlers.Add(value);
+                    }
+                }
+                remove
+                {
+                    lock(_lock)
+                    {
+                        Handlers.Remove(value);
+                    }
+                }
+            }
 
             private static readonly PropertyChangedEventArgs PointPropertyChangedEventArgs = new PropertyChangedEventArgs(nameof(Point));
 
-            private Tuple<int, int> point;
+            private (int x, int y) _point;
 
-            public Tuple<int, int> Point
+            public (int x, int y) Point
             {
                 get
                 {
-                    return point;
+                    return _point;
                 }
 
                 set
                 {
-                    if (point == value) { return; }
-                    point = value;
-                    PropertyChanged?.Invoke(this, PointPropertyChangedEventArgs);
+                    if (_point == value) { return; }
+                    _point = value;
+                    lock(_lock)
+                    {
+                        var handlers = Handlers.ToArray();
+                        foreach (var h in handlers)
+                        {
+                            h(this, PointPropertyChangedEventArgs);
+                        }
+                    }
                 }
             }
         }
