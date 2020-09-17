@@ -16,13 +16,22 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [10.x, 12.x, 14.x]
+        node-version: [12.x]
 
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
-        node-version: ${{ matrix.node-version }}
-    - run: ./deploy.sh
+        node-version: '12.x'
+        registry-url: 'https://registry.npmjs.org'
+    - run: |
+        npm install
+        npm run docs:build
       working-directory: docs
+    - run: |
+        git init
+        git add --all
+        git commit -m 'deploy'
+        git push -f https://github.com/runceel/ReactiveProperty.git main:gh-pages
+      working-directory: docs/docs/.vuepress/dist
