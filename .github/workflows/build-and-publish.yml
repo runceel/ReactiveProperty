@@ -3,6 +3,8 @@ name: Build and Release
 on:
   push:
     branches: [ main, pre-release, release ]
+    paths-ignore: 
+      - 'docs/**'
 
 jobs:
   build:
