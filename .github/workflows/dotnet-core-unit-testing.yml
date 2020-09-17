@@ -16,6 +16,6 @@ jobs:
       with:
         dotnet-version: 3.1.402
     - name: Install dependencies
-      run: dotnet restore
+      run: dotnet restore ReactiveProperty.sln
     - name: Test
       run: dotnet test ReactiveProperty.sln --no-restore --verbosity normal
