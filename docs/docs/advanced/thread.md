@@ -38,6 +38,31 @@ taskPoolRp.Value = "changed"; // raise event on the TaskPoolScheduler thread.
 immediateRp.Value = "changed"; // raise event on the ImmediateScheduler thread.
 ```
 
+## Change the global scheduler factory
+
+Using the `ReactivePropertyScheduler.SetDefaultSchedulerFactory` method, you can change a factory method to create the ReactiveProperty's default scheduler instance.
+
+```csharp
+using System.Reactive.Concurrency;
+using System.Windows;
+using System.Windows.Threading;
+using Reactive.Bindings;
+
+namespace MultiUIThreadApp
+{
+    public partial class App : Application
+    {
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            // Set to create a DispatcherScheduler instance when every instance is created 
+            // for ReactiveProperty, ReadOnlyReactiveProperty, ReactiveCollection, and ReadOnlyReactiveProperty.
+            ReactivePropertyScheduler.SetDefaultSchedulerFactory(() =>
+                new DispatcherScheduler(Dispatcher.CurrentDispatcher));
+        }
+    }
+}
+```
+
 ## Rx operator
 
 Of course, you can use the `ObserveOn` extension method.
@@ -57,11 +82,10 @@ var rp = Observable.Interval(TimeSpan.FromSeconds(1))
     .ToReactiveProperty();
 ```
 
-## Limitations
+## Caution
 
-ReactiveProperty was designed for single UI thread platform.
-This means a few features don't work on multi UI thread platforms such as UWP.
+As a default, ReactiveProperty was designed for a single UI thread platform.
+It means a few features don't work on multi UI thread platforms such as UWP.
 
 UWP has multi UI threads in the single process when multiple Windows are created.
-If you create multi-windows on UWP, then you should set `ImmediateScheduler` to `ReactivePropertyScheduler`, when the app was launched.
-Or use `ReactivePropertySlim` / `ReadOnlyReactivePropertySlim` classes.
+So, in case of creating multi-windows on UWP, then you should set `ImmediateScheduler` using the `ReactivePropertyScheduler.SetDefault` method to disable a feature of auto dispatch events to UI thread or change to create different scheduler instances for each UI thread using the `ReactivePropertyScheduler.SetDefaultSchedulerFactory` method. Or please use `ReactivePropertySlim` / `ReadOnlyReactivePropertySlim` classes instead of ReactiveProperty/ReadOnlyReactiveProperty classes.
