@@ -304,11 +304,19 @@ namespace Reactive.Bindings
                 })
                 .Subscribe(x =>
                 {
+                    var prevHasErrors = HasErrors;
                     CurrentErrors = x;
+                    var currentHasErrors = HasErrors;
                     var handler = ErrorsChanged;
                     if (handler != null)
                     {
                         RaiseEventScheduler.Schedule(() => handler(this, SingletonDataErrorsChangedEventArgs.Value));
+                    }
+
+                    var propertyChangedHandler = PropertyChanged;
+                    if (prevHasErrors != currentHasErrors && propertyChangedHandler != null)
+                    {
+                        RaiseEventScheduler.Schedule(() => propertyChangedHandler(this, SingletonPropertyChangedEventArgs.HasErrors));
                     }
 
                     ErrorsTrigger.Value.OnNext(x);

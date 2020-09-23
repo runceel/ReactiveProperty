@@ -5,12 +5,14 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.Reactive.Testing;
 using Reactive.Bindings;
+using Reactive.Bindings.Extensions;
 
 namespace ReactiveProperty.Tests
 {
     [TestClass]
-    public class ReactivePropertyTest
+    public class ReactivePropertyTest : ReactiveTest
     {
         [TestMethod]
         public void NormalCase()
@@ -168,6 +170,20 @@ namespace ReactiveProperty.Tests
             collector.Is(0);
             rp.ForceNotify();
             collector.Is(0, 0);
+        }
+
+        [TestMethod]
+        public void RaisePropertyChangedWhenHasErrorsChanged()
+        {
+            var testScheduler = new TestScheduler();
+            var observer = testScheduler.CreateObserver<bool>();
+            var rp = new ReactiveProperty<string>("okazuki")
+                .SetValidateNotifyError(x => x.ToLower() == "error" ? "error" : null);
+            rp.ObserveProperty(x => x.HasErrors).Subscribe(observer);
+
+            rp.Value = "error";
+            rp.Value = "Error";
+            observer.Messages.Is(OnNext(0, false), OnNext(0, true));
         }
     }
 
