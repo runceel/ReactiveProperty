@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: windows-latest
     outputs:
-      version: ${{ steps.set-version-to-output.outputs. }}
+      version: ${{ steps.set-version-to-output.outputs.version }}
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET Core
