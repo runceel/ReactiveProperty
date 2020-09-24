@@ -8,9 +8,9 @@ on:
 
 jobs:
   build:
-
     runs-on: windows-latest
-
+    outputs:
+      version: ${{ steps.set-version-to-output.outputs. }}
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET Core
@@ -26,8 +26,12 @@ jobs:
         $doc = [XML](Get-Content 'Source\SharedProperties.csproj')
         $doc.Project.PropertyGroup.Version += '-pre' + (Get-Date).ToString("yyyyMMddHHmm")
         $doc.Save('Source\SharedProperties.csproj')
-        mkdir version
-        New-Item version\VERSION.txt -Value $doc.Project.PropertyGroup.Version
+    - name: Set version to outputs
+      id: set-version-to-output
+      shell: pwsh
+      run: |
+        $doc = [XML](Get-Content 'Source\SharedProperties.csproj')
+        echo "::set-output name=version::${doc.Project.PropertyGroup.Version}"    
     - name: Install dependencies
       run: dotnet restore ReactiveProperty.sln
     - name: Build
@@ -45,11 +49,6 @@ jobs:
       with:
         name: dist
         path: dist
-    - name: Archive Version
-      uses: actions/upload-artifact@v1
-      with:
-        name: version
-        path: version
 
   release-to-nuget:
     runs-on: windows-latest
@@ -72,23 +71,14 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: dist
-      - name: Download version
-        uses: actions/download-artifact@v2
-        with:
-          name: version
-      - name: Set version number
-        shell: pwsh
-        run: |
-          $v = Get-Content -Path version\VERSION.txt
-          $env:VERSION = $v
       - name: Create a release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ env.VERSION }}
-          release_name: Release ${{ env.VERSION }}
+          tag_name: ${{ needs.build.outputs.version }}
+          release_name: Release ${{ needs.build.outputs.version }}
           body: |
             TBD
           draft: true
@@ -105,5 +95,5 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: packages.zip
-          asset_name: packages-${{ env.VERSION }}.zip
+          asset_name: packages-${{ needs.build.outputs.version }}.zip
           asset_content_type: application/zip
