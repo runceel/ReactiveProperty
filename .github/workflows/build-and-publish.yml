@@ -31,7 +31,7 @@ jobs:
       shell: pwsh
       run: |
         $doc = [XML](Get-Content 'Source\SharedProperties.csproj')
-        echo "::set-output name=version::${doc.Project.PropertyGroup.Version}"    
+        echo "::set-output name=version::$($doc.Project.PropertyGroup.Version)"    
     - name: Install dependencies
       run: dotnet restore ReactiveProperty.sln
     - name: Build
