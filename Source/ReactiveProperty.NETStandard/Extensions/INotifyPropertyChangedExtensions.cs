@@ -6,6 +6,7 @@ using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Disposables;
 using Reactive.Bindings.Internals;
+using System.Xml;
 
 namespace Reactive.Bindings.Extensions
 {
@@ -38,10 +39,10 @@ namespace Reactive.Bindings.Extensions
             bool isPushCurrentValueAtFirst = true)
             where TSubject : INotifyPropertyChanged
         {
+            var isFirst = true;
             if (AccessorCache.IsNotNestedPropertyPath(propertySelector))
             {
                 var accessor = AccessorCache<TSubject>.LookupGet(propertySelector, out var propertyName);
-                var isFirst = true;
 
                 var result = Observable.Defer(() =>
                 {
@@ -72,23 +73,37 @@ namespace Reactive.Bindings.Extensions
                         var node = default(PropertyPathNode);
                         if (topNode != null)
                         {
-                            node = topNode.InsertBefore(propertyName);
+                            topNode = topNode.InsertBefore(propertyName);
                         }
                         else
                         {
-                            node = new PropertyPathNode(propertyName, () => ox.OnNext(Unit.Default));
+                            topNode = new PropertyPathNode(propertyName, () => ox.OnNext(Unit.Default));
                         }
-                        topNode = node;
                         current = current.Expression as MemberExpression;
                     }
 
                     topNode?.UpdateTarget(subject);
+                    if (isPushCurrentValueAtFirst)
+                    {
+                        ox.OnNext(Unit.Default);
+                    }
+
                     return Disposable.Create(() =>
                     {
-                        ox.OnCompleted();
                         topNode?.Dispose();
                     });
-                }).Select(_ => accessor(subject));
+                }).Select(_ =>
+                {
+                    try
+                    {
+                        return accessor(subject);
+                    }
+                    catch
+                    {
+                        // ignore exception
+                        return default(TProperty);
+                    }
+                });
             }
         }
 

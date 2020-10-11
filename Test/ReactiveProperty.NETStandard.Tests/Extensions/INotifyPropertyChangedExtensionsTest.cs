@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Runtime.CompilerServices;
 using Microsoft.Reactive.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Reactive.Bindings;
@@ -334,31 +335,108 @@ namespace ReactiveProperty.Tests.Extensions
             observer.Messages.Is(OnNext(0, (0, 0)), OnCompleted<(int, int)>(0));
         }
 
+        [TestMethod]
+        public void ObservePropertyNestedPropertyPath()
+        {
+            var source = new Model
+            {
+                Child = new Model
+                {
+                    Child = new Model
+                    {
+                        Name = "name",
+                    },
+                },
+            };
+
+            var rp = source.ObserveProperty(x => x.Child.Child.Name)
+                .ToReadOnlyReactivePropertySlim();
+            rp.Value.Is("name");
+            source.Child.Child.Name = "changed";
+            rp.Value.Is("changed");
+
+            source.Child = new Model();
+            rp.Value.IsNull();
+            source.Child = new Model
+            {
+                Child = new Model
+                {
+                    Name = "replaced",
+                },
+            };
+            rp.Value.Is("replaced");
+            source.IsPropertyChangedEmpty.IsFalse();
+            rp.Dispose();
+            source.IsPropertyChangedEmpty.IsTrue();
+        }
+
+        [TestMethod]
+        public void ObservePropertyNestedPropertyPathIgnoreNullReferenceExceptionInAccessorFalse()
+        {
+            var source = new Model
+            {
+                Child = new Model
+                {
+                    Child = new Model
+                    {
+                        Name = "name",
+                    },
+                },
+            };
+
+            var rp = source.ObserveProperty(x => x.Child.Child.Name)
+                .ToReadOnlyReactivePropertySlim();
+            rp.Value.Is("name");
+            
+            source.Child = new Model();
+            rp.Value.IsNull();
+
+            source.IsPropertyChangedEmpty.IsFalse();
+            rp.Dispose();
+            source.IsPropertyChangedEmpty.IsTrue();
+        }
+
         private class Model : INotifyPropertyChanged
         {
-            private string name;
+            private void SetProperty<T>(ref T field, T value, [CallerMemberName]string propertyName = null)
+            {
+                if (EqualityComparer<T>.Default.Equals(field, value)) { return; }
+                field = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
+
+            private string _name;
 
             public string Name
             {
-                get { return name; }
-                set { name = value; PropertyChanged(this, new PropertyChangedEventArgs("Name")); }
+                get => _name; 
+                set => SetProperty(ref _name, value);
             }
 
-            private int age;
+            private int _age;
 
             public int Age
             {
-                get { return age; }
-                set { age = value; PropertyChanged(this, new PropertyChangedEventArgs("Age")); }
+                get => _age;
+                set => SetProperty(ref _age, value);
             }
 
             public void BatchUpdateProperties(string name, int age)
             {
-                (this.name, this.age) = (name, age);
+                (this._name, this._age) = (name, age);
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(""));
             }
 
-            public event PropertyChangedEventHandler PropertyChanged = (_, __) => { };
+            private Model _model;
+            public Model Child
+            {
+                get => _model;
+                set => SetProperty(ref _model, value);
+            }
+
+            public event PropertyChangedEventHandler PropertyChanged;
+
+            public bool IsPropertyChangedEmpty => PropertyChanged == null;
         }
 
         private class PointModel : INotifyPropertyChanged

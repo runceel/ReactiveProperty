@@ -1,10 +1,12 @@
-using System;
+﻿using System;
 using System.ComponentModel;
+using Reactive.Bindings.Internals;
 
 namespace Reactive.Bindings.Extensions
 {
     internal class PropertyPathNode : IDisposable
     {
+        private bool _isDisposed = false;
         private readonly Action _callback;
 
         public PropertyPathNode(string targetPropertyName, Action callback)
@@ -32,6 +34,7 @@ namespace Reactive.Bindings.Extensions
 
         public void UpdateTarget(INotifyPropertyChanged target)
         {
+            EnsureDispose();
             Cleanup();
             Target = target;
             StartObservePropertyChanged();
@@ -39,6 +42,7 @@ namespace Reactive.Bindings.Extensions
 
         private void StartObservePropertyChanged()
         {
+            EnsureDispose();
             if (Target == null) { return; }
             Target.PropertyChanged += TargetPropertyChangedEventHandler;
             Next?.UpdateTarget(GetPropertyValue());
@@ -46,12 +50,15 @@ namespace Reactive.Bindings.Extensions
 
         private INotifyPropertyChanged GetPropertyValue()
         {
-            return Target.GetType()
-                .GetProperty(TargetPropertyName).GetValue(Target) as INotifyPropertyChanged;
+            EnsureDispose();
+            return AccessorCache
+                .LookupGet(Target.GetType(), TargetPropertyName)
+                .DynamicInvoke(Target) as INotifyPropertyChanged;
         }
 
         public override string ToString()
         {
+            EnsureDispose();
             var tail = Next?.ToString();
             return $"{TargetPropertyName}{(string.IsNullOrEmpty(tail) ? "" : $".{tail}")}";
         }
@@ -61,7 +68,10 @@ namespace Reactive.Bindings.Extensions
             if (e.PropertyName == TargetPropertyName || string.IsNullOrEmpty(e.PropertyName))
             {
                 _callback?.Invoke();
-                Next?.UpdateTarget(GetPropertyValue());
+                if (!_isDisposed)
+                {
+                    Next?.UpdateTarget(GetPropertyValue());
+                }
             }
         }
 
@@ -76,6 +86,15 @@ namespace Reactive.Bindings.Extensions
             Next?.Cleanup();
         }
 
-        public void Dispose() => Cleanup();
+        public void Dispose()
+        {
+            _isDisposed = true;
+            Cleanup();
+        }
+
+        private void EnsureDispose()
+        {
+            if (_isDisposed) { throw new ObjectDisposedException(nameof(PropertyPathNode)); }
+        }
     }
 }
