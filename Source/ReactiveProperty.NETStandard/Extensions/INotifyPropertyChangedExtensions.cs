@@ -1,9 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq.Expressions;
+using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
-using System.Security.Cryptography.X509Certificates;
+using System.Reactive.Disposables;
 using Reactive.Bindings.Internals;
 
 namespace Reactive.Bindings.Extensions
@@ -37,20 +38,58 @@ namespace Reactive.Bindings.Extensions
             bool isPushCurrentValueAtFirst = true)
             where TSubject : INotifyPropertyChanged
         {
-            var accessor = AccessorCache<TSubject>.LookupGet(propertySelector, out var propertyName);
-            var isFirst = true;
-
-            var result = Observable.Defer(() =>
+            if (AccessorCache.IsNotNestedPropertyPath(propertySelector))
             {
-                var flag = isFirst;
-                isFirst = false;
+                var accessor = AccessorCache<TSubject>.LookupGet(propertySelector, out var propertyName);
+                var isFirst = true;
 
-                var q = subject.PropertyChangedAsObservable()
-                    .Where(e => e.PropertyName == propertyName || string.IsNullOrEmpty(e.PropertyName))
-                    .Select(_ => accessor.Invoke(subject));
-                return (isPushCurrentValueAtFirst && flag) ? q.StartWith(accessor.Invoke(subject)) : q;
-            });
-            return result;
+                var result = Observable.Defer(() =>
+                {
+                    var flag = isFirst;
+                    isFirst = false;
+
+                    var q = subject.PropertyChangedAsObservable()
+                        .Where(e => e.PropertyName == propertyName || string.IsNullOrEmpty(e.PropertyName))
+                        .Select(_ => accessor.Invoke(subject));
+                    return (isPushCurrentValueAtFirst && flag) ? q.StartWith(accessor.Invoke(subject)) : q;
+                });
+                return result;
+            }
+            else
+            {
+                var accessor = AccessorCache<TSubject>.LookupNestedGet(propertySelector, out var propertyName);
+                return Observable.Create<Unit>(ox =>
+                {
+                    if (!(propertySelector.Body is MemberExpression current))
+                    {
+                        throw new ArgumentException();
+                    }
+
+                    var topNode = default(PropertyPathNode);
+                    while(current != null)
+                    {
+                        var propertyName = current.Member.Name;
+                        var node = default(PropertyPathNode);
+                        if (topNode != null)
+                        {
+                            node = topNode.InsertBefore(propertyName);
+                        }
+                        else
+                        {
+                            node = new PropertyPathNode(propertyName, () => ox.OnNext(Unit.Default));
+                        }
+                        topNode = node;
+                        current = current.Expression as MemberExpression;
+                    }
+
+                    topNode?.UpdateTarget(subject);
+                    return Disposable.Create(() =>
+                    {
+                        ox.OnCompleted();
+                        topNode?.Dispose();
+                    });
+                }).Select(_ => accessor(subject));
+            }
         }
 
         /// <summary>
