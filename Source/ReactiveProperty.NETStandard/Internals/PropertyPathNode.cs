@@ -1,13 +1,13 @@
 ﻿using System;
 using System.ComponentModel;
-using Reactive.Bindings.Internals;
 
-namespace Reactive.Bindings.Extensions
+namespace Reactive.Bindings.Internals
 {
     internal class PropertyPathNode : IDisposable
     {
         private bool _isDisposed = false;
         private readonly Action _callback;
+        private Delegate _accessor;
 
         public PropertyPathNode(string targetPropertyName, Action callback)
         {
@@ -20,7 +20,7 @@ namespace Reactive.Bindings.Extensions
         public PropertyPathNode Next { get; private set; }
         public PropertyPathNode Prev { get; private set; }
 
-        public PropertyPathNode InsertBefore(string propertyName) 
+        public PropertyPathNode InsertBefore(string propertyName)
         {
             if (Prev != null)
             {
@@ -45,16 +45,31 @@ namespace Reactive.Bindings.Extensions
             EnsureDispose();
             if (Target == null) { return; }
             Target.PropertyChanged += TargetPropertyChangedEventHandler;
-            Next?.UpdateTarget(GetPropertyValue());
+            Next?.UpdateTarget(GetPropertyValue() as INotifyPropertyChanged);
         }
 
-        private INotifyPropertyChanged GetPropertyValue()
+        private object GetPropertyValue()
         {
             EnsureDispose();
-            return AccessorCache
-                .LookupGet(Target.GetType(), TargetPropertyName)
-                .DynamicInvoke(Target) as INotifyPropertyChanged;
+            return (_accessor ?? (_accessor = AccessorCache.LookupGet(Target.GetType(), TargetPropertyName)))
+                .DynamicInvoke(Target);
         }
+
+        public object GetPropertyPathValue()
+        {
+            if (Target == null)
+            {
+                return null;
+            }
+
+            if (Next != null)
+            {
+                return Next.GetPropertyPathValue();
+            }
+
+            return GetPropertyValue();
+        }
+
 
         public override string ToString()
         {
@@ -67,11 +82,8 @@ namespace Reactive.Bindings.Extensions
         {
             if (e.PropertyName == TargetPropertyName || string.IsNullOrEmpty(e.PropertyName))
             {
+                Next?.UpdateTarget(GetPropertyValue() as INotifyPropertyChanged);
                 _callback?.Invoke();
-                if (!_isDisposed)
-                {
-                    Next?.UpdateTarget(GetPropertyValue());
-                }
             }
         }
 

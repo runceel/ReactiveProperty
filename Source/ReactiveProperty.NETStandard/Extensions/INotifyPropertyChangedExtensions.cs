@@ -58,7 +58,7 @@ namespace Reactive.Bindings.Extensions
             }
             else
             {
-                var accessor = AccessorCache<TSubject>.LookupNestedGet(propertySelector, out var propertyName);
+                var topNode = default(PropertyPathNode);
                 return Observable.Create<Unit>(ox =>
                 {
                     if (!(propertySelector.Body is MemberExpression current))
@@ -66,11 +66,9 @@ namespace Reactive.Bindings.Extensions
                         throw new ArgumentException();
                     }
 
-                    var topNode = default(PropertyPathNode);
                     while(current != null)
                     {
                         var propertyName = current.Member.Name;
-                        var node = default(PropertyPathNode);
                         if (topNode != null)
                         {
                             topNode = topNode.InsertBefore(propertyName);
@@ -88,22 +86,8 @@ namespace Reactive.Bindings.Extensions
                         ox.OnNext(Unit.Default);
                     }
 
-                    return Disposable.Create(() =>
-                    {
-                        topNode?.Dispose();
-                    });
-                }).Select(_ =>
-                {
-                    try
-                    {
-                        return accessor(subject);
-                    }
-                    catch
-                    {
-                        // ignore exception
-                        return default(TProperty);
-                    }
-                });
+                    return Disposable.Create(() => topNode?.Dispose());
+                }).Select(_ => (TProperty)(topNode?.GetPropertyPathValue() ?? default));
             }
         }
 
