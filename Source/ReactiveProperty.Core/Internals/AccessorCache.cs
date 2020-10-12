@@ -210,18 +210,18 @@ namespace Reactive.Bindings.Internals
             }
         }
 
-        public static bool IsNotNestedPropertyPath<TSubject, TProperty>(Expression<Func<TSubject, TProperty>> propertySelector)
+        public static bool IsNestedPropertyPath<TSubject, TProperty>(Expression<Func<TSubject, TProperty>> propertySelector)
         {
             if (propertySelector.Body is MemberExpression member)
             {
-                return member.Expression is ParameterExpression;
+                return !(member.Expression is ParameterExpression);
             };
 
             if (propertySelector.Body is UnaryExpression unary)
             {
                 if (unary.Operand is MemberExpression unaryMember)
                 {
-                    return unaryMember.Expression is ParameterExpression;
+                    return !(unaryMember.Expression is ParameterExpression);
                 }
             }
 

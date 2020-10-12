@@ -40,7 +40,7 @@ namespace Reactive.Bindings.Extensions
             where TSubject : INotifyPropertyChanged
         {
             var isFirst = true;
-            if (AccessorCache.IsNotNestedPropertyPath(propertySelector))
+            if (!AccessorCache.IsNestedPropertyPath(propertySelector))
             {
                 var accessor = AccessorCache<TSubject>.LookupGet(propertySelector, out var propertyName);
 
