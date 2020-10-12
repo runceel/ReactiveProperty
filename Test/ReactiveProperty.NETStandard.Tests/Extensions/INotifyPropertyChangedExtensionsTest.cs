@@ -371,7 +371,7 @@ namespace ReactiveProperty.Tests.Extensions
         }
 
         [TestMethod]
-        public void ObservePropertyNestedPropertyPathIgnoreNullReferenceExceptionInAccessorFalse()
+        public void ObservePropertyNestedPropertyPath_PartOfPathNodesIsNullCase()
         {
             var source = new Model
             {
@@ -387,9 +387,35 @@ namespace ReactiveProperty.Tests.Extensions
             var rp = source.ObserveProperty(x => x.Child.Child.Name)
                 .ToReadOnlyReactivePropertySlim();
             rp.Value.Is("name");
-            
+
             source.Child = new Model();
             rp.Value.IsNull();
+
+            source.IsPropertyChangedEmpty.IsFalse();
+            rp.Dispose();
+            source.IsPropertyChangedEmpty.IsTrue();
+        }
+
+        [TestMethod]
+        public void ObservePropertyNestedPropertyPath_PartOfPathNodesIsNullCaseWithValueType()
+        {
+            var source = new Model
+            {
+                Child = new Model
+                {
+                    Child = new Model
+                    {
+                        Age = 10,
+                    },
+                },
+            };
+
+            var rp = source.ObserveProperty(x => x.Child.Child.Age)
+                .ToReadOnlyReactivePropertySlim();
+            rp.Value.Is(10);
+
+            source.Child = new Model();
+            rp.Value.Is(default(int));
 
             source.IsPropertyChangedEmpty.IsFalse();
             rp.Dispose();

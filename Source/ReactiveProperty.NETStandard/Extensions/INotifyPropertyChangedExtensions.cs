@@ -87,7 +87,11 @@ namespace Reactive.Bindings.Extensions
                     }
 
                     return Disposable.Create(() => topNode?.Dispose());
-                }).Select(_ => (TProperty)(topNode?.GetPropertyPathValue() ?? default));
+                }).Select(_ =>
+                {
+                    var value = topNode?.GetPropertyPathValue();
+                    return value != null ? (TProperty)value : default;
+                });
             }
         }
 
