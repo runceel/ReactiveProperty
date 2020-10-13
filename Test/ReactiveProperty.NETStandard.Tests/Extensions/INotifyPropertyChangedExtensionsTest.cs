@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Runtime.CompilerServices;
 using Microsoft.Reactive.Testing;
@@ -420,6 +421,65 @@ namespace ReactiveProperty.Tests.Extensions
             source.IsPropertyChangedEmpty.IsFalse();
             rp.Dispose();
             source.IsPropertyChangedEmpty.IsTrue();
+        }
+
+        [TestMethod]
+        public void ToSynchronizedReactiveProperty_NestedPropertyCase()
+        {
+            var source = new Model
+            {
+                Child = new Model
+                {
+                    Child = new Model
+                    {
+                        Age = 10,
+                    },
+                },
+            };
+
+            var rp = source.ToReactivePropertyAsSynchronized(x => x.Child.Child.Age);
+            rp.Value.Is(10);
+            rp.Value = 100;
+            source.Child.Child.Age.Is(100);
+        }
+
+        [TestMethod]
+        public void ToSynchronizedReactiveProperty_NestedProperty_NullValue_Case()
+        {
+            var source = new Model
+            {
+                Child = new Model
+                {
+                    Child = new Model
+                    {
+                        Age = 10,
+                    },
+                },
+            };
+
+            var rp = source.ToReactivePropertyAsSynchronized(x => x.Child.Child.Age);
+            var firstChild = source.Child;
+            source.Child = new Model();
+            rp.Value.Is(0);
+            rp.Value = 100;
+            rp.Value.Is(100);
+            var secondChild = source.Child;
+            source.Child = new Model
+            {
+                Child = new Model
+                {
+                    Age = 9999,
+                },
+            };
+
+            rp.Value.Is(9999);
+            firstChild.IsPropertyChangedEmpty.IsTrue();
+            secondChild.IsPropertyChangedEmpty.IsTrue();
+            source.Child.IsPropertyChangedEmpty.IsFalse();
+            rp.Dispose();
+            firstChild.IsPropertyChangedEmpty.IsTrue();
+            secondChild.IsPropertyChangedEmpty.IsTrue();
+            source.Child.IsPropertyChangedEmpty.IsTrue();
         }
 
         private class Model : INotifyPropertyChanged

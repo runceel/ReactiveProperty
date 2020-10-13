@@ -23,7 +23,7 @@ namespace Reactive.Bindings.Internals
         /// <returns></returns>
         public static Func<TType, TProperty> LookupGet<TProperty>(Expression<Func<TType, TProperty>> propertySelector, out string propertyName)
         {
-            propertyName = GetPropertyName(propertySelector);
+            propertyName = ExpressionTreeUtils.GetPropertyName(propertySelector);
             Delegate accessor;
 
             lock (s_getCache)
@@ -47,7 +47,7 @@ namespace Reactive.Bindings.Internals
         /// <returns></returns>
         public static Func<TType, TProperty> LookupNestedGet<TProperty>(Expression<Func<TType, TProperty>> propertySelector, out string propertyName)
         {
-            propertyName = GetPropertyPath(propertySelector);
+            propertyName = ExpressionTreeUtils.GetPropertyPath(propertySelector);
             Delegate accessor;
 
             lock (s_getCache)
@@ -62,38 +62,6 @@ namespace Reactive.Bindings.Internals
             return (Func<TType, TProperty>)accessor;
         }
 
-        private static string GetPropertyPath<TProperty>(Expression<Func<TType, TProperty>> propertySelector)
-        {
-            if (!(propertySelector.Body is MemberExpression memberExpression))
-            {
-                if (!(propertySelector.Body is UnaryExpression unaryExpression)) { throw new ArgumentException(nameof(propertySelector)); }
-                memberExpression = unaryExpression.Operand as MemberExpression;
-                if (memberExpression == null) { throw new ArgumentException(nameof(propertySelector)); }
-            }
-
-            var tokens = new LinkedList<string>();
-            while(memberExpression != null)
-            {
-                tokens.AddFirst(memberExpression.Member.Name);
-                memberExpression = memberExpression.Expression as MemberExpression;
-            }
-
-            return string.Join(".", tokens);
-        }
-
-
-        private static string GetPropertyName<TProperty>(Expression<Func<TType, TProperty>> propertySelector)
-        {
-            if (!(propertySelector.Body is MemberExpression memberExpression))
-            {
-                if (!(propertySelector.Body is UnaryExpression unaryExpression)) { throw new ArgumentException(nameof(propertySelector)); }
-                memberExpression = unaryExpression.Operand as MemberExpression;
-                if (memberExpression == null) { throw new ArgumentException(nameof(propertySelector)); }
-            }
-
-            return memberExpression.Member.Name;
-        }
-
         /// <summary>
         /// Lookups the set.
         /// </summary>
@@ -103,7 +71,7 @@ namespace Reactive.Bindings.Internals
         /// <returns></returns>
         public static Action<TType, TProperty> LookupSet<TProperty>(Expression<Func<TType, TProperty>> propertySelector, out string propertyName)
         {
-            propertyName = GetPropertyName(propertySelector);
+            propertyName = ExpressionTreeUtils.GetPropertyName(propertySelector);
             Delegate accessor;
 
             lock (s_setCache)

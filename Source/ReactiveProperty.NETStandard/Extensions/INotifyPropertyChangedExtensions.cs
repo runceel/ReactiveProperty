@@ -6,7 +6,7 @@ using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Disposables;
 using Reactive.Bindings.Internals;
-using System.Xml;
+using System.Runtime.CompilerServices;
 
 namespace Reactive.Bindings.Extensions
 {
@@ -39,42 +39,47 @@ namespace Reactive.Bindings.Extensions
             bool isPushCurrentValueAtFirst = true)
             where TSubject : INotifyPropertyChanged
         {
-            var isFirst = true;
-            if (!AccessorCache.IsNestedPropertyPath(propertySelector))
+            if (!ExpressionTreeUtils.IsNestedPropertyPath(propertySelector))
             {
-                var accessor = AccessorCache<TSubject>.LookupGet(propertySelector, out var propertyName);
-
-                var result = Observable.Defer(() =>
-                {
-                    var flag = isFirst;
-                    isFirst = false;
-
-                    var q = subject.PropertyChangedAsObservable()
-                        .Where(e => e.PropertyName == propertyName || string.IsNullOrEmpty(e.PropertyName))
-                        .Select(_ => accessor.Invoke(subject));
-                    return (isPushCurrentValueAtFirst && flag) ? q.StartWith(accessor.Invoke(subject)) : q;
-                });
-                return result;
+                return ObserveSimpleProperty(subject, propertySelector, isPushCurrentValueAtFirst);
             }
             else
             {
-                var propertyPathNode = default(PropertyPathNode);
-                return Observable.Create<Unit>(ox =>
-                {
-                    propertyPathNode = PropertyPathNode.CreateFromPropertySelector(propertySelector);
-                    propertyPathNode?.UpdateTarget(subject);
-                    if (isPushCurrentValueAtFirst)
-                    {
-                        ox.OnNext(Unit.Default);
-                    }
-
-                    return Disposable.Create(() => propertyPathNode?.Dispose());
-                }).Select(_ =>
-                {
-                    var value = propertyPathNode?.GetPropertyPathValue();
-                    return value != null ? (TProperty)value : default;
-                });
+                return ObserveNestedProperty(subject, propertySelector, isPushCurrentValueAtFirst);
             }
+        }
+
+        public static IObservable<TProperty> ObserveSimpleProperty<TSubject, TProperty>(
+            this TSubject subject, Expression<Func<TSubject, TProperty>> propertySelector,
+            bool isPushCurrentValueAtFirst = true)
+            where TSubject : INotifyPropertyChanged
+        {
+            var isFirst = true;
+            var accessor = AccessorCache<TSubject>.LookupGet(propertySelector, out var propertyName);
+
+            var result = Observable.Defer(() =>
+            {
+                var flag = isFirst;
+                isFirst = false;
+
+                var q = subject.PropertyChangedAsObservable()
+                    .Where(e => e.PropertyName == propertyName || string.IsNullOrEmpty(e.PropertyName))
+                    .Select(_ => accessor.Invoke(subject));
+                return (isPushCurrentValueAtFirst && flag) ? q.StartWith(accessor.Invoke(subject)) : q;
+            });
+            return result;
+        }
+
+        private static IObservable<TProperty> ObserveNestedProperty<TSubject, TProperty>(
+            this TSubject subject, Expression<Func<TSubject, TProperty>> propertySelector,
+            bool isPushCurrentValueAtFirst = true)
+            where TSubject : INotifyPropertyChanged
+        {
+            var propertyObserver = PropertyObserver.CreateFromPropertySelector(subject, propertySelector);
+            var ox = Observable.Using(() => propertyObserver, x => x);
+            return isPushCurrentValueAtFirst ? 
+                ox.StartWith(propertyObserver.GetPropertyPathValue()) : 
+                ox.AsObservable();
         }
 
         /// <summary>
@@ -116,15 +121,27 @@ namespace Reactive.Bindings.Extensions
             bool ignoreValidationErrorValue = false)
             where TSubject : INotifyPropertyChanged
         {
-            var setter = AccessorCache<TSubject>.LookupSet(propertySelector, out _);
-
-            var result = subject.ObserveProperty(propertySelector, isPushCurrentValueAtFirst: true)
-                .ToReactiveProperty(raiseEventScheduler, mode: mode);
-            result
-                .Where(_ => !ignoreValidationErrorValue || !result.HasErrors)
-                .Subscribe(x => setter(subject, x));
-
-            return result;
+            if (!ExpressionTreeUtils.IsNestedPropertyPath(propertySelector))
+            {
+                var result = subject.ObserveSimpleProperty(propertySelector, isPushCurrentValueAtFirst: true)
+                    .ToReactiveProperty(raiseEventScheduler, mode: mode);
+                var setter = AccessorCache<TSubject>.LookupSet(propertySelector, out _);
+                result
+                    .Where(_ => !ignoreValidationErrorValue || !result.HasErrors)
+                    .Subscribe(x => setter(subject, x));
+                return result;
+            }
+            else
+            {
+                var observer = PropertyObserver.CreateFromPropertySelector(subject, propertySelector);
+                var result = Observable.Using(() => observer, x => x)
+                    .StartWith(observer.GetPropertyPathValue())
+                    .ToReactiveProperty(raiseEventScheduler,  mode: mode);
+                result
+                    .Where(_ => !ignoreValidationErrorValue || !result.HasErrors)
+                    .Subscribe(x => observer.SetPropertyPathValue(x));
+                return result;
+            }
         }
 
         /// <summary>
@@ -174,7 +191,7 @@ namespace Reactive.Bindings.Extensions
             IScheduler raiseEventScheduler,
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe,
             bool ignoreValidationErrorValue = false)
-            where TSubject : INotifyPropertyChanged => 
+            where TSubject : INotifyPropertyChanged =>
             ToReactivePropertyAsSynchronized(subject, propertySelector,
                 ox => ox.Select(convert),
                 ox => ox.Select(convertBack),
@@ -231,12 +248,25 @@ namespace Reactive.Bindings.Extensions
             bool ignoreValidationErrorValue = false)
             where TSubject : INotifyPropertyChanged
         {
-            var setter = AccessorCache<TSubject>.LookupSet(propertySelector, out _);
-            var result = convert(subject.ObserveProperty(propertySelector, isPushCurrentValueAtFirst: true))
-                .ToReactiveProperty(raiseEventScheduler, mode: mode);
-            convertBack(result.Where(_ => !ignoreValidationErrorValue || !result.HasErrors))
-                .Subscribe(x => setter(subject, x));
-            return result;
+            if (!ExpressionTreeUtils.IsNestedPropertyPath(propertySelector))
+            {
+                var setter = AccessorCache<TSubject>.LookupSet(propertySelector, out _);
+                var result = convert(subject.ObserveProperty(propertySelector, isPushCurrentValueAtFirst: true))
+                    .ToReactiveProperty(raiseEventScheduler, mode: mode);
+                convertBack(result.Where(_ => !ignoreValidationErrorValue || !result.HasErrors))
+                    .Subscribe(x => setter(subject, x));
+                return result;
+            }
+            else
+            {
+                var observer = PropertyObserver.CreateFromPropertySelector(subject, propertySelector);
+                var result = convert(Observable.Using(() => observer, x => x)
+                    .StartWith(observer.GetPropertyPathValue()))
+                    .ToReactiveProperty(raiseEventScheduler, mode: mode);
+                convertBack(result.Where(_ => !ignoreValidationErrorValue || !result.HasErrors))
+                   .Subscribe(x => observer.SetPropertyPathValue(x));
+                return result;
+            }
         }
 
         /// <summary>
@@ -255,12 +285,25 @@ namespace Reactive.Bindings.Extensions
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe)
             where TSubject : INotifyPropertyChanged
         {
-            var setter = AccessorCache<TSubject>.LookupSet(propertySelector, out _);
-            var result = new ReactivePropertySlim<TProperty>(mode: mode);
-            var disposable = subject.ObserveProperty(propertySelector, isPushCurrentValueAtFirst: true)
-                .Subscribe(x => result.Value = x);
-            result.Subscribe(x => setter(subject, x), _ => disposable.Dispose(), () => disposable.Dispose());
-            return result;
+            if (!ExpressionTreeUtils.IsNestedPropertyPath(propertySelector))
+            {
+                var setter = AccessorCache<TSubject>.LookupSet(propertySelector, out _);
+                var result = new ReactivePropertySlim<TProperty>(mode: mode);
+                var disposable = subject.ObserveProperty(propertySelector, isPushCurrentValueAtFirst: true)
+                    .Subscribe(x => result.Value = x);
+                result.Subscribe(x => setter(subject, x), _ => disposable.Dispose(), () => disposable.Dispose());
+                return result;
+            }
+            else
+            {
+                var result = new ReactivePropertySlim<TProperty>(mode: mode);
+                var observer = PropertyObserver.CreateFromPropertySelector(subject, propertySelector);
+                var disposable = Observable.Using(() => observer, x => x)
+                    .StartWith(observer.GetPropertyPathValue())
+                    .Subscribe(x => result.Value = x);
+                result.Subscribe(x => observer.SetPropertyPathValue(x), _ => disposable.Dispose(), () => disposable.Dispose());
+                return result;
+            }
         }
 
         /// <summary>
@@ -309,14 +352,28 @@ namespace Reactive.Bindings.Extensions
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe)
             where TSubject : INotifyPropertyChanged
         {
-            var setter = AccessorCache<TSubject>.LookupSet(propertySelector, out _);
-            var result = new ReactivePropertySlim<TResult>(mode: mode);
-            IDisposable disposable = null;
-            disposable = convert(subject.ObserveProperty(propertySelector, isPushCurrentValueAtFirst: true))
-                .Subscribe(x => result.Value = x);
-            convertBack(result)
-                .Subscribe(x => setter(subject, x), _ => disposable.Dispose(), () => disposable.Dispose());
-            return result;
+            if (!ExpressionTreeUtils.IsNestedPropertyPath(propertySelector))
+            {
+                var setter = AccessorCache<TSubject>.LookupSet(propertySelector, out _);
+                var result = new ReactivePropertySlim<TResult>(mode: mode);
+                IDisposable disposable = null;
+                disposable = convert(subject.ObserveProperty(propertySelector, isPushCurrentValueAtFirst: true))
+                    .Subscribe(x => result.Value = x);
+                convertBack(result)
+                    .Subscribe(x => setter(subject, x), _ => disposable.Dispose(), () => disposable.Dispose());
+                return result;
+            }
+            else
+            {
+                var result = new ReactivePropertySlim<TResult>(mode: mode);
+                var observer = PropertyObserver.CreateFromPropertySelector(subject, propertySelector);
+                IDisposable disposable = null;
+                disposable = convert(subject.ObserveProperty(propertySelector, isPushCurrentValueAtFirst: true))
+                    .Subscribe(x => result.Value = x);
+                convertBack(result)
+                    .Subscribe(x => observer.SetPropertyPathValue(x), _ => disposable.Dispose(), () => disposable.Dispose());
+                return result;
+            }
         }
     }
 }

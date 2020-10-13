@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq.Expressions;
+using System.Reactive;
 
 namespace Reactive.Bindings.Internals
 {
@@ -11,14 +12,16 @@ namespace Reactive.Bindings.Internals
         private Delegate _getAccessor;
         private Delegate _setAccessor;
 
-        public PropertyPathNode(string targetPropertyName, Action callback)
+        public event EventHandler PropertyChanged;
+
+        public PropertyPathNode(string propertyName, Action callback)
         {
-            TargetPropertyName = targetPropertyName;
+            PropertyName = propertyName;
             _callback = callback;
         }
 
-        public string TargetPropertyName { get; }
-        public INotifyPropertyChanged Target { get; private set; }
+        public string PropertyName { get; }
+        public INotifyPropertyChanged Source { get; private set; }
         public PropertyPathNode Next { get; private set; }
         public PropertyPathNode Prev { get; private set; }
 
@@ -34,32 +37,32 @@ namespace Reactive.Bindings.Internals
             return Prev;
         }
 
-        public void UpdateTarget(INotifyPropertyChanged target)
+        public void UpdateSource(INotifyPropertyChanged source)
         {
             EnsureDispose();
             Cleanup();
-            Target = target;
+            Source = source;
             StartObservePropertyChanged();
         }
 
         private void StartObservePropertyChanged()
         {
             EnsureDispose();
-            if (Target == null) { return; }
-            Target.PropertyChanged += TargetPropertyChangedEventHandler;
-            Next?.UpdateTarget(GetPropertyValue() as INotifyPropertyChanged);
+            if (Source == null) { return; }
+            Source.PropertyChanged += SourcePropertyChangedEventHandler;
+            Next?.UpdateSource(GetPropertyValue() as INotifyPropertyChanged);
         }
 
         private object GetPropertyValue()
         {
             EnsureDispose();
-            return (_getAccessor ?? (_getAccessor = AccessorCache.LookupGet(Target.GetType(), TargetPropertyName)))
-                .DynamicInvoke(Target);
+            return (_getAccessor ?? (_getAccessor = AccessorCache.LookupGet(Source.GetType(), PropertyName)))
+                .DynamicInvoke(Source);
         }
 
         public object GetPropertyPathValue()
         {
-            if (Target == null)
+            if (Source == null)
             {
                 return null;
             }
@@ -72,11 +75,11 @@ namespace Reactive.Bindings.Internals
             return GetPropertyValue();
         }
 
-        public (bool ok, Exception error) SetPropertyPathValue(object value)
+        public bool SetPropertyPathValue(object value)
         {
-            if (Target == null)
+            if (Source == null)
             {
-                return (false, new NullReferenceException($"Access to null when evaluate {this}"));
+                return false;
             }
 
             if (Next != null)
@@ -85,35 +88,31 @@ namespace Reactive.Bindings.Internals
             }
             else
             {
-                var setter = _setAccessor ?? (_setAccessor = AccessorCache.LookupSet(Target.GetType(), TargetPropertyName));
-                setter.DynamicInvoke(Target, value);
-                return (true, null);
+                var setter = _setAccessor ?? (_setAccessor = AccessorCache.LookupSet(Source.GetType(), PropertyName));
+                setter.DynamicInvoke(Source, value);
+                return true;
             }
         }
 
+        public string Path => $"{PropertyName}{(string.IsNullOrEmpty(Next?.Path) ? "" : $".{Next?.Path}")}";
 
-        public override string ToString()
-        {
-            EnsureDispose();
-            var tail = Next?.ToString();
-            return $"{TargetPropertyName}{(string.IsNullOrEmpty(tail) ? "" : $".{tail}")}";
-        }
+        public override string ToString() => Path;
 
-        private void TargetPropertyChangedEventHandler(object sender, PropertyChangedEventArgs e)
+        private void SourcePropertyChangedEventHandler(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == TargetPropertyName || string.IsNullOrEmpty(e.PropertyName))
+            if (e.PropertyName == PropertyName || string.IsNullOrEmpty(e.PropertyName))
             {
-                Next?.UpdateTarget(GetPropertyValue() as INotifyPropertyChanged);
+                Next?.UpdateSource(GetPropertyValue() as INotifyPropertyChanged);
                 _callback?.Invoke();
             }
         }
 
         private void Cleanup()
         {
-            if (Target != null)
+            if (Source != null)
             {
-                Target.PropertyChanged -= TargetPropertyChangedEventHandler;
-                Target = null;
+                Source.PropertyChanged -= SourcePropertyChangedEventHandler;
+                Source = null;
             }
 
             Next?.Cleanup();
@@ -130,29 +129,7 @@ namespace Reactive.Bindings.Internals
             if (_isDisposed) { throw new ObjectDisposedException(nameof(PropertyPathNode)); }
         }
 
-        public static PropertyPathNode CreateFromPropertySelector<TSubject, TProperty>(Expression<Func<TSubject, TProperty>> propertySelector)
-        {
-            if (!(propertySelector.Body is MemberExpression current))
-            {
-                throw new ArgumentException();
-            }
+        private void RaisePropertyChanged() => PropertyChanged?.Invoke(this, EventArgs.Empty);
 
-            var result = default(PropertyPathNode);
-            while(current != null)
-            {
-                var propertyName = current.Member.Name;
-                if (result != null)
-                {
-                    result = result.InsertBefore(propertyName);
-                }
-                else
-                {
-                    result = new PropertyPathNode(propertyName, () => ox.OnNext(Unit.Default));
-                }
-                current = current.Expression as MemberExpression;
-            }
-
-            return result;
-        }
     }
 }
