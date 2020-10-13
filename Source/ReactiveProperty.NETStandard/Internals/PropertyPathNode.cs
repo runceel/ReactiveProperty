@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq.Expressions;
 
 namespace Reactive.Bindings.Internals
 {
@@ -7,7 +8,8 @@ namespace Reactive.Bindings.Internals
     {
         private bool _isDisposed = false;
         private readonly Action _callback;
-        private Delegate _accessor;
+        private Delegate _getAccessor;
+        private Delegate _setAccessor;
 
         public PropertyPathNode(string targetPropertyName, Action callback)
         {
@@ -51,7 +53,7 @@ namespace Reactive.Bindings.Internals
         private object GetPropertyValue()
         {
             EnsureDispose();
-            return (_accessor ?? (_accessor = AccessorCache.LookupGet(Target.GetType(), TargetPropertyName)))
+            return (_getAccessor ?? (_getAccessor = AccessorCache.LookupGet(Target.GetType(), TargetPropertyName)))
                 .DynamicInvoke(Target);
         }
 
@@ -68,6 +70,25 @@ namespace Reactive.Bindings.Internals
             }
 
             return GetPropertyValue();
+        }
+
+        public (bool ok, Exception error) SetPropertyPathValue(object value)
+        {
+            if (Target == null)
+            {
+                return (false, new NullReferenceException($"Access to null when evaluate {this}"));
+            }
+
+            if (Next != null)
+            {
+                return Next.SetPropertyPathValue(value);
+            }
+            else
+            {
+                var setter = _setAccessor ?? (_setAccessor = AccessorCache.LookupSet(Target.GetType(), TargetPropertyName));
+                setter.DynamicInvoke(Target, value);
+                return (true, null);
+            }
         }
 
 
@@ -107,6 +128,31 @@ namespace Reactive.Bindings.Internals
         private void EnsureDispose()
         {
             if (_isDisposed) { throw new ObjectDisposedException(nameof(PropertyPathNode)); }
+        }
+
+        public static PropertyPathNode CreateFromPropertySelector<TSubject, TProperty>(Expression<Func<TSubject, TProperty>> propertySelector)
+        {
+            if (!(propertySelector.Body is MemberExpression current))
+            {
+                throw new ArgumentException();
+            }
+
+            var result = default(PropertyPathNode);
+            while(current != null)
+            {
+                var propertyName = current.Member.Name;
+                if (result != null)
+                {
+                    result = result.InsertBefore(propertyName);
+                }
+                else
+                {
+                    result = new PropertyPathNode(propertyName, () => ox.OnNext(Unit.Default));
+                }
+                current = current.Expression as MemberExpression;
+            }
+
+            return result;
         }
     }
 }

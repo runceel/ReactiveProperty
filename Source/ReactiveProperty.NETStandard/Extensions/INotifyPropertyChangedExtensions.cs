@@ -58,38 +58,20 @@ namespace Reactive.Bindings.Extensions
             }
             else
             {
-                var topNode = default(PropertyPathNode);
+                var propertyPathNode = default(PropertyPathNode);
                 return Observable.Create<Unit>(ox =>
                 {
-                    if (!(propertySelector.Body is MemberExpression current))
-                    {
-                        throw new ArgumentException();
-                    }
-
-                    while(current != null)
-                    {
-                        var propertyName = current.Member.Name;
-                        if (topNode != null)
-                        {
-                            topNode = topNode.InsertBefore(propertyName);
-                        }
-                        else
-                        {
-                            topNode = new PropertyPathNode(propertyName, () => ox.OnNext(Unit.Default));
-                        }
-                        current = current.Expression as MemberExpression;
-                    }
-
-                    topNode?.UpdateTarget(subject);
+                    propertyPathNode = PropertyPathNode.CreateFromPropertySelector(propertySelector);
+                    propertyPathNode?.UpdateTarget(subject);
                     if (isPushCurrentValueAtFirst)
                     {
                         ox.OnNext(Unit.Default);
                     }
 
-                    return Disposable.Create(() => topNode?.Dispose());
+                    return Disposable.Create(() => propertyPathNode?.Dispose());
                 }).Select(_ =>
                 {
-                    var value = topNode?.GetPropertyPathValue();
+                    var value = propertyPathNode?.GetPropertyPathValue();
                     return value != null ? (TProperty)value : default;
                 });
             }

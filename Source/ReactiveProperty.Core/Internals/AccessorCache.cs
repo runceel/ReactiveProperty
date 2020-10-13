@@ -210,23 +210,6 @@ namespace Reactive.Bindings.Internals
             }
         }
 
-        public static bool IsNestedPropertyPath<TSubject, TProperty>(Expression<Func<TSubject, TProperty>> propertySelector)
-        {
-            if (propertySelector.Body is MemberExpression member)
-            {
-                return !(member.Expression is ParameterExpression);
-            };
-
-            if (propertySelector.Body is UnaryExpression unary)
-            {
-                if (unary.Operand is MemberExpression unaryMember)
-                {
-                    return !(unaryMember.Expression is ParameterExpression);
-                }
-            }
-
-            throw new ArgumentException();
-        }
 
 
         private static Delegate CreateAndCacheGetAccessor(Type type, string propertyName, Dictionary<string, Delegate> cache)
