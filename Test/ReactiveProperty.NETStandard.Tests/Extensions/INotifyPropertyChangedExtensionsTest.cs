@@ -482,6 +482,47 @@ namespace ReactiveProperty.Tests.Extensions
             source.Child.IsPropertyChangedEmpty.IsTrue();
         }
 
+        [TestMethod]
+        public void ToSynchronizedReactiveProperty_NestedPropertyWithConvertLogic_NullValue_Case()
+        {
+            var source = new Model
+            {
+                Child = new Model
+                {
+                    Child = new Model
+                    {
+                        Age = 10,
+                    },
+                },
+            };
+
+            var rp = source.ToReactivePropertyAsSynchronized(x => x.Child.Child.Age,
+                convert: x => x.ToString(),
+                convertBack: x => int.Parse(x));
+            var firstChild = source.Child;
+            source.Child = new Model();
+            rp.Value.Is("0");
+            rp.Value = "100";
+            rp.Value.Is("100");
+            var secondChild = source.Child;
+            source.Child = new Model
+            {
+                Child = new Model
+                {
+                    Age = 9999,
+                },
+            };
+
+            rp.Value.Is("9999");
+            firstChild.IsPropertyChangedEmpty.IsTrue();
+            secondChild.IsPropertyChangedEmpty.IsTrue();
+            source.Child.IsPropertyChangedEmpty.IsFalse();
+            rp.Dispose();
+            firstChild.IsPropertyChangedEmpty.IsTrue();
+            secondChild.IsPropertyChangedEmpty.IsTrue();
+            source.Child.IsPropertyChangedEmpty.IsTrue();
+        }
+
         private class Model : INotifyPropertyChanged
         {
             private void SetProperty<T>(ref T field, T value, [CallerMemberName]string propertyName = null)
