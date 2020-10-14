@@ -1,4 +1,5 @@
-﻿using System.Reactive.Concurrency;
+﻿using System;
+using System.Reactive.Concurrency;
 using System.Threading;
 
 namespace Reactive.Bindings
@@ -8,7 +9,7 @@ namespace Reactive.Bindings
     /// </summary>
     public static class ReactivePropertyScheduler
     {
-        static IScheduler defaultScheduler;
+        private static Func<IScheduler> defaultSchedulerFactory;
 
         /// <summary>
         /// Get ReactiveProperty default scheduler.
@@ -17,9 +18,9 @@ namespace Reactive.Bindings
         {
             get
             {
-                if (defaultScheduler != null)
+                if (defaultSchedulerFactory != null)
                 {
-                    return defaultScheduler;
+                    return defaultSchedulerFactory();
                 }
                 if (UIDispatcherScheduler.IsSchedulerCreated)
                 {
@@ -36,12 +37,21 @@ namespace Reactive.Bindings
         }
 
         /// <summary>
-        /// set default scheduler.
+        /// Set default scheduler.
         /// </summary>
         /// <param name="defaultScheduler"></param>
         public static void SetDefault(IScheduler defaultScheduler)
         {
-            ReactivePropertyScheduler.defaultScheduler = defaultScheduler;
+            SetDefaultSchedulerFactory(() => defaultScheduler);
+        }
+
+        /// <summary>
+        /// Set default scheduler factory,
+        /// </summary>
+        /// <param name="schedulerFactory"></param>
+        public static void SetDefaultSchedulerFactory(Func<IScheduler> schedulerFactory)
+        {
+            defaultSchedulerFactory = schedulerFactory;
         }
     }
 }

@@ -210,6 +210,9 @@ public class ViewModel
 }
 ```
 
+If you would like to use `ReactivePropertySlim`, then you can use `ToReactivePropertySlimAsSynchronized` extension method.
+It is similer as `ToReactivePropertyAsSynchronized`. There isn't `ignoreValidationErrorValue` and `scheduler` arguments, otherwise are same.
+
 ### One-way synchronization to source
 
 The `FromObject` method creates a `ReactiveProperty` instance from a POCO.

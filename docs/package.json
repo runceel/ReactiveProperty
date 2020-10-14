@@ -1,14 +1,18 @@
 {
   "name": "reactiveproperty-doc",
-  "version": "1.0.0",
+  "version": "7.3.1",
   "description": "",
   "directories": {
     "doc": "docs"
   },
   "scripts": {
-    "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs"
+    "docs:dev": "npx vuepress dev docs",
+    "docs:build": "npx vuepress build docs"
   },
   "author": "@neuecc, @xin9le, @okazuki",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "vuepress": "^1.5.4",
+    "node-forge": ">=0.10.0"
+  }
 }

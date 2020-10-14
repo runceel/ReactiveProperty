@@ -80,6 +80,21 @@ public static IObservable<bool> CombineLatestValuesAreAllFalse(
     sources.CombineLatest(xs => xs.All(x => !x));
 ```
 
+## DisposePreviousValue
+
+This is an extension method to call `Dispose` method for previous values of a `IObservable<T>` sequence.
+
+```csharp
+var source = new Subject<string>();
+var rrp = source.Select(x => new SomeDisposableClass(x))
+    .DisposePreviousValue()
+    .ToReadOnlyReactivePropertySlim();
+
+source.OnNext("first"); // first SomeDisposableClass is created.
+source.OnNext("second"); // second SomeDisposableClass is created, and first one is disposed.
+source.OnComplete(); // second one is also disposed.
+```
+
 ## `CanExecuteChangedAsObservable`
 
 This is an extension method of the `ICommand` interface.

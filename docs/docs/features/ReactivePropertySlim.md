@@ -11,6 +11,17 @@
 - Provides a `ForceNotify` method.
 
 `ReactivePropertySlim` is high performance.
+The following table is a result of the benchmark test between `ReactiveProperty` and `ReactivePropertySlim`.
+ReactivePropertySlim is 16 times performance to create an instance, 36 times performance on the primary use case.
+
+```
+|                             Method |         Mean |     Error |    StdDev |
+|----------------------------------- |-------------:|----------:|----------:|
+|     CreateReactivePropertyInstance |    87.146 ns | 0.8331 ns | 0.7385 ns |
+| CreateReactivePropertySlimInstance |     5.460 ns | 0.0537 ns | 0.0502 ns |
+|           BasicForReactiveProperty | 2,470.957 ns | 9.1934 ns | 8.1497 ns |
+|       BasicForReactivePropertySlim |    68.773 ns | 1.3841 ns | 1.8478 ns |
+```
 
 This class can be used like a `ReactiveProperty`.
 

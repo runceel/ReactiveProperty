@@ -2,22 +2,21 @@ name: Build and Release
 
 on:
   push:
-    branches: [ master, pre-release, release ]
-  pull_request:
-    types: [opened, synchronize]
-    branches: [ master, pre-release, release ]
+    branches: [ main, pre-release, release ]
+    paths-ignore: 
+      - 'docs/**'
 
 jobs:
   build:
-
     runs-on: windows-latest
-
+    outputs:
+      version: ${{ steps.set-version-to-output.outputs.version }}
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.201
+        dotnet-version: 3.1.402
     - name: Setup MSBuild.exe
       uses: warrenbuckley/Setup-MSBuild@v1
     - name: Update version number
@@ -27,6 +26,12 @@ jobs:
         $doc = [XML](Get-Content 'Source\SharedProperties.csproj')
         $doc.Project.PropertyGroup.Version += '-pre' + (Get-Date).ToString("yyyyMMddHHmm")
         $doc.Save('Source\SharedProperties.csproj')
+    - name: Set version to outputs
+      id: set-version-to-output
+      shell: pwsh
+      run: |
+        $doc = [XML](Get-Content 'Source\SharedProperties.csproj')
+        echo "::set-output name=version::$($doc.Project.PropertyGroup.Version)"    
     - name: Install dependencies
       run: dotnet restore ReactiveProperty.sln
     - name: Build
@@ -56,3 +61,40 @@ jobs:
           name: dist
       - name: Publish packages
         run: dotnet nuget push **/*.nupkg --skip-duplicate -k ${{ secrets.NUGET_APIKEY }} -s https://api.nuget.org/v3/index.json
+
+  create-release:
+    runs-on: windows-latest
+    needs: [build]
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/pre-release' || github.ref == 'refs/heads/release')
+    steps:
+      - name: Download archives
+        uses: actions/download-artifact@v2
+        with:
+          name: dist
+          path: dist
+      - name: Create a release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ needs.build.outputs.version }}
+          release_name: Release ${{ needs.build.outputs.version }}
+          body: |
+            TBD
+          draft: true
+          prerelease: ${{ github.ref == 'refs/heads/pre-release' }}
+      - name: Archive packages
+        shell: pwsh
+        run: |
+          Compress-Archive -Path dist -DestinationPath packages.zip
+      - name: Upload Release Asset
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: packages.zip
+          asset_name: packages-${{ needs.build.outputs.version }}.zip
+          asset_content_type: application/zip
