@@ -43,7 +43,7 @@ namespace ReactiveProperty.Tests.Internals
         class Item : INotifyPropertyChanged
         {
             public bool IsPropertyChangedEmpty => PropertyChanged == null;
-            private void SetProperty<T>(ref T field, T value, [CallerMemberName]string propertyName = null)
+            private void SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
             {
                 if (EqualityComparer<T>.Default.Equals(field, value))
                 {

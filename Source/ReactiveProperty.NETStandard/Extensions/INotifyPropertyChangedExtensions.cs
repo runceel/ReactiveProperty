@@ -1,12 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq.Expressions;
-using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
-using System.Reactive.Disposables;
 using Reactive.Bindings.Internals;
-using System.Runtime.CompilerServices;
 
 namespace Reactive.Bindings.Extensions
 {
@@ -77,8 +74,8 @@ namespace Reactive.Bindings.Extensions
         {
             var propertyObserver = PropertyObserver.CreateFromPropertySelector(subject, propertySelector);
             var ox = Observable.Using(() => propertyObserver, x => x);
-            return isPushCurrentValueAtFirst ? 
-                ox.StartWith(propertyObserver.GetPropertyPathValue()) : 
+            return isPushCurrentValueAtFirst ?
+                ox.StartWith(propertyObserver.GetPropertyPathValue()) :
                 ox.AsObservable();
         }
 
@@ -136,7 +133,7 @@ namespace Reactive.Bindings.Extensions
                 var observer = PropertyObserver.CreateFromPropertySelector(subject, propertySelector);
                 var result = Observable.Using(() => observer, x => x)
                     .StartWith(observer.GetPropertyPathValue())
-                    .ToReactiveProperty(raiseEventScheduler,  mode: mode);
+                    .ToReactiveProperty(raiseEventScheduler, mode: mode);
                 result
                     .Where(_ => !ignoreValidationErrorValue || !result.HasErrors)
                     .Subscribe(x => observer.SetPropertyPathValue(x));

@@ -105,7 +105,7 @@ namespace Reactive.Bindings.Internals
 
         private static Dictionary<string, Delegate> GetGetCacheByType(Type type)
         {
-            lock(_getCache)
+            lock (_getCache)
             {
                 if (_getCache.TryGetValue(type, out var cache))
                 {
@@ -121,7 +121,7 @@ namespace Reactive.Bindings.Internals
 
         private static Dictionary<string, Delegate> GetSetCacheByType(Type type)
         {
-            lock(_setCache)
+            lock (_setCache)
             {
                 if (_setCache.TryGetValue(type, out var cache))
                 {
@@ -137,7 +137,7 @@ namespace Reactive.Bindings.Internals
 
         private static Type GetAccessorCacheTypeByType(Type type)
         {
-            lock(_accessorCacheTypeCache)
+            lock (_accessorCacheTypeCache)
             {
                 if (_accessorCacheTypeCache.TryGetValue(type, out var result))
                 {
@@ -153,7 +153,7 @@ namespace Reactive.Bindings.Internals
         public static Delegate LookupGet(Type type, string propertyName)
         {
             var getCache = GetGetCacheByType(type);
-            lock(getCache)
+            lock (getCache)
             {
                 if (getCache.TryGetValue(propertyName, out var accessor))
                 {
@@ -167,7 +167,7 @@ namespace Reactive.Bindings.Internals
         public static Delegate LookupSet(Type type, string propertyName)
         {
             var setCache = GetSetCacheByType(type);
-            lock(setCache)
+            lock (setCache)
             {
                 if (setCache.TryGetValue(propertyName, out var accessor))
                 {

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Runtime.CompilerServices;
 using Microsoft.Reactive.Testing;
@@ -615,7 +614,7 @@ namespace ReactiveProperty.Tests.Extensions
 
         private class Model : INotifyPropertyChanged
         {
-            private void SetProperty<T>(ref T field, T value, [CallerMemberName]string propertyName = null)
+            private void SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
             {
                 if (EqualityComparer<T>.Default.Equals(field, value)) { return; }
                 field = value;
@@ -626,7 +625,7 @@ namespace ReactiveProperty.Tests.Extensions
 
             public string Name
             {
-                get => _name; 
+                get => _name;
                 set => SetProperty(ref _name, value);
             }
 
@@ -664,14 +663,14 @@ namespace ReactiveProperty.Tests.Extensions
             {
                 add
                 {
-                    lock(_lock)
+                    lock (_lock)
                     {
                         Handlers.Add(value);
                     }
                 }
                 remove
                 {
-                    lock(_lock)
+                    lock (_lock)
                     {
                         Handlers.Remove(value);
                     }
@@ -693,7 +692,7 @@ namespace ReactiveProperty.Tests.Extensions
                 {
                     if (_point == value) { return; }
                     _point = value;
-                    lock(_lock)
+                    lock (_lock)
                     {
                         var handlers = Handlers.ToArray();
                         foreach (var h in handlers)

@@ -51,7 +51,7 @@ namespace Reactive.Bindings
         /// <param name="schedulerFactory"></param>
         public static void SetDefaultSchedulerFactory(Func<IScheduler> schedulerFactory)
         {
-            defaultSchedulerFactory = schedulerFactory; 
+            defaultSchedulerFactory = schedulerFactory;
         }
     }
 }

@@ -361,7 +361,7 @@ namespace ReactiveProperty.Tests.Helpers
         {
             public event PropertyChangedEventHandler PropertyChanged;
 
-            private void SetProperty<T>(ref T field, T value, [CallerMemberName]string propertyName = null)
+            private void SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
             {
                 if (object.Equals(field, value)) { return; }
                 field = value;

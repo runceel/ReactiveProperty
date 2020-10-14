@@ -43,7 +43,8 @@ namespace Reactive.Bindings.Interactivity
         /// </param>
         public void Attach(DependencyObject associatedObject)
         {
-            if (AssociatedObject == associatedObject) {
+            if (AssociatedObject == associatedObject)
+            {
                 return;
             }
 
@@ -57,15 +58,18 @@ namespace Reactive.Bindings.Interactivity
 
         private void AssertAttachArgument(DependencyObject associatedObject)
         {
-            if (AssociatedObject != null) {
+            if (AssociatedObject != null)
+            {
                 throw new InvalidOperationException("multiple time associate.");
             }
 
-            if (associatedObject == null) {
+            if (associatedObject == null)
+            {
                 throw new ArgumentNullException("associatedObject");
             }
 
-            if (!AssociatedType.GetTypeInfo().IsAssignableFrom(associatedObject.GetType().GetTypeInfo())) {
+            if (!AssociatedType.GetTypeInfo().IsAssignableFrom(associatedObject.GetType().GetTypeInfo()))
+            {
                 throw new ArgumentException(string.Format("{0} can't assign {1}",
                     associatedObject.GetType().FullName,
                     AssociatedType.FullName));
