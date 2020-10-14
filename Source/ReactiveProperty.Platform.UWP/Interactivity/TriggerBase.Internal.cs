@@ -50,7 +50,8 @@ namespace Reactive.Bindings.Interactivity
         /// </param>
         public void Attach(DependencyObject associatedObject)
         {
-            if (AssociatedObject == associatedObject) {
+            if (AssociatedObject == associatedObject)
+            {
                 return;
             }
 
@@ -59,7 +60,8 @@ namespace Reactive.Bindings.Interactivity
             AssociatedObject = associatedObject;
             OnAssociatedObjectChanged();
 
-            foreach (var action in ActionsImpl.OfType<IBehavior>()) {
+            foreach (var action in ActionsImpl.OfType<IBehavior>())
+            {
                 action.Attach(associatedObject);
             }
 
@@ -68,15 +70,18 @@ namespace Reactive.Bindings.Interactivity
 
         private void AssertAttachArgument(DependencyObject associatedObject)
         {
-            if (AssociatedObject != null) {
+            if (AssociatedObject != null)
+            {
                 throw new InvalidOperationException("multiple time associate.");
             }
 
-            if (associatedObject == null) {
+            if (associatedObject == null)
+            {
                 throw new ArgumentNullException("associatedObject");
             }
 
-            if (!AssociatedType.GetTypeInfo().IsAssignableFrom(associatedObject.GetType().GetTypeInfo())) {
+            if (!AssociatedType.GetTypeInfo().IsAssignableFrom(associatedObject.GetType().GetTypeInfo()))
+            {
                 throw new ArgumentException(string.Format("{0} can't assign {1}",
                     associatedObject.GetType().FullName,
                     AssociatedType.FullName));
@@ -92,7 +97,8 @@ namespace Reactive.Bindings.Interactivity
             AssociatedObject = null;
             OnAssociatedObjectChanged();
 
-            foreach (var action in ActionsImpl.OfType<IBehavior>()) {
+            foreach (var action in ActionsImpl.OfType<IBehavior>())
+            {
                 action.Detach();
             }
         }
@@ -132,7 +138,8 @@ namespace Reactive.Bindings.Interactivity
             get
             {
                 var actions = (ActionCollection)GetValue(ActionsImplProperty);
-                if (actions == null) {
+                if (actions == null)
+                {
                     actions = new ActionCollection();
                     SetValue(ActionsImplProperty, actions);
                 }
@@ -148,7 +155,8 @@ namespace Reactive.Bindings.Interactivity
         protected IEnumerable<object> InvokeActions(object parameter)
         {
             var args = OnPreviewInvoke();
-            if (args.Cancelling) {
+            if (args.Cancelling)
+            {
                 return Enumerable.Empty<object>();
             }
 

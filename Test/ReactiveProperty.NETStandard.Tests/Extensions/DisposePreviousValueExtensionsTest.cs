@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Subjects;
-using Reactive.Bindings.Extensions;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Reactive.Testing;
-using System.Security.Cryptography.X509Certificates;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Reactive.Bindings.Extensions;
 
 namespace ReactiveProperty.Tests.Extensions
 {

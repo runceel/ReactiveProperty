@@ -12,12 +12,12 @@ namespace Reactive.Bindings.Extensions
         /// <summary>
         /// Dispose previous value automatically.
         /// </summary>
-        public static IObservable<T> DisposePreviousValue<T>(this IObservable<T> source) => 
+        public static IObservable<T> DisposePreviousValue<T>(this IObservable<T> source) =>
             Observable.Create<T>(ox =>
             {
                 var d = new SerialDisposable();
                 return new CompositeDisposable(
-                    source.Do(x => d.Disposable = x as IDisposable).Do(ox).Subscribe(), 
+                    source.Do(x => d.Disposable = x as IDisposable).Do(ox).Subscribe(),
                     d);
             });
     }

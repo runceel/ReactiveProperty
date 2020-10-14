@@ -52,7 +52,8 @@ namespace Reactive.Bindings.Interactivity
         /// </remarks>
         public object Execute(object sender, object parameter)
         {
-            if (!IsEnabled) {
+            if (!IsEnabled)
+            {
                 return null;
             }
 
