@@ -66,7 +66,7 @@ namespace Reactive.Bindings.Extensions
             bool isPushCurrentValueAtFirst = true)
             where TSubject : INotifyPropertyChanged
         {
-            var propertyObserver = PropertyObserver.CreateFromPropertySelector(subject, propertySelector);
+            var propertyObserver = PropertyObservable.CreateFromPropertySelector(subject, propertySelector);
             var ox = Observable.Using(() => propertyObserver, x => x);
             return isPushCurrentValueAtFirst ?
                 ox.StartWith(propertyObserver.GetPropertyPathValue()) :
@@ -114,7 +114,7 @@ namespace Reactive.Bindings.Extensions
         {
             if (ExpressionTreeUtils.IsNestedPropertyPath(propertySelector))
             {
-                var observer = PropertyObserver.CreateFromPropertySelector(subject, propertySelector);
+                var observer = PropertyObservable.CreateFromPropertySelector(subject, propertySelector);
                 var result = Observable.Using(() => observer, x => x)
                     .StartWith(observer.GetPropertyPathValue())
                     .ToReactiveProperty(raiseEventScheduler, mode: mode);
@@ -241,7 +241,7 @@ namespace Reactive.Bindings.Extensions
         {
             if (ExpressionTreeUtils.IsNestedPropertyPath(propertySelector))
             {
-                var observer = PropertyObserver.CreateFromPropertySelector(subject, propertySelector);
+                var observer = PropertyObservable.CreateFromPropertySelector(subject, propertySelector);
                 var result = convert(Observable.Using(() => observer, x => x)
                     .StartWith(observer.GetPropertyPathValue()))
                     .ToReactiveProperty(raiseEventScheduler, mode: mode);
@@ -279,7 +279,7 @@ namespace Reactive.Bindings.Extensions
             if (ExpressionTreeUtils.IsNestedPropertyPath(propertySelector))
             {
                 var result = new ReactivePropertySlim<TProperty>(mode: mode);
-                var observer = PropertyObserver.CreateFromPropertySelector(subject, propertySelector);
+                var observer = PropertyObservable.CreateFromPropertySelector(subject, propertySelector);
                 var disposable = Observable.Using(() => observer, x => x)
                     .StartWith(observer.GetPropertyPathValue())
                     .Subscribe(x => result.Value = x);
@@ -346,7 +346,7 @@ namespace Reactive.Bindings.Extensions
             if (ExpressionTreeUtils.IsNestedPropertyPath(propertySelector))
             {
                 var result = new ReactivePropertySlim<TResult>(mode: mode);
-                var observer = PropertyObserver.CreateFromPropertySelector(subject, propertySelector);
+                var observer = PropertyObservable.CreateFromPropertySelector(subject, propertySelector);
                 IDisposable disposable = null;
                 disposable = convert(subject.ObserveProperty(propertySelector, isPushCurrentValueAtFirst: true))
                     .Subscribe(x => result.Value = x);
