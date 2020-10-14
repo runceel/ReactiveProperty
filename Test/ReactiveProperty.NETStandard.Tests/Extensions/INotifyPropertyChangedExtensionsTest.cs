@@ -389,12 +389,17 @@ namespace ReactiveProperty.Tests.Extensions
                 .ToReadOnlyReactivePropertySlim();
             rp.Value.Is("name");
 
+            var oldChild = source.Child;
+            oldChild.IsPropertyChangedEmpty.IsFalse();
             source.Child = new Model();
+            oldChild.IsPropertyChangedEmpty.IsTrue();
             rp.Value.IsNull();
 
             source.IsPropertyChangedEmpty.IsFalse();
+            source.Child.IsPropertyChangedEmpty.IsFalse();
             rp.Dispose();
             source.IsPropertyChangedEmpty.IsTrue();
+            source.Child.IsPropertyChangedEmpty.IsTrue();
         }
 
         [TestMethod]
@@ -415,12 +420,17 @@ namespace ReactiveProperty.Tests.Extensions
                 .ToReadOnlyReactivePropertySlim();
             rp.Value.Is(10);
 
+            var oldChild = source.Child;
+            oldChild.IsPropertyChangedEmpty.IsFalse();
             source.Child = new Model();
+            oldChild.IsPropertyChangedEmpty.IsTrue();
             rp.Value.Is(default(int));
 
             source.IsPropertyChangedEmpty.IsFalse();
+            source.Child.IsPropertyChangedEmpty.IsFalse();
             rp.Dispose();
             source.IsPropertyChangedEmpty.IsTrue();
+            source.Child.IsPropertyChangedEmpty.IsTrue();
         }
 
         [TestMethod]
@@ -441,6 +451,42 @@ namespace ReactiveProperty.Tests.Extensions
             rp.Value.Is(10);
             rp.Value = 100;
             source.Child.Child.Age.Is(100);
+
+            source.IsPropertyChangedEmpty.IsFalse();
+            source.Child.IsPropertyChangedEmpty.IsFalse();
+            source.Child.Child.IsPropertyChangedEmpty.IsFalse();
+            rp.Dispose();
+            source.IsPropertyChangedEmpty.IsTrue();
+            source.Child.IsPropertyChangedEmpty.IsTrue();
+            source.Child.Child.IsPropertyChangedEmpty.IsTrue();
+        }
+
+        [TestMethod]
+        public void ToSynchronizedReactiveProperty_NestedPropertyCaseWithScheduler()
+        {
+            var source = new Model
+            {
+                Child = new Model
+                {
+                    Child = new Model
+                    {
+                        Age = 10,
+                    },
+                },
+            };
+
+            var rp = source.ToReactivePropertyAsSynchronized(x => x.Child.Child.Age, raiseEventScheduler: new TestScheduler());
+            rp.Value.Is(10);
+            rp.Value = 100;
+            source.Child.Child.Age.Is(100);
+
+            source.IsPropertyChangedEmpty.IsFalse();
+            source.Child.IsPropertyChangedEmpty.IsFalse();
+            source.Child.Child.IsPropertyChangedEmpty.IsFalse();
+            rp.Dispose();
+            source.IsPropertyChangedEmpty.IsTrue();
+            source.Child.IsPropertyChangedEmpty.IsTrue();
+            source.Child.Child.IsPropertyChangedEmpty.IsTrue();
         }
 
         [TestMethod]
@@ -499,6 +545,50 @@ namespace ReactiveProperty.Tests.Extensions
             var rp = source.ToReactivePropertyAsSynchronized(x => x.Child.Child.Age,
                 convert: x => x.ToString(),
                 convertBack: x => int.Parse(x));
+            var firstChild = source.Child;
+            source.Child = new Model();
+            rp.Value.Is("0");
+            rp.Value = "100";
+            rp.Value.Is("100");
+            var secondChild = source.Child;
+            source.Child = new Model
+            {
+                Child = new Model
+                {
+                    Age = 9999,
+                },
+            };
+
+            rp.Value.Is("9999");
+            firstChild.IsPropertyChangedEmpty.IsTrue();
+            secondChild.IsPropertyChangedEmpty.IsTrue();
+            source.Child.IsPropertyChangedEmpty.IsFalse();
+            rp.Dispose();
+            firstChild.IsPropertyChangedEmpty.IsTrue();
+            secondChild.IsPropertyChangedEmpty.IsTrue();
+            source.Child.IsPropertyChangedEmpty.IsTrue();
+        }
+
+        [TestMethod]
+        public void ToSynchronizedReactiveProperty_NestedPropertyWithConvertLogicAndScheduler_NullValue_Case()
+        {
+            var source = new Model
+            {
+                Child = new Model
+                {
+                    Child = new Model
+                    {
+                        Age = 10,
+                    },
+                },
+            };
+
+            var scheduler = new TestScheduler();
+
+            var rp = source.ToReactivePropertyAsSynchronized(x => x.Child.Child.Age,
+                convert: x => x.ToString(),
+                convertBack: x => int.Parse(x),
+                raiseEventScheduler: scheduler);
             var firstChild = source.Child;
             source.Child = new Model();
             rp.Value.Is("0");
