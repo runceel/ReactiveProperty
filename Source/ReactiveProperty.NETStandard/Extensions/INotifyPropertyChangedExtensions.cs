@@ -46,7 +46,7 @@ namespace Reactive.Bindings.Extensions
             }
         }
 
-        public static IObservable<TProperty> ObserveSimpleProperty<TSubject, TProperty>(
+        private static IObservable<TProperty> ObserveSimpleProperty<TSubject, TProperty>(
             this TSubject subject, Expression<Func<TSubject, TProperty>> propertySelector,
             bool isPushCurrentValueAtFirst = true)
             where TSubject : INotifyPropertyChanged
