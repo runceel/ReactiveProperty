@@ -79,12 +79,14 @@ namespace Reactive.Bindings.Interactivity
 
         private void AssociatedObjectPreviewInvoke(object sender, PreviewInvokeEventArgs e)
         {
-            try {
+            try
+            {
                 var comparerType = typeof(Comparer<>).MakeGenericType(Lhs.GetType());
                 var defaultProperty = comparerType.GetTypeInfo().GetDeclaredProperty("Default");
                 var comparer = (IComparer)defaultProperty.GetValue(null);
                 var comparerResult = comparer.Compare(Lhs, System.Convert.ChangeType(Rhs, comparerType));
-                switch (CompareOperator) {
+                switch (CompareOperator)
+                {
                     case Op.Eq:
                         e.Cancelling = !(comparerResult == 0);
                         break;
@@ -105,7 +107,9 @@ namespace Reactive.Bindings.Interactivity
                         e.Cancelling = !(comparerResult <= 0);
                         break;
                 }
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 Debug.WriteLine(ex);
                 e.Cancelling = true;
             }
