@@ -45,24 +45,21 @@ namespace ReactiveProperty.Tests.Helpers
             var observer = testScheduler.CreateObserver<SenderEventArgsPair<Item, PropertyChangedEventArgs>>();
             var source = new ObservableCollection<Item>(new[] { new Item(), new Item() });
             var filtered = source.ToFilteredReadOnlyObservableCollection(x => x.IntValue > 0);
-            var d = filtered.ObserveElementPropertyChanged()
+            var d = FilteredReadOnlyObservableCollectionExtensions.ObserveElementPropertyChanged(filtered)
                 .Subscribe(observer);
 
-            // Following three lines effect to observer.
-            source[0].IntValue = 100;
-            source[0].Value = "xxxx";
-            source[1].IntValue = 10;
-            // Following two lines don't effect to observer
-            source[1].IntValue = 0;
-            source[1].Value = "1: updated";
-            // A following line effects to observer.
-            source[0].Value = "0: updated";
+            source[0].IntValue = 100; // add item
+            source[0].Value = "xxxx"; // property change
+            source[1].IntValue = 10;  // add item
+            source[1].IntValue = 0; // remove item
+            source[1].Value = "1: updated"; // property change, but this is already removed from the filtered collection.
+            source[0].Value = "0: updated"; // property change
+            source[0].IntValue = 999; // property change
 
             observer.Messages.Is(
-                OnNext<SenderEventArgsPair<Item, PropertyChangedEventArgs>>(0, x => x.Sender == source[0] && x.EventArgs.PropertyName == nameof(Item.IntValue)),
                 OnNext<SenderEventArgsPair<Item, PropertyChangedEventArgs>>(0, x => x.Sender == source[0] && x.EventArgs.PropertyName == nameof(Item.Value)),
-                OnNext<SenderEventArgsPair<Item, PropertyChangedEventArgs>>(0, x => x.Sender == source[1] && x.EventArgs.PropertyName == nameof(Item.IntValue)),
-                OnNext<SenderEventArgsPair<Item, PropertyChangedEventArgs>>(0, x => x.Sender == source[0] && x.EventArgs.PropertyName == nameof(Item.Value)));
+                OnNext<SenderEventArgsPair<Item, PropertyChangedEventArgs>>(0, x => x.Sender == source[0] && x.EventArgs.PropertyName == nameof(Item.Value)),
+                OnNext<SenderEventArgsPair<Item, PropertyChangedEventArgs>>(0, x => x.Sender == source[0] && x.EventArgs.PropertyName == nameof(Item.IntValue)));
         }
 
         class Item : INotifyPropertyChanged
