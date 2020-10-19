@@ -464,16 +464,31 @@ namespace Reactive.Bindings
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe,
             bool ignoreValidationErrorValue = false)
         {
+            if (ExpressionTreeUtils.IsNestedPropertyPath(propertySelector))
+            {
+                var propertyPath = PropertyPathNode.CreateFromPropertySelector(propertySelector);
+                propertyPath.UpdateSource(target);
+
+                var initialValue = propertyPath.GetPropertyPathValue();
+                var result = new ReactiveProperty<TProperty>(raiseEventScheduler, initialValue: initialValue == null ? default : (TProperty)initialValue, mode: mode);
+                result
+                    .Where(_ => !ignoreValidationErrorValue || !result.HasErrors)
+                    .Subscribe(x => propertyPath.SetPropertyPathValue(x), _ => propertyPath.Dispose(), () => propertyPath.Dispose());
+                return result;
+            }
+            else
+            {
+                var getter = AccessorCache<TTarget>.LookupGet(propertySelector, out var propertyName);
+                var setter = AccessorCache<TTarget>.LookupSet(propertySelector, out propertyName);
+
+                var result = new ReactiveProperty<TProperty>(raiseEventScheduler, initialValue: getter(target), mode: mode);
+                result
+                    .Where(_ => !ignoreValidationErrorValue || !result.HasErrors)
+                    .Subscribe(x => setter(target, x));
+
+                return result;
+            }
             // no use
-            var getter = AccessorCache<TTarget>.LookupGet(propertySelector, out var propertyName);
-            var setter = AccessorCache<TTarget>.LookupSet(propertySelector, out propertyName);
-
-            var result = new ReactiveProperty<TProperty>(raiseEventScheduler, initialValue: getter(target), mode: mode);
-            result
-                .Where(_ => !ignoreValidationErrorValue || !result.HasErrors)
-                .Subscribe(x => setter(target, x));
-
-            return result;
         }
 
         /// <summary>
@@ -504,17 +519,33 @@ namespace Reactive.Bindings
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe,
             bool ignoreValidationErrorValue = false)
         {
-            // no use
-            var getter = AccessorCache<TTarget>.LookupGet(propertySelector, out var propertyName);
-            var setter = AccessorCache<TTarget>.LookupSet(propertySelector, out propertyName);
+            if (ExpressionTreeUtils.IsNestedPropertyPath(propertySelector))
+            {
+                var propertyPath = PropertyPathNode.CreateFromPropertySelector(propertySelector);
+                propertyPath.UpdateSource(target);
 
-            var result = new ReactiveProperty<TResult>(raiseEventScheduler, initialValue: convert(getter(target)), mode: mode);
-            result
-                .Where(_ => !ignoreValidationErrorValue || !result.HasErrors)
-                .Select(convertBack)
-                .Subscribe(x => setter(target, x));
+                var initialValue = propertyPath.GetPropertyPathValue();
+                var result = new ReactiveProperty<TResult>(raiseEventScheduler, initialValue: convert(initialValue == null ? default : (TProperty)initialValue), mode: mode);
+                result
+                    .Where(_ => !ignoreValidationErrorValue || !result.HasErrors)
+                    .Select(convertBack)
+                    .Subscribe(x => propertyPath.SetPropertyPathValue(x), _ => propertyPath.Dispose(), () => propertyPath.Dispose());
+                return result;
+            }
+            else
+            {
+                // no use
+                var getter = AccessorCache<TTarget>.LookupGet(propertySelector, out var propertyName);
+                var setter = AccessorCache<TTarget>.LookupSet(propertySelector, out propertyName);
 
-            return result;
+                var result = new ReactiveProperty<TResult>(raiseEventScheduler, initialValue: convert(getter(target)), mode: mode);
+                result
+                    .Where(_ => !ignoreValidationErrorValue || !result.HasErrors)
+                    .Select(convertBack)
+                    .Subscribe(x => setter(target, x));
+
+                return result;
+            }
         }
 
         /// <summary>
