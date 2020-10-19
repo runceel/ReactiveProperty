@@ -7,7 +7,13 @@ namespace Reactive.Bindings.Internals
 {
     internal sealed class PropertyObservable<TProperty> : IObservable<TProperty>, IDisposable
     {
-        internal PropertyPathNode RootNode { get; set; }
+        private PropertyPathNode RootNode { get; set; }
+        internal void SetRootNode(PropertyPathNode rootNode)
+        {
+            RootNode?.SetCallback(null);
+            rootNode?.SetCallback(RaisePropertyChanged);
+            RootNode = rootNode;
+        }
         public TProperty GetPropertyPathValue()
         {
             var value = RootNode?.GetPropertyPathValue();
@@ -43,22 +49,7 @@ namespace Reactive.Bindings.Internals
             }
 
             var result = new PropertyObservable<TProperty>();
-            var node = default(PropertyPathNode);
-            while (current != null)
-            {
-                var propertyName = current.Member.Name;
-                if (node != null)
-                {
-                    node = node.InsertBefore(propertyName);
-                }
-                else
-                {
-                    node = new PropertyPathNode(propertyName, result.RaisePropertyChanged);
-                }
-                current = current.Expression as MemberExpression;
-            }
-
-            result.RootNode = node;
+            result.SetRootNode(PropertyPathNode.CreateFromPropertySelector(propertySelector));
             result.SetSource(subject);
             return result;
         }

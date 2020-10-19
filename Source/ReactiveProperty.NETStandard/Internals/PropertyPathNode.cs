@@ -8,22 +8,26 @@ namespace Reactive.Bindings.Internals
     internal class PropertyPathNode : IDisposable
     {
         private bool _isDisposed = false;
-        private readonly Action _callback;
+        private Action _callback;
         private Delegate _getAccessor;
         private Delegate _setAccessor;
 
         public event EventHandler PropertyChanged;
 
-        public PropertyPathNode(string propertyName, Action callback)
+        public PropertyPathNode(string propertyName)
         {
             PropertyName = propertyName;
-            _callback = callback;
         }
 
         public string PropertyName { get; }
-        public INotifyPropertyChanged Source { get; private set; }
+        public object Source { get; private set; }
         public PropertyPathNode Next { get; private set; }
         public PropertyPathNode Prev { get; private set; }
+        public void SetCallback(Action callback)
+        {
+            _callback = callback;
+            Next?.SetCallback(callback);
+        }
 
         public PropertyPathNode InsertBefore(string propertyName)
         {
@@ -32,12 +36,12 @@ namespace Reactive.Bindings.Internals
                 Prev.Next = null;
             }
 
-            Prev = new PropertyPathNode(propertyName, _callback);
+            Prev = new PropertyPathNode(propertyName);
             Prev.Next = this;
             return Prev;
         }
 
-        public void UpdateSource(INotifyPropertyChanged source)
+        public void UpdateSource(object source)
         {
             EnsureDispose();
             Cleanup();
@@ -49,8 +53,11 @@ namespace Reactive.Bindings.Internals
         {
             EnsureDispose();
             if (Source == null) { return; }
-            Source.PropertyChanged += SourcePropertyChangedEventHandler;
-            Next?.UpdateSource(GetPropertyValue() as INotifyPropertyChanged);
+            if (Source is INotifyPropertyChanged inpc)
+            {
+                inpc.PropertyChanged += SourcePropertyChangedEventHandler;
+            }
+            Next?.UpdateSource(GetPropertyValue());
         }
 
         private object GetPropertyValue()
@@ -111,7 +118,10 @@ namespace Reactive.Bindings.Internals
         {
             if (Source != null)
             {
-                Source.PropertyChanged -= SourcePropertyChangedEventHandler;
+                if (Source is INotifyPropertyChanged inpc)
+                {
+                    inpc.PropertyChanged -= SourcePropertyChangedEventHandler;
+                }
                 Source = null;
             }
 
@@ -131,5 +141,31 @@ namespace Reactive.Bindings.Internals
 
         private void RaisePropertyChanged() => PropertyChanged?.Invoke(this, EventArgs.Empty);
 
+
+        public static PropertyPathNode CreateFromPropertySelector<TSubject, TProperty>(
+            Expression<Func<TSubject, TProperty>> propertySelector)
+        {
+            if (!(propertySelector.Body is MemberExpression current))
+            {
+                throw new ArgumentException();
+            }
+
+            var node = default(PropertyPathNode);
+            while (current != null)
+            {
+                var propertyName = current.Member.Name;
+                if (node != null)
+                {
+                    node = node.InsertBefore(propertyName);
+                }
+                else
+                {
+                    node = new PropertyPathNode(propertyName);
+                }
+                current = current.Expression as MemberExpression;
+            }
+
+            return node;
+        }
     }
 }
