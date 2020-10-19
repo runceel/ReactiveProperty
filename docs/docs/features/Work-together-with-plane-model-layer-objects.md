@@ -243,3 +243,9 @@ namespace ReactivePropertyEduApp
 }
 ```
 
+### Nested property path
+
+`ObserveProperty`, `ToReactivePropertyAsSynchronized` and `ToReactivePropertySlimAsSynchronized` support to nested property path like `x => x.Child.Name`.
+Suppose the value of any property in the path is null. In that case, ReactiveProperty is set `default(T)` to Value property (this is a case of to ReactiveProperty from source property), and ReactiveProperty stops synchronization to the source property (this is a case of to source property from ReactiveProperty).
+
+After the value is updated to not null value, ReactiveProperty re-start synchronization.
