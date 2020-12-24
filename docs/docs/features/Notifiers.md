@@ -29,7 +29,17 @@ n.Value = true; // true
 n.Value = false; // false
 ```
 
-It can use to source of `ReactiveCommand`.
+It can use as source of `ReactiveCommand` like below:
+
+```csharp
+var n = new BooleanNotifier(); // the default value is false.
+
+// CanExecute method of ReactiveCommand returns true as default. So, you set initialValue explicitly to `n.Value`.
+var command = n.ToReactiveCommand(initialValue: n.Value);
+
+// Or if you would like to convert to something using Select and others before calling ToReactiveCommand, you can use StartWith.
+var command2 = n.StartWith(n.Value).Select(x => Something(x)).ToReactiveCommand();
+```
 
 ## `CountNotifier`
 
