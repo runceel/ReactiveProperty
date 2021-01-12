@@ -19,7 +19,6 @@ namespace ReactiveProperty.Tests
                 await tcs.Task;
             });
 
-
             Task taskForExecuteAsync = cmd.ExecuteAsync();
 
             taskForExecuteAsync.IsCompleted.IsFalse();
