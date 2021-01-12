@@ -27,7 +27,6 @@ namespace ReactiveProperty.Tests
             taskForExecuteAsync.IsCompleted.IsTrue();
         }
 
-
         [TestMethod]
         public void ExecuteAsyncForGeneric()
         {
