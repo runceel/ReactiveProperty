@@ -11,6 +11,42 @@ namespace ReactiveProperty.Tests
     public class AsyncReactiveCommandTest
     {
         [TestMethod]
+        public void ExecuteAsync()
+        {
+            var tcs = new TaskCompletionSource<bool>();
+            var cmd = new AsyncReactiveCommand().WithSubscribe(async () =>
+            {
+                await tcs.Task;
+            });
+
+            Task taskForExecuteAsync = cmd.ExecuteAsync();
+
+            taskForExecuteAsync.IsCompleted.IsFalse();
+            tcs.SetResult(true);
+            taskForExecuteAsync.IsCompleted.IsTrue();
+        }
+
+        [TestMethod]
+        public void ExecuteAsyncForGeneric()
+        {
+            var tcs = new TaskCompletionSource<bool>();
+            var expectedCommandParameter = new object();
+            var actualCommandParameter = default(object);
+            var cmd = new AsyncReactiveCommand<object>().WithSubscribe(async x =>
+            {
+                actualCommandParameter = x;
+                await tcs.Task;
+            });
+
+            Task taskForExecuteAsync = cmd.ExecuteAsync(expectedCommandParameter);
+
+            taskForExecuteAsync.IsCompleted.IsFalse();
+            tcs.SetResult(true);
+            taskForExecuteAsync.IsCompleted.IsTrue();
+            actualCommandParameter.IsSameReferenceAs(expectedCommandParameter);
+        }
+
+        [TestMethod]
         public void DefaultUseCase()
         {
             var source = new Subject<bool>();
