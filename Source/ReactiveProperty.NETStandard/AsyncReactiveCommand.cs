@@ -46,10 +46,12 @@ namespace Reactive.Bindings
         /// <summary>
         /// Push null to subscribers.
         /// </summary>
-        public void Execute()
-        {
-            Execute(null);
-        }
+        public void Execute() => Execute(null);
+
+        /// <summary>
+        /// Push null to subscribers.
+        /// </summary>
+        public Task ExecuteAsync() => ExecuteAsync(null);
 
         /// <summary>
         /// Subscribe execute.
@@ -146,7 +148,12 @@ namespace Reactive.Bindings
         /// <summary>
         /// Push parameter to subscribers, when executing CanExecuting is changed to false.
         /// </summary>
-        public async void Execute(T parameter)
+        public async void Execute(T parameter) => await ExecuteAsync(parameter);
+
+        /// <summary>
+        /// Push parameter to subscribers, when executing CanExecuting is changed to false.
+        /// </summary>
+        public async Task ExecuteAsync(T parameter)
         {
             if (isCanExecute)
             {
