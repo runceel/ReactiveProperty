@@ -131,7 +131,9 @@ ReactiveProperty doesn't provide base class by ViewModel, which means that React
 
 ## Help support ReactiveProperty
 
-<iframe src="https://github.com/sponsors/runceel/card" title="Sponsor runceel" height="225" width="600" style="border: 0;"></iframe>
+|Name|GitHub Sponsors|
+|----|----|
+|runceel|https://github.com/sponsors/runceel|
 
 ## Documentation
 
