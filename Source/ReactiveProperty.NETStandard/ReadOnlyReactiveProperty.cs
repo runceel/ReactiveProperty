@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
+using System.Reactive.PlatformServices;
+using System.Runtime.ExceptionServices;
 using Reactive.Bindings.Internals;
 
 namespace Reactive.Bindings
@@ -31,6 +33,7 @@ namespace Reactive.Bindings
 
         private bool IsRaiseLatestValueOnSubscribe => (_mode & ReactivePropertyMode.RaiseLatestValueOnSubscribe) == ReactivePropertyMode.RaiseLatestValueOnSubscribe;
         private bool IsDistinctUntilChanged => (_mode & ReactivePropertyMode.DistinctUntilChanged) == ReactivePropertyMode.DistinctUntilChanged;
+        private bool IsIgnoreException => (_mode & ReactivePropertyMode.IgnoreException) == ReactivePropertyMode.IgnoreException;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyReactiveProperty{T}"/> class.
@@ -66,6 +69,10 @@ namespace Reactive.Bindings
 
         object IReadOnlyReactiveProperty.Value => Value;
 
+        /// <summary>
+        /// Gets a value indicating whether this instance is disposed.
+        /// </summary>
+        /// <value><c>true</c> if this instance is disposed; otherwise, <c>false</c>.</value>
         public bool IsDisposed => (int)_mode == IsDisposedFlagNumber;
 
         /// <summary>
@@ -181,7 +188,8 @@ namespace Reactive.Bindings
 
         void IObserver<T>.OnError(Exception error)
         {
-            // do nothing.
+            if (IsIgnoreException) return;
+            ExceptionDispatchInfo.Capture(error).Throw();
         }
 
         void IObserver<T>.OnCompleted()
