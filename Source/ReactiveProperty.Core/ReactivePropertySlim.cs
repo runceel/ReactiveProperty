@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Runtime.ExceptionServices;
 using System.Threading;
 using Reactive.Bindings.Internals;
 
@@ -295,6 +296,8 @@ namespace Reactive.Bindings
 
         private bool IsRaiseLatestValueOnSubscribe => (_mode & ReactivePropertyMode.RaiseLatestValueOnSubscribe) == ReactivePropertyMode.RaiseLatestValueOnSubscribe;
 
+        private bool IsIgnoreException => (_mode & ReactivePropertyMode.IgnoreException) == ReactivePropertyMode.IgnoreException;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyReactivePropertySlim{T}"/> class.
         /// </summary>
@@ -427,7 +430,8 @@ namespace Reactive.Bindings
 
         void IObserver<T>.OnError(Exception error)
         {
-            // do nothing.
+            if (IsIgnoreException) return;
+            ExceptionDispatchInfo.Capture(error).Throw();
         }
 
         void IObserver<T>.OnCompleted()

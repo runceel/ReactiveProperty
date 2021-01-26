@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
@@ -198,6 +199,25 @@ namespace ReactiveProperty.Tests
         {
             var x = Observable.Return(1).ToReadOnlyReactivePropertySlim();
             x.Value.Is(1);
+        }
+
+        [TestMethod]
+        public void ExceptionThrowsInConvertionLogic()
+        {
+            Assert.ThrowsException<Exception>(() =>
+                _ = Observable.Return(Unit.Default)
+                    .Do(_ => throw new Exception("test"))
+                    .ToReadOnlyReactivePropertySlim(),
+                    "test");
+        }
+
+        [TestMethod]
+        public void ExceptionThrowsInConvertionLogicWithIgnoreExceptionFlag()
+        {
+            AssertEx.DoesNotThrow(() =>
+                _ = Observable.Return(Unit.Default)
+                    .Do(_ => throw new Exception("test"))
+                    .ToReadOnlyReactivePropertySlim(mode: ReactivePropertyMode.Default | ReactivePropertyMode.IgnoreException));
         }
     }
 }
