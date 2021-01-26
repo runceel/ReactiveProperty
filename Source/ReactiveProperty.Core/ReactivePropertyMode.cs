@@ -29,6 +29,11 @@ namespace Reactive.Bindings
         IgnoreInitialValidationError = 0x04,
 
         /// <summary>
+        /// Ignore exception
+        /// </summary>
+        IgnoreException = 0x08,
+
+        /// <summary>
         /// Default mode value. It is same as DistinctUntilChanged | RaiseLatestValueOnSubscribe.
         /// </summary>
         Default = DistinctUntilChanged | RaiseLatestValueOnSubscribe,
