@@ -355,6 +355,20 @@ namespace ReactiveProperty.Tests.Helpers
             filtered.Is(source[1], source[3]);
         }
 
+        [TestMethod]
+        [Timeout(10 * 1000)]
+        public void PerformanceTest()
+        {
+            var source = new ObservableCollection<Person>(Enumerable.Range(1, 1000000).Select(x => new Person
+            {
+                Name = $"tanaka {x}",
+                IsRemoved = x % 2 == 0,
+            }));
+
+            var filtered = source.ToFilteredReadOnlyObservableCollection(x => !x.IsRemoved);
+            filtered.Count.Is(500000);
+        }
+
         #region private class
 
         private class Person : INotifyPropertyChanged
