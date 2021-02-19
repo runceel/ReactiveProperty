@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -190,5 +191,25 @@ namespace ReactiveProperty.Tests
             recorder.Messages.Count.Is(1);
             recorder.Messages.Is(OnCompleted<string>(0));
         }
+
+        [TestMethod]
+        public void ExceptionThrowsInConvertionLogic()
+        {
+            Assert.ThrowsException<Exception>(() =>
+                _ = Observable.Return(Unit.Default)
+                    .Do(_ => throw new Exception("test"))
+                    .ToReadOnlyReactiveProperty(),
+                    "test");
+        }
+
+        [TestMethod]
+        public void ExceptionThrowsInConvertionLogicWithIgnoreExceptionFlag()
+        {
+            AssertEx.DoesNotThrow(() =>
+                _ = Observable.Return(Unit.Default)
+                    .Do(_ => throw new Exception("test"))
+                    .ToReadOnlyReactiveProperty(mode: ReactivePropertyMode.Default | ReactivePropertyMode.IgnoreException));
+        }
+
     }
 }
