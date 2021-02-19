@@ -129,6 +129,12 @@ It's very simple.
 
 ReactiveProperty doesn't provide base class by ViewModel, which means that ReactiveProperty can be used together with another MVVM library like Prism, MVVMLight, etc...
 
+## Help support ReactiveProperty
+
+|Name|GitHub Sponsors|
+|----|----|
+|runceel|https://github.com/sponsors/runceel|
+
 ## Documentation
 
 [ReactiveProperty documentation](https://runceel.github.io/ReactiveProperty/)
