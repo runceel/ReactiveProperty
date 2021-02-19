@@ -233,7 +233,9 @@ In other instance's events subscribe, then you should call the `Dispose` method 
 
 `AsyncReactiveCommand` class is an `async` version `ReactiveCommand` class.
 This class can subscribe using `async` methods, and when executing an async method then `CanExecute` method returns `false`.
-So, this class can't re-execute while the async method is running.
+So, this class can't re-execute while the async method is running.  
+
+And `ExecuteAsync` method is an async version `Execute` method. The method is able to wait finishing all async proccesses are added to the command. This method is useful for unit testing and call commands on C#.
 
 ### Basic usage
 

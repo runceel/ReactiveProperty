@@ -10,7 +10,7 @@ using Reactive.Bindings.Internals;
 namespace ReactiveProperty.Tests.Internals
 {
     [TestClass]
-    public class PropertyObserverTest : ReactiveTest
+    public class PropertyObservableTest : ReactiveTest
     {
         [TestMethod]
         public void ObserveProperty()
@@ -27,7 +27,7 @@ namespace ReactiveProperty.Tests.Internals
             var testScheduler = new TestScheduler();
             var testObserver = testScheduler.CreateObserver<int>();
 
-            var path = PropertyObserver.CreateFromPropertySelector(item, x => x.Child.ValueTypeValue);
+            var path = PropertyObservable.CreateFromPropertySelector(item, x => x.Child.ValueTypeValue);
             path.Subscribe(testObserver);
             path.GetPropertyPathValue().Is(10);
             item.Child.ValueTypeValue = 1;

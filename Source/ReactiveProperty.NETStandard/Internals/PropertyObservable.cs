@@ -5,9 +5,15 @@ using System.Reactive.Subjects;
 
 namespace Reactive.Bindings.Internals
 {
-    internal sealed class PropertyObserver<TProperty> : IObservable<TProperty>, IDisposable
+    internal sealed class PropertyObservable<TProperty> : IObservable<TProperty>, IDisposable
     {
-        internal PropertyPathNode RootNode { get; set; }
+        private PropertyPathNode RootNode { get; set; }
+        internal void SetRootNode(PropertyPathNode rootNode)
+        {
+            RootNode?.SetCallback(null);
+            rootNode?.SetCallback(RaisePropertyChanged);
+            RootNode = rootNode;
+        }
         public TProperty GetPropertyPathValue()
         {
             var value = RootNode?.GetPropertyPathValue();
@@ -16,7 +22,7 @@ namespace Reactive.Bindings.Internals
 
         public string Path => RootNode?.Path;
         public bool SetPropertyPathValue(TProperty value) => RootNode?.SetPropertyPathValue(value) ?? false;
-        public void SetUpdateSource(INotifyPropertyChanged source) => RootNode?.UpdateSource(source);
+        public void SetSource(INotifyPropertyChanged source) => RootNode?.UpdateSource(source);
 
         internal void RaisePropertyChanged() => _propertyChangedSource.OnNext(GetPropertyPathValue());
 
@@ -32,9 +38,9 @@ namespace Reactive.Bindings.Internals
         public IDisposable Subscribe(IObserver<TProperty> observer) => _propertyChangedSource.Subscribe(observer);
     }
 
-    internal static class PropertyObserver
+    internal static class PropertyObservable
     {
-        public static PropertyObserver<TProperty> CreateFromPropertySelector<TSubject, TProperty>(TSubject subject, Expression<Func<TSubject, TProperty>> propertySelector)
+        public static PropertyObservable<TProperty> CreateFromPropertySelector<TSubject, TProperty>(TSubject subject, Expression<Func<TSubject, TProperty>> propertySelector)
             where TSubject : INotifyPropertyChanged
         {
             if (!(propertySelector.Body is MemberExpression current))
@@ -42,24 +48,9 @@ namespace Reactive.Bindings.Internals
                 throw new ArgumentException();
             }
 
-            var result = new PropertyObserver<TProperty>();
-            var node = default(PropertyPathNode);
-            while (current != null)
-            {
-                var propertyName = current.Member.Name;
-                if (node != null)
-                {
-                    node = node.InsertBefore(propertyName);
-                }
-                else
-                {
-                    node = new PropertyPathNode(propertyName, result.RaisePropertyChanged);
-                }
-                current = current.Expression as MemberExpression;
-            }
-
-            result.RootNode = node;
-            result.SetUpdateSource(subject);
+            var result = new PropertyObservable<TProperty>();
+            result.SetRootNode(PropertyPathNode.CreateFromPropertySelector(propertySelector));
+            result.SetSource(subject);
             return result;
         }
 

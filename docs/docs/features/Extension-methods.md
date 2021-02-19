@@ -200,10 +200,10 @@ public static IObservable<Unit> ObserveResetChanged<T>(this ObservableCollection
     ((INotifyCollectionChanged)source).ObserveResetChanged<T>();
 ```
 
-## Observe `PropertyChanged` events of `ObservableCollection`'s items
+## Observe `PropertyChanged` events of elements of `ObservableCollection` and `IFilteredReadOnlyObservableCollection`
 
-Watch `PropertyChanged` event of `ObservableCollection`'s items. 
-`ObserveElementProperty` extension method can observe specific property's `PropertyChanged` event.
+Watch `PropertyChanged` events of elements of `ObservableCollection` and `IFilteredReadOnlyObservableCollection`. 
+`ObserveElementProperty` extension method can observe specific property's `PropertyChanged` events.
 
 ```csharp
 using Reactive.Bindings.Extensions;
