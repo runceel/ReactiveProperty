@@ -17,7 +17,7 @@ namespace Reactive.Bindings.Extensions
         /// </summary>
         public static IObservable<PropertyChangedEventArgs> PropertyChangedAsObservable<T>(this T subject)
             where T : INotifyPropertyChanged =>
-            Observable.FromEvent<PropertyChangedEventHandler, PropertyChangedEventArgs>(
+            InternalObservable.FromEvent<PropertyChangedEventHandler, PropertyChangedEventArgs>(
                 h => (sender, e) => h(e),
                 h => subject.PropertyChanged += h,
                 h => subject.PropertyChanged -= h);
