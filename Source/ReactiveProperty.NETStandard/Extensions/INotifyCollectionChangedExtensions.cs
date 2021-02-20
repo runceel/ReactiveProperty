@@ -23,7 +23,7 @@ namespace Reactive.Bindings.Extensions
         /// </summary>
         public static IObservable<NotifyCollectionChangedEventArgs> CollectionChangedAsObservable<T>(this T source)
             where T : INotifyCollectionChanged =>
-            Observable.FromEvent<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>(
+            InternalObservable.FromEvent<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>(
                 h => (sender, e) => h(e),
                 h => source.CollectionChanged += h,
                 h => source.CollectionChanged -= h);
