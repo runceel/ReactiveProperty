@@ -16,7 +16,7 @@ namespace Reactive.Bindings.Extensions
         /// </summary>
         public static IObservable<DataErrorsChangedEventArgs> ErrorsChangedAsObservable<T>(this T subject)
             where T : INotifyDataErrorInfo =>
-            Observable.FromEvent<EventHandler<DataErrorsChangedEventArgs>, DataErrorsChangedEventArgs>(
+            InternalObservable.FromEvent<EventHandler<DataErrorsChangedEventArgs>, DataErrorsChangedEventArgs>(
                 h => (sender, e) => h(e),
                 h => subject.ErrorsChanged += h,
                 h => subject.ErrorsChanged -= h);
