@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Reactive.Linq;
+using System.Reactive.Concurrency;
 using System.Windows.Input;
+using Reactive.Bindings.Internals;
 
 namespace Reactive.Bindings.Extensions
 {
@@ -14,7 +15,7 @@ namespace Reactive.Bindings.Extensions
         /// </summary>
         public static IObservable<EventArgs> CanExecuteChangedAsObservable<T>(this T source)
             where T : ICommand =>
-            Observable.FromEvent<EventHandler, EventArgs>(
+            InternalObservable.FromEvent<EventHandler, EventArgs>(
                 h => (sender, e) => h(e),
                 h => source.CanExecuteChanged += h,
                 h => source.CanExecuteChanged -= h);
