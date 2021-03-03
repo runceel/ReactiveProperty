@@ -18,24 +18,24 @@ namespace Reactive.Bindings
         private const int IsDisposedFlagNumber = 1 << 9; // (reserve 0 ~ 8)
 
         // minimize field count
-        private T _latestValue;
+        private T? _latestValue;
 
         private ReactivePropertyMode _mode; // None = 0, DistinctUntilChanged = 1, RaiseLatestValueOnSubscribe = 2, Disposed = (1 << 9)
         private readonly IEqualityComparer<T> _equalityComparer;
-        private ObserverNode<T> _root;
-        private ObserverNode<T> _last;
+        private ObserverNode<T?>? _root;
+        private ObserverNode<T?>? _last;
 
         /// <summary>
         /// Occurs when a property value changes.
         /// </summary>
         /// <returns></returns>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Gets or sets the value.
         /// </summary>
         /// <value>The value.</value>
-        public T Value
+        public T? Value
         {
             get
             {
@@ -64,7 +64,7 @@ namespace Reactive.Bindings
         /// <value><c>true</c> if this instance is disposed; otherwise, <c>false</c>.</value>
         public bool IsDisposed => (int)_mode == IsDisposedFlagNumber;
 
-        object IReactiveProperty.Value
+        object? IReactiveProperty.Value
         {
             get
             {
@@ -105,14 +105,14 @@ namespace Reactive.Bindings
         /// <param name="initialValue">The initial value.</param>
         /// <param name="mode">The mode.</param>
         /// <param name="equalityComparer">The equality comparer.</param>
-        public ReactivePropertySlim(T initialValue = default, ReactivePropertyMode mode = ReactivePropertyMode.Default, IEqualityComparer<T> equalityComparer = null)
+        public ReactivePropertySlim(T? initialValue = default, ReactivePropertyMode mode = ReactivePropertyMode.Default, IEqualityComparer<T>? equalityComparer = null)
         {
             _latestValue = initialValue;
             _mode = mode;
             _equalityComparer = equalityComparer ?? EqualityComparer<T>.Default;
         }
 
-        private void OnNextAndRaiseValueChanged(ref T value)
+        private void OnNextAndRaiseValueChanged(ref T? value)
         {
             // call source.OnNext
             var node = _root;
@@ -169,7 +169,7 @@ namespace Reactive.Bindings
             return next;
         }
 
-        void IObserverLinkedList<T>.UnsubscribeNode(ObserverNode<T> node)
+        void IObserverLinkedList<T>.UnsubscribeNode(ObserverNode<T?> node)
         {
             if (node == _root)
             {
@@ -231,7 +231,7 @@ namespace Reactive.Bindings
 
         IObservable<bool> IHasErrors.ObserveHasErrors => throw new NotSupportedException();
 
-        event EventHandler<DataErrorsChangedEventArgs> INotifyDataErrorInfo.ErrorsChanged
+        event EventHandler<DataErrorsChangedEventArgs>? INotifyDataErrorInfo.ErrorsChanged
         {
             add
             {
@@ -241,7 +241,7 @@ namespace Reactive.Bindings
             }
         }
 
-        IEnumerable INotifyDataErrorInfo.GetErrors(string propertyName)
+        IEnumerable INotifyDataErrorInfo.GetErrors(string? propertyName)
         {
             return System.Linq.Enumerable.Empty<object>();
         }
@@ -251,26 +251,25 @@ namespace Reactive.Bindings
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <seealso cref="Reactive.Bindings.IReadOnlyReactiveProperty{T}"/>
-    /// <seealso cref="Reactive.Bindings.IObserverLinkedList{T}"/>
     /// <seealso cref="System.IObserver{T}"/>
     public class ReadOnlyReactivePropertySlim<T> : IReadOnlyReactiveProperty<T>, IObserverLinkedList<T>, IObserver<T>
     {
         private const int IsDisposedFlagNumber = 1 << 9; // (reserve 0 ~ 8)
 
         // minimize field count
-        private T _latestValue;
+        private T? _latestValue;
 
         private IDisposable _sourceSubscription;
         private ReactivePropertyMode _mode; // None = 0, DistinctUntilChanged = 1, RaiseLatestValueOnSubscribe = 2, Disposed = (1 << 9)
         private readonly IEqualityComparer<T> _equalityComparer;
-        private ObserverNode<T> _root;
-        private ObserverNode<T> _last;
+        private ObserverNode<T>? _root;
+        private ObserverNode<T>? _last;
 
         /// <summary>
         /// Occurs when a property value changes.
         /// </summary>
         /// <returns></returns>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Gets the value.
@@ -305,7 +304,7 @@ namespace Reactive.Bindings
         /// <param name="initialValue">The initial value.</param>
         /// <param name="mode">The mode.</param>
         /// <param name="equalityComparer">The equality comparer.</param>
-        public ReadOnlyReactivePropertySlim(IObservable<T> source, T initialValue = default, ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe, IEqualityComparer<T> equalityComparer = null)
+        public ReadOnlyReactivePropertySlim(IObservable<T> source, T? initialValue = default, ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe, IEqualityComparer<T>? equalityComparer = null)
         {
             _latestValue = initialValue;
             _mode = mode;
@@ -355,7 +354,7 @@ namespace Reactive.Bindings
             return next;
         }
 
-        void IObserverLinkedList<T>.UnsubscribeNode(ObserverNode<T> node)
+        void IObserverLinkedList<T>.UnsubscribeNode(ObserverNode<T?> node)
         {
             if (node == _root)
             {
@@ -455,7 +454,6 @@ namespace Reactive.Bindings
     /// <summary>
     /// </summary>
     /// <seealso cref="Reactive.Bindings.IReadOnlyReactiveProperty{T}"/>
-    /// <seealso cref="Reactive.Bindings.IObserverLinkedList{T}"/>
     /// <seealso cref="System.IObserver{T}"/>
     public static class ReadOnlyReactivePropertySlim
     {
@@ -468,7 +466,7 @@ namespace Reactive.Bindings
         /// <param name="mode">The mode.</param>
         /// <param name="equalityComparer">The equality comparer.</param>
         /// <returns></returns>
-        public static ReadOnlyReactivePropertySlim<T> ToReadOnlyReactivePropertySlim<T>(this IObservable<T> source, T initialValue = default, ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe, IEqualityComparer<T> equalityComparer = null)
+        public static ReadOnlyReactivePropertySlim<T> ToReadOnlyReactivePropertySlim<T>(this IObservable<T> source, T? initialValue = default, ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe, IEqualityComparer<T>? equalityComparer = null)
         {
             return new ReadOnlyReactivePropertySlim<T>(source, initialValue, mode, equalityComparer);
         }

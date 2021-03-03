@@ -56,12 +56,12 @@ namespace Reactive.Bindings.Helpers
 
         private int ItemsCount { get; set; }
 
-        private List<TElement> InnerCollection { get; } = new List<TElement>();
+        private List<TElement?> InnerCollection { get; } = new List<TElement?>();
 
         /// <summary>
         /// CollectionChanged event.
         /// </summary>
-        public event NotifyCollectionChangedEventHandler CollectionChanged;
+        public event NotifyCollectionChangedEventHandler? CollectionChanged;
 
         /// <summary>
         /// constructor
@@ -209,7 +209,7 @@ namespace Reactive.Bindings.Helpers
         /// <returns></returns>
         public TElement this[int index] => InnerCollection[index];
 
-        object IList.this[int index]
+        object? IList.this[int index]
         {
             get
             {
@@ -283,7 +283,7 @@ namespace Reactive.Bindings.Helpers
             }
         }
 
-        int IList.Add(object value)
+        int IList.Add(object? value)
         {
             throw new NotSupportedException();
         }
@@ -293,16 +293,16 @@ namespace Reactive.Bindings.Helpers
             throw new NotSupportedException();
         }
 
-        bool IList.Contains(object value) => InnerCollection.Contains(value);
+        bool IList.Contains(object? value) => InnerCollection.Contains(value);
 
-        int IList.IndexOf(object value) => InnerCollection.IndexOf((TElement)value);
+        int IList.IndexOf(object? value) => InnerCollection.IndexOf((TElement?)value);
 
-        void IList.Insert(int index, object value)
+        void IList.Insert(int index, object? value)
         {
             throw new NotSupportedException();
         }
 
-        void IList.Remove(object value)
+        void IList.Remove(object? value)
         {
             throw new NotSupportedException();
         }
@@ -361,7 +361,7 @@ namespace Reactive.Bindings.Helpers
         /// <param name="scheduler">The scheduler.</param>
         /// <param name="disposeElement">if set to <c>true</c> [dispose element].</param>
         /// <returns></returns>
-        public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this IFilteredReadOnlyObservableCollection<T> self, IScheduler scheduler = null, bool disposeElement = true)
+        public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this IFilteredReadOnlyObservableCollection<T> self, IScheduler? scheduler = null, bool disposeElement = true)
             where T : class, INotifyPropertyChanged =>
             self.ToReadOnlyReactiveCollection(x => x, scheduler, disposeElement);
 
@@ -375,7 +375,7 @@ namespace Reactive.Bindings.Helpers
         /// <param name="scheduler">The scheduler.</param>
         /// <param name="disposeElement">if set to <c>true</c> [dispose element].</param>
         /// <returns></returns>
-        public static ReadOnlyReactiveCollection<U> ToReadOnlyReactiveCollection<T, U>(this IFilteredReadOnlyObservableCollection<T> self, Func<T, U> converter, IScheduler scheduler = null, bool disposeElement = true)
+        public static ReadOnlyReactiveCollection<U> ToReadOnlyReactiveCollection<T, U>(this IFilteredReadOnlyObservableCollection<T> self, Func<T, U> converter, IScheduler? scheduler = null, bool disposeElement = true)
             where T : class, INotifyPropertyChanged =>
             self.ToReadOnlyReactiveCollection(
                 self.ToCollectionChanged<T>(),

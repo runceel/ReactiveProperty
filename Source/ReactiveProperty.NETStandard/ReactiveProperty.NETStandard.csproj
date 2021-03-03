@@ -2,10 +2,9 @@
 
   <PropertyGroup>
     <PackageId>ReactiveProperty</PackageId>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;netcoreapp3.1;net5.0</TargetFrameworks>
     <AssemblyName>ReactiveProperty</AssemblyName>
     <SignAssembly>true</SignAssembly>
-    <LangVersion>9.0</LangVersion>
     <Nullable>enable</Nullable>
     <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
     <Description>ReactiveProperty is MVVM and Asynchronous Extensions for Reactive Extensions(System.Reactive). Target platform is .NET Standard 2.0.</Description>

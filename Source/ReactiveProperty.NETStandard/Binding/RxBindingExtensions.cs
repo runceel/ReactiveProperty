@@ -34,20 +34,20 @@ namespace Reactive.Bindings.Binding
             TTarget target,
             Expression<Func<TTarget, TProperty>> propertySelector,
             BindingMode mode = BindingMode.OneWay,
-            Func<T, TProperty> convert = null,
-            Func<TProperty, T> convertBack = null,
-            IObservable<Unit> targetUpdateTrigger = null,
-            TProperty propertyFallbackValue = default(TProperty),
-            T sourceFallbackValue = default(T))
+            Func<T, TProperty?>? convert = null,
+            Func<TProperty?, T?>? convertBack = null,
+            IObservable<Unit>? targetUpdateTrigger = null,
+            TProperty? propertyFallbackValue = default,
+            T? sourceFallbackValue = default)
         {
             if (convert == null)
             {
-                convert = value => (TProperty)Convert.ChangeType(value, typeof(TProperty));
+                convert = value => (TProperty?)Convert.ChangeType(value, typeof(TProperty));
             }
 
             if (convertBack == null)
             {
-                convertBack = value => (T)Convert.ChangeType(value, typeof(T));
+                convertBack = value => (T?)Convert.ChangeType(value, typeof(T));
             }
 
             switch (mode)
@@ -101,12 +101,12 @@ namespace Reactive.Bindings.Binding
             this ReadOnlyReactiveProperty<T> self,
             TTarget target,
             Expression<Func<TTarget, TProperty>> propertySelector,
-            Func<T, TProperty> convert = null,
-            TProperty propertyFallbackValue = default(TProperty))
+            Func<T, TProperty?>? convert = null,
+            TProperty? propertyFallbackValue = default)
         {
             if (convert == null)
             {
-                convert = value => (TProperty)Convert.ChangeType(value, typeof(TProperty));
+                convert = value => (TProperty?)Convert.ChangeType(value, typeof(TProperty));
             }
 
             return CreateOneWayBinding(
@@ -138,20 +138,20 @@ namespace Reactive.Bindings.Binding
             TTarget target,
             Expression<Func<TTarget, TProperty>> propertySelector,
             BindingMode mode = BindingMode.OneWay,
-            Func<T, TProperty> convert = null,
-            Func<TProperty, T> convertBack = null,
-            IObservable<Unit> targetUpdateTrigger = null,
-            TProperty propertyFallbackValue = default(TProperty),
-            T sourceFallbackValue = default(T))
+            Func<T?, TProperty?>? convert = null,
+            Func<TProperty?, T?>? convertBack = null,
+            IObservable<Unit>? targetUpdateTrigger = null,
+            TProperty? propertyFallbackValue = default,
+            T? sourceFallbackValue = default)
         {
             if (convert == null)
             {
-                convert = value => (TProperty)Convert.ChangeType(value, typeof(TProperty));
+                convert = value => (TProperty?)Convert.ChangeType(value, typeof(TProperty));
             }
 
             if (convertBack == null)
             {
-                convertBack = value => (T)Convert.ChangeType(value, typeof(T));
+                convertBack = value => (T?)Convert.ChangeType(value, typeof(T));
             }
 
             switch (mode)
@@ -205,12 +205,12 @@ namespace Reactive.Bindings.Binding
             this ReadOnlyReactivePropertySlim<T> self,
             TTarget target,
             Expression<Func<TTarget, TProperty>> propertySelector,
-            Func<T, TProperty> convert = null,
-            TProperty propertyFallbackValue = default(TProperty))
+            Func<T?, TProperty?>? convert = null,
+            TProperty? propertyFallbackValue = default)
         {
             if (convert == null)
             {
-                convert = value => (TProperty)Convert.ChangeType(value, typeof(TProperty));
+                convert = value => (TProperty?)Convert.ChangeType(value, typeof(TProperty));
             }
 
             return CreateOneWayBinding(
@@ -243,7 +243,12 @@ namespace Reactive.Bindings.Binding
                 });
         }
 
-        private static IDisposable CreateOneWayBinding<T, TTarget, TProperty>(IObservable<T> self, TTarget target, Expression<Func<TTarget, TProperty>> propertySelector, Func<T, TProperty> convert, TProperty propertyFallbackValue)
+        private static IDisposable CreateOneWayBinding<T, TTarget, TProperty>(
+            IObservable<T> self, 
+            TTarget target, 
+            Expression<Func<TTarget, TProperty>> propertySelector, 
+            Func<T?, TProperty?>? convert, 
+            TProperty? propertyFallbackValue)
         {
             var propertyName = default(string);
             return self
@@ -262,7 +267,15 @@ namespace Reactive.Bindings.Binding
                 });
         }
 
-        private static IDisposable CreateTowWayBinding<T, TTarget, TProperty>(IReactiveProperty<T> self, TTarget target, Expression<Func<TTarget, TProperty>> propertySelector, Func<T, TProperty> convert, Func<TProperty, T> convertBack, IObservable<Unit> targetUpdateTrigger, TProperty propertyFallbackValue, T sourceFallbackValue)
+        private static IDisposable CreateTowWayBinding<T, TTarget, TProperty>(
+            IReactiveProperty<T?> self, 
+            TTarget target, 
+            Expression<Func<TTarget, TProperty>> propertySelector, 
+            Func<T?, TProperty?>? convert, 
+            Func<TProperty?, T?>? convertBack, 
+            IObservable<Unit>? targetUpdateTrigger, 
+            TProperty? propertyFallbackValue, 
+            T? sourceFallbackValue)
         {
             if (targetUpdateTrigger == null)
             {

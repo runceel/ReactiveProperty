@@ -5,28 +5,28 @@ using System.Reactive.Subjects;
 
 namespace Reactive.Bindings.Internals
 {
-    internal sealed class PropertyObservable<TProperty> : IObservable<TProperty>, IDisposable
+    internal sealed class PropertyObservable<TProperty> : IObservable<TProperty?>, IDisposable
     {
-        private PropertyPathNode RootNode { get; set; }
+        private PropertyPathNode? RootNode { get; set; }
         internal void SetRootNode(PropertyPathNode rootNode)
         {
             RootNode?.SetCallback(null);
             rootNode?.SetCallback(RaisePropertyChanged);
             RootNode = rootNode;
         }
-        public TProperty GetPropertyPathValue()
+        public TProperty? GetPropertyPathValue()
         {
             var value = RootNode?.GetPropertyPathValue();
             return value != null ? (TProperty)value : default;
         }
 
-        public string Path => RootNode?.Path;
-        public bool SetPropertyPathValue(TProperty value) => RootNode?.SetPropertyPathValue(value) ?? false;
+        public string? Path => RootNode?.Path;
+        public bool SetPropertyPathValue(TProperty? value) => RootNode?.SetPropertyPathValue(value) ?? false;
         public void SetSource(INotifyPropertyChanged source) => RootNode?.UpdateSource(source);
 
         internal void RaisePropertyChanged() => _propertyChangedSource.OnNext(GetPropertyPathValue());
 
-        private readonly Subject<TProperty> _propertyChangedSource = new Subject<TProperty>();
+        private readonly Subject<TProperty?> _propertyChangedSource = new Subject<TProperty?>();
 
         public void Dispose()
         {
@@ -35,7 +35,7 @@ namespace Reactive.Bindings.Internals
             RootNode = null;
         }
 
-        public IDisposable Subscribe(IObserver<TProperty> observer) => _propertyChangedSource.Subscribe(observer);
+        public IDisposable Subscribe(IObserver<TProperty?> observer) => _propertyChangedSource.Subscribe(observer);
     }
 
     internal static class PropertyObservable

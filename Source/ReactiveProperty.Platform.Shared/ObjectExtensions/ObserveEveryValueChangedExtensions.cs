@@ -7,6 +7,9 @@ using System.Windows.Media;
 
 namespace Reactive.Bindings.ObjectExtensions
 {
+    /// <summary>
+    /// ObserveEveryValueChanged extension methods
+    /// </summary>
     public static class ObserveEveryValueChangedExtensions
     {
         /// <summary>

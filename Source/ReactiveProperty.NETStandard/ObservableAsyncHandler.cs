@@ -14,16 +14,15 @@ namespace Reactive.Bindings
     /// <seealso cref="System.Runtime.CompilerServices.ICriticalNotifyCompletion"/>
     public class ObservableAsyncHandler<T> : IDisposable, IObserver<T>, ICriticalNotifyCompletion
     {
-        private static readonly Action<object> cancelDelegate = DisposeSelf;
+        private static readonly Action<object?> cancelDelegate = DisposeSelf;
         private static readonly SendOrPostCallback syncContextPost = PostInvoke;
         private IDisposable subscription;
         private CancellationTokenRegistration cancellationTokenRegistration;
-        private CancellationToken token;
         private bool completed;
-        private T currentValue;
-        private ExceptionDispatchInfo exception;
-        private Action continuation;
-        private SynchronizationContext context;
+        private T? currentValue;
+        private ExceptionDispatchInfo? exception;
+        private Action? continuation;
+        private SynchronizationContext? context;
         private readonly object gate = new object();
 
         /// <summary>
@@ -50,16 +49,16 @@ namespace Reactive.Bindings
             await this;
         }
 
-        private static void DisposeSelf(object state)
+        private static void DisposeSelf(object? state)
         {
-            var self = (ObservableAsyncHandler<T>)state;
-            self.Dispose();
+            var self = (ObservableAsyncHandler<T>?)state;
+            self?.Dispose();
         }
 
-        private static void PostInvoke(object state)
+        private static void PostInvoke(object? state)
         {
-            var continuation = (Action)state;
-            continuation();
+            var continuation = (Action?)state;
+            continuation?.Invoke();
         }
 
         /// <summary>
@@ -134,7 +133,7 @@ namespace Reactive.Bindings
         {
             get
             {
-                return (exception != null || token.IsCancellationRequested || completed);
+                return (exception != null || completed);
             }
         }
 
@@ -150,8 +149,6 @@ namespace Reactive.Bindings
                 exception.Throw();
                 return default(T);
             }
-
-            token.ThrowIfCancellationRequested();
 
             if (completed)
             {

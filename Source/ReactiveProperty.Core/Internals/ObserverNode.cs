@@ -10,9 +10,9 @@ namespace Reactive.Bindings.Internals
         private readonly IObserver<T> _observer;
         private IObserverLinkedList<T> _list;
 
-        public ObserverNode<T> Previous { get; set; }
+        public ObserverNode<T>? Previous { get; set; }
 
-        public ObserverNode<T> Next { get; set; }
+        public ObserverNode<T>? Next { get; set; }
 
         public ObserverNode(IObserverLinkedList<T> list, IObserver<T> observer)
         {
@@ -38,7 +38,7 @@ namespace Reactive.Bindings.Internals
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0059:Unnecessary assignment of a value", Justification = "<Pending>")]
         public void Dispose()
         {
-            var sourceList = Interlocked.Exchange(ref _list, null);
+            var sourceList = Interlocked.Exchange(ref _list, null!);
             if (sourceList != null)
             {
                 sourceList.UnsubscribeNode(this);

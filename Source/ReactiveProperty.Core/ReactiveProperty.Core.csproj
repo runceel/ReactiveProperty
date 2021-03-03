@@ -2,10 +2,9 @@
 
   <PropertyGroup>
     <PackageId>ReactiveProperty.Core</PackageId>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;netcoreapp3.1;net5.0</TargetFrameworks>
     <AssemblyName>ReactiveProperty.Core</AssemblyName>
     <SignAssembly>true</SignAssembly>
-    <LangVersion>9.0</LangVersion>
     <Nullable>enable</Nullable>
     <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
     <Description>ReactiveProperty.Core includes minimum core classes such as ReactivePropertySlim and ReadOnlyReactivePropertySlim.</Description>

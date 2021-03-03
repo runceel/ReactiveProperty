@@ -86,8 +86,7 @@ namespace Reactive.Bindings.Notifiers
             {
                 if (isDisposed) throw new ObjectDisposedException("AsyncMessageBroker");
 
-                object _notifier;
-                if (notifiers.TryGetValue(typeof(T), out _notifier))
+                if (notifiers.TryGetValue(typeof(T), out var _notifier))
                 {
                     notifier = (ImmutableList<Action<T>>)_notifier;
                 }

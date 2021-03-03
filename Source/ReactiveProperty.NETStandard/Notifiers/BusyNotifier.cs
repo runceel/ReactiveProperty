@@ -16,7 +16,7 @@ namespace Reactive.Bindings.Notifiers
         /// <summary>
         /// property changed event handler
         /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         private int ProcessCounter { get; set; }
 
