@@ -369,7 +369,20 @@ namespace ReactiveProperty.Tests.Helpers
             filtered.Count.Is(500000);
         }
 
-        #region private class
+        [TestMethod]
+        public void ResetTest()
+        {
+            var c = new RangedObservableCollection<Person>();
+            var filtered = c.ToFilteredReadOnlyObservableCollection(x => x.IsRemoved);
+            var people = Enumerable.Range(1, 1000000).Select(x => new Person
+            {
+                Name = $"tanaka {x}",
+                IsRemoved = x % 2 == 0,
+            });
+
+            c.AddRange(people);
+            filtered.Count.Is(500000);
+        }
 
         private class Person : INotifyPropertyChanged
         {
@@ -400,6 +413,25 @@ namespace ReactiveProperty.Tests.Helpers
             }
         }
 
-        #endregion private class
+        public class RangedObservableCollection<T> : ObservableCollection<T>
+        {
+            private bool _suppressNotification = false;
+
+            protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+            {
+                if (!_suppressNotification) base.OnCollectionChanged(e);
+            }
+
+            public void AddRange(IEnumerable<T> list)
+            {
+                if (list == null) throw new ArgumentNullException("list");
+
+                _suppressNotification = true;
+                foreach (T item in list) Add(item);
+                _suppressNotification = false;
+
+                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+            }
+        }
     }
 }
