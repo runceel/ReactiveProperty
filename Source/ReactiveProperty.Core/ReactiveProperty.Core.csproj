@@ -6,6 +6,7 @@
     <AssemblyName>ReactiveProperty.Core</AssemblyName>
     <SignAssembly>true</SignAssembly>
     <LangVersion>9.0</LangVersion>
+    <Nullable>enable</Nullable>
     <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
     <Description>ReactiveProperty.Core includes minimum core classes such as ReactivePropertySlim and ReadOnlyReactivePropertySlim.</Description>
   </PropertyGroup>
