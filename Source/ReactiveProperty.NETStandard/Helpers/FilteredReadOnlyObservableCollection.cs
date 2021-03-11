@@ -158,13 +158,8 @@ namespace Reactive.Bindings.Helpers
                                 break;
 
                             case NotifyCollectionChangedAction.Reset:
-                                IndexList.Clear();
-                                InnerCollection.Clear();
+                                Initialize();
                                 OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-                                if (source.Any())
-                                {
-                                    throw new NotSupportedException("Reset is clear only");
-                                }
                                 break;
 
                             default:
