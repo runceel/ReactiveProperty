@@ -19,28 +19,55 @@ namespace ReactiveProperty.Tests.Internals
             {
                 Child = new Item
                 {
-                    RefTypeValue = "xxx",
-                    ValueTypeValue = 10,
+                    Value = 10,
                 },
             };
 
             var testScheduler = new TestScheduler();
             var testObserver = testScheduler.CreateObserver<int>();
 
-            var path = PropertyObservable.CreateFromPropertySelector(item, x => x.Child.ValueTypeValue);
+            var path = PropertyObservable.CreateFromPropertySelector(item, x => x.Child.Value);
             path.Subscribe(testObserver);
             path.GetPropertyPathValue().Is(10);
-            item.Child.ValueTypeValue = 1;
+            item.Child.Value = 1;
 
             testObserver.Messages.Is(OnNext(0, 1));
             item.IsPropertyChangedEmpty.IsFalse();
             path.Dispose();
             item.IsPropertyChangedEmpty.IsTrue();
-            item.Child.ValueTypeValue = 100;
+            item.Child.Value = 100;
             testObserver.Messages.Is(OnNext(0, 1));
         }
 
-        class Item : INotifyPropertyChanged
+        [TestMethod]
+        public void ChangeObserveSourcePropertyType()
+        {
+            var item = new Item
+            {
+                Child = new Item
+                {
+                    Value = 10,
+                },
+            };
+
+            var testScheduler = new TestScheduler();
+            var testObserver = testScheduler.CreateObserver<int>();
+
+            var path = PropertyObservable.CreateFromPropertySelector(item, x => x.Child.Value);
+            path.Subscribe(testObserver);
+            path.GetPropertyPathValue().Is(10);
+            item.Child.Value = 1;
+            testObserver.Messages.Is(OnNext(0, 1));
+
+            item.Child = new AnotherItem
+            {
+                Value = 9999,
+            };
+            path.GetPropertyPathValue().Is(9999);
+            testObserver.Messages.Is(OnNext(0, 1), OnNext(0, 9999));
+        }
+
+        class ItemBase : INotifyPropertyChanged
         {
             public bool IsPropertyChangedEmpty => PropertyChanged == null;
             private void SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
@@ -54,22 +81,15 @@ namespace ReactiveProperty.Tests.Internals
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
 
-            private string _refTypeValue;
-            public string RefTypeValue
+            private int _value;
+            public int Value
             {
-                get { return _refTypeValue; }
-                set { SetProperty(ref _refTypeValue, value); }
+                get { return _value; }
+                set { SetProperty(ref _value, value); }
             }
 
-            private int _valueTypeValue;
-            public int ValueTypeValue
-            {
-                get { return _valueTypeValue; }
-                set { SetProperty(ref _valueTypeValue, value); }
-            }
-
-            private Item _child;
-            public Item Child
+            private ItemBase _child;
+            public ItemBase Child
             {
                 get { return _child; }
                 set { SetProperty(ref _child, value); }
@@ -77,5 +97,8 @@ namespace ReactiveProperty.Tests.Internals
 
             public event PropertyChangedEventHandler PropertyChanged;
         }
+        class Item : ItemBase { }
+        class AnotherItem: ItemBase { }
     }
+
 }
