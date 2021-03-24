@@ -115,7 +115,7 @@ namespace Reactive.Bindings.Internals
         {
             if (e.PropertyName == PropertyName || string.IsNullOrEmpty(e.PropertyName))
             {
-                Next?.UpdateSource(GetPropertyValue() as INotifyPropertyChanged);
+                Next?.UpdateSource(GetPropertyValue());
                 _callback?.Invoke();
             }
         }

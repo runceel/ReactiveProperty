@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using Microsoft.Reactive.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Reactive.Bindings;
 using Reactive.Bindings.Internals;
 
 namespace ReactiveProperty.Tests.Internals
@@ -67,6 +68,20 @@ namespace ReactiveProperty.Tests.Internals
             testObserver.Messages.Is(OnNext(0, 1), OnNext(0, 9999));
         }
 
+        [TestMethod]
+        public void ObserveReactiveProperty()
+        {
+            var rp = new ReactiveProperty<ClassThatDoesNotImplementedINotifyPropertyChanged>();
+            var testScheduler = new TestScheduler();
+            var testObserver = testScheduler.CreateObserver<string>();
+            var path = PropertyObservable.CreateFromPropertySelector(rp, x => x.Value.Name);
+            path.Subscribe(testObserver);
+
+            path.GetPropertyPathValue().IsNull();
+            rp.Value = new ClassThatDoesNotImplementedINotifyPropertyChanged { Name = "name1" };
+            path.GetPropertyPathValue().Is("name1");
+        }
+
         class ItemBase : INotifyPropertyChanged
         {
             public bool IsPropertyChangedEmpty => PropertyChanged == null;
@@ -99,6 +114,11 @@ namespace ReactiveProperty.Tests.Internals
         }
         class Item : ItemBase { }
         class AnotherItem: ItemBase { }
+
+        class ClassThatDoesNotImplementedINotifyPropertyChanged
+        {
+            public string Name { get; set; }
+        }
     }
 
 }
