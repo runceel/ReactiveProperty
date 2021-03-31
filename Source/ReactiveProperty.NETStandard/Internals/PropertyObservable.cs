@@ -24,7 +24,7 @@ namespace Reactive.Bindings.Internals
         public bool SetPropertyPathValue(TProperty? value) => RootNode?.SetPropertyPathValue(value) ?? false;
         public void SetSource(INotifyPropertyChanged source) => RootNode?.UpdateSource(source);
 
-        internal void RaisePropertyChanged() => _propertyChangedSource.OnNext(GetPropertyPathValue());
+        private void RaisePropertyChanged() => _propertyChangedSource.OnNext(GetPropertyPathValue());
 
         private readonly Subject<TProperty?> _propertyChangedSource = new Subject<TProperty?>();
 

@@ -20,9 +20,10 @@ namespace Reactive.Bindings.Internals
         }
 
         public string PropertyName { get; }
-        public object? Source { get; private set; }
-        public PropertyPathNode? Next { get; private set; }
-        public PropertyPathNode? Prev { get; private set; }
+        public object Source { get; private set; }
+        private Type PrevSourceType { get; set; }
+        public PropertyPathNode Next { get; private set; }
+        public PropertyPathNode Prev { get; private set; }
         public void SetCallback(Action callback)
         {
             _callback = callback;
@@ -46,6 +47,11 @@ namespace Reactive.Bindings.Internals
             EnsureDispose();
             Cleanup();
             Source = source;
+            if (PrevSourceType != Source?.GetType())
+            {
+                _getAccessor = null;
+            }
+            PrevSourceType = Source?.GetType();
             StartObservePropertyChanged();
         }
 
@@ -109,7 +115,7 @@ namespace Reactive.Bindings.Internals
         {
             if (e.PropertyName == PropertyName || string.IsNullOrEmpty(e.PropertyName))
             {
-                Next?.UpdateSource(GetPropertyValue() as INotifyPropertyChanged);
+                Next?.UpdateSource(GetPropertyValue());
                 _callback?.Invoke();
             }
         }
