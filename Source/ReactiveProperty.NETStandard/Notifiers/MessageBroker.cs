@@ -13,7 +13,7 @@ namespace Reactive.Bindings.Notifiers
         /// <summary>
         /// Send Message to all receiver.
         /// </summary>
-        void Publish<T>(T message);
+        void Publish<T>(T? message);
     }
 
     /// <summary>
@@ -24,7 +24,7 @@ namespace Reactive.Bindings.Notifiers
         /// <summary>
         /// Subscribe typed message.
         /// </summary>
-        IDisposable Subscribe<T>(Action<T> action);
+        IDisposable Subscribe<T>(Action<T?> action);
     }
 
     /// <summary>
@@ -79,16 +79,16 @@ namespace Reactive.Bindings.Notifiers
         /// <summary>
         /// Send Message to all receiver.
         /// </summary>
-        public void Publish<T>(T message)
+        public void Publish<T>(T? message)
         {
-            ImmutableList<Action<T>> notifier;
+            ImmutableList<Action<T?>> notifier;
             lock (notifiers)
             {
                 if (isDisposed) throw new ObjectDisposedException("AsyncMessageBroker");
 
                 if (notifiers.TryGetValue(typeof(T), out var _notifier))
                 {
-                    notifier = (ImmutableList<Action<T>>)_notifier;
+                    notifier = (ImmutableList<Action<T?>>)_notifier;
                 }
                 else
                 {
@@ -106,7 +106,7 @@ namespace Reactive.Bindings.Notifiers
         /// <summary>
         /// Subscribe typed message.
         /// </summary>
-        public IDisposable Subscribe<T>(Action<T> action)
+        public IDisposable Subscribe<T>(Action<T?> action)
         {
             lock (notifiers)
             {
@@ -115,13 +115,13 @@ namespace Reactive.Bindings.Notifiers
                 object _notifier;
                 if (!notifiers.TryGetValue(typeof(T), out _notifier))
                 {
-                    var notifier = ImmutableList<Action<T>>.Empty;
+                    var notifier = ImmutableList<Action<T?>>.Empty;
                     notifier = notifier.Add(action);
                     notifiers.Add(typeof(T), notifier);
                 }
                 else
                 {
-                    var notifier = (ImmutableList<Action<T>>)_notifier;
+                    var notifier = (ImmutableList<Action<T?>>)_notifier;
                     notifier = notifier.Add(action);
                     notifiers[typeof(T)] = notifier;
                 }
@@ -148,9 +148,9 @@ namespace Reactive.Bindings.Notifiers
         class Subscription<T> : IDisposable
         {
             readonly MessageBroker parent;
-            readonly Action<T> action;
+            readonly Action<T?> action;
 
-            public Subscription(MessageBroker parent, Action<T> action)
+            public Subscription(MessageBroker parent, Action<T?> action)
             {
                 this.parent = parent;
                 this.action = action;
@@ -178,7 +178,7 @@ namespace Reactive.Bindings.Notifiers
     /// </summary>
     public class AsyncMessageBroker : IAsyncMessageBroker, IDisposable
     {
-        static readonly Task EmptyTask = Task.FromResult<object>(null);
+        static readonly Task EmptyTask = Task.CompletedTask;
 
         /// <summary>
         /// AsyncMessageBroker in Global scope.
@@ -191,9 +191,9 @@ namespace Reactive.Bindings.Notifiers
         /// <summary>
         /// Send Message to all receiver and await complete.
         /// </summary>
-        public Task PublishAsync<T>(T message)
+        public Task PublishAsync<T>(T? message)
         {
-            ImmutableList<Func<T, Task>> notifier;
+            ImmutableList<Func<T?, Task>> notifier;
             lock (notifiers)
             {
                 if (isDisposed) throw new ObjectDisposedException("AsyncMessageBroker");
@@ -201,7 +201,7 @@ namespace Reactive.Bindings.Notifiers
                 object _notifier;
                 if (notifiers.TryGetValue(typeof(T), out _notifier))
                 {
-                    notifier = (ImmutableList<Func<T, Task>>)_notifier;
+                    notifier = (ImmutableList<Func<T?, Task>>)_notifier;
                 }
                 else
                 {
@@ -221,7 +221,7 @@ namespace Reactive.Bindings.Notifiers
         /// <summary>
         /// Subscribe typed message.
         /// </summary>
-        public IDisposable Subscribe<T>(Func<T, Task> asyncAction)
+        public IDisposable Subscribe<T>(Func<T?, Task> asyncAction)
         {
             lock (notifiers)
             {
@@ -230,13 +230,13 @@ namespace Reactive.Bindings.Notifiers
                 object _notifier;
                 if (!notifiers.TryGetValue(typeof(T), out _notifier))
                 {
-                    var notifier = ImmutableList<Func<T, Task>>.Empty;
+                    var notifier = ImmutableList<Func<T?, Task>>.Empty;
                     notifier = notifier.Add(asyncAction);
                     notifiers.Add(typeof(T), notifier);
                 }
                 else
                 {
-                    var notifier = (ImmutableList<Func<T, Task>>)_notifier;
+                    var notifier = (ImmutableList<Func<T?, Task>>)_notifier;
                     notifier = notifier.Add(asyncAction);
                     notifiers[typeof(T)] = notifier;
                 }
@@ -263,9 +263,9 @@ namespace Reactive.Bindings.Notifiers
         class Subscription<T> : IDisposable
         {
             readonly AsyncMessageBroker parent;
-            readonly Func<T, Task> asyncAction;
+            readonly Func<T?, Task> asyncAction;
 
-            public Subscription(AsyncMessageBroker parent, Func<T, Task> asyncAction)
+            public Subscription(AsyncMessageBroker parent, Func<T?, Task> asyncAction)
             {
                 this.parent = parent;
                 this.asyncAction = asyncAction;
@@ -278,7 +278,7 @@ namespace Reactive.Bindings.Notifiers
                     object _notifier;
                     if (parent.notifiers.TryGetValue(typeof(T), out _notifier))
                     {
-                        var notifier = (ImmutableList<Func<T, Task>>)_notifier;
+                        var notifier = (ImmutableList<Func<T?, Task>>)_notifier;
                         notifier = notifier.Remove(asyncAction);
 
                         parent.notifiers[typeof(T)] = notifier;
@@ -296,12 +296,12 @@ namespace Reactive.Bindings.Notifiers
         /// <summary>
         /// Convert IMessageSubscriber.Subscribe to Observable.
         /// </summary>
-        public static IObservable<T> ToObservable<T>(this IMessageSubscriber messageSubscriber)
+        public static IObservable<T?> ToObservable<T>(this IMessageSubscriber messageSubscriber)
         {
-            return Observable.Create<T>(observer =>
+            return Observable.Create<T?>(observer =>
             {
                 var gate = new object();
-                var d = messageSubscriber.Subscribe<T>(x =>
+                var d = messageSubscriber.Subscribe<T?>(x =>
                 {
                     // needs synchronize
                     lock (gate)

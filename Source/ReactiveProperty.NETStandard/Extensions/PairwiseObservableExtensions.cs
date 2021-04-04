@@ -11,15 +11,17 @@ namespace Reactive.Bindings.Extensions
         /// <summary>
         /// Projects old and new element of a sequence into a new form.
         /// </summary>
-        public static IObservable<OldNewPair<T>> Pairwise<T>(this IObservable<T> source) =>
-            Pairwise(source, (x, y) => new OldNewPair<T>(x, y));
+        public static IObservable<OldNewPair<T?>> Pairwise<T>(this IObservable<T?> source) =>
+#pragma warning disable CS8619 // On this overload, a type parameter of IObservable is not null.
+            Pairwise(source, (x, y) => new OldNewPair<T?>(x, y));
+#pragma warning restore CS8619
 
         /// <summary>
         /// Projects old and new element of a sequence into a new form.
         /// </summary>
-        public static IObservable<TR?> Pairwise<T, TR>(this IObservable<T> source, Func<T?, T?, TR?> selector)
+        public static IObservable<TR?> Pairwise<T, TR>(this IObservable<T?> source, Func<T?, T?, TR?> selector)
         {
-            var result = Observable.Create<TR>(observer =>
+            var result = Observable.Create<TR?>(observer =>
             {
                 var prev = default(T);
                 var isFirst = true;
@@ -33,7 +35,7 @@ namespace Reactive.Bindings.Extensions
                         return;
                     }
 
-                    TR value;
+                    TR? value;
                     try
                     {
                         value = selector(prev, x);

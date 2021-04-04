@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.ExceptionServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using Reactive.Bindings.Internals;
 
@@ -44,7 +45,15 @@ namespace Reactive.Bindings
 
             set
             {
-                if (IsDistinctUntilChanged && _equalityComparer.Equals(_latestValue, value))
+                static bool equals(IEqualityComparer<T> comparer, T? latestValue, T? value) => (latestValue, value) switch
+                {
+                    (null, null) => true,
+                    (null, { }) => false,
+                    ({ }, null) => false,
+                    ({ } x, { } y) => comparer.Equals(x, y),
+                };
+
+                if (IsDistinctUntilChanged && equals(_equalityComparer, _latestValue, Value))
                 {
                     return;
                 }
@@ -73,7 +82,7 @@ namespace Reactive.Bindings
 
             set
             {
-                Value = (T)value;
+                Value = (T?)value;
             }
         }
 

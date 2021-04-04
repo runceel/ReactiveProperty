@@ -30,7 +30,7 @@ namespace Reactive.Bindings.Binding
         /// <param name="sourceFallbackValue">source error value.</param>
         /// <returns>Release binding disposable.</returns>
         public static IDisposable BindTo<T, TTarget, TProperty>(
-            this ReactiveProperty<T> self,
+            this ReactiveProperty<T?> self,
             TTarget target,
             Expression<Func<TTarget, TProperty>> propertySelector,
             BindingMode mode = BindingMode.OneWay,
@@ -50,39 +50,32 @@ namespace Reactive.Bindings.Binding
                 convertBack = value => (T?)Convert.ChangeType(value, typeof(T));
             }
 
-            switch (mode)
+            return mode switch
             {
-                case BindingMode.OneWay:
-                    return CreateOneWayBinding(
-                        self,
-                        target,
-                        propertySelector,
-                        convert,
-                        propertyFallbackValue);
-
-                case BindingMode.TwoWay:
-                    return CreateTowWayBinding(
-                        self,
-                        target,
-                        propertySelector,
-                        convert,
-                        convertBack,
-                        targetUpdateTrigger,
-                        propertyFallbackValue,
-                        sourceFallbackValue);
-
-                case BindingMode.OneWayToSource:
-                    return CreateOneWayToSourceBinding(
-                        self,
-                        target,
-                        propertySelector,
-                        convertBack,
-                        targetUpdateTrigger,
-                        sourceFallbackValue);
-
-                default:
-                    throw new NotSupportedException();
-            }
+                BindingMode.OneWay => CreateOneWayBinding(
+                    self,
+                    target,
+                    propertySelector,
+                    convert,
+                    propertyFallbackValue),
+                BindingMode.TwoWay => CreateTowWayBinding(
+                    self,
+                    target,
+                    propertySelector,
+                    convert,
+                    convertBack,
+                    targetUpdateTrigger,
+                    propertyFallbackValue,
+                    sourceFallbackValue),
+                BindingMode.OneWayToSource => CreateOneWayToSourceBinding(
+                    self,
+                    target,
+                    propertySelector,
+                    convertBack,
+                    targetUpdateTrigger,
+                    sourceFallbackValue),
+                _ => throw new NotSupportedException(),
+            };
         }
 
         /// <summary>
@@ -136,7 +129,7 @@ namespace Reactive.Bindings.Binding
         public static IDisposable BindTo<T, TTarget, TProperty>(
             this ReactivePropertySlim<T> self,
             TTarget target,
-            Expression<Func<TTarget, TProperty>> propertySelector,
+            Expression<Func<TTarget, TProperty?>> propertySelector,
             BindingMode mode = BindingMode.OneWay,
             Func<T?, TProperty?>? convert = null,
             Func<TProperty?, T?>? convertBack = null,
@@ -144,6 +137,11 @@ namespace Reactive.Bindings.Binding
             TProperty? propertyFallbackValue = default,
             T? sourceFallbackValue = default)
         {
+            if (self == null)
+            {
+                throw new ArgumentNullException(nameof(self));
+            }
+
             if (convert == null)
             {
                 convert = value => (TProperty?)Convert.ChangeType(value, typeof(TProperty));
@@ -202,9 +200,9 @@ namespace Reactive.Bindings.Binding
         /// <param name="propertyFallbackValue">target error value.</param>
         /// <returns>Release binding disposable.</returns>
         public static IDisposable BindTo<T, TTarget, TProperty>(
-            this ReadOnlyReactivePropertySlim<T> self,
+            this ReadOnlyReactivePropertySlim<T?> self,
             TTarget target,
-            Expression<Func<TTarget, TProperty>> propertySelector,
+            Expression<Func<TTarget, TProperty?>> propertySelector,
             Func<T?, TProperty?>? convert = null,
             TProperty? propertyFallbackValue = default)
         {
@@ -221,7 +219,13 @@ namespace Reactive.Bindings.Binding
                 propertyFallbackValue);
         }
 
-        private static IDisposable CreateOneWayToSourceBinding<T, TTarget, TProperty>(IReactiveProperty<T> self, TTarget target, Expression<Func<TTarget, TProperty>> propertySelector, Func<TProperty, T> convertBack, IObservable<Unit> targetUpdateTrigger, T sourceFallbackValue)
+        private static IDisposable CreateOneWayToSourceBinding<T, TTarget, TProperty>(
+            IReactiveProperty<T?> self, 
+            TTarget target, 
+            Expression<Func<TTarget, TProperty?>> propertySelector, 
+            Func<TProperty?, T?> convertBack, 
+            IObservable<Unit> targetUpdateTrigger, 
+            T? sourceFallbackValue)
         {
             var propertyName = default(string);
             if (targetUpdateTrigger == null)
@@ -244,9 +248,9 @@ namespace Reactive.Bindings.Binding
         }
 
         private static IDisposable CreateOneWayBinding<T, TTarget, TProperty>(
-            IObservable<T> self, 
+            IObservable<T?> self, 
             TTarget target, 
-            Expression<Func<TTarget, TProperty>> propertySelector, 
+            Expression<Func<TTarget, TProperty?>> propertySelector, 
             Func<T?, TProperty?>? convert, 
             TProperty? propertyFallbackValue)
         {
@@ -257,7 +261,7 @@ namespace Reactive.Bindings.Binding
                     var setter = AccessorCache<TTarget>.LookupSet(propertySelector, out propertyName);
                     try
                     {
-                        setter(target, convert(value));
+                        setter(target, convert == null ? default : convert.Invoke(value));
                     }
                     catch (Exception ex)
                     {
@@ -270,7 +274,7 @@ namespace Reactive.Bindings.Binding
         private static IDisposable CreateTowWayBinding<T, TTarget, TProperty>(
             IReactiveProperty<T?> self, 
             TTarget target, 
-            Expression<Func<TTarget, TProperty>> propertySelector, 
+            Expression<Func<TTarget, TProperty?>> propertySelector, 
             Func<T?, TProperty?>? convert, 
             Func<TProperty?, T?>? convertBack, 
             IObservable<Unit>? targetUpdateTrigger, 

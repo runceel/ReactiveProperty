@@ -195,7 +195,7 @@ namespace Reactive.Bindings
         /// <summary>
         /// Push parameter to subscribers, when executing CanExecuting is changed to false.
         /// </summary>
-        void ICommand.Execute(object? parameter) => Execute((T)parameter);
+        void ICommand.Execute(object? parameter) => Execute((T?)parameter);
 
         /// <summary>
         /// Subscribe execute.

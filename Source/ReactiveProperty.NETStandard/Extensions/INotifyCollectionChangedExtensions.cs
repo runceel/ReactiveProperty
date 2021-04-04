@@ -31,10 +31,10 @@ namespace Reactive.Bindings.Extensions
         /// <summary>
         /// Observe CollectionChanged:Add and take single item.
         /// </summary>
-        public static IObservable<T> ObserveAddChanged<T>(this INotifyCollectionChanged source) =>
+        public static IObservable<T?> ObserveAddChanged<T>(this INotifyCollectionChanged source) =>
             source.CollectionChangedAsObservable()
                 .Where(e => e.Action == NotifyCollectionChangedAction.Add)
-                .Select(e => (T)e.NewItems[0]);
+                .Select(e => (T?)e.NewItems[0]);
 
         /// <summary>
         /// Observe CollectionChanged:Add.

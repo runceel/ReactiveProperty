@@ -20,7 +20,7 @@ namespace Reactive.Bindings.Internals
         }
 
         public string PropertyName { get; }
-        public object Source { get; private set; }
+        public object? Source { get; private set; }
         private Type PrevSourceType { get; set; }
         public PropertyPathNode Next { get; private set; }
         public PropertyPathNode Prev { get; private set; }
@@ -88,7 +88,7 @@ namespace Reactive.Bindings.Internals
             return GetPropertyValue();
         }
 
-        public bool SetPropertyPathValue(object value)
+        public bool SetPropertyPathValue(object? value)
         {
             if (Source == null)
             {
@@ -153,7 +153,7 @@ namespace Reactive.Bindings.Internals
         {
             if (!(propertySelector.Body is MemberExpression current))
             {
-                throw new ArgumentException();
+                throw new ArgumentException(nameof(propertySelector));
             }
 
             var node = default(PropertyPathNode);

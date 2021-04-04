@@ -347,8 +347,7 @@ namespace Reactive.Bindings.Extensions
             {
                 var result = new ReactivePropertySlim<TResult>(mode: mode);
                 var observer = PropertyObservable.CreateFromPropertySelector(subject, propertySelector);
-                IDisposable disposable = null;
-                disposable = convert(subject.ObserveProperty(propertySelector, isPushCurrentValueAtFirst: true))
+                var disposable = convert(subject.ObserveProperty(propertySelector, isPushCurrentValueAtFirst: true))
                     .Subscribe(x => result.Value = x);
                 convertBack(result)
                     .Subscribe(x => observer.SetPropertyPathValue(x), _ => disposable.Dispose(), () => disposable.Dispose());
@@ -358,8 +357,7 @@ namespace Reactive.Bindings.Extensions
             {
                 var setter = AccessorCache<TSubject>.LookupSet(propertySelector, out _);
                 var result = new ReactivePropertySlim<TResult>(mode: mode);
-                IDisposable disposable = null;
-                disposable = convert(subject.ObserveProperty(propertySelector, isPushCurrentValueAtFirst: true))
+                var disposable = convert(subject.ObserveProperty(propertySelector, isPushCurrentValueAtFirst: true))
                     .Subscribe(x => result.Value = x);
                 convertBack(result)
                     .Subscribe(x => setter(subject, x), _ => disposable.Dispose(), () => disposable.Dispose());

@@ -11,8 +11,8 @@ namespace Reactive.Bindings.Internals
     /// <typeparam name="TType">The type of the type.</typeparam>
     internal static class AccessorCache<TType>
     {
-        private static readonly Dictionary<string, Delegate> s_getCache = new Dictionary<string, Delegate>();
-        private static readonly Dictionary<string, Delegate> s_setCache = new Dictionary<string, Delegate>();
+        private static readonly Dictionary<string, Delegate> s_getCache = new();
+        private static readonly Dictionary<string, Delegate> s_setCache = new();
 
         /// <summary>
         /// Lookups the get.
@@ -24,7 +24,7 @@ namespace Reactive.Bindings.Internals
         public static Func<TType, TProperty> LookupGet<TProperty>(Expression<Func<TType, TProperty>> propertySelector, out string propertyName)
         {
             propertyName = ExpressionTreeUtils.GetPropertyName(propertySelector);
-            Delegate accessor;
+            Delegate? accessor;
 
             lock (s_getCache)
             {
@@ -48,7 +48,7 @@ namespace Reactive.Bindings.Internals
         public static Func<TType, TProperty> LookupNestedGet<TProperty>(Expression<Func<TType, TProperty>> propertySelector, out string propertyName)
         {
             propertyName = ExpressionTreeUtils.GetPropertyPath(propertySelector);
-            Delegate accessor;
+            Delegate? accessor;
 
             lock (s_getCache)
             {
@@ -69,10 +69,10 @@ namespace Reactive.Bindings.Internals
         /// <param name="propertySelector">The property selector.</param>
         /// <param name="propertyName">Name of the property.</param>
         /// <returns></returns>
-        public static Action<TType, TProperty> LookupSet<TProperty>(Expression<Func<TType, TProperty>> propertySelector, out string propertyName)
+        public static Action<TType, TProperty?> LookupSet<TProperty>(Expression<Func<TType, TProperty?>> propertySelector, out string propertyName)
         {
             propertyName = ExpressionTreeUtils.GetPropertyName(propertySelector);
-            Delegate accessor;
+            Delegate? accessor;
 
             lock (s_setCache)
             {
@@ -83,10 +83,10 @@ namespace Reactive.Bindings.Internals
                 }
             }
 
-            return (Action<TType, TProperty>)accessor;
+            return (Action<TType, TProperty?>)accessor;
         }
 
-        private static Delegate CreateSetAccessor<TProperty>(Expression<Func<TType, TProperty>> propertySelector)
+        private static Delegate CreateSetAccessor<TProperty>(Expression<Func<TType, TProperty?>> propertySelector)
         {
             var propertyInfo = (PropertyInfo)((MemberExpression)propertySelector.Body).Member;
             var selfParameter = Expression.Parameter(typeof(TType), "self");
@@ -99,9 +99,9 @@ namespace Reactive.Bindings.Internals
 
     internal static class AccessorCache
     {
-        private static readonly Dictionary<Type, Type> _accessorCacheTypeCache = new Dictionary<Type, Type>();
-        private static readonly Dictionary<Type, Dictionary<string, Delegate>> _getCache = new Dictionary<Type, Dictionary<string, Delegate>>();
-        private static readonly Dictionary<Type, Dictionary<string, Delegate>> _setCache = new Dictionary<Type, Dictionary<string, Delegate>>();
+        private static readonly Dictionary<Type, Type> _accessorCacheTypeCache = new();
+        private static readonly Dictionary<Type, Dictionary<string, Delegate>> _getCache = new();
+        private static readonly Dictionary<Type, Dictionary<string, Delegate>> _setCache = new();
 
         private static Dictionary<string, Delegate> GetGetCacheByType(Type type)
         {
