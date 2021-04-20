@@ -77,7 +77,7 @@ namespace Reactive.Bindings.Helpers
 
             {
                 // propertychanged
-                source.ObserveElementPropertyChanged<TCollection, TElement>()
+                CollectionUtilities.ObserveElementPropertyChanged<TCollection, TElement>(source)
                     .Subscribe(x =>
                     {
                         var index = source.IndexOf(x.Sender);
