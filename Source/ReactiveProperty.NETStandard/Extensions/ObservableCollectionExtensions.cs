@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Reactive;
+using Reactive.Bindings.Helpers;
 
 namespace Reactive.Bindings.Extensions
 {
@@ -79,7 +80,7 @@ namespace Reactive.Bindings.Extensions
         /// <returns>Property sequence</returns>
         public static IObservable<PropertyPack<TElement, TProperty>> ObserveElementProperty<TElement, TProperty>(this ObservableCollection<TElement> source, Expression<Func<TElement, TProperty>> propertySelector, bool isPushCurrentValueAtFirst = true)
             where TElement : class, INotifyPropertyChanged =>
-            INotifyCollectionChangedExtensions.ObserveElementProperty(source, propertySelector, isPushCurrentValueAtFirst);
+            CollectionUtilities.ObserveElementProperty(source, propertySelector, isPushCurrentValueAtFirst);
 
         /// <summary>
         /// Observe collection element's IObservable sequence.
@@ -91,7 +92,7 @@ namespace Reactive.Bindings.Extensions
         /// <returns>IObservable sequence sequence</returns>
         public static IObservable<PropertyPack<TElement, TProperty>> ObserveElementObservableProperty<TElement, TProperty>(this ObservableCollection<TElement> source, Expression<Func<TElement, IObservable<TProperty>>> propertySelector)
             where TElement : class =>
-            INotifyCollectionChangedExtensions.ObserveElementObservableProperty(source, propertySelector);
+            CollectionUtilities.ObserveElementObservableProperty(source, propertySelector);
 
         /// <summary>
         /// Observe collection element's PropertyChanged event.
@@ -101,7 +102,7 @@ namespace Reactive.Bindings.Extensions
         /// <returns>PropertyChanged event stream.</returns>
         public static IObservable<SenderEventArgsPair<TElement, PropertyChangedEventArgs>> ObserveElementPropertyChanged<TElement>(this ObservableCollection<TElement> source)
             where TElement : class, INotifyPropertyChanged =>
-            INotifyCollectionChangedExtensions.ObserveElementPropertyChanged<ObservableCollection<TElement>, TElement>(source);
+            CollectionUtilities.ObserveElementPropertyChanged<ObservableCollection<TElement>, TElement>(source);
 
         #endregion ObservableCollection
 
@@ -172,7 +173,7 @@ namespace Reactive.Bindings.Extensions
         /// <returns>Property sequence</returns>
         public static IObservable<PropertyPack<TElement, TProperty>> ObserveElementProperty<TElement, TProperty>(this ReadOnlyObservableCollection<TElement> source, Expression<Func<TElement, TProperty>> propertySelector, bool isPushCurrentValueAtFirst = true)
             where TElement : class, INotifyPropertyChanged =>
-            INotifyCollectionChangedExtensions.ObserveElementProperty(source, propertySelector, isPushCurrentValueAtFirst);
+            CollectionUtilities.ObserveElementProperty(source, propertySelector, isPushCurrentValueAtFirst);
 
         /// <summary>
         /// Observe collection element's IObservable sequence.
@@ -184,7 +185,7 @@ namespace Reactive.Bindings.Extensions
         /// <returns>IObservable sequence sequence</returns>
         public static IObservable<PropertyPack<TElement, TProperty>> ObserveElementObservableProperty<TElement, TProperty>(this ReadOnlyObservableCollection<TElement> source, Expression<Func<TElement, IObservable<TProperty>>> propertySelector)
             where TElement : class =>
-            INotifyCollectionChangedExtensions.ObserveElementObservableProperty(source, propertySelector);
+            CollectionUtilities.ObserveElementObservableProperty(source, propertySelector);
 
         /// <summary>
         /// Observe collection element's PropertyChanged event.
@@ -194,7 +195,7 @@ namespace Reactive.Bindings.Extensions
         /// <returns>PropertyChanged event stream.</returns>
         public static IObservable<SenderEventArgsPair<TElement, PropertyChangedEventArgs>> ObserveElementPropertyChanged<TElement>(this ReadOnlyObservableCollection<TElement> source)
             where TElement : class, INotifyPropertyChanged =>
-            INotifyCollectionChangedExtensions.ObserveElementPropertyChanged<ReadOnlyObservableCollection<TElement>, TElement>(source);
+            CollectionUtilities.ObserveElementPropertyChanged<ReadOnlyObservableCollection<TElement>, TElement>(source);
 
         #endregion ReadOnlyObservableCollection
     }
