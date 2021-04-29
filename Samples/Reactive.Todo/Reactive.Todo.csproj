@@ -6,7 +6,7 @@
     <AssemblyName>Reactive.Todo</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0775" />
+    <PackageReference Include="MahApps.Metro" Version="2.4.5" />
     <PackageReference Include="Prism.Unity" Version="8.0.0.1909" />
   </ItemGroup>
   <ItemGroup>
