@@ -3,7 +3,7 @@
 ## Create a project
 - Create a WPF App (.NET Framework) project.
     - Have to use .NET Framework 4.6.1 or later, or .NET Core 3.0 or later.
-- Install ReactiveProperty package from NuGet.
+- Install ReactiveProperty.WPF package from NuGet.
 
 ## Edit codes
 
