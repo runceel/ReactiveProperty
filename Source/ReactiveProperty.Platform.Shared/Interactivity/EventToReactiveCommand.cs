@@ -89,6 +89,11 @@ namespace Reactive.Bindings.Interactivity
                     .Subscribe(x => Command.Execute(x));
             }
 
+            if(!Command.CanExecute(parameter))
+            {
+                return;
+            }
+
             if (!IgnoreEventArgs)
             {
                 source.OnNext(parameter);
