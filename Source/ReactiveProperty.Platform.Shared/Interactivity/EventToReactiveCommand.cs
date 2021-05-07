@@ -89,7 +89,7 @@ namespace Reactive.Bindings.Interactivity
                     .Subscribe(x => Command.Execute(x));
             }
 
-            if(!Command.CanExecute(parameter))
+            if (!Command?.CanExecute(parameter) ?? true)
             {
                 return;
             }
