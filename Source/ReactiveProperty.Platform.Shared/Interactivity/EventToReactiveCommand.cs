@@ -3,6 +3,7 @@ using System.Reactive;
 using System.Reactive.Subjects;
 using System.Windows.Input;
 using System.Reactive.Linq;
+using System.Reactive.Disposables;
 using Reactive.Bindings.Extensions;
 using System.Collections.Generic;
 
@@ -34,8 +35,7 @@ namespace Reactive.Bindings.Interactivity
         private readonly Subject<object> source = new Subject<object>();
         private readonly Subject<EventArgs> autoEnableSource = new Subject<EventArgs>();
 
-        private IDisposable disposable;
-        private IDisposable disposable2;
+        private CompositeDisposable Disposable { get; } = new CompositeDisposable();
 
         /// <summary>
         /// Gets or sets the command.
@@ -47,11 +47,28 @@ namespace Reactive.Bindings.Interactivity
             set { SetValue(CommandProperty, value); }
         }
 
+#if NETFX_CORE
+        /// <summary>
+        /// The command property
+        /// </summary>
+        public static readonly DependencyProperty CommandProperty =
+            DependencyProperty.Register(nameof(EventToReactiveCommand.Command), typeof(ICommand), typeof(EventToReactiveCommand),
+                new PropertyMetadata(null, (d, e) => ((EventToReactiveCommand)d).OnCommandInitialized(e)));
+
+        private void OnCommandInitialized(DependencyPropertyChangedEventArgs e)
+        {
+            if (e.OldValue == null && e.NewValue != null)
+            {
+                SetSubScribes();
+            }
+        }
+#else
         /// <summary>
         /// The command property
         /// </summary>
         public static readonly DependencyProperty CommandProperty =
             DependencyProperty.Register(nameof(EventToReactiveCommand.Command), typeof(ICommand), typeof(EventToReactiveCommand), new PropertyMetadata(null));
+#endif
 
         /// <summary>
         /// Gets or sets whether or not AssociatedObject.IsEnabled automatically follow the Command's CanExecute.
@@ -94,6 +111,24 @@ namespace Reactive.Bindings.Interactivity
         protected override void OnAttached()
         {
             base.OnAttached();
+#if !NETFX_CORE
+            SetSubScribes();
+#endif
+        }
+
+        private void SetSubScribes()
+        {
+            IObservable<object> ox = source;
+            foreach (var c in Converters)
+            {
+                c.AssociateObject = AssociatedObject;
+                ox = c.Convert(ox);
+            }
+            ox
+                .ObserveOnUIDispatcher()
+                .Where(_ => Command != null)
+                .Subscribe(x => Command.Execute(x)).AddTo(Disposable);
+
 #if NETFX_CORE
             if (!(AssociatedObject is Control control)) return;
             var isEnabledProperty = Control.IsEnabledProperty;
@@ -103,18 +138,22 @@ namespace Reactive.Bindings.Interactivity
 #endif
             expression = AssociatedObject.GetBindingExpression(isEnabledProperty);
 
-            disposable2 = Command?.CanExecuteChangedAsObservable().Merge(autoEnableSource)
+            Command?.CanExecuteChangedAsObservable().Merge(autoEnableSource)
                 .Subscribe(_ =>
                 {
                     if (AutoEnable)
                     {
                         control.IsEnabled = Command.CanExecute(null);
                     }
-                    else
+                    else if (expression != null)
                     {
                         control.SetBinding(isEnabledProperty, expression.ParentBinding);
                     }
-                });
+                    else
+                    {
+                        control.IsEnabled = true;
+                    }
+                }).AddTo(Disposable);
         }
 
         /// <summary>
@@ -123,8 +162,7 @@ namespace Reactive.Bindings.Interactivity
         protected override void OnDetaching()
         {
             base.OnDetaching();
-            disposable?.Dispose();
-            disposable2?.Dispose();
+            Disposable?.Dispose();
         }
 
         /// <summary>
@@ -133,20 +171,6 @@ namespace Reactive.Bindings.Interactivity
         /// <param name="parameter">The parameter.</param>
         protected override void Invoke(object parameter)
         {
-            if (disposable == null)
-            {
-                IObservable<object> ox = source;
-                foreach (var c in Converters)
-                {
-                    c.AssociateObject = AssociatedObject;
-                    ox = c.Convert(ox);
-                }
-                disposable = ox
-                    .ObserveOnUIDispatcher()
-                    .Where(_ => Command != null)
-                    .Subscribe(x => Command.Execute(x));
-            }
-
             if (!Command?.CanExecute(parameter) ?? true)
             {
                 return;
