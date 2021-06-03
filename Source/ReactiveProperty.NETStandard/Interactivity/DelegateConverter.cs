@@ -14,13 +14,13 @@ namespace Reactive.Bindings.Interactivity
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
-        protected override IObservable<U> OnConvert(IObservable<T> source) => source.Select(OnConvert);
+        protected override IObservable<U> OnConvert(IObservable<T?> source) => source.Select(OnConvert);
 
         /// <summary>
         /// converter method.
         /// </summary>
         /// <param name="source">source value</param>
         /// <returns>dest value</returns>
-        protected abstract U OnConvert(T source);
+        protected abstract U? OnConvert(T? source);
     }
 }

@@ -12,7 +12,7 @@ namespace Reactive.Bindings
         /// Gets or sets the value.
         /// </summary>
         /// <value>The value.</value>
-        new object Value { get; set; }
+        new object? Value { get; set; }
     }
 
     /// <summary>
@@ -25,6 +25,6 @@ namespace Reactive.Bindings
         /// Gets or sets the value.
         /// </summary>
         /// <value>The value.</value>
-        new T Value { get; set; }
+        new T? Value { get; set; }
     }
 }

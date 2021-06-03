@@ -66,9 +66,9 @@ namespace Reactive.Bindings
         /// <summary>
         /// ICommand#CanExecuteChanged
         /// </summary>
-        public event EventHandler CanExecuteChanged;
+        public event EventHandler? CanExecuteChanged;
 
-        private Subject<T> Trigger { get; } = new Subject<T>();
+        private Subject<T?> Trigger { get; } = new Subject<T?>();
 
         private IDisposable CanExecuteSubscription { get; }
 
@@ -127,12 +127,12 @@ namespace Reactive.Bindings
         /// <summary>
         /// Return current canExecute status. parameter is ignored.
         /// </summary>
-        bool ICommand.CanExecute(object parameter) => IsCanExecute;
+        bool ICommand.CanExecute(object? parameter) => IsCanExecute;
 
         /// <summary>
         /// Push parameter to subscribers.
         /// </summary>
-        public void Execute(T parameter)
+        public void Execute(T? parameter)
         {
             Trigger.OnNext(parameter);
         }
@@ -140,7 +140,7 @@ namespace Reactive.Bindings
         /// <summary>
         /// Push parameter to subscribers.
         /// </summary>
-        void ICommand.Execute(object parameter) => Execute((T)parameter);
+        void ICommand.Execute(object? parameter) => Execute((T?)parameter);
 
         /// <summary>
         /// Subscribe execute.
@@ -210,7 +210,7 @@ namespace Reactive.Bindings
         /// <param name="onNext">Action</param>
         /// <param name="postProcess">Handling of the subscription.</param>
         /// <returns>Same of self argument</returns>
-        public static ReactiveCommand WithSubscribe(this ReactiveCommand self, Action onNext, Action<IDisposable> postProcess = null)
+        public static ReactiveCommand WithSubscribe(this ReactiveCommand self, Action onNext, Action<IDisposable>? postProcess = null)
         {
             var d = self.Subscribe(onNext);
             postProcess?.Invoke(d);
@@ -225,7 +225,7 @@ namespace Reactive.Bindings
         /// <param name="onNext">Action</param>
         /// <param name="postProcess">Handling of the subscription.</param>
         /// <returns>Same of self argument</returns>
-        public static ReactiveCommand<T> WithSubscribe<T>(this ReactiveCommand<T> self, Action<T> onNext, Action<IDisposable> postProcess = null)
+        public static ReactiveCommand<T> WithSubscribe<T>(this ReactiveCommand<T> self, Action<T> onNext, Action<IDisposable>? postProcess = null)
         {
             var d = self.Subscribe(onNext);
             postProcess?.Invoke(d);

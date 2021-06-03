@@ -44,7 +44,7 @@ namespace Reactive.Bindings.Notifiers
         /// Occurs when a property value changes.
         /// </summary>
         /// <returns></returns>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         private readonly int max;
         private int count;
@@ -159,7 +159,7 @@ namespace Reactive.Bindings.Notifiers
         /// </summary>
         public IDisposable Subscribe(IObserver<CountChangedStatus> observer) => statusChanged.Subscribe(observer);
 
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
+        private void OnPropertyChanged([CallerMemberName] string? propertyName = null) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

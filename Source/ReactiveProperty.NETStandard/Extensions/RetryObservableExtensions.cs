@@ -64,15 +64,15 @@ namespace Reactive.Bindings.Extensions
                 var empty = Observable.Empty<TSource>();
                 var count = 0;
 
-                IObservable<TSource> self = null;
+                IObservable<TSource>? self = null;
                 self = source.Catch((TException ex) =>
                 {
                     onError(ex);
 
                     return (++count < retryCount)
                         ? (dueTime == TimeSpan.Zero)
-                            ? self.SubscribeOn(Scheduler.CurrentThread)
-                            : empty.Delay(dueTime, delayScheduler).Concat(self).SubscribeOn(Scheduler.CurrentThread)
+                            ? self!.SubscribeOn(Scheduler.CurrentThread)
+                            : empty.Delay(dueTime, delayScheduler).Concat(self!).SubscribeOn(Scheduler.CurrentThread)
                         : Observable.Throw<TSource>(ex);
                 });
                 return self;

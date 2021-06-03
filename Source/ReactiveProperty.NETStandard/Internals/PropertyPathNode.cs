@@ -8,11 +8,11 @@ namespace Reactive.Bindings.Internals
     internal class PropertyPathNode : IDisposable
     {
         private bool _isDisposed = false;
-        private Action _callback;
-        private Delegate _getAccessor;
-        private Delegate _setAccessor;
+        private Action? _callback;
+        private Delegate? _getAccessor;
+        private Delegate? _setAccessor;
 
-        public event EventHandler PropertyChanged;
+        public event EventHandler? PropertyChanged;
 
         public PropertyPathNode(string propertyName)
         {
@@ -20,7 +20,7 @@ namespace Reactive.Bindings.Internals
         }
 
         public string PropertyName { get; }
-        public object Source { get; private set; }
+        public object? Source { get; private set; }
         private Type PrevSourceType { get; set; }
         public PropertyPathNode Next { get; private set; }
         public PropertyPathNode Prev { get; private set; }
@@ -42,7 +42,7 @@ namespace Reactive.Bindings.Internals
             return Prev;
         }
 
-        public void UpdateSource(object source)
+        public void UpdateSource(object? source)
         {
             EnsureDispose();
             Cleanup();
@@ -88,7 +88,7 @@ namespace Reactive.Bindings.Internals
             return GetPropertyValue();
         }
 
-        public bool SetPropertyPathValue(object value)
+        public bool SetPropertyPathValue(object? value)
         {
             if (Source == null)
             {
@@ -111,7 +111,7 @@ namespace Reactive.Bindings.Internals
 
         public override string ToString() => Path;
 
-        private void SourcePropertyChangedEventHandler(object sender, PropertyChangedEventArgs e)
+        private void SourcePropertyChangedEventHandler(object? sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == PropertyName || string.IsNullOrEmpty(e.PropertyName))
             {
@@ -153,7 +153,7 @@ namespace Reactive.Bindings.Internals
         {
             if (!(propertySelector.Body is MemberExpression current))
             {
-                throw new ArgumentException();
+                throw new ArgumentException(nameof(propertySelector));
             }
 
             var node = default(PropertyPathNode);

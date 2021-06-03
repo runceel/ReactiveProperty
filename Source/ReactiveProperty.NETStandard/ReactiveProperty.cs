@@ -29,9 +29,9 @@ namespace Reactive.Bindings
         /// <summary>
         /// Implements of INotifyPropertyChanged.
         /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
-        private T LatestValue { get; set; }
+        private T? LatestValue { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether this instance is disposed.
