@@ -1,7 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;net6.0-windows;net461</TargetFrameworks>
+    <TargetFrameworks>net6.0-windows</TargetFrameworks>
     <IsPackable>false</IsPackable>
     <UseWpf>true</UseWpf>
     <RootNamespace>ReactiveProperty.Tests</RootNamespace>
