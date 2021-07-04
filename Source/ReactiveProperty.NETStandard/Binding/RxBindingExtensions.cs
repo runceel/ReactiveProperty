@@ -37,8 +37,8 @@ namespace Reactive.Bindings.Binding
             Func<T, TProperty> convert = null,
             Func<TProperty, T> convertBack = null,
             IObservable<Unit> targetUpdateTrigger = null,
-            TProperty propertyFallbackValue = default(TProperty),
-            T sourceFallbackValue = default(T))
+            TProperty propertyFallbackValue = default,
+            T sourceFallbackValue = default)
         {
             if (convert == null)
             {
@@ -102,7 +102,7 @@ namespace Reactive.Bindings.Binding
             TTarget target,
             Expression<Func<TTarget, TProperty>> propertySelector,
             Func<T, TProperty> convert = null,
-            TProperty propertyFallbackValue = default(TProperty))
+            TProperty propertyFallbackValue = default)
         {
             if (convert == null)
             {
@@ -141,8 +141,8 @@ namespace Reactive.Bindings.Binding
             Func<T, TProperty> convert = null,
             Func<TProperty, T> convertBack = null,
             IObservable<Unit> targetUpdateTrigger = null,
-            TProperty propertyFallbackValue = default(TProperty),
-            T sourceFallbackValue = default(T))
+            TProperty propertyFallbackValue = default,
+            T sourceFallbackValue = default)
         {
             if (convert == null)
             {
@@ -206,7 +206,7 @@ namespace Reactive.Bindings.Binding
             TTarget target,
             Expression<Func<TTarget, TProperty>> propertySelector,
             Func<T, TProperty> convert = null,
-            TProperty propertyFallbackValue = default(TProperty))
+            TProperty propertyFallbackValue = default)
         {
             if (convert == null)
             {

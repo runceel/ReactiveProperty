@@ -397,8 +397,8 @@ namespace Reactive.Bindings
                     Action = x.Action,
                     Index = x.Index,
                     OldIndex = x.OldIndex,
-                    Value = ReferenceEquals(x.Value, null) ? default(U) :
-                        x.Action == NotifyCollectionChangedAction.Add || x.Action == NotifyCollectionChangedAction.Replace ? converter(x.Value) : default(U),
+                    Value = ReferenceEquals(x.Value, null) ? default :
+                        x.Action == NotifyCollectionChangedAction.Add || x.Action == NotifyCollectionChangedAction.Replace ? converter(x.Value) : default,
                 });
             return new ReadOnlyReactiveCollection<U>(convertedCollectionChanged, source, scheduler, disposeElement);
         }
