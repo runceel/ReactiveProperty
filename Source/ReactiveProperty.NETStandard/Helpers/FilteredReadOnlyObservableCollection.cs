@@ -77,7 +77,7 @@ namespace Reactive.Bindings.Helpers
 
             {
                 // propertychanged
-                source.ObserveElementPropertyChanged<TCollection, TElement>()
+                CollectionUtilities.ObserveElementPropertyChanged<TCollection, TElement>(source)
                     .Subscribe(x =>
                     {
                         var index = source.IndexOf(x.Sender);
@@ -268,10 +268,10 @@ namespace Reactive.Bindings.Helpers
             {
                 if (IndexList[i].HasValue) { IndexList[i]++; }
             }
-            InnerCollection.Insert(IndexList[index].Value, this.Source[index]);
+            InnerCollection.Insert(IndexList[index].Value, Source[index]);
             OnCollectionChanged(
                 new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add,
-                    this.Source[index], IndexList[index].Value));
+                    Source[index], IndexList[index].Value));
         }
 
         private void DisappearItem(int index)

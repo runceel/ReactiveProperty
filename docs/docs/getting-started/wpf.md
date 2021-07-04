@@ -3,9 +3,35 @@
 ## Create a project
 - Create a WPF App (.NET Framework) project.
     - Have to use .NET Framework 4.6.1 or later, or .NET Core 3.0 or later.
-- Install ReactiveProperty package from NuGet.
+- Install ReactiveProperty.WPF package from NuGet.
 
 ## Edit codes
+
+- Add Startup event handler on App class.
+- Add code to initialize scheduler for ReactiveProperty classes.
+
+```csharp
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
+using Reactive.Bindings;
+using Reactive.Bindings.Schedulers;
+
+namespace WpfApp1
+{
+    public partial class App : Application
+    {
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            ReactivePropertyScheduler.SetDefault(new ReactivePropertyWpfScheduler(Dispatcher));
+        }
+    }
+}
+```
 
 - Create a MainWindowViewModel.cs file.
 - Edit files like following.

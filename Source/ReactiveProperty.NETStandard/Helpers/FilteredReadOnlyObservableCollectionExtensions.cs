@@ -23,7 +23,7 @@ namespace Reactive.Bindings.Helpers
         /// <returns>Property sequence</returns>
         public static IObservable<PropertyPack<TElement, TProperty>> ObserveElementProperty<TElement, TProperty>(this IFilteredReadOnlyObservableCollection<TElement> source, Expression<Func<TElement, TProperty>> propertySelector, bool isPushCurrentValueAtFirst = true)
             where TElement : class, INotifyPropertyChanged =>
-            INotifyCollectionChangedExtensions.ObserveElementProperty(source, propertySelector, isPushCurrentValueAtFirst);
+            CollectionUtilities.ObserveElementProperty(source, propertySelector, isPushCurrentValueAtFirst);
 
         /// <summary>
         /// Observe collection element's IObservable sequence.
@@ -35,7 +35,7 @@ namespace Reactive.Bindings.Helpers
         /// <returns>IObservable sequence sequence</returns>
         public static IObservable<PropertyPack<TElement, TProperty>> ObserveElementObservableProperty<TElement, TProperty>(this IFilteredReadOnlyObservableCollection<TElement> source, Expression<Func<TElement, IObservable<TProperty>>> propertySelector)
             where TElement : class, INotifyPropertyChanged =>
-            INotifyCollectionChangedExtensions.ObserveElementObservableProperty(source, propertySelector);
+            CollectionUtilities.ObserveElementObservableProperty(source, propertySelector);
 
         /// <summary>
         /// Observe collection element's PropertyChanged event.
@@ -45,7 +45,7 @@ namespace Reactive.Bindings.Helpers
         /// <returns>PropertyChanged event stream.</returns>
         public static IObservable<SenderEventArgsPair<TElement, PropertyChangedEventArgs>> ObserveElementPropertyChanged<TElement>(this IFilteredReadOnlyObservableCollection<TElement> source)
             where TElement : class, INotifyPropertyChanged =>
-            INotifyCollectionChangedExtensions.ObserveElementPropertyChanged<IFilteredReadOnlyObservableCollection<TElement>, TElement>(source);
+            CollectionUtilities.ObserveElementPropertyChanged<IFilteredReadOnlyObservableCollection<TElement>, TElement>(source);
 
     }
 }

@@ -72,22 +72,22 @@ namespace Reactive.Bindings
         /// <returns></returns>
         public event EventHandler CanExecuteChanged;
 
-        private readonly object gate = new object();
-        private readonly IReactiveProperty<bool> canExecute;
-        private readonly IDisposable sourceSubscription;
-        private bool isCanExecute;
-        private bool isDisposed = false;
-        private Notifiers.ImmutableList<Func<T, Task>> asyncActions = Notifiers.ImmutableList<Func<T, Task>>.Empty;
+        private readonly object _gate = new object();
+        private readonly IReactiveProperty<bool> _canExecute;
+        private readonly IDisposable _sourceSubscription;
+        private bool _isCanExecute;
+        private bool _isDisposed = false;
+        private Notifiers.ImmutableList<Func<T, Task>> _asyncActions = Notifiers.ImmutableList<Func<T, Task>>.Empty;
 
         /// <summary>
         /// CanExecute is automatically changed when executing to false and finished to true.
         /// </summary>
         public AsyncReactiveCommand()
         {
-            canExecute = new ReactivePropertySlim<bool>(true);
-            sourceSubscription = canExecute.Subscribe(x =>
+            _canExecute = new ReactivePropertySlim<bool>(true);
+            _sourceSubscription = _canExecute.Subscribe(x =>
             {
-                isCanExecute = x;
+                _isCanExecute = x;
                 CanExecuteChanged?.Invoke(this, EventArgs.Empty);
             });
         }
@@ -105,12 +105,12 @@ namespace Reactive.Bindings
         /// </summary>
         public AsyncReactiveCommand(IObservable<bool> canExecuteSource, IReactiveProperty<bool> sharedCanExecute)
         {
-            canExecute = sharedCanExecute ?? new ReactivePropertySlim<bool>(true);
-            sourceSubscription = canExecute.CombineLatest(canExecuteSource, (x, y) => x && y)
+            _canExecute = sharedCanExecute ?? new ReactivePropertySlim<bool>(true);
+            _sourceSubscription = _canExecute.CombineLatest(canExecuteSource, (x, y) => x && y)
                 .DistinctUntilChanged()
                 .Subscribe(x =>
                 {
-                    isCanExecute = x;
+                    _isCanExecute = x;
                     CanExecuteChanged?.Invoke(this, EventArgs.Empty);
                 });
         }
@@ -121,10 +121,10 @@ namespace Reactive.Bindings
         /// </summary>
         public AsyncReactiveCommand(IReactiveProperty<bool> sharedCanExecute)
         {
-            canExecute = sharedCanExecute;
-            sourceSubscription = canExecute.Subscribe(x =>
+            _canExecute = sharedCanExecute;
+            _sourceSubscription = _canExecute.Subscribe(x =>
             {
-                isCanExecute = x;
+                _isCanExecute = x;
                 CanExecuteChanged?.Invoke(this, EventArgs.Empty);
             });
         }
@@ -134,7 +134,7 @@ namespace Reactive.Bindings
         /// </summary>
         public bool CanExecute()
         {
-            return isDisposed ? false : isCanExecute;
+            return !_isDisposed && _isCanExecute;
         }
 
         /// <summary>
@@ -142,7 +142,7 @@ namespace Reactive.Bindings
         /// </summary>
         bool ICommand.CanExecute(object parameter)
         {
-            return isDisposed ? false : isCanExecute;
+            return !_isDisposed && _isCanExecute;
         }
 
         /// <summary>
@@ -155,10 +155,10 @@ namespace Reactive.Bindings
         /// </summary>
         public async Task ExecuteAsync(T parameter)
         {
-            if (isCanExecute)
+            if (_isCanExecute)
             {
-                canExecute.Value = false;
-                var a = asyncActions.Data;
+                _canExecute.Value = false;
+                var a = _asyncActions.Data;
 
                 if (a.Length == 1)
                 {
@@ -169,7 +169,7 @@ namespace Reactive.Bindings
                     }
                     finally
                     {
-                        canExecute.Value = true;
+                        _canExecute.Value = true;
                     }
                 }
                 else
@@ -186,7 +186,7 @@ namespace Reactive.Bindings
                     }
                     finally
                     {
-                        canExecute.Value = true;
+                        _canExecute.Value = true;
                     }
                 }
             }
@@ -202,9 +202,9 @@ namespace Reactive.Bindings
         /// </summary>
         public IDisposable Subscribe(Func<T, Task> asyncAction)
         {
-            lock (gate)
+            lock (_gate)
             {
-                asyncActions = asyncActions.Add(asyncAction);
+                _asyncActions = _asyncActions.Add(asyncAction);
             }
 
             return new Subscription(this, asyncAction);
@@ -215,36 +215,36 @@ namespace Reactive.Bindings
         /// </summary>
         public void Dispose()
         {
-            if (isDisposed)
+            if (_isDisposed)
             {
                 return;
             }
 
-            isDisposed = true;
-            sourceSubscription.Dispose();
-            if (isCanExecute)
+            _isDisposed = true;
+            _sourceSubscription.Dispose();
+            if (_isCanExecute)
             {
-                isCanExecute = false;
+                _isCanExecute = false;
                 CanExecuteChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 
         private class Subscription : IDisposable
         {
-            private readonly AsyncReactiveCommand<T> parent;
-            private readonly Func<T, Task> asyncAction;
+            private readonly AsyncReactiveCommand<T> _parent;
+            private readonly Func<T, Task> _asyncAction;
 
             public Subscription(AsyncReactiveCommand<T> parent, Func<T, Task> asyncAction)
             {
-                this.parent = parent;
-                this.asyncAction = asyncAction;
+                _parent = parent;
+                _asyncAction = asyncAction;
             }
 
             public void Dispose()
             {
-                lock (parent.gate)
+                lock (_parent._gate)
                 {
-                    parent.asyncActions = parent.asyncActions.Remove(asyncAction);
+                    _parent._asyncActions = _parent._asyncActions.Remove(_asyncAction);
                 }
             }
         }

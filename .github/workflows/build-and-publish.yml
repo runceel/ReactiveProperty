@@ -13,10 +13,14 @@ jobs:
       version: ${{ steps.set-version-to-output.outputs.version }}
     steps:
     - uses: actions/checkout@v2
-    - name: Setup .NET Core
+    - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.*
+        dotnet-version: 6.0.100-preview.5.21302.13
+    - name: Install ios workload
+      run: dotnet workload install microsoft-ios-sdk-full
+    - name: Install android workload
+      run: dotnet workload install microsoft-android-sdk-full
     - name: Add msbuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
     - name: Update version number
