@@ -39,7 +39,7 @@ jobs:
     - name: Install dependencies
       run: dotnet restore ReactiveProperty.sln
     - name: Build
-      run: msbuild ReactiveProperty.sln -p:Configuration=Release -p:Platform="Any CPU"
+      run: dotnet build ReactiveProperty.sln -c Release
     - name: Test
       run: dotnet test ReactiveProperty.sln --no-restore --verbosity normal
     - name: Copy package files
