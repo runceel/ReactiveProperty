@@ -15,6 +15,10 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.100-preview.5.21302.13
+    - name: Install workloads
+      run:
+        dotnet workload install microsoft-ios-sdk-full
+        dotnet workload install microsoft-android-sdk-full
     - name: Install dependencies
       run: dotnet restore ReactiveProperty.sln
     - name: Test
