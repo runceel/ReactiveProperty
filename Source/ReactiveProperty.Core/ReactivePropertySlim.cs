@@ -251,7 +251,7 @@ namespace Reactive.Bindings
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <seealso cref="Reactive.Bindings.IReadOnlyReactiveProperty{T}"/>
-    /// <seealso cref="Reactive.Bindings.IObserverLinkedList{T}"/>
+    /// <seealso cref="Reactive.Bindings.Internals.IObserverLinkedList{T}"/>
     /// <seealso cref="System.IObserver{T}"/>
     public class ReadOnlyReactivePropertySlim<T> : IReadOnlyReactiveProperty<T>, IObserverLinkedList<T>, IObserver<T>
     {
@@ -455,7 +455,7 @@ namespace Reactive.Bindings
     /// <summary>
     /// </summary>
     /// <seealso cref="Reactive.Bindings.IReadOnlyReactiveProperty{T}"/>
-    /// <seealso cref="Reactive.Bindings.IObserverLinkedList{T}"/>
+    /// <seealso cref="Reactive.Bindings.Internals.IObserverLinkedList{T}"/>
     /// <seealso cref="System.IObserver{T}"/>
     public static class ReadOnlyReactivePropertySlim
     {
