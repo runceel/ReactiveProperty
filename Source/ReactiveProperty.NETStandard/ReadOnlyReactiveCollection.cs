@@ -35,7 +35,7 @@ namespace Reactive.Bindings
             : base(source)
         {
             Source = source;
-            scheduler = scheduler ?? ReactivePropertyScheduler.Default;
+            scheduler ??= ReactivePropertyScheduler.Default;
             DisposeElement = disposeElement;
             var subject = new Subject<CollectionChanged<T>>();
 
@@ -93,7 +93,7 @@ namespace Reactive.Bindings
         {
             Source = source;
             DisposeElement = disposeElement;
-            scheduler = scheduler ?? ReactivePropertyScheduler.Default;
+            scheduler ??= ReactivePropertyScheduler.Default;
 
             ox
                 .ObserveOn(scheduler)
@@ -397,7 +397,7 @@ namespace Reactive.Bindings
                     Action = x.Action,
                     Index = x.Index,
                     OldIndex = x.OldIndex,
-                    Value = ReferenceEquals(x.Value, null) ? default :
+                    Value = x.Value is null ? default :
                         x.Action == NotifyCollectionChangedAction.Add || x.Action == NotifyCollectionChangedAction.Replace ? converter(x.Value) : default,
                 });
             return new ReadOnlyReactiveCollection<U>(convertedCollectionChanged, source, scheduler, disposeElement);
