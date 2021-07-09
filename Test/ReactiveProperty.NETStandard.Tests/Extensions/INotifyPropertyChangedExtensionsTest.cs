@@ -639,7 +639,7 @@ namespace ReactiveProperty.Tests.Extensions
 
             public void BatchUpdateProperties(string name, int age)
             {
-                (this._name, this._age) = (name, age);
+                (_name, _age) = (name, age);
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(""));
             }
 

@@ -825,7 +825,7 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting
             {
                 this.target = target;
                 this.param = param;
-                this.Members = new Dictionary<string, object>();
+                Members = new Dictionary<string, object>();
             }
 
             protected override System.Linq.Expressions.Expression VisitMember(MemberExpression node)

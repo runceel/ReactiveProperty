@@ -44,20 +44,18 @@ namespace ReactiveProperty.Tests
                 Value = 999
             };
 
-            using (var handler = prop.GetAsyncHandler(CancellationToken.None))
-            {
-                { var __ = Task.Delay(1000).ContinueWith(_ => prop.Value = 1000); }
-                var v1 = await handler;
-                v1.Is(1000);
+            using var handler = prop.GetAsyncHandler(CancellationToken.None);
+            { var __ = Task.Delay(1000).ContinueWith(_ => prop.Value = 1000); }
+            var v1 = await handler;
+            v1.Is(1000);
 
-                { var __ = Task.Delay(1000).ContinueWith(_ => prop.Value = 1001); }
-                var v2 = await handler;
-                v2.Is(1001);
+            { var __ = Task.Delay(1000).ContinueWith(_ => prop.Value = 1001); }
+            var v2 = await handler;
+            v2.Is(1001);
 
-                { var __ = Task.Delay(1000).ContinueWith(_ => prop.Value = 1002); }
-                var v3 = await handler;
-                v3.Is(1002);
-            }
+            { var __ = Task.Delay(1000).ContinueWith(_ => prop.Value = 1002); }
+            var v3 = await handler;
+            v3.Is(1002);
         }
     }
 }

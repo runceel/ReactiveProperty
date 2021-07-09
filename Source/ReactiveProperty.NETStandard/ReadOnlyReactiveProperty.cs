@@ -23,7 +23,9 @@ namespace Reactive.Bindings
         /// <returns></returns>
         public event PropertyChangedEventHandler PropertyChanged;
 
+#pragma warning disable IDE0032 // Use auto property
         private T _latestValue;
+#pragma warning restore IDE0032 // Use auto property
         private IDisposable _sourceSubscription;
         private ReactivePropertyMode _mode; // None = 0, DistinctUntilChanged = 1, RaiseLatestValueOnSubscribe = 2, Disposed = (1 << 9)
         private readonly IEqualityComparer<T> _equalityComparer;
