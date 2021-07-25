@@ -1,5 +1,4 @@
 # These are supported funding model platforms
 
 github: [neuecc, runceel] # Replace with up to 4 GitHub Sponsors-enabled usernames e.g., [user1, user2]
-patreon: runceel # Replace with a single Patreon username
 tidelift: nuget/ReactiveProperty # Replace with a single Tidelift platform-name/package-name e.g., npm/babel
