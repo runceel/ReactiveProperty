@@ -13,6 +13,11 @@ namespace Reactive.Bindings
         /// </summary>
         /// <value>The value.</value>
         new object Value { get; set; }
+
+        /// <summary>
+        /// Forces the notify.
+        /// </summary>
+        void ForceNotify();
     }
 
     /// <summary>
