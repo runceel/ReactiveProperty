@@ -6,6 +6,7 @@ using System.Reactive.Linq;
 using System.Reactive.Disposables;
 using Reactive.Bindings.Extensions;
 using System.Collections.Generic;
+using System.Reactive.Concurrency;
 
 #if NETFX_CORE
 using Windows.UI.Xaml.Controls;
@@ -59,7 +60,7 @@ namespace Reactive.Bindings.Interactivity
         {
             if (e.OldValue == null && e.NewValue != null)
             {
-                SetSubScribes();
+                SetSubscribes();
             }
         }
 #else
@@ -92,6 +93,37 @@ namespace Reactive.Bindings.Interactivity
         }
 
         /// <summary>
+        /// Gets or sets calling or not ICommand.Execute method on IScheduler that is set to ReactivePropertyScheduler.Default.
+        /// </summary>
+        public bool CallExecuteOnScheduler
+        {
+            get { return (bool)GetValue(CallExecuteOnSchedulerProperty); }
+            set { SetValue(CallExecuteOnSchedulerProperty, value); }
+        }
+
+        /// <summary>
+        /// The CallExecuteOnSchedulere Property
+        /// </summary>
+        public static readonly DependencyProperty CallExecuteOnSchedulerProperty =
+            DependencyProperty.Register(
+                nameof(CallExecuteOnScheduler), 
+                typeof(bool), 
+                typeof(EventToReactiveCommand), 
+                new PropertyMetadata(true, OnCallExecuteOnScheduler));
+
+        private static void OnCallExecuteOnScheduler(DependencyObject d, DependencyPropertyChangedEventArgs e) =>
+            ((EventToReactiveCommand)d).OnCallExecuteOnScheduler(e);
+
+        private void OnCallExecuteOnScheduler(DependencyPropertyChangedEventArgs e)
+        {
+            if (AssociatedObject != null)
+            {
+                SetSubscribes();
+            }
+        }
+
+
+        /// <summary>
         /// Ignore EventArgs. If value is false then uses Unit.Default.
         /// </summary>
         public bool IgnoreEventArgs { get; set; }
@@ -112,11 +144,11 @@ namespace Reactive.Bindings.Interactivity
         {
             base.OnAttached();
 #if !NETFX_CORE
-            SetSubScribes();
+            SetSubscribes();
 #endif
         }
 
-        private void SetSubScribes()
+        private void SetSubscribes()
         {
             IObservable<object> ox = source;
             foreach (var c in Converters)
@@ -124,9 +156,13 @@ namespace Reactive.Bindings.Interactivity
                 c.AssociateObject = AssociatedObject;
                 ox = c.Convert(ox);
             }
-            ox
-                .ObserveOnUIDispatcher()
-                .Where(_ => Command != null)
+
+            if (CallExecuteOnScheduler)
+            {
+                ox = ox.ObserveOn(ReactivePropertyScheduler.Default);
+            }
+
+            ox.Where(_ => Command != null)
                 .Subscribe(x => Command.Execute(x)).AddTo(Disposable);
 
 #if NETFX_CORE
