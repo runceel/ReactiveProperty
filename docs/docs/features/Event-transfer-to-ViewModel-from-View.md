@@ -156,3 +156,14 @@ namespace App1
 
 }
 ```
+
+## Customizing EventToReactiveCommand
+
+### CallExecuteOnScheduler property
+
+The default behavior is calling Command's Execute method on `IScheduler` that is set to `ReactivePropertyScheduler.Default`. If you disable this behavior, set this property to false.
+
+### AutoEnable property
+
+The default behavior is synchronizing automatically between AssosiateObject.IsEnabled and the Command's CanExecute.
+If you want to disable this behavior, set this property to false.
