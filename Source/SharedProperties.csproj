@@ -5,6 +5,7 @@
     <Authors>neuecc xin9le okazuki</Authors>
     <PackageProjectUrl>https://github.com/runceel/ReactiveProperty</PackageProjectUrl>
     <PackageTags>rx mvvm async reactive</PackageTags>
+    <LangVersion>10</LangVersion>
     <NeutralLanguage>en-US</NeutralLanguage>
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
