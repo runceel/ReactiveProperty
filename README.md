@@ -160,11 +160,11 @@ If too many questions are posted, then I plan to separate posting place about fe
 ## Author info
 
 Yoshifumi Kawai a.k.a. [@neuecc](https://twitter.com/neuecc) is Founder/CEO/CTO of Cysharp, Inc in Tokyo, Japan.
-Awarded Microsoft MVP for Visual Studio and Development Technologies since April, 2011.
+Awarded Microsoft MVP for Developer Technologies since April, 2011.
 He is an original owner of ReactiveProperty.
 
-Takaaki Suzuki a.k.a. [@xin9le](https://twitter.com/xin9le) software developer in Tokyo, Japan.
-Awarded Microsoft MVP for Visual Studio and Development Technologies since July, 2012.
+Takaaki Suzuki a.k.a. [@xin9le](https://twitter.com/xin9le) software developer in Fukui, Japan.
+Awarded Microsoft MVP for Developer Technologies since July, 2012.
 
 Kazuki Ota a.k.a. [@okazuki](https://twitter.com/okazuki) software developer in Tokyo, Japan.
 Awarded Microsoft MVP for Windows Development since July 2011 to Feb 2017.

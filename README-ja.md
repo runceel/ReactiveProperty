@@ -18,9 +18,9 @@ ReactivePropertyは、Reactive ExtensionsをMVVMパターンと非同期用に�
 ## コミッターの情報
 
 Yoshifumi Kawai a.k.a. [@neuecc](https://twitter.com/neuecc) is Founder/CEO/CTO of Cysharp, Inc in Tokyo, Japan.
-Awarded Microsoft MVP for Visual Studio and Development Technologies since April, 2011.
+Awarded Microsoft MVP for Developer Technologies since April, 2011.
 
 Takaaki Suzuki a.k.a. [@xin9le](https://twitter.com/xin9le) software devleoper in Fukui, Japan.
-Awarded Microsoft MVP for Visual Studio and Development Technologies since July, 2012.
+Awarded Microsoft MVP for Developer Technologies since July, 2012.
 
 Kazuki Ota a.k.a. [@okazuki](https://twitter.com/okazuki) software developer in Tokyo, Japan.
