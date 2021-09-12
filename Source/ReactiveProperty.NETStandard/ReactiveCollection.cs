@@ -13,8 +13,8 @@ namespace Reactive.Bindings
     /// </summary>
     public class ReactiveCollection<T> : ObservableCollection<T>, IDisposable
     {
-        private readonly IDisposable _subscription;
-        private readonly IScheduler _scheduler;
+        private readonly IDisposable subscription;
+        private readonly IScheduler scheduler;
 
         /// <summary>
         /// Operate scheduler is UIDispatcherScheduler.
@@ -28,8 +28,8 @@ namespace Reactive.Bindings
         /// </summary>
         public ReactiveCollection(IScheduler scheduler)
         {
-            _scheduler = scheduler;
-            _subscription = Disposable.Empty;
+            this.scheduler = scheduler;
+            subscription = Disposable.Empty;
         }
 
         /// <summary>
@@ -45,14 +45,14 @@ namespace Reactive.Bindings
         /// </summary>
         public ReactiveCollection(IObservable<T> source, IScheduler scheduler)
         {
-            _scheduler = scheduler;
-            _subscription = source.ObserveOn(scheduler).Subscribe(Add);
+            this.scheduler = scheduler;
+            subscription = source.ObserveOn(scheduler).Subscribe(Add);
         }
 
         /// <summary>
         /// Add called on scheduler
         /// </summary>
-        public void AddOnScheduler(T item) => _scheduler.Schedule(() => Add(item));
+        public void AddOnScheduler(T item) => scheduler.Schedule(() => Add(item));
 
         /// <summary>
         /// Add called on scheduler
@@ -60,7 +60,7 @@ namespace Reactive.Bindings
         /// <param name="items"></param>
         public void AddRangeOnScheduler(params T[] items)
         {
-            _scheduler.Schedule(() =>
+            scheduler.Schedule(() =>
             {
                 foreach (var item in items) { Add(item); }
             });
@@ -75,42 +75,42 @@ namespace Reactive.Bindings
         /// <summary>
         /// Clear called on scheduler
         /// </summary>
-        public void ClearOnScheduler() => _scheduler.Schedule(() => Clear());
+        public void ClearOnScheduler() => scheduler.Schedule(() => Clear());
 
         /// <summary>
         /// Get(indexer get) called on scheduler, IObservable length is one.
         /// </summary>
-        public IObservable<T> GetOnScheduler(int index) => Observable.Start(() => this[index], _scheduler);
+        public IObservable<T> GetOnScheduler(int index) => Observable.Start(() => this[index], scheduler);
 
         /// <summary>
         /// Insert called on scheduler
         /// </summary>
-        public void InsertOnScheduler(int index, T item) => _scheduler.Schedule(() => Insert(index, item));
+        public void InsertOnScheduler(int index, T item) => scheduler.Schedule(() => Insert(index, item));
 
         /// <summary>
         /// Move called on scheduler
         /// </summary>
-        public void MoveOnScheduler(int oldIndex, int newIndex) => _scheduler.Schedule(() => Move(oldIndex, newIndex));
+        public void MoveOnScheduler(int oldIndex, int newIndex) => scheduler.Schedule(() => Move(oldIndex, newIndex));
 
         /// <summary>
         /// Remove called on scheduler
         /// </summary>
-        public void RemoveOnScheduler(T item) => _scheduler.Schedule(() => Remove(item));
+        public void RemoveOnScheduler(T item) => scheduler.Schedule(() => Remove(item));
 
         /// <summary>
         /// RemoveAt called on scheduler
         /// </summary>
-        public void RemoveAtOnScheduler(int index) => _scheduler.Schedule(() => RemoveAt(index));
+        public void RemoveAtOnScheduler(int index) => scheduler.Schedule(() => RemoveAt(index));
 
         /// <summary>
         /// Set(indexer set) called on scheduler
         /// </summary>
-        public void SetOnScheduler(int index, T value) => _scheduler.Schedule(() => this[index] = value);
+        public void SetOnScheduler(int index, T value) => scheduler.Schedule(() => this[index] = value);
 
         /// <summary>
         /// Unsubscribe source sequence.
         /// </summary>
-        public void Dispose() => _subscription.Dispose();
+        public void Dispose() => subscription.Dispose();
     }
 
     /// <summary>

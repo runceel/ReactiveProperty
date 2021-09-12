@@ -37,8 +37,8 @@ namespace Reactive.Bindings.Binding
             Func<T, TProperty> convert = null,
             Func<TProperty, T> convertBack = null,
             IObservable<Unit> targetUpdateTrigger = null,
-            TProperty propertyFallbackValue = default,
-            T sourceFallbackValue = default)
+            TProperty propertyFallbackValue = default(TProperty),
+            T sourceFallbackValue = default(T))
         {
             if (convert == null)
             {
@@ -50,32 +50,39 @@ namespace Reactive.Bindings.Binding
                 convertBack = value => (T)Convert.ChangeType(value, typeof(T));
             }
 
-            return mode switch
+            switch (mode)
             {
-                BindingMode.OneWay => CreateOneWayBinding(
-                    self,
-                    target,
-                    propertySelector,
-                    convert,
-                    propertyFallbackValue),
-                BindingMode.TwoWay => CreateTowWayBinding(
-                    self,
-                    target,
-                    propertySelector,
-                    convert,
-                    convertBack,
-                    targetUpdateTrigger,
-                    propertyFallbackValue,
-                    sourceFallbackValue),
-                BindingMode.OneWayToSource => CreateOneWayToSourceBinding(
-                    self,
-                    target,
-                    propertySelector,
-                    convertBack,
-                    targetUpdateTrigger,
-                    sourceFallbackValue),
-                _ => throw new NotSupportedException(),
-            };
+                case BindingMode.OneWay:
+                    return CreateOneWayBinding(
+                        self,
+                        target,
+                        propertySelector,
+                        convert,
+                        propertyFallbackValue);
+
+                case BindingMode.TwoWay:
+                    return CreateTowWayBinding(
+                        self,
+                        target,
+                        propertySelector,
+                        convert,
+                        convertBack,
+                        targetUpdateTrigger,
+                        propertyFallbackValue,
+                        sourceFallbackValue);
+
+                case BindingMode.OneWayToSource:
+                    return CreateOneWayToSourceBinding(
+                        self,
+                        target,
+                        propertySelector,
+                        convertBack,
+                        targetUpdateTrigger,
+                        sourceFallbackValue);
+
+                default:
+                    throw new NotSupportedException();
+            }
         }
 
         /// <summary>
@@ -95,7 +102,7 @@ namespace Reactive.Bindings.Binding
             TTarget target,
             Expression<Func<TTarget, TProperty>> propertySelector,
             Func<T, TProperty> convert = null,
-            TProperty propertyFallbackValue = default)
+            TProperty propertyFallbackValue = default(TProperty))
         {
             if (convert == null)
             {
@@ -134,8 +141,8 @@ namespace Reactive.Bindings.Binding
             Func<T, TProperty> convert = null,
             Func<TProperty, T> convertBack = null,
             IObservable<Unit> targetUpdateTrigger = null,
-            TProperty propertyFallbackValue = default,
-            T sourceFallbackValue = default)
+            TProperty propertyFallbackValue = default(TProperty),
+            T sourceFallbackValue = default(T))
         {
             if (convert == null)
             {
@@ -147,32 +154,39 @@ namespace Reactive.Bindings.Binding
                 convertBack = value => (T)Convert.ChangeType(value, typeof(T));
             }
 
-            return mode switch
+            switch (mode)
             {
-                BindingMode.OneWay => CreateOneWayBinding(
-                    self,
-                    target,
-                    propertySelector,
-                    convert,
-                    propertyFallbackValue),
-                BindingMode.TwoWay => CreateTowWayBinding(
-                    self,
-                    target,
-                    propertySelector,
-                    convert,
-                    convertBack,
-                    targetUpdateTrigger,
-                    propertyFallbackValue,
-                    sourceFallbackValue),
-                BindingMode.OneWayToSource => CreateOneWayToSourceBinding(
-                    self,
-                    target,
-                    propertySelector,
-                    convertBack,
-                    targetUpdateTrigger,
-                    sourceFallbackValue),
-                _ => throw new NotSupportedException(),
-            };
+                case BindingMode.OneWay:
+                    return CreateOneWayBinding(
+                        self,
+                        target,
+                        propertySelector,
+                        convert,
+                        propertyFallbackValue);
+
+                case BindingMode.TwoWay:
+                    return CreateTowWayBinding(
+                        self,
+                        target,
+                        propertySelector,
+                        convert,
+                        convertBack,
+                        targetUpdateTrigger,
+                        propertyFallbackValue,
+                        sourceFallbackValue);
+
+                case BindingMode.OneWayToSource:
+                    return CreateOneWayToSourceBinding(
+                        self,
+                        target,
+                        propertySelector,
+                        convertBack,
+                        targetUpdateTrigger,
+                        sourceFallbackValue);
+
+                default:
+                    throw new NotSupportedException();
+            }
         }
 
         /// <summary>
@@ -192,7 +206,7 @@ namespace Reactive.Bindings.Binding
             TTarget target,
             Expression<Func<TTarget, TProperty>> propertySelector,
             Func<T, TProperty> convert = null,
-            TProperty propertyFallbackValue = default)
+            TProperty propertyFallbackValue = default(TProperty))
         {
             if (convert == null)
             {

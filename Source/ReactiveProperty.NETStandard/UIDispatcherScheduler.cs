@@ -29,7 +29,7 @@ namespace Reactive.Bindings
         /// </summary>
         public static IScheduler Default => DefaultScheduler.Value;
 
-        internal static bool s_isSchedulerCreated = DefaultScheduler.IsValueCreated;
+        internal static bool IsSchedulerCreated = DefaultScheduler.IsValueCreated;
 
         /// <summary>
         /// Create UIDispatcherSchedule on called thread if is not initialized yet.

@@ -268,10 +268,10 @@ namespace Reactive.Bindings.Helpers
             {
                 if (IndexList[i].HasValue) { IndexList[i]++; }
             }
-            InnerCollection.Insert(IndexList[index].Value, Source[index]);
+            InnerCollection.Insert(IndexList[index].Value, this.Source[index]);
             OnCollectionChanged(
                 new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add,
-                    Source[index], IndexList[index].Value));
+                    this.Source[index], IndexList[index].Value));
         }
 
         private void DisappearItem(int index)
