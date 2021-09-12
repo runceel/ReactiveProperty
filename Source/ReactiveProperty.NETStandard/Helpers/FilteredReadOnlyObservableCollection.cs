@@ -82,12 +82,13 @@ namespace Reactive.Bindings.Helpers
                 CollectionUtilities.ObserveElementPropertyChanged<TCollection, TElement>(source)
                     .Subscribe(x =>
                     {
-                        lock(_syncRoot)
+                        NotifyCollectionChangedEventArgs args = default;
+                        lock (_syncRoot)
                         {
                             var index = source.IndexOf(x.Sender);
                             if (index == -1)
                             {
-                                throw new InvalidOperationException($"An object instance {x.Sender} did not found at source collection.");
+                                throw new InvalidOperationException($"An object instance {x.Sender} that raised {x.EventArgs.PropertyName} PropertyChanged event did not found at the source collection.");
                             }
 
                             var filteredIndex = IndexList[index];
@@ -96,9 +97,8 @@ namespace Reactive.Bindings.Helpers
                             {
                                 // add
                                 AppearNewItem(index);
-                                OnCollectionChanged(
-                                    new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add,
-                                        Source[index], IndexList[index].Value));
+                                args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add,
+                                    Source[index], IndexList[index].Value);
 
                             }
                             else if (!isTarget && filteredIndex.HasValue)
@@ -106,8 +106,13 @@ namespace Reactive.Bindings.Helpers
                                 // remove
                                 DisappearItem(index);
                                 IndexList[index] = null;
-                                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, x.Sender, filteredIndex.Value));
+                                args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, x.Sender, filteredIndex.Value);
                             }
+                        }
+
+                        if (args != null)
+                        {
+                            OnCollectionChanged(args);
                         }
                     })
                     .AddTo(Subscription);
