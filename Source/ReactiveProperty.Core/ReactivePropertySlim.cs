@@ -258,7 +258,9 @@ namespace Reactive.Bindings
         private const int IsDisposedFlagNumber = 1 << 9; // (reserve 0 ~ 8)
 
         // minimize field count
+#pragma warning disable IDE0032 // Use auto property
         private T _latestValue;
+#pragma warning restore IDE0032 // Use auto property
 
         private IDisposable _sourceSubscription;
         private ReactivePropertyMode _mode; // None = 0, DistinctUntilChanged = 1, RaiseLatestValueOnSubscribe = 2, Disposed = (1 << 9)
