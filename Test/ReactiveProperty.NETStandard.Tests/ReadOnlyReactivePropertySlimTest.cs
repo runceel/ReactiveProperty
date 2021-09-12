@@ -56,7 +56,7 @@ namespace ReactiveProperty.Tests
             buffer2.Is("Hello world");
 
             s.OnNext("ReactiveProperty");
-            buffer1.Is(default, "Hello world", "ReactiveProperty");
+            buffer1.Is(default(string), "Hello world", "ReactiveProperty");
             buffer2.Is("Hello world", "ReactiveProperty");
         }
 
