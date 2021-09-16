@@ -9,8 +9,8 @@ namespace Reactive.Bindings
 
         public static IEnumerable<TSource[]> Buffer<TSource>(this IEnumerable<TSource> source, int count)
         {
-            if (source == null) throw new ArgumentNullException(nameof(source));
-            if (count <= 0) throw new ArgumentOutOfRangeException(nameof(count));
+            if (source == null) throw new ArgumentNullException("source");
+            if (count <= 0) throw new ArgumentOutOfRangeException("count");
 
             var list = new List<TSource>(); // not use initial capacity
             foreach (var item in source)

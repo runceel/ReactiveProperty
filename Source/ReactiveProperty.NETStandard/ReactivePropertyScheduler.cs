@@ -9,7 +9,7 @@ namespace Reactive.Bindings
     /// </summary>
     public static class ReactivePropertyScheduler
     {
-        private static Func<IScheduler> s_defaultSchedulerFactory;
+        private static Func<IScheduler> defaultSchedulerFactory;
 
         /// <summary>
         /// Get ReactiveProperty default scheduler.
@@ -18,11 +18,11 @@ namespace Reactive.Bindings
         {
             get
             {
-                if (s_defaultSchedulerFactory != null)
+                if (defaultSchedulerFactory != null)
                 {
-                    return s_defaultSchedulerFactory();
+                    return defaultSchedulerFactory();
                 }
-                if (UIDispatcherScheduler.s_isSchedulerCreated)
+                if (UIDispatcherScheduler.IsSchedulerCreated)
                 {
                     return UIDispatcherScheduler.Default;
                 }
@@ -51,7 +51,7 @@ namespace Reactive.Bindings
         /// <param name="schedulerFactory"></param>
         public static void SetDefaultSchedulerFactory(Func<IScheduler> schedulerFactory)
         {
-            s_defaultSchedulerFactory = schedulerFactory;
+            defaultSchedulerFactory = schedulerFactory;
         }
     }
 }

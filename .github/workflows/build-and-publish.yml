@@ -16,7 +16,7 @@ jobs:
       version: ${{ steps.set-version-to-output.outputs.version }}
     steps:
     - uses: actions/checkout@v2
-    - name: Setup .NET
+    - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
@@ -44,7 +44,7 @@ jobs:
     - name: Install dependencies
       run: dotnet restore ReactiveProperty.sln
     - name: Build
-      run: dotnet build ReactiveProperty.sln -c Release
+      run: msbuild ReactiveProperty.sln -p:Configuration=Release -p:Platform="Any CPU"
     - name: Test
       run: dotnet test ReactiveProperty.sln --no-restore --verbosity normal
     - name: Copy package files
