@@ -20,6 +20,11 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
+    - uses: actions/setup-java@v2
+      with:
+        distribution: 'zulu'
+        java-version: '11'
+        cache: 'gradle'
     - name: Install MAUI
       run: dotnet workload install maui
     - name: Add msbuild to PATH
