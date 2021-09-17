@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
-    <TargetFramework>net6.0-ios</TargetFramework>
+    <TargetFramework>xamarinios10</TargetFramework>
     <PackageId>ReactiveProperty.XamariniOS</PackageId>
     <AssemblyName>ReactiveProperty.XamariniOS</AssemblyName>
     <SignAssembly>true</SignAssembly>

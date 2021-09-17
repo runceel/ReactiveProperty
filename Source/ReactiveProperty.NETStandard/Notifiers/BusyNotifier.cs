@@ -31,13 +31,13 @@ namespace Reactive.Bindings.Notifiers
         /// </summary>
         public bool IsBusy
         {
-            get { return isBusy; }
+            get { return this.isBusy; }
             set
             {
-                if (isBusy == value) { return; }
-                isBusy = value;
-                PropertyChanged?.Invoke(this, IsBusyPropertyChangedEventArgs);
-                IsBusySubject.OnNext(isBusy);
+                if (this.isBusy == value) { return; }
+                this.isBusy = value;
+                this.PropertyChanged?.Invoke(this, IsBusyPropertyChangedEventArgs);
+                this.IsBusySubject.OnNext(this.isBusy);
             }
         }
 
@@ -47,16 +47,16 @@ namespace Reactive.Bindings.Notifiers
         /// <returns>Call dispose method when process end.</returns>
         public IDisposable ProcessStart()
         {
-            lock (LockObject)
+            lock (this.LockObject)
             {
-                ProcessCounter++;
-                IsBusy = ProcessCounter != 0;
+                this.ProcessCounter++;
+                this.IsBusy = this.ProcessCounter != 0;
                 return Disposable.Create(() =>
                 {
-                    lock (LockObject)
+                    lock (this.LockObject)
                     {
-                        ProcessCounter--;
-                        IsBusy = ProcessCounter != 0;
+                        this.ProcessCounter--;
+                        this.IsBusy = this.ProcessCounter != 0;
                     }
                 });
             }
@@ -69,8 +69,8 @@ namespace Reactive.Bindings.Notifiers
         /// <returns>disposable</returns>
         public IDisposable Subscribe(IObserver<bool> observer)
         {
-            observer.OnNext(IsBusy);
-            return IsBusySubject.Subscribe(observer);
+            observer.OnNext(this.IsBusy);
+            return this.IsBusySubject.Subscribe(observer);
         }
     }
 }

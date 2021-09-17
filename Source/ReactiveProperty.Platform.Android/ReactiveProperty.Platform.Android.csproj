@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
-    <TargetFramework>net6.0-android</TargetFramework>
+    <TargetFramework>monoandroid90</TargetFramework>
     <PackageId>ReactiveProperty.XamarinAndroid</PackageId>
     <AssemblyName>ReactiveProperty.XamarinAndroid</AssemblyName>
     <SignAssembly>true</SignAssembly>

@@ -47,7 +47,7 @@ namespace Reactive.Bindings
             Scheduler = scheduler;
         }
 
-        private TimeSpan _interval;
+        private TimeSpan interval;
 
         /// <summary>
         /// Timer interval.
@@ -56,22 +56,22 @@ namespace Reactive.Bindings
         {
             get
             {
-                return _interval;
+                return interval;
             }
 
             set
             {
-                if (_interval == value)
+                if (interval == value)
                 {
                     return;
                 }
 
-                _interval = value;
+                interval = value;
                 PropertyChanged?.Invoke(this, IntervalPropertyChangedEventArgs);
             }
         }
 
-        private bool _isEnabled;
+        private bool isEnabled;
 
         /// <summary>
         /// Gets a value indicating whether this instance is enabled.
@@ -79,16 +79,16 @@ namespace Reactive.Bindings
         /// <value><c>true</c> if this instance is enabled; otherwise, <c>false</c>.</value>
         public bool IsEnabled
         {
-            get => _isEnabled;
+            get => isEnabled;
 
             private set
             {
-                if (_isEnabled == value)
+                if (isEnabled == value)
                 {
                     return;
                 }
 
-                _isEnabled = value;
+                isEnabled = value;
                 PropertyChanged?.Invoke(this, IsEnabledPropertyChangedEventArs);
             }
         }
