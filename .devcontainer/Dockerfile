@@ -1,5 +1,5 @@
 # [Choice] .NET version: 5.0, 3.1, 2.1
-ARG VARIANT=6.0
+ARG VARIANT=6.0.0-rc.1-focal-amd64
 FROM mcr.microsoft.com/dotnet/aspnet:0-${VARIANT}
 
 # [Choice] Node.js version: none, lts/*, 16, 14, 12, 10
