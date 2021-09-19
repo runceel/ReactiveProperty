@@ -2,7 +2,7 @@
 
 # ReactiveProperty
 
-ReactiveProperty provides MVVM and asynchronous support features under Reactive Extensions. Target framework is .NET Standard 2.0.
+ReactiveProperty provides MVVM and asynchronous support features under Reactive Extensions. Target framework is .NET 6.0(on v8.0.0-pre), .NET Core 3.1, .NET Framework 4.6.1 and .NET Standard 2.0.
 
 ![](https://img.shields.io/nuget/v/ReactiveProperty.svg)
 ![](https://img.shields.io/nuget/dt/ReactiveProperty.svg)
@@ -128,12 +128,6 @@ Binding code:
 It's very simple.
 
 ReactiveProperty doesn't provide base class by ViewModel, which means that ReactiveProperty can be used together with another MVVM library like Prism, MVVMLight, etc...
-
-## Help support ReactiveProperty
-
-|Name|GitHub Sponsors|
-|----|----|
-|runceel|https://github.com/sponsors/runceel|
 
 ## Documentation
 
