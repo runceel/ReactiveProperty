@@ -4,14 +4,14 @@
     <Version>8.0.0</Version>
     <Authors>neuecc xin9le okazuki</Authors>
     <PackageProjectUrl>https://github.com/runceel/ReactiveProperty</PackageProjectUrl>
-    <PackageTags>rx mvvm async reactive</PackageTags>
-    <LangVersion>10</LangVersion>
+    <PackageTags>rx mvvm async rx-main reactive</PackageTags>
     <NeutralLanguage>en-US</NeutralLanguage>
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>ReactivePropertyIcon_100x100.png</PackageIcon>
     <RepositoryUrl>https://github.com/runceel/ReactiveProperty</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <LangVersion>10.0</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>

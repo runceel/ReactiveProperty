@@ -12,6 +12,6 @@ namespace ReactivePropertySamples.WPF.Converters
     {
         protected override IObservable<string> OnConvert(IObservable<MouseEventArgs> source) => 
             source.Select(x => x.GetPosition((IInputElement)AssociateObject))
-                .Select(x => $"({(int)x.X}, {(int)x.Y}");
+                .Select(x => $"({(int)x.X}, {(int)x.Y})");
     }
 }

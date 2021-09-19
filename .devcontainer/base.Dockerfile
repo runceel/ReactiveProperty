@@ -1,5 +1,5 @@
 # [Choice] .NET version: 5.0, 3.1, 2.1
-ARG VARIANT="6.0"
+ARG VARIANT="3.1"
 FROM mcr.microsoft.com/dotnet/sdk:${VARIANT}-focal
 
 # Copy library scripts to execute
