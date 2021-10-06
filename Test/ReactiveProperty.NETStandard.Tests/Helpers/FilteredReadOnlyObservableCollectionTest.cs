@@ -4,8 +4,10 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Runtime.CompilerServices;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using Reactive.Bindings.Helpers;
 
@@ -384,6 +386,27 @@ namespace ReactiveProperty.Tests.Helpers
             filtered.Count.Is(500000);
         }
 
+        [TestMethod]
+        public void NestedPropertyCase()
+        {
+            // Initial state of NestedObject.value is true
+            var source = new ObservableCollection<Person>(new[]
+            {
+                new Person { Name = "tanaka1" },
+                new Person { Name = "tanaka2" },
+                new Person { Name = "tanaka3" },
+                new Person { Name = "tanaka4" },
+                new Person { Name = "tanaka5" },
+            });
+
+            var filtered = source.ToFilteredReadOnlyObservableCollection(
+                x => x.NestedObject.Value, 
+                source.ObserveElementProperty(x => x.NestedObject.Value).Select(x => x.Instance));
+            filtered.Select(x => x.Name).Is("tanaka1", "tanaka2", "tanaka3", "tanaka4", "tanaka5");
+            source[0].NestedObject.Value = false;
+            filtered.Select(x => x.Name).Is("tanaka2", "tanaka3", "tanaka4", "tanaka5");
+        }
+
         private class Person : INotifyPropertyChanged
         {
             public event PropertyChangedEventHandler PropertyChanged;
@@ -411,6 +434,8 @@ namespace ReactiveProperty.Tests.Helpers
                 get { return isRemoved; }
                 set { SetProperty(ref isRemoved, value); }
             }
+
+            public ReactivePropertySlim<bool> NestedObject { get; } = new ReactivePropertySlim<bool>(true);
         }
 
         public class RangedObservableCollection<T> : ObservableCollection<T>

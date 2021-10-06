@@ -464,3 +464,35 @@ public class ViewModel
 
 When the Value property is greater than 7, then display the value in the Filtered Values ListView (right side).
 
+If you want to change update elements trigger from CollectionChanged event to other, then you can customize it using another overload method that has `IObservable<T> sourceElementStatusChanged` argument.
+
+For example, you want to filter nested property of elements on a collection.
+
+```csharp
+// An object that has nested object property
+public class NestedPropertyObject
+{
+    public string Id { get; } => Guid.NewGuid().ToString();
+    public ReactivePropertySlim<bool> NestedObject { get; } = new ReactivePropertySlim<bool>(true);
+}
+
+
+// Trigger
+var sourceCollection = new ObservableCollection<NestedPropertyObject>
+{
+    new NestedPropertyObject(),
+    new NestedPropertyObject(),
+    new NestedPropertyObject(),
+};
+
+var filteredCollection = sourceCollection.ToFilteredReadOnlyObservableCollection(
+    x => x.NestedObject.Value,
+    source.ObserveElementProperty(x => x.NestedObject.Value).Select(x => x.Instance)
+);
+
+Console.WriteLine(filteredCollection.Count); // 3
+sourceCollection[1].NestedObject.Value = false;
+Console.WriteLine(filteredCollection.Count); // 2
+```
+
+> `collection.ToFilteredReadOnlyObservableCollection(x => x.SomeProperty)` is just a shortcut `collection.ToFilteredReadOnlyObservableCollection(x => x.SomeProperty, collection..ObserveElementPropertyChanged().Select(x => x.Sender))`.
