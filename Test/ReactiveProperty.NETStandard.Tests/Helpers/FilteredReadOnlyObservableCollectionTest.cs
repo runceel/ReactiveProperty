@@ -400,8 +400,8 @@ namespace ReactiveProperty.Tests.Helpers
             });
 
             var filtered = source.ToFilteredReadOnlyObservableCollection(
-                x => x.NestedObject.Value, 
-                source.ObserveElementProperty(x => x.NestedObject.Value).Select(x => x.Instance));
+                x => x.NestedObject.Value,
+                x => x.ObserveProperty(y => y.NestedObject.Value));
             filtered.Select(x => x.Name).Is("tanaka1", "tanaka2", "tanaka3", "tanaka4", "tanaka5");
             source[0].NestedObject.Value = false;
             filtered.Select(x => x.Name).Is("tanaka2", "tanaka3", "tanaka4", "tanaka5");

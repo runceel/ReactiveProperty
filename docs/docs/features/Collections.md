@@ -464,19 +464,23 @@ public class ViewModel
 
 When the Value property is greater than 7, then display the value in the Filtered Values ListView (right side).
 
+### Customize how to observe collection elements
+
 If you want to change update elements trigger from CollectionChanged event to other, then you can customize it using another overload method that has `IObservable<T> sourceElementStatusChanged` argument.
 
 For example, you want to filter nested property of elements on a collection.
 
 ```csharp
 // An object that has nested object property
-public class NestedPropertyObject
+public class NestedPropertyObject : INotifyPropertyChanged
 {
+    // omit INPC impl
+
     public string Id { get; } => Guid.NewGuid().ToString();
     public ReactivePropertySlim<bool> NestedObject { get; } = new ReactivePropertySlim<bool>(true);
 }
 
-
+// --------------------
 // Trigger
 var sourceCollection = new ObservableCollection<NestedPropertyObject>
 {
@@ -486,13 +490,22 @@ var sourceCollection = new ObservableCollection<NestedPropertyObject>
 };
 
 var filteredCollection = sourceCollection.ToFilteredReadOnlyObservableCollection(
+    // a lambda expression for filter condition
     x => x.NestedObject.Value,
-    source.ObserveElementProperty(x => x.NestedObject.Value).Select(x => x.Instance)
+    // create a IObservable instance for update trigger of collection elements
+    x => x.ObserveProperty(y => NestedObject.Value)
 );
 
 Console.WriteLine(filteredCollection.Count); // 3
+// filteredCollection is observing NextedObject.Value property path.
+// Then the following line triggers re-eval for filter condition
 sourceCollection[1].NestedObject.Value = false;
 Console.WriteLine(filteredCollection.Count); // 2
 ```
 
-> `collection.ToFilteredReadOnlyObservableCollection(x => x.SomeProperty)` is just a shortcut `collection.ToFilteredReadOnlyObservableCollection(x => x.SomeProperty, collection..ObserveElementPropertyChanged().Select(x => x.Sender))`.
+The following two lines are same:
+
+```csharp
+collection.ToFilteredReadOnlyObservableCollection(x => x.SomeProperty);
+collection.ToFilteredReadOnlyObservableCollection(x => x.SomeProperty, x => x.PropertyChangedAsObservable());
+```
