@@ -44,6 +44,7 @@ namespace Reactive.Bindings.Helpers
     /// </summary>
     /// <typeparam name="TCollection">type of source collection</typeparam>
     /// <typeparam name="TElement">type of collection item</typeparam>
+    /// <typeparam name="TTrigger">type for IObservable to notify source status changed</typeparam>
     public sealed class FilteredReadOnlyObservableCollection<TCollection, TElement, TTrigger> : IFilteredReadOnlyObservableCollection<TElement>, IList // IList UWP GridView support.
         where TCollection : INotifyCollectionChanged, IList<TElement>
         where TElement : class, INotifyPropertyChanged
