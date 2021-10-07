@@ -148,7 +148,7 @@ namespace Reactive.Bindings.Helpers
         /// <param name="source">source collection</param>
         /// <param name="subscribeAction">element subscribe logic.</param>
         /// <returns></returns>
-        private static IObservable<TResult> ObserveElementCore<TCollection, TElement, TResult>(TCollection source, Func<TElement, IObserver<TResult>, IDisposable> subscribeAction)
+        internal static IObservable<TResult> ObserveElementCore<TCollection, TElement, TResult>(TCollection source, Func<TElement, IObserver<TResult>, IDisposable> subscribeAction)
             where TCollection : INotifyCollectionChanged, IEnumerable<TElement>
             where TElement : class
         {

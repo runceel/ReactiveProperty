@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -43,7 +44,7 @@ namespace Reactive.Bindings.Helpers
     /// </summary>
     /// <typeparam name="TCollection">type of source collection</typeparam>
     /// <typeparam name="TElement">type of collection item</typeparam>
-    public sealed class FilteredReadOnlyObservableCollection<TCollection, TElement> : IFilteredReadOnlyObservableCollection<TElement>, IList // IList UWP GridView support.
+    public sealed class FilteredReadOnlyObservableCollection<TCollection, TElement, TTrigger> : IFilteredReadOnlyObservableCollection<TElement>, IList // IList UWP GridView support.
         where TCollection : INotifyCollectionChanged, IList<TElement>
         where TElement : class, INotifyPropertyChanged
     {
@@ -68,14 +69,14 @@ namespace Reactive.Bindings.Helpers
         /// </summary>
         /// <param name="source">source collection</param>
         /// <param name="filter">filter function</param>
-        /// <param name="sourceElementStatusChanged">IObservable to notify source status changed</param>
-        public FilteredReadOnlyObservableCollection(TCollection source, Func<TElement, bool> filter, IObservable<TElement> sourceElementStatusChanged)
+        /// <param name="elementChangedFactory">IObservable to notify source status changed</param>
+        public FilteredReadOnlyObservableCollection(TCollection source, Func<TElement, bool> filter, Func<TElement, IObservable<TTrigger>> elementChangedFactory)
         {
             Source = source ?? throw new ArgumentNullException(nameof(source));
             Filter = filter ?? throw new ArgumentNullException(nameof(filter));
-            if (sourceElementStatusChanged == null)
+            if (elementChangedFactory == null)
             {
-                throw new ArgumentNullException(nameof(sourceElementStatusChanged));
+                throw new ArgumentNullException(nameof(elementChangedFactory));
             }
 
             lock (_syncRoot)
@@ -84,7 +85,9 @@ namespace Reactive.Bindings.Helpers
             }
 
             // propertychanged
-            sourceElementStatusChanged.Subscribe(SourceElementChanged)
+            CollectionUtilities.ObserveElementCore<TCollection, TElement, TElement>(source, (x, observer) =>
+                elementChangedFactory(x).Subscribe(_ => observer.OnNext(x)))
+                .Subscribe(SourceElementChanged)
                 .AddTo(Subscription);
 
             // collection changed(support single changed only)
@@ -405,10 +408,10 @@ namespace Reactive.Bindings.Helpers
         /// <returns></returns>
         public static IFilteredReadOnlyObservableCollection<T> ToFilteredReadOnlyObservableCollection<T>(this ObservableCollection<T> self, Func<T, bool> filter)
             where T : class, INotifyPropertyChanged =>
-            new FilteredReadOnlyObservableCollection<ObservableCollection<T>, T>(
+            new FilteredReadOnlyObservableCollection<ObservableCollection<T>, T, PropertyChangedEventArgs>(
                 self, 
                 filter, 
-                self.ObserveElementPropertyChanged().Select(x => x.Sender));
+                x => x.PropertyChangedAsObservable());
 
         /// <summary>
         /// create IFilteredReadOnlyObservableCollection from ReadOnlyObservableCollection
@@ -419,34 +422,36 @@ namespace Reactive.Bindings.Helpers
         /// <returns></returns>
         public static IFilteredReadOnlyObservableCollection<T> ToFilteredReadOnlyObservableCollection<T>(this ReadOnlyObservableCollection<T> self, Func<T, bool> filter)
             where T : class, INotifyPropertyChanged =>
-            new FilteredReadOnlyObservableCollection<ReadOnlyObservableCollection<T>, T>(
+            new FilteredReadOnlyObservableCollection<ReadOnlyObservableCollection<T>, T, PropertyChangedEventArgs>(
                 self,
                 filter,
-                self.ObserveElementPropertyChanged().Select(x => x.Sender));
+                x => x.PropertyChangedAsObservable());
 
         /// <summary>
         /// create IFilteredReadOnlyObservableCollection from ReadOnlyObservableCollection
         /// </summary>
         /// <typeparam name="T">Type of collection item.</typeparam>
+        /// <typeparam name="U">Type of return type for elementStatusChangedFactory</typeparam>
         /// <param name="self">Source collection.</param>
         /// <param name="filter">Filter function.</param>
-        /// <param name="sourceElementStatusChanged">IObservable to notify source status changed</param>
+        /// <param name="elementStatusChangedFactory">IObservable to notify source status changed</param>
         /// <returns></returns>
-        public static IFilteredReadOnlyObservableCollection<T> ToFilteredReadOnlyObservableCollection<T>(this ReadOnlyObservableCollection<T> self, Func<T, bool> filter, IObservable<T> sourceElementStatusChanged)
+        public static IFilteredReadOnlyObservableCollection<T> ToFilteredReadOnlyObservableCollection<T, U>(this ReadOnlyObservableCollection<T> self, Func<T, bool> filter, Func<T, IObservable<U>> elementStatusChangedFactory)
             where T : class, INotifyPropertyChanged =>
-            new FilteredReadOnlyObservableCollection<ReadOnlyObservableCollection<T>, T>(self, filter, sourceElementStatusChanged);
+            new FilteredReadOnlyObservableCollection<ReadOnlyObservableCollection<T>, T, U>(self, filter, elementStatusChangedFactory);
 
         /// <summary>
         /// create IFilteredReadOnlyObservableCollection from ObservableCollection
         /// </summary>
         /// <typeparam name="T">Type of collection item.</typeparam>
+        /// <typeparam name="U">Type of return type for elementStatusChangedFactory</typeparam>
         /// <param name="self">Source collection.</param>
         /// <param name="filter">Filter function.</param>
-        /// <param name="sourceElementStatusChanged">IObservable to notify source status changed</param>
+        /// <param name="elementStatusChangedFactory">IObservable to notify source status changed</param>
         /// <returns></returns>
-        public static IFilteredReadOnlyObservableCollection<T> ToFilteredReadOnlyObservableCollection<T>(this ObservableCollection<T> self, Func<T, bool> filter, IObservable<T> sourceElementStatusChanged)
+        public static IFilteredReadOnlyObservableCollection<T> ToFilteredReadOnlyObservableCollection<T, U>(this ObservableCollection<T> self, Func<T, bool> filter, Func<T, IObservable<U>> elementStatusChangedFactory)
             where T : class, INotifyPropertyChanged =>
-            new FilteredReadOnlyObservableCollection<ObservableCollection<T>, T>(self, filter, sourceElementStatusChanged);
+            new FilteredReadOnlyObservableCollection<ObservableCollection<T>, T, U>(self, filter, elementStatusChangedFactory);
 
         /// <summary>
         /// create ReadOnlyReactiveCollection from IFilteredReadOnlyObservableCollection
