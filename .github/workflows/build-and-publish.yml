@@ -7,7 +7,7 @@ on:
       - 'docs/**'
 
 env:
-  DOTNET_VERSION: 6.0.100-rc.1.21458.32
+  DOTNET_VERSION: 6.0.100-rc.2.21505.57
 
 jobs:
   build:
