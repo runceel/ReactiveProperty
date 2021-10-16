@@ -20,8 +20,6 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="../../Assets/ReactivePropertyIcon_100x100.png" LinkBase="Assets" Pack="true" PackagePath="/" />
-    <None Include="../../Images/rpsummary.png" LinkBase="Images" Pack="true" PackagePath="/Images" />
-    <None Include="../../Images/launch-uwp-app.gif" LinkBase="Images" Pack="true" PackagePath="/Images" />
     <None Include="../../README.md" Pack="true" PackagePath="/" />
   </ItemGroup>
 </Project>
