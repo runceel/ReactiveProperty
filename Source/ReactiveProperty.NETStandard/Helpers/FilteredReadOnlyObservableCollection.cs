@@ -49,7 +49,7 @@ namespace Reactive.Bindings.Helpers
         where TCollection : INotifyCollectionChanged, IList<TElement>
         where TElement : class, INotifyPropertyChanged
     {
-        private readonly object _syncRoot = new object();
+        private readonly object _syncRoot = new();
         private TCollection Source { get; }
 
         private Func<TElement, bool> Filter { get; set; }

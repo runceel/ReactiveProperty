@@ -37,8 +37,8 @@ namespace Reactive.Bindings.Notifiers
     /// </summary>
     public class CountNotifier : IObservable<CountChangedStatus>, INotifyPropertyChanged
     {
-        private readonly object lockObject = new object();
-        private readonly Subject<CountChangedStatus> statusChanged = new Subject<CountChangedStatus>();
+        private readonly object lockObject = new();
+        private readonly Subject<CountChangedStatus> statusChanged = new();
 
         /// <summary>
         /// Occurs when a property value changes.
