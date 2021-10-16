@@ -16,7 +16,7 @@ namespace Reactive.Bindings.Notifiers
         /// <returns></returns>
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private readonly Subject<bool> boolTrigger = new Subject<bool>();
+        private readonly Subject<bool> boolTrigger = new();
         private bool boolValue;
 
         /// <summary>

@@ -74,7 +74,7 @@ namespace Reactive.Bindings.Notifiers
         public static readonly IMessageBroker Default = new MessageBroker();
 
         bool isDisposed = false;
-        readonly Dictionary<Type, object> notifiers = new Dictionary<Type, object>();
+        readonly Dictionary<Type, object> notifiers = new();
 
         /// <summary>
         /// Send Message to all receiver.
@@ -187,7 +187,7 @@ namespace Reactive.Bindings.Notifiers
         public static readonly IAsyncMessageBroker Default = new AsyncMessageBroker();
 
         bool isDisposed = false;
-        readonly Dictionary<Type, object> notifiers = new Dictionary<Type, object>();
+        readonly Dictionary<Type, object> notifiers = new();
 
         /// <summary>
         /// Send Message to all receiver and await complete.
@@ -318,7 +318,7 @@ namespace Reactive.Bindings.Notifiers
     // ImmutableList is from Rx internal
     internal class ImmutableList<T>
     {
-        public static readonly ImmutableList<T> Empty = new ImmutableList<T>();
+        public static readonly ImmutableList<T> Empty = new();
 
         T[] data;
 

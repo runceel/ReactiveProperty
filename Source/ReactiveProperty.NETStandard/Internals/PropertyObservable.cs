@@ -26,7 +26,7 @@ namespace Reactive.Bindings.Internals
 
         private void RaisePropertyChanged() => _propertyChangedSource.OnNext(GetPropertyPathValue());
 
-        private readonly Subject<TProperty> _propertyChangedSource = new Subject<TProperty>();
+        private readonly Subject<TProperty> _propertyChangedSource = new();
 
         public void Dispose()
         {

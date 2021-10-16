@@ -49,7 +49,7 @@ namespace Reactive.Bindings.Extensions
             DependencyProperty dp,
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe,
             IScheduler eventScheduler = null) =>
-            new ReadOnlyReactiveProperty<T>(
+            new(
                 self.ObserveDependencyProperty(dp).Select(_ => (T)self.GetValue(dp)),
                 (T)self.GetValue(dp),
                 mode,
@@ -62,7 +62,7 @@ namespace Reactive.Bindings.Extensions
             DependencyProperty dp,
             IScheduler eventScheduler = null,
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe) =>
-            new ReactiveProperty<T>(
+            new(
                 self.ObserveDependencyProperty(dp).Select(_ => (T)self.GetValue(dp)),
                 eventScheduler ?? ReactivePropertyScheduler.Default,
                 (T)self.GetValue(dp),

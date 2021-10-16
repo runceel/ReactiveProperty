@@ -23,7 +23,7 @@ namespace Reactive.Bindings
         private ExceptionDispatchInfo exception;
         private Action continuation;
         private SynchronizationContext context;
-        private readonly object gate = new object();
+        private readonly object gate = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ObservableAsyncHandler{T}"/> class.

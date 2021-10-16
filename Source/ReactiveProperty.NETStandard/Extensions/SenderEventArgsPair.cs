@@ -51,6 +51,6 @@
         /// <param name="eventArgs">event arguments</param>
         /// <returns>Created instance.</returns>
         public static SenderEventArgsPair<TSender, TEventArgs> Create<TSender, TEventArgs>(TSender sender, TEventArgs eventArgs) =>
-            new SenderEventArgsPair<TSender, TEventArgs>(sender, eventArgs);
+            new(sender, eventArgs);
     }
 }

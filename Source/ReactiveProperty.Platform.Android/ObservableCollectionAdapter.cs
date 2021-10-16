@@ -61,7 +61,7 @@ namespace Reactive.Bindings
         /// <param name="getId"></param>
         /// <returns></returns>
         public static ObservableCollectionAdapter<T> ToAdapter<T>(this ObservableCollection<T> self, Func<int, T, View> createRowView, Action<int, T, View> setRowData, Func<int, T, long> getId = null) =>
-            new ObservableCollectionAdapter<T>(self, createRowView, setRowData, getId);
+            new(self, createRowView, setRowData, getId);
     }
 
     /// <summary>
@@ -79,6 +79,6 @@ namespace Reactive.Bindings
         /// <param name="getId"></param>
         /// <returns></returns>
         public static ObservableCollectionAdapter<T> ToAdapter<T>(this ReadOnlyObservableCollection<T> self, Func<int, T, View> createRowView, Action<int, T, View> setRowData, Func<int, T, long> getId = null) =>
-            new ObservableCollectionAdapter<T>(self, createRowView, setRowData, getId);
+            new(self, createRowView, setRowData, getId);
     }
 }

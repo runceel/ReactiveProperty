@@ -122,12 +122,12 @@ namespace Reactive.Bindings
         /// Source sequence as ObservableCollection. Operate scheduler is ReactivePropertyScheduler.
         /// </summary>
         public static ReactiveCollection<T> ToReactiveCollection<T>(this IObservable<T> source) =>
-            new ReactiveCollection<T>(source);
+            new(source);
 
         /// <summary>
         /// Source sequence as ObservableCollection. Operate scheduler is argument's scheduler.
         /// </summary>
         public static ReactiveCollection<T> ToReactiveCollection<T>(this IObservable<T> source, IScheduler scheduler) =>
-            new ReactiveCollection<T>(source, scheduler);
+            new(source, scheduler);
     }
 }

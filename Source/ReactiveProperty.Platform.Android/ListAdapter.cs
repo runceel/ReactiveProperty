@@ -92,6 +92,6 @@ namespace Reactive.Bindings
         /// <param name="getId">get id</param>
         /// <returns>ListAdapter</returns>
         public static ListAdapter<T> ToAdapter<T>(this IList<T> self, Func<int, T, View> createRowView, Action<int, T, View> setRowData, Func<int, T, long> getId = null) =>
-            new ListAdapter<T>(self, createRowView, setRowData, getId);
+            new(self, createRowView, setRowData, getId);
     }
 }
