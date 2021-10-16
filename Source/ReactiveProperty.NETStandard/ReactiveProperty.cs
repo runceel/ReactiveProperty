@@ -15,7 +15,7 @@ namespace Reactive.Bindings
 {
     internal class SingletonDataErrorsChangedEventArgs
     {
-        public static readonly DataErrorsChangedEventArgs Value = new DataErrorsChangedEventArgs(nameof(ReactiveProperty<object>.Value));
+        public static readonly DataErrorsChangedEventArgs Value = new(nameof(ReactiveProperty<object>.Value));
     }
 
     /// <summary>
@@ -555,7 +555,7 @@ namespace Reactive.Bindings
         public static ReactiveProperty<T> ToReactiveProperty<T>(this IObservable<T> source,
             T initialValue = default,
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe, IEqualityComparer<T> equalityComparer = null) =>
-            new ReactiveProperty<T>(source, initialValue, mode, equalityComparer);
+            new(source, initialValue, mode, equalityComparer);
 
         /// <summary>
         /// <para>Convert to two-way bindable IObservable&lt;T&gt;</para>
@@ -566,6 +566,6 @@ namespace Reactive.Bindings
             T initialValue = default,
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe,
             IEqualityComparer<T> equalityComparer = null) =>
-            new ReactiveProperty<T>(source, raiseEventScheduler, initialValue, mode, equalityComparer);
+            new(source, raiseEventScheduler, initialValue, mode, equalityComparer);
     }
 }

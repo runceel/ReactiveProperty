@@ -28,7 +28,7 @@ namespace Reactive.Bindings.Interactivity
 #endif
     public class EventToReactiveProperty : TriggerAction<FrameworkElement>
     {
-        private readonly Subject<object> source = new Subject<object>();
+        private readonly Subject<object> source = new();
 
         private IDisposable disposable;
 
@@ -53,7 +53,7 @@ namespace Reactive.Bindings.Interactivity
         /// </summary>
         public bool IgnoreEventArgs { get; set; }
 
-        private List<IEventToReactiveConverter> converters = new List<IEventToReactiveConverter>();
+        private List<IEventToReactiveConverter> converters = new();
         /// <summary>
         /// set and get Value converter.
         /// </summary>

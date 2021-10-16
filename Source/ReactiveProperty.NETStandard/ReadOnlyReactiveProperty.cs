@@ -219,7 +219,7 @@ namespace Reactive.Bindings
             ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe,
             IScheduler eventScheduler = null,
             IEqualityComparer<T> equalityComparer = null) =>
-            new ReadOnlyReactiveProperty<T>(
+            new(
                 self,
                 initialValue,
                 mode,

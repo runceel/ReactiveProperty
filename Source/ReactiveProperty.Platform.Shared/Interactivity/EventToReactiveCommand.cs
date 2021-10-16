@@ -33,8 +33,8 @@ namespace Reactive.Bindings.Interactivity
 #endif
     public class EventToReactiveCommand : TriggerAction<FrameworkElement>
     {
-        private readonly Subject<object> source = new Subject<object>();
-        private readonly Subject<EventArgs> autoEnableSource = new Subject<EventArgs>();
+        private readonly Subject<object> source = new();
+        private readonly Subject<EventArgs> autoEnableSource = new();
 
         private CompositeDisposable Disposable { get; } = new CompositeDisposable();
 
@@ -128,7 +128,7 @@ namespace Reactive.Bindings.Interactivity
         /// </summary>
         public bool IgnoreEventArgs { get; set; }
 
-        private List<IEventToReactiveConverter> converters = new List<IEventToReactiveConverter>();
+        private List<IEventToReactiveConverter> converters = new();
 
         /// <summary>
         /// set and get Value converter.

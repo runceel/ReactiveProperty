@@ -11,8 +11,8 @@ namespace Reactive.Bindings.Internals
     /// <typeparam name="TType">The type of the type.</typeparam>
     internal static class AccessorCache<TType>
     {
-        private static readonly Dictionary<string, Delegate> s_getCache = new Dictionary<string, Delegate>();
-        private static readonly Dictionary<string, Delegate> s_setCache = new Dictionary<string, Delegate>();
+        private static readonly Dictionary<string, Delegate> s_getCache = new();
+        private static readonly Dictionary<string, Delegate> s_setCache = new();
 
         /// <summary>
         /// Lookups the get.
@@ -99,9 +99,9 @@ namespace Reactive.Bindings.Internals
 
     internal static class AccessorCache
     {
-        private static readonly Dictionary<Type, Type> _accessorCacheTypeCache = new Dictionary<Type, Type>();
-        private static readonly Dictionary<Type, Dictionary<string, Delegate>> _getCache = new Dictionary<Type, Dictionary<string, Delegate>>();
-        private static readonly Dictionary<Type, Dictionary<string, Delegate>> _setCache = new Dictionary<Type, Dictionary<string, Delegate>>();
+        private static readonly Dictionary<Type, Type> _accessorCacheTypeCache = new();
+        private static readonly Dictionary<Type, Dictionary<string, Delegate>> _getCache = new();
+        private static readonly Dictionary<Type, Dictionary<string, Delegate>> _setCache = new();
 
         private static Dictionary<string, Delegate> GetGetCacheByType(Type type)
         {

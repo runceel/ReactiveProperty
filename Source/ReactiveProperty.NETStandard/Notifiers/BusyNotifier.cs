@@ -11,7 +11,7 @@ namespace Reactive.Bindings.Notifiers
     public class BusyNotifier : INotifyPropertyChanged, IObservable<bool>
     {
 
-        private static readonly PropertyChangedEventArgs IsBusyPropertyChangedEventArgs = new PropertyChangedEventArgs(nameof(IsBusy));
+        private static readonly PropertyChangedEventArgs IsBusyPropertyChangedEventArgs = new(nameof(IsBusy));
 
         /// <summary>
         /// property changed event handler
@@ -31,13 +31,13 @@ namespace Reactive.Bindings.Notifiers
         /// </summary>
         public bool IsBusy
         {
-            get { return this.isBusy; }
+            get { return isBusy; }
             set
             {
-                if (this.isBusy == value) { return; }
-                this.isBusy = value;
-                this.PropertyChanged?.Invoke(this, IsBusyPropertyChangedEventArgs);
-                this.IsBusySubject.OnNext(this.isBusy);
+                if (isBusy == value) { return; }
+                isBusy = value;
+                PropertyChanged?.Invoke(this, IsBusyPropertyChangedEventArgs);
+                IsBusySubject.OnNext(isBusy);
             }
         }
 
@@ -47,16 +47,16 @@ namespace Reactive.Bindings.Notifiers
         /// <returns>Call dispose method when process end.</returns>
         public IDisposable ProcessStart()
         {
-            lock (this.LockObject)
+            lock (LockObject)
             {
-                this.ProcessCounter++;
-                this.IsBusy = this.ProcessCounter != 0;
+                ProcessCounter++;
+                IsBusy = ProcessCounter != 0;
                 return Disposable.Create(() =>
                 {
-                    lock (this.LockObject)
+                    lock (LockObject)
                     {
-                        this.ProcessCounter--;
-                        this.IsBusy = this.ProcessCounter != 0;
+                        ProcessCounter--;
+                        IsBusy = ProcessCounter != 0;
                     }
                 });
             }
@@ -69,8 +69,8 @@ namespace Reactive.Bindings.Notifiers
         /// <returns>disposable</returns>
         public IDisposable Subscribe(IObserver<bool> observer)
         {
-            observer.OnNext(this.IsBusy);
-            return this.IsBusySubject.Subscribe(observer);
+            observer.OnNext(IsBusy);
+            return IsBusySubject.Subscribe(observer);
         }
     }
 }
