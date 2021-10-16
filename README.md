@@ -1,4 +1,4 @@
-[Japanese](http://blog.okazuki.jp/entry/2015/12/05/221154)
+[Japanese](https://qiita.com/okazuki/items/7572f46848d0e93516b1)
 
 # ReactiveProperty
 
