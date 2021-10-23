@@ -33,6 +33,17 @@ namespace ReactiveProperty.Tests
         }
 
         [TestMethod]
+        public void AddRangeTest()
+        {
+            var source = new RangedObservableCollection<int>();
+            var target = source.ToReadOnlyReactiveCollection(x => $"{x}");
+            source.Add(1);
+            target.Is("1");
+            source.AddRange(new[] { 2, 3, 4 });
+            target.Is("1", "2", "3", "4");
+        }
+
+        [TestMethod]
         public void CollectionChangedTest()
         {
             var s = new Subject<CollectionChanged<int>>();
@@ -287,4 +298,26 @@ namespace ReactiveProperty.Tests
             if (h != null) { h(this, e); }
         }
     }
+
+    internal class RangedObservableCollection<T> : ObservableCollection<T>
+    {
+        private bool _suppressNotification = false;
+
+        protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+        {
+            if (!_suppressNotification) base.OnCollectionChanged(e);
+        }
+
+        public void AddRange(IEnumerable<T> list)
+        {
+            if (list == null) throw new ArgumentNullException("list");
+
+            _suppressNotification = true;
+            foreach (T item in list) Add(item);
+            _suppressNotification = false;
+
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+        }
+    }
+
 }

@@ -63,14 +63,7 @@ namespace Reactive.Bindings
                 .AddTo(Token);
 
             subject.Where(v => v.Action == NotifyCollectionChangedAction.Reset)
-                .Subscribe(v =>
-                {
-                    foreach (var item in source)
-                    {
-                        if (item is IDisposable d) { InvokeDispose(d); }
-                    }
-                    Source.Clear();
-                })
+                .Subscribe(v => ResetCollection(v))
                 .AddTo(Token);
 
             subject.Where(x => x.Action == NotifyCollectionChangedAction.Move)
@@ -79,6 +72,23 @@ namespace Reactive.Bindings
 
             ox.ObserveOn(scheduler)
                 .Subscribe(subject).AddTo(Token);
+        }
+
+        private void ResetCollection(CollectionChanged<T> collectionChanged)
+        {
+            foreach (var item in Source)
+            {
+                if (item is IDisposable d) { InvokeDispose(d); }
+            }
+            Source.Clear();
+
+            if (collectionChanged.Source != null)
+            {
+                foreach (var x in collectionChanged.Source)
+                {
+                    Source.Add(x);
+                }
+            }
         }
 
         /// <summary>
@@ -149,13 +159,25 @@ namespace Reactive.Bindings
     /// <typeparam name="T"></typeparam>
     public class CollectionChanged<T>
     {
+
         /// <summary>
         /// Reset action
         /// </summary>
-        public static readonly CollectionChanged<T> Reset = new()
+        public static CollectionChanged<T> Reset { get; } = new()
         {
             Action = NotifyCollectionChangedAction.Reset
         };
+
+        /// <summary>
+        /// Reset action with source collection
+        /// </summary>
+        /// <param name="source">An event source collection.</param>
+        public static CollectionChanged<T> ResetWithSource(IEnumerable<T> source) =>
+            new CollectionChanged<T>
+            {
+                Action = NotifyCollectionChangedAction.Reset,
+                Source = source,
+            };
 
         /// <summary>
         /// Create Remove action
@@ -222,6 +244,11 @@ namespace Reactive.Bindings
                 Action = NotifyCollectionChangedAction.Move
             };
         }
+
+        /// <summary>
+        /// イベントソースのコレクション
+        /// </summary>
+        public IEnumerable<T> Source { get; init; }
 
         /// <summary>
         /// Changed value.
@@ -303,38 +330,24 @@ namespace Reactive.Bindings
         {
             return Observable.Create<CollectionChanged<T>>(ox =>
             {
-                var d = new CompositeDisposable();
-                self.CollectionChangedAsObservable()
-                    .Where(e => e.Action == NotifyCollectionChangedAction.Add)
-                    .Select(e => CollectionChanged<T>.Add(e.NewStartingIndex, e.NewItems.Cast<T>().First()))
-                    .Subscribe(c => ox.OnNext(c))
-                    .AddTo(d);
+                void collectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+                {
+                    var collectionChanged = e.Action switch
+                    {
+                        NotifyCollectionChangedAction.Add => CollectionChanged<T>.Add(e.NewStartingIndex, e.NewItems.Cast<T>().First()),
+                        NotifyCollectionChangedAction.Remove => CollectionChanged<T>.Remove(e.OldStartingIndex, e.OldItems.Cast<T>().First()),
+                        NotifyCollectionChangedAction.Replace => CollectionChanged<T>.Replace(e.NewStartingIndex, e.NewItems.Cast<T>().First()),
+                        NotifyCollectionChangedAction.Reset => CollectionChanged<T>.ResetWithSource(sender as IEnumerable<T>),
+                        NotifyCollectionChangedAction.Move => CollectionChanged<T>.Move(e.OldStartingIndex, e.NewStartingIndex, e.NewItems.Cast<T>().First()),
+                        _ => throw new InvalidOperationException($"Unknown NotifyCollectionChangedAction value: {e.Action}"),
+                    };
+                    ox.OnNext(collectionChanged);
+                }
 
-                self.CollectionChangedAsObservable()
-                    .Where(e => e.Action == NotifyCollectionChangedAction.Remove)
-                    .Select(e => CollectionChanged<T>.Remove(e.OldStartingIndex, e.OldItems.Cast<T>().First()))
-                    .Subscribe(c => ox.OnNext(c))
-                    .AddTo(d);
-
-                self.CollectionChangedAsObservable()
-                    .Where(e => e.Action == NotifyCollectionChangedAction.Replace)
-                    .Select(e => CollectionChanged<T>.Replace(e.NewStartingIndex, e.NewItems.Cast<T>().First()))
-                    .Subscribe(c => ox.OnNext(c))
-                    .AddTo(d);
-
-                self.CollectionChangedAsObservable()
-                    .Where(e => e.Action == NotifyCollectionChangedAction.Reset)
-                    .Select(_ => CollectionChanged<T>.Reset)
-                    .Subscribe(c => ox.OnNext(c))
-                    .AddTo(d);
-
-                self.CollectionChangedAsObservable()
-                    .Where(e => e.Action == NotifyCollectionChangedAction.Move)
-                    .Select(e => CollectionChanged<T>.Move(e.OldStartingIndex, e.NewStartingIndex, e.NewItems.Cast<T>().First()))
-                    .Subscribe(c => ox.OnNext(c))
-                    .AddTo(d);
-
-                return d;
+                self.CollectionChanged += collectionChanged;
+                return Disposable.Create(
+                    (Source: self, Handler: (NotifyCollectionChangedEventHandler)collectionChanged), 
+                    static state => state.Source.CollectionChanged -= state.Handler);
             });
         }
 
@@ -394,6 +407,7 @@ namespace Reactive.Bindings
             var convertedCollectionChanged = collectionChanged
                 .Select(x => new CollectionChanged<U>
                 {
+                    Source = x.Source?.Select(x => converter(x)),
                     Action = x.Action,
                     Index = x.Index,
                     OldIndex = x.OldIndex,
