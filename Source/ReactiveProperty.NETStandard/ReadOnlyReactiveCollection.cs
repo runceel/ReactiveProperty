@@ -18,9 +18,11 @@ namespace Reactive.Bindings
     /// <typeparam name="T">collection item type</typeparam>
     public class ReadOnlyReactiveCollection<T> : ReadOnlyObservableCollection<T>, IDisposable
     {
+        private readonly NotifyCollectionChangedEventArgs _resetEventArgs = new(NotifyCollectionChangedAction.Reset);
         private ObservableCollection<T> Source { get; set; }
+        private bool _isSupressingEvents = false;
 
-        private CompositeDisposable Token { get; } = new CompositeDisposable();
+        private CompositeDisposable Token { get; } = new();
 
         private bool DisposeElement { get; }
 
@@ -74,23 +76,6 @@ namespace Reactive.Bindings
                 .Subscribe(subject).AddTo(Token);
         }
 
-        private void ResetCollection(CollectionChanged<T> collectionChanged)
-        {
-            foreach (var item in Source)
-            {
-                if (item is IDisposable d) { InvokeDispose(d); }
-            }
-            Source.Clear();
-
-            if (collectionChanged.Source != null)
-            {
-                foreach (var x in collectionChanged.Source)
-                {
-                    Source.Add(x);
-                }
-            }
-        }
-
         /// <summary>
         /// Create basic RxCollection from IO.
         /// </summary>
@@ -117,14 +102,8 @@ namespace Reactive.Bindings
             {
                 onReset
                     .ObserveOn(scheduler)
-                    .Subscribe(_ =>
-                    {
-                        foreach (var item in source)
-                        {
-                            InvokeDispose(item);
-                        }
-                        Source.Clear();
-                    }).AddTo(Token);
+                    .Subscribe(_ => ResetCollection(CollectionChanged<T>.Reset))
+                    .AddTo(Token);
             }
         }
 
@@ -141,6 +120,43 @@ namespace Reactive.Bindings
             Token.Dispose();
             foreach (var d in this.OfType<IDisposable>().ToArray()) { InvokeDispose(d); }
         }
+
+
+        /// <inheritdoc />
+        protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs args)
+        {
+            if (_isSupressingEvents) { return; }
+            base.OnCollectionChanged(args);
+        }
+
+        private void ResetCollection(CollectionChanged<T> collectionChanged)
+        {
+            _isSupressingEvents = true;
+            try
+            {
+                foreach (var item in Source)
+                {
+                    if (item is IDisposable d) { InvokeDispose(d); }
+                }
+                Source.Clear();
+
+                if (collectionChanged.Source != null)
+                {
+                    foreach (var x in collectionChanged.Source)
+                    {
+                        Source.Add(x);
+                    }
+                }
+            }
+            finally
+            {
+                _isSupressingEvents = false;
+            }
+
+            OnCollectionChanged(_resetEventArgs);
+        }
+
+
 
         private void InvokeDispose(object item)
         {
@@ -346,7 +362,7 @@ namespace Reactive.Bindings
 
                 self.CollectionChanged += collectionChanged;
                 return Disposable.Create(
-                    (Source: self, Handler: (NotifyCollectionChangedEventHandler)collectionChanged), 
+                    (Source: self, Handler: (NotifyCollectionChangedEventHandler)collectionChanged),
                     static state => state.Source.CollectionChanged -= state.Handler);
             });
         }
