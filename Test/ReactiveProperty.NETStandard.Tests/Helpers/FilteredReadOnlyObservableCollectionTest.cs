@@ -338,6 +338,31 @@ namespace ReactiveProperty.Tests.Helpers
         }
 
         [TestMethod]
+        public void RemoveRangeTest()
+        {
+            var source = new RangedObservableCollection<Person>(new[]
+            {
+                new Person { Name = "tanaka1", IsRemoved = false },
+                new Person { Name = "tanaka2", IsRemoved = true },
+                new Person { Name = "tanaka3", IsRemoved = false },
+                new Person { Name = "tanaka4", IsRemoved = true },
+                new Person { Name = "tanaka5", IsRemoved = false },
+            });
+
+            var filtered = source.ToFilteredReadOnlyObservableCollection(x => !x.IsRemoved);
+            var buffer = new List<NotifyCollectionChangedEventArgs>();
+
+            filtered.Is(source[0], source[2], source[4]);
+            source.RemoveRange(new[]
+            {
+                source[0], source[1], source[2],
+            });
+            filtered.Is(source.Last());
+        }
+
+
+
+        [TestMethod]
         public void RefreshTest()
         {
             var source = new ObservableCollection<Person>(new[]
@@ -372,7 +397,7 @@ namespace ReactiveProperty.Tests.Helpers
         }
 
         [TestMethod]
-        public void ResetTest()
+        public void AddRangeLeargeItemsCaseTest()
         {
             var c = new RangedObservableCollection<Person>();
             var filtered = c.ToFilteredReadOnlyObservableCollection(x => x.IsRemoved);
@@ -383,6 +408,36 @@ namespace ReactiveProperty.Tests.Helpers
             });
 
             c.AddRange(people);
+            filtered.Count.Is(500000);
+        }
+
+        [TestMethod]
+        public void AddRangeSmallItemsCaseTest()
+        {
+            var c = new RangedObservableCollection<Person>();
+            var filtered = c.ToFilteredReadOnlyObservableCollection(x => x.IsRemoved);
+            var people = Enumerable.Range(1, 6).Select(x => new Person
+            {
+                Name = $"tanaka {x}",
+                IsRemoved = x % 2 == 0,
+            });
+
+            c.AddRange(people);
+            filtered.Count.Is(3);
+        }
+
+        [TestMethod]
+        public void ReplaceRangeTest()
+        {
+            var c = new RangedObservableCollection<Person>();
+            var filtered = c.ToFilteredReadOnlyObservableCollection(x => x.IsRemoved);
+            var people = Enumerable.Range(1, 1000000).Select(x => new Person
+            {
+                Name = $"tanaka {x}",
+                IsRemoved = x % 2 == 0,
+            });
+
+            c.ReplaceRange(people);
             filtered.Count.Is(500000);
         }
 
@@ -436,27 +491,6 @@ namespace ReactiveProperty.Tests.Helpers
             }
 
             public ReactivePropertySlim<bool> NestedObject { get; } = new ReactivePropertySlim<bool>(true);
-        }
-
-        public class RangedObservableCollection<T> : ObservableCollection<T>
-        {
-            private bool _suppressNotification = false;
-
-            protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
-            {
-                if (!_suppressNotification) base.OnCollectionChanged(e);
-            }
-
-            public void AddRange(IEnumerable<T> list)
-            {
-                if (list == null) throw new ArgumentNullException("list");
-
-                _suppressNotification = true;
-                foreach (T item in list) Add(item);
-                _suppressNotification = false;
-
-                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-            }
         }
     }
 }

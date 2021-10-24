@@ -49,6 +49,7 @@ namespace Reactive.Bindings.Helpers
         where TCollection : INotifyCollectionChanged, IList<TElement>
         where TElement : class, INotifyPropertyChanged
     {
+        private const int ResetThreshold = 32;
         private readonly object _syncRoot = new();
         private TCollection Source { get; }
 
@@ -139,30 +140,74 @@ namespace Reactive.Bindings.Helpers
                 switch (e.Action)
                 {
                     case NotifyCollectionChangedAction.Add:
-                        // appear
-                        IndexList.Insert(e.NewStartingIndex, null);
-                        if (Filter(e.NewItems.Cast<TElement>().Single()))
+                        if (e.NewItems.Count == 1)
                         {
-                            AppearNewItem(e.NewStartingIndex);
-                            args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add,
-                                Source[e.NewStartingIndex], IndexList[e.NewStartingIndex].Value);
+                            // single item
+                            IndexList.Insert(e.NewStartingIndex, null);
+                            var item = e.NewItems.Cast<TElement>().Single();
+                            if (Filter(item))
+                            {
+                                AppearNewItem(e.NewStartingIndex);
+                                args = new(NotifyCollectionChangedAction.Add,
+                                    item,
+                                    IndexList[e.NewStartingIndex].Value);
+                            }
+                        }
+                        else if (e.NewItems.Count < ResetThreshold)
+                        {
+                            // multiple items
+                            IndexList.InsertRange(e.NewStartingIndex, new int?[e.NewItems.Count]);
+                            var addedItemAndIndexPairs = e.NewItems
+                                .Cast<TElement>()
+                                .Zip(Enumerable.Range(e.NewStartingIndex, e.NewItems.Count), (element, index) => (element, index))
+                                .Where(x => Filter(x.element));
+                            var items = new List<TElement>();
+                            foreach (var (item, itemIndex) in addedItemAndIndexPairs)
+                            {
+                                AppearNewItem(itemIndex);
+                                items.Add(item);
+                            }
+
+                            if (items.Any())
+                            {
+                                args = new(NotifyCollectionChangedAction.Add,
+                                    items,
+                                    IndexList[addedItemAndIndexPairs.First().index].Value);
+                            }
+                        }
+                        else
+                        {
+                            Initialize();
+                            args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
                         }
                         break;
 
                     case NotifyCollectionChangedAction.Move:
                         throw new NotSupportedException("Move is not supported");
                     case NotifyCollectionChangedAction.Remove:
-                        var removedIndex = IndexList[e.OldStartingIndex];
-                        if (removedIndex.HasValue)
+                        if (e.OldItems.Count == 1)
                         {
-                            DisappearItem(e.OldStartingIndex);
-                            IndexList.RemoveAt(e.OldStartingIndex);
-                            args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove,
-                                e.OldItems.Cast<TElement>().Single(), removedIndex.Value);
+                            // single item
+                            var removedIndex = IndexList[e.OldStartingIndex];
+                            if (removedIndex.HasValue)
+                            {
+                                DisappearItem(e.OldStartingIndex);
+                                IndexList.RemoveAt(e.OldStartingIndex);
+                                args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove,
+                                    e.OldItems.Cast<TElement>().Single(), removedIndex.Value);
+                            }
+                            else
+                            {
+                                IndexList.RemoveAt(e.OldStartingIndex);
+                            }
                         }
                         else
                         {
-                            IndexList.RemoveAt(e.OldStartingIndex);
+                            // multiple items
+                            // Need item index of original source collection to remove item correctly.
+                            // But CollectionChanged event for removing multiple items doesn't provide index that is removed.
+                            Initialize();
+                            args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
                         }
                         break;
 
@@ -195,7 +240,6 @@ namespace Reactive.Bindings.Helpers
                         }
 
                         break;
-
                     case NotifyCollectionChangedAction.Reset:
                         Initialize();
                         args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
