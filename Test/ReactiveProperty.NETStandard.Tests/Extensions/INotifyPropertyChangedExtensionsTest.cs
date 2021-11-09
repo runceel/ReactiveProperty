@@ -203,10 +203,10 @@ namespace ReactiveProperty.Tests.Extensions
             propY.Value.Is(20);
 
             propX.Value = 100;
-            model.Point.Is(x => x.Item1 == 100 && x.Item2 == 20);
+            model.Point.Is(x => x.x == 100 && x.y == 20);
 
             propY.Value = 200;
-            model.Point.Is(x => x.Item1 == 100 && x.Item2 == 200);
+            model.Point.Is(x => x.x == 100 && x.y == 200);
         }
 
         [TestMethod]
@@ -296,10 +296,10 @@ namespace ReactiveProperty.Tests.Extensions
             propY.Value.Is(20);
 
             propX.Value = 100;
-            model.Point.Is(x => x.Item1 == 100 && x.Item2 == 20);
+            model.Point.Is(x => x.x == 100 && x.y == 20);
 
             propY.Value = 200;
-            model.Point.Is(x => x.Item1 == 100 && x.Item2 == 200);
+            model.Point.Is(x => x.x == 100 && x.y == 200);
         }
 
         [TestMethod]
@@ -639,7 +639,7 @@ namespace ReactiveProperty.Tests.Extensions
 
             public void BatchUpdateProperties(string name, int age)
             {
-                (this._name, this._age) = (name, age);
+                (_name, _age) = (name, age);
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(""));
             }
 
@@ -657,7 +657,7 @@ namespace ReactiveProperty.Tests.Extensions
 
         private class PointModel : INotifyPropertyChanged
         {
-            private readonly object _lock = new object();
+            private readonly object _lock = new();
             public List<PropertyChangedEventHandler> Handlers { get; } = new List<PropertyChangedEventHandler>();
             public event PropertyChangedEventHandler PropertyChanged
             {
@@ -677,7 +677,7 @@ namespace ReactiveProperty.Tests.Extensions
                 }
             }
 
-            private static readonly PropertyChangedEventArgs PointPropertyChangedEventArgs = new PropertyChangedEventArgs(nameof(Point));
+            private static readonly PropertyChangedEventArgs s_pointPropertyChangedEventArgs = new(nameof(Point));
 
             private (int x, int y) _point;
 
@@ -697,7 +697,7 @@ namespace ReactiveProperty.Tests.Extensions
                         var handlers = Handlers.ToArray();
                         foreach (var h in handlers)
                         {
-                            h(this, PointPropertyChangedEventArgs);
+                            h(this, s_pointPropertyChangedEventArgs);
                         }
                     }
                 }

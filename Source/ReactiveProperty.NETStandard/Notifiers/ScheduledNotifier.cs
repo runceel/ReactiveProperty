@@ -10,14 +10,14 @@ namespace Reactive.Bindings.Notifiers
     public class ScheduledNotifier<T> : IObservable<T>, IProgress<T>
     {
         readonly IScheduler scheduler;
-        readonly Subject<T> trigger = new Subject<T>();
+        readonly Subject<T> trigger = new();
 
         /// <summary>
         /// Use scheduler is Scheduler.Immediate.
         /// </summary>
         public ScheduledNotifier()
         {
-            this.scheduler = Scheduler.Immediate;
+            scheduler = Scheduler.Immediate;
         }
         /// <summary>
         /// Use scheduler is argument's scheduler.

@@ -65,6 +65,6 @@ namespace Reactive.Bindings.Extensions
         /// <param name="value">Property value</param>
         /// <returns>Created instance</returns>
         public static PropertyPack<TInstance, TValue> Create<TInstance, TValue>(TInstance instance, PropertyInfo property, TValue value) =>
-            new PropertyPack<TInstance, TValue>(instance, property, value);
+            new(instance, property, value);
     }
 }

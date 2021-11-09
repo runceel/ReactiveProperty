@@ -183,25 +183,25 @@ namespace Reactive.Bindings
         /// CanExecuteChanged is called from canExecute sequence on UIDispatcherScheduler.
         /// </summary>
         public static ReactiveCommand ToReactiveCommand(this IObservable<bool> canExecuteSource, bool initialValue = true) =>
-            new ReactiveCommand(canExecuteSource, initialValue);
+            new(canExecuteSource, initialValue);
 
         /// <summary>
         /// CanExecuteChanged is called from canExecute sequence on scheduler.
         /// </summary>
         public static ReactiveCommand ToReactiveCommand(this IObservable<bool> canExecuteSource, IScheduler scheduler, bool initialValue = true) =>
-            new ReactiveCommand(canExecuteSource, scheduler, initialValue);
+            new(canExecuteSource, scheduler, initialValue);
 
         /// <summary>
         /// CanExecuteChanged is called from canExecute sequence on UIDispatcherScheduler.
         /// </summary>
         public static ReactiveCommand<T> ToReactiveCommand<T>(this IObservable<bool> canExecuteSource, bool initialValue = true) =>
-            new ReactiveCommand<T>(canExecuteSource, initialValue);
+            new(canExecuteSource, initialValue);
 
         /// <summary>
         /// CanExecuteChanged is called from canExecute sequence on scheduler.
         /// </summary>
         public static ReactiveCommand<T> ToReactiveCommand<T>(this IObservable<bool> canExecuteSource, IScheduler scheduler, bool initialValue = true) =>
-            new ReactiveCommand<T>(canExecuteSource, scheduler, initialValue);
+            new(canExecuteSource, scheduler, initialValue);
 
         /// <summary>
         /// Subscribe execute.

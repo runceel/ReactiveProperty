@@ -7,8 +7,8 @@ namespace Reactive.Bindings.Internal
 {
     internal static class AccessorCache<TType>
     {
-        private static readonly Dictionary<string, Delegate> getCache = new Dictionary<string, Delegate>();
-        private static readonly Dictionary<string, Delegate> setCache = new Dictionary<string, Delegate>();
+        private static readonly Dictionary<string, Delegate> getCache = new();
+        private static readonly Dictionary<string, Delegate> setCache = new();
 
         public static Func<TType, TProperty> LookupGet<TProperty>(Expression<Func<TType, TProperty>> propertySelector, out string propertyName)
         {

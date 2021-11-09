@@ -5,8 +5,10 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
+using System.Reactive.Linq;
 using Reactive.Bindings.Extensions;
 
 namespace Reactive.Bindings.Helpers
@@ -42,10 +44,13 @@ namespace Reactive.Bindings.Helpers
     /// </summary>
     /// <typeparam name="TCollection">type of source collection</typeparam>
     /// <typeparam name="TElement">type of collection item</typeparam>
-    public sealed class FilteredReadOnlyObservableCollection<TCollection, TElement> : IFilteredReadOnlyObservableCollection<TElement>, IList // IList UWP GridView support.
+    /// <typeparam name="TTrigger">type for IObservable to notify source status changed</typeparam>
+    public sealed class FilteredReadOnlyObservableCollection<TCollection, TElement, TTrigger> : IFilteredReadOnlyObservableCollection<TElement>, IList // IList UWP GridView support.
         where TCollection : INotifyCollectionChanged, IList<TElement>
         where TElement : class, INotifyPropertyChanged
     {
+        private const int ResetThreshold = 32;
+        private readonly object _syncRoot = new();
         private TCollection Source { get; }
 
         private Func<TElement, bool> Filter { get; set; }
@@ -53,8 +58,6 @@ namespace Reactive.Bindings.Helpers
         private List<int?> IndexList { get; } = new List<int?>();
 
         private CompositeDisposable Subscription { get; } = new CompositeDisposable();
-
-        private int ItemsCount { get; set; }
 
         private List<TElement> InnerCollection { get; } = new List<TElement>();
 
@@ -68,121 +71,202 @@ namespace Reactive.Bindings.Helpers
         /// </summary>
         /// <param name="source">source collection</param>
         /// <param name="filter">filter function</param>
-        public FilteredReadOnlyObservableCollection(TCollection source, Func<TElement, bool> filter)
+        /// <param name="elementChangedFactory">IObservable to notify source status changed</param>
+        public FilteredReadOnlyObservableCollection(TCollection source, Func<TElement, bool> filter, Func<TElement, IObservable<TTrigger>> elementChangedFactory)
         {
-            Source = source;
-            Filter = filter;
-
-            Initialize();
-
+            Source = source ?? throw new ArgumentNullException(nameof(source));
+            Filter = filter ?? throw new ArgumentNullException(nameof(filter));
+            if (elementChangedFactory == null)
             {
-                // propertychanged
-                CollectionUtilities.ObserveElementPropertyChanged<TCollection, TElement>(source)
-                    .Subscribe(x =>
-                    {
-                        var index = source.IndexOf(x.Sender);
-                        var filteredIndex = IndexList[index];
-                        var isTarget = Filter(x.Sender);
-                        if (isTarget && filteredIndex == null)
+                throw new ArgumentNullException(nameof(elementChangedFactory));
+            }
+
+            lock (_syncRoot)
+            {
+                Initialize();
+            }
+
+            // propertychanged
+            CollectionUtilities.ObserveElementCore<TCollection, TElement, TElement>(source, (x, observer) =>
+                elementChangedFactory(x).Subscribe(_ => observer.OnNext(x)))
+                .Subscribe(SourceElementChanged)
+                .AddTo(Subscription);
+
+            // collection changed(support single changed only)
+            source.CollectionChanged += Source_CollectionChanged;
+        }
+
+        private void SourceElementChanged(TElement x)
+        {
+            NotifyCollectionChangedEventArgs args = default;
+            lock (_syncRoot)
+            {
+                var index = Source.IndexOf(x);
+                if (index == -1)
+                {
+                    throw new InvalidOperationException($"An object instance {x} did not found at the source collection.");
+                }
+
+                var filteredIndex = IndexList[index];
+                var isTarget = Filter(x);
+                if (isTarget && filteredIndex == null)
+                {
+                    // add
+                    AppearNewItem(index);
+                    args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add,
+                        Source[index], IndexList[index].Value);
+
+                }
+                else if (!isTarget && filteredIndex.HasValue)
+                {
+                    // remove
+                    DisappearItem(index);
+                    IndexList[index] = null;
+                    args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, x, filteredIndex.Value);
+                }
+            }
+
+            if (args != null)
+            {
+                CollectionChanged?.Invoke(this, args);
+            }
+        }
+
+        private void Source_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            NotifyCollectionChangedEventArgs args = default;
+            lock (_syncRoot)
+            {
+                switch (e.Action)
+                {
+                    case NotifyCollectionChangedAction.Add:
+                        if (e.NewItems.Count == 1)
+                        {
+                            // single item
+                            IndexList.Insert(e.NewStartingIndex, null);
+                            var item = e.NewItems.Cast<TElement>().Single();
+                            if (Filter(item))
+                            {
+                                AppearNewItem(e.NewStartingIndex);
+                                args = new(NotifyCollectionChangedAction.Add,
+                                    item,
+                                    IndexList[e.NewStartingIndex].Value);
+                            }
+                        }
+                        else if (e.NewItems.Count < ResetThreshold)
+                        {
+                            // multiple items
+                            IndexList.InsertRange(e.NewStartingIndex, new int?[e.NewItems.Count]);
+                            var addedItemAndIndexPairs = e.NewItems
+                                .Cast<TElement>()
+                                .Zip(Enumerable.Range(e.NewStartingIndex, e.NewItems.Count), (element, index) => (element, index))
+                                .Where(x => Filter(x.element));
+                            var items = new List<TElement>();
+                            foreach (var (item, itemIndex) in addedItemAndIndexPairs)
+                            {
+                                AppearNewItem(itemIndex);
+                                items.Add(item);
+                            }
+
+                            if (items.Any())
+                            {
+                                args = new(NotifyCollectionChangedAction.Add,
+                                    items,
+                                    IndexList[addedItemAndIndexPairs.First().index].Value);
+                            }
+                        }
+                        else
+                        {
+                            Initialize();
+                            args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
+                        }
+                        break;
+
+                    case NotifyCollectionChangedAction.Move:
+                        throw new NotSupportedException("Move is not supported");
+                    case NotifyCollectionChangedAction.Remove:
+                        if (e.OldItems.Count == 1)
+                        {
+                            // single item
+                            var removedIndex = IndexList[e.OldStartingIndex];
+                            if (removedIndex.HasValue)
+                            {
+                                DisappearItem(e.OldStartingIndex);
+                                IndexList.RemoveAt(e.OldStartingIndex);
+                                args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove,
+                                    e.OldItems.Cast<TElement>().Single(), removedIndex.Value);
+                            }
+                            else
+                            {
+                                IndexList.RemoveAt(e.OldStartingIndex);
+                            }
+                        }
+                        else
+                        {
+                            // multiple items
+                            // Need item index of original source collection to remove item correctly.
+                            // But CollectionChanged event for removing multiple items doesn't provide index that is removed.
+                            Initialize();
+                            args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
+                        }
+                        break;
+
+                    case NotifyCollectionChangedAction.Replace:
+                        var index = IndexList[e.NewStartingIndex];
+                        var isTarget = Filter(e.NewItems.Cast<TElement>().Single());
+                        if (index == null && isTarget)
                         {
                             // add
-                            AppearNewItem(index);
+                            AppearNewItem(e.NewStartingIndex);
+                            args = new NotifyCollectionChangedEventArgs(
+                                NotifyCollectionChangedAction.Add,
+                                Source[e.NewStartingIndex], IndexList[e.NewStartingIndex].Value);
+
                         }
-                        else if (!isTarget && filteredIndex.HasValue)
+                        else if (index.HasValue && isTarget)
+                        {
+                            // replace
+                            InnerCollection[index.Value] = e.NewItems.Cast<TElement>().Single();
+                            args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace,
+                                e.NewItems.Cast<TElement>().Single(), e.OldItems.Cast<TElement>().Single(), index.Value);
+                        }
+                        else if (index.HasValue && !isTarget)
                         {
                             // remove
-                            DisappearItem(index);
-                            IndexList[index] = null;
-                            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, x.Sender, filteredIndex.Value));
+                            DisappearItem(e.NewStartingIndex);
+                            IndexList[e.NewStartingIndex] = null;
+                            args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove,
+                                e.OldItems.Cast<TElement>().Single(), index.Value);
                         }
-                    })
-                    .AddTo(Subscription);
+
+                        break;
+                    case NotifyCollectionChangedAction.Reset:
+                        Initialize();
+                        args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
+                        break;
+
+                    default:
+                        throw new InvalidOperationException();
+                }
             }
+
+            if (args != null)
             {
-                // collection changed(support single changed only)
-                source.CollectionChangedAsObservable()
-                    .Subscribe(x =>
-                    {
-                        switch (x.Action)
-                        {
-                            case NotifyCollectionChangedAction.Add:
-                                // appear
-                                IndexList.Insert(x.NewStartingIndex, null);
-                                if (Filter(x.NewItems.Cast<TElement>().Single()))
-                                {
-                                    AppearNewItem(x.NewStartingIndex);
-                                }
-                                break;
-
-                            case NotifyCollectionChangedAction.Move:
-                                throw new NotSupportedException("Move is not supported");
-                            case NotifyCollectionChangedAction.Remove:
-                                var removedIndex = IndexList[x.OldStartingIndex];
-                                if (removedIndex.HasValue)
-                                {
-                                    DisappearItem(x.OldStartingIndex);
-                                    IndexList.RemoveAt(x.OldStartingIndex);
-                                    OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove,
-                                        x.OldItems.Cast<TElement>().Single(), removedIndex.Value));
-                                }
-                                else
-                                {
-                                    IndexList.RemoveAt(x.OldStartingIndex);
-                                }
-                                break;
-
-                            case NotifyCollectionChangedAction.Replace:
-                                var index = IndexList[x.NewStartingIndex];
-                                var isTarget = Filter(x.NewItems.Cast<TElement>().Single());
-                                if (index == null && isTarget)
-                                {
-                                    // add
-                                    AppearNewItem(x.NewStartingIndex);
-                                }
-                                else if (index.HasValue && isTarget)
-                                {
-                                    // replace
-                                    InnerCollection[index.Value] = x.NewItems.Cast<TElement>().Single();
-                                    OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace,
-                                        x.NewItems.Cast<TElement>().Single(), x.OldItems.Cast<TElement>().Single(), index.Value));
-                                }
-                                else if (index.HasValue && !isTarget)
-                                {
-                                    // remove
-                                    DisappearItem(x.NewStartingIndex);
-                                    IndexList[x.NewStartingIndex] = null;
-                                    OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove,
-                                        x.OldItems.Cast<TElement>().Single(), index.Value));
-                                }
-
-                                break;
-
-                            case NotifyCollectionChangedAction.Reset:
-                                Initialize();
-                                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-                                break;
-
-                            default:
-                                throw new InvalidOperationException();
-                        }
-                    })
-                    .AddTo(Subscription);
+                CollectionChanged?.Invoke(this, args);
             }
         }
 
         private void Initialize()
         {
             IndexList.Clear();
-            ItemsCount = 0;
             InnerCollection.Clear();
 
             foreach (var item in Source)
             {
                 var isTarget = Filter(item);
-                IndexList.Add(isTarget ? (int?)ItemsCount : null);
+                IndexList.Add(isTarget ? (int?)InnerCollection.Count : null);
                 if (isTarget)
                 {
-                    ItemsCount++;
                     InnerCollection.Add(item);
                 }
             }
@@ -191,7 +275,16 @@ namespace Reactive.Bindings.Helpers
         /// <summary>
         /// Count
         /// </summary>
-        public int Count => InnerCollection.Count;
+        public int Count
+        {
+            get
+            {
+                lock (_syncRoot)
+                {
+                    return InnerCollection.Count;
+                }
+            }
+        }
 
         bool IList.IsFixedSize => false;
 
@@ -207,13 +300,25 @@ namespace Reactive.Bindings.Helpers
         /// <value>The Element/&gt;.</value>
         /// <param name="index">The index.</param>
         /// <returns></returns>
-        public TElement this[int index] => InnerCollection[index];
+        public TElement this[int index]
+        {
+            get
+            {
+                lock (_syncRoot)
+                {
+                    return InnerCollection[index];
+                }
+            }
+        }
 
         object IList.this[int index]
         {
             get
             {
-                return InnerCollection[index];
+                lock (_syncRoot)
+                {
+                    return InnerCollection[index];
+                }
             }
 
             set
@@ -226,28 +331,15 @@ namespace Reactive.Bindings.Helpers
         /// get enumerator
         /// </summary>
         /// <returns></returns>
-        public IEnumerator<TElement> GetEnumerator() => InnerCollection.GetEnumerator();
+        public IEnumerator<TElement> GetEnumerator()
+        {
+            lock (_syncRoot)
+            {
+                return InnerCollection.GetEnumerator();
+            }
+        }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
-
-        private void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
-        {
-            switch (e.Action)
-            {
-                case NotifyCollectionChangedAction.Add:
-                    ItemsCount++;
-                    break;
-
-                case NotifyCollectionChangedAction.Remove:
-                    ItemsCount--;
-                    break;
-
-                case NotifyCollectionChangedAction.Reset:
-                    ItemsCount = 0;
-                    break;
-            }
-            CollectionChanged?.Invoke(this, e);
-        }
 
         /// <summary>
         /// disconnect source collection.
@@ -256,6 +348,7 @@ namespace Reactive.Bindings.Helpers
         {
             if (Subscription.IsDisposed) { return; }
             Subscription.Dispose();
+            CollectionChanged -= Source_CollectionChanged;
         }
 
         private int FindNearIndex(int position) => IndexList.Take(position).Reverse().FirstOrDefault(x => x != null) ?? -1;
@@ -268,10 +361,8 @@ namespace Reactive.Bindings.Helpers
             {
                 if (IndexList[i].HasValue) { IndexList[i]++; }
             }
-            InnerCollection.Insert(IndexList[index].Value, this.Source[index]);
-            OnCollectionChanged(
-                new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add,
-                    this.Source[index], IndexList[index].Value));
+
+            InnerCollection.Insert(IndexList[index].Value, Source[index]);
         }
 
         private void DisappearItem(int index)
@@ -293,9 +384,21 @@ namespace Reactive.Bindings.Helpers
             throw new NotSupportedException();
         }
 
-        bool IList.Contains(object value) => InnerCollection.Contains(value);
+        bool IList.Contains(object value)
+        {
+            lock (_syncRoot)
+            {
+                return InnerCollection.Contains(value);
+            }
+        }
 
-        int IList.IndexOf(object value) => InnerCollection.IndexOf((TElement)value);
+        int IList.IndexOf(object value)
+        {
+            lock (_syncRoot)
+            {
+                return InnerCollection.IndexOf((TElement)value);
+            }
+        }
 
         void IList.Insert(int index, object value)
         {
@@ -312,7 +415,13 @@ namespace Reactive.Bindings.Helpers
             throw new NotSupportedException();
         }
 
-        void ICollection.CopyTo(Array array, int index) => InnerCollection.CopyTo((TElement[])array, index);
+        void ICollection.CopyTo(Array array, int index)
+        {
+            lock (_syncRoot)
+            {
+                InnerCollection.CopyTo((TElement[])array, index);
+            }
+        }
 
         /// <summary>
         /// Refresh filter.
@@ -320,8 +429,12 @@ namespace Reactive.Bindings.Helpers
         /// <param name="filter">filter</param>
         public void Refresh(Func<TElement, bool> filter)
         {
-            Filter = filter;
-            Initialize();
+            lock (_syncRoot)
+            {
+                Filter = filter;
+                Initialize();
+            }
+
             CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
     }
@@ -340,7 +453,10 @@ namespace Reactive.Bindings.Helpers
         /// <returns></returns>
         public static IFilteredReadOnlyObservableCollection<T> ToFilteredReadOnlyObservableCollection<T>(this ObservableCollection<T> self, Func<T, bool> filter)
             where T : class, INotifyPropertyChanged =>
-            new FilteredReadOnlyObservableCollection<ObservableCollection<T>, T>(self, filter);
+            new FilteredReadOnlyObservableCollection<ObservableCollection<T>, T, PropertyChangedEventArgs>(
+                self, 
+                filter, 
+                x => x.PropertyChangedAsObservable());
 
         /// <summary>
         /// create IFilteredReadOnlyObservableCollection from ReadOnlyObservableCollection
@@ -351,7 +467,36 @@ namespace Reactive.Bindings.Helpers
         /// <returns></returns>
         public static IFilteredReadOnlyObservableCollection<T> ToFilteredReadOnlyObservableCollection<T>(this ReadOnlyObservableCollection<T> self, Func<T, bool> filter)
             where T : class, INotifyPropertyChanged =>
-            new FilteredReadOnlyObservableCollection<ReadOnlyObservableCollection<T>, T>(self, filter);
+            new FilteredReadOnlyObservableCollection<ReadOnlyObservableCollection<T>, T, PropertyChangedEventArgs>(
+                self,
+                filter,
+                x => x.PropertyChangedAsObservable());
+
+        /// <summary>
+        /// create IFilteredReadOnlyObservableCollection from ReadOnlyObservableCollection
+        /// </summary>
+        /// <typeparam name="T">Type of collection item.</typeparam>
+        /// <typeparam name="U">Type of return type for elementStatusChangedFactory</typeparam>
+        /// <param name="self">Source collection.</param>
+        /// <param name="filter">Filter function.</param>
+        /// <param name="elementStatusChangedFactory">IObservable to notify source status changed</param>
+        /// <returns></returns>
+        public static IFilteredReadOnlyObservableCollection<T> ToFilteredReadOnlyObservableCollection<T, U>(this ReadOnlyObservableCollection<T> self, Func<T, bool> filter, Func<T, IObservable<U>> elementStatusChangedFactory)
+            where T : class, INotifyPropertyChanged =>
+            new FilteredReadOnlyObservableCollection<ReadOnlyObservableCollection<T>, T, U>(self, filter, elementStatusChangedFactory);
+
+        /// <summary>
+        /// create IFilteredReadOnlyObservableCollection from ObservableCollection
+        /// </summary>
+        /// <typeparam name="T">Type of collection item.</typeparam>
+        /// <typeparam name="U">Type of return type for elementStatusChangedFactory</typeparam>
+        /// <param name="self">Source collection.</param>
+        /// <param name="filter">Filter function.</param>
+        /// <param name="elementStatusChangedFactory">IObservable to notify source status changed</param>
+        /// <returns></returns>
+        public static IFilteredReadOnlyObservableCollection<T> ToFilteredReadOnlyObservableCollection<T, U>(this ObservableCollection<T> self, Func<T, bool> filter, Func<T, IObservable<U>> elementStatusChangedFactory)
+            where T : class, INotifyPropertyChanged =>
+            new FilteredReadOnlyObservableCollection<ObservableCollection<T>, T, U>(self, filter, elementStatusChangedFactory);
 
         /// <summary>
         /// create ReadOnlyReactiveCollection from IFilteredReadOnlyObservableCollection

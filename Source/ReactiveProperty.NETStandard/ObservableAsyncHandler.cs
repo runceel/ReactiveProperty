@@ -18,13 +18,12 @@ namespace Reactive.Bindings
         private static readonly SendOrPostCallback syncContextPost = PostInvoke;
         private IDisposable subscription;
         private CancellationTokenRegistration cancellationTokenRegistration;
-        private CancellationToken token;
         private bool completed;
         private T currentValue;
         private ExceptionDispatchInfo exception;
         private Action continuation;
         private SynchronizationContext context;
-        private readonly object gate = new object();
+        private readonly object gate = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ObservableAsyncHandler{T}"/> class.
@@ -134,7 +133,7 @@ namespace Reactive.Bindings
         {
             get
             {
-                return (exception != null || token.IsCancellationRequested || completed);
+                return (exception != null || completed);
             }
         }
 
@@ -150,8 +149,6 @@ namespace Reactive.Bindings
                 exception.Throw();
                 return default(T);
             }
-
-            token.ThrowIfCancellationRequested();
 
             if (completed)
             {

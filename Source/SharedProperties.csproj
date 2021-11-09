@@ -1,7 +1,7 @@
 <Project>
   <PropertyGroup>
     <RootNamespace>Reactive.Bindings</RootNamespace>
-    <Version>7.12.0</Version>
+    <Version>8.0.0</Version>
     <Authors>neuecc xin9le okazuki</Authors>
     <PackageProjectUrl>https://github.com/runceel/ReactiveProperty</PackageProjectUrl>
     <PackageTags>rx mvvm async rx-main reactive</PackageTags>
@@ -11,13 +11,15 @@
     <PackageIcon>ReactivePropertyIcon_100x100.png</PackageIcon>
     <RepositoryUrl>https://github.com/runceel/ReactiveProperty</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>10.0</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
   <ItemGroup>
     <None Include="../../Assets/ReactivePropertyIcon_100x100.png" LinkBase="Assets" Pack="true" PackagePath="/" />
+    <None Include="../../README.md" Pack="true" PackagePath="/" />
   </ItemGroup>
 </Project>

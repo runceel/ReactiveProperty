@@ -18,9 +18,11 @@ namespace Reactive.Bindings
     /// <typeparam name="T">collection item type</typeparam>
     public class ReadOnlyReactiveCollection<T> : ReadOnlyObservableCollection<T>, IDisposable
     {
+        private readonly NotifyCollectionChangedEventArgs _resetEventArgs = new(NotifyCollectionChangedAction.Reset);
         private ObservableCollection<T> Source { get; set; }
+        private bool _isSupressingEvents = false;
 
-        private CompositeDisposable Token { get; } = new CompositeDisposable();
+        private CompositeDisposable Token { get; } = new();
 
         private bool DisposeElement { get; }
 
@@ -35,50 +37,49 @@ namespace Reactive.Bindings
             : base(source)
         {
             Source = source;
-            scheduler = scheduler ?? ReactivePropertyScheduler.Default;
+            scheduler ??= ReactivePropertyScheduler.Default;
             DisposeElement = disposeElement;
             var subject = new Subject<CollectionChanged<T>>();
 
-            subject.Where(v => v.Action == NotifyCollectionChangedAction.Add)
-                .Subscribe(v =>
+            subject.Where(x => x.Action == NotifyCollectionChangedAction.Add)
+                .Subscribe(x => ApplyCollectionChanged(x, static (source, args) =>
                 {
-                    Source.Insert(v.Index, v.Value);
-                })
+                    var index = args.Index;
+                    foreach (var item in args.Values)
+                    {
+                        source.Insert(index++, item);
+                    }
+
+                    return new(NotifyCollectionChangedAction.Add, args.Values, args.Index);
+                }))
                 .AddTo(Token);
 
-            subject.Where(v => v.Action == NotifyCollectionChangedAction.Remove)
-                .Subscribe(v =>
-                {
-                    if (Source[v.Index] is IDisposable d) { InvokeDispose(d); }
-                    Source.RemoveAt(v.Index);
-                })
-                .AddTo(Token);
+            subject.Where(x => x.Action == NotifyCollectionChangedAction.Remove)
+                    .Subscribe(x  =>
+                    {
+                        if (Source[x.Index] is IDisposable d) { InvokeDispose(d); }
+                        Source.RemoveAt(x.Index);
+                    })
+                    .AddTo(Token);
 
             subject.Where(v => v.Action == NotifyCollectionChangedAction.Replace)
-                .Subscribe(v =>
-                {
-                    if (Source[v.Index] is IDisposable d) { InvokeDispose(d); }
-                    Source[v.Index] = v.Value;
-                })
-                .AddTo(Token);
+                    .Subscribe(v =>
+                    {
+                        if (Source[v.Index] is IDisposable d) { InvokeDispose(d); }
+                        Source[v.Index] = v.Value;
+                    })
+                    .AddTo(Token);
 
             subject.Where(v => v.Action == NotifyCollectionChangedAction.Reset)
-                .Subscribe(v =>
-                {
-                    foreach (var item in source)
-                    {
-                        if (item is IDisposable d) { InvokeDispose(d); }
-                    }
-                    Source.Clear();
-                })
-                .AddTo(Token);
+                    .Subscribe(v => ResetCollection(v))
+                    .AddTo(Token);
 
             subject.Where(x => x.Action == NotifyCollectionChangedAction.Move)
-                .Subscribe(x => Source.Move(x.OldIndex, x.Index))
-                .AddTo(Token);
+                    .Subscribe(x => Source.Move(x.OldIndex, x.Index))
+                    .AddTo(Token);
 
             ox.ObserveOn(scheduler)
-                .Subscribe(subject).AddTo(Token);
+                    .Subscribe(subject).AddTo(Token);
         }
 
         /// <summary>
@@ -93,7 +94,7 @@ namespace Reactive.Bindings
         {
             Source = source;
             DisposeElement = disposeElement;
-            scheduler = scheduler ?? ReactivePropertyScheduler.Default;
+            scheduler ??= ReactivePropertyScheduler.Default;
 
             ox
                 .ObserveOn(scheduler)
@@ -107,14 +108,8 @@ namespace Reactive.Bindings
             {
                 onReset
                     .ObserveOn(scheduler)
-                    .Subscribe(_ =>
-                    {
-                        foreach (var item in source)
-                        {
-                            InvokeDispose(item);
-                        }
-                        Source.Clear();
-                    }).AddTo(Token);
+                    .Subscribe(_ => ResetCollection(CollectionChanged<T>.Reset))
+                    .AddTo(Token);
             }
         }
 
@@ -131,6 +126,56 @@ namespace Reactive.Bindings
             Token.Dispose();
             foreach (var d in this.OfType<IDisposable>().ToArray()) { InvokeDispose(d); }
         }
+
+
+        /// <inheritdoc />
+        protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs args)
+        {
+            if (_isSupressingEvents) { return; }
+            base.OnCollectionChanged(args);
+        }
+
+        private void ApplyCollectionChanged(
+            CollectionChanged<T> collectionChanged,
+            Func<ObservableCollection<T>, CollectionChanged<T>, NotifyCollectionChangedEventArgs> action)
+        {
+            _isSupressingEvents = true;
+            NotifyCollectionChangedEventArgs args;
+            try
+            {
+                args = action(Source, collectionChanged);
+            }
+            finally
+            {
+                _isSupressingEvents = false;
+            }
+
+            OnCollectionChanged(args);
+        }
+
+        private void ResetCollection(CollectionChanged<T> collectionChanged)
+        {
+            ApplyCollectionChanged(collectionChanged, (source, args) =>
+            {
+                foreach (var item in source)
+                {
+                    if (item is IDisposable d) { InvokeDispose(d); }
+                }
+                source.Clear();
+
+                if (collectionChanged.Source != null)
+                {
+                    foreach (var x in collectionChanged.Source)
+                    {
+                        source.Add(x);
+                    }
+                }
+
+                return _resetEventArgs;
+            });
+        }
+
+
 
         private void InvokeDispose(object item)
         {
@@ -149,13 +194,25 @@ namespace Reactive.Bindings
     /// <typeparam name="T"></typeparam>
     public class CollectionChanged<T>
     {
+
         /// <summary>
         /// Reset action
         /// </summary>
-        public static readonly CollectionChanged<T> Reset = new CollectionChanged<T>
+        public static CollectionChanged<T> Reset { get; } = new()
         {
             Action = NotifyCollectionChangedAction.Reset
         };
+
+        /// <summary>
+        /// Reset action with source collection
+        /// </summary>
+        /// <param name="source">An event source collection.</param>
+        public static CollectionChanged<T> ResetWithSource(IEnumerable<T> source) =>
+            new()
+            {
+                Action = NotifyCollectionChangedAction.Reset,
+                Source = source,
+            };
 
         /// <summary>
         /// Create Remove action
@@ -163,15 +220,22 @@ namespace Reactive.Bindings
         /// <param name="index">The index.</param>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public static CollectionChanged<T> Remove(int index, T value)
-        {
-            return new CollectionChanged<T>
+        public static CollectionChanged<T> Remove(int index, T value) =>
+            Remove(index, new[] { value });
+
+        /// <summary>
+        /// Create Remove action
+        /// </summary>
+        /// <param name="index">The index.</param>
+        /// <param name="values">The value.</param>
+        /// <returns></returns>
+        public static CollectionChanged<T> Remove(int index, IEnumerable<T> values) =>
+            new()
             {
                 Index = index,
                 Action = NotifyCollectionChangedAction.Remove,
-                Value = value,
+                Values = values,
             };
-        }
 
         /// <summary>
         /// Create add action
@@ -179,15 +243,22 @@ namespace Reactive.Bindings
         /// <param name="index"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static CollectionChanged<T> Add(int index, T value)
-        {
-            return new CollectionChanged<T>
+        public static CollectionChanged<T> Add(int index, T value) =>
+            Add(index, new[] { value });
+
+        /// <summary>
+        /// Create add action
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="values"></param>
+        /// <returns></returns>
+        public static CollectionChanged<T> Add(int index, IEnumerable<T> values) =>
+            new()
             {
                 Index = index,
-                Value = value,
+                Values = values ?? Enumerable.Empty<T>(),
                 Action = NotifyCollectionChangedAction.Add
             };
-        }
 
         /// <summary>
         /// Create replace action
@@ -200,7 +271,7 @@ namespace Reactive.Bindings
             return new CollectionChanged<T>
             {
                 Index = index,
-                Value = value,
+                Values = value is null ? Enumerable.Empty<T>() : new[] { value },
                 Action = NotifyCollectionChangedAction.Replace
             };
         }
@@ -218,15 +289,25 @@ namespace Reactive.Bindings
             {
                 OldIndex = oldIndex,
                 Index = newIndex,
-                Value = value,
+                Values = value is null ? Enumerable.Empty<T>() : new[] { value },
                 Action = NotifyCollectionChangedAction.Move
             };
         }
 
         /// <summary>
+        /// イベントソースのコレクション
+        /// </summary>
+        public IEnumerable<T> Source { get; init; }
+
+        /// <summary>
+        /// Changed values.
+        /// </summary>
+        public IEnumerable<T> Values { get; init; }
+
+        /// <summary>
         /// Changed value.
         /// </summary>
-        public T Value { get; set; }
+        public T Value => Values.FirstOrDefault();
 
         /// <summary>
         /// Changed index.
@@ -258,7 +339,7 @@ namespace Reactive.Bindings
         /// <param name="disposeElement">if set to <c>true</c> [dispose element].</param>
         /// <returns></returns>
         public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this IObservable<CollectionChanged<T>> self, bool disposeElement = true) =>
-            new ReadOnlyReactiveCollection<T>(self, new ObservableCollection<T>(), disposeElement: disposeElement);
+            new(self, new ObservableCollection<T>(), disposeElement: disposeElement);
 
         /// <summary>
         /// Create ReadOnlyReactiveCollection
@@ -268,7 +349,7 @@ namespace Reactive.Bindings
         /// <param name="scheduler">The scheduler.</param>
         /// <returns></returns>
         public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this IObservable<CollectionChanged<T>> self, IScheduler scheduler) =>
-            new ReadOnlyReactiveCollection<T>(self, new ObservableCollection<T>(), scheduler, true);
+            new(self, new ObservableCollection<T>(), scheduler, true);
 
         /// <summary>
         /// Create ReadOnlyReactiveCollection
@@ -279,7 +360,7 @@ namespace Reactive.Bindings
         /// <param name="disposeElement">if set to <c>true</c> [dispose element].</param>
         /// <returns></returns>
         public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this IObservable<CollectionChanged<T>> self, IScheduler scheduler, bool disposeElement) =>
-            new ReadOnlyReactiveCollection<T>(self, new ObservableCollection<T>(), scheduler, disposeElement: disposeElement);
+            new(self, new ObservableCollection<T>(), scheduler, disposeElement: disposeElement);
 
         /// <summary>
         /// Create ReadOnlyReactiveCollection
@@ -291,7 +372,7 @@ namespace Reactive.Bindings
         /// <param name="disposeElement">if set to <c>true</c> [dispose element].</param>
         /// <returns></returns>
         public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this IObservable<T> self, IObservable<Unit> onReset = null, IScheduler scheduler = null, bool disposeElement = true) =>
-            new ReadOnlyReactiveCollection<T>(self, new ObservableCollection<T>(), onReset, scheduler, disposeElement: disposeElement);
+            new(self, new ObservableCollection<T>(), onReset, scheduler, disposeElement: disposeElement);
 
         /// <summary>
         /// convert INotifyCollectionChanged to IO&lt;CollectionChanged&gt;
@@ -303,38 +384,24 @@ namespace Reactive.Bindings
         {
             return Observable.Create<CollectionChanged<T>>(ox =>
             {
-                var d = new CompositeDisposable();
-                self.CollectionChangedAsObservable()
-                    .Where(e => e.Action == NotifyCollectionChangedAction.Add)
-                    .Select(e => CollectionChanged<T>.Add(e.NewStartingIndex, e.NewItems.Cast<T>().First()))
-                    .Subscribe(c => ox.OnNext(c))
-                    .AddTo(d);
+                void collectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+                {
+                    var collectionChanged = e.Action switch
+                    {
+                        NotifyCollectionChangedAction.Add => CollectionChanged<T>.Add(e.NewStartingIndex, e.NewItems.Cast<T>()),
+                        NotifyCollectionChangedAction.Remove => CollectionChanged<T>.Remove(e.OldStartingIndex, e.OldItems.Cast<T>()),
+                        NotifyCollectionChangedAction.Replace => CollectionChanged<T>.Replace(e.NewStartingIndex, e.NewItems.Cast<T>().First()),
+                        NotifyCollectionChangedAction.Reset => CollectionChanged<T>.ResetWithSource(sender as IEnumerable<T>),
+                        NotifyCollectionChangedAction.Move => CollectionChanged<T>.Move(e.OldStartingIndex, e.NewStartingIndex, e.NewItems.Cast<T>().First()),
+                        _ => throw new InvalidOperationException($"Unknown NotifyCollectionChangedAction value: {e.Action}"),
+                    };
+                    ox.OnNext(collectionChanged);
+                }
 
-                self.CollectionChangedAsObservable()
-                    .Where(e => e.Action == NotifyCollectionChangedAction.Remove)
-                    .Select(e => CollectionChanged<T>.Remove(e.OldStartingIndex, e.OldItems.Cast<T>().First()))
-                    .Subscribe(c => ox.OnNext(c))
-                    .AddTo(d);
-
-                self.CollectionChangedAsObservable()
-                    .Where(e => e.Action == NotifyCollectionChangedAction.Replace)
-                    .Select(e => CollectionChanged<T>.Replace(e.NewStartingIndex, e.NewItems.Cast<T>().First()))
-                    .Subscribe(c => ox.OnNext(c))
-                    .AddTo(d);
-
-                self.CollectionChangedAsObservable()
-                    .Where(e => e.Action == NotifyCollectionChangedAction.Reset)
-                    .Select(_ => CollectionChanged<T>.Reset)
-                    .Subscribe(c => ox.OnNext(c))
-                    .AddTo(d);
-
-                self.CollectionChangedAsObservable()
-                    .Where(e => e.Action == NotifyCollectionChangedAction.Move)
-                    .Select(e => CollectionChanged<T>.Move(e.OldStartingIndex, e.NewStartingIndex, e.NewItems.Cast<T>().First()))
-                    .Subscribe(c => ox.OnNext(c))
-                    .AddTo(d);
-
-                return d;
+                self.CollectionChanged += collectionChanged;
+                return Disposable.Create(
+                    (Source: self, Handler: (NotifyCollectionChangedEventHandler)collectionChanged),
+                    static state => state.Source.CollectionChanged -= state.Handler);
             });
         }
 
@@ -394,11 +461,11 @@ namespace Reactive.Bindings
             var convertedCollectionChanged = collectionChanged
                 .Select(x => new CollectionChanged<U>
                 {
+                    Source = x.Source?.Select(x => converter(x)),
                     Action = x.Action,
                     Index = x.Index,
                     OldIndex = x.OldIndex,
-                    Value = ReferenceEquals(x.Value, null) ? default(U) :
-                        x.Action == NotifyCollectionChangedAction.Add || x.Action == NotifyCollectionChangedAction.Replace ? converter(x.Value) : default(U),
+                    Values = x.Values?.Select(converter) ?? Enumerable.Empty<U>(),
                 });
             return new ReadOnlyReactiveCollection<U>(convertedCollectionChanged, source, scheduler, disposeElement);
         }

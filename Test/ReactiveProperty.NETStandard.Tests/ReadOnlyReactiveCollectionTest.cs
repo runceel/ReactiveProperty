@@ -33,6 +33,17 @@ namespace ReactiveProperty.Tests
         }
 
         [TestMethod]
+        public void AddRangeTest()
+        {
+            var source = new RangedObservableCollection<int>();
+            var target = source.ToReadOnlyReactiveCollection(x => $"{x}");
+            source.Add(1);
+            target.Is("1");
+            source.AddRange(new[] { 2, 3, 4 });
+            target.Is("1", "2", "3", "4");
+        }
+
+        [TestMethod]
         public void CollectionChangedTest()
         {
             var s = new Subject<CollectionChanged<int>>();
