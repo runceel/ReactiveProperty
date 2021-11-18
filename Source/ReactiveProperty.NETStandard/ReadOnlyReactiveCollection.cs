@@ -45,12 +45,13 @@ namespace Reactive.Bindings
                 .Subscribe(x => ApplyCollectionChanged(x, static (source, args) =>
                 {
                     var index = args.Index;
-                    foreach (var item in args.Values)
+                    var values = args.Values.ToArray();
+                    foreach (var item in values)
                     {
                         source.Insert(index++, item);
                     }
 
-                    return new(NotifyCollectionChangedAction.Add, args.Values, args.Index);
+                    return new(NotifyCollectionChangedAction.Add, values, args.Index);
                 }))
                 .AddTo(Token);
 
@@ -307,7 +308,7 @@ namespace Reactive.Bindings
         /// <summary>
         /// Changed value.
         /// </summary>
-        public T Value => Values.FirstOrDefault();
+        public T Value => Values == null ? default : Values.FirstOrDefault();
 
         /// <summary>
         /// Changed index.

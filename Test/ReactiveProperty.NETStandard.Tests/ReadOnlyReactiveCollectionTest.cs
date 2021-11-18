@@ -270,11 +270,22 @@ namespace ReactiveProperty.Tests
         {
             var source = new ObservableCollection<string>();
             var target = source.ToReadOnlyReactiveCollection();
-            var values = new List<string>();
-            target.ToCollectionChanged().Subscribe(x => values.Add(x.Value));
+            var values = new List<CollectionChanged<string>>();
+            target.ToCollectionChanged().Subscribe(x => values.Add(x));
 
             source.Add("abc");
-            values.Is("abc");
+            source.Add("def");
+            source.Remove("abc");
+            source.Clear();
+            values.Is(
+                new[]
+                {
+                    CollectionChanged<string>.Add(0, "abc"),
+                    CollectionChanged<string>.Add(1, "def"),
+                    CollectionChanged<string>.Remove(0, "abc"),
+                    CollectionChanged<string>.Reset,
+                },
+                (x, y) => x.Action == y.Action && x.Value == y.Value);
         }
     }
 
