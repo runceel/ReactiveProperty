@@ -264,6 +264,18 @@ namespace ReactiveProperty.Tests
                 NotifyCollectionChangedAction.Add,
                 NotifyCollectionChangedAction.Move);
         }
+
+        [TestMethod]
+        public void ToCollectionChangedTest()
+        {
+            var source = new ObservableCollection<string>();
+            var target = source.ToReadOnlyReactiveCollection();
+            var values = new List<string>();
+            target.ToCollectionChanged().Subscribe(x => values.Add(x.Value));
+
+            source.Add("abc");
+            values.Is("abc");
+        }
     }
 
     internal class ConstructorCounter
