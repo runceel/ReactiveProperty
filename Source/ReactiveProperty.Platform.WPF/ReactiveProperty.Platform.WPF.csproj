@@ -12,7 +12,7 @@
   <Import Project="../SharedProperties.csproj" />
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.31" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
     <PackageReference Include="System.Reactive" Version="5.0.0" />
   </ItemGroup>
 
