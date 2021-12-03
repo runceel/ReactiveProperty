@@ -1,35 +1,34 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace Reactive.Bindings
+namespace Reactive.Bindings;
+
+/// <summary>
+/// for EventToReactive and Serialization
+/// </summary>
+public interface IReactiveProperty : IReadOnlyReactiveProperty, IHasErrors, INotifyPropertyChanged
 {
     /// <summary>
-    /// for EventToReactive and Serialization
+    /// Gets or sets the value.
     /// </summary>
-    public interface IReactiveProperty : IReadOnlyReactiveProperty, IHasErrors, INotifyPropertyChanged
-    {
-        /// <summary>
-        /// Gets or sets the value.
-        /// </summary>
-        /// <value>The value.</value>
-        new object Value { get; set; }
-
-        /// <summary>
-        /// Forces the notify.
-        /// </summary>
-        void ForceNotify();
-    }
+    /// <value>The value.</value>
+    new object Value { get; set; }
 
     /// <summary>
+    /// Forces the notify.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <seealso cref="Reactive.Bindings.IHasErrors"/>
-    public interface IReactiveProperty<T> : IReactiveProperty, IReadOnlyReactiveProperty<T>, IObservable<T>, IDisposable, INotifyDataErrorInfo
-    {
-        /// <summary>
-        /// Gets or sets the value.
-        /// </summary>
-        /// <value>The value.</value>
-        new T Value { get; set; }
-    }
+    void ForceNotify();
+}
+
+/// <summary>
+/// </summary>
+/// <typeparam name="T"></typeparam>
+/// <seealso cref="Reactive.Bindings.IHasErrors"/>
+public interface IReactiveProperty<T> : IReactiveProperty, IReadOnlyReactiveProperty<T>, IObservable<T>, IDisposable, INotifyDataErrorInfo
+{
+    /// <summary>
+    /// Gets or sets the value.
+    /// </summary>
+    /// <value>The value.</value>
+    new T Value { get; set; }
 }

@@ -30,6 +30,10 @@ indent_size = 2
 [*.{cs,vb}]
 # Sort using and Import directives with System.* appearing first
 dotnet_sort_system_directives_first = true
+# file scoped namespace
+csharp_style_namespace_declarations = file_scoped
+dotnet_diagnostic.IDE0161.severity = suggestion
+
 # Avoid "this." and "Me." if not necessary
 dotnet_style_qualification_for_field = false:suggestion
 dotnet_style_qualification_for_property = false:suggestion
