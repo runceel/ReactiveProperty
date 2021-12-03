@@ -8,166 +8,165 @@ using Reactive.Bindings.Extensions;
 using Reactive.Bindings.Internal;
 using UIKit;
 
-namespace Reactive.Bindings
+namespace Reactive.Bindings;
+
+/// <summary>
+/// UI Table View Source Extensions
+/// </summary>
+public static class UITableViewSourceExtensions
 {
     /// <summary>
-    /// UI Table View Source Extensions
+    /// Data binding method.
     /// </summary>
-    public static class UITableViewSourceExtensions
+    /// <typeparam name="TView">View type</typeparam>
+    /// <typeparam name="TProperty">Property type</typeparam>
+    /// <param name="self">View</param>
+    /// <param name="propertySelector">Target property selector</param>
+    /// <param name="source">Source property</param>
+    /// <param name="updateSourceTrigger">Update source trigger</param>
+    /// <returns>Data binding token</returns>
+    public static IDisposable SetBindingTableViewSource<TView, TProperty>(
+        this TView self,
+        Expression<Func<TView, TProperty>> propertySelector,
+        ReactiveProperty<TProperty> source, Func<TView, IObservable<Unit>> updateSourceTrigger = null)
+        where TView : UITableViewSource
     {
-        /// <summary>
-        /// Data binding method.
-        /// </summary>
-        /// <typeparam name="TView">View type</typeparam>
-        /// <typeparam name="TProperty">Property type</typeparam>
-        /// <param name="self">View</param>
-        /// <param name="propertySelector">Target property selector</param>
-        /// <param name="source">Source property</param>
-        /// <param name="updateSourceTrigger">Update source trigger</param>
-        /// <returns>Data binding token</returns>
-        public static IDisposable SetBindingTableViewSource<TView, TProperty>(
-            this TView self,
-            Expression<Func<TView, TProperty>> propertySelector,
-            ReactiveProperty<TProperty> source, Func<TView, IObservable<Unit>> updateSourceTrigger = null)
-            where TView : UITableViewSource
-        {
-            var d = new CompositeDisposable();
+        var d = new CompositeDisposable();
 
-            var isUpdating = false;
-            var setter = AccessorCache<TView>.LookupSet(propertySelector, out var propertyName);
-            source
-                .Where(_ => !isUpdating)
-                .Subscribe(x => setter(self, x))
-                .AddTo(d);
-            if (updateSourceTrigger != null)
+        var isUpdating = false;
+        var setter = AccessorCache<TView>.LookupSet(propertySelector, out var propertyName);
+        source
+            .Where(_ => !isUpdating)
+            .Subscribe(x => setter(self, x))
+            .AddTo(d);
+        if (updateSourceTrigger != null)
+        {
+            var getter = AccessorCache<TView>.LookupGet(propertySelector, out propertyName);
+            updateSourceTrigger(self).Subscribe(_ =>
             {
-                var getter = AccessorCache<TView>.LookupGet(propertySelector, out propertyName);
-                updateSourceTrigger(self).Subscribe(_ =>
+                isUpdating = true;
+                try
                 {
-                    isUpdating = true;
-                    try
-                    {
-                        source.Value = getter(self);
-                    }
-                    finally
-                    {
-                        isUpdating = false;
-                    }
-                }).AddTo(d);
-            }
-
-            return d;
+                    source.Value = getter(self);
+                }
+                finally
+                {
+                    isUpdating = false;
+                }
+            }).AddTo(d);
         }
 
-        /// <summary>
-        /// Data binding method.
-        /// </summary>
-        /// <typeparam name="TView">View type</typeparam>
-        /// <typeparam name="TProperty">Property type</typeparam>
-        /// <param name="self">View</param>
-        /// <param name="setter">Target value setter</param>
-        /// <param name="getter">Target value getter</param>
-        /// <param name="source">Source property</param>
-        /// <param name="updateSourceTrigger">Update source trigger</param>
-        /// <returns>Data binding token</returns>
-        public static IDisposable SetBindingTableViewSource<TView, TProperty>(
-            this TView self,
-            Action<TView, TProperty> setter,
-            Func<TView, TProperty> getter,
-            ReactiveProperty<TProperty> source,
-            Func<TView, IObservable<Unit>> updateSourceTrigger)
-            where TView : UITableViewSource
-        {
-            var d = new CompositeDisposable();
+        return d;
+    }
 
-            var isUpdating = false;
-            source
-                .Where(_ => !isUpdating)
-                .Subscribe(x => setter(self, x))
-                .AddTo(d);
-            if (updateSourceTrigger != null && getter != null)
+    /// <summary>
+    /// Data binding method.
+    /// </summary>
+    /// <typeparam name="TView">View type</typeparam>
+    /// <typeparam name="TProperty">Property type</typeparam>
+    /// <param name="self">View</param>
+    /// <param name="setter">Target value setter</param>
+    /// <param name="getter">Target value getter</param>
+    /// <param name="source">Source property</param>
+    /// <param name="updateSourceTrigger">Update source trigger</param>
+    /// <returns>Data binding token</returns>
+    public static IDisposable SetBindingTableViewSource<TView, TProperty>(
+        this TView self,
+        Action<TView, TProperty> setter,
+        Func<TView, TProperty> getter,
+        ReactiveProperty<TProperty> source,
+        Func<TView, IObservable<Unit>> updateSourceTrigger)
+        where TView : UITableViewSource
+    {
+        var d = new CompositeDisposable();
+
+        var isUpdating = false;
+        source
+            .Where(_ => !isUpdating)
+            .Subscribe(x => setter(self, x))
+            .AddTo(d);
+        if (updateSourceTrigger != null && getter != null)
+        {
+            updateSourceTrigger(self).Subscribe(_ =>
             {
-                updateSourceTrigger(self).Subscribe(_ =>
+                isUpdating = true;
+                try
                 {
-                    isUpdating = true;
-                    try
-                    {
-                        source.Value = getter(self);
-                    }
-                    finally
-                    {
-                        isUpdating = false;
-                    }
-                });
-            }
-
-            return d;
+                    source.Value = getter(self);
+                }
+                finally
+                {
+                    isUpdating = false;
+                }
+            });
         }
 
-        /// <summary>
-        /// Data binding method.
-        /// </summary>
-        /// <typeparam name="TView">View type</typeparam>
-        /// <typeparam name="TProperty">Property type</typeparam>
-        /// <param name="self">View</param>
-        /// <param name="setter">Target value setter</param>
-        /// <param name="source">Source property</param>
-        /// <returns>Data binding token</returns>
-        public static IDisposable SetBindingTableViewSource<TView, TProperty>(
-            this TView self,
-            Action<TView, TProperty> setter,
-            ReactiveProperty<TProperty> source)
-            where TView : UITableViewSource
-        {
-            return SetBindingTableViewSource(self, setter, null, source, null);
-        }
+        return d;
+    }
 
-        /// <summary>
-        /// Data binding method.
-        /// </summary>
-        /// <typeparam name="TView">View type</typeparam>
-        /// <typeparam name="TProperty">Property type</typeparam>
-        /// <param name="self">View</param>
-        /// <param name="propertySelector">Target property selector</param>
-        /// <param name="source">Source property</param>
-        /// <returns>Data binding token</returns>
-        public static IDisposable SetBindingTableViewSource<TView, TProperty>(
-            this TView self,
-            Expression<Func<TView, TProperty>> propertySelector,
-            ReadOnlyReactiveProperty<TProperty> source)
-            where TView : UITableViewSource
-        {
-            var d = new CompositeDisposable();
+    /// <summary>
+    /// Data binding method.
+    /// </summary>
+    /// <typeparam name="TView">View type</typeparam>
+    /// <typeparam name="TProperty">Property type</typeparam>
+    /// <param name="self">View</param>
+    /// <param name="setter">Target value setter</param>
+    /// <param name="source">Source property</param>
+    /// <returns>Data binding token</returns>
+    public static IDisposable SetBindingTableViewSource<TView, TProperty>(
+        this TView self,
+        Action<TView, TProperty> setter,
+        ReactiveProperty<TProperty> source)
+        where TView : UITableViewSource
+    {
+        return SetBindingTableViewSource(self, setter, null, source, null);
+    }
 
-            var setter = AccessorCache<TView>.LookupSet(propertySelector, out var propertyName);
-            source
-                .Subscribe(x => setter(self, x))
-                .AddTo(d);
-            return d;
-        }
+    /// <summary>
+    /// Data binding method.
+    /// </summary>
+    /// <typeparam name="TView">View type</typeparam>
+    /// <typeparam name="TProperty">Property type</typeparam>
+    /// <param name="self">View</param>
+    /// <param name="propertySelector">Target property selector</param>
+    /// <param name="source">Source property</param>
+    /// <returns>Data binding token</returns>
+    public static IDisposable SetBindingTableViewSource<TView, TProperty>(
+        this TView self,
+        Expression<Func<TView, TProperty>> propertySelector,
+        ReadOnlyReactiveProperty<TProperty> source)
+        where TView : UITableViewSource
+    {
+        var d = new CompositeDisposable();
 
-        /// <summary>
-        /// Data binding method.
-        /// </summary>
-        /// <typeparam name="TView">View type</typeparam>
-        /// <typeparam name="TProperty">Property type</typeparam>
-        /// <param name="self">View</param>
-        /// <param name="setter">Target value setter</param>
-        /// <param name="source">Source property</param>
-        /// <returns>Data binding token</returns>
-        public static IDisposable SetBindingTableViewSource<TView, TProperty>(
-            this TView self,
-            Action<TView, TProperty> setter,
-            ReadOnlyReactiveProperty<TProperty> source)
-            where TView : UITableViewSource
-        {
-            var d = new CompositeDisposable();
+        var setter = AccessorCache<TView>.LookupSet(propertySelector, out var propertyName);
+        source
+            .Subscribe(x => setter(self, x))
+            .AddTo(d);
+        return d;
+    }
 
-            source
-                .Subscribe(x => setter(self, x))
-                .AddTo(d);
+    /// <summary>
+    /// Data binding method.
+    /// </summary>
+    /// <typeparam name="TView">View type</typeparam>
+    /// <typeparam name="TProperty">Property type</typeparam>
+    /// <param name="self">View</param>
+    /// <param name="setter">Target value setter</param>
+    /// <param name="source">Source property</param>
+    /// <returns>Data binding token</returns>
+    public static IDisposable SetBindingTableViewSource<TView, TProperty>(
+        this TView self,
+        Action<TView, TProperty> setter,
+        ReadOnlyReactiveProperty<TProperty> source)
+        where TView : UITableViewSource
+    {
+        var d = new CompositeDisposable();
 
-            return d;
-        }
+        source
+            .Subscribe(x => setter(self, x))
+            .AddTo(d);
+
+        return d;
     }
 }

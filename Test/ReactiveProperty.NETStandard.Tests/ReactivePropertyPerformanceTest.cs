@@ -4,21 +4,20 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 
-namespace ReactiveProperty.Tests
+namespace ReactiveProperty.Tests;
+
+[TestClass]
+public class ReactivePropertyPerformanceTest
 {
-    [TestClass]
-    public class ReactivePropertyPerformanceTest
+    [TestMethod]
+    [Timeout(1500)]
+    public void PerformanceCheck()
     {
-        [TestMethod]
-        [Timeout(1500)]
-        public void PerformanceCheck()
+        var source = Observable.Return(1);
+        var properties = new List<ReactiveProperty<int>>();
+        for (var i = 0; i < 100000; i++)
         {
-            var source = Observable.Return(1);
-            var properties = new List<ReactiveProperty<int>>();
-            for (var i = 0; i < 100000; i++)
-            {
-                properties.Add(source.ToReactiveProperty());
-            }
+            properties.Add(source.ToReactiveProperty());
         }
     }
 }

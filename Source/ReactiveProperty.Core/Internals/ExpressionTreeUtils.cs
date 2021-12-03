@@ -3,59 +3,58 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
 
-namespace Reactive.Bindings.Internals
+namespace Reactive.Bindings.Internals;
+
+internal static class ExpressionTreeUtils
 {
-    internal static class ExpressionTreeUtils
+    public static string GetPropertyPath<TType, TProperty>(Expression<Func<TType, TProperty>> propertySelector)
     {
-        public static string GetPropertyPath<TType, TProperty>(Expression<Func<TType, TProperty>> propertySelector)
+        if (!(propertySelector.Body is MemberExpression memberExpression))
         {
-            if (!(propertySelector.Body is MemberExpression memberExpression))
-            {
-                if (!(propertySelector.Body is UnaryExpression unaryExpression)) { throw new ArgumentException(nameof(propertySelector)); }
-                memberExpression = unaryExpression.Operand as MemberExpression;
-                if (memberExpression == null) { throw new ArgumentException(nameof(propertySelector)); }
-            }
-
-            var tokens = new LinkedList<string>();
-            while (memberExpression != null)
-            {
-                tokens.AddFirst(memberExpression.Member.Name);
-                memberExpression = memberExpression.Expression as MemberExpression;
-            }
-
-            return string.Join(".", tokens);
+            if (!(propertySelector.Body is UnaryExpression unaryExpression)) { throw new ArgumentException(nameof(propertySelector)); }
+            memberExpression = unaryExpression.Operand as MemberExpression;
+            if (memberExpression == null) { throw new ArgumentException(nameof(propertySelector)); }
         }
 
-
-        public static string GetPropertyName<TType, TProperty>(Expression<Func<TType, TProperty>> propertySelector)
+        var tokens = new LinkedList<string>();
+        while (memberExpression != null)
         {
-            if (!(propertySelector.Body is MemberExpression memberExpression))
-            {
-                if (!(propertySelector.Body is UnaryExpression unaryExpression)) { throw new ArgumentException(nameof(propertySelector)); }
-                memberExpression = unaryExpression.Operand as MemberExpression;
-                if (memberExpression == null) { throw new ArgumentException(nameof(propertySelector)); }
-            }
-
-            return memberExpression.Member.Name;
+            tokens.AddFirst(memberExpression.Member.Name);
+            memberExpression = memberExpression.Expression as MemberExpression;
         }
 
-        public static bool IsNestedPropertyPath<TSubject, TProperty>(Expression<Func<TSubject, TProperty>> propertySelector)
-        {
-            if (propertySelector.Body is MemberExpression member)
-            {
-                return !(member.Expression is ParameterExpression);
-            };
-
-            if (propertySelector.Body is UnaryExpression unary)
-            {
-                if (unary.Operand is MemberExpression unaryMember)
-                {
-                    return !(unaryMember.Expression is ParameterExpression);
-                }
-            }
-
-            throw new ArgumentException();
-        }
-
+        return string.Join(".", tokens);
     }
+
+
+    public static string GetPropertyName<TType, TProperty>(Expression<Func<TType, TProperty>> propertySelector)
+    {
+        if (!(propertySelector.Body is MemberExpression memberExpression))
+        {
+            if (!(propertySelector.Body is UnaryExpression unaryExpression)) { throw new ArgumentException(nameof(propertySelector)); }
+            memberExpression = unaryExpression.Operand as MemberExpression;
+            if (memberExpression == null) { throw new ArgumentException(nameof(propertySelector)); }
+        }
+
+        return memberExpression.Member.Name;
+    }
+
+    public static bool IsNestedPropertyPath<TSubject, TProperty>(Expression<Func<TSubject, TProperty>> propertySelector)
+    {
+        if (propertySelector.Body is MemberExpression member)
+        {
+            return !(member.Expression is ParameterExpression);
+        };
+
+        if (propertySelector.Body is UnaryExpression unary)
+        {
+            if (unary.Operand is MemberExpression unaryMember)
+            {
+                return !(unaryMember.Expression is ParameterExpression);
+            }
+        }
+
+        throw new ArgumentException();
+    }
+
 }
