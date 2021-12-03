@@ -302,6 +302,8 @@ public class ReadOnlyReactiveCollectionTest
         source.Add("a");
         source.Add("b");
         testScheduler.AdvanceBy(1);
+        testScheduler.AdvanceBy(1);
+        testScheduler.AdvanceBy(1);
         target.Is(
             new StringHolder { Value = "a" },
             new StringHolder {  Value = "b" });
@@ -310,6 +312,8 @@ public class ReadOnlyReactiveCollectionTest
         source.Add("b");
         source.Add("c");
 
+        testScheduler.AdvanceBy(1);
+        testScheduler.AdvanceBy(1);
         testScheduler.AdvanceBy(1);
         target.Is(
             new StringHolder { Value = "b" },
