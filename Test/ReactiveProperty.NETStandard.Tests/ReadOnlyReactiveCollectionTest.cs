@@ -7,6 +7,7 @@ using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Subjects;
+using Microsoft.Reactive.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Reactive.Bindings;
 
@@ -287,6 +288,33 @@ public class ReadOnlyReactiveCollectionTest
             },
             (x, y) => x.Action == y.Action && x.Value == y.Value);
     }
+
+    [TestMethod]
+    public void ClearAndAddItems()
+    {
+        var testScheduler = new TestScheduler();
+        var source = new ObservableCollection<string>();
+        var target = source.ToReadOnlyReactiveCollection(
+            x => new StringHolder { Value = x }, 
+            testScheduler);
+
+        source.Clear();
+        source.Add("a");
+        source.Add("b");
+        testScheduler.AdvanceBy(1);
+        target.Is(
+            new StringHolder { Value = "a" },
+            new StringHolder {  Value = "b" });
+
+        source.Clear();
+        source.Add("b");
+        source.Add("c");
+
+        testScheduler.AdvanceBy(1);
+        target.Is(
+            new StringHolder { Value = "b" },
+            new StringHolder { Value = "c" });
+    }
 }
 
 internal class ConstructorCounter
@@ -300,6 +328,23 @@ internal class ConstructorCounter
 internal class StringHolder
 {
     public string Value { get; set; }
+
+    public override int GetHashCode()
+    {
+        return Value.GetHashCode();
+    }
+
+    public override bool Equals(object obj)
+    {
+        if (obj is not StringHolder x)
+        {
+            return false;
+        }
+
+        return Value == x.Value;
+
+        
+    }
 }
 
 internal class MoveSupportCollection<T> : Collection<T>, INotifyCollectionChanged
