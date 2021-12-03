@@ -19,12 +19,15 @@ namespace Reactive.Bindings;
 public class ReadOnlyReactiveCollection<T> : ReadOnlyObservableCollection<T>, IDisposable
 {
     private readonly NotifyCollectionChangedEventArgs _resetEventArgs = new(NotifyCollectionChangedAction.Reset);
-    private ObservableCollection<T> Source { get; set; }
+    private readonly ObservableCollection<T> _source;
+
+    private readonly object _syncRoot = new();
+    private readonly IScheduler _scheduler;
     private bool _isSupressingEvents = false;
 
-    private CompositeDisposable Token { get; } = new();
+    private readonly CompositeDisposable _token = new();
 
-    private bool DisposeElement { get; }
+    private readonly bool _disposeElement;
 
     /// <summary>
     /// Construct RxCollection from CollectionChanged.
@@ -36,13 +39,13 @@ public class ReadOnlyReactiveCollection<T> : ReadOnlyObservableCollection<T>, ID
     public ReadOnlyReactiveCollection(IObservable<CollectionChanged<T>> ox, ObservableCollection<T> source, IScheduler scheduler = null, bool disposeElement = true)
         : base(source)
     {
-        Source = source;
-        scheduler ??= ReactivePropertyScheduler.Default;
-        DisposeElement = disposeElement;
+        _source = source;
+        _scheduler = scheduler ?? ReactivePropertyScheduler.Default;
+        _disposeElement = disposeElement;
         var subject = new Subject<CollectionChanged<T>>();
 
         subject.Where(x => x.Action == NotifyCollectionChangedAction.Add)
-            .Subscribe(x => ApplyCollectionChanged(x, static (source, args) =>
+            .Subscribe(x => ApplyCollectionChanged(x, static (source, args, _) =>
             {
                 var index = args.Index;
                 var values = args.Values.ToArray();
@@ -53,34 +56,42 @@ public class ReadOnlyReactiveCollection<T> : ReadOnlyObservableCollection<T>, ID
 
                 return new(NotifyCollectionChangedAction.Add, values, args.Index);
             }))
-            .AddTo(Token);
+            .AddTo(_token);
 
         subject.Where(x => x.Action == NotifyCollectionChangedAction.Remove)
-                .Subscribe(x =>
+                .Subscribe(x => ApplyCollectionChanged(x, static (source, args, invokeDispose) =>
                 {
-                    if (Source[x.Index] is IDisposable d) { InvokeDispose(d); }
-                    Source.RemoveAt(x.Index);
-                })
-                .AddTo(Token);
+                    var oldValue = source[args.Index];
+                    invokeDispose(oldValue);
+                    source.RemoveAt(args.Index);
+                    return new(NotifyCollectionChangedAction.Remove, oldValue, args.Index);
+                }))
+                .AddTo(_token);
 
-        subject.Where(v => v.Action == NotifyCollectionChangedAction.Replace)
-                .Subscribe(v =>
+        subject.Where(x => x.Action == NotifyCollectionChangedAction.Replace)
+                .Subscribe(x => ApplyCollectionChanged(x, static (source, args, invokeDispose) =>
                 {
-                    if (Source[v.Index] is IDisposable d) { InvokeDispose(d); }
-                    Source[v.Index] = v.Value;
-                })
-                .AddTo(Token);
+                    invokeDispose(source[args.Index]);
+                    var oldValue = source[args.Index];
+                    source[args.Index] = args.Value;
+                    return new(NotifyCollectionChangedAction.Replace, args.Value, oldValue, args.Index);
+                }))
+                .AddTo(_token);
 
-        subject.Where(v => v.Action == NotifyCollectionChangedAction.Reset)
-                .Subscribe(v => ResetCollection(v))
-                .AddTo(Token);
+        subject.Where(x => x.Action == NotifyCollectionChangedAction.Reset)
+                .Subscribe(x => ResetCollection(x))
+                .AddTo(_token);
 
         subject.Where(x => x.Action == NotifyCollectionChangedAction.Move)
-                .Subscribe(x => Source.Move(x.OldIndex, x.Index))
-                .AddTo(Token);
+                .Subscribe(x => ApplyCollectionChanged(x, static (source, args, _) =>
+                {
+                    var value = source[args.OldIndex];
+                    source.Move(args.OldIndex, args.Index);
+                    return new(NotifyCollectionChangedAction.Move, value, args.Index, args.OldIndex);
+                }))
+                .AddTo(_token);
 
-        ox.ObserveOn(scheduler)
-                .Subscribe(subject).AddTo(Token);
+        ox.Subscribe(subject).AddTo(_token);
     }
 
     /// <summary>
@@ -93,24 +104,24 @@ public class ReadOnlyReactiveCollection<T> : ReadOnlyObservableCollection<T>, ID
     /// <param name="disposeElement">if set to <c>true</c> [dispose element].</param>
     public ReadOnlyReactiveCollection(IObservable<T> ox, ObservableCollection<T> source, IObservable<Unit> onReset = null, IScheduler scheduler = null, bool disposeElement = true) : base(source)
     {
-        Source = source;
-        DisposeElement = disposeElement;
+        _source = source;
+        _scheduler = scheduler ?? ReactivePropertyScheduler.Default;
+        _disposeElement = disposeElement;
         scheduler ??= ReactivePropertyScheduler.Default;
 
-        ox
-            .ObserveOn(scheduler)
-            .Subscribe(value =>
+        ox.Select(x => CollectionChanged<T>.Add(_source.Count, x))
+            .Subscribe(x => ApplyCollectionChanged(x, static (source, args, _) =>
             {
-                Source.Add(value);
-            })
-        .AddTo(Token);
+                source.Add(args.Value);
+                return new(NotifyCollectionChangedAction.Add, args.Value, args.Index);
+            }))
+            .AddTo(_token);
 
         if (onReset != null)
         {
             onReset
-                .ObserveOn(scheduler)
                 .Subscribe(_ => ResetCollection(CollectionChanged<T>.Reset))
-                .AddTo(Token);
+                .AddTo(_token);
         }
     }
 
@@ -119,12 +130,9 @@ public class ReadOnlyReactiveCollection<T> : ReadOnlyObservableCollection<T>, ID
     /// </summary>
     public virtual void Dispose()
     {
-        if (Token.IsDisposed)
-        {
-            return;
-        }
+        if (_token.IsDisposed) return;
 
-        Token.Dispose();
+        _token.Dispose();
         foreach (var d in this.OfType<IDisposable>().ToArray()) { InvokeDispose(d); }
     }
 
@@ -132,23 +140,27 @@ public class ReadOnlyReactiveCollection<T> : ReadOnlyObservableCollection<T>, ID
     /// <inheritdoc />
     protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs args)
     {
-        if (_isSupressingEvents) { return; }
-        base.OnCollectionChanged(args);
+        if (args == null) return;
+        if (_isSupressingEvents) return; 
+        _scheduler.Schedule(() => base.OnCollectionChanged(args));
     }
 
     private void ApplyCollectionChanged(
         CollectionChanged<T> collectionChanged,
-        Func<ObservableCollection<T>, CollectionChanged<T>, NotifyCollectionChangedEventArgs> action)
+        Func<ObservableCollection<T>, CollectionChanged<T>, Action<object>, NotifyCollectionChangedEventArgs> action)
     {
-        _isSupressingEvents = true;
         NotifyCollectionChangedEventArgs args;
-        try
+        lock (_syncRoot)
         {
-            args = action(Source, collectionChanged);
-        }
-        finally
-        {
-            _isSupressingEvents = false;
+            _isSupressingEvents = true;
+            try
+            {
+                args = action(_source, collectionChanged, InvokeDispose);
+            }
+            finally
+            {
+                _isSupressingEvents = false;
+            }
         }
 
         OnCollectionChanged(args);
@@ -156,11 +168,11 @@ public class ReadOnlyReactiveCollection<T> : ReadOnlyObservableCollection<T>, ID
 
     private void ResetCollection(CollectionChanged<T> collectionChanged)
     {
-        ApplyCollectionChanged(collectionChanged, (source, args) =>
+        ApplyCollectionChanged(collectionChanged, (source, args, invokeDispose) =>
         {
             foreach (var item in source)
             {
-                if (item is IDisposable d) { InvokeDispose(d); }
+                if (item is IDisposable d) { invokeDispose(d); }
             }
             source.Clear();
 
@@ -180,7 +192,7 @@ public class ReadOnlyReactiveCollection<T> : ReadOnlyObservableCollection<T>, ID
 
     private void InvokeDispose(object item)
     {
-        if (!DisposeElement)
+        if (!_disposeElement)
         {
             return;
         }
@@ -460,13 +472,14 @@ public static class ReadOnlyReactiveCollection
     {
         var source = new ObservableCollection<U>(self.Select(converter));
         var convertedCollectionChanged = collectionChanged
-            .Select(x => new CollectionChanged<U>
+            .Select(x => x.Action switch
             {
-                Source = x.Source?.Select(x => converter(x)),
-                Action = x.Action,
-                Index = x.Index,
-                OldIndex = x.OldIndex,
-                Values = x.Values?.Select(converter) ?? Enumerable.Empty<U>(),
+                NotifyCollectionChangedAction.Add => CollectionChanged<U>.Add(x.Index, x.Values.Select(x => converter(x))),
+                NotifyCollectionChangedAction.Remove => CollectionChanged<U>.Remove(x.Index, default(U)),
+                NotifyCollectionChangedAction.Replace => CollectionChanged<U>.Replace(x.Index, converter(x.Value)),
+                NotifyCollectionChangedAction.Reset => CollectionChanged<U>.ResetWithSource(source),
+                NotifyCollectionChangedAction.Move => CollectionChanged<U>.Move(x.OldIndex, x.Index, default(U)),
+                _ => throw new InvalidOperationException($"Unknown NotifyCollectionChangedAction value: {x.Action}"),
             });
         return new ReadOnlyReactiveCollection<U>(convertedCollectionChanged, source, scheduler, disposeElement);
     }
