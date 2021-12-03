@@ -3,74 +3,73 @@ using System.ComponentModel;
 using System.Reactive.Disposables;
 using System.Reactive.Subjects;
 
-namespace Reactive.Bindings.Notifiers
+namespace Reactive.Bindings.Notifiers;
+
+/// <summary>
+/// Notify of busy.
+/// </summary>
+public class BusyNotifier : INotifyPropertyChanged, IObservable<bool>
 {
+
+    private static readonly PropertyChangedEventArgs IsBusyPropertyChangedEventArgs = new(nameof(IsBusy));
+
     /// <summary>
-    /// Notify of busy.
+    /// property changed event handler
     /// </summary>
-    public class BusyNotifier : INotifyPropertyChanged, IObservable<bool>
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    private int ProcessCounter { get; set; }
+
+    private Subject<bool> IsBusySubject { get; } = new Subject<bool>();
+
+    private object LockObject { get; } = new object();
+
+    private bool isBusy;
+
+    /// <summary>
+    /// Is process running.
+    /// </summary>
+    public bool IsBusy
     {
-
-        private static readonly PropertyChangedEventArgs IsBusyPropertyChangedEventArgs = new(nameof(IsBusy));
-
-        /// <summary>
-        /// property changed event handler
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private int ProcessCounter { get; set; }
-
-        private Subject<bool> IsBusySubject { get; } = new Subject<bool>();
-
-        private object LockObject { get; } = new object();
-
-        private bool isBusy;
-
-        /// <summary>
-        /// Is process running.
-        /// </summary>
-        public bool IsBusy
+        get { return isBusy; }
+        set
         {
-            get { return isBusy; }
-            set
-            {
-                if (isBusy == value) { return; }
-                isBusy = value;
-                PropertyChanged?.Invoke(this, IsBusyPropertyChangedEventArgs);
-                IsBusySubject.OnNext(isBusy);
-            }
+            if (isBusy == value) { return; }
+            isBusy = value;
+            PropertyChanged?.Invoke(this, IsBusyPropertyChangedEventArgs);
+            IsBusySubject.OnNext(isBusy);
         }
+    }
 
-        /// <summary>
-        /// Process start.
-        /// </summary>
-        /// <returns>Call dispose method when process end.</returns>
-        public IDisposable ProcessStart()
+    /// <summary>
+    /// Process start.
+    /// </summary>
+    /// <returns>Call dispose method when process end.</returns>
+    public IDisposable ProcessStart()
+    {
+        lock (LockObject)
         {
-            lock (LockObject)
+            ProcessCounter++;
+            IsBusy = ProcessCounter != 0;
+            return Disposable.Create(() =>
             {
-                ProcessCounter++;
-                IsBusy = ProcessCounter != 0;
-                return Disposable.Create(() =>
+                lock (LockObject)
                 {
-                    lock (LockObject)
-                    {
-                        ProcessCounter--;
-                        IsBusy = ProcessCounter != 0;
-                    }
-                });
-            }
+                    ProcessCounter--;
+                    IsBusy = ProcessCounter != 0;
+                }
+            });
         }
+    }
 
-        /// <summary>
-        /// Subscribe busy.
-        /// </summary>
-        /// <param name="observer">observer</param>
-        /// <returns>disposable</returns>
-        public IDisposable Subscribe(IObserver<bool> observer)
-        {
-            observer.OnNext(IsBusy);
-            return IsBusySubject.Subscribe(observer);
-        }
+    /// <summary>
+    /// Subscribe busy.
+    /// </summary>
+    /// <param name="observer">observer</param>
+    /// <returns>disposable</returns>
+    public IDisposable Subscribe(IObserver<bool> observer)
+    {
+        observer.OnNext(IsBusy);
+        return IsBusySubject.Subscribe(observer);
     }
 }

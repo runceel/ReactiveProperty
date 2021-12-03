@@ -2,73 +2,72 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Reactive.Bindings.Notifiers;
 
-namespace ReactiveProperty.Tests
+namespace ReactiveProperty.Tests;
+
+[TestClass]
+public class BooleanNotifierTest : ReactiveTest
 {
-    [TestClass]
-    public class BooleanNotifierTest : ReactiveTest
+    [TestMethod]
+    public void TestInitialTrue()
     {
-        [TestMethod]
-        public void TestInitialTrue()
-        {
-            var notifier = new BooleanNotifier(true);
-            var recorder = new TestScheduler().CreateObserver<bool>();
-            notifier.Subscribe(recorder);
+        var notifier = new BooleanNotifier(true);
+        var recorder = new TestScheduler().CreateObserver<bool>();
+        notifier.Subscribe(recorder);
 
-            notifier.Value.Is(true);
+        notifier.Value.Is(true);
 
-            notifier.TurnOn();
-            recorder.Messages.Count.Is(0);
+        notifier.TurnOn();
+        recorder.Messages.Count.Is(0);
 
-            notifier.TurnOff();
-            notifier.Value = true;
-            notifier.Value = true;
-            notifier.Value = false;
-            notifier.TurnOn();
-            notifier.SwitchValue();
-            notifier.SwitchValue();
+        notifier.TurnOff();
+        notifier.Value = true;
+        notifier.Value = true;
+        notifier.Value = false;
+        notifier.TurnOn();
+        notifier.SwitchValue();
+        notifier.SwitchValue();
 
-            recorder.Messages.Is(
-                OnNext(0, false),
-                OnNext(0, true),
-                OnNext(0, true),
-                OnNext(0, false),
-                OnNext(0, true),
-                OnNext(0, false),
-                OnNext(0, true));
-        }
+        recorder.Messages.Is(
+            OnNext(0, false),
+            OnNext(0, true),
+            OnNext(0, true),
+            OnNext(0, false),
+            OnNext(0, true),
+            OnNext(0, false),
+            OnNext(0, true));
+    }
 
-        [TestMethod]
-        public void TestInitialFalse()
-        {
-            var notifier = new BooleanNotifier(false);
-            var recorder = new TestScheduler().CreateObserver<bool>();
-            notifier.Subscribe(recorder);
+    [TestMethod]
+    public void TestInitialFalse()
+    {
+        var notifier = new BooleanNotifier(false);
+        var recorder = new TestScheduler().CreateObserver<bool>();
+        notifier.Subscribe(recorder);
 
-            notifier.Value.Is(false);
+        notifier.Value.Is(false);
 
-            notifier.TurnOn();
-            notifier.TurnOff();
-            notifier.Value = true;
-            notifier.Value = true;
-            notifier.Value = false;
-            notifier.TurnOn();
-            notifier.SwitchValue();
-            notifier.SwitchValue();
+        notifier.TurnOn();
+        notifier.TurnOff();
+        notifier.Value = true;
+        notifier.Value = true;
+        notifier.Value = false;
+        notifier.TurnOn();
+        notifier.SwitchValue();
+        notifier.SwitchValue();
 
-            recorder.Messages.Is(
-                OnNext(0, true),
-                OnNext(0, false),
-                OnNext(0, true),
-                OnNext(0, true),
-                OnNext(0, false),
-                OnNext(0, true),
-                OnNext(0, false),
-                OnNext(0, true));
+        recorder.Messages.Is(
+            OnNext(0, true),
+            OnNext(0, false),
+            OnNext(0, true),
+            OnNext(0, true),
+            OnNext(0, false),
+            OnNext(0, true),
+            OnNext(0, false),
+            OnNext(0, true));
 
-            recorder.Messages.Clear();
+        recorder.Messages.Clear();
 
-            notifier.TurnOn();
-            recorder.Messages.Count.Is(0);
-        }
+        notifier.TurnOn();
+        recorder.Messages.Count.Is(0);
     }
 }
