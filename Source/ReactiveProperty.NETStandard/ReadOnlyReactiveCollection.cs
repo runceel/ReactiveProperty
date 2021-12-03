@@ -91,7 +91,7 @@ public class ReadOnlyReactiveCollection<T> : ReadOnlyObservableCollection<T>, ID
                 }))
                 .AddTo(_token);
 
-        ox.Subscribe(subject).AddTo(_token);
+        ox.ObserveOn(_scheduler).Subscribe(subject).AddTo(_token);
     }
 
     /// <summary>
@@ -110,6 +110,7 @@ public class ReadOnlyReactiveCollection<T> : ReadOnlyObservableCollection<T>, ID
         scheduler ??= ReactivePropertyScheduler.Default;
 
         ox.Select(x => CollectionChanged<T>.Add(_source.Count, x))
+            .ObserveOn(_scheduler)
             .Subscribe(x => ApplyCollectionChanged(x, static (source, args, _) =>
             {
                 source.Add(args.Value);
@@ -120,6 +121,7 @@ public class ReadOnlyReactiveCollection<T> : ReadOnlyObservableCollection<T>, ID
         if (onReset != null)
         {
             onReset
+                .ObserveOn(_scheduler)
                 .Subscribe(_ => ResetCollection(CollectionChanged<T>.Reset))
                 .AddTo(_token);
         }
@@ -142,7 +144,7 @@ public class ReadOnlyReactiveCollection<T> : ReadOnlyObservableCollection<T>, ID
     {
         if (args == null) return;
         if (_isSupressingEvents) return; 
-        _scheduler.Schedule(() => base.OnCollectionChanged(args));
+        base.OnCollectionChanged(args);
     }
 
     private void ApplyCollectionChanged(
@@ -224,7 +226,7 @@ public class CollectionChanged<T>
         new()
         {
             Action = NotifyCollectionChangedAction.Reset,
-            Source = source,
+            Source = source?.ToArray(),
         };
 
     /// <summary>
@@ -411,6 +413,7 @@ public static class ReadOnlyReactiveCollection
                 ox.OnNext(collectionChanged);
             }
 
+
             self.CollectionChanged += collectionChanged;
             return Disposable.Create(
                 (Source: self, Handler: (NotifyCollectionChangedEventHandler)collectionChanged),
@@ -474,10 +477,10 @@ public static class ReadOnlyReactiveCollection
         var convertedCollectionChanged = collectionChanged
             .Select(x => x.Action switch
             {
-                NotifyCollectionChangedAction.Add => CollectionChanged<U>.Add(x.Index, x.Values.Select(x => converter(x))),
+                NotifyCollectionChangedAction.Add => CollectionChanged<U>.Add(x.Index, x.Values.Select(converter)),
                 NotifyCollectionChangedAction.Remove => CollectionChanged<U>.Remove(x.Index, default(U)),
                 NotifyCollectionChangedAction.Replace => CollectionChanged<U>.Replace(x.Index, converter(x.Value)),
-                NotifyCollectionChangedAction.Reset => CollectionChanged<U>.ResetWithSource(source),
+                NotifyCollectionChangedAction.Reset => CollectionChanged<U>.ResetWithSource(x.Source?.Select(converter)),
                 NotifyCollectionChangedAction.Move => CollectionChanged<U>.Move(x.OldIndex, x.Index, default(U)),
                 _ => throw new InvalidOperationException($"Unknown NotifyCollectionChangedAction value: {x.Action}"),
             });
