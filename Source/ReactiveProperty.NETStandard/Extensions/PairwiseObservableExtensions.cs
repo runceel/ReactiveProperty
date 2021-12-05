@@ -1,55 +1,54 @@
 ﻿using System;
 using System.Reactive.Linq;
 
-namespace Reactive.Bindings.Extensions
+namespace Reactive.Bindings.Extensions;
+
+/// <summary>
+/// Observable Pairwise Extensions
+/// </summary>
+public static class ObservablePairwiseExtensions
 {
     /// <summary>
-    /// Observable Pairwise Extensions
+    /// Projects old and new element of a sequence into a new form.
     /// </summary>
-    public static class ObservablePairwiseExtensions
+    public static IObservable<OldNewPair<T>> Pairwise<T>(this IObservable<T> source) =>
+        Pairwise(source, (x, y) => new OldNewPair<T>(x, y));
+
+    /// <summary>
+    /// Projects old and new element of a sequence into a new form.
+    /// </summary>
+    public static IObservable<TR> Pairwise<T, TR>(this IObservable<T> source, Func<T, T, TR> selector)
     {
-        /// <summary>
-        /// Projects old and new element of a sequence into a new form.
-        /// </summary>
-        public static IObservable<OldNewPair<T>> Pairwise<T>(this IObservable<T> source) =>
-            Pairwise(source, (x, y) => new OldNewPair<T>(x, y));
-
-        /// <summary>
-        /// Projects old and new element of a sequence into a new form.
-        /// </summary>
-        public static IObservable<TR> Pairwise<T, TR>(this IObservable<T> source, Func<T, T, TR> selector)
+        var result = Observable.Create<TR>(observer =>
         {
-            var result = Observable.Create<TR>(observer =>
+            var prev = default(T);
+            var isFirst = true;
+
+            return source.Subscribe(x =>
             {
-                var prev = default(T);
-                var isFirst = true;
-
-                return source.Subscribe(x =>
+                if (isFirst)
                 {
-                    if (isFirst)
-                    {
-                        isFirst = false;
-                        prev = x;
-                        return;
-                    }
+                    isFirst = false;
+                    prev = x;
+                    return;
+                }
 
-                    TR value;
-                    try
-                    {
-                        value = selector(prev, x);
-                        prev = x;
-                    }
-                    catch (Exception ex)
-                    {
-                        observer.OnError(ex);
-                        return;
-                    }
+                TR value;
+                try
+                {
+                    value = selector(prev, x);
+                    prev = x;
+                }
+                catch (Exception ex)
+                {
+                    observer.OnError(ex);
+                    return;
+                }
 
-                    observer.OnNext(value);
-                }, observer.OnError, observer.OnCompleted);
-            });
+                observer.OnNext(value);
+            }, observer.OnError, observer.OnCompleted);
+        });
 
-            return result;
-        }
+        return result;
     }
 }

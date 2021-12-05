@@ -8,216 +8,215 @@ using System.Reactive.Subjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Reactive.Bindings;
 
-namespace ReactiveProperty.Tests
+namespace ReactiveProperty.Tests;
+
+[TestClass]
+public class ReadOnlyReactivePropertySlimTest
 {
-    [TestClass]
-    public class ReadOnlyReactivePropertySlimTest
+    [TestMethod]
+    public void NormalPattern()
     {
-        [TestMethod]
-        public void NormalPattern()
+        var s = new Subject<string>();
+
+        var rp = s.ToReadOnlyReactivePropertySlim();
+        var buffer = new List<string>();
+        rp.Subscribe(buffer.Add);
+
+        rp.Value.IsNull();
+        buffer.Count.Is(1);
+        buffer[0].IsNull();
+
+        s.OnNext("Hello");
+        rp.Value.Is("Hello");
+        buffer.Count.Is(2);
+        buffer.Is(default(string), "Hello");
+
+        s.OnNext("Hello");
+        rp.Value.Is("Hello");
+        buffer.Count.Is(2); // distinct until changed.
+    }
+
+    [TestMethod]
+    public void MultiSubscribeTest()
+    {
+        var s = new Subject<string>();
+
+        var rp = s.ToReadOnlyReactivePropertySlim();
+        var buffer1 = new List<string>();
+        rp.Subscribe(buffer1.Add);
+
+        buffer1.Count.Is(1);
+        s.OnNext("Hello world");
+        buffer1.Count.Is(2);
+        buffer1.Is(default(string), "Hello world");
+
+        var buffer2 = new List<string>();
+        rp.Subscribe(buffer2.Add);
+        buffer1.Is(default(string), "Hello world");
+        buffer2.Is("Hello world");
+
+        s.OnNext("ReactiveProperty");
+        buffer1.Is(default(string), "Hello world", "ReactiveProperty");
+        buffer2.Is("Hello world", "ReactiveProperty");
+    }
+
+    [TestMethod]
+    public void NormalPatternNoDistinctUntilChanged()
+    {
+        var s = new Subject<string>();
+
+        var rp = s.ToReadOnlyReactivePropertySlim(
+            mode: ReactivePropertyMode.RaiseLatestValueOnSubscribe);
+        var buffer = new List<string>();
+        rp.Subscribe(buffer.Add);
+
+        rp.Value.IsNull();
+        buffer.Count.Is(1);
+        buffer[0].IsNull();
+
+        s.OnNext("Hello");
+        rp.Value.Is("Hello");
+        buffer.Count.Is(2);
+        buffer.Is(default(string), "Hello");
+
+        s.OnNext("Hello");
+        rp.Value.Is("Hello");
+        buffer.Count.Is(3); // not distinct until changed.
+    }
+
+    [TestMethod]
+    public void PropertyChangedTest()
+    {
+        var s = new Subject<string>();
+        var rp = s.ToReadOnlyReactivePropertySlim();
+        var buffer = new List<string>();
+        rp.PropertyChanged += (_, args) =>
         {
-            var s = new Subject<string>();
+            buffer.Add(args.PropertyName);
+        };
 
-            var rp = s.ToReadOnlyReactivePropertySlim();
-            var buffer = new List<string>();
-            rp.Subscribe(buffer.Add);
+        buffer.Count.Is(0);
 
-            rp.Value.IsNull();
-            buffer.Count.Is(1);
-            buffer[0].IsNull();
+        s.OnNext("Hello");
+        buffer.Count.Is(1);
 
-            s.OnNext("Hello");
-            rp.Value.Is("Hello");
-            buffer.Count.Is(2);
-            buffer.Is(default(string), "Hello");
+        s.OnNext("Hello");
+        buffer.Count.Is(1);
 
-            s.OnNext("Hello");
-            rp.Value.Is("Hello");
-            buffer.Count.Is(2); // distinct until changed.
-        }
+        s.OnNext("World");
+        buffer.Count.Is(2);
+    }
 
-        [TestMethod]
-        public void MultiSubscribeTest()
+    [TestMethod]
+    public void PropertyChangedNoDistinctUntilChangedTest()
+    {
+        var s = new Subject<string>();
+        var rp = s.ToReadOnlyReactivePropertySlim(
+            mode: ReactivePropertyMode.RaiseLatestValueOnSubscribe);
+        var buffer = new List<string>();
+        rp.PropertyChanged += (_, args) =>
         {
-            var s = new Subject<string>();
+            buffer.Add(args.PropertyName);
+        };
 
-            var rp = s.ToReadOnlyReactivePropertySlim();
-            var buffer1 = new List<string>();
-            rp.Subscribe(buffer1.Add);
+        buffer.Count.Is(0);
 
-            buffer1.Count.Is(1);
-            s.OnNext("Hello world");
-            buffer1.Count.Is(2);
-            buffer1.Is(default(string), "Hello world");
+        s.OnNext("Hello");
+        buffer.Count.Is(1);
 
-            var buffer2 = new List<string>();
-            rp.Subscribe(buffer2.Add);
-            buffer1.Is(default(string), "Hello world");
-            buffer2.Is("Hello world");
+        s.OnNext("Hello");
+        buffer.Count.Is(2);
 
-            s.OnNext("ReactiveProperty");
-            buffer1.Is(default(string), "Hello world", "ReactiveProperty");
-            buffer2.Is("Hello world", "ReactiveProperty");
-        }
+        s.OnNext("World");
+        buffer.Count.Is(3);
+    }
 
-        [TestMethod]
-        public void NormalPatternNoDistinctUntilChanged()
+    [TestMethod]
+    public void BehaviorSubjectTest()
+    {
+        var s = new BehaviorSubject<string>("initial value");
+        var rp = s.ToReadOnlyReactivePropertySlim();
+        rp.Value.Is("initial value");
+    }
+
+    [TestMethod]
+    public void ObservableCreateTest()
+    {
+        var i = 0;
+        var s = Observable.Create<int>(ox =>
         {
-            var s = new Subject<string>();
+            i++;
+            return Disposable.Empty;
+        });
 
-            var rp = s.ToReadOnlyReactivePropertySlim(
-                mode: ReactivePropertyMode.RaiseLatestValueOnSubscribe);
-            var buffer = new List<string>();
-            rp.Subscribe(buffer.Add);
+        i.Is(0);
+        var rp = s.ToReadOnlyReactivePropertySlim();
+        i.Is(1);
+    }
 
-            rp.Value.IsNull();
-            buffer.Count.Is(1);
-            buffer[0].IsNull();
+    [TestMethod]
+    public void UnsubscribeTest()
+    {
+        var source = new ReactivePropertySlim<int>(mode: ReactivePropertyMode.None);
+        var rp = source.ToReadOnlyReactivePropertySlim(mode: ReactivePropertyMode.None);
 
-            s.OnNext("Hello");
-            rp.Value.Is("Hello");
-            buffer.Count.Is(2);
-            buffer.Is(default(string), "Hello");
+        var collector = new List<(string, int)>();
+        var a = rp.Select(x => ("a", x)).Subscribe(collector.Add);
+        var b = rp.Select(x => ("b", x)).Subscribe(collector.Add);
+        var c = rp.Select(x => ("c", x)).Subscribe(collector.Add);
 
-            s.OnNext("Hello");
-            rp.Value.Is("Hello");
-            buffer.Count.Is(3); // not distinct until changed.
-        }
+        source.Value = 99;
+        collector.Is(("a", 99), ("b", 99), ("c", 99));
 
-        [TestMethod]
-        public void PropertyChangedTest()
-        {
-            var s = new Subject<string>();
-            var rp = s.ToReadOnlyReactivePropertySlim();
-            var buffer = new List<string>();
-            rp.PropertyChanged += (_, args) =>
-            {
-                buffer.Add(args.PropertyName);
-            };
+        collector.Clear();
+        a.Dispose();
 
-            buffer.Count.Is(0);
+        source.Value = 40;
+        collector.Is(("b", 40), ("c", 40));
 
-            s.OnNext("Hello");
-            buffer.Count.Is(1);
+        collector.Clear();
+        c.Dispose();
 
-            s.OnNext("Hello");
-            buffer.Count.Is(1);
+        source.Value = 50;
+        collector.Is(("b", 50));
 
-            s.OnNext("World");
-            buffer.Count.Is(2);
-        }
+        collector.Clear();
+        b.Dispose();
 
-        [TestMethod]
-        public void PropertyChangedNoDistinctUntilChangedTest()
-        {
-            var s = new Subject<string>();
-            var rp = s.ToReadOnlyReactivePropertySlim(
-                mode: ReactivePropertyMode.RaiseLatestValueOnSubscribe);
-            var buffer = new List<string>();
-            rp.PropertyChanged += (_, args) =>
-            {
-                buffer.Add(args.PropertyName);
-            };
+        source.Value = 9999;
+        collector.Count.Is(0);
 
-            buffer.Count.Is(0);
+        var d = rp.Select(x => ("d", x)).Subscribe(collector.Add);
 
-            s.OnNext("Hello");
-            buffer.Count.Is(1);
+        source.Value = 9;
+        collector.Is(("d", 9));
 
-            s.OnNext("Hello");
-            buffer.Count.Is(2);
+        rp.Dispose();
+    }
 
-            s.OnNext("World");
-            buffer.Count.Is(3);
-        }
+    [TestMethod]
+    public void CreateFromObservableThatCompleteImmediately()
+    {
+        var x = Observable.Return(1).ToReadOnlyReactivePropertySlim();
+        x.Value.Is(1);
+    }
 
-        [TestMethod]
-        public void BehaviorSubjectTest()
-        {
-            var s = new BehaviorSubject<string>("initial value");
-            var rp = s.ToReadOnlyReactivePropertySlim();
-            rp.Value.Is("initial value");
-        }
+    [TestMethod]
+    public void ExceptionThrowsInConvertionLogic()
+    {
+        Assert.ThrowsException<Exception>(() =>
+            _ = Observable.Return(Unit.Default)
+                .Do(_ => throw new Exception("test"))
+                .ToReadOnlyReactivePropertySlim(),
+                "test");
+    }
 
-        [TestMethod]
-        public void ObservableCreateTest()
-        {
-            var i = 0;
-            var s = Observable.Create<int>(ox =>
-            {
-                i++;
-                return Disposable.Empty;
-            });
-
-            i.Is(0);
-            var rp = s.ToReadOnlyReactivePropertySlim();
-            i.Is(1);
-        }
-
-        [TestMethod]
-        public void UnsubscribeTest()
-        {
-            var source = new ReactivePropertySlim<int>(mode: ReactivePropertyMode.None);
-            var rp = source.ToReadOnlyReactivePropertySlim(mode: ReactivePropertyMode.None);
-
-            var collector = new List<(string, int)>();
-            var a = rp.Select(x => ("a", x)).Subscribe(collector.Add);
-            var b = rp.Select(x => ("b", x)).Subscribe(collector.Add);
-            var c = rp.Select(x => ("c", x)).Subscribe(collector.Add);
-
-            source.Value = 99;
-            collector.Is(("a", 99), ("b", 99), ("c", 99));
-
-            collector.Clear();
-            a.Dispose();
-
-            source.Value = 40;
-            collector.Is(("b", 40), ("c", 40));
-
-            collector.Clear();
-            c.Dispose();
-
-            source.Value = 50;
-            collector.Is(("b", 50));
-
-            collector.Clear();
-            b.Dispose();
-
-            source.Value = 9999;
-            collector.Count.Is(0);
-
-            var d = rp.Select(x => ("d", x)).Subscribe(collector.Add);
-
-            source.Value = 9;
-            collector.Is(("d", 9));
-
-            rp.Dispose();
-        }
-
-        [TestMethod]
-        public void CreateFromObservableThatCompleteImmediately()
-        {
-            var x = Observable.Return(1).ToReadOnlyReactivePropertySlim();
-            x.Value.Is(1);
-        }
-
-        [TestMethod]
-        public void ExceptionThrowsInConvertionLogic()
-        {
-            Assert.ThrowsException<Exception>(() =>
-                _ = Observable.Return(Unit.Default)
-                    .Do(_ => throw new Exception("test"))
-                    .ToReadOnlyReactivePropertySlim(),
-                    "test");
-        }
-
-        [TestMethod]
-        public void ExceptionThrowsInConvertionLogicWithIgnoreExceptionFlag()
-        {
-            AssertEx.DoesNotThrow(() =>
-                _ = Observable.Return(Unit.Default)
-                    .Do(_ => throw new Exception("test"))
-                    .ToReadOnlyReactivePropertySlim(mode: ReactivePropertyMode.Default | ReactivePropertyMode.IgnoreException));
-        }
+    [TestMethod]
+    public void ExceptionThrowsInConvertionLogicWithIgnoreExceptionFlag()
+    {
+        AssertEx.DoesNotThrow(() =>
+            _ = Observable.Return(Unit.Default)
+                .Do(_ => throw new Exception("test"))
+                .ToReadOnlyReactivePropertySlim(mode: ReactivePropertyMode.Default | ReactivePropertyMode.IgnoreException));
     }
 }

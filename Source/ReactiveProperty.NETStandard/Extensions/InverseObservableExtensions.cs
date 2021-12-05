@@ -2,21 +2,20 @@
 using System.Linq;
 using System.Reactive.Linq;
 
-namespace Reactive.Bindings.Extensions
+namespace Reactive.Bindings.Extensions;
+
+/// <summary>
+/// IObservable of bool extension methods.
+/// </summary>
+public static class InverseObservableExtensions
 {
     /// <summary>
-    /// IObservable of bool extension methods.
+    /// Inverse bool value.
     /// </summary>
-    public static class InverseObservableExtensions
+    /// <param name="self">IObservable of bool</param>
+    /// <returns>Inverse IObservable of bool</returns>
+    public static IObservable<bool> Inverse(this IObservable<bool> self)
     {
-        /// <summary>
-        /// Inverse bool value.
-        /// </summary>
-        /// <param name="self">IObservable of bool</param>
-        /// <returns>Inverse IObservable of bool</returns>
-        public static IObservable<bool> Inverse(this IObservable<bool> self)
-        {
-            return self.Select(x => !x);
-        }
+        return self.Select(x => !x);
     }
 }

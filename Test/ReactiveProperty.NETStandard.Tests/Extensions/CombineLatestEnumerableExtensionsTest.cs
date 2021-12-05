@@ -4,62 +4,61 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 
-namespace ReactiveProperty.Tests
+namespace ReactiveProperty.Tests;
+
+[TestClass()]
+public class CombineLatestEnumerableExtensionsTest : ReactiveTest
 {
-    [TestClass()]
-    public class CombineLatestEnumerableExtensionsTest : ReactiveTest
+    [TestMethod()]
+    public void CombineLatestValuesAreAllTrueTest()
     {
-        [TestMethod()]
-        public void CombineLatestValuesAreAllTrueTest()
-        {
-            var m = ReactivePropertyMode.RaiseLatestValueOnSubscribe;
-            var recorder = new TestScheduler().CreateObserver<bool>();
+        var m = ReactivePropertyMode.RaiseLatestValueOnSubscribe;
+        var recorder = new TestScheduler().CreateObserver<bool>();
 
-            var x = new ReactiveProperty<bool>(mode: m);
-            var y = new ReactiveProperty<bool>(mode: m);
-            var z = new ReactiveProperty<bool>(mode: m);
+        var x = new ReactiveProperty<bool>(mode: m);
+        var y = new ReactiveProperty<bool>(mode: m);
+        var z = new ReactiveProperty<bool>(mode: m);
 
-            new[] { x, y, z }.CombineLatestValuesAreAllTrue().Subscribe(recorder);
-            recorder.Messages.First().Is(OnNext(0, false));
+        new[] { x, y, z }.CombineLatestValuesAreAllTrue().Subscribe(recorder);
+        recorder.Messages.First().Is(OnNext(0, false));
 
-            x.Value = true; recorder.Messages.Last().Is(OnNext(0, false));
-            y.Value = true; recorder.Messages.Last().Is(OnNext(0, false));
-            z.Value = true; recorder.Messages.Last().Is(OnNext(0, true));
-            y.Value = false; recorder.Messages.Last().Is(OnNext(0, false));
-            z.Value = false; recorder.Messages.Last().Is(OnNext(0, false));
-            x.Value = true; recorder.Messages.Last().Is(OnNext(0, false));
-            z.Value = true; recorder.Messages.Last().Is(OnNext(0, false));
-            y.Value = true; recorder.Messages.Last().Is(OnNext(0, true));
-            x.Value = false; recorder.Messages.Last().Is(OnNext(0, false));
-            y.Value = false; recorder.Messages.Last().Is(OnNext(0, false));
-            z.Value = false; recorder.Messages.Last().Is(OnNext(0, false));
-            z.Value = true; recorder.Messages.Last().Is(OnNext(0, false));
-        }
+        x.Value = true; recorder.Messages.Last().Is(OnNext(0, false));
+        y.Value = true; recorder.Messages.Last().Is(OnNext(0, false));
+        z.Value = true; recorder.Messages.Last().Is(OnNext(0, true));
+        y.Value = false; recorder.Messages.Last().Is(OnNext(0, false));
+        z.Value = false; recorder.Messages.Last().Is(OnNext(0, false));
+        x.Value = true; recorder.Messages.Last().Is(OnNext(0, false));
+        z.Value = true; recorder.Messages.Last().Is(OnNext(0, false));
+        y.Value = true; recorder.Messages.Last().Is(OnNext(0, true));
+        x.Value = false; recorder.Messages.Last().Is(OnNext(0, false));
+        y.Value = false; recorder.Messages.Last().Is(OnNext(0, false));
+        z.Value = false; recorder.Messages.Last().Is(OnNext(0, false));
+        z.Value = true; recorder.Messages.Last().Is(OnNext(0, false));
+    }
 
-        [TestMethod()]
-        public void CombineLatestValuesAreAllFalseTest()
-        {
-            var m = ReactivePropertyMode.RaiseLatestValueOnSubscribe;
-            var recorder = new TestScheduler().CreateObserver<bool>();
+    [TestMethod()]
+    public void CombineLatestValuesAreAllFalseTest()
+    {
+        var m = ReactivePropertyMode.RaiseLatestValueOnSubscribe;
+        var recorder = new TestScheduler().CreateObserver<bool>();
 
-            var x = new ReactiveProperty<bool>(mode: m);
-            var y = new ReactiveProperty<bool>(mode: m);
-            var z = new ReactiveProperty<bool>(mode: m);
+        var x = new ReactiveProperty<bool>(mode: m);
+        var y = new ReactiveProperty<bool>(mode: m);
+        var z = new ReactiveProperty<bool>(mode: m);
 
-            new[] { x, y, z }.CombineLatestValuesAreAllFalse().Subscribe(recorder);
-            recorder.Messages.Last().Is(OnNext(0, true));
-            x.Value = true;
-            recorder.Messages.Last().Is(OnNext(0, false));
-            y.Value = true;
-            recorder.Messages.Last().Is(OnNext(0, false));
-            z.Value = true;
-            recorder.Messages.Last().Is(OnNext(0, false));
-            x.Value = false;
-            recorder.Messages.Last().Is(OnNext(0, false));
-            y.Value = false;
-            recorder.Messages.Last().Is(OnNext(0, false));
-            z.Value = false;
-            recorder.Messages.Last().Is(OnNext(0, true));
-        }
+        new[] { x, y, z }.CombineLatestValuesAreAllFalse().Subscribe(recorder);
+        recorder.Messages.Last().Is(OnNext(0, true));
+        x.Value = true;
+        recorder.Messages.Last().Is(OnNext(0, false));
+        y.Value = true;
+        recorder.Messages.Last().Is(OnNext(0, false));
+        z.Value = true;
+        recorder.Messages.Last().Is(OnNext(0, false));
+        x.Value = false;
+        recorder.Messages.Last().Is(OnNext(0, false));
+        y.Value = false;
+        recorder.Messages.Last().Is(OnNext(0, false));
+        z.Value = false;
+        recorder.Messages.Last().Is(OnNext(0, true));
     }
 }
