@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <PackageId>ReactiveProperty.Core</PackageId>
-    <TargetFrameworks>netstandard2.0;netcoreapp3.1;net6.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netcoreapp3.1;net6.0;net472</TargetFrameworks>
     <AssemblyName>ReactiveProperty.Core</AssemblyName>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
