@@ -12,6 +12,7 @@
     <RepositoryUrl>https://github.com/runceel/ReactiveProperty</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <LangVersion>10.0</LangVersion>
+    <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
