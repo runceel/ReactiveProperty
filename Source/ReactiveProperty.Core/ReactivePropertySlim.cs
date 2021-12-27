@@ -22,14 +22,14 @@ public class ReactivePropertySlim<T> : IReactiveProperty<T>, IObserverLinkedList
 
     private ReactivePropertyMode _mode; // None = 0, DistinctUntilChanged = 1, RaiseLatestValueOnSubscribe = 2, Disposed = (1 << 9)
     private readonly IEqualityComparer<T> _equalityComparer;
-    private ObserverNode<T> _root;
-    private ObserverNode<T> _last;
+    private ObserverNode<T>? _root;
+    private ObserverNode<T>? _last;
 
     /// <summary>
     /// Occurs when a property value changes.
     /// </summary>
     /// <returns></returns>
-    public event PropertyChangedEventHandler PropertyChanged;
+    public event PropertyChangedEventHandler? PropertyChanged;
 
     /// <summary>
     /// Gets or sets the value.
@@ -64,7 +64,7 @@ public class ReactivePropertySlim<T> : IReactiveProperty<T>, IObserverLinkedList
     /// <value><c>true</c> if this instance is disposed; otherwise, <c>false</c>.</value>
     public bool IsDisposed => (int)_mode == IsDisposedFlagNumber;
 
-    object IReactiveProperty.Value
+    object? IReactiveProperty.Value
     {
         get
         {
@@ -73,11 +73,11 @@ public class ReactivePropertySlim<T> : IReactiveProperty<T>, IObserverLinkedList
 
         set
         {
-            Value = (T)value;
+            Value = (T)value!;
         }
     }
 
-    object IReadOnlyReactiveProperty.Value
+    object? IReadOnlyReactiveProperty.Value
     {
         get
         {
@@ -105,7 +105,7 @@ public class ReactivePropertySlim<T> : IReactiveProperty<T>, IObserverLinkedList
     /// <param name="initialValue">The initial value.</param>
     /// <param name="mode">The mode.</param>
     /// <param name="equalityComparer">The equality comparer.</param>
-    public ReactivePropertySlim(T initialValue = default, ReactivePropertyMode mode = ReactivePropertyMode.Default, IEqualityComparer<T> equalityComparer = null)
+    public ReactivePropertySlim(T initialValue = default!, ReactivePropertyMode mode = ReactivePropertyMode.Default, IEqualityComparer<T>? equalityComparer = null)
     {
         _latestValue = initialValue;
         _mode = mode;
@@ -162,7 +162,7 @@ public class ReactivePropertySlim<T> : IReactiveProperty<T>, IObserverLinkedList
         }
         else
         {
-            _last.Next = next;
+            _last!.Next = next;
             next.Previous = _last;
             _last = next;
         }
@@ -216,7 +216,7 @@ public class ReactivePropertySlim<T> : IReactiveProperty<T>, IObserverLinkedList
     /// Returns a <see cref="string"/> that represents this instance.
     /// </summary>
     /// <returns>A <see cref="string"/> that represents this instance.</returns>
-    public override string ToString()
+    public override string? ToString()
     {
         return (_latestValue == null)
             ? "null"
@@ -231,7 +231,7 @@ public class ReactivePropertySlim<T> : IReactiveProperty<T>, IObserverLinkedList
 
     IObservable<bool> IHasErrors.ObserveHasErrors => throw new NotSupportedException();
 
-    event EventHandler<DataErrorsChangedEventArgs> INotifyDataErrorInfo.ErrorsChanged
+    event EventHandler<DataErrorsChangedEventArgs>? INotifyDataErrorInfo.ErrorsChanged
     {
         add
         {
@@ -241,7 +241,7 @@ public class ReactivePropertySlim<T> : IReactiveProperty<T>, IObserverLinkedList
         }
     }
 
-    IEnumerable INotifyDataErrorInfo.GetErrors(string propertyName)
+    IEnumerable INotifyDataErrorInfo.GetErrors(string? propertyName)
     {
         return System.Linq.Enumerable.Empty<object>();
     }
@@ -260,17 +260,17 @@ public class ReadOnlyReactivePropertySlim<T> : IReadOnlyReactiveProperty<T>, IOb
     // minimize field count
     private T _latestValue;
 
-    private IDisposable _sourceSubscription;
+    private IDisposable? _sourceSubscription;
     private ReactivePropertyMode _mode; // None = 0, DistinctUntilChanged = 1, RaiseLatestValueOnSubscribe = 2, Disposed = (1 << 9)
     private readonly IEqualityComparer<T> _equalityComparer;
-    private ObserverNode<T> _root;
-    private ObserverNode<T> _last;
+    private ObserverNode<T>? _root;
+    private ObserverNode<T>? _last;
 
     /// <summary>
     /// Occurs when a property value changes.
     /// </summary>
     /// <returns></returns>
-    public event PropertyChangedEventHandler PropertyChanged;
+    public event PropertyChangedEventHandler? PropertyChanged;
 
     /// <summary>
     /// Gets the value.
@@ -290,7 +290,7 @@ public class ReadOnlyReactivePropertySlim<T> : IReadOnlyReactiveProperty<T>, IOb
     /// <value><c>true</c> if this instance is disposed; otherwise, <c>false</c>.</value>
     public bool IsDisposed => (int)_mode == IsDisposedFlagNumber;
 
-    object IReadOnlyReactiveProperty.Value => Value;
+    object? IReadOnlyReactiveProperty.Value => Value;
 
     private bool IsDistinctUntilChanged => (_mode & ReactivePropertyMode.DistinctUntilChanged) == ReactivePropertyMode.DistinctUntilChanged;
 
@@ -305,7 +305,7 @@ public class ReadOnlyReactivePropertySlim<T> : IReadOnlyReactiveProperty<T>, IOb
     /// <param name="initialValue">The initial value.</param>
     /// <param name="mode">The mode.</param>
     /// <param name="equalityComparer">The equality comparer.</param>
-    public ReadOnlyReactivePropertySlim(IObservable<T> source, T initialValue = default, ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe, IEqualityComparer<T> equalityComparer = null)
+    public ReadOnlyReactivePropertySlim(IObservable<T> source, T initialValue = default!, ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe, IEqualityComparer<T>? equalityComparer = null)
     {
         _latestValue = initialValue;
         _mode = mode;
@@ -347,7 +347,7 @@ public class ReadOnlyReactivePropertySlim<T> : IReadOnlyReactiveProperty<T>, IOb
         }
         else
         {
-            _last.Next = next;
+            _last!.Next = next;
             next.Previous = _last;
             _last = next;
         }
@@ -444,7 +444,7 @@ public class ReadOnlyReactivePropertySlim<T> : IReadOnlyReactiveProperty<T>, IOb
     /// Returns a <see cref="string"/> that represents this instance.
     /// </summary>
     /// <returns>A <see cref="string"/> that represents this instance.</returns>
-    public override string ToString()
+    public override string? ToString()
     {
         return (_latestValue == null)
             ? "null"
@@ -468,7 +468,7 @@ public static class ReadOnlyReactivePropertySlim
     /// <param name="mode">The mode.</param>
     /// <param name="equalityComparer">The equality comparer.</param>
     /// <returns></returns>
-    public static ReadOnlyReactivePropertySlim<T> ToReadOnlyReactivePropertySlim<T>(this IObservable<T> source, T initialValue = default, ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe, IEqualityComparer<T> equalityComparer = null)
+    public static ReadOnlyReactivePropertySlim<T> ToReadOnlyReactivePropertySlim<T>(this IObservable<T> source, T initialValue = default!, ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe, IEqualityComparer<T>? equalityComparer = null)
     {
         return new ReadOnlyReactivePropertySlim<T>(source, initialValue, mode, equalityComparer);
     }

@@ -92,6 +92,7 @@ public class ReactiveProperty<T> : IReactiveProperty<T>, IObserverLinkedList<T>
     {
     }
 
+#nullable disable
     /// <summary>
     /// PropertyChanged raise on ReactivePropertyScheduler
     /// </summary>
@@ -101,6 +102,7 @@ public class ReactiveProperty<T> : IReactiveProperty<T>, IObserverLinkedList<T>
         IEqualityComparer<T> equalityComparer = null)
         : this(ReactivePropertyScheduler.Default, initialValue, mode, equalityComparer)
     { }
+#nullable enable
 
     /// <summary>
     /// PropertyChanged raise on selected scheduler

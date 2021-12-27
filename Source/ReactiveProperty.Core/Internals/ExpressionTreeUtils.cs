@@ -9,9 +9,10 @@ internal static class ExpressionTreeUtils
 {
     public static string GetPropertyPath<TType, TProperty>(Expression<Func<TType, TProperty>> propertySelector)
     {
-        if (!(propertySelector.Body is MemberExpression memberExpression))
+        var memberExpression = propertySelector.Body as MemberExpression;
+        if (memberExpression == null)
         {
-            if (!(propertySelector.Body is UnaryExpression unaryExpression)) { throw new ArgumentException(nameof(propertySelector)); }
+            if (propertySelector.Body is not UnaryExpression unaryExpression) { throw new ArgumentException(nameof(propertySelector)); }
             memberExpression = unaryExpression.Operand as MemberExpression;
             if (memberExpression == null) { throw new ArgumentException(nameof(propertySelector)); }
         }
@@ -29,7 +30,8 @@ internal static class ExpressionTreeUtils
 
     public static string GetPropertyName<TType, TProperty>(Expression<Func<TType, TProperty>> propertySelector)
     {
-        if (!(propertySelector.Body is MemberExpression memberExpression))
+        var memberExpression = propertySelector.Body as MemberExpression;
+        if (memberExpression == null)
         {
             if (!(propertySelector.Body is UnaryExpression unaryExpression)) { throw new ArgumentException(nameof(propertySelector)); }
             memberExpression = unaryExpression.Operand as MemberExpression;

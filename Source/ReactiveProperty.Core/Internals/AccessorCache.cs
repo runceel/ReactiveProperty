@@ -24,7 +24,7 @@ internal static class AccessorCache<TType>
     public static Func<TType, TProperty> LookupGet<TProperty>(Expression<Func<TType, TProperty>> propertySelector, out string propertyName)
     {
         propertyName = ExpressionTreeUtils.GetPropertyName(propertySelector);
-        Delegate accessor;
+        Delegate? accessor;
 
         lock (s_getCache)
         {
@@ -48,7 +48,7 @@ internal static class AccessorCache<TType>
     public static Func<TType, TProperty> LookupNestedGet<TProperty>(Expression<Func<TType, TProperty>> propertySelector, out string propertyName)
     {
         propertyName = ExpressionTreeUtils.GetPropertyPath(propertySelector);
-        Delegate accessor;
+        Delegate? accessor;
 
         lock (s_getCache)
         {
@@ -72,7 +72,7 @@ internal static class AccessorCache<TType>
     public static Action<TType, TProperty> LookupSet<TProperty>(Expression<Func<TType, TProperty>> propertySelector, out string propertyName)
     {
         propertyName = ExpressionTreeUtils.GetPropertyName(propertySelector);
-        Delegate accessor;
+        Delegate? accessor;
 
         lock (s_setCache)
         {
@@ -113,7 +113,7 @@ internal static class AccessorCache
             }
 
             var accessorType = GetAccessorCacheTypeByType(type);
-            cache = (Dictionary<string, Delegate>)accessorType.GetField("s_getCache", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null);
+            cache = (Dictionary<string, Delegate>)accessorType.GetField("s_getCache", BindingFlags.Static | BindingFlags.NonPublic)!.GetValue(null)!;
             _getCache.Add(type, cache);
             return cache;
         }
@@ -129,7 +129,7 @@ internal static class AccessorCache
             }
 
             var accessorType = GetAccessorCacheTypeByType(type);
-            cache = (Dictionary<string, Delegate>)accessorType.GetField("s_setCache", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null);
+            cache = (Dictionary<string, Delegate>)accessorType.GetField("s_setCache", BindingFlags.Static | BindingFlags.NonPublic)!.GetValue(null)!;
             _setCache.Add(type, cache);
             return cache;
         }
@@ -182,7 +182,7 @@ internal static class AccessorCache
 
     private static Delegate CreateAndCacheGetAccessor(Type type, string propertyName, Dictionary<string, Delegate> cache)
     {
-        var propertyInfo = type.GetProperty(propertyName);
+        var propertyInfo = type.GetProperty(propertyName) ?? throw new ArgumentException($"{propertyName} is not found on {type.FullName}");
         var accessor = CreateGetAccessor(type, propertyInfo);
         cache.Add(propertyName, accessor);
         return accessor;
@@ -190,7 +190,7 @@ internal static class AccessorCache
 
     private static Delegate CreateAndCacheSetAccessor(Type type, string propertyName, Dictionary<string, Delegate> cache)
     {
-        var propertyInfo = type.GetProperty(propertyName);
+        var propertyInfo = type.GetProperty(propertyName) ?? throw new ArgumentException($"{propertyName} is not found on {type.FullName}");
         var accessor = CreateSetAccessor(type, propertyInfo);
         cache.Add(propertyName, accessor);
         return accessor;
