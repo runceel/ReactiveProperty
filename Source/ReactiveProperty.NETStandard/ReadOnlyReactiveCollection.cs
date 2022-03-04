@@ -192,14 +192,15 @@ public class ReadOnlyReactiveCollection<T> : ReadOnlyObservableCollection<T>, ID
 
 
 
-    private void InvokeDispose(object item)
+    private void InvokeDispose(object item) => InvokeDispose(item as IDisposable);
+    private void InvokeDispose(IDisposable? item)
     {
         if (!_disposeElement)
         {
             return;
         }
 
-        (item as IDisposable)?.Dispose();
+        item?.Dispose();
     }
 }
 
