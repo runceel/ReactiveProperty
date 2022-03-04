@@ -109,12 +109,12 @@ public class ReadOnlyReactiveCollection<T> : ReadOnlyObservableCollection<T>, ID
         _disposeElement = disposeElement;
         scheduler ??= ReactivePropertyScheduler.Default;
 
-        ox.Select(x => CollectionChanged<T>.Add(_source.Count, x))
+        ox.Select(x => CollectionChanged<T>.Add(-1, x))
             .ObserveOn(_scheduler)
             .Subscribe(x => ApplyCollectionChanged(x, static (source, args, _) =>
             {
                 source.Add(args.Value);
-                return new(NotifyCollectionChangedAction.Add, args.Value, args.Index);
+                return new(NotifyCollectionChangedAction.Add, args.Value, source.Count - 1);
             }))
             .AddTo(_token);
 
@@ -192,14 +192,15 @@ public class ReadOnlyReactiveCollection<T> : ReadOnlyObservableCollection<T>, ID
 
 
 
-    private void InvokeDispose(object item)
+    private void InvokeDispose(object item) => InvokeDispose(item as IDisposable);
+    private void InvokeDispose(IDisposable? item)
     {
         if (!_disposeElement)
         {
             return;
         }
 
-        (item as IDisposable)?.Dispose();
+        item?.Dispose();
     }
 }
 
