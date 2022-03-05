@@ -10,11 +10,12 @@ using System.Reactive.Subjects;
 using Microsoft.Reactive.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Reactive.Bindings;
+using Reactive.Bindings.Extensions;
 
 namespace ReactiveProperty.Tests;
 
 [TestClass]
-public class ReadOnlyReactiveCollectionTest
+public class ReadOnlyReactiveCollectionTest : ReactiveTest
 {
     [TestMethod]
     public void AddAndResetTest()
@@ -318,6 +319,29 @@ public class ReadOnlyReactiveCollectionTest
         target.Is(
             new StringHolder { Value = "b" },
             new StringHolder { Value = "c" });
+    }
+
+    [TestMethod]
+    public void AddOnDifferentObservableContext()
+    {
+        var schedulerForAdding = new TestScheduler();
+        var schedulerForCollection = new TestScheduler();
+
+        var addEventObserver = schedulerForCollection.CreateObserver<NotifyCollectionChangedEventArgs>();
+        var target = schedulerForAdding.CreateHotObservable<int>(
+            new Recorded<Notification<int>>(10, Notification.CreateOnNext(1)),
+            new Recorded<Notification<int>>(20, Notification.CreateOnNext(2)),
+            new Recorded<Notification<int>>(30, Notification.CreateOnNext(3)))
+            .ToReadOnlyReactiveCollection(scheduler: schedulerForCollection);
+        target.CollectionChangedAsObservable().Subscribe(addEventObserver);
+        schedulerForAdding.AdvanceTo(20);
+        schedulerForCollection.AdvanceTo(2);
+
+        addEventObserver.Messages.Is(new[]
+        {
+            OnNext<NotifyCollectionChangedEventArgs>(1, x => x.Action == NotifyCollectionChangedAction.Add && x.NewStartingIndex == 0),
+            OnNext<NotifyCollectionChangedEventArgs>(2, x => x.Action == NotifyCollectionChangedAction.Add && x.NewStartingIndex == 1),
+        });
     }
 }
 
