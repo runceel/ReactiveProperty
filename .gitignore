@@ -119,3 +119,4 @@ BuildTools/*.nupkg
 project.lock.json
 /.vs
 UpgradeLog.htm
+*.AssemblyAttributes
