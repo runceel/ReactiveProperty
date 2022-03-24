@@ -44,7 +44,7 @@ jobs:
     - name: Install dependencies
       run: dotnet restore ReactiveProperty.sln
     - name: Build
-      run: dotnet build ReactiveProperty.sln -c Release
+      run: dotnet build ReactiveProperty.sln -c Release /p:ContinuousIntegrationBuild=True /p:EmbedUntrackedSources=True
     - name: Test
       run: dotnet test ReactiveProperty.sln --no-restore --verbosity normal
     - name: Copy package files
