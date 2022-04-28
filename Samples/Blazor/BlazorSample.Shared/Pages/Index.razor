@@ -1,0 +1,31 @@
+﻿@using Reactive.Bindings.Components
+@page "/"
+@inject IndexViewModel _viewModel
+
+<h3>ReactivePropertiesValidator sample</h3>
+
+<EditForm Model="_viewModel">
+    <ReactivePropertiesValidator />
+
+    <ValidationSummary />
+
+    <div class="mb-3">
+        <label for="firstName">First name</label>
+        <InputText @bind-Value="_viewModel.FirstName.Value" class="form-control" />
+        <ValidationMessage For="() => _viewModel.FirstName.Value" />
+    </div>
+    <div class="mb-3">
+        <label for="firstName">Last name</label>
+        <InputText @bind-Value="_viewModel.LastName.Value" class="form-control"  />
+        <ValidationMessage For="() => _viewModel.LastName.Value" />
+    </div>
+
+    <div class="mb-3">
+        <span>@_viewModel.FullName.Value</span>
+    </div>
+
+</EditForm>
+
+@code {
+
+}

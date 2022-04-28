@@ -27,6 +27,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MultiUIThread", "MultiUIThr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MultiUIThreadApp", "Samples\MultiUIThreadApp\MultiUIThreadApp.csproj", "{CE48575B-F749-4337-9F6B-C2E650D2A297}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Blazor", "Blazor", "{FED0F033-DD46-4A15-9041-999813FECF73}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorServerApp", "Samples\Blazor\BlazorServerApp\BlazorServerApp.csproj", "{8DE66105-1318-4606-A702-70A78754E036}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorWasmApp", "Samples\Blazor\BlazorWasmApp\BlazorWasmApp.csproj", "{43DD55EB-1220-47D5-8F08-1F0989D8B0F6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorSample.Shared", "Samples\Blazor\BlazorSample.Shared\BlazorSample.Shared.csproj", "{EE15634D-C8A7-40DD-B966-6695A2ECA1E1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReactiveProperty.Platform.Blazor", "Source\ReactiveProperty.Platform.Blazor\ReactiveProperty.Platform.Blazor.csproj", "{3CF8E744-40E0-4874-B82D-1B3AD2523043}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Source\ReactiveProperty.Platform.Shared\ReactiveProperty.Platform.Shared.projitems*{ff52758c-f5fb-49c9-8dee-e4a7dfba4dc1}*SharedItemsImports = 5
@@ -68,6 +78,22 @@ Global
 		{CE48575B-F749-4337-9F6B-C2E650D2A297}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE48575B-F749-4337-9F6B-C2E650D2A297}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE48575B-F749-4337-9F6B-C2E650D2A297}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DE66105-1318-4606-A702-70A78754E036}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DE66105-1318-4606-A702-70A78754E036}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DE66105-1318-4606-A702-70A78754E036}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DE66105-1318-4606-A702-70A78754E036}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43DD55EB-1220-47D5-8F08-1F0989D8B0F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43DD55EB-1220-47D5-8F08-1F0989D8B0F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43DD55EB-1220-47D5-8F08-1F0989D8B0F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43DD55EB-1220-47D5-8F08-1F0989D8B0F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE15634D-C8A7-40DD-B966-6695A2ECA1E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE15634D-C8A7-40DD-B966-6695A2ECA1E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE15634D-C8A7-40DD-B966-6695A2ECA1E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE15634D-C8A7-40DD-B966-6695A2ECA1E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CF8E744-40E0-4874-B82D-1B3AD2523043}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CF8E744-40E0-4874-B82D-1B3AD2523043}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CF8E744-40E0-4874-B82D-1B3AD2523043}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CF8E744-40E0-4874-B82D-1B3AD2523043}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,6 +107,10 @@ Global
 		{DC6C40F1-3978-406B-B2EA-55D170037B6F} = {FB70FEE7-6672-421D-A285-8C6FC34B443C}
 		{B4A8A828-132C-4DBC-9046-EFD9BFAA56FC} = {FB70FEE7-6672-421D-A285-8C6FC34B443C}
 		{CE48575B-F749-4337-9F6B-C2E650D2A297} = {4A35B740-ADFA-4CBF-9769-9222A68AD42A}
+		{8DE66105-1318-4606-A702-70A78754E036} = {FED0F033-DD46-4A15-9041-999813FECF73}
+		{43DD55EB-1220-47D5-8F08-1F0989D8B0F6} = {FED0F033-DD46-4A15-9041-999813FECF73}
+		{EE15634D-C8A7-40DD-B966-6695A2ECA1E1} = {FED0F033-DD46-4A15-9041-999813FECF73}
+		{3CF8E744-40E0-4874-B82D-1B3AD2523043} = {69BB0C02-5C1E-4720-AC3E-61E25B9F0143}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C0F7AB85-D9AA-401B-9DAE-0C5394272D48}
