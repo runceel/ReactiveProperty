@@ -1,4 +1,5 @@
-﻿<Router AppAssembly="@typeof(App).Assembly">
+﻿@using BlazorSample.Shared.ViewModels
+<Router AppAssembly="@typeof(App).Assembly" AdditionalAssemblies="@(new[]{ typeof(IndexViewModel).Assembly })">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />
