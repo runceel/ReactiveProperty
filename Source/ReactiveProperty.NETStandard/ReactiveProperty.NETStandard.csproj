@@ -9,8 +9,6 @@
     <Description>ReactiveProperty is MVVM and Asynchronous Extensions for Reactive Extensions(System.Reactive). Target platform is .NET Standard 2.0.</Description>
   </PropertyGroup>
 
-  <Import Project="../SharedProperties.csproj" />
-
   <ItemGroup>
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageReference Include="System.Reactive" Version="5.0.0" />
