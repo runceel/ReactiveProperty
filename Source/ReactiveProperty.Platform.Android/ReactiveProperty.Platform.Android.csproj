@@ -8,7 +8,6 @@
     <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
     <Description>ReactiveProperty.XamarinAndroid provides many useful extension methods for Xamarin.Android that can be used with ReactiveProperty.</Description>
   </PropertyGroup>
-  <Import Project="../SharedProperties.csproj" />
   <ItemGroup>
     <ProjectReference Include="..\ReactiveProperty.NETStandard\ReactiveProperty.NETStandard.csproj" />
   </ItemGroup>
