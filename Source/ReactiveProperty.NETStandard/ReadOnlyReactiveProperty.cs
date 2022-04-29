@@ -21,14 +21,14 @@ public class ReadOnlyReactiveProperty<T> : IReadOnlyReactiveProperty<T>, IObserv
     /// Occurs when a property value changes.
     /// </summary>
     /// <returns></returns>
-    public event PropertyChangedEventHandler PropertyChanged;
+    public event PropertyChangedEventHandler? PropertyChanged;
 
     private T _latestValue;
-    private IDisposable _sourceSubscription;
+    private IDisposable? _sourceSubscription;
     private ReactivePropertyMode _mode; // None = 0, DistinctUntilChanged = 1, RaiseLatestValueOnSubscribe = 2, Disposed = (1 << 9)
     private readonly IEqualityComparer<T> _equalityComparer;
-    private ObserverNode<T> _root;
-    private ObserverNode<T> _last;
+    private ObserverNode<T>? _root;
+    private ObserverNode<T>? _last;
     private readonly IScheduler _raiseEventScheduler;
 
     private bool IsRaiseLatestValueOnSubscribe => (_mode & ReactivePropertyMode.RaiseLatestValueOnSubscribe) == ReactivePropertyMode.RaiseLatestValueOnSubscribe;
@@ -45,10 +45,12 @@ public class ReadOnlyReactiveProperty<T> : IReadOnlyReactiveProperty<T>, IObserv
     /// <param name="equalityComparer">The equality comparer.</param>
     public ReadOnlyReactiveProperty(
         IObservable<T> source,
+#pragma warning disable CS8601 // Nullable
         T initialValue = default,
+#pragma warning restore CS8601 // Nllable
         ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe,
-        IScheduler eventScheduler = null,
-        IEqualityComparer<T> equalityComparer = null)
+        IScheduler? eventScheduler = null,
+        IEqualityComparer<T>? equalityComparer = null)
     {
         _latestValue = initialValue;
         _raiseEventScheduler = eventScheduler ?? ReactivePropertyScheduler.Default;
@@ -67,7 +69,7 @@ public class ReadOnlyReactiveProperty<T> : IReadOnlyReactiveProperty<T>, IObserv
     /// </summary>
     public T Value => _latestValue;
 
-    object IReadOnlyReactiveProperty.Value => Value;
+    object? IReadOnlyReactiveProperty.Value => Value;
 
     /// <summary>
     /// Gets a value indicating whether this instance is disposed.
@@ -104,7 +106,7 @@ public class ReadOnlyReactiveProperty<T> : IReadOnlyReactiveProperty<T>, IObserv
         }
         else
         {
-            _last.Next = next;
+            _last!.Next = next;
             next.Previous = _last;
             _last = next;
         }
@@ -215,10 +217,12 @@ public static class ReadOnlyReactiveProperty
     /// <param name="equalityComparer">The equality comparer.</param>
     /// <returns></returns>
     public static ReadOnlyReactiveProperty<T> ToReadOnlyReactiveProperty<T>(this IObservable<T> self,
+#pragma warning disable CS8601 // Nullable
         T initialValue = default,
+#pragma warning restore CS8601 // Nllable
         ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe,
-        IScheduler eventScheduler = null,
-        IEqualityComparer<T> equalityComparer = null) =>
+        IScheduler? eventScheduler = null,
+        IEqualityComparer<T>? equalityComparer = null) =>
         new(
             self,
             initialValue,

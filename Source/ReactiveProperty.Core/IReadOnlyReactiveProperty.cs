@@ -11,7 +11,7 @@ public interface IReadOnlyReactiveProperty : INotifyPropertyChanged
     /// Gets the value.
     /// </summary>
     /// <value>The value.</value>
-    object Value { get; }
+    object? Value { get; }
 }
 
 /// <summary>

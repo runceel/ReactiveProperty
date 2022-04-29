@@ -12,7 +12,7 @@ public interface IReactiveProperty : IReadOnlyReactiveProperty, IHasErrors, INot
     /// Gets or sets the value.
     /// </summary>
     /// <value>The value.</value>
-    new object Value { get; set; }
+    new object? Value { get; set; }
 
     /// <summary>
     /// Forces the notify.
