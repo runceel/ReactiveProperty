@@ -39,6 +39,7 @@ public class IndexViewModel : IDisposable
         Input = new ReactivePropertySlim<string>("")
             .AddTo(_disposable);
         Output = Input
+            .Delay(TimeSpan.FromSeconds(2)) // Important! Delay method doesn't work on Blazor WASM. If you are working on WASM, then please remove this line.
             .Select(x => x.ToUpperInvariant())
             .ToReadOnlyReactivePropertySlim("")
             .AddTo(_disposable);
