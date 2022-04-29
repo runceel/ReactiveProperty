@@ -377,7 +377,8 @@ public class ReactiveProperty<T> : IReactiveProperty<T>, IObserverLinkedList<T>
     /// <summary>
     /// Get INotifyDataErrorInfo's error store
     /// </summary>
-    public IEnumerable GetErrors(string? propertyName) => CurrentErrors ?? Enumerable.Empty<object>();
+    public IEnumerable? GetErrors(string? propertyName) => CurrentErrors;
+    IEnumerable INotifyDataErrorInfo.GetErrors(string? propertyName) => CurrentErrors ?? Enumerable.Empty<object>();
 
     /// <summary>
     /// Get INotifyDataErrorInfo's error store
