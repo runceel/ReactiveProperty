@@ -14,6 +14,7 @@ module.exports = {
                     { text: 'Xamarin.Forms', link: '/getting-started/xf.html' },
                     { text: 'Avalonia', link: '/getting-started/avalonia.html' },
                     { text: 'Uno Platform', link: '/getting-started/uno-platform.html' },
+                    { text: 'Blazor', link: '/getting-started/blazor.html' },
                     { text: 'Add code snippets', link: '/getting-started/add-snippets.html' },
                 ]
             },
