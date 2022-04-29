@@ -32,14 +32,14 @@ jobs:
       if: github.ref != 'refs/heads/release'
       shell: pwsh
       run: |
-        $doc = [XML](Get-Content 'Source\SharedProperties.csproj')
+        $doc = [XML](Get-Content 'Source\Directory.Build.props')
         $doc.Project.PropertyGroup.Version += '-pre' + (Get-Date).ToString("yyyyMMddHHmm")
-        $doc.Save('Source\SharedProperties.csproj')
+        $doc.Save('Source\Directory.Build.props')
     - name: Set version to outputs
       id: set-version-to-output
       shell: pwsh
       run: |
-        $doc = [XML](Get-Content 'Source\SharedProperties.csproj')
+        $doc = [XML](Get-Content 'Source\Directory.Build.props')
         echo "::set-output name=version::$($doc.Project.PropertyGroup.Version)"    
     - name: Install dependencies
       run: dotnet restore ReactiveProperty.sln

@@ -29,7 +29,7 @@ public class ReactiveProperty<T> : IReactiveProperty<T>, IObserverLinkedList<T>
     /// <summary>
     /// Implements of INotifyPropertyChanged.
     /// </summary>
-    public event PropertyChangedEventHandler PropertyChanged;
+    public event PropertyChangedEventHandler? PropertyChanged;
 
     private T LatestValue { get; set; }
 
@@ -70,8 +70,8 @@ public class ReactiveProperty<T> : IReactiveProperty<T>, IObserverLinkedList<T>
     private readonly IEqualityComparer<T> _equalityComparer;
 
     private ReactivePropertyMode _mode; // None = 0, DistinctUntilChanged = 1, RaiseLatestValueOnSubscribe = 2, Disposed = (1 << 9)
-    private ObserverNode<T> _root;
-    private ObserverNode<T> _last;
+    private ObserverNode<T>? _root;
+    private ObserverNode<T>? _last;
 
     private IDisposable SourceDisposable { get; }
 
@@ -80,7 +80,7 @@ public class ReactiveProperty<T> : IReactiveProperty<T>, IObserverLinkedList<T>
 
     private SerialDisposable ValidateNotifyErrorSubscription { get; } = new SerialDisposable();
 
-    private Lazy<BehaviorSubject<IEnumerable>> ErrorsTrigger { get; }
+    private Lazy<BehaviorSubject<IEnumerable?>> ErrorsTrigger { get; }
 
     private Lazy<List<Func<IObservable<T>, IObservable<IEnumerable>>>> ValidatorStore { get; } = new Lazy<List<Func<IObservable<T>, IObservable<IEnumerable>>>>(() => new List<Func<IObservable<T>, IObservable<IEnumerable>>>());
 
@@ -88,7 +88,9 @@ public class ReactiveProperty<T> : IReactiveProperty<T>, IObserverLinkedList<T>
     /// PropertyChanged raise on ReactivePropertyScheduler
     /// </summary>
     public ReactiveProperty()
+#pragma warning disable CS8604 // Nullable
         : this(default, ReactivePropertyMode.Default)
+#pragma warning restore CS8604 // Nullable
     {
     }
 
@@ -96,9 +98,11 @@ public class ReactiveProperty<T> : IReactiveProperty<T>, IObserverLinkedList<T>
     /// PropertyChanged raise on ReactivePropertyScheduler
     /// </summary>
     public ReactiveProperty(
+#pragma warning disable CS8601 // Nullable
         T initialValue = default,
+#pragma warning restore CS8601 // Nllable
         ReactivePropertyMode mode = ReactivePropertyMode.Default,
-        IEqualityComparer<T> equalityComparer = null)
+        IEqualityComparer<T>? equalityComparer = null)
         : this(ReactivePropertyScheduler.Default, initialValue, mode, equalityComparer)
     { }
 
@@ -107,9 +111,11 @@ public class ReactiveProperty<T> : IReactiveProperty<T>, IObserverLinkedList<T>
     /// </summary>
     public ReactiveProperty(
         IScheduler raiseEventScheduler,
+#pragma warning disable CS8601 // Nullable
         T initialValue = default,
+#pragma warning restore CS8601 // Nllable
         ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe,
-        IEqualityComparer<T> equalityComparer = null)
+        IEqualityComparer<T>? equalityComparer = null)
     {
         RaiseEventScheduler = raiseEventScheduler;
         LatestValue = initialValue;
@@ -118,7 +124,7 @@ public class ReactiveProperty<T> : IReactiveProperty<T>, IObserverLinkedList<T>
         _mode = mode;
 
         SourceDisposable = Disposable.Empty;
-        ErrorsTrigger = new Lazy<BehaviorSubject<IEnumerable>>(() => new BehaviorSubject<IEnumerable>(GetErrors(null)));
+        ErrorsTrigger = new Lazy<BehaviorSubject<IEnumerable?>>(() => new BehaviorSubject<IEnumerable?>(GetErrors(null)));
     }
 
     /// <summary>
@@ -130,9 +136,11 @@ public class ReactiveProperty<T> : IReactiveProperty<T>, IObserverLinkedList<T>
     /// <param name="equalityComparer">The equality comparer.</param>
     public ReactiveProperty(
         IObservable<T> source,
+#pragma warning disable CS8601 // Nullable
         T initialValue = default,
+#pragma warning restore CS8601 // Nllable
         ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe,
-        IEqualityComparer<T> equalityComparer = null)
+        IEqualityComparer<T>? equalityComparer = null)
         : this(source, ReactivePropertyScheduler.Default, initialValue, mode, equalityComparer)
     {
     }
@@ -148,9 +156,11 @@ public class ReactiveProperty<T> : IReactiveProperty<T>, IObserverLinkedList<T>
     public ReactiveProperty(
         IObservable<T> source,
         IScheduler raiseEventScheduler,
+#pragma warning disable CS8601 // Nullable
         T initialValue = default,
+#pragma warning restore CS8601 // Nllable
         ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe,
-        IEqualityComparer<T> equalityComparer = null)
+        IEqualityComparer<T>? equalityComparer = null)
         : this(raiseEventScheduler, initialValue, mode, equalityComparer)
     {
         SourceDisposable = source.Subscribe(x => Value = x);
@@ -177,13 +187,13 @@ public class ReactiveProperty<T> : IReactiveProperty<T>, IObserverLinkedList<T>
         }
     }
 
-    object IReactiveProperty.Value
+    object? IReactiveProperty.Value
     {
         get { return Value; }
-        set { Value = (T)value; }
+        set { Value = (T)value!; }
     }
 
-    object IReadOnlyReactiveProperty.Value => Value;
+    object? IReadOnlyReactiveProperty.Value => Value;
 
     /// <summary>
     /// Subscribe source.
@@ -209,7 +219,7 @@ public class ReactiveProperty<T> : IReactiveProperty<T>, IObserverLinkedList<T>
         }
         else
         {
-            _last.Next = next;
+            _last!.Next = next;
             next.Previous = _last;
             _last = next;
         }
@@ -258,15 +268,15 @@ public class ReactiveProperty<T> : IReactiveProperty<T>, IObserverLinkedList<T>
     /// <summary>
     /// <para>Checked validation, raised value. If success return value is null.</para>
     /// </summary>
-    public IObservable<IEnumerable> ObserveErrorChanged => ErrorsTrigger.Value.AsObservable();
+    public IObservable<IEnumerable?> ObserveErrorChanged => ErrorsTrigger.Value.AsObservable();
 
-    private IEnumerable CurrentErrors { get; set; }
+    private IEnumerable? CurrentErrors { get; set; }
 
     /// <summary>
     /// Occurs when the validation errors have changed for a property or for the entire entity.
     /// </summary>
     /// <returns></returns>
-    public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+    public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
 
     /// <summary>
     /// <para>Set INotifyDataErrorInfo's asynchronous validation, return value is self.</para>
@@ -367,7 +377,8 @@ public class ReactiveProperty<T> : IReactiveProperty<T>, IObserverLinkedList<T>
     /// <summary>
     /// Get INotifyDataErrorInfo's error store
     /// </summary>
-    public IEnumerable GetErrors(string propertyName) => CurrentErrors;
+    public IEnumerable? GetErrors(string? propertyName) => CurrentErrors;
+    IEnumerable INotifyDataErrorInfo.GetErrors(string? propertyName) => CurrentErrors ?? Enumerable.Empty<object>();
 
     /// <summary>
     /// Get INotifyDataErrorInfo's error store
@@ -470,7 +481,8 @@ public static class ReactiveProperty
             propertyPath.UpdateSource(target);
 
             var initialValue = propertyPath.GetPropertyPathValue();
-            var result = new ReactiveProperty<TProperty>(raiseEventScheduler, initialValue: initialValue == null ? default : (TProperty)initialValue, mode: mode);
+            var result = new ReactiveProperty<TProperty>(raiseEventScheduler, 
+                initialValue: (TProperty)initialValue!, mode: mode);
             result
                 .Where(_ => !ignoreValidationErrorValue || !result.HasErrors)
                 .Subscribe(x => propertyPath.SetPropertyPathValue(x), _ => propertyPath.Dispose(), () => propertyPath.Dispose());
@@ -525,7 +537,7 @@ public static class ReactiveProperty
             propertyPath.UpdateSource(target);
 
             var initialValue = propertyPath.GetPropertyPathValue();
-            var result = new ReactiveProperty<TResult>(raiseEventScheduler, initialValue: convert(initialValue == null ? default : (TProperty)initialValue), mode: mode);
+            var result = new ReactiveProperty<TResult>(raiseEventScheduler, initialValue: convert((TProperty)initialValue!), mode: mode);
             result
                 .Where(_ => !ignoreValidationErrorValue || !result.HasErrors)
                 .Select(convertBack)
@@ -553,8 +565,11 @@ public static class ReactiveProperty
     /// <para>PropertyChanged raise on ReactivePropertyScheduler</para>
     /// </summary>
     public static ReactiveProperty<T> ToReactiveProperty<T>(this IObservable<T> source,
+#pragma warning disable CS8601 // Nullable
         T initialValue = default,
-        ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe, IEqualityComparer<T> equalityComparer = null) =>
+#pragma warning restore CS8601 // Nllable
+        ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe, 
+        IEqualityComparer<T>? equalityComparer = null) =>
         new(source, initialValue, mode, equalityComparer);
 
     /// <summary>
@@ -563,8 +578,10 @@ public static class ReactiveProperty
     /// </summary>
     public static ReactiveProperty<T> ToReactiveProperty<T>(this IObservable<T> source,
         IScheduler raiseEventScheduler,
+#pragma warning disable CS8601 // Nullable
         T initialValue = default,
+#pragma warning restore CS8601 // Nllable
         ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe,
-        IEqualityComparer<T> equalityComparer = null) =>
+        IEqualityComparer<T>? equalityComparer = null) =>
         new(source, raiseEventScheduler, initialValue, mode, equalityComparer);
 }

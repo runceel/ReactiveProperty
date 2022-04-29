@@ -34,11 +34,11 @@ public static class RxBindingExtensions
         TTarget target,
         Expression<Func<TTarget, TProperty>> propertySelector,
         BindingMode mode = BindingMode.OneWay,
-        Func<T, TProperty> convert = null,
-        Func<TProperty, T> convertBack = null,
-        IObservable<Unit> targetUpdateTrigger = null,
-        TProperty propertyFallbackValue = default(TProperty),
-        T sourceFallbackValue = default(T))
+        Func<T, TProperty>? convert = null,
+        Func<TProperty, T>? convertBack = null,
+        IObservable<Unit>? targetUpdateTrigger = null,
+        TProperty? propertyFallbackValue = default(TProperty),
+        T? sourceFallbackValue = default(T))
     {
         if (convert == null)
         {
@@ -101,8 +101,8 @@ public static class RxBindingExtensions
         this ReadOnlyReactiveProperty<T> self,
         TTarget target,
         Expression<Func<TTarget, TProperty>> propertySelector,
-        Func<T, TProperty> convert = null,
-        TProperty propertyFallbackValue = default(TProperty))
+        Func<T, TProperty>? convert = null,
+        TProperty? propertyFallbackValue = default(TProperty))
     {
         if (convert == null)
         {
@@ -138,11 +138,11 @@ public static class RxBindingExtensions
         TTarget target,
         Expression<Func<TTarget, TProperty>> propertySelector,
         BindingMode mode = BindingMode.OneWay,
-        Func<T, TProperty> convert = null,
-        Func<TProperty, T> convertBack = null,
-        IObservable<Unit> targetUpdateTrigger = null,
-        TProperty propertyFallbackValue = default(TProperty),
-        T sourceFallbackValue = default(T))
+        Func<T, TProperty>? convert = null,
+        Func<TProperty, T>? convertBack = null,
+        IObservable<Unit>? targetUpdateTrigger = null,
+        TProperty? propertyFallbackValue = default(TProperty),
+        T? sourceFallbackValue = default(T))
     {
         if (convert == null)
         {
@@ -205,8 +205,8 @@ public static class RxBindingExtensions
         this ReadOnlyReactivePropertySlim<T> self,
         TTarget target,
         Expression<Func<TTarget, TProperty>> propertySelector,
-        Func<T, TProperty> convert = null,
-        TProperty propertyFallbackValue = default(TProperty))
+        Func<T, TProperty>? convert = null,
+        TProperty? propertyFallbackValue = default(TProperty))
     {
         if (convert == null)
         {
@@ -245,11 +245,10 @@ public static class RxBindingExtensions
 
     private static IDisposable CreateOneWayBinding<T, TTarget, TProperty>(IObservable<T> self, TTarget target, Expression<Func<TTarget, TProperty>> propertySelector, Func<T, TProperty> convert, TProperty propertyFallbackValue)
     {
-        var propertyName = default(string);
         return self
             .Subscribe(value =>
             {
-                var setter = AccessorCache<TTarget>.LookupSet(propertySelector, out propertyName);
+                var setter = AccessorCache<TTarget>.LookupSet(propertySelector, out var _);
                 try
                 {
                     setter(target, convert(value));

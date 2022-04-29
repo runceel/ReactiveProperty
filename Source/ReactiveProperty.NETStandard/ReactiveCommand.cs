@@ -9,7 +9,7 @@ namespace Reactive.Bindings;
 /// <summary>
 /// Represents ReactiveCommand&lt;object&gt;
 /// </summary>
-public class ReactiveCommand : ReactiveCommand<object>
+public class ReactiveCommand : ReactiveCommand<object?>
 {
     /// <summary>
     /// CanExecute is always true. When disposed CanExecute change false called on UIDispatcherScheduler.
@@ -66,7 +66,7 @@ public class ReactiveCommand<T> : IObservable<T>, ICommand, IDisposable
     /// <summary>
     /// ICommand#CanExecuteChanged
     /// </summary>
-    public event EventHandler CanExecuteChanged;
+    public event EventHandler? CanExecuteChanged;
 
     private Subject<T> Trigger { get; } = new Subject<T>();
 
@@ -127,7 +127,7 @@ public class ReactiveCommand<T> : IObservable<T>, ICommand, IDisposable
     /// <summary>
     /// Return current canExecute status. parameter is ignored.
     /// </summary>
-    bool ICommand.CanExecute(object parameter) => IsCanExecute;
+    bool ICommand.CanExecute(object? parameter) => IsCanExecute;
 
     /// <summary>
     /// Push parameter to subscribers.
@@ -140,7 +140,7 @@ public class ReactiveCommand<T> : IObservable<T>, ICommand, IDisposable
     /// <summary>
     /// Push parameter to subscribers.
     /// </summary>
-    void ICommand.Execute(object parameter) => Execute((T)parameter);
+    void ICommand.Execute(object? parameter) => Execute((T)parameter!);
 
     /// <summary>
     /// Subscribe execute.
@@ -210,7 +210,7 @@ public static class ReactiveCommandExtensions
     /// <param name="onNext">Action</param>
     /// <param name="postProcess">Handling of the subscription.</param>
     /// <returns>Same of self argument</returns>
-    public static ReactiveCommand WithSubscribe(this ReactiveCommand self, Action onNext, Action<IDisposable> postProcess = null)
+    public static ReactiveCommand WithSubscribe(this ReactiveCommand self, Action onNext, Action<IDisposable>? postProcess = null)
     {
         var d = self.Subscribe(onNext);
         postProcess?.Invoke(d);
@@ -225,7 +225,7 @@ public static class ReactiveCommandExtensions
     /// <param name="onNext">Action</param>
     /// <param name="postProcess">Handling of the subscription.</param>
     /// <returns>Same of self argument</returns>
-    public static ReactiveCommand<T> WithSubscribe<T>(this ReactiveCommand<T> self, Action<T> onNext, Action<IDisposable> postProcess = null)
+    public static ReactiveCommand<T> WithSubscribe<T>(this ReactiveCommand<T> self, Action<T> onNext, Action<IDisposable>? postProcess = null)
     {
         var d = self.Subscribe(onNext);
         postProcess?.Invoke(d);

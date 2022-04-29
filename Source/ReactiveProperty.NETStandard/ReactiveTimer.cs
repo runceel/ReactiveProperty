@@ -29,7 +29,7 @@ public class ReactiveTimer : IObservable<long>, IDisposable, INotifyPropertyChan
     /// Occurs when a property value changes.
     /// </summary>
     /// <returns></returns>
-    public event PropertyChangedEventHandler PropertyChanged;
+    public event PropertyChangedEventHandler? PropertyChanged;
 
     /// <summary>
     /// Operate scheduler ThreadPoolScheduler.
