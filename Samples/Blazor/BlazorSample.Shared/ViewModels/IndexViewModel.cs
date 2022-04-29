@@ -20,10 +20,11 @@ public class IndexViewModel : IDisposable
 
     public IndexViewModel()
     {
-        FirstName = new ReactiveProperty<string>("")
+        var reactivePropertyMode = ReactivePropertyMode.Default | ReactivePropertyMode.IgnoreInitialValidationError;
+        FirstName = new ReactiveProperty<string>("", mode: reactivePropertyMode)
             .SetValidateAttribute(() => FirstName)
             .AddTo(_disposables);
-        LastName = new ReactiveProperty<string>("")
+        LastName = new ReactiveProperty<string>("", mode: reactivePropertyMode)
             .SetValidateAttribute(() => LastName)
             .AddTo(_disposables);
 

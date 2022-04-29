@@ -4,7 +4,7 @@
 
 <h3>ReactivePropertiesValidator sample</h3>
 
-<EditForm Model="_viewModel">
+<EditForm Model="_viewModel" OnInvalidSubmit="InvalidSubmit" OnValidSubmit="ValidSubmit">
     <ReactivePropertiesValidator />
 
     <ValidationSummary />
@@ -16,16 +16,34 @@
     </div>
     <div class="mb-3">
         <label for="firstName">Last name</label>
-        <InputText @bind-Value="_viewModel.LastName.Value" class="form-control"  />
+        <InputText @bind-Value="_viewModel.LastName.Value" class="form-control" />
         <ValidationMessage For="() => _viewModel.LastName.Value" />
     </div>
 
     <div class="mb-3">
-        <span>@_viewModel.FullName.Value</span>
+        <span>Full name: @_viewModel.FullName.Value</span>
     </div>
 
+    <button type="submit" class="btn btn-primary">Submit</button>
 </EditForm>
 
-@code {
+@if (!string.IsNullOrEmpty(_message))
+{
+    <div class="alert alert-primary">
+        <span>@_message</span>
+    </div>
+}
 
+@code {
+    private string? _message;
+
+    private void InvalidSubmit(EditContext context)
+    {
+        _message = "InvalidSubmit was invoked.";
+    }
+
+    private void ValidSubmit(EditContext context)
+    {
+        _message = "ValidSubmit was invoked.";
+    }
 }
