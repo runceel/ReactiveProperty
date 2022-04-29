@@ -46,7 +46,6 @@ public class ReactivePropertiesValidator : ComponentBase, IDisposable
 
         foreach (var property in _properties)
         {
-            // ReactiveProperty<T> のエラーに変更があったら ValidationMessageStore も変更する
             // When validation state of ReactiveProperty changed, then notify it to ValidationMessageStore
             var identifier = new FieldIdentifier(property, nameof(property.Value));
             property.ObserveErrorChanged
