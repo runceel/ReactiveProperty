@@ -1,27 +1,43 @@
-﻿@using Reactive.Bindings.Components
+﻿@using Reactive.Bindings
+@using Reactive.Bindings.Extensions
+@using Reactive.Bindings.Components
+@using System.Reactive.Linq
+@using System.Reactive.Disposables
+@using System.Reactive.Concurrency
 @page "/"
-@inject IndexViewModel _viewModel
+@implements IDisposable
+@inject ValidationViewModel _validationViewModel
+@inject HelloWorldViewModel _helloWorldViewModel
 
-<h3>ReactivePropertiesValidator sample</h3>
+<h1>ReactiveProperty samples</h1>
 
-<EditForm Model="_viewModel" OnInvalidSubmit="InvalidSubmit" OnValidSubmit="ValidSubmit">
+<h3>Hello world</h3>
+
+<input class="form-control" type="text" @bind="_helloWorldViewModel.Input.Value" @bind:event="oninput" />
+<div class="alert alert-primary">
+    @_helloWorldViewModel.Output.Value
+</div>
+
+<h3>Validation sample</h3>
+
+<EditForm Model="_validationViewModel" OnInvalidSubmit="InvalidSubmit" OnValidSubmit="ValidSubmit">
     <ReactivePropertiesValidator />
 
     <ValidationSummary />
 
     <div class="mb-3">
         <label for="firstName">First name</label>
-        <InputText @bind-Value="_viewModel.FirstName.Value" class="form-control" />
-        <ValidationMessage For="() => _viewModel.FirstName.Value" />
+        <InputText @bind-Value="_validationViewModel.FirstName.Value" class="form-control" />
+        <ValidationMessage For="() => _validationViewModel.FirstName.Value" />
     </div>
     <div class="mb-3">
         <label for="firstName">Last name</label>
-        <InputText @bind-Value="_viewModel.LastName.Value" class="form-control" />
-        <ValidationMessage For="() => _viewModel.LastName.Value" />
+        <InputText @bind-Value="_validationViewModel.LastName.Value" class="form-control" />
+        <ValidationMessage For="() => _validationViewModel.LastName.Value" />
     </div>
 
     <div class="mb-3">
-        <span>Full name: @_viewModel.FullName.Value</span>
+        <span>Full name: @_validationViewModel.FullName.Value</span>
     </div>
 
     <button type="submit" class="btn btn-primary">Submit</button>
@@ -35,6 +51,7 @@
 }
 
 @code {
+    private readonly CompositeDisposable _disposable = new();
     private string? _message;
 
     private void InvalidSubmit(EditContext context)
@@ -46,4 +63,16 @@
     {
         _message = "ValidSubmit was invoked.";
     }
+
+    protected override void OnInitialized()
+    {
+        _validationViewModel.AddTo(_disposable);
+        _helloWorldViewModel.AddTo(_disposable);
+
+        _helloWorldViewModel.Output
+            .Subscribe(_ => InvokeAsync(StateHasChanged))
+            .AddTo(_disposable);
+    }
+
+    public void Dispose() => _disposable.Dispose();
 }
