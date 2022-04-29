@@ -89,7 +89,7 @@ public class IndexViewModel : IDisposable
 
 You can see below result:
 
-![Launch the app](.images/blazor-helloworld.png)
+![Launch the app](./images/blazor-helloworld.png)
 
 ## Other topics for Blazor
 
