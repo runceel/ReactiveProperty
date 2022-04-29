@@ -245,11 +245,10 @@ public static class RxBindingExtensions
 
     private static IDisposable CreateOneWayBinding<T, TTarget, TProperty>(IObservable<T> self, TTarget target, Expression<Func<TTarget, TProperty>> propertySelector, Func<T, TProperty> convert, TProperty propertyFallbackValue)
     {
-        var propertyName = default(string);
         return self
             .Subscribe(value =>
             {
-                var setter = AccessorCache<TTarget>.LookupSet(propertySelector, out propertyName);
+                var setter = AccessorCache<TTarget>.LookupSet(propertySelector, out var _);
                 try
                 {
                     setter(target, convert(value));
