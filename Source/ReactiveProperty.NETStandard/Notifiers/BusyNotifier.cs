@@ -16,7 +16,7 @@ public class BusyNotifier : INotifyPropertyChanged, IObservable<bool>
     /// <summary>
     /// property changed event handler
     /// </summary>
-    public event PropertyChangedEventHandler PropertyChanged;
+    public event PropertyChangedEventHandler? PropertyChanged;
 
     private int ProcessCounter { get; set; }
 

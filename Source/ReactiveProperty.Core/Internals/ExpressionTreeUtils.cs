@@ -9,35 +9,34 @@ internal static class ExpressionTreeUtils
 {
     public static string GetPropertyPath<TType, TProperty>(Expression<Func<TType, TProperty>> propertySelector)
     {
-        if (!(propertySelector.Body is MemberExpression memberExpression))
-        {
-            if (!(propertySelector.Body is UnaryExpression unaryExpression)) { throw new ArgumentException(nameof(propertySelector)); }
-            memberExpression = unaryExpression.Operand as MemberExpression;
-            if (memberExpression == null) { throw new ArgumentException(nameof(propertySelector)); }
-        }
+        var memberExpression = GetMemberExpressionFromPropertySelector(propertySelector);
 
         var tokens = new LinkedList<string>();
-        while (memberExpression != null)
+        MemberExpression? currentMemberExpression = memberExpression;
+        while (currentMemberExpression != null)
         {
-            tokens.AddFirst(memberExpression.Member.Name);
-            memberExpression = memberExpression.Expression as MemberExpression;
+            tokens.AddFirst(currentMemberExpression.Member.Name);
+            currentMemberExpression = currentMemberExpression!.Expression as MemberExpression;
         }
 
         return string.Join(".", tokens);
     }
 
-
-    public static string GetPropertyName<TType, TProperty>(Expression<Func<TType, TProperty>> propertySelector)
+    private static MemberExpression GetMemberExpressionFromPropertySelector<TType, TProperty>(Expression<Func<TType, TProperty>> propertySelector)
     {
-        if (!(propertySelector.Body is MemberExpression memberExpression))
+        var memberExpression = propertySelector.Body switch
         {
-            if (!(propertySelector.Body is UnaryExpression unaryExpression)) { throw new ArgumentException(nameof(propertySelector)); }
-            memberExpression = unaryExpression.Operand as MemberExpression;
-            if (memberExpression == null) { throw new ArgumentException(nameof(propertySelector)); }
-        }
+            MemberExpression me => me,
+            UnaryExpression ue => ue.Operand as MemberExpression,
+            _ => null,
+        };
 
-        return memberExpression.Member.Name;
+        if (memberExpression is null) throw new ArgumentException(nameof(propertySelector));
+        return memberExpression;
     }
+
+    public static string GetPropertyName<TType, TProperty>(Expression<Func<TType, TProperty>> propertySelector) => 
+        GetMemberExpressionFromPropertySelector(propertySelector).Member.Name;
 
     public static bool IsNestedPropertyPath<TSubject, TProperty>(Expression<Func<TSubject, TProperty>> propertySelector)
     {
@@ -54,7 +53,7 @@ internal static class ExpressionTreeUtils
             }
         }
 
-        throw new ArgumentException();
+        throw new ArgumentException(nameof(propertySelector));
     }
 
 }

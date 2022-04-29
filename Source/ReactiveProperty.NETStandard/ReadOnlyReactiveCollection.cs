@@ -36,7 +36,7 @@ public class ReadOnlyReactiveCollection<T> : ReadOnlyObservableCollection<T>, ID
     /// <param name="source">The source.</param>
     /// <param name="scheduler">The scheduler.</param>
     /// <param name="disposeElement">if set to <c>true</c> [dispose element].</param>
-    public ReadOnlyReactiveCollection(IObservable<CollectionChanged<T>> ox, ObservableCollection<T> source, IScheduler scheduler = null, bool disposeElement = true)
+    public ReadOnlyReactiveCollection(IObservable<CollectionChanged<T>> ox, ObservableCollection<T> source, IScheduler? scheduler = null, bool disposeElement = true)
         : base(source)
     {
         _source = source;
@@ -102,7 +102,7 @@ public class ReadOnlyReactiveCollection<T> : ReadOnlyObservableCollection<T>, ID
     /// <param name="onReset">Clear</param>
     /// <param name="scheduler">The scheduler.</param>
     /// <param name="disposeElement">if set to <c>true</c> [dispose element].</param>
-    public ReadOnlyReactiveCollection(IObservable<T> ox, ObservableCollection<T> source, IObservable<Unit> onReset = null, IScheduler scheduler = null, bool disposeElement = true) : base(source)
+    public ReadOnlyReactiveCollection(IObservable<T> ox, ObservableCollection<T> source, IObservable<Unit>? onReset = null, IScheduler? scheduler = null, bool disposeElement = true) : base(source)
     {
         _source = source;
         _scheduler = scheduler ?? ReactivePropertyScheduler.Default;
@@ -113,7 +113,7 @@ public class ReadOnlyReactiveCollection<T> : ReadOnlyObservableCollection<T>, ID
             .ObserveOn(_scheduler)
             .Subscribe(x => ApplyCollectionChanged(x, static (source, args, _) =>
             {
-                source.Add(args.Value);
+                source.Add(args.Value!);
                 return new(NotifyCollectionChangedAction.Add, args.Value, source.Count - 1);
             }))
             .AddTo(_token);
@@ -149,7 +149,7 @@ public class ReadOnlyReactiveCollection<T> : ReadOnlyObservableCollection<T>, ID
 
     private void ApplyCollectionChanged(
         CollectionChanged<T> collectionChanged,
-        Func<ObservableCollection<T>, CollectionChanged<T>, Action<object>, NotifyCollectionChangedEventArgs> action)
+        Func<ObservableCollection<T>, CollectionChanged<T>, Action<object?>, NotifyCollectionChangedEventArgs> action)
     {
         NotifyCollectionChangedEventArgs args;
         lock (_syncRoot)
@@ -192,7 +192,7 @@ public class ReadOnlyReactiveCollection<T> : ReadOnlyObservableCollection<T>, ID
 
 
 
-    private void InvokeDispose(object item) => InvokeDispose(item as IDisposable);
+    private void InvokeDispose(object? item) => InvokeDispose(item as IDisposable);
     private void InvokeDispose(IDisposable? item)
     {
         if (!_disposeElement)
@@ -223,7 +223,7 @@ public class CollectionChanged<T>
     /// Reset action with source collection
     /// </summary>
     /// <param name="source">An event source collection.</param>
-    public static CollectionChanged<T> ResetWithSource(IEnumerable<T> source) =>
+    public static CollectionChanged<T> ResetWithSource(IEnumerable<T>? source) =>
         new()
         {
             Action = NotifyCollectionChangedAction.Reset,
@@ -236,8 +236,8 @@ public class CollectionChanged<T>
     /// <param name="index">The index.</param>
     /// <param name="value">The value.</param>
     /// <returns></returns>
-    public static CollectionChanged<T> Remove(int index, T value) =>
-        Remove(index, new[] { value });
+    public static CollectionChanged<T> Remove(int index, T? value) =>
+        Remove(index, value is null ? Enumerable.Empty<T>() : new[] { value });
 
     /// <summary>
     /// Create Remove action
@@ -299,7 +299,7 @@ public class CollectionChanged<T>
     /// <param name="newIndex"></param>
     /// <param name="value"></param>
     /// <returns></returns>
-    public static CollectionChanged<T> Move(int oldIndex, int newIndex, T value)
+    public static CollectionChanged<T> Move(int oldIndex, int newIndex, T? value)
     {
         return new CollectionChanged<T>
         {
@@ -311,19 +311,19 @@ public class CollectionChanged<T>
     }
 
     /// <summary>
-    /// イベントソースのコレクション
+    /// Collection of an event source.
     /// </summary>
-    public IEnumerable<T> Source { get; init; }
+    public IEnumerable<T>? Source { get; init; }
 
     /// <summary>
     /// Changed values.
     /// </summary>
-    public IEnumerable<T> Values { get; init; }
+    public IEnumerable<T>? Values { get; init; }
 
     /// <summary>
     /// Changed value.
     /// </summary>
-    public T Value => Values == null ? default : Values.FirstOrDefault();
+    public T? Value => Values == null ? default : Values.FirstOrDefault();
 
     /// <summary>
     /// Changed index.
@@ -387,7 +387,7 @@ public static class ReadOnlyReactiveCollection
     /// <param name="scheduler">The scheduler.</param>
     /// <param name="disposeElement">if set to <c>true</c> [dispose element].</param>
     /// <returns></returns>
-    public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this IObservable<T> self, IObservable<Unit> onReset = null, IScheduler scheduler = null, bool disposeElement = true) =>
+    public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this IObservable<T> self, IObservable<Unit>? onReset = null, IScheduler? scheduler = null, bool disposeElement = true) =>
         new(self, new ObservableCollection<T>(), onReset, scheduler, disposeElement: disposeElement);
 
     /// <summary>
@@ -400,15 +400,15 @@ public static class ReadOnlyReactiveCollection
     {
         return Observable.Create<CollectionChanged<T>>(ox =>
         {
-            void collectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+            void collectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
             {
                 var collectionChanged = e.Action switch
                 {
-                    NotifyCollectionChangedAction.Add => CollectionChanged<T>.Add(e.NewStartingIndex, e.NewItems.Cast<T>()),
-                    NotifyCollectionChangedAction.Remove => CollectionChanged<T>.Remove(e.OldStartingIndex, e.OldItems.Cast<T>()),
-                    NotifyCollectionChangedAction.Replace => CollectionChanged<T>.Replace(e.NewStartingIndex, e.NewItems.Cast<T>().First()),
+                    NotifyCollectionChangedAction.Add => CollectionChanged<T>.Add(e.NewStartingIndex, e.NewItems!.Cast<T>()),
+                    NotifyCollectionChangedAction.Remove => CollectionChanged<T>.Remove(e.OldStartingIndex, e.OldItems!.Cast<T>()),
+                    NotifyCollectionChangedAction.Replace => CollectionChanged<T>.Replace(e.NewStartingIndex, e.NewItems!.Cast<T>().First()),
                     NotifyCollectionChangedAction.Reset => CollectionChanged<T>.ResetWithSource(sender as IEnumerable<T>),
-                    NotifyCollectionChangedAction.Move => CollectionChanged<T>.Move(e.OldStartingIndex, e.NewStartingIndex, e.NewItems.Cast<T>().First()),
+                    NotifyCollectionChangedAction.Move => CollectionChanged<T>.Move(e.OldStartingIndex, e.NewStartingIndex, e.NewItems!.Cast<T>().First()),
                     _ => throw new InvalidOperationException($"Unknown NotifyCollectionChangedAction value: {e.Action}"),
                 };
                 ox.OnNext(collectionChanged);
@@ -452,7 +452,7 @@ public static class ReadOnlyReactiveCollection
     public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(
         this IEnumerable<T> self,
         IObservable<CollectionChanged<T>> collectionChanged,
-        IScheduler scheduler = null,
+        IScheduler? scheduler = null,
         bool disposeElement = true) =>
         self.ToReadOnlyReactiveCollection<T, T>(collectionChanged, x => x, scheduler, disposeElement);
 
@@ -471,18 +471,18 @@ public static class ReadOnlyReactiveCollection
         this IEnumerable<T> self,
         IObservable<CollectionChanged<T>> collectionChanged,
         Func<T, U> converter,
-        IScheduler scheduler = null,
+        IScheduler? scheduler = null,
         bool disposeElement = true)
     {
         var source = new ObservableCollection<U>(self.Select(converter));
         var convertedCollectionChanged = collectionChanged
             .Select(x => x.Action switch
             {
-                NotifyCollectionChangedAction.Add => CollectionChanged<U>.Add(x.Index, x.Values.Select(converter)),
+                NotifyCollectionChangedAction.Add => CollectionChanged<U>.Add(x.Index, x.Values!.Select(converter)),
                 NotifyCollectionChangedAction.Remove => CollectionChanged<U>.Remove(x.Index, default(U)),
-                NotifyCollectionChangedAction.Replace => CollectionChanged<U>.Replace(x.Index, converter(x.Value)),
+                NotifyCollectionChangedAction.Replace => CollectionChanged<U>.Replace(x.Index, converter(x.Value!)),
                 NotifyCollectionChangedAction.Reset => CollectionChanged<U>.ResetWithSource(x.Source?.Select(converter)),
-                NotifyCollectionChangedAction.Move => CollectionChanged<U>.Move(x.OldIndex, x.Index, default(U)),
+                NotifyCollectionChangedAction.Move => CollectionChanged<U>.Move(x.OldIndex, x.Index, default),
                 _ => throw new InvalidOperationException($"Unknown NotifyCollectionChangedAction value: {x.Action}"),
             });
         return new ReadOnlyReactiveCollection<U>(convertedCollectionChanged, source, scheduler, disposeElement);
@@ -496,7 +496,7 @@ public static class ReadOnlyReactiveCollection
     /// <param name="scheduler">The scheduler.</param>
     /// <param name="disposeElement">if set to <c>true</c> [dispose element].</param>
     /// <returns></returns>
-    public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this ObservableCollection<T> self, IScheduler scheduler = null, bool disposeElement = true)
+    public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this ObservableCollection<T> self, IScheduler? scheduler = null, bool disposeElement = true)
         where T : class =>
         self.ToReadOnlyReactiveCollection(x => x, scheduler, disposeElement);
 
@@ -510,7 +510,7 @@ public static class ReadOnlyReactiveCollection
     /// <param name="scheduler">The scheduler.</param>
     /// <param name="disposeElement">if set to <c>true</c> [dispose element].</param>
     /// <returns></returns>
-    public static ReadOnlyReactiveCollection<U> ToReadOnlyReactiveCollection<T, U>(this ObservableCollection<T> self, Func<T, U> converter, IScheduler scheduler = null, bool disposeElement = true) =>
+    public static ReadOnlyReactiveCollection<U> ToReadOnlyReactiveCollection<T, U>(this ObservableCollection<T> self, Func<T, U> converter, IScheduler? scheduler = null, bool disposeElement = true) =>
         ((IEnumerable<T>)self).ToReadOnlyReactiveCollection(
             self.ToCollectionChanged(),
             converter,
@@ -525,7 +525,7 @@ public static class ReadOnlyReactiveCollection
     /// <param name="scheduler">The scheduler.</param>
     /// <param name="disposeElement">if set to <c>true</c> [dispose element].</param>
     /// <returns></returns>
-    public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this ReadOnlyObservableCollection<T> self, IScheduler scheduler = null, bool disposeElement = true)
+    public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this ReadOnlyObservableCollection<T> self, IScheduler? scheduler = null, bool disposeElement = true)
         where T : class =>
         self.ToReadOnlyReactiveCollection(x => x, scheduler, disposeElement);
 
@@ -539,7 +539,7 @@ public static class ReadOnlyReactiveCollection
     /// <param name="scheduler">The scheduler.</param>
     /// <param name="disposeElement">if set to <c>true</c> [dispose element].</param>
     /// <returns></returns>
-    public static ReadOnlyReactiveCollection<U> ToReadOnlyReactiveCollection<T, U>(this ReadOnlyObservableCollection<T> self, Func<T, U> converter, IScheduler scheduler = null, bool disposeElement = true) =>
+    public static ReadOnlyReactiveCollection<U> ToReadOnlyReactiveCollection<T, U>(this ReadOnlyObservableCollection<T> self, Func<T, U> converter, IScheduler? scheduler = null, bool disposeElement = true) =>
         ((IEnumerable<T>)self).ToReadOnlyReactiveCollection(
             self.ToCollectionChanged(),
             converter,

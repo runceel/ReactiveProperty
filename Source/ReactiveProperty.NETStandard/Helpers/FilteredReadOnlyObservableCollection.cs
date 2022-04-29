@@ -64,7 +64,7 @@ public sealed class FilteredReadOnlyObservableCollection<TCollection, TElement, 
     /// <summary>
     /// CollectionChanged event.
     /// </summary>
-    public event NotifyCollectionChangedEventHandler CollectionChanged;
+    public event NotifyCollectionChangedEventHandler? CollectionChanged;
 
     /// <summary>
     /// constructor
@@ -98,7 +98,7 @@ public sealed class FilteredReadOnlyObservableCollection<TCollection, TElement, 
 
     private void SourceElementChanged(TElement x)
     {
-        NotifyCollectionChangedEventArgs args = default;
+        NotifyCollectionChangedEventArgs? args = default;
         lock (_syncRoot)
         {
             var index = Source.IndexOf(x);
@@ -114,7 +114,7 @@ public sealed class FilteredReadOnlyObservableCollection<TCollection, TElement, 
                 // add
                 AppearNewItem(index);
                 args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add,
-                    Source[index], IndexList[index].Value);
+                    Source[index], IndexList[index]!.Value);
 
             }
             else if (!isTarget && filteredIndex.HasValue)
@@ -132,15 +132,15 @@ public sealed class FilteredReadOnlyObservableCollection<TCollection, TElement, 
         }
     }
 
-    private void Source_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    private void Source_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        NotifyCollectionChangedEventArgs args = default;
+        NotifyCollectionChangedEventArgs? args = default;
         lock (_syncRoot)
         {
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    if (e.NewItems.Count == 1)
+                    if (e.NewItems!.Count == 1)
                     {
                         // single item
                         IndexList.Insert(e.NewStartingIndex, null);
@@ -150,7 +150,7 @@ public sealed class FilteredReadOnlyObservableCollection<TCollection, TElement, 
                             AppearNewItem(e.NewStartingIndex);
                             args = new(NotifyCollectionChangedAction.Add,
                                 item,
-                                IndexList[e.NewStartingIndex].Value);
+                                IndexList[e.NewStartingIndex]!.Value);
                         }
                     }
                     else if (e.NewItems.Count < ResetThreshold)
@@ -172,7 +172,7 @@ public sealed class FilteredReadOnlyObservableCollection<TCollection, TElement, 
                         {
                             args = new(NotifyCollectionChangedAction.Add,
                                 items,
-                                IndexList[addedItemAndIndexPairs.First().index].Value);
+                                IndexList[addedItemAndIndexPairs.First().index]!.Value);
                         }
                     }
                     else
@@ -185,7 +185,7 @@ public sealed class FilteredReadOnlyObservableCollection<TCollection, TElement, 
                 case NotifyCollectionChangedAction.Move:
                     throw new NotSupportedException("Move is not supported");
                 case NotifyCollectionChangedAction.Remove:
-                    if (e.OldItems.Count == 1)
+                    if (e.OldItems!.Count == 1)
                     {
                         // single item
                         var removedIndex = IndexList[e.OldStartingIndex];
@@ -213,22 +213,22 @@ public sealed class FilteredReadOnlyObservableCollection<TCollection, TElement, 
 
                 case NotifyCollectionChangedAction.Replace:
                     var index = IndexList[e.NewStartingIndex];
-                    var isTarget = Filter(e.NewItems.Cast<TElement>().Single());
+                    var isTarget = Filter(e.NewItems!.Cast<TElement>().Single());
                     if (index == null && isTarget)
                     {
                         // add
                         AppearNewItem(e.NewStartingIndex);
                         args = new NotifyCollectionChangedEventArgs(
                             NotifyCollectionChangedAction.Add,
-                            Source[e.NewStartingIndex], IndexList[e.NewStartingIndex].Value);
+                            Source[e.NewStartingIndex], IndexList[e.NewStartingIndex]!.Value);
 
                     }
                     else if (index.HasValue && isTarget)
                     {
                         // replace
-                        InnerCollection[index.Value] = e.NewItems.Cast<TElement>().Single();
+                        InnerCollection[index.Value] = e.NewItems!.Cast<TElement>().Single();
                         args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace,
-                            e.NewItems.Cast<TElement>().Single(), e.OldItems.Cast<TElement>().Single(), index.Value);
+                            e.NewItems!.Cast<TElement>().Single(), e.OldItems!.Cast<TElement>().Single(), index.Value);
                     }
                     else if (index.HasValue && !isTarget)
                     {
@@ -236,7 +236,7 @@ public sealed class FilteredReadOnlyObservableCollection<TCollection, TElement, 
                         DisappearItem(e.NewStartingIndex);
                         IndexList[e.NewStartingIndex] = null;
                         args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove,
-                            e.OldItems.Cast<TElement>().Single(), index.Value);
+                            e.OldItems!.Cast<TElement>().Single(), index.Value);
                     }
 
                     break;
@@ -292,7 +292,7 @@ public sealed class FilteredReadOnlyObservableCollection<TCollection, TElement, 
 
     bool ICollection.IsSynchronized => false;
 
-    object ICollection.SyncRoot => null;
+    object ICollection.SyncRoot => _syncRoot;
 
     /// <summary>
     /// Gets the Element at the specified index.
@@ -311,7 +311,7 @@ public sealed class FilteredReadOnlyObservableCollection<TCollection, TElement, 
         }
     }
 
-    object IList.this[int index]
+    object? IList.this[int index]
     {
         get
         {
@@ -362,19 +362,19 @@ public sealed class FilteredReadOnlyObservableCollection<TCollection, TElement, 
             if (IndexList[i].HasValue) { IndexList[i]++; }
         }
 
-        InnerCollection.Insert(IndexList[index].Value, Source[index]);
+        InnerCollection.Insert(IndexList[index]!.Value, Source[index]);
     }
 
     private void DisappearItem(int index)
     {
-        InnerCollection.RemoveAt(IndexList[index].Value);
+        InnerCollection.RemoveAt(IndexList[index]!.Value);
         for (var i = index; i < IndexList.Count; i++)
         {
             if (IndexList[i].HasValue) { IndexList[i]--; }
         }
     }
 
-    int IList.Add(object value)
+    int IList.Add(object? value)
     {
         throw new NotSupportedException();
     }
@@ -384,7 +384,7 @@ public sealed class FilteredReadOnlyObservableCollection<TCollection, TElement, 
         throw new NotSupportedException();
     }
 
-    bool IList.Contains(object value)
+    bool IList.Contains(object? value)
     {
         lock (_syncRoot)
         {
@@ -392,20 +392,20 @@ public sealed class FilteredReadOnlyObservableCollection<TCollection, TElement, 
         }
     }
 
-    int IList.IndexOf(object value)
+    int IList.IndexOf(object? value)
     {
         lock (_syncRoot)
         {
-            return InnerCollection.IndexOf((TElement)value);
+            return InnerCollection.IndexOf((TElement)value!);
         }
     }
 
-    void IList.Insert(int index, object value)
+    void IList.Insert(int index, object? value)
     {
         throw new NotSupportedException();
     }
 
-    void IList.Remove(object value)
+    void IList.Remove(object? value)
     {
         throw new NotSupportedException();
     }
@@ -506,7 +506,7 @@ public static class FilteredReadOnlyObservableCollection
     /// <param name="scheduler">The scheduler.</param>
     /// <param name="disposeElement">if set to <c>true</c> [dispose element].</param>
     /// <returns></returns>
-    public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this IFilteredReadOnlyObservableCollection<T> self, IScheduler scheduler = null, bool disposeElement = true)
+    public static ReadOnlyReactiveCollection<T> ToReadOnlyReactiveCollection<T>(this IFilteredReadOnlyObservableCollection<T> self, IScheduler? scheduler = null, bool disposeElement = true)
         where T : class, INotifyPropertyChanged =>
         self.ToReadOnlyReactiveCollection(x => x, scheduler, disposeElement);
 
@@ -520,7 +520,7 @@ public static class FilteredReadOnlyObservableCollection
     /// <param name="scheduler">The scheduler.</param>
     /// <param name="disposeElement">if set to <c>true</c> [dispose element].</param>
     /// <returns></returns>
-    public static ReadOnlyReactiveCollection<U> ToReadOnlyReactiveCollection<T, U>(this IFilteredReadOnlyObservableCollection<T> self, Func<T, U> converter, IScheduler scheduler = null, bool disposeElement = true)
+    public static ReadOnlyReactiveCollection<U> ToReadOnlyReactiveCollection<T, U>(this IFilteredReadOnlyObservableCollection<T> self, Func<T, U> converter, IScheduler? scheduler = null, bool disposeElement = true)
         where T : class, INotifyPropertyChanged =>
         self.ToReadOnlyReactiveCollection(
             self.ToCollectionChanged<T>(),

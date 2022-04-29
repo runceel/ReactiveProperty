@@ -8,11 +8,11 @@ namespace Reactive.Bindings.Internals;
 internal sealed class ObserverNode<T> : IObserver<T>, IDisposable
 {
     private readonly IObserver<T> _observer;
-    private IObserverLinkedList<T> _list;
+    private IObserverLinkedList<T>? _list;
 
-    public ObserverNode<T> Previous { get; set; }
+    public ObserverNode<T>? Previous { get; set; }
 
-    public ObserverNode<T> Next { get; set; }
+    public ObserverNode<T>? Next { get; set; }
 
     public ObserverNode(IObserverLinkedList<T> list, IObserver<T> observer)
     {

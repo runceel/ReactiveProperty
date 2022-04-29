@@ -8,7 +8,7 @@ namespace Reactive.Bindings;
 /// <summary>
 /// Represents AsyncReactiveCommand&lt;object&gt;
 /// </summary>
-public class AsyncReactiveCommand : AsyncReactiveCommand<object>
+public class AsyncReactiveCommand : AsyncReactiveCommand<object?>
 {
     /// <summary>
     /// CanExecute is automatically changed when executing to false and finished to true.
@@ -70,7 +70,7 @@ public class AsyncReactiveCommand<T> : ICommand, IDisposable
     /// Occurs when changes occur that affect whether or not the command should execute.
     /// </summary>
     /// <returns></returns>
-    public event EventHandler CanExecuteChanged;
+    public event EventHandler? CanExecuteChanged;
 
     private readonly object gate = new();
     private readonly IReactiveProperty<bool> canExecute;
@@ -103,7 +103,7 @@ public class AsyncReactiveCommand<T> : ICommand, IDisposable
     /// <summary>
     /// CanExecute is automatically changed when executing to false and finished to true.
     /// </summary>
-    public AsyncReactiveCommand(IObservable<bool> canExecuteSource, IReactiveProperty<bool> sharedCanExecute)
+    public AsyncReactiveCommand(IObservable<bool> canExecuteSource, IReactiveProperty<bool>? sharedCanExecute)
     {
         canExecute = sharedCanExecute ?? new ReactivePropertySlim<bool>(true);
         sourceSubscription = canExecute.CombineLatest(canExecuteSource, (x, y) => x && y)
@@ -140,7 +140,7 @@ public class AsyncReactiveCommand<T> : ICommand, IDisposable
     /// <summary>
     /// Return current canExecute status. parameter is ignored.
     /// </summary>
-    bool ICommand.CanExecute(object parameter)
+    bool ICommand.CanExecute(object? parameter)
     {
         return isDisposed ? false : isCanExecute;
     }
@@ -195,7 +195,7 @@ public class AsyncReactiveCommand<T> : ICommand, IDisposable
     /// <summary>
     /// Push parameter to subscribers, when executing CanExecuting is changed to false.
     /// </summary>
-    void ICommand.Execute(object parameter) => Execute((T)parameter);
+    void ICommand.Execute(object? parameter) => Execute((T)parameter!);
 
     /// <summary>
     /// Subscribe execute.
@@ -300,7 +300,7 @@ public static class AsyncReactiveCommandExtensions
     /// <param name="asyncAction">Action</param>
     /// <param name="postProcess">Handling of the subscription.</param>
     /// <returns>Same of self argument</returns>
-    public static AsyncReactiveCommand WithSubscribe(this AsyncReactiveCommand self, Func<Task> asyncAction, Action<IDisposable> postProcess = null)
+    public static AsyncReactiveCommand WithSubscribe(this AsyncReactiveCommand self, Func<Task> asyncAction, Action<IDisposable>? postProcess = null)
     {
         var d = self.Subscribe(asyncAction);
         postProcess?.Invoke(d);
@@ -315,7 +315,7 @@ public static class AsyncReactiveCommandExtensions
     /// <param name="asyncAction">Action</param>
     /// <param name="postProcess">Handling of the subscription.</param>
     /// <returns>Same of self argument</returns>
-    public static AsyncReactiveCommand<T> WithSubscribe<T>(this AsyncReactiveCommand<T> self, Func<T, Task> asyncAction, Action<IDisposable> postProcess = null)
+    public static AsyncReactiveCommand<T> WithSubscribe<T>(this AsyncReactiveCommand<T> self, Func<T, Task> asyncAction, Action<IDisposable>? postProcess = null)
     {
         var d = self.Subscribe(asyncAction);
         postProcess?.Invoke(d);
