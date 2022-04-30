@@ -8,11 +8,11 @@ namespace Reactive.Bindings.Internals;
 internal class PropertyPathNode : IDisposable
 {
     private bool _isDisposed = false;
-    private Action _callback;
-    private Delegate _getAccessor;
-    private Delegate _setAccessor;
+    private Action? _callback;
+    private Delegate? _getAccessor;
+    private Delegate? _setAccessor;
 
-    public event EventHandler PropertyChanged;
+    public event EventHandler? PropertyChanged;
 
     public PropertyPathNode(string propertyName)
     {
@@ -20,10 +20,10 @@ internal class PropertyPathNode : IDisposable
     }
 
     public string PropertyName { get; }
-    public object Source { get; private set; }
-    private Type PrevSourceType { get; set; }
-    public PropertyPathNode Next { get; private set; }
-    public PropertyPathNode Prev { get; private set; }
+    public object? Source { get; private set; }
+    private Type? PrevSourceType { get; set; }
+    public PropertyPathNode? Next { get; private set; }
+    public PropertyPathNode? Prev { get; private set; }
     public void SetCallback(Action callback)
     {
         _callback = callback;
@@ -42,7 +42,7 @@ internal class PropertyPathNode : IDisposable
         return Prev;
     }
 
-    public void UpdateSource(object source)
+    public void UpdateSource(object? source)
     {
         EnsureDispose();
         Cleanup();
@@ -66,14 +66,15 @@ internal class PropertyPathNode : IDisposable
         Next?.UpdateSource(GetPropertyValue());
     }
 
-    private object GetPropertyValue()
+    private object? GetPropertyValue()
     {
         EnsureDispose();
+        if (Source == null) return null;
         return (_getAccessor ?? (_getAccessor = AccessorCache.LookupGet(Source.GetType(), PropertyName)))
             .DynamicInvoke(Source);
     }
 
-    public object GetPropertyPathValue()
+    public object? GetPropertyPathValue()
     {
         if (Source == null)
         {
@@ -88,7 +89,7 @@ internal class PropertyPathNode : IDisposable
         return GetPropertyValue();
     }
 
-    public bool SetPropertyPathValue(object value)
+    public bool SetPropertyPathValue(object? value)
     {
         if (Source == null)
         {
@@ -111,7 +112,7 @@ internal class PropertyPathNode : IDisposable
 
     public override string ToString() => Path;
 
-    private void SourcePropertyChangedEventHandler(object sender, PropertyChangedEventArgs e)
+    private void SourcePropertyChangedEventHandler(object? sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName == PropertyName || string.IsNullOrEmpty(e.PropertyName))
         {
@@ -151,12 +152,13 @@ internal class PropertyPathNode : IDisposable
     public static PropertyPathNode CreateFromPropertySelector<TSubject, TProperty>(
         Expression<Func<TSubject, TProperty>> propertySelector)
     {
-        if (!(propertySelector.Body is MemberExpression current))
+        if (!(propertySelector.Body is MemberExpression memberExpression))
         {
             throw new ArgumentException();
         }
 
         var node = default(PropertyPathNode);
+        MemberExpression? current = memberExpression;
         while (current != null)
         {
             var propertyName = current.Member.Name;
@@ -171,6 +173,7 @@ internal class PropertyPathNode : IDisposable
             current = current.Expression as MemberExpression;
         }
 
+        if (node == null) throw new ArgumentException($"Can not parse property path expression {propertySelector}.");
         return node;
     }
 }

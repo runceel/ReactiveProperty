@@ -8,6 +8,4 @@
     <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
     <Description>ReactiveProperty.Core includes minimum core classes such as ReactivePropertySlim and ReadOnlyReactivePropertySlim.</Description>
   </PropertyGroup>
-
-  <Import Project="../SharedProperties.csproj" />
 </Project>

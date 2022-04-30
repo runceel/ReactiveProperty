@@ -14,7 +14,7 @@ public class BooleanNotifier : IObservable<bool>, INotifyPropertyChanged
     /// Occurs when a property value changes.
     /// </summary>
     /// <returns></returns>
-    public event PropertyChangedEventHandler PropertyChanged;
+    public event PropertyChangedEventHandler? PropertyChanged;
 
     private readonly Subject<bool> boolTrigger = new();
     private bool boolValue;
@@ -81,5 +81,5 @@ public class BooleanNotifier : IObservable<bool>, INotifyPropertyChanged
     /// Called when [property changed].
     /// </summary>
     /// <param name="propertyName">Name of the property.</param>
-    protected void OnPropertyChanged([CallerMemberName] string propertyName = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    protected void OnPropertyChanged([CallerMemberName] string? propertyName = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 }

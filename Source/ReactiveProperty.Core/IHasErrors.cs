@@ -11,7 +11,7 @@ public interface IHasErrors
     /// Gets the observe error changed.
     /// </summary>
     /// <value>The observe error changed.</value>
-    IObservable<IEnumerable> ObserveErrorChanged { get; }
+    IObservable<IEnumerable?> ObserveErrorChanged { get; }
 
     /// <summary>
     /// Gets the observe has errors.
