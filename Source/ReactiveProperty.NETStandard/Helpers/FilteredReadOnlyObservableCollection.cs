@@ -86,14 +86,14 @@ public sealed class FilteredReadOnlyObservableCollection<TCollection, TElement, 
             Initialize();
         }
 
+        // collection changed(support single changed only)
+        source.CollectionChanged += Source_CollectionChanged;
+
         // propertychanged
         CollectionUtilities.ObserveElementCore<TCollection, TElement, TElement>(source, (x, observer) =>
             elementChangedFactory(x).Subscribe(_ => observer.OnNext(x)))
             .Subscribe(SourceElementChanged)
             .AddTo(Subscription);
-
-        // collection changed(support single changed only)
-        source.CollectionChanged += Source_CollectionChanged;
     }
 
     private void SourceElementChanged(TElement x)
