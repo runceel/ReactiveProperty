@@ -154,11 +154,11 @@ public static class CollectionUtilities
     {
         return Observable.Create<TResult>(observer =>
         {
-                //--- cache element property subscriptions
-                var subscriptionCache = new Dictionary<object, IDisposable>();
+            //--- cache element property subscriptions
+            var subscriptionCache = new Dictionary<object, IDisposable>();
 
-                //--- subscribe / unsubscribe property which all elements have
-                void subscribe(IEnumerable<TElement> elements)
+            //--- subscribe / unsubscribe property which all elements have
+            void subscribe(IEnumerable<TElement> elements)
             {
                 foreach (var x in elements)
                 {
@@ -177,14 +177,14 @@ public static class CollectionUtilities
             }
             subscribe(source);
 
-                //--- hook collection changed
-                var disposable = source.CollectionChangedAsObservable().Subscribe(x =>
+            //--- hook collection changed
+            var disposable = source.CollectionChangedAsObservable().Subscribe(x =>
             {
                 if (x.Action == NotifyCollectionChangedAction.Remove
                 || x.Action == NotifyCollectionChangedAction.Replace)
                 {
-                        //--- unsubscribe
-                        var oldItems = x.OldItems.Cast<TElement>();
+                    //--- unsubscribe
+                    var oldItems = x.OldItems.Cast<TElement>();
                     foreach (var y in oldItems)
                     {
                         subscriptionCache[y].Dispose();
@@ -206,8 +206,8 @@ public static class CollectionUtilities
                 }
             });
 
-                //--- unsubscribe
-                return Disposable.Create(() =>
+            //--- unsubscribe
+            return Disposable.Create(() =>
             {
                 disposable.Dispose();
                 unsubscribeAll();
