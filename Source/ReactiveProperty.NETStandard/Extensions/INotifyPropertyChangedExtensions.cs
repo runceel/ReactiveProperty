@@ -244,7 +244,7 @@ public static class INotifyPropertyChangedExtensions
             var observer = PropertyObservable.CreateFromPropertySelector(subject, propertySelector);
             var result = convert(Observable.Using(() => observer, x => x)
                 .StartWith(observer.GetPropertyPathValue()))
-                .ToReactiveProperty(raiseEventScheduler, mode: mode);
+                .ToReactiveProperty<TResult>(raiseEventScheduler, mode: mode);
             convertBack(result.Where(_ => !ignoreValidationErrorValue || !result.HasErrors))
                .Subscribe(x => observer.SetPropertyPathValue(x));
             return result;
@@ -253,7 +253,7 @@ public static class INotifyPropertyChangedExtensions
         {
             var setter = AccessorCache<TSubject>.LookupSet(propertySelector, out _);
             var result = convert(subject.ObserveProperty(propertySelector, isPushCurrentValueAtFirst: true))
-                .ToReactiveProperty(raiseEventScheduler, mode: mode);
+                .ToReactiveProperty<TResult>(raiseEventScheduler, mode: mode);
             convertBack(result.Where(_ => !ignoreValidationErrorValue || !result.HasErrors))
                 .Subscribe(x => setter(subject, x));
             return result;
@@ -347,8 +347,7 @@ public static class INotifyPropertyChangedExtensions
         {
             var result = new ReactivePropertySlim<TResult>(mode: mode);
             var observer = PropertyObservable.CreateFromPropertySelector(subject, propertySelector);
-            IDisposable disposable = null;
-            disposable = convert(subject.ObserveProperty(propertySelector, isPushCurrentValueAtFirst: true))
+            var disposable = convert(subject.ObserveProperty(propertySelector, isPushCurrentValueAtFirst: true))
                 .Subscribe(x => result.Value = x);
             convertBack(result)
                 .Subscribe(x => observer.SetPropertyPathValue(x), _ => disposable.Dispose(), () => disposable.Dispose());
@@ -358,8 +357,7 @@ public static class INotifyPropertyChangedExtensions
         {
             var setter = AccessorCache<TSubject>.LookupSet(propertySelector, out _);
             var result = new ReactivePropertySlim<TResult>(mode: mode);
-            IDisposable disposable = null;
-            disposable = convert(subject.ObserveProperty(propertySelector, isPushCurrentValueAtFirst: true))
+            var disposable = convert(subject.ObserveProperty(propertySelector, isPushCurrentValueAtFirst: true))
                 .Subscribe(x => result.Value = x);
             convertBack(result)
                 .Subscribe(x => setter(subject, x), _ => disposable.Dispose(), () => disposable.Dispose());

@@ -462,6 +462,23 @@ public class FilteredReadOnlyObservableCollectionTest
         filtered.Select(x => x.Name).Is("tanaka2", "tanaka3", "tanaka4", "tanaka5");
     }
 
+    [TestMethod]
+    public void ElementStatusChangedFactoryWithObservePropertyTest()
+    {
+        // https://github.com/runceel/ReactiveProperty/issues/379
+        var observableCollection = new ObservableCollection<Person>();
+
+        var filteredCollection = observableCollection.ToFilteredReadOnlyObservableCollection(
+            filter: x => x.Name == "test",
+            elementStatusChangedFactory: x => x.ObserveProperty(x => x.Name));
+
+        AssertEx.DoesNotThrow(() =>
+        {
+            var element = new Person();
+            observableCollection.Add(element); // Exception thrown here (Issue 379)
+        });
+    }
+
     private class Person : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
