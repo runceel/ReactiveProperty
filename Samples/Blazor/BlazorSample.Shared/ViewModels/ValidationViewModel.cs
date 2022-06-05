@@ -6,7 +6,7 @@ using Reactive.Bindings.Extensions;
 
 namespace BlazorSample.Shared.ViewModels;
 
-public class IndexViewModel : IDisposable
+public class ValidationViewModel : IDisposable
 {
     private readonly CompositeDisposable _disposables = new();
 
@@ -18,7 +18,7 @@ public class IndexViewModel : IDisposable
     public ReactiveProperty<string> LastName { get; }
     public ReadOnlyReactivePropertySlim<string> FullName { get; }
 
-    public IndexViewModel()
+    public ValidationViewModel()
     {
         var reactivePropertyMode = ReactivePropertyMode.Default | ReactivePropertyMode.IgnoreInitialValidationError;
         FirstName = new ReactiveProperty<string>("", mode: reactivePropertyMode)

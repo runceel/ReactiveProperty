@@ -21,7 +21,7 @@ public static class ObservablePairwiseExtensions
     {
         var result = Observable.Create<TR>(observer =>
         {
-            var prev = default(T);
+            T prev = default!;
             var isFirst = true;
 
             return source.Subscribe(x =>
@@ -36,7 +36,7 @@ public static class ObservablePairwiseExtensions
                 TR value;
                 try
                 {
-                    value = selector(prev, x);
+                    value = selector(prev!, x);
                     prev = x;
                 }
                 catch (Exception ex)

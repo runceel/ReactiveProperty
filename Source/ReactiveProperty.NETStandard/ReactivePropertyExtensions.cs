@@ -20,7 +20,7 @@ public static class ReactivePropertyExtensions
     /// <param name="self">Target ReactiveProperty</param>
     /// <param name="selfSelector">Target property as expression</param>
     /// <returns>Self</returns>
-    public static ReactiveProperty<T> SetValidateAttribute<T>(this ReactiveProperty<T> self, Expression<Func<ReactiveProperty<T>>> selfSelector)
+    public static ReactiveProperty<T> SetValidateAttribute<T>(this ReactiveProperty<T> self, Expression<Func<ReactiveProperty<T>?>> selfSelector)
     {
         var memberExpression = (MemberExpression)selfSelector.Body;
         var propertyInfo = (PropertyInfo)memberExpression.Member;
@@ -54,7 +54,7 @@ public static class ReactivePropertyExtensions
     /// </summary>
     /// <typeparam name="T">Property type</typeparam>
     /// <param name="self">Target ReactiveProperty</param>
-    public static IObservable<string> ObserveValidationErrorMessage<T>(this ReactiveProperty<T> self) =>
+    public static IObservable<string?> ObserveValidationErrorMessage<T>(this ReactiveProperty<T> self) =>
         self.ObserveErrorChanged
             .Select(x => x?.OfType<string>()?.FirstOrDefault());
 }

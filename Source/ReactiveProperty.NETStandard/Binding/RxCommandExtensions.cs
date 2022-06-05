@@ -1,4 +1,6 @@
-﻿using System;
+﻿// This namespace is not used almost all cases. low priority to add nullable annnotation.
+#nullable disable
+using System;
 
 namespace Reactive.Bindings.Binding;
 

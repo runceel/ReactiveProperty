@@ -24,7 +24,7 @@ internal class PropertyPathNode : IDisposable
     private Type? PrevSourceType { get; set; }
     public PropertyPathNode? Next { get; private set; }
     public PropertyPathNode? Prev { get; private set; }
-    public void SetCallback(Action callback)
+    public void SetCallback(Action? callback)
     {
         _callback = callback;
         Next?.SetCallback(callback);

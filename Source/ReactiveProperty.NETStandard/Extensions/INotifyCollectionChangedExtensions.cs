@@ -12,6 +12,9 @@ using Reactive.Bindings.Internals;
 
 namespace Reactive.Bindings.Extensions;
 
+// TODO: remove this line later.
+#nullable disable
+
 /// <summary>
 /// INotify Collection Changed Extensions
 /// </summary>
@@ -49,7 +52,7 @@ public static class INotifyCollectionChangedExtensions
     public static IObservable<T> ObserveRemoveChanged<T>(this INotifyCollectionChanged source) =>
         source.CollectionChangedAsObservable()
             .Where(e => e.Action == NotifyCollectionChangedAction.Remove)
-            .Select(e => (T)e.OldItems[0]);
+            .Select(e => (T)e.OldItems[0]!);
 
     /// <summary>
     /// Observe CollectionChanged:Remove.

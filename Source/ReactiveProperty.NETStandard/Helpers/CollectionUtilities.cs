@@ -86,8 +86,9 @@ public static class CollectionUtilities
         if (!(propertySelector.Body is MemberExpression memberExpression))
         {
             if (!(propertySelector.Body is UnaryExpression unaryExpression)) { throw new ArgumentException(nameof(propertySelector)); }
-            memberExpression = unaryExpression.Operand as MemberExpression;
-            if (memberExpression == null) { throw new ArgumentException(nameof(propertySelector)); }
+            var operand = unaryExpression.Operand as MemberExpression;
+            if (operand == null) { throw new ArgumentException(nameof(propertySelector)); }
+            memberExpression = operand;
         }
 
         var propertyInfo = memberExpression.Member as PropertyInfo;
@@ -154,11 +155,11 @@ public static class CollectionUtilities
     {
         return Observable.Create<TResult>(observer =>
         {
-                //--- cache element property subscriptions
-                var subscriptionCache = new Dictionary<object, IDisposable>();
+            //--- cache element property subscriptions
+            var subscriptionCache = new Dictionary<object, IDisposable>();
 
-                //--- subscribe / unsubscribe property which all elements have
-                void subscribe(IEnumerable<TElement> elements)
+            //--- subscribe / unsubscribe property which all elements have
+            void subscribe(IEnumerable<TElement> elements)
             {
                 foreach (var x in elements)
                 {
@@ -177,14 +178,14 @@ public static class CollectionUtilities
             }
             subscribe(source);
 
-                //--- hook collection changed
-                var disposable = source.CollectionChangedAsObservable().Subscribe(x =>
+            //--- hook collection changed
+            var disposable = source.CollectionChangedAsObservable().Subscribe(x =>
             {
                 if (x.Action == NotifyCollectionChangedAction.Remove
                 || x.Action == NotifyCollectionChangedAction.Replace)
                 {
-                        //--- unsubscribe
-                        var oldItems = x.OldItems.Cast<TElement>();
+                    //--- unsubscribe
+                    var oldItems = x.OldItems.Cast<TElement>();
                     foreach (var y in oldItems)
                     {
                         subscriptionCache[y].Dispose();
@@ -206,8 +207,8 @@ public static class CollectionUtilities
                 }
             });
 
-                //--- unsubscribe
-                return Disposable.Create(() =>
+            //--- unsubscribe
+            return Disposable.Create(() =>
             {
                 disposable.Dispose();
                 unsubscribeAll();
