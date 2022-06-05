@@ -7,7 +7,7 @@ namespace Reactive.Bindings.Internals;
 
 internal sealed class PropertyObservable<TProperty> : IObservable<TProperty>, IDisposable
 {
-    private PropertyPathNode RootNode { get; set; }
+    private PropertyPathNode? RootNode { get; set; }
     internal void SetRootNode(PropertyPathNode rootNode)
     {
         RootNode?.SetCallback(null);
@@ -17,7 +17,7 @@ internal sealed class PropertyObservable<TProperty> : IObservable<TProperty>, ID
     public TProperty GetPropertyPathValue()
     {
         var value = RootNode?.GetPropertyPathValue();
-        return value != null ? (TProperty)value : default;
+        return value != null ? (TProperty)value : default!;
     }
 
     public string Path => RootNode?.Path;

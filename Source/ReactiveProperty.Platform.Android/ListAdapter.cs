@@ -26,7 +26,7 @@ public class ListAdapter<T> : BaseAdapter<T>
     /// <param name="createRowView">create view</param>
     /// <param name="setRowData">set row data</param>
     /// <param name="getId">get id</param>
-    public ListAdapter(IList<T> list, Func<int, T, View> createRowView, Action<int, T, View> setRowData, Func<int, T, long>? getId = null)
+    public ListAdapter(IList<T> list, Func<int, T, View> createRowView, Action<int, T, View> setRowData, Func<int, T, long> getId = null)
     {
         List = list ?? throw new ArgumentNullException(nameof(list));
         CreateRowView = createRowView ?? throw new ArgumentNullException(nameof(createRowView));
@@ -65,7 +65,7 @@ public class ListAdapter<T> : BaseAdapter<T>
     /// <param name="parent">To be added.</param>
     /// <returns>To be added.</returns>
     /// <remarks>To be added.</remarks>
-    public override View GetView(int position, View? convertView, ViewGroup? parent)
+    public override View GetView(int position, View convertView, ViewGroup parent)
     {
         if (convertView == null)
         {
@@ -91,6 +91,6 @@ public static class ListExtensions
     /// <param name="setRowData">fill row data</param>
     /// <param name="getId">get id</param>
     /// <returns>ListAdapter</returns>
-    public static ListAdapter<T> ToAdapter<T>(this IList<T> self, Func<int, T, View> createRowView, Action<int, T, View> setRowData, Func<int, T, long>? getId = null) =>
+    public static ListAdapter<T> ToAdapter<T>(this IList<T> self, Func<int, T, View> createRowView, Action<int, T, View> setRowData, Func<int, T, long> getId = null) =>
         new(self, createRowView, setRowData, getId);
 }

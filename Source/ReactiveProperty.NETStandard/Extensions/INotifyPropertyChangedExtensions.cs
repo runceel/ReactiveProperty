@@ -116,8 +116,7 @@ public static class INotifyPropertyChangedExtensions
         {
             var observer = PropertyObservable.CreateFromPropertySelector(subject, propertySelector);
             var result = Observable.Using(() => observer, x => x)
-                .StartWith(observer.GetPropertyPathValue())
-                .ToReactiveProperty(raiseEventScheduler, mode: mode);
+                .ToReactiveProperty(raiseEventScheduler, initialValue: observer.GetPropertyPathValue(), mode: mode);
             result
                 .Where(_ => !ignoreValidationErrorValue || !result.HasErrors)
                 .Subscribe(x => observer.SetPropertyPathValue(x));
@@ -125,8 +124,9 @@ public static class INotifyPropertyChangedExtensions
         }
         else
         {
-            var result = subject.ObserveSimpleProperty(propertySelector, isPushCurrentValueAtFirst: true)
-                .ToReactiveProperty(raiseEventScheduler, mode: mode);
+            var getter = AccessorCache<TSubject>.LookupGet(propertySelector, out var _);
+            var result = subject.ObserveSimpleProperty(propertySelector, isPushCurrentValueAtFirst: false)
+                .ToReactiveProperty(raiseEventScheduler, initialValue: getter(subject), mode: mode);
             var setter = AccessorCache<TSubject>.LookupSet(propertySelector, out _);
             result
                 .Where(_ => !ignoreValidationErrorValue || !result.HasErrors)
