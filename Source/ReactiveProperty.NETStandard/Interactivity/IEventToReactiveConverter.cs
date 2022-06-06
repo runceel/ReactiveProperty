@@ -14,12 +14,12 @@ public interface IEventToReactiveConverter
     /// Gets or sets the associate object.
     /// </summary>
     /// <value>The associate object.</value>
-    object AssociateObject { get; set; }
+    object? AssociateObject { get; set; }
 
     /// <summary>
     /// Converts the specified source.
     /// </summary>
     /// <param name="source">The source.</param>
     /// <returns></returns>
-    IObservable<object> Convert(IObservable<object> source);
+    IObservable<object?> Convert(IObservable<object?> source);
 }

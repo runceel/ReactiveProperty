@@ -82,7 +82,7 @@ public class ReactiveProperty<T> : IReactiveProperty<T>, IObserverLinkedList<T>
 
     private Lazy<BehaviorSubject<IEnumerable?>> ErrorsTrigger { get; }
 
-    private Lazy<List<Func<IObservable<T>, IObservable<IEnumerable>>>> ValidatorStore { get; } = new Lazy<List<Func<IObservable<T>, IObservable<IEnumerable>>>>(() => new List<Func<IObservable<T>, IObservable<IEnumerable>>>());
+    private Lazy<List<Func<IObservable<T>, IObservable<IEnumerable?>>>> ValidatorStore { get; } = new Lazy<List<Func<IObservable<T>, IObservable<IEnumerable?>>>>(() => new List<Func<IObservable<T>, IObservable<IEnumerable?>>>());
 
     /// <summary>
     /// PropertyChanged raise on ReactivePropertyScheduler
@@ -283,7 +283,7 @@ public class ReactiveProperty<T> : IReactiveProperty<T>, IObserverLinkedList<T>
     /// </summary>
     /// <param name="validator">If success return IO&lt;null&gt;, failure return IO&lt;IEnumerable&gt;(Errors).</param>
     /// <returns>Self.</returns>
-    public ReactiveProperty<T> SetValidateNotifyError(Func<IObservable<T>, IObservable<IEnumerable>> validator)
+    public ReactiveProperty<T> SetValidateNotifyError(Func<IObservable<T>, IObservable<IEnumerable?>> validator)
     {
         ValidatorStore.Value.Add(validator);     //--- cache validation functions
         var validators = ValidatorStore.Value
@@ -304,12 +304,12 @@ public class ReactiveProperty<T> : IReactiveProperty<T>, IObserverLinkedList<T>
                 }
 
                 var strings = xs
-                    .OfType<string>()
-                    .Where(x => x != null);
-                var others = xs
-                    .Where(x => !(x is string))
                     .Where(x => x != null)
-                    .SelectMany(x => x.Cast<object>());
+                    .OfType<string>();
+                var others = xs
+                    .Where(x => x is not string)
+                    .Where(x => x != null)
+                    .SelectMany(x => x!.Cast<object?>());
                 return strings.Concat(others);
             })
             .Subscribe(x =>
@@ -339,15 +339,15 @@ public class ReactiveProperty<T> : IReactiveProperty<T>, IObserverLinkedList<T>
     /// </summary>
     /// <param name="validator">If success return IO&lt;null&gt;, failure return IO&lt;IEnumerable&gt;(Errors).</param>
     /// <returns>Self.</returns>
-    public ReactiveProperty<T> SetValidateNotifyError(Func<IObservable<T>, IObservable<string>> validator) =>
-        SetValidateNotifyError(xs => validator(xs).Cast<IEnumerable>());
+    public ReactiveProperty<T> SetValidateNotifyError(Func<IObservable<T>, IObservable<string?>> validator) =>
+        SetValidateNotifyError(xs => validator(xs).Select(x => (IEnumerable?)x));
 
     /// <summary>
     /// Set INotifyDataErrorInfo's asynchronous validation.
     /// </summary>
     /// <param name="validator">Validation logic</param>
     /// <returns>Self.</returns>
-    public ReactiveProperty<T> SetValidateNotifyError(Func<T, Task<IEnumerable>> validator) =>
+    public ReactiveProperty<T> SetValidateNotifyError(Func<T, Task<IEnumerable?>> validator) =>
         SetValidateNotifyError(xs => xs.SelectMany(x => validator(x)));
 
     /// <summary>
@@ -355,7 +355,7 @@ public class ReactiveProperty<T> : IReactiveProperty<T>, IObserverLinkedList<T>
     /// </summary>
     /// <param name="validator">Validation logic</param>
     /// <returns>Self.</returns>
-    public ReactiveProperty<T> SetValidateNotifyError(Func<T, Task<string>> validator) =>
+    public ReactiveProperty<T> SetValidateNotifyError(Func<T, Task<string?>> validator) =>
         SetValidateNotifyError(xs => xs.SelectMany(x => validator(x)));
 
     /// <summary>
@@ -363,7 +363,7 @@ public class ReactiveProperty<T> : IReactiveProperty<T>, IObserverLinkedList<T>
     /// </summary>
     /// <param name="validator">Validation logic</param>
     /// <returns>Self.</returns>
-    public ReactiveProperty<T> SetValidateNotifyError(Func<T, IEnumerable> validator) =>
+    public ReactiveProperty<T> SetValidateNotifyError(Func<T, IEnumerable?> validator) =>
         SetValidateNotifyError(xs => xs.Select(x => validator(x)));
 
     /// <summary>
@@ -371,7 +371,7 @@ public class ReactiveProperty<T> : IReactiveProperty<T>, IObserverLinkedList<T>
     /// </summary>
     /// <param name="validator">Validation logic</param>
     /// <returns>Self.</returns>
-    public ReactiveProperty<T> SetValidateNotifyError(Func<T, string> validator) =>
+    public ReactiveProperty<T> SetValidateNotifyError(Func<T, string?> validator) =>
         SetValidateNotifyError(xs => xs.Select(x => validator(x)));
 
     /// <summary>

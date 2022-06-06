@@ -86,8 +86,9 @@ public static class CollectionUtilities
         if (!(propertySelector.Body is MemberExpression memberExpression))
         {
             if (!(propertySelector.Body is UnaryExpression unaryExpression)) { throw new ArgumentException(nameof(propertySelector)); }
-            memberExpression = unaryExpression.Operand as MemberExpression;
-            if (memberExpression == null) { throw new ArgumentException(nameof(propertySelector)); }
+            var operand = unaryExpression.Operand as MemberExpression;
+            if (operand == null) { throw new ArgumentException(nameof(propertySelector)); }
+            memberExpression = operand;
         }
 
         var propertyInfo = memberExpression.Member as PropertyInfo;
