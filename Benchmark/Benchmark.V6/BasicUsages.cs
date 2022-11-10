@@ -18,23 +18,25 @@ namespace ReactivePropertyBenchmark
         public ReactivePropertySlim<string> CreateReactivePropertySlimInstance() => new ReactivePropertySlim<string>();
 
         [Benchmark]
-        public void BasicForReactiveProperty()
+        public ReadOnlyReactiveProperty<string> BasicForReactiveProperty()
         {
             var rp = new ReactiveProperty<string>();
             var rrp = rp.ToReadOnlyReactiveProperty();
 
             rp.Value = "xxxx";
             rp.Dispose();
+            return rrp;
         }
 
         [Benchmark]
-        public void BasicForReactivePropertySlim()
+        public ReadOnlyReactivePropertySlim<string> BasicForReactivePropertySlim()
         {
             var rp = new ReactivePropertySlim<string>();
             var rrp = rp.ToReadOnlyReactivePropertySlim();
 
             rp.Value = "xxxx";
             rp.Dispose();
+            return rrp;
         }
 
         [Benchmark]

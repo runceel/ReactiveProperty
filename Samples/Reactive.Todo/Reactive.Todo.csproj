@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net7.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
     <AssemblyName>Reactive.Todo</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="MahApps.Metro" Version="2.4.5" />
-    <PackageReference Include="Prism.Unity" Version="8.0.0.1909" />
+    <PackageReference Include="MahApps.Metro" Version="2.4.9" />
+    <PackageReference Include="Prism.Unity" Version="8.1.97" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Source\ReactiveProperty.Platform.WPF\ReactiveProperty.Platform.WPF.csproj" />
