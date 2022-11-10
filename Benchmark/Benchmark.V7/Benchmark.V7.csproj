@@ -2,12 +2,12 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="ReactiveProperty" Version="7.0.0" />
-    <PackageReference Include="BenchmarkDotNet" Version="0.13.1" />
+    <PackageReference Include="BenchmarkDotNet" Version="0.13.2" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="../Benchmark.V6/**/*.cs" Exclude="../Benchmark.V6/bin/**/*.cs;../Benchmark.V6/obj/**/*.cs" />
