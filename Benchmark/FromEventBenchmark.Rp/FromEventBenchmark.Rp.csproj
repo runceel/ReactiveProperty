@@ -2,12 +2,12 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <RootNamespace>FromEventBenchmark</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BenchmarkDotNet" Version="0.13.1" />
+    <PackageReference Include="BenchmarkDotNet" Version="0.13.2" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Source\ReactiveProperty.NETStandard\ReactiveProperty.NETStandard.csproj" />
