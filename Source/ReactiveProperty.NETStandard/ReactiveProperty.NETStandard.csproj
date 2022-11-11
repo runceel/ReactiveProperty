@@ -6,7 +6,7 @@
     <AssemblyName>ReactiveProperty</AssemblyName>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
-    <Description>ReactiveProperty is MVVM and Asynchronous Extensions for Reactive Extensions(System.Reactive). Target platform is .NET Standard 2.0.</Description>
+    <Description>ReactiveProperty is MVVM and Asynchronous Extensions for Reactive Extensions(System.Reactive).</Description>
   </PropertyGroup>
 
   <ItemGroup>
