@@ -6,7 +6,7 @@
     <AssemblyName>ReactiveProperty.XamariniOS</AssemblyName>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
-    <Description>ReactiveProperty.XamariniOS provides many useful extension methods for Xamarin.iOS that can be used with ReactiveProperty.</Description>
+    <Description>ReactiveProperty.XamariniOS provides many useful extension methods for .NET for iOS that can be used with ReactiveProperty.</Description>
     <Nullable>disable</Nullable>
   </PropertyGroup>
   <ItemGroup>
