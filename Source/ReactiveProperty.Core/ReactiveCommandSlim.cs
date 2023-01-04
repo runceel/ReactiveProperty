@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.ExceptionServices;
 using System.Windows.Input;
 using Reactive.Bindings.Internals;
@@ -22,7 +24,7 @@ public class ReactiveCommandSlim : ReactiveCommandSlim<object?>
     /// Create a ReactiveCommandSlim instance.
     /// </summary>
     /// <param name="sharedCanExecute">The shared CanExecute status</param>
-    public ReactiveCommandSlim(IReactiveProperty<bool> sharedCanExecute) : base(sharedCanExecute)
+    public ReactiveCommandSlim(IReadOnlyReactiveProperty<bool> sharedCanExecute) : base(sharedCanExecute)
     {
     }
 
@@ -41,7 +43,7 @@ public class ReactiveCommandSlim : ReactiveCommandSlim<object?>
     /// <param name="canExecuteSource">The CanExecute source</param>
     /// <param name="sharedCanExecute">The shared CanExecute status</param>
     /// <param name="initialValue">The canExecuteSource initial value if not provided</param>
-    public ReactiveCommandSlim(IObservable<bool> canExecuteSource, IReactiveProperty<bool> sharedCanExecute, bool initialValue = true) : base(canExecuteSource, sharedCanExecute, initialValue)
+    public ReactiveCommandSlim(IObservable<bool> canExecuteSource, IReadOnlyReactiveProperty<bool> sharedCanExecute, bool initialValue = true) : base(canExecuteSource, sharedCanExecute, initialValue)
     {
     }
 
@@ -67,9 +69,9 @@ public class ReactiveCommandSlim : ReactiveCommandSlim<object?>
 /// </summary>
 public class ReactiveCommandSlim<T> : ICommand, IObservable<T?>, IObserver<bool>, IObserverLinkedList<T?>, IDisposable
 {
-    private readonly IReactiveProperty<bool> _sharedCanExecute;
+    private readonly IReadOnlyReactiveProperty<bool>? _sharedCanExecute;
     private readonly IReadOnlyReactiveProperty<bool>? _canExecuteSource;
-    private readonly Action _disposeAction;
+    private readonly Action? _disposeAction;
     private bool _canExecute = true;
     private ObserverNode<T?>? _root;
     private ObserverNode<T?>? _last;
@@ -86,15 +88,16 @@ public class ReactiveCommandSlim<T> : ICommand, IObservable<T?>, IObserver<bool>
     /// <summary>
     /// CanExecute is automatically changed when executing to false and finished to true.
     /// </summary>
-    public ReactiveCommandSlim() : this(new ReactivePropertySlim<bool>(true))
+    public ReactiveCommandSlim()
     {
+        _canExecute = true;
     }
 
     /// <summary>
     /// CanExecute is automatically changed when executing to false and finished to true.
     /// </summary>
     /// <param name="sharedCanExecute">The shared CanExecute status</param>
-    public ReactiveCommandSlim(IReactiveProperty<bool> sharedCanExecute)
+    public ReactiveCommandSlim(IReadOnlyReactiveProperty<bool> sharedCanExecute)
     {
         void canExecute_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
@@ -115,7 +118,7 @@ public class ReactiveCommandSlim<T> : ICommand, IObservable<T?>, IObserver<bool>
     /// </summary>
     /// <param name="canExecuteSource">The CanExecute source</param>
     /// <param name="initialValue">The canExecuteSource initial value if not provided</param>
-    public ReactiveCommandSlim(IObservable<bool> canExecuteSource, bool initialValue = true) : this(canExecuteSource, new ReactivePropertySlim<bool>(true), initialValue)
+    public ReactiveCommandSlim(IObservable<bool> canExecuteSource, bool initialValue = true) : this(canExecuteSource, TrueReadOnlyReactiveProperty.Instance, initialValue)
     {
     }
 
@@ -125,7 +128,7 @@ public class ReactiveCommandSlim<T> : ICommand, IObservable<T?>, IObserver<bool>
     /// <param name="canExecuteSource">The CanExecute source</param>
     /// <param name="sharedCanExecute">The shared CanExecute status</param>
     /// <param name="initialValue">The canExecuteSource initial value if not provided</param>
-    public ReactiveCommandSlim(IObservable<bool> canExecuteSource, IReactiveProperty<bool> sharedCanExecute, bool initialValue = true)
+    public ReactiveCommandSlim(IObservable<bool> canExecuteSource, IReadOnlyReactiveProperty<bool> sharedCanExecute, bool initialValue = true)
     {
         void canExecute_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
@@ -138,7 +141,7 @@ public class ReactiveCommandSlim<T> : ICommand, IObservable<T?>, IObserver<bool>
             CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        _sharedCanExecute = sharedCanExecute ?? new ReactivePropertySlim<bool>(true);
+        _sharedCanExecute = sharedCanExecute;
         _canExecuteSource = canExecuteSource.ToReadOnlyReactivePropertySlim(initialValue);
         _sharedCanExecute.PropertyChanged += canExecute_PropertyChanged;
         _canExecuteSource.PropertyChanged += canExecute_PropertyChanged;
@@ -247,7 +250,7 @@ public class ReactiveCommandSlim<T> : ICommand, IObservable<T?>, IObserver<bool>
         var node = _root;
         _root = _last = null;
         IsDisposed = true;
-        _disposeAction();
+        _disposeAction?.Invoke();
         _canExecute = false;
         while (node != null)
         {
@@ -261,6 +264,28 @@ public class ReactiveCommandSlim<T> : ICommand, IObservable<T?>, IObserver<bool>
     void IObserver<bool>.OnError(Exception error) => ExceptionDispatchInfo.Capture(error).Throw();
 
     void IObserver<bool>.OnNext(bool value) => _canExecute = value;
+
+    private class TrueReadOnlyReactiveProperty : IReadOnlyReactiveProperty<bool>
+    {
+        public static IReadOnlyReactiveProperty<bool> Instance { get; } = new TrueReadOnlyReactiveProperty();
+
+        private TrueReadOnlyReactiveProperty()
+        {
+        }
+
+        public bool Value => true;
+
+        object? IReadOnlyReactiveProperty.Value => true;
+
+        // noop
+        public event PropertyChangedEventHandler? PropertyChanged { add {  } remove { } }
+
+        public void Dispose()
+        {
+        }
+
+        public IDisposable Subscribe(IObserver<bool> observer) => throw new NotSupportedException();
+    }
 }
 
 
@@ -284,14 +309,14 @@ public static class ReactiveCommandSlimExtensions
     /// <summary>
     /// CanExecuteChanged is called from canExecute sequence on UIDispatcherScheduler.
     /// </summary>
-    public static ReactiveCommandSlim ToReactiveCommandSlim(this IObservable<bool> canExecuteSource, IReactiveProperty<bool> initialValue) =>
-        new(canExecuteSource, initialValue);
+    public static ReactiveCommandSlim ToReactiveCommandSlim(this IObservable<bool> canExecuteSource, IReadOnlyReactiveProperty<bool> sharedCanExecute, bool initialValue = true) =>
+        new(canExecuteSource, sharedCanExecute, initialValue);
 
     /// <summary>
     /// CanExecuteChanged is called from canExecute sequence on UIDispatcherScheduler.
     /// </summary>
-    public static ReactiveCommandSlim<T> ToReactiveCommandSlim<T>(this IObservable<bool> canExecuteSource, IReactiveProperty<bool> initialValue) =>
-        new(canExecuteSource, initialValue);
+    public static ReactiveCommandSlim<T> ToReactiveCommandSlim<T>(this IObservable<bool> canExecuteSource, IReadOnlyReactiveProperty<bool> sharedCanExecute, bool initialValue = true) =>
+        new(canExecuteSource, sharedCanExecute, initialValue);
 
     /// <summary>
     /// Subscribe execute.
