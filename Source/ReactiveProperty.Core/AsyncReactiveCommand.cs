@@ -101,11 +101,11 @@ public class AsyncReactiveCommand<T> : ICommand, IDisposable
     /// </summary>
     public AsyncReactiveCommand(IObservable<bool> canExecuteSource, IReactiveProperty<bool>? sharedCanExecute)
     {
-        void canExecute_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        void canExecute_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName is not nameof(IReactiveProperty<bool>.Value)) return;
 
-            var newValue = _canExecute.Value && this._canExecuteSource!.Value;
+            var newValue = _canExecute.Value && _canExecuteSource!.Value;
             if (newValue == _isCanExecute) return;
 
             _isCanExecute = newValue;
@@ -123,7 +123,7 @@ public class AsyncReactiveCommand<T> : ICommand, IDisposable
         {
             _canExecute.PropertyChanged -= canExecute_PropertyChanged;
             _canExecuteSource.PropertyChanged -= canExecute_PropertyChanged;
-            _canExecuteSource?.Dispose();
+            _canExecuteSource.Dispose();
         };
     }
 
@@ -133,7 +133,7 @@ public class AsyncReactiveCommand<T> : ICommand, IDisposable
     /// </summary>
     public AsyncReactiveCommand(IReactiveProperty<bool> sharedCanExecute)
     {
-        void canExecute_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        void canExecute_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName is not nameof(IReactiveProperty<bool>.Value)) return;
 
