@@ -52,7 +52,7 @@ public static class CollectionUtilities
         return ObserveElementCore<TCollection, TElement, PropertyPack<TElement, TProperty>>
         (
             source,
-            (x, observer) => x.ObserveProperty(propertySelector, isPushCurrentValueAtFirst).Subscribe(y =>
+            (x, observer) => x.ObservePropertyLegacy(propertySelector, isPushCurrentValueAtFirst).Subscribe(y =>
             {
                 var pair = PropertyPack.Create(x, propertyInfo, y);
                 observer.OnNext(pair);
@@ -131,7 +131,7 @@ public static class CollectionUtilities
         return ObserveElementCore<TCollection, TElement, SenderEventArgsPair<TElement, PropertyChangedEventArgs>>
         (
             source,
-            (x, observer) => x.PropertyChangedAsObservable().Subscribe(y =>
+            (x, observer) => x.PropertyChangedAsObservableLegacy().Subscribe(y =>
             {
                 var pair = SenderEventArgsPair.Create(x, y);
                 observer.OnNext(pair);

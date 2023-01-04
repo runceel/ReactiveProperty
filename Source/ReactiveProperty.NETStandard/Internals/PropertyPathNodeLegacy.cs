@@ -5,7 +5,7 @@ using System.Reactive;
 
 namespace Reactive.Bindings.Internals;
 
-internal class PropertyPathNode : IDisposable
+internal class PropertyPathNodeLegacy : IDisposable
 {
     private bool _isDisposed = false;
     private Action? _callback;
@@ -14,7 +14,7 @@ internal class PropertyPathNode : IDisposable
 
     public event EventHandler? PropertyChanged;
 
-    public PropertyPathNode(string propertyName)
+    public PropertyPathNodeLegacy(string propertyName)
     {
         PropertyName = propertyName;
     }
@@ -22,22 +22,22 @@ internal class PropertyPathNode : IDisposable
     public string PropertyName { get; }
     public object? Source { get; private set; }
     private Type? PrevSourceType { get; set; }
-    public PropertyPathNode? Next { get; private set; }
-    public PropertyPathNode? Prev { get; private set; }
+    public PropertyPathNodeLegacy? Next { get; private set; }
+    public PropertyPathNodeLegacy? Prev { get; private set; }
     public void SetCallback(Action? callback)
     {
         _callback = callback;
         Next?.SetCallback(callback);
     }
 
-    public PropertyPathNode InsertBefore(string propertyName)
+    public PropertyPathNodeLegacy InsertBefore(string propertyName)
     {
         if (Prev != null)
         {
             Prev.Next = null;
         }
 
-        Prev = new PropertyPathNode(propertyName);
+        Prev = new PropertyPathNodeLegacy(propertyName);
         Prev.Next = this;
         return Prev;
     }
@@ -143,13 +143,13 @@ internal class PropertyPathNode : IDisposable
 
     private void EnsureDispose()
     {
-        if (_isDisposed) { throw new ObjectDisposedException(nameof(PropertyPathNode)); }
+        if (_isDisposed) { throw new ObjectDisposedException(nameof(PropertyPathNodeLegacy)); }
     }
 
     private void RaisePropertyChanged() => PropertyChanged?.Invoke(this, EventArgs.Empty);
 
 
-    public static PropertyPathNode CreateFromPropertySelector<TSubject, TProperty>(
+    public static PropertyPathNodeLegacy CreateFromPropertySelector<TSubject, TProperty>(
         Expression<Func<TSubject, TProperty>> propertySelector)
     {
         if (!(propertySelector.Body is MemberExpression memberExpression))
@@ -157,7 +157,7 @@ internal class PropertyPathNode : IDisposable
             throw new ArgumentException();
         }
 
-        var node = default(PropertyPathNode);
+        var node = default(PropertyPathNodeLegacy);
         MemberExpression? current = memberExpression;
         while (current != null)
         {
@@ -168,7 +168,7 @@ internal class PropertyPathNode : IDisposable
             }
             else
             {
-                node = new PropertyPathNode(propertyName);
+                node = new PropertyPathNodeLegacy(propertyName);
             }
             current = current.Expression as MemberExpression;
         }
