@@ -10,18 +10,18 @@ internal class DelegateObserver : IObserver<object?>
     private readonly Action? _onCompleted;
     private readonly Action<Exception>? _onError;
 
-    public DelegateObserver(Action onNext, Action? onCompleted, Action<Exception>? onError)
+    public DelegateObserver(Action onNext, Action<Exception>? onError, Action? onCompleted)
     {
         _onNext = onNext;
-        _onCompleted = onCompleted;
         _onError = onError;
+        _onCompleted = onCompleted;
     }
 
     public DelegateObserver(Action onNext) : this(onNext, null, null)
     {
     }
 
-    public DelegateObserver(Action onNext, Action onCompleted) : this(onNext, onCompleted, null)
+    public DelegateObserver(Action onNext, Action onCompleted) : this(onNext, null, onCompleted)
     {
     }
 
@@ -40,18 +40,18 @@ internal class DelegateObserver<T> : IObserver<T>
     private readonly Action? _onCompleted;
     private readonly Action<Exception>? _onError;
 
-    public DelegateObserver(Action<T> onNext, Action? onCompleted, Action<Exception>? onError)
+    public DelegateObserver(Action<T> onNext, Action<Exception>? onError, Action? onCompleted)
     {
         _onNext = onNext;
-        _onCompleted = onCompleted;
         _onError = onError;
+        _onCompleted = onCompleted;
     }
 
     public DelegateObserver(Action<T> onNext) : this(onNext, null, null)
     {
     }
 
-    public DelegateObserver(Action<T> onNext, Action onCompleted) : this(onNext, onCompleted, null)
+    public DelegateObserver(Action<T> onNext, Action onCompleted) : this(onNext, null, onCompleted)
     {
     }
 
