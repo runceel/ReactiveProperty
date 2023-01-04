@@ -145,8 +145,8 @@ public class ReactiveCommandSlim<T> : ICommand, IObservable<T?>, IObserver<bool>
         _canExecute = _sharedCanExecute.Value && _canExecuteSource.Value;
         _disposeAction = () =>
         {
-            _sharedCanExecute.PropertyChanged += canExecute_PropertyChanged;
-            _canExecuteSource.PropertyChanged += canExecute_PropertyChanged;
+            _sharedCanExecute.PropertyChanged -= canExecute_PropertyChanged;
+            _canExecuteSource.PropertyChanged -= canExecute_PropertyChanged;
             _canExecuteSource.Dispose();
         };
     }
