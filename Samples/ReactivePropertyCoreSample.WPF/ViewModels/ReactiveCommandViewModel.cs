@@ -32,7 +32,9 @@ public class ReactiveCommandViewModel : ViewModelBase
     public ReactivePropertySlim<bool> IsCheckedForSharedStatus { get; }
     public AsyncReactiveCommand ACommand { get; }
     public AsyncReactiveCommand BCommand { get; }
+    public ReactiveCommandSlim CCommand { get; }
     public ReactivePropertySlim<string> SharedStatusOutput { get; }
+
 
     public ReactiveCommandViewModel()
     {
@@ -109,6 +111,10 @@ public class ReactiveCommandViewModel : ViewModelBase
                 await Task.Delay(5000);
                 SharedStatusOutput.Value = "B command was finished.";
             })
+            .AddTo(Disposables);
+        CCommand = IsCheckedForSharedStatus
+            .ToReactiveCommandSlim(sharedStatus)
+            .WithSubscribe(() => SharedStatusOutput.Value = "C command was executed.")
             .AddTo(Disposables);
     }
 }
