@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0-android</TargetFramework>
+    <TargetFramework>net7.0-android</TargetFramework>
     <PackageId>ReactiveProperty.XamarinAndroid</PackageId>
     <AssemblyName>ReactiveProperty.XamarinAndroid</AssemblyName>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
-    <Description>ReactiveProperty.XamarinAndroid provides many useful extension methods for Xamarin.Android that can be used with ReactiveProperty.</Description>
+    <Description>ReactiveProperty.XamarinAndroid provides many useful extension methods for .NET for Android that can be used with ReactiveProperty.</Description>
     <Nullable>disable</Nullable>
   </PropertyGroup>
   <ItemGroup>

@@ -13,11 +13,6 @@ using Reactive.Bindings.Internals;
 
 namespace Reactive.Bindings;
 
-internal class SingletonDataErrorsChangedEventArgs
-{
-    public static readonly DataErrorsChangedEventArgs Value = new(nameof(ReactiveProperty<object>.Value));
-}
-
 /// <summary>
 /// Two-way bindable IObservable&lt;T&gt;
 /// </summary>
@@ -477,7 +472,7 @@ public static class ReactiveProperty
     {
         if (ExpressionTreeUtils.IsNestedPropertyPath(propertySelector))
         {
-            var propertyPath = PropertyPathNode.CreateFromPropertySelector(propertySelector);
+            var propertyPath = PropertyPathNodeLegacy.CreateFromPropertySelector(propertySelector);
             propertyPath.UpdateSource(target);
 
             var initialValue = propertyPath.GetPropertyPathValue();

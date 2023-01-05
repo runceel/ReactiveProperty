@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0-ios</TargetFramework>
+    <TargetFramework>net7.0-ios</TargetFramework>
     <PackageId>ReactiveProperty.XamariniOS</PackageId>
     <AssemblyName>ReactiveProperty.XamariniOS</AssemblyName>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
-    <Description>ReactiveProperty.XamariniOS provides many useful extension methods for Xamarin.iOS that can be used with ReactiveProperty.</Description>
+    <Description>ReactiveProperty.XamariniOS provides many useful extension methods for .NET for iOS that can be used with ReactiveProperty.</Description>
     <Nullable>disable</Nullable>
   </PropertyGroup>
   <ItemGroup>

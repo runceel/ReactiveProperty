@@ -56,19 +56,23 @@ public class INotifyPropertyChangedExtensionsTest : ReactiveTest
 
         var m = new Model() { Name = "aaa" };
         m.ObserveProperty(x => x.Name)
+            .ObserveOn(testScheduler)
             .Do(x => recorder.OnNext(x))
             .Do(_ => { throw commonEx; })
             .OnErrorRetry((Exception e) => recorder.OnError(e))
             .Subscribe();
 
-        testScheduler.AdvanceTo(1000);
+        testScheduler.AdvanceTo(1);
         m.Name = "bbb";
+        testScheduler.AdvanceTo(3);
 
         recorder.Messages.Is(
-            OnNext(0, "aaa"),
-            OnError<string>(0, commonEx),
-            OnNext(1000, "bbb"),
-            OnError<string>(1000, commonEx));
+            OnNext(1, "aaa"),
+            OnError<string>(1, commonEx),
+            OnNext(2, "aaa"),
+            OnError<string>(2, commonEx),
+            OnNext(3, "bbb"),
+            OnError<string>(3, commonEx));
     }
 
     [TestMethod]
@@ -80,17 +84,18 @@ public class INotifyPropertyChangedExtensionsTest : ReactiveTest
 
         var m = new Model() { Name = "aaa" };
         m.ObserveProperty(x => x.Name, false)
+            .ObserveOn(testScheduler)
             .Do(x => recorder.OnNext(x))
             .Do(_ => { throw commonEx; })
             .OnErrorRetry((Exception e) => recorder.OnError(e))
             .Subscribe();
 
-        testScheduler.AdvanceTo(1000);
         m.Name = "bbb";
+        testScheduler.AdvanceTo(1);
 
         recorder.Messages.Is(
-            OnNext(1000, "bbb"),
-            OnError<string>(1000, commonEx));
+            OnNext(1, "bbb"),
+            OnError<string>(1, commonEx));
     }
 
     [TestMethod]

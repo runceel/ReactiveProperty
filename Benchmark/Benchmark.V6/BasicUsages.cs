@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Reactive.Subjects;
 using System.Runtime.CompilerServices;
 using System.Text;
 using BenchmarkDotNet.Attributes;
@@ -9,7 +10,7 @@ using Reactive.Bindings.Extensions;
 
 namespace ReactivePropertyBenchmark
 {
-    public class BasicUsages
+    public partial class BasicUsages
     {
         [Benchmark]
         public ReactiveProperty<string> CreateReactivePropertyInstance() => new ReactiveProperty<string>();
@@ -18,23 +19,25 @@ namespace ReactivePropertyBenchmark
         public ReactivePropertySlim<string> CreateReactivePropertySlimInstance() => new ReactivePropertySlim<string>();
 
         [Benchmark]
-        public void BasicForReactiveProperty()
+        public ReadOnlyReactiveProperty<string> BasicForReactiveProperty()
         {
             var rp = new ReactiveProperty<string>();
             var rrp = rp.ToReadOnlyReactiveProperty();
 
             rp.Value = "xxxx";
             rp.Dispose();
+            return rrp;
         }
 
         [Benchmark]
-        public void BasicForReactivePropertySlim()
+        public ReadOnlyReactivePropertySlim<string> BasicForReactivePropertySlim()
         {
             var rp = new ReactivePropertySlim<string>();
             var rrp = rp.ToReadOnlyReactivePropertySlim();
 
             rp.Value = "xxxx";
             rp.Dispose();
+            return rrp;
         }
 
         [Benchmark]
@@ -49,6 +52,13 @@ namespace ReactivePropertyBenchmark
         {
             var p = new Person();
             return p.ToReactivePropertyAsSynchronized(x => x.Name);
+        }
+
+        [Benchmark]
+        public ReactivePropertySlim<string> ToReactivePropertyAsSynchronizedSlim()
+        {
+            var p = new Person();
+            return p.ToReactivePropertySlimAsSynchronized(x => x.Name);
         }
     }
 

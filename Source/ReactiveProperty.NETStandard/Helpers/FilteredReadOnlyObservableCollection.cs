@@ -456,7 +456,7 @@ public static class FilteredReadOnlyObservableCollection
         new FilteredReadOnlyObservableCollection<ObservableCollection<T>, T, PropertyChangedEventArgs>(
             self,
             filter,
-            x => x.PropertyChangedAsObservable());
+            x => x.PropertyChangedAsObservableLegacy());
 
     /// <summary>
     /// create IFilteredReadOnlyObservableCollection from ReadOnlyObservableCollection
@@ -470,7 +470,7 @@ public static class FilteredReadOnlyObservableCollection
         new FilteredReadOnlyObservableCollection<ReadOnlyObservableCollection<T>, T, PropertyChangedEventArgs>(
             self,
             filter,
-            x => x.PropertyChangedAsObservable());
+            x => x.PropertyChangedAsObservableLegacy());
 
     /// <summary>
     /// create IFilteredReadOnlyObservableCollection from ReadOnlyObservableCollection
