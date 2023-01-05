@@ -5,10 +5,10 @@ using System.Reactive.Subjects;
 
 namespace Reactive.Bindings.Internals;
 
-internal sealed class PropertyObservable<TProperty> : IObservable<TProperty>, IDisposable
+internal sealed class PropertyObservableLegacy<TProperty> : IObservable<TProperty>, IDisposable
 {
-    private PropertyPathNode? RootNode { get; set; }
-    internal void SetRootNode(PropertyPathNode rootNode)
+    private PropertyPathNodeLegacy? RootNode { get; set; }
+    internal void SetRootNode(PropertyPathNodeLegacy rootNode)
     {
         RootNode?.SetCallback(null);
         rootNode?.SetCallback(RaisePropertyChanged);
@@ -38,9 +38,9 @@ internal sealed class PropertyObservable<TProperty> : IObservable<TProperty>, ID
     public IDisposable Subscribe(IObserver<TProperty> observer) => _propertyChangedSource.Subscribe(observer);
 }
 
-internal static class PropertyObservable
+internal static class PropertyObservableLegacy
 {
-    public static PropertyObservable<TProperty> CreateFromPropertySelector<TSubject, TProperty>(TSubject subject, Expression<Func<TSubject, TProperty>> propertySelector)
+    public static PropertyObservableLegacy<TProperty> CreateFromPropertySelector<TSubject, TProperty>(TSubject subject, Expression<Func<TSubject, TProperty>> propertySelector)
         where TSubject : INotifyPropertyChanged
     {
         if (!(propertySelector.Body is MemberExpression current))
@@ -48,8 +48,8 @@ internal static class PropertyObservable
             throw new ArgumentException();
         }
 
-        var result = new PropertyObservable<TProperty>();
-        result.SetRootNode(PropertyPathNode.CreateFromPropertySelector(propertySelector));
+        var result = new PropertyObservableLegacy<TProperty>();
+        result.SetRootNode(PropertyPathNodeLegacy.CreateFromPropertySelector(propertySelector));
         result.SetSource(subject);
         return result;
     }

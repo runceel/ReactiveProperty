@@ -8,4 +8,8 @@
     <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
     <Description>ReactiveProperty.Core includes minimum core classes such as ReactivePropertySlim and ReadOnlyReactivePropertySlim.</Description>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+  </ItemGroup>
 </Project>

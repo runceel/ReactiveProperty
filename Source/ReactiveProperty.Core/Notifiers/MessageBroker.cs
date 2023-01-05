@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reactive.Linq;
 using System.Threading.Tasks;
+using Reactive.Bindings.Internals;
 
 namespace Reactive.Bindings.Notifiers;
 
@@ -299,74 +299,28 @@ public static class MessageBrokerExtensions
     /// </summary>
     public static IObservable<T> ToObservable<T>(this IMessageSubscriber messageSubscriber)
     {
-        return Observable.Create<T>(observer =>
+        return new MessageSubscriberObservable<T>(messageSubscriber);
+    }
+
+    class MessageSubscriberObservable<T> : IObservable<T>
+    {
+        private readonly object _gate = new();
+        private readonly IMessageSubscriber _messageSubscriber;
+
+        public MessageSubscriberObservable(IMessageSubscriber messageSubscriber)
         {
-            var gate = new object();
-            var d = messageSubscriber.Subscribe<T>(x =>
+            _messageSubscriber = messageSubscriber;
+        }
+
+        public IDisposable Subscribe(IObserver<T> observer)
+        {
+            return _messageSubscriber.Subscribe<T>(x =>
             {
-                    // needs synchronize
-                    lock (gate)
+                lock(_gate)
                 {
                     observer.OnNext(x);
                 }
             });
-            return d;
-        });
-    }
-}
-
-// ImmutableList is from Rx internal
-internal class ImmutableList<T>
-{
-    public static readonly ImmutableList<T> Empty = new();
-
-    T[] data;
-
-    public T[] Data
-    {
-        get { return data; }
-    }
-
-    ImmutableList()
-    {
-        data = new T[0];
-    }
-
-    public ImmutableList(T[] data)
-    {
-        this.data = data;
-    }
-
-    public ImmutableList<T> Add(T value)
-    {
-        var newData = new T[data.Length + 1];
-        Array.Copy(data, newData, data.Length);
-        newData[data.Length] = value;
-        return new ImmutableList<T>(newData);
-    }
-
-    public ImmutableList<T> Remove(T value)
-    {
-        var i = IndexOf(value);
-        if (i < 0) return this;
-
-        var length = data.Length;
-        if (length == 1) return Empty;
-
-        var newData = new T[length - 1];
-
-        Array.Copy(data, 0, newData, 0, i);
-        Array.Copy(data, i + 1, newData, i, length - i - 1);
-
-        return new ImmutableList<T>(newData);
-    }
-
-    public int IndexOf(T value)
-    {
-        for (var i = 0; i < data.Length; ++i)
-        {
-            if (object.Equals(data[i], value)) return i;
         }
-        return -1;
     }
 }

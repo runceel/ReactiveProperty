@@ -7,35 +7,9 @@ using System.Runtime.CompilerServices;
 namespace Reactive.Bindings.Notifiers;
 
 /// <summary>
-/// Event kind of CountNotifier.
-/// </summary>
-public enum CountChangedStatus
-{
-    /// <summary>
-    /// Count incremented.
-    /// </summary>
-    Increment,
-
-    /// <summary>
-    /// Count decremented.
-    /// </summary>
-    Decrement,
-
-    /// <summary>
-    /// Count is zero.
-    /// </summary>
-    Empty,
-
-    /// <summary>
-    /// Count arrived max.
-    /// </summary>
-    Max
-}
-
-/// <summary>
 /// Notify event of count flag.
 /// </summary>
-public class CountNotifier : IObservable<CountChangedStatus>, INotifyPropertyChanged
+public class CountNotifierLegacy : IObservable<CountChangedStatus>, INotifyPropertyChanged
 {
     private readonly object lockObject = new();
     private readonly Subject<CountChangedStatus> statusChanged = new();
@@ -76,7 +50,7 @@ public class CountNotifier : IObservable<CountChangedStatus>, INotifyPropertyCha
     /// <summary>
     /// Setup max count of signal.
     /// </summary>
-    public CountNotifier(int max = int.MaxValue)
+    public CountNotifierLegacy(int max = int.MaxValue)
     {
         if (max <= 0)
         {
