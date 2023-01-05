@@ -29,18 +29,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MultiUIThreadApp", "Samples
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Blazor", "Blazor", "{FED0F033-DD46-4A15-9041-999813FECF73}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorServerApp", "Samples\Blazor\BlazorServerApp\BlazorServerApp.csproj", "{8DE66105-1318-4606-A702-70A78754E036}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorServerApp", "Samples\Blazor\BlazorServerApp\BlazorServerApp.csproj", "{8DE66105-1318-4606-A702-70A78754E036}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorWasmApp", "Samples\Blazor\BlazorWasmApp\BlazorWasmApp.csproj", "{43DD55EB-1220-47D5-8F08-1F0989D8B0F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorWasmApp", "Samples\Blazor\BlazorWasmApp\BlazorWasmApp.csproj", "{43DD55EB-1220-47D5-8F08-1F0989D8B0F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorSample.Shared", "Samples\Blazor\BlazorSample.Shared\BlazorSample.Shared.csproj", "{EE15634D-C8A7-40DD-B966-6695A2ECA1E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorSample.Shared", "Samples\Blazor\BlazorSample.Shared\BlazorSample.Shared.csproj", "{EE15634D-C8A7-40DD-B966-6695A2ECA1E1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReactiveProperty.Platform.Blazor", "Source\ReactiveProperty.Platform.Blazor\ReactiveProperty.Platform.Blazor.csproj", "{3CF8E744-40E0-4874-B82D-1B3AD2523043}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactivePropertyCoreSample.WPF", "Samples\ReactivePropertyCoreSample.WPF\ReactivePropertyCoreSample.WPF.csproj", "{434764BE-10E5-46B2-AFC0-FE18F599D9D3}"
+EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Source\ReactiveProperty.Platform.Shared\ReactiveProperty.Platform.Shared.projitems*{ff52758c-f5fb-49c9-8dee-e4a7dfba4dc1}*SharedItemsImports = 5
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -94,6 +93,10 @@ Global
 		{3CF8E744-40E0-4874-B82D-1B3AD2523043}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3CF8E744-40E0-4874-B82D-1B3AD2523043}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3CF8E744-40E0-4874-B82D-1B3AD2523043}.Release|Any CPU.Build.0 = Release|Any CPU
+		{434764BE-10E5-46B2-AFC0-FE18F599D9D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{434764BE-10E5-46B2-AFC0-FE18F599D9D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{434764BE-10E5-46B2-AFC0-FE18F599D9D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{434764BE-10E5-46B2-AFC0-FE18F599D9D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -111,8 +114,12 @@ Global
 		{43DD55EB-1220-47D5-8F08-1F0989D8B0F6} = {FED0F033-DD46-4A15-9041-999813FECF73}
 		{EE15634D-C8A7-40DD-B966-6695A2ECA1E1} = {FED0F033-DD46-4A15-9041-999813FECF73}
 		{3CF8E744-40E0-4874-B82D-1B3AD2523043} = {69BB0C02-5C1E-4720-AC3E-61E25B9F0143}
+		{434764BE-10E5-46B2-AFC0-FE18F599D9D3} = {1C3E6F75-DD1A-4183-8DFD-38D307782FC3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C0F7AB85-D9AA-401B-9DAE-0C5394272D48}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Source\ReactiveProperty.Platform.Shared\ReactiveProperty.Platform.Shared.projitems*{ff52758c-f5fb-49c9-8dee-e4a7dfba4dc1}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

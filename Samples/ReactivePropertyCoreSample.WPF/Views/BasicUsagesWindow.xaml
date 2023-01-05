@@ -1,0 +1,26 @@
+﻿<Window x:Class="ReactivePropertyCoreSample.WPF.Views.BasicUsagesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ReactivePropertyCoreSample.WPF.Views"
+        xmlns:viewModels="clr-namespace:ReactivePropertyCoreSample.WPF.ViewModels"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:behaviors="clr-namespace:ReactivePropertyCoreSample.WPF.Behaviors"
+        mc:Ignorable="d"
+        Style="{StaticResource WindowStyle}"
+        Title="BasicUsagesWindow" Height="450" Width="800">
+    <i:Interaction.Behaviors>
+        <behaviors:DisposeViewModelWhenClosedBehavior />
+    </i:Interaction.Behaviors>
+    <Window.DataContext>
+        <viewModels:BasicUsagesViewModel />
+    </Window.DataContext>
+    <StackPanel>
+        <TextBlock Text="Basic usages" FontSize="24" />
+        <Label Content="Input" />
+        <TextBox Text="{Binding Input.Value, UpdateSourceTrigger=PropertyChanged}" />
+        <Label Content="Output" />
+        <TextBlock Text="{Binding Output.Value}" />
+    </StackPanel>
+</Window>

@@ -1,0 +1,45 @@
+﻿<Window x:Class="ReactivePropertyCoreSample.WPF.Views.CreateFromPocoWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ReactivePropertyCoreSample.WPF.Views"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:behaviors="clr-namespace:ReactivePropertyCoreSample.WPF.Behaviors"
+        xmlns:viewModels="clr-namespace:ReactivePropertyCoreSample.WPF.ViewModels"
+        mc:Ignorable="d"
+        Title="CreateFromPocoWindow" Height="450" Width="800">
+    <i:Interaction.Behaviors>
+        <behaviors:DisposeViewModelWhenClosedBehavior />
+    </i:Interaction.Behaviors>
+    <Window.DataContext>
+        <viewModels:CreateFromPocoViewModel />
+    </Window.DataContext>
+    <StackPanel Margin="10">
+        <Label Content="Create from Poco:" Style="{StaticResource TitleLabel}" />
+        <HeaderedContentControl Header="Poco properties">
+            <StackPanel Margin="5">
+                <Label Content="FirstName:" />
+                <TextBox Text="{Binding Poco.FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <Label Content="LastName:" />
+                <TextBox Text="{Binding Poco.LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+        </HeaderedContentControl>
+        <HeaderedContentControl Header="ToReactivePropertySlimAsSynchronized">
+            <StackPanel Margin="5">
+                <Label Content="FirstNameTwoWay:" />
+                <TextBox Text="{Binding FirstNameTwoWay.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <Label Content="LastNameTwoWay:" />
+                <TextBox Text="{Binding LastNameTwoWay.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+        </HeaderedContentControl>
+        <HeaderedContentControl Header="ObserveProperty(...).ToReadOnlyReactivePropertySlim()">
+            <StackPanel Margin="5">
+                <Label Content="FirstNameOneWay:" />
+                <TextBlock Text="{Binding FirstNameOneWay.Value}" />
+                <Label Content="LastNameOneWay:" />
+                <TextBlock Text="{Binding LastNameOneWay.Value}" />
+            </StackPanel>
+        </HeaderedContentControl>
+    </StackPanel>
+</Window>
