@@ -13,11 +13,6 @@ using Reactive.Bindings.Internals;
 
 namespace Reactive.Bindings;
 
-internal class SingletonDataErrorsChangedEventArgs
-{
-    public static readonly DataErrorsChangedEventArgs Value = new(nameof(ReactiveProperty<object>.Value));
-}
-
 /// <summary>
 /// Two-way bindable IObservable&lt;T&gt;
 /// </summary>
