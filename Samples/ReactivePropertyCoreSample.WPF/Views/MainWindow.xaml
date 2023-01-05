@@ -26,5 +26,6 @@
         <Button Content="Basic usages" Command="{Binding ShowWindowCommand}" CommandParameter="BasicUsages" />
         <Button Content="Create from objects" Command="{Binding ShowWindowCommand}" CommandParameter="CreateFromPoco" />
         <Button Content="Validation" Command="{Binding ShowWindowCommand}" CommandParameter="Validation" />
+        <Button Content="ReactiveCommand" Command="{Binding ShowWindowCommand}" CommandParameter="ReactiveCommand" />
     </StackPanel>
 </Window>
