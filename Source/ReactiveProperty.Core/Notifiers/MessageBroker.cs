@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Reactive.Bindings.Internals;
 
@@ -300,18 +299,28 @@ public static class MessageBrokerExtensions
     /// </summary>
     public static IObservable<T> ToObservable<T>(this IMessageSubscriber messageSubscriber)
     {
-        return Observable.Create<T>(observer =>
+        return new MessageSubscriberObservable<T>(messageSubscriber);
+    }
+
+    class MessageSubscriberObservable<T> : IObservable<T>
+    {
+        private readonly object _gate = new();
+        private readonly IMessageSubscriber _messageSubscriber;
+
+        public MessageSubscriberObservable(IMessageSubscriber messageSubscriber)
         {
-            var gate = new object();
-            var d = messageSubscriber.Subscribe<T>(x =>
+            _messageSubscriber = messageSubscriber;
+        }
+
+        public IDisposable Subscribe(IObserver<T> observer)
+        {
+            return _messageSubscriber.Subscribe<T>(x =>
             {
-                    // needs synchronize
-                    lock (gate)
+                lock(_gate)
                 {
                     observer.OnNext(x);
                 }
             });
-            return d;
-        });
+        }
     }
 }

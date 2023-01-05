@@ -472,7 +472,7 @@ public static class ReactiveProperty
     {
         if (ExpressionTreeUtils.IsNestedPropertyPath(propertySelector))
         {
-            var propertyPath = PropertyPathNode.CreateFromPropertySelector(propertySelector);
+            var propertyPath = PropertyPathNodeLegacy.CreateFromPropertySelector(propertySelector);
             propertyPath.UpdateSource(target);
 
             var initialValue = propertyPath.GetPropertyPathValue();
