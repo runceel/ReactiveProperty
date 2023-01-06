@@ -69,7 +69,8 @@ namespace ReactivePropertyCoreSample.WPF.ViewModels
             FirstName = Poco.ToReactivePropertySlimAsSynchronized(x => x.FirstName)
                 .ToValidatableReactiveProperty(
                     () => FirstName,
-                    mode: ReactivePropertyMode.Default | ReactivePropertyMode.IgnoreInitialValidationError)
+                    mode: ReactivePropertyMode.Default | ReactivePropertyMode.IgnoreInitialValidationError,
+                    disposeSource: true)
                 .AddTo(Disposables);
         }
     }
