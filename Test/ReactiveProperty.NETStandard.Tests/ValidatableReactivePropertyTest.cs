@@ -8,8 +8,10 @@ namespace ReactiveProperty.Tests;
 [TestClass]
 public class ValidatableReactivePropertyTest : ReactiveTest
 {
+
+
     [TestMethod]
-    public void BasicUsage()
+    public void CreateFromSourceBasicUsage()
     {
         var source = new ReactivePropertySlim<string>("");
         var target = source.ToValidatableReactiveProperty(
@@ -35,7 +37,7 @@ public class ValidatableReactivePropertyTest : ReactiveTest
     }
 
     [TestMethod]
-    public void ValidationLogicsCase()
+    public void CreateFromSourceWithValidationLogicsCase()
     {
         var source = new ReactivePropertySlim<string>("");
         var target = source.ToValidatableReactiveProperty(
@@ -68,7 +70,7 @@ public class ValidatableReactivePropertyTest : ReactiveTest
     }
 
     [TestMethod]
-    public void DefaultModeTest()
+    public void CreateFromSourceDefaultModeTest()
     {
         var source = new ReactivePropertySlim<string>("initialValue");
         var target = source.ToValidatableReactiveProperty(
@@ -89,16 +91,20 @@ public class ValidatableReactivePropertyTest : ReactiveTest
     }
 
     [TestMethod]
-    public void IgnoreInitialValidationErrorTest()
+    public void CreateFromSourceIgnoreInitialValidationErrorTest()
     {
-        var source = new ReactivePropertySlim<string>("initialValue");
+        var source = new ReactivePropertySlim<string>("");
         var target = source.ToValidatableReactiveProperty(
             x => string.IsNullOrWhiteSpace(x) ? "invalid" : null,
             mode: ReactivePropertyMode.Default | ReactivePropertyMode.IgnoreInitialValidationError);
 
         target.HasErrors.IsFalse();
         target.GetErrors().Length.Is(0);
-        target.Value.Is("initialValue");
+        target.Value.Is("");
+
+        target.Value = "valid";
+        target.HasErrors.IsFalse();
+        target.GetErrors().Length.Is(0);
 
         target.Value = "";
         target.HasErrors.IsTrue();
@@ -106,7 +112,7 @@ public class ValidatableReactivePropertyTest : ReactiveTest
     }
 
     [TestMethod]
-    public void IgnoreExceptionCase()
+    public void CreateFromSourceIgnoreExceptionDoesntSupportCase()
     {
         var source = new ReactivePropertySlim<string>("initialValue");
 
@@ -119,7 +125,7 @@ public class ValidatableReactivePropertyTest : ReactiveTest
     }
 
     [TestMethod]
-    public void ObserveErrorChangedTest()
+    public void CreateFromSourceObserveErrorChangedTest()
     {
         var source = new ReactivePropertySlim<string>("");
         var target = source.ToValidatableReactiveProperty(
@@ -142,7 +148,7 @@ public class ValidatableReactivePropertyTest : ReactiveTest
     }
 
     [TestMethod]
-    public void ObserveHasErrorsTest()
+    public void CreateFromSourceObserveHasErrorsTest()
     {
         var source = new ReactivePropertySlim<string>("");
         var target = source.ToValidatableReactiveProperty(
