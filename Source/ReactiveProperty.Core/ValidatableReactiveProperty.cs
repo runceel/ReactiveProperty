@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -13,6 +14,21 @@ namespace Reactive.Bindings;
 internal class SingletonDataErrorsChangedEventArgs
 {
     public static readonly DataErrorsChangedEventArgs Value = new(nameof(IReactiveProperty.Value));
+}
+
+internal class StringArrayEqualityComparer : IEqualityComparer<string[]>
+{
+    public static readonly StringArrayEqualityComparer Default = new();
+
+    public bool Equals(string[]? x, string[]? y)
+    {
+        if (x == y) return true;
+        if (x == null) return false;
+        if (y == null) return false;
+        return x.SequenceEqual(y);
+    }
+
+    public int GetHashCode(string[] obj) => obj.GetHashCode();
 }
 
 /// <summary>
@@ -27,10 +43,11 @@ public class ValidatableReactiveProperty<T> : IReactiveProperty<T>, IObserverLin
     private readonly bool _disposeSource;
     private ObserverNode<T>? _root;
     private ObserverNode<T>? _last;
-    private string[] _errorMessages = Array.Empty<string>();
 
-    private readonly InternalSubject<string[]> _observeErrorChanged = new();
-    private readonly InternalSubject<bool> _observeHasErrors = new();
+    private readonly ReactivePropertySlim<string[]> _errorMessages = new(
+        Array.Empty<string>(),
+        equalityComparer: StringArrayEqualityComparer.Default);
+    private readonly ReactivePropertySlim<bool> _observeHasErrors = new(false);
 
     private T _latestValue;
     private Func<T, string?>[] _validators;
@@ -38,7 +55,7 @@ public class ValidatableReactiveProperty<T> : IReactiveProperty<T>, IObserverLin
     /// <summary>
     /// Return the first error message from GetErrors(). If HasErrors is false, then return empty string.
     /// </summary>
-    public string ErrorMessage => HasErrors ? _errorMessages[0] : "";
+    public string ErrorMessage => _errorMessages.Value.FirstOrDefault() ?? "";
 
     /// <inheritdoc/>
     public T Value
@@ -53,18 +70,18 @@ public class ValidatableReactiveProperty<T> : IReactiveProperty<T>, IObserverLin
     public IReactiveProperty<T>? Source { get; }
 
     /// <inheritdoc/>
-    IObservable<IEnumerable?> IHasErrors.ObserveErrorChanged => _observeErrorChanged;
+    IObservable<IEnumerable?> IHasErrors.ObserveErrorChanged => _errorMessages;
 
     /// <summary>
     /// Get the observe error changed.
     /// </summary>
-    public IObservable<string[]> ObserveErrorChanged => _observeErrorChanged;
+    public IObservable<string[]> ObserveErrorChanged => _errorMessages;
 
     /// <inheritdoc/>
     public IObservable<bool> ObserveHasErrors => _observeHasErrors;
 
     /// <inheritdoc/>
-    public bool HasErrors => _errorMessages.Length != 0;
+    public bool HasErrors => _observeHasErrors.Value;
 
     /// <inheritdoc/>
     object? IReactiveProperty.Value { get => Value; set => Value = (T)value!; }
@@ -134,6 +151,10 @@ public class ValidatableReactiveProperty<T> : IReactiveProperty<T>, IObserverLin
         _mode = mode;
         _equalityComparer = equalityComparer ?? EqualityComparer<T>.Default;
         _disposeSource = callSourceDisposeWhenDisposed;
+
+        _observeHasErrors.PropertyChanged += ObserveHasErrors_PropertyChanged;
+        _errorMessages.PropertyChanged += ErrorMessages_PropertyChanged;
+
         InitializeValidationProcess();
     }
 
@@ -175,6 +196,10 @@ public class ValidatableReactiveProperty<T> : IReactiveProperty<T>, IObserverLin
         _latestValue = initialValue;
         _mode = mode;
         _equalityComparer = equalityComparer ?? EqualityComparer<T>.Default;
+
+        _observeHasErrors.PropertyChanged += ObserveHasErrors_PropertyChanged;
+        _errorMessages.PropertyChanged += ErrorMessages_PropertyChanged;
+
         InitializeValidationProcess();
     }
 
@@ -215,7 +240,10 @@ public class ValidatableReactiveProperty<T> : IReactiveProperty<T>, IObserverLin
             node = node.Next;
         }
 
-        _observeErrorChanged.Dispose();
+        _observeHasErrors.PropertyChanged += ObserveHasErrors_PropertyChanged;
+        _errorMessages.PropertyChanged += ErrorMessages_PropertyChanged;
+
+        _errorMessages.Dispose();
         _observeHasErrors.Dispose();
 
         if (Source != null)
@@ -232,14 +260,14 @@ public class ValidatableReactiveProperty<T> : IReactiveProperty<T>, IObserverLin
     public void ForceNotify() => Validate(_latestValue);
 
     /// <inheritdoc/>
-    IEnumerable INotifyDataErrorInfo.GetErrors(string? propertyName) => _errorMessages;
+    IEnumerable INotifyDataErrorInfo.GetErrors(string? propertyName) => _errorMessages.Value;
 
 
     /// <summary>
     /// Get error messages. If HasErros is false, then return empty string array.
     /// </summary>
     /// <returns>The error messages.</returns>
-    public string[] GetErrors() => _errorMessages;
+    public string[] GetErrors() => _errorMessages.Value;
 
     /// <summary>
     /// Notifies the provider that an observer is to receive notifications.
@@ -296,9 +324,6 @@ public class ValidatableReactiveProperty<T> : IReactiveProperty<T>, IObserverLin
 
     private void Validate(T value, ValidationKind validationKind = ValidationKind.Default)
     {
-        var previousHasErrors = HasErrors;
-        var previousErrors = _errorMessages;
-
         var isNotEquals = !_equalityComparer.Equals(_latestValue, value);
         var needValidation = validationKind == ValidationKind.FirstTime ? 
             !IsIgnoreInitialValidationError : 
@@ -307,7 +332,7 @@ public class ValidatableReactiveProperty<T> : IReactiveProperty<T>, IObserverLin
         _latestValue = value;
         if (needValidation)
         {
-            _errorMessages = _validators.Select(x => x(value))
+            _errorMessages.Value = _validators.Select(x => x(value))
                 .Where(x => x is not null)
                 .ToArray()!;
         }
@@ -320,19 +345,6 @@ public class ValidatableReactiveProperty<T> : IReactiveProperty<T>, IObserverLin
         if (isNotEquals)
         {
             PropertyChanged?.Invoke(this, SingletonPropertyChangedEventArgs.Value);
-        }
-
-        if (!previousErrors.SequenceEqual(_errorMessages))
-        {
-            ErrorsChanged?.Invoke(this, SingletonDataErrorsChangedEventArgs.Value);
-            _observeErrorChanged.OnNext(_errorMessages);
-            PropertyChanged?.Invoke(this, SingletonPropertyChangedEventArgs.ErrorMessage);
-        }
-
-        if (previousHasErrors != HasErrors)
-        {
-            _observeHasErrors.OnNext(HasErrors);
-            PropertyChanged?.Invoke(this, SingletonPropertyChangedEventArgs.HasErrors);
         }
 
         if (Source != null && validationKind != ValidationKind.RequestFromSoucre && HasErrors is false)
@@ -352,6 +364,20 @@ public class ValidatableReactiveProperty<T> : IReactiveProperty<T>, IObserverLin
         }
     }
 
+    private void ErrorMessages_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName != nameof(IReactiveProperty.Value)) return;
+        PropertyChanged?.Invoke(this, SingletonPropertyChangedEventArgs.ErrorMessage);
+        ErrorsChanged?.Invoke(this, SingletonDataErrorsChangedEventArgs.Value);
+        _observeHasErrors.Value = _errorMessages.Value.Length != 0;
+    }
+
+    private void ObserveHasErrors_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName != nameof(IReactiveProperty.Value)) return;
+        PropertyChanged?.Invoke(this, SingletonPropertyChangedEventArgs.HasErrors);
+    }
+
     void IObserverLinkedList<T>.UnsubscribeNode(ObserverNode<T> node)
     {
         if (node == _root)
@@ -367,6 +393,7 @@ public class ValidatableReactiveProperty<T> : IReactiveProperty<T>, IObserverLin
         {
             node.Previous.Next = node.Next;
         }
+
         if (node.Next != null)
         {
             node.Next.Previous = node.Previous;

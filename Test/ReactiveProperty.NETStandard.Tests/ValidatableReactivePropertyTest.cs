@@ -1,9 +1,13 @@
 ﻿using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using Microsoft.Reactive.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Reactive.Bindings;
+using Reactive.Bindings.Extensions;
 
 namespace ReactiveProperty.Tests;
 
@@ -193,15 +197,14 @@ public class ValidatableReactivePropertyTest : ReactiveTest
             mode: ReactivePropertyMode.Default);
 
         var scheduler = new TestScheduler();
-        var recorder = scheduler.CreateObserver<string[]>();
-        target.ObserveErrorChanged.Subscribe(recorder);
-
-        recorder.Messages.Count.Is(0);
+        var observeErrorChangedRecorder = scheduler.CreateObserver<string[]>();
+        target.ObserveErrorChanged.Subscribe(observeErrorChangedRecorder);
 
         target.Value = "valid";
         target.Value = "";
         target.Dispose();
-        recorder.Messages.Is(
+        observeErrorChangedRecorder.Messages.Is(
+            OnNext(0, (string[] x) => x is ["invalid"]),
             OnNext(0, (string[] x) => x is []),
             OnNext(0, (string[] x) => x is ["invalid"]),
             OnCompleted<string[]>(0));
@@ -219,12 +222,12 @@ public class ValidatableReactivePropertyTest : ReactiveTest
         var recorder = scheduler.CreateObserver<bool>();
         target.ObserveHasErrors.Subscribe(recorder);
 
-        recorder.Messages.Count.Is(0);
 
         target.Value = "valid";
         target.Value = "";
         target.Dispose();
         recorder.Messages.Is(
+            OnNext(0, true),
             OnNext(0, false),
             OnNext(0, true),
             OnCompleted<bool>(0));
@@ -251,7 +254,7 @@ public class ValidatableReactivePropertyTest : ReactiveTest
 
         var target = mockSource.Object.ToValidatableReactiveProperty(
             x => string.IsNullOrEmpty(x) ? "invalid" : null,
-            disposeSource: true);
+            callSourceDisposeWhenDisposed: true);
 
         target.Dispose();
         mockSource.VerifyAdd(x => x.PropertyChanged += It.IsAny<PropertyChangedEventHandler>(), Times.Once());
@@ -338,5 +341,74 @@ public class ValidatableReactivePropertyTest : ReactiveTest
         recorder.Messages.Is(
             OnNext(0, "changed"),
             OnCompleted<string>(0));
+    }
+
+    [TestMethod]
+    public void DataAnnotationsTest()
+    {
+        var target = new VM();
+        var testScheduler = new TestScheduler();
+        var recorder = testScheduler.CreateObserver<string>();
+        var errorChangedRecorder = testScheduler.CreateObserver<string[]>();
+        var hasErrorsRecorder = testScheduler.CreateObserver<bool>();
+        target.Name.Subscribe(recorder);
+        target.Name.ObserveErrorChanged.Subscribe(errorChangedRecorder);
+        target.Name.ObserveHasErrors.Subscribe(hasErrorsRecorder);
+
+        target.Name.HasErrors.IsTrue();
+        target.Name.ErrorMessage.Is("Name is required.");
+
+        target.Name.Value = "valid";
+        target.Name.HasErrors.IsFalse();
+        target.Name.ErrorMessage.Is("");
+
+        target.Name.Dispose();
+
+        recorder.Messages.Is(
+            OnNext(0, ""),
+            OnNext(0, "valid"),
+            OnCompleted<string>(0));
+
+        errorChangedRecorder.Messages.Is(
+            OnNext(0, (string[] x) => x is ["Name is required."]),
+            OnNext(0, (string[] x) => x.Length == 0),
+            OnCompleted<string[]>(0));
+
+        hasErrorsRecorder.Messages.Is(
+            OnNext(0, true),
+            OnNext(0, false),
+            OnCompleted<bool>(0));
+    }
+
+    class Person : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void SetProperty<T>(ref T field, T value, [CallerMemberName]string propertyName = "")
+        {
+            field = value;
+            PropertyChanged?.Invoke(this, new(propertyName));
+        }
+
+        private string _name = "";
+        public string Name
+        {
+            get => _name;
+            set => SetProperty(ref _name, value);
+        }
+    }
+    class VM
+    {
+        public Person Person { get; } = new();
+
+        [Required(ErrorMessage = "Name is required.")]
+        public ValidatableReactiveProperty<string> Name { get; }
+
+        public VM()
+        {
+            Name = Person.ToReactivePropertySlimAsSynchronized(x => x.Name)
+                .ToValidatableReactiveProperty(
+                    () => Name,
+                    callSourceDisposeWhenDisposed: true);
+        }
     }
 }
