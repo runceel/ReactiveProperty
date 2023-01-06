@@ -132,12 +132,12 @@ public class ValidatableReactiveProperty<T> : IReactiveProperty<T>, IObserverLin
     /// <param name="validators">The validation logics.</param>
     /// <param name="mode">The ReactivePropertyMode</param>
     /// <param name="equalityComparer">The EqualityComparer for T</param>
-    /// <param name="callSourceDisposeWhenDisposed">Call Dispose of the source parameter when ValidatableReactiveProperty was called Dispose.</param>
+    /// <param name="disposeSource">Call Dispose of the source parameter when ValidatableReactiveProperty was called Dispose.</param>
     public ValidatableReactiveProperty(IReactiveProperty<T> source,
         IEnumerable<Func<T, string?>> validators,
         ReactivePropertyMode mode = ReactivePropertyMode.Default,
         IEqualityComparer<T>? equalityComparer = null,
-        bool callSourceDisposeWhenDisposed = false)
+        bool disposeSource = false)
     {
         if ((mode & ReactivePropertyMode.IgnoreException) == ReactivePropertyMode.IgnoreException)
         {
@@ -150,7 +150,7 @@ public class ValidatableReactiveProperty<T> : IReactiveProperty<T>, IObserverLin
         _latestValue = Source.Value;
         _mode = mode;
         _equalityComparer = equalityComparer ?? EqualityComparer<T>.Default;
-        _disposeSource = callSourceDisposeWhenDisposed;
+        _disposeSource = disposeSource;
 
         _observeHasErrors.PropertyChanged += ObserveHasErrors_PropertyChanged;
         _errorMessages.PropertyChanged += ErrorMessages_PropertyChanged;
@@ -165,13 +165,13 @@ public class ValidatableReactiveProperty<T> : IReactiveProperty<T>, IObserverLin
     /// <param name="validator">The validation logic.</param>
     /// <param name="mode">The ReactivePropertyMode</param>
     /// <param name="equalityComparer">The EqualityComparer for T</param>
-    /// <param name="callSourceDisposeWhenDisposed">Call Dispose of the source parameter when ValidatableReactiveProperty was called Dispose.</param>
+    /// <param name="disposeSource">Call Dispose of the source parameter when ValidatableReactiveProperty was called Dispose.</param>
     public ValidatableReactiveProperty(IReactiveProperty<T> source,
         Func<T, string?> validator,
         ReactivePropertyMode mode = ReactivePropertyMode.Default,
         IEqualityComparer<T>? equalityComparer = null,
-        bool callSourceDisposeWhenDisposed = false) :
-        this(source, new[] { validator }, mode, equalityComparer, callSourceDisposeWhenDisposed)
+        bool disposeSource = false) :
+        this(source, new[] { validator }, mode, equalityComparer, disposeSource)
     {
     }
 
@@ -421,14 +421,14 @@ public static class ValidatableReactiveProperty
     /// <param name="validator">The validation logic.</param>
     /// <param name="mode">The ReactivePropertyMode</param>
     /// <param name="equalityComparer">The EqualityComparer for T</param>
-    /// <param name="callSourceDisposeWhenDisposed">Call Dispose of the source parameter when ValidatableReactiveProperty was called Dispose.</param>
+    /// <param name="disposeSource">Call Dispose of the source parameter when ValidatableReactiveProperty was called Dispose.</param>
     public static ValidatableReactiveProperty<T> ToValidatableReactiveProperty<T>(
         this IReactiveProperty<T> source,
         Func<T, string?> validator,
         ReactivePropertyMode mode = ReactivePropertyMode.Default,
         IEqualityComparer<T>? equalityComparer = null,
-        bool callSourceDisposeWhenDisposed = false) =>
-        new ValidatableReactiveProperty<T>(source, validator, mode, equalityComparer, callSourceDisposeWhenDisposed);
+        bool disposeSource = false) =>
+        new ValidatableReactiveProperty<T>(source, validator, mode, equalityComparer, disposeSource);
 
     /// <summary>
     /// Create the ValidatableReactiveProperty instance.
@@ -437,15 +437,15 @@ public static class ValidatableReactiveProperty
     /// <param name="validators">The validation logics.</param>
     /// <param name="mode">The ReactivePropertyMode</param>
     /// <param name="equalityComparer">The EqualityComparer for T</param>
-    /// <param name="callSourceDisposeWhenDisposed">Call Dispose of the source parameter when ValidatableReactiveProperty was called Dispose.</param>
+    /// <param name="disposeSource">Call Dispose of the source parameter when ValidatableReactiveProperty was called Dispose.</param>
     /// <returns>The new instance of ValidatableReactiveProperty</returns>
     public static ValidatableReactiveProperty<T> ToValidatableReactiveProperty<T>(
         this IReactiveProperty<T> source,
         IEnumerable<Func<T, string?>> validators,
         ReactivePropertyMode mode = ReactivePropertyMode.Default,
         IEqualityComparer<T>? equalityComparer = null,
-        bool callSourceDisposeWhenDisposed = false) =>
-        new ValidatableReactiveProperty<T>(source, validators, mode, equalityComparer, callSourceDisposeWhenDisposed);
+        bool disposeSource = false) =>
+        new ValidatableReactiveProperty<T>(source, validators, mode, equalityComparer, disposeSource);
 
     /// <summary>
     /// Create the ValidationReactiveProperty instance from DataAnnotations attributes.
@@ -455,19 +455,19 @@ public static class ValidatableReactiveProperty
     /// <param name="selfSelector">Target property as expression</param>
     /// <param name="mode">The ReactivePropertyMode</param>
     /// <param name="equalityComparer">The EqualityComparer for T</param>
-    /// <param name="callSourceDisposeWhenDisposed">Call Dispose of the source parameter when ValidatableReactiveProperty was called Dispose.</param>
+    /// <param name="disposeSource">Call Dispose of the source parameter when ValidatableReactiveProperty was called Dispose.</param>
     /// <returns>The new instance of ValidatableReactiveProperty</returns>
     public static ValidatableReactiveProperty<T> ToValidatableReactiveProperty<T>(
         this IReactiveProperty<T> source,
         Expression<Func<IReactiveProperty<T>?>> selfSelector,
         ReactivePropertyMode mode = ReactivePropertyMode.Default,
         IEqualityComparer<T>? equalityComparer = null,
-        bool callSourceDisposeWhenDisposed = false) => 
+        bool disposeSource = false) => 
         source.ToValidatableReactiveProperty(
             CreateValidatorFromDataAnnotations(selfSelector),
             mode,
             equalityComparer,
-            callSourceDisposeWhenDisposed);
+            disposeSource);
 
     /// <summary>
     /// Create the ValidationReactiveProperty instance from DataAnnotations attributes.
