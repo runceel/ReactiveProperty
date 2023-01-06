@@ -254,7 +254,7 @@ public class ValidatableReactivePropertyTest : ReactiveTest
 
         var target = mockSource.Object.ToValidatableReactiveProperty(
             x => string.IsNullOrEmpty(x) ? "invalid" : null,
-            callSourceDisposeWhenDisposed: true);
+            disposeSource: true);
 
         target.Dispose();
         mockSource.VerifyAdd(x => x.PropertyChanged += It.IsAny<PropertyChangedEventHandler>(), Times.Once());
@@ -408,7 +408,7 @@ public class ValidatableReactivePropertyTest : ReactiveTest
             Name = Person.ToReactivePropertySlimAsSynchronized(x => x.Name)
                 .ToValidatableReactiveProperty(
                     () => Name,
-                    callSourceDisposeWhenDisposed: true);
+                    disposeSource: true);
         }
     }
 }
