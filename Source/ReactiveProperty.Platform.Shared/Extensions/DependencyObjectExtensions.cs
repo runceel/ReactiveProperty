@@ -48,7 +48,7 @@ public static class DependencyObjectExtensions
     public static ReadOnlyReactiveProperty<T> ToReadOnlyReactiveProperty<T>(this DependencyObject self,
         DependencyProperty dp,
         ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe,
-        IScheduler eventScheduler = null) =>
+        IScheduler? eventScheduler = null) =>
         new(
             self.ObserveDependencyProperty(dp).Select(_ => (T)self.GetValue(dp)),
             (T)self.GetValue(dp),
@@ -60,7 +60,7 @@ public static class DependencyObjectExtensions
     /// </summary>
     public static ReactiveProperty<T> ToReactiveProperty<T>(this DependencyObject self,
         DependencyProperty dp,
-        IScheduler eventScheduler = null,
+        IScheduler? eventScheduler = null,
         ReactivePropertyMode mode = ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe) =>
         new(
             self.ObserveDependencyProperty(dp).Select(_ => (T)self.GetValue(dp)),

@@ -14,7 +14,7 @@ public sealed class CompositeDisposable : ICollection<IDisposable>, IDisposable
     private readonly object _gate = new object();
 
     private bool _disposed;
-    private List<IDisposable> _disposables;
+    private List<IDisposable?> _disposables;
     private int _count;
     private const int SHRINK_THRESHOLD = 64;
 
@@ -23,7 +23,7 @@ public sealed class CompositeDisposable : ICollection<IDisposable>, IDisposable
     /// </summary>
     public CompositeDisposable()
     {
-        _disposables = new List<IDisposable>();
+        _disposables = new();
     }
 
     /// <summary>
@@ -36,7 +36,7 @@ public sealed class CompositeDisposable : ICollection<IDisposable>, IDisposable
         if (capacity < 0)
             throw new ArgumentOutOfRangeException("capacity");
 
-        _disposables = new List<IDisposable>(capacity);
+        _disposables = new(capacity);
     }
 
     /// <summary>
@@ -49,7 +49,7 @@ public sealed class CompositeDisposable : ICollection<IDisposable>, IDisposable
         if (disposables == null)
             throw new ArgumentNullException("disposables");
 
-        _disposables = new List<IDisposable>(disposables);
+        _disposables = new(disposables);
         _count = _disposables.Count;
     }
 
@@ -63,7 +63,7 @@ public sealed class CompositeDisposable : ICollection<IDisposable>, IDisposable
         if (disposables == null)
             throw new ArgumentNullException("disposables");
 
-        _disposables = new List<IDisposable>(disposables);
+        _disposables = new(disposables);
         _count = _disposables.Count;
     }
 
@@ -136,7 +136,7 @@ public sealed class CompositeDisposable : ICollection<IDisposable>, IDisposable
                     if (_disposables.Capacity > SHRINK_THRESHOLD && _count < _disposables.Capacity / 2)
                     {
                         var old = _disposables;
-                        _disposables = new List<IDisposable>(_disposables.Capacity / 2);
+                        _disposables = new(_disposables.Capacity / 2);
 
                         foreach (var d in old)
                             if (d != null)
@@ -157,7 +157,7 @@ public sealed class CompositeDisposable : ICollection<IDisposable>, IDisposable
     /// </summary>
     public void Dispose()
     {
-        var currentDisposables = default(IDisposable[]);
+        var currentDisposables = default(IDisposable?[]);
         lock (_gate)
         {
             if (!_disposed)
@@ -182,7 +182,7 @@ public sealed class CompositeDisposable : ICollection<IDisposable>, IDisposable
     /// </summary>
     public void Clear()
     {
-        var currentDisposables = default(IDisposable[]);
+        var currentDisposables = default(IDisposable?[]);
         lock (_gate)
         {
             currentDisposables = _disposables.ToArray();
