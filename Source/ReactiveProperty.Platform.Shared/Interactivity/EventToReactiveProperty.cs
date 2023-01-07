@@ -28,9 +28,9 @@ namespace Reactive.Bindings.Interactivity;
 #endif
 public class EventToReactiveProperty : TriggerAction<FrameworkElement>
 {
-    private readonly Subject<object> source = new();
+    private readonly Subject<object?> source = new();
 
-    private IDisposable disposable;
+    private IDisposable? disposable;
 
     /// <summary>
     /// Gets or sets the reactive property.
@@ -76,7 +76,7 @@ public class EventToReactiveProperty : TriggerAction<FrameworkElement>
     {
         if (disposable == null)
         {
-            IObservable<object> ox = source;
+            IObservable<object?> ox = source;
             foreach (var c in Converters)
             {
                 c.AssociateObject = AssociatedObject;
@@ -100,9 +100,9 @@ public class EventToReactiveProperty : TriggerAction<FrameworkElement>
 
     private class DefaultConverter : IEventToReactiveConverter
     {
-        public object AssociateObject { get; set; }
+        public object? AssociateObject { get; set; }
 
-        public IObservable<object> Convert(IObservable<object> source)
+        public IObservable<object?> Convert(IObservable<object?> source)
         {
             return source;
         }

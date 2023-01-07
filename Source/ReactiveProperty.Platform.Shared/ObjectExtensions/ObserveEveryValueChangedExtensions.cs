@@ -15,7 +15,7 @@ public static class ObserveEveryValueChangedExtensions
     /// <summary>
     /// Publish target property when value is changed. If source is destructed, publish OnCompleted.
     /// </summary>
-    public static IObservable<TProperty> ObserveEveryValueChanged<TSource, TProperty>(this TSource source, Func<TSource, TProperty> propertySelector, IEqualityComparer<TProperty> comparer = null)
+    public static IObservable<TProperty?> ObserveEveryValueChanged<TSource, TProperty>(this TSource source, Func<TSource, TProperty> propertySelector, IEqualityComparer<TProperty>? comparer = null)
         where TSource : class
     {
         if (source == null)
@@ -26,9 +26,9 @@ public static class ObserveEveryValueChangedExtensions
         comparer ??= EqualityComparer<TProperty>.Default;
 
         var reference = new WeakReference(source);
-        source = null;
+        source = null!;
 
-        return Observable.Create<TProperty>(observer =>
+        return Observable.Create<TProperty?>(observer =>
         {
             var currentValue = default(TProperty);
             var prevValue = default(TProperty);

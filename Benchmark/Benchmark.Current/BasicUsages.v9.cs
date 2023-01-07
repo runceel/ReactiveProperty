@@ -54,7 +54,7 @@ public partial class BasicUsages
     [Benchmark]
     public ValidatableReactiveProperty<string> ValidatableReactivePropertyValidation()
     {
-        var rp = ValidatableReactiveProperty.CreateFromValidationLogic(
+        var rp = new ValidatableReactiveProperty<string>(
             "",
             x => string.IsNullOrEmpty(x) ? "invalid" : null);
         rp.Value = "xxx"; // valid
@@ -127,7 +127,9 @@ public class ValidatableReactivePropertyVM : IDisposable
     public ValidatableReactivePropertyVM()
     {
         Name = _model.ToReactivePropertySlimAsSynchronized(x => x.Name)
-            .ToValidatableReactiveProperty(() => Name, disposeSource: true);
+            .ToValidatableReactiveProperty(
+                () => Name, 
+                disposeSource: true);
     }
 
     public void Dispose()

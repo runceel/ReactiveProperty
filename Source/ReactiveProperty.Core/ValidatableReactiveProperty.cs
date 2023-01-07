@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -13,6 +14,21 @@ namespace Reactive.Bindings;
 internal class SingletonDataErrorsChangedEventArgs
 {
     public static readonly DataErrorsChangedEventArgs Value = new(nameof(IReactiveProperty.Value));
+}
+
+internal class StringArrayEqualityComparer : IEqualityComparer<string[]>
+{
+    public static readonly StringArrayEqualityComparer Default = new();
+
+    public bool Equals(string[]? x, string[]? y)
+    {
+        if (x == y) return true;
+        if (x == null) return false;
+        if (y == null) return false;
+        return x.SequenceEqual(y);
+    }
+
+    public int GetHashCode(string[] obj) => obj.GetHashCode();
 }
 
 /// <summary>
@@ -27,10 +43,11 @@ public class ValidatableReactiveProperty<T> : IReactiveProperty<T>, IObserverLin
     private readonly bool _disposeSource;
     private ObserverNode<T>? _root;
     private ObserverNode<T>? _last;
-    private string[] _errorMessages = Array.Empty<string>();
 
-    private readonly InternalSubject<string[]> _observeErrorChanged = new();
-    private readonly InternalSubject<bool> _observeHasErrors = new();
+    private readonly ReactivePropertySlim<string[]> _errorMessages = new(
+        Array.Empty<string>(),
+        equalityComparer: StringArrayEqualityComparer.Default);
+    private readonly ReactivePropertySlim<bool> _observeHasErrors = new(false);
 
     private T _latestValue;
     private Func<T, string?>[] _validators;
@@ -38,7 +55,7 @@ public class ValidatableReactiveProperty<T> : IReactiveProperty<T>, IObserverLin
     /// <summary>
     /// Return the first error message from GetErrors(). If HasErrors is false, then return empty string.
     /// </summary>
-    public string ErrorMessage => HasErrors ? _errorMessages[0] : "";
+    public string ErrorMessage => _errorMessages.Value.FirstOrDefault() ?? "";
 
     /// <inheritdoc/>
     public T Value
@@ -50,21 +67,21 @@ public class ValidatableReactiveProperty<T> : IReactiveProperty<T>, IObserverLin
     /// <summary>
     /// Get the source IReactiveProperty.
     /// </summary>
-    public IReactiveProperty<T> Source { get; }
+    public IReactiveProperty<T>? Source { get; }
 
     /// <inheritdoc/>
-    IObservable<IEnumerable?> IHasErrors.ObserveErrorChanged => _observeErrorChanged;
+    IObservable<IEnumerable?> IHasErrors.ObserveErrorChanged => _errorMessages;
 
     /// <summary>
     /// Get the observe error changed.
     /// </summary>
-    public IObservable<string[]> ObserveErrorChanged => _observeErrorChanged;
+    public IObservable<string[]> ObserveErrorChanged => _errorMessages;
 
     /// <inheritdoc/>
     public IObservable<bool> ObserveHasErrors => _observeHasErrors;
 
     /// <inheritdoc/>
-    public bool HasErrors => _errorMessages.Length != 0;
+    public bool HasErrors => _observeHasErrors.Value;
 
     /// <inheritdoc/>
     object? IReactiveProperty.Value { get => Value; set => Value = (T)value!; }
@@ -134,6 +151,10 @@ public class ValidatableReactiveProperty<T> : IReactiveProperty<T>, IObserverLin
         _mode = mode;
         _equalityComparer = equalityComparer ?? EqualityComparer<T>.Default;
         _disposeSource = disposeSource;
+
+        _observeHasErrors.PropertyChanged += ObserveHasErrors_PropertyChanged;
+        _errorMessages.PropertyChanged += ErrorMessages_PropertyChanged;
+
         InitializeValidationProcess();
     }
 
@@ -150,9 +171,53 @@ public class ValidatableReactiveProperty<T> : IReactiveProperty<T>, IObserverLin
         ReactivePropertyMode mode = ReactivePropertyMode.Default,
         IEqualityComparer<T>? equalityComparer = null,
         bool disposeSource = false) :
-        this(source, new[] { validator }, mode, equalityComparer)
+        this(source, new[] { validator }, mode, equalityComparer, disposeSource)
     {
     }
+
+    /// <summary>
+    /// Create a ValidatableReactiveProperty instance.
+    /// </summary>
+    /// <param name="initialValue">An initial value for ValidatableReactiveProperty.</param>
+    /// <param name="validators">The validation logics.</param>
+    /// <param name="mode">The ReactivePropertyMode</param>
+    /// <param name="equalityComparer">The EqualityComparer for T</param>
+    public ValidatableReactiveProperty(T initialValue,
+        IEnumerable<Func<T, string?>> validators,
+        ReactivePropertyMode mode = ReactivePropertyMode.Default,
+        IEqualityComparer<T>? equalityComparer = null)
+    {
+        if ((mode & ReactivePropertyMode.IgnoreException) == ReactivePropertyMode.IgnoreException)
+        {
+            throw new NotSupportedException("IgnoreException isn't supported in ValidatableReactiveProperty.");
+        }
+
+        _validators = validators.ToArray();
+        _latestValue = initialValue;
+        _mode = mode;
+        _equalityComparer = equalityComparer ?? EqualityComparer<T>.Default;
+
+        _observeHasErrors.PropertyChanged += ObserveHasErrors_PropertyChanged;
+        _errorMessages.PropertyChanged += ErrorMessages_PropertyChanged;
+
+        InitializeValidationProcess();
+    }
+
+    /// <summary>
+    /// Create a ValidatableReactiveProperty instance.
+    /// </summary>
+    /// <param name="initialValue">An initial value for ValidatableReactiveProperty.</param>
+    /// <param name="validator">The validation logic.</param>
+    /// <param name="mode">The ReactivePropertyMode</param>
+    /// <param name="equalityComparer">The EqualityComparer for T</param>
+    public ValidatableReactiveProperty(T initialValue,
+        Func<T, string?> validator,
+        ReactivePropertyMode mode = ReactivePropertyMode.Default,
+        IEqualityComparer<T>? equalityComparer = null) :
+        this(initialValue, new[] { validator }, mode, equalityComparer)
+    {
+    }
+
 
     /// <summary>
     /// Performs application-defined tasks associated with freeing, releasing, or resetting
@@ -175,13 +240,19 @@ public class ValidatableReactiveProperty<T> : IReactiveProperty<T>, IObserverLin
             node = node.Next;
         }
 
-        Source.PropertyChanged -= Source_PropertyChanged;
-        _observeErrorChanged.Dispose();
+        _observeHasErrors.PropertyChanged += ObserveHasErrors_PropertyChanged;
+        _errorMessages.PropertyChanged += ErrorMessages_PropertyChanged;
+
+        _errorMessages.Dispose();
         _observeHasErrors.Dispose();
 
-        if (_disposeSource)
+        if (Source != null)
         {
-            Source.Dispose();
+            Source.PropertyChanged -= Source_PropertyChanged;
+            if (_disposeSource)
+            {
+                Source.Dispose();
+            }
         }
     }
 
@@ -189,14 +260,14 @@ public class ValidatableReactiveProperty<T> : IReactiveProperty<T>, IObserverLin
     public void ForceNotify() => Validate(_latestValue);
 
     /// <inheritdoc/>
-    IEnumerable INotifyDataErrorInfo.GetErrors(string? propertyName) => _errorMessages;
+    IEnumerable INotifyDataErrorInfo.GetErrors(string? propertyName) => _errorMessages.Value;
 
 
     /// <summary>
     /// Get error messages. If HasErros is false, then return empty string array.
     /// </summary>
     /// <returns>The error messages.</returns>
-    public string[] GetErrors() => _errorMessages;
+    public string[] GetErrors() => _errorMessages.Value;
 
     /// <summary>
     /// Notifies the provider that an observer is to receive notifications.
@@ -231,26 +302,28 @@ public class ValidatableReactiveProperty<T> : IReactiveProperty<T>, IObserverLin
             next.Previous = _last;
             _last = next;
         }
+
         return next;
     }
 
     private void InitializeValidationProcess()
     {
-        Source.PropertyChanged += Source_PropertyChanged;
+        if (Source != null)
+        {
+            Source.PropertyChanged += Source_PropertyChanged;
+        }
+
         Validate(_latestValue, ValidationKind.FirstTime);
     }
 
-    private void Source_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    private void Source_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName != nameof(IReactiveProperty.Value)) return;
-        Validate(Source.Value, ValidationKind.RequestFromSoucre);
+        Validate(Source!.Value, ValidationKind.RequestFromSoucre);
     }
 
     private void Validate(T value, ValidationKind validationKind = ValidationKind.Default)
     {
-        var previousHasErrors = HasErrors;
-        var previousErrors = _errorMessages;
-
         var isNotEquals = !_equalityComparer.Equals(_latestValue, value);
         var needValidation = validationKind == ValidationKind.FirstTime ? 
             !IsIgnoreInitialValidationError : 
@@ -259,7 +332,7 @@ public class ValidatableReactiveProperty<T> : IReactiveProperty<T>, IObserverLin
         _latestValue = value;
         if (needValidation)
         {
-            _errorMessages = _validators.Select(x => x(value))
+            _errorMessages.Value = _validators.Select(x => x(value))
                 .Where(x => x is not null)
                 .ToArray()!;
         }
@@ -274,20 +347,7 @@ public class ValidatableReactiveProperty<T> : IReactiveProperty<T>, IObserverLin
             PropertyChanged?.Invoke(this, SingletonPropertyChangedEventArgs.Value);
         }
 
-        if (!previousErrors.SequenceEqual(_errorMessages))
-        {
-            ErrorsChanged?.Invoke(this, SingletonDataErrorsChangedEventArgs.Value);
-            _observeErrorChanged.OnNext(_errorMessages);
-            PropertyChanged?.Invoke(this, SingletonPropertyChangedEventArgs.ErrorMessage);
-        }
-
-        if (previousHasErrors != HasErrors)
-        {
-            _observeHasErrors.OnNext(HasErrors);
-            PropertyChanged?.Invoke(this, SingletonPropertyChangedEventArgs.HasErrors);
-        }
-
-        if (validationKind != ValidationKind.RequestFromSoucre && HasErrors is false)
+        if (Source != null && validationKind != ValidationKind.RequestFromSoucre && HasErrors is false)
         {
             Source.Value = _latestValue;
         }
@@ -302,6 +362,20 @@ public class ValidatableReactiveProperty<T> : IReactiveProperty<T>, IObserverLin
             node.OnNext(_latestValue);
             node = node.Next;
         }
+    }
+
+    private void ErrorMessages_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName != nameof(IReactiveProperty.Value)) return;
+        PropertyChanged?.Invoke(this, SingletonPropertyChangedEventArgs.ErrorMessage);
+        ErrorsChanged?.Invoke(this, SingletonDataErrorsChangedEventArgs.Value);
+        _observeHasErrors.Value = _errorMessages.Value.Length != 0;
+    }
+
+    private void ObserveHasErrors_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName != nameof(IReactiveProperty.Value)) return;
+        PropertyChanged?.Invoke(this, SingletonPropertyChangedEventArgs.HasErrors);
     }
 
     void IObserverLinkedList<T>.UnsubscribeNode(ObserverNode<T> node)
@@ -319,6 +393,7 @@ public class ValidatableReactiveProperty<T> : IReactiveProperty<T>, IObserverLin
         {
             node.Previous.Next = node.Next;
         }
+
         if (node.Next != null)
         {
             node.Next.Previous = node.Previous;
@@ -338,6 +413,7 @@ public class ValidatableReactiveProperty<T> : IReactiveProperty<T>, IObserverLin
 /// </summary>
 public static class ValidatableReactiveProperty
 {
+    private static readonly object DummyValidationContextSource = new();
     /// <summary>
     /// Create the ValidatableReactiveProperty instance.
     /// </summary>
@@ -386,45 +462,18 @@ public static class ValidatableReactiveProperty
         Expression<Func<IReactiveProperty<T>?>> selfSelector,
         ReactivePropertyMode mode = ReactivePropertyMode.Default,
         IEqualityComparer<T>? equalityComparer = null,
-        bool disposeSource = false)
-    {
-        var memberExpression = (MemberExpression)selfSelector.Body;
-        var propertyInfo = (PropertyInfo)memberExpression.Member;
-        var display = propertyInfo.GetCustomAttribute<DisplayAttribute>();
-        var attrs = propertyInfo.GetCustomAttributes<ValidationAttribute>().ToArray();
-        if (attrs.Length == 0)
-        {
-            throw new InvalidOperationException($"Data annotations does not found on {propertyInfo.Name}.");
-        }
-
-        var context = new ValidationContext(source)
-        {
-            DisplayName = display?.GetName() ?? propertyInfo.Name,
-            MemberName = nameof(IReactiveProperty<T>.Value),
-        };
-
-        return source.ToValidatableReactiveProperty(
-            x =>
-            {
-                var validationResults = new List<ValidationResult>();
-                if (Validator.TryValidateValue(x, context, validationResults, attrs))
-                {
-                    return null;
-                }
-
-                return validationResults[0].ErrorMessage;
-            },
+        bool disposeSource = false) => 
+        source.ToValidatableReactiveProperty(
+            CreateValidatorFromDataAnnotations(selfSelector),
             mode,
             equalityComparer,
             disposeSource);
-    }
 
     /// <summary>
     /// Create the ValidationReactiveProperty instance from DataAnnotations attributes.
     /// </summary>
     /// <typeparam name="T">Property type</typeparam>
     /// <param name="initialValue">Initial value of ValidatableReactiveProperty</param>
-    /// <param name="source">Target ReactiveProperty</param>
     /// <param name="selfSelector">Target property as expression</param>
     /// <param name="mode">The ReactivePropertyMode</param>
     /// <param name="equalityComparer">The EqualityComparer for T</param>
@@ -433,9 +482,16 @@ public static class ValidatableReactiveProperty
         T initialValue,
         Expression<Func<IReactiveProperty<T>?>> selfSelector,
         ReactivePropertyMode mode = ReactivePropertyMode.Default,
-        IEqualityComparer<T>? equalityComparer = null)
+        IEqualityComparer<T>? equalityComparer = null) => 
+        new ValidatableReactiveProperty<T>(
+            initialValue,
+            CreateValidatorFromDataAnnotations(selfSelector),
+            mode,
+            equalityComparer);
+
+    private static Func<T, string?> CreateValidatorFromDataAnnotations<T>(Expression<Func<IReactiveProperty<T>?>> selector)
     {
-        var memberExpression = (MemberExpression)selfSelector.Body;
+        var memberExpression = (MemberExpression)selector.Body;
         var propertyInfo = (PropertyInfo)memberExpression.Member;
         var display = propertyInfo.GetCustomAttribute<DisplayAttribute>();
         var attrs = propertyInfo.GetCustomAttributes<ValidationAttribute>().ToArray();
@@ -444,70 +500,23 @@ public static class ValidatableReactiveProperty
             throw new InvalidOperationException($"Data annotations does not found on {propertyInfo.Name}.");
         }
 
-        var source = new ReactivePropertySlim<T>(initialValue);
-        var context = new ValidationContext(source)
+        var context = new ValidationContext(DummyValidationContextSource)
         {
             DisplayName = display?.GetName() ?? propertyInfo.Name,
             MemberName = nameof(IReactiveProperty<T>.Value),
         };
 
-        return new ValidatableReactiveProperty<T>(
-            source,
-            x =>
+        return x =>
+        {
+            var validationResults = new List<ValidationResult>();
+            // The first argument of TryValidateValue method doesn't allow nullable value.
+            // But the value is passing to `GetValidationErrors` method, and the method allow nullable.
+            if (Validator.TryValidateValue(x!, context, validationResults, attrs))
             {
-                var validationResults = new List<ValidationResult>();
-                if (Validator.TryValidateValue(x, context, validationResults, attrs))
-                {
-                    return null;
-                }
+                return null;
+            }
 
-                return validationResults[0].ErrorMessage;
-            },
-            mode,
-            equalityComparer,
-            true);
+            return validationResults[0].ErrorMessage;
+        };
     }
-
-    /// <summary>
-    /// Create the ValidationReactiveProperty instance from a custom validation logic.
-    /// </summary>
-    /// <typeparam name="T">Property type</typeparam>
-    /// <param name="initialValue">Initial value of ValidatableReactiveProperty</param>
-    /// <param name="validator">The validation logic.</param>
-    /// <param name="mode">The ReactivePropertyMode</param>
-    /// <param name="equalityComparer">The EqualityComparer for T</param>
-    /// <returns>The new instance of ValidatableReactiveProperty</returns>
-    public static ValidatableReactiveProperty<T> CreateFromValidationLogic<T>(
-        T initialValue,
-        Func<T, string?> validator,
-        ReactivePropertyMode mode = ReactivePropertyMode.Default,
-        IEqualityComparer<T>? equalityComparer = null) =>
-        new ValidatableReactiveProperty<T>(
-            new ReactivePropertySlim<T>(initialValue),
-            validator,
-            mode,
-            equalityComparer,
-            true);
-
-    /// <summary>
-    /// Create the ValidationReactiveProperty instance from a custom validation logic.
-    /// </summary>
-    /// <typeparam name="T">Property type</typeparam>
-    /// <param name="initialValue">Initial value of ValidatableReactiveProperty</param>
-    /// <param name="validators">The validation logics.</param>
-    /// <param name="mode">The ReactivePropertyMode</param>
-    /// <param name="equalityComparer">The EqualityComparer for T</param>
-    /// <returns>The new instance of ValidatableReactiveProperty</returns>
-    public static ValidatableReactiveProperty<T> CreateFromValidationLogics<T>(
-        T initialValue,
-        IEnumerable<Func<T, string?>> validators,
-        ReactivePropertyMode mode = ReactivePropertyMode.Default,
-        IEqualityComparer<T>? equalityComparer = null) =>
-        new ValidatableReactiveProperty<T>(
-            new ReactivePropertySlim<T>(initialValue),
-            validators,
-            mode,
-            equalityComparer,
-            true);
-
 }
