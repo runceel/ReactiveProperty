@@ -86,7 +86,7 @@ public class MessageBroker : IMessageBroker, IDisposable
         {
             if (isDisposed) throw new ObjectDisposedException("AsyncMessageBroker");
 
-            object _notifier;
+            object? _notifier;
             if (notifiers.TryGetValue(typeof(T), out _notifier))
             {
                 notifier = (ImmutableList<Action<T>>)_notifier;
@@ -113,7 +113,7 @@ public class MessageBroker : IMessageBroker, IDisposable
         {
             if (isDisposed) throw new ObjectDisposedException("MessageBroker");
 
-            object _notifier;
+            object? _notifier;
             if (!notifiers.TryGetValue(typeof(T), out _notifier))
             {
                 var notifier = ImmutableList<Action<T>>.Empty;
@@ -161,7 +161,7 @@ public class MessageBroker : IMessageBroker, IDisposable
         {
             lock (parent.notifiers)
             {
-                object _notifier;
+                object? _notifier;
                 if (parent.notifiers.TryGetValue(typeof(T), out _notifier))
                 {
                     var notifier = (ImmutableList<Action<T>>)_notifier;
@@ -179,7 +179,7 @@ public class MessageBroker : IMessageBroker, IDisposable
 /// </summary>
 public class AsyncMessageBroker : IAsyncMessageBroker, IDisposable
 {
-    static readonly Task EmptyTask = Task.FromResult<object>(null);
+    static readonly Task EmptyTask = Task.FromResult<object?>(null);
 
     /// <summary>
     /// AsyncMessageBroker in Global scope.
@@ -199,7 +199,7 @@ public class AsyncMessageBroker : IAsyncMessageBroker, IDisposable
         {
             if (isDisposed) throw new ObjectDisposedException("AsyncMessageBroker");
 
-            object _notifier;
+            object? _notifier;
             if (notifiers.TryGetValue(typeof(T), out _notifier))
             {
                 notifier = (ImmutableList<Func<T, Task>>)_notifier;
@@ -228,7 +228,7 @@ public class AsyncMessageBroker : IAsyncMessageBroker, IDisposable
         {
             if (isDisposed) throw new ObjectDisposedException("AsyncMessageBroker");
 
-            object _notifier;
+            object? _notifier;
             if (!notifiers.TryGetValue(typeof(T), out _notifier))
             {
                 var notifier = ImmutableList<Func<T, Task>>.Empty;
@@ -276,7 +276,7 @@ public class AsyncMessageBroker : IAsyncMessageBroker, IDisposable
         {
             lock (parent.notifiers)
             {
-                object _notifier;
+                object? _notifier;
                 if (parent.notifiers.TryGetValue(typeof(T), out _notifier))
                 {
                     var notifier = (ImmutableList<Func<T, Task>>)_notifier;

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using Reactive.Bindings.Disposables;
 using Reactive.Bindings.Extensions;
@@ -41,6 +39,14 @@ public static class ObservableExtensions
         Func<TSource, bool> filter) =>
         new WhereObservable<TSource>(source, filter);
 
+    /// <summary>
+    /// Merges observable sequences into one observable sequence by using the selector function whenever one of the observable sequences produces an element.
+    /// </summary>
+    /// <typeparam name="TSource">The source type.</typeparam>
+    /// <typeparam name="TResult">The result type.</typeparam>
+    /// <param name="sources">The observable sources.</param>
+    /// <param name="resultSelector">The function to invoke whenever either of the sources produces an element.</param>
+    /// <returns>An observable sequence containing the result of combining elements of all sources using the specified result selector function.</returns>
     public static IObservable<TResult> CombineLatest<TSource, TResult>(
         this IEnumerable<IObservable<TSource>> sources,
         Func<IList<TSource>, TResult> resultSelector) =>

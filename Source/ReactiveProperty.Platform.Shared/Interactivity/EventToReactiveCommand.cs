@@ -33,7 +33,7 @@ namespace Reactive.Bindings.Interactivity;
 #endif
 public class EventToReactiveCommand : TriggerAction<FrameworkElement>
 {
-    private readonly Subject<object> source = new();
+    private readonly Subject<object?> source = new();
     private readonly Subject<EventArgs> autoEnableSource = new();
 
     private CompositeDisposable Disposable { get; } = new CompositeDisposable();
@@ -135,7 +135,7 @@ public class EventToReactiveCommand : TriggerAction<FrameworkElement>
     /// </summary>
     public List<IEventToReactiveConverter> Converters { get { return converters; } }
 
-    private BindingExpression expression;
+    private BindingExpression? expression;
 
     /// <summary>
     /// Called when [attached].
@@ -150,7 +150,7 @@ public class EventToReactiveCommand : TriggerAction<FrameworkElement>
 
     private void SetSubscribes()
     {
-        IObservable<object> ox = source;
+        IObservable<object?> ox = source;
         foreach (var c in Converters)
         {
             c.AssociateObject = AssociatedObject;
@@ -224,9 +224,9 @@ public class EventToReactiveCommand : TriggerAction<FrameworkElement>
 
     private class DefaultConverter : IEventToReactiveConverter
     {
-        public object AssociateObject { get; set; }
+        public object? AssociateObject { get; set; }
 
-        public IObservable<object> Convert(IObservable<object> source)
+        public IObservable<object?> Convert(IObservable<object?> source)
         {
             return source;
         }

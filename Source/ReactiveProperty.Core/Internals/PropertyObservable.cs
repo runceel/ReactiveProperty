@@ -13,7 +13,7 @@ internal sealed class PropertyObservable<TProperty> : IObservable<TProperty>, ID
     private bool _onError;
 
     private PropertyPathNode? RootNode { get; set; }
-    public string Path => RootNode?.Path;
+    public string? Path => RootNode?.Path;
     public bool SetPropertyPathValue(TProperty value) => RootNode?.SetPropertyPathValue(value) ?? false;
     public void SetSource(INotifyPropertyChanged source) => RootNode?.UpdateSource(source);
 

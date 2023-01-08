@@ -10,7 +10,6 @@ namespace ReactivePropertyCoreSample.WPF.ViewModels
 {
     public class ValidationViewModel : ViewModelBase
     {
-        private readonly ReactivePropertySlim<string> _withDataAnnotations;
         [Required(ErrorMessage = "Required property")]
         public ValidatableReactiveProperty<string> WithDataAnnotations { get; }
 
@@ -36,7 +35,7 @@ namespace ReactivePropertyCoreSample.WPF.ViewModels
                 () => WithDataAnnotations)
                 .AddTo(Disposables);
                 
-            WithCustomValidationLogic = ValidatableReactiveProperty.CreateFromValidationLogic(
+            WithCustomValidationLogic = new ValidatableReactiveProperty<string>(
                 "",
                 x => !string.IsNullOrEmpty(x) && x.Contains("-") ? null : "Require '-'")
                 .AddTo(Disposables);
@@ -70,7 +69,8 @@ namespace ReactivePropertyCoreSample.WPF.ViewModels
             FirstName = Poco.ToReactivePropertySlimAsSynchronized(x => x.FirstName)
                 .ToValidatableReactiveProperty(
                     () => FirstName,
-                    mode: ReactivePropertyMode.Default | ReactivePropertyMode.IgnoreInitialValidationError)
+                    mode: ReactivePropertyMode.Default | ReactivePropertyMode.IgnoreInitialValidationError,
+                    disposeSource: true)
                 .AddTo(Disposables);
         }
     }

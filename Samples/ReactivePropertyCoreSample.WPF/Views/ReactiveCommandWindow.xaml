@@ -9,7 +9,7 @@
         xmlns:behaviors="clr-namespace:ReactivePropertyCoreSample.WPF.Behaviors"
         mc:Ignorable="d"
         Style="{StaticResource WindowStyle}"
-        Title="ReactiveCommandWindow" Height="1000" Width="800">
+        Title="ReactiveCommandWindow" Height="1050" Width="800">
     <i:Interaction.Behaviors>
         <behaviors:DisposeViewModelWhenClosedBehavior />
     </i:Interaction.Behaviors>
@@ -58,6 +58,7 @@
                   IsChecked="{Binding IsCheckedForSharedStatus.Value, Mode=TwoWay}" />
         <Button Content="A command" Command="{Binding ACommand}" />
         <Button Content="B command" Command="{Binding BCommand}" />
+        <Button Content="C command" Command="{Binding CCommand}" />
         <TextBlock Text="{Binding SharedStatusOutput.Value}" />
     </StackPanel>
 </Window>

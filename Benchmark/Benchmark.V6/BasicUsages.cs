@@ -53,13 +53,6 @@ namespace ReactivePropertyBenchmark
             var p = new Person();
             return p.ToReactivePropertyAsSynchronized(x => x.Name);
         }
-
-        [Benchmark]
-        public ReactivePropertySlim<string> ToReactivePropertyAsSynchronizedSlim()
-        {
-            var p = new Person();
-            return p.ToReactivePropertySlimAsSynchronized(x => x.Name);
-        }
     }
 
     class Person : INotifyPropertyChanged
