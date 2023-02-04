@@ -27,7 +27,7 @@ public static class CollectionUtilities
     /// <param name="propertySelector">Property selection expression</param>
     /// <param name="isPushCurrentValueAtFirst">Push current value on first subscribe</param>
     /// <returns>Property value sequence</returns>
-    public static IObservable<PropertyPack<TElement, TProperty>> ObserveElementProperty<TElement, TProperty>(IEnumerable<TElement> source, Expression<Func<TElement, TProperty>> propertySelector, bool isPushCurrentValueAtFirst = true)
+    public static IObservable<PropertyPack<TElement, TProperty>> ObserveElementProperty<TElement, TProperty>(IReadOnlyCollection<TElement> source, Expression<Func<TElement, TProperty>> propertySelector, bool isPushCurrentValueAtFirst = true)
         where TElement : class, INotifyPropertyChanged
     {
         if (source == null)
@@ -66,7 +66,7 @@ public static class CollectionUtilities
     /// <param name="source">Source collection</param>
     /// <param name="propertySelector">IObservable selection expression</param>
     /// <returns>IObservable sequence</returns>
-    public static IObservable<PropertyPack<TElement, TProperty>> ObserveElementObservableProperty<TElement, TProperty>(IEnumerable<TElement> source, Expression<Func<TElement, IObservable<TProperty>>> propertySelector)
+    public static IObservable<PropertyPack<TElement, TProperty>> ObserveElementObservableProperty<TElement, TProperty>(IReadOnlyCollection<TElement> source, Expression<Func<TElement, IObservable<TProperty>>> propertySelector)
         where TElement : class
     {
         if (source == null)
@@ -114,7 +114,7 @@ public static class CollectionUtilities
     /// <param name="source">The source.</param>
     /// <returns>PropertyChanged event stream.</returns>
     /// <exception cref="System.ArgumentNullException">source</exception>
-    public static IObservable<SenderEventArgsPair<TElement, PropertyChangedEventArgs>> ObserveElementPropertyChanged<TElement>(IEnumerable<TElement> source)
+    public static IObservable<SenderEventArgsPair<TElement, PropertyChangedEventArgs>> ObserveElementPropertyChanged<TElement>(IReadOnlyCollection<TElement> source)
         where TElement : class, INotifyPropertyChanged
     {
         if (source == null)
