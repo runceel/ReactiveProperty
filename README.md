@@ -12,27 +12,26 @@ ReactiveProperty provides MVVM and asynchronous support features under Reactive 
 
 ReactiveProperty is a very powerful and simple library.
 
-![Delay and Select](https://raw.githubusercontent.com/runceel/ReactiveProperty/main/Images/launch-uwp-app.gif)
+![Delay and Select](https://raw.githubusercontent.com/runceel/ReactiveProperty/main/Images/helloworld-winui.gif)
 
 This sample app's ViewModel code is as below:
 
 ```cs
 public class MainPageViewModel
 {
-    public ReactiveProperty<string> Input { get; }
-    public ReadOnlyReactiveProperty<string> Output { get; }
+    public ReactivePropertySlim<string> Input { get; }
+    public ReadOnlyReactivePropertySlim<string> Output { get; }
     public MainPageViewModel()
     {
-        Input = new ReactiveProperty<string>("");
+        Input = new ReactivePropertySlim<string>("");
         Output = Input
             .Delay(TimeSpan.FromSeconds(1))
             .Select(x => x.ToUpper())
-            .ToReadOnlyReactiveProperty();
+            .ObserveOnDispatcher()
+            .ToReadOnlyReactivePropertySlim();
     }
 }
 ```
-
-It's LINQ and Rx magic.
 
 All steps are written in the "Getting Started" section in the [ReactiveProperty documentation](https://runceel.github.io/ReactiveProperty/).
 
@@ -97,9 +96,9 @@ ViewModel's implementation using ReactiveProperty:
 ```cs
 public class AViewModel
 {
-    public ReactiveProperty<string> Name { get; }
-    public ReactiveProperty<string> Memo { get; }
-    public ReactiveCommand DoSomethingCommand { get; }
+    public ReactivePropertySlim<string> Name { get; }
+    public ReactivePropertySlim<string> Memo { get; }
+    public ReactiveCommandSlim DoSomethingCommand { get; }
 
     public AViewModel()
     {
