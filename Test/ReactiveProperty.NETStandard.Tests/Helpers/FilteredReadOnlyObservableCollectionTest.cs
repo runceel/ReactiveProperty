@@ -397,6 +397,7 @@ public class FilteredReadOnlyObservableCollectionTest
     }
 
     [TestMethod]
+    [Timeout(10 * 1000)]
     public void AddRangeLeargeItemsCaseTest()
     {
         var c = new RangedObservableCollection<Person>();
