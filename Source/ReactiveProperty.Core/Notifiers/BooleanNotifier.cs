@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Reactive.Subjects;
 using System.Runtime.CompilerServices;
+using Reactive.Bindings.Internals;
 
 namespace Reactive.Bindings.Notifiers;
 
@@ -16,7 +16,7 @@ public class BooleanNotifier : IObservable<bool>, INotifyPropertyChanged
     /// <returns></returns>
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    private readonly Subject<bool> boolTrigger = new();
+    private readonly InternalSubject<bool> boolTrigger = new();
     private bool boolValue;
 
     /// <summary>

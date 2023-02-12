@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Reactive.Disposables;
-using System.Reactive.Subjects;
+using Reactive.Bindings.Internals;
 
 namespace Reactive.Bindings.Notifiers;
 
@@ -20,7 +19,7 @@ public class BusyNotifier : INotifyPropertyChanged, IObservable<bool>
 
     private int ProcessCounter { get; set; }
 
-    private Subject<bool> IsBusySubject { get; } = new Subject<bool>();
+    private InternalSubject<bool> IsBusySubject { get; } = new ();
 
     private object LockObject { get; } = new object();
 
@@ -51,7 +50,7 @@ public class BusyNotifier : INotifyPropertyChanged, IObservable<bool>
         {
             ProcessCounter++;
             IsBusy = ProcessCounter != 0;
-            return Disposable.Create(() =>
+            return new DelegateDisposable(() =>
             {
                 lock (LockObject)
                 {

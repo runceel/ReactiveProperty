@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Reactive.Linq;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Reactive.Bindings.Internals;
 
 namespace Reactive.Bindings;
 
@@ -72,24 +73,19 @@ public class AsyncReactiveCommand<T> : ICommand, IDisposable
     /// <returns></returns>
     public event EventHandler? CanExecuteChanged;
 
-    private readonly object gate = new();
-    private readonly IReactiveProperty<bool> canExecute;
-    private readonly IDisposable sourceSubscription;
-    private bool isCanExecute;
-    private bool isDisposed = false;
-    private Notifiers.ImmutableList<Func<T, Task>> asyncActions = Notifiers.ImmutableList<Func<T, Task>>.Empty;
+    private readonly object _gate = new();
+    private readonly IReactiveProperty<bool> _canExecute;
+    private readonly IReadOnlyReactiveProperty<bool>? _canExecuteSource;
+    private bool _isCanExecute;
+    private readonly Action _disposeAction;
+    private bool _isDisposed = false;
+    private ImmutableList<Func<T, Task>> _asyncActions = ImmutableList<Func<T, Task>>.Empty;
 
     /// <summary>
     /// CanExecute is automatically changed when executing to false and finished to true.
     /// </summary>
-    public AsyncReactiveCommand()
+    public AsyncReactiveCommand() : this(new ReactivePropertySlim<bool>(true))
     {
-        canExecute = new ReactivePropertySlim<bool>(true);
-        sourceSubscription = canExecute.Subscribe(x =>
-        {
-            isCanExecute = x;
-            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
-        });
     }
 
     /// <summary>
@@ -105,14 +101,30 @@ public class AsyncReactiveCommand<T> : ICommand, IDisposable
     /// </summary>
     public AsyncReactiveCommand(IObservable<bool> canExecuteSource, IReactiveProperty<bool>? sharedCanExecute)
     {
-        canExecute = sharedCanExecute ?? new ReactivePropertySlim<bool>(true);
-        sourceSubscription = canExecute.CombineLatest(canExecuteSource, (x, y) => x && y)
-            .DistinctUntilChanged()
-            .Subscribe(x =>
-            {
-                isCanExecute = x;
-                CanExecuteChanged?.Invoke(this, EventArgs.Empty);
-            });
+        void canExecute_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName is not nameof(IReactiveProperty<bool>.Value)) return;
+
+            var newValue = _canExecute.Value && _canExecuteSource!.Value;
+            if (newValue == _isCanExecute) return;
+
+            _isCanExecute = newValue;
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        _canExecute = sharedCanExecute ?? new ReactivePropertySlim<bool>(true);
+        _canExecute.PropertyChanged += canExecute_PropertyChanged;
+        _canExecuteSource = canExecuteSource.ToReadOnlyReactivePropertySlim();
+        _canExecuteSource.PropertyChanged += canExecute_PropertyChanged;
+
+        _isCanExecute = _canExecute.Value && _canExecuteSource.Value;
+
+        _disposeAction = () =>
+        {
+            _canExecute.PropertyChanged -= canExecute_PropertyChanged;
+            _canExecuteSource.PropertyChanged -= canExecute_PropertyChanged;
+            _canExecuteSource.Dispose();
+        };
     }
 
     /// <summary>
@@ -121,12 +133,18 @@ public class AsyncReactiveCommand<T> : ICommand, IDisposable
     /// </summary>
     public AsyncReactiveCommand(IReactiveProperty<bool> sharedCanExecute)
     {
-        canExecute = sharedCanExecute;
-        sourceSubscription = canExecute.Subscribe(x =>
+        void canExecute_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            isCanExecute = x;
+            if (e.PropertyName is not nameof(IReactiveProperty<bool>.Value)) return;
+
+            _isCanExecute = _canExecute.Value;
             CanExecuteChanged?.Invoke(this, EventArgs.Empty);
-        });
+        }
+
+        _canExecute = sharedCanExecute;
+        _canExecute.PropertyChanged += canExecute_PropertyChanged;
+        _isCanExecute = _canExecute.Value;
+        _disposeAction = () => _canExecute.PropertyChanged -= canExecute_PropertyChanged;
     }
 
     /// <summary>
@@ -134,7 +152,7 @@ public class AsyncReactiveCommand<T> : ICommand, IDisposable
     /// </summary>
     public bool CanExecute()
     {
-        return isDisposed ? false : isCanExecute;
+        return _isDisposed ? false : _isCanExecute;
     }
 
     /// <summary>
@@ -142,7 +160,7 @@ public class AsyncReactiveCommand<T> : ICommand, IDisposable
     /// </summary>
     bool ICommand.CanExecute(object? parameter)
     {
-        return isDisposed ? false : isCanExecute;
+        return _isDisposed ? false : _isCanExecute;
     }
 
     /// <summary>
@@ -155,10 +173,10 @@ public class AsyncReactiveCommand<T> : ICommand, IDisposable
     /// </summary>
     public async Task ExecuteAsync(T parameter)
     {
-        if (isCanExecute)
+        if (_isCanExecute)
         {
-            canExecute.Value = false;
-            var a = asyncActions.Data;
+            _canExecute.Value = false;
+            var a = _asyncActions.Data;
 
             if (a.Length == 1)
             {
@@ -169,7 +187,7 @@ public class AsyncReactiveCommand<T> : ICommand, IDisposable
                 }
                 finally
                 {
-                    canExecute.Value = true;
+                    _canExecute.Value = true;
                 }
             }
             else
@@ -186,7 +204,7 @@ public class AsyncReactiveCommand<T> : ICommand, IDisposable
                 }
                 finally
                 {
-                    canExecute.Value = true;
+                    _canExecute.Value = true;
                 }
             }
         }
@@ -202,9 +220,9 @@ public class AsyncReactiveCommand<T> : ICommand, IDisposable
     /// </summary>
     public IDisposable Subscribe(Func<T, Task> asyncAction)
     {
-        lock (gate)
+        lock (_gate)
         {
-            asyncActions = asyncActions.Add(asyncAction);
+            _asyncActions = _asyncActions.Add(asyncAction);
         }
 
         return new Subscription(this, asyncAction);
@@ -215,16 +233,16 @@ public class AsyncReactiveCommand<T> : ICommand, IDisposable
     /// </summary>
     public void Dispose()
     {
-        if (isDisposed)
+        if (_isDisposed)
         {
             return;
         }
 
-        isDisposed = true;
-        sourceSubscription.Dispose();
-        if (isCanExecute)
+        _isDisposed = true;
+        _disposeAction();
+        if (_isCanExecute)
         {
-            isCanExecute = false;
+            _isCanExecute = false;
             CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
     }
@@ -242,9 +260,9 @@ public class AsyncReactiveCommand<T> : ICommand, IDisposable
 
         public void Dispose()
         {
-            lock (parent.gate)
+            lock (parent._gate)
             {
-                parent.asyncActions = parent.asyncActions.Remove(asyncAction);
+                parent._asyncActions = parent._asyncActions.Remove(asyncAction);
             }
         }
     }

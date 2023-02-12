@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Reactive.Subjects;
 using System.Runtime.CompilerServices;
 using System.Text;
 using BenchmarkDotNet.Attributes;
@@ -9,7 +10,7 @@ using Reactive.Bindings.Extensions;
 
 namespace ReactivePropertyBenchmark
 {
-    public class BasicUsages
+    public partial class BasicUsages
     {
         [Benchmark]
         public ReactiveProperty<string> CreateReactivePropertyInstance() => new ReactiveProperty<string>();

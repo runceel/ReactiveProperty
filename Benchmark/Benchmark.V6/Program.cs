@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using BenchmarkDotNet.Running;
+﻿using BenchmarkDotNet.Running;
 
 namespace ReactivePropertyBenchmark
 {
@@ -9,6 +6,5 @@ namespace ReactivePropertyBenchmark
     {
         static void Main(string[] args) =>
             BenchmarkRunner.Run(typeof(Program).Assembly);
-
     }
 }

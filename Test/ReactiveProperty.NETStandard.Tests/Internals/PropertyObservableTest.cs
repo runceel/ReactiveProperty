@@ -37,7 +37,7 @@ public class PropertyObservableTest : ReactiveTest
         path.Dispose();
         item.IsPropertyChangedEmpty.IsTrue();
         item.Child.Value = 100;
-        testObserver.Messages.Is(OnNext(0, 1));
+        testObserver.Messages.Is(OnNext(0, 1), OnCompleted<int>(0));
     }
 
     [TestMethod]
