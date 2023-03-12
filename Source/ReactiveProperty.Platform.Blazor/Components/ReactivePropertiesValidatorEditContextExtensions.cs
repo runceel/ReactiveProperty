@@ -1,4 +1,5 @@
 ﻿using System.Reactive.Disposables;
+using System.Reflection;
 using Microsoft.AspNetCore.Components.Forms;
 using Reactive.Bindings.Extensions;
 
@@ -16,6 +17,13 @@ public static class ReactivePropertiesValidatorEditContextExtensions
     /// <returns>A disposable object whose disposal will remove ReactiveProperties validation support from the Microsoft.AspNetCore.Components.Forms.EditContext.</returns>
     public static IDisposable EnableReactivePropertiesValidation(this EditContext editContext)
     {
+        bool isValidatableReactiveProperty(PropertyInfo x) =>
+            x.PropertyType.IsAssignableTo(typeof(ValidatableReactiveProperty<>).MakeGenericType(x.PropertyType.GenericTypeArguments[0]));
+
+
+        bool isReactiveProperty(PropertyInfo x) =>
+            x.PropertyType.IsAssignableTo(typeof(ReactiveProperty<>).MakeGenericType(x.PropertyType.GenericTypeArguments[0]));
+
         var disposable = new CompositeDisposable();
         var messages = new ValidationMessageStore(editContext);
         var model = editContext.Model;
@@ -25,7 +33,7 @@ public static class ReactivePropertiesValidatorEditContextExtensions
             .Where(x => x.PropertyType.IsAssignableTo(typeof(IReactiveProperty)))
             .Where(x => x.CanRead)
             .Where(x => x.PropertyType.GenericTypeArguments.Length == 1)
-            .Where(x => x.PropertyType.IsAssignableTo(typeof(ReactiveProperty<>).MakeGenericType(x.PropertyType.GenericTypeArguments[0])))
+            .Where(x => isReactiveProperty(x) || isValidatableReactiveProperty(x))
             .Select(x => (IReactiveProperty?)x.GetValue(model))
             .Where(x => x != null)
             .Select(x => x!)
