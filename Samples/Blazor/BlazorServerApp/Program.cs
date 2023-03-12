@@ -11,6 +11,7 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddTransient<ValidationViewModel>();
 builder.Services.AddTransient<HelloWorldViewModel>();
+builder.Services.AddTransient<CounterViewModel>();
 
 var app = builder.Build();
 
