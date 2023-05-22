@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml.Linq;
 
 namespace Reactive.Bindings.Internals;
 internal class InternalSubject<T> : IObservable<T>, IObserver<T>, IObserverLinkedList<T>, IDisposable

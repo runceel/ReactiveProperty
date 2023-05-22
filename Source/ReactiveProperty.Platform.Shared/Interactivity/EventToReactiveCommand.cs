@@ -6,7 +6,6 @@ using System.Reactive.Linq;
 using System.Reactive.Disposables;
 using Reactive.Bindings.Extensions;
 using System.Collections.Generic;
-using System.Reactive.Concurrency;
 
 #if NETFX_CORE
 using Windows.UI.Xaml.Controls;
