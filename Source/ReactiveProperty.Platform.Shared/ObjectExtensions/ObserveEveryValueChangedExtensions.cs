@@ -85,7 +85,7 @@ public static class ObserveEveryValueChangedExtensions
                         observer.OnCompleted();
                     }
 
-                    if (!comparer.Equals(currentValue, prevValue))
+                    if (!comparer.Equals(currentValue!, prevValue!))
                     {
                         observer.OnNext(currentValue);
                         prevValue = currentValue;

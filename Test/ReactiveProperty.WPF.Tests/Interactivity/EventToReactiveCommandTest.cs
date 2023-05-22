@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reactive.Concurrency;
-using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using System.Linq;
-using Microsoft.Reactive.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Reactive.Bindings;
