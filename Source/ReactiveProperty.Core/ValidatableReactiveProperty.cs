@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -257,7 +256,7 @@ public class ValidatableReactiveProperty<T> : IReactiveProperty<T>, IObserverLin
     }
 
     /// <inheritdoc/>
-    public void ForceNotify() => Validate(_latestValue);
+    public void ForceNotify() => Validate(_latestValue, ValidationKind.Force);
 
     /// <inheritdoc/>
     IEnumerable INotifyDataErrorInfo.GetErrors(string? propertyName) => _errorMessages.Value;
@@ -327,7 +326,7 @@ public class ValidatableReactiveProperty<T> : IReactiveProperty<T>, IObserverLin
         var isNotEquals = !_equalityComparer.Equals(_latestValue, value);
         var needValidation = validationKind == ValidationKind.FirstTime ? 
             !IsIgnoreInitialValidationError : 
-            isNotEquals;
+            isNotEquals || validationKind == ValidationKind.Force;
 
         _latestValue = value;
         if (needValidation)
@@ -405,6 +404,7 @@ public class ValidatableReactiveProperty<T> : IReactiveProperty<T>, IObserverLin
         Default,
         FirstTime,
         RequestFromSoucre,
+        Force,
     }
 }
 

@@ -11,7 +11,6 @@ using System.Collections.Generic;
 #else
 using Microsoft.Xaml.Behaviors;
 using System.Windows.Markup;
-using System.ComponentModel;
 using System.Windows;
 using System.Collections.Generic;
 #endif

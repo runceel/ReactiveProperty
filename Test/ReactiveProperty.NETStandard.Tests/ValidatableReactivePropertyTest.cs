@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using Microsoft.Reactive.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -378,6 +377,30 @@ public class ValidatableReactivePropertyTest : ReactiveTest
             OnNext(0, true),
             OnNext(0, false),
             OnCompleted<bool>(0));
+    }
+
+    [TestMethod]
+    public void ForceNotify()
+    {
+        var target = new ValidatableReactiveProperty<string>(
+            "",
+            x => string.IsNullOrEmpty(x) ? "invalid" : null,
+            mode: ReactivePropertyMode.Default | ReactivePropertyMode.IgnoreInitialValidationError);
+
+        var testScheduler = new TestScheduler();
+        var errorChangedRecorder = testScheduler.CreateObserver<string[]>();
+        var hasErrorsRecorder = testScheduler.CreateObserver<bool>();
+        target.ObserveErrorChanged.Subscribe(errorChangedRecorder);
+        target.ObserveHasErrors.Subscribe(hasErrorsRecorder);
+
+        target.ForceNotify();
+        errorChangedRecorder.Messages.Is(
+            OnNext(0, (string[] x) => x is []),
+            OnNext(0, (string[] x) => x is ["invalid"]));
+
+        hasErrorsRecorder.Messages.Is(
+            OnNext(0, false),
+            OnNext(0, true));
     }
 
     class Person : INotifyPropertyChanged

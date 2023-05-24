@@ -12,32 +12,35 @@ ReactiveProperty provides MVVM and asynchronous support features under Reactive 
 
 ReactiveProperty is a very powerful and simple library.
 
-![Delay and Select](https://raw.githubusercontent.com/runceel/ReactiveProperty/main/Images/launch-uwp-app.gif)
+![Delay and Select](https://raw.githubusercontent.com/runceel/ReactiveProperty/main/Images/helloworld-winui.gif)
 
 This sample app's ViewModel code is as below:
 
 ```cs
 public class MainPageViewModel
 {
-    public ReactiveProperty<string> Input { get; }
-    public ReadOnlyReactiveProperty<string> Output { get; }
+    public ReactivePropertySlim<string> Input { get; }
+    public ReadOnlyReactivePropertySlim<string> Output { get; }
     public MainPageViewModel()
     {
-        Input = new ReactiveProperty<string>("");
+        Input = new ReactivePropertySlim<string>("");
         Output = Input
             .Delay(TimeSpan.FromSeconds(1))
             .Select(x => x.ToUpper())
-            .ToReadOnlyReactiveProperty();
+            .ObserveOnDispatcher()
+            .ToReadOnlyReactivePropertySlim();
     }
 }
 ```
 
-It's LINQ and Rx magic.
+It is really simple and understandable (I think!). Because there are NOT any base classes and interfaces. Just has declarative code between Input property and Output property. 
 
 All steps are written in the "Getting Started" section in the [ReactiveProperty documentation](https://runceel.github.io/ReactiveProperty/).
 
-This library's concept is "Fun programing". 
-ViewModel code using ReactiveProperties is very simple.
+The concept of ReactiveProperty is simple that is a core class what name is `ReactiveProperty[Slim]`, it is just a wrap class what has a value, and implements `IObservable<T>` and `INotifyPropertyChanged`, `IObservable<T>` is for connect change event of the property value to Rx LINQ method chane, `INotifyPropertyChanged` is for data binding system such as WPF, WinUI and MAUI.
+
+And an important concept of ReactiveProperty is "Fun programing". 
+ViewModel code with ReactiveProperty is very simple.
 
 
 ViewModel's popular implementation:
@@ -97,9 +100,9 @@ ViewModel's implementation using ReactiveProperty:
 ```cs
 public class AViewModel
 {
-    public ReactiveProperty<string> Name { get; }
-    public ReactiveProperty<string> Memo { get; }
-    public ReactiveCommand DoSomethingCommand { get; }
+    public ReactivePropertySlim<string> Name { get; }
+    public ReactivePropertySlim<string> Memo { get; }
+    public ReactiveCommandSlim DoSomethingCommand { get; }
 
     public AViewModel()
     {

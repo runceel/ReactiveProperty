@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq.Expressions;
-using System.Xml.Linq;
 
 namespace Reactive.Bindings.Internals;
 

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq.Expressions;
-using System.Text;
 
 namespace Reactive.Bindings.Internals;
 internal class SimplePropertyObservable<TSubject, TProperty> : IObservable<TProperty>

@@ -2,7 +2,6 @@
 using System.Reactive.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Reactive.Bindings;
-using Reactive.Bindings.Extensions;
 
 namespace ReactiveProperty.Tests;
 
