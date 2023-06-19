@@ -30,11 +30,11 @@ public static class DependencyObjectExtensions
         return Observable.Create<Unit>(ox =>
         {
 #if WINDOWS_UWP
-                void h(DependencyObject _, DependencyProperty __) => ox.OnNext(Unit.Default);
-                var token = self.RegisterPropertyChangedCallback(dp, h);
-                return () => self.UnregisterPropertyChangedCallback(dp, token);
+            void h(DependencyObject _, DependencyProperty __) => ox.OnNext(Unit.Default);
+            var token = self.RegisterPropertyChangedCallback(dp, h);
+            return () => self.UnregisterPropertyChangedCallback(dp, token);
 #else
-                void h(object _, EventArgs __) => ox.OnNext(Unit.Default);
+            void h(object? _, EventArgs __) => ox.OnNext(Unit.Default);
             var descriptor = DependencyPropertyDescriptor.FromProperty(dp, typeof(T));
             descriptor.AddValueChanged(self, h);
             return () => descriptor.RemoveValueChanged(self, h);

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
-using System.Text;
 using System.Threading;
 using System.Windows.Threading;
 

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.ExceptionServices;
 using System.Windows.Input;
 using Reactive.Bindings.Internals;

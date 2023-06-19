@@ -2,8 +2,8 @@
 using System.Reactive.Linq;
 
 namespace Reactive.Bindings.Extensions;
-#pragma warning disable 1591
-#pragma warning disable 0618
+#pragma warning disable CA1422
+#pragma warning disable CS0618
 
 public static class ViewEventExtensions
 {
