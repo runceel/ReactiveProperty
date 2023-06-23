@@ -100,16 +100,16 @@ ViewModel's implementation using ReactiveProperty:
 ```cs
 public class AViewModel
 {
-    public ReactivePropertySlim<string> Name { get; }
-    public ReactivePropertySlim<string> Memo { get; }
+    public ValidatableReactiveProperty<string> Name { get; }
+    public ValidatableReactiveProperty<string> Memo { get; }
     public ReactiveCommandSlim DoSomethingCommand { get; }
 
     public AViewModel()
     {
-        Name = new ReactiveProperty<string>()
-            .SetValidateNotifyError(x => string.IsNullOrEmpty(x) ? "Invalid value" : null);
-        Memo = new ReactiveProperty<string>()
-            .SetValidateNotifyError(x => string.IsNullOrEmpty(x) ? "Invalid value" : null);
+        Name = new ValidatableReactiveProperty<string>("", 
+            x => string.IsNullOrEmpty(x) ? "Invalid value" : null);
+        Memo = new ValidatableReactiveProperty<string>("",
+            x => string.IsNullOrEmpty(x) ? "Invalid value" : null);
         DoSomethingCommand = new[]
             {
                 Name.ObserveHasErrors,
