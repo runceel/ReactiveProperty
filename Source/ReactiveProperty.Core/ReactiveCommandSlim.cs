@@ -59,20 +59,20 @@ public class ReactiveCommandSlim : ReactiveCommandSlim<object?>
     /// Subscribe execute.
     /// </summary>
     public IDisposable Subscribe(Action onNext)
-        => this.Subscribe(new DelegateObserver(onNext));
+        => Subscribe(new DelegateObserver(onNext));
 }
 
 /// <summary>
 /// <see cref="ICommand"/> implementation for ReactiveProperty.
 /// </summary>
-public class ReactiveCommandSlim<T> : ICommand, IObservable<T?>, IObserver<bool>, IObserverLinkedList<T?>, IDisposable
+public class ReactiveCommandSlim<T> : ICommand, IObservable<T>, IObserver<bool>, IObserverLinkedList<T>, IDisposable
 {
     private readonly IReadOnlyReactiveProperty<bool>? _sharedCanExecute;
     private readonly IReadOnlyReactiveProperty<bool>? _canExecuteSource;
     private readonly Action? _disposeAction;
     private bool _canExecute = true;
-    private ObserverNode<T?>? _root;
-    private ObserverNode<T?>? _last;
+    private ObserverNode<T>? _root;
+    private ObserverNode<T>? _last;
 
     /// <inheritdoc />
     public event EventHandler? CanExecuteChanged;
@@ -153,10 +153,10 @@ public class ReactiveCommandSlim<T> : ICommand, IObservable<T?>, IObserver<bool>
     }
 
     /// <inheritdoc />
-    public bool CanExecute(T? parameter) => _canExecute;
+    public bool CanExecute(T parameter) => _canExecute;
 
     /// <inheritdoc />
-    public void Execute(T? parameter)
+    public void Execute(T parameter)
     {
         if (_canExecute is false) return;
 
@@ -172,15 +172,14 @@ public class ReactiveCommandSlim<T> : ICommand, IObservable<T?>, IObserver<bool>
     /// <summary>
     /// Subscribe execute.
     /// </summary>
-    public IDisposable Subscribe(Action<T?> onNext)
-        => this.Subscribe(new DelegateObserver<T?>(onNext));
-
-
-    /// <inheritdoc />
-    bool ICommand.CanExecute(object? parameter) => CanExecute((T?)parameter);
+    public IDisposable Subscribe(Action<T> onNext)
+        => Subscribe(new DelegateObserver<T>(onNext));
 
     /// <inheritdoc />
-    void ICommand.Execute(object? parameter) => Execute((T?)parameter);
+    bool ICommand.CanExecute(object? parameter) => CanExecute((T)parameter!);
+
+    /// <inheritdoc />
+    void ICommand.Execute(object? parameter) => Execute((T)parameter!);
 
     /// <summary>
     /// Notifies the provider that an observer is to receive notifications.
@@ -190,7 +189,7 @@ public class ReactiveCommandSlim<T> : ICommand, IObservable<T?>, IObserver<bool>
     /// A reference to an interface that allows observers to stop receiving notifications before
     /// the provider has finished sending them.
     /// </returns>
-    public IDisposable Subscribe(IObserver<T?> observer)
+    public IDisposable Subscribe(IObserver<T> observer)
     {
         if (IsDisposed)
         {
@@ -199,7 +198,7 @@ public class ReactiveCommandSlim<T> : ICommand, IObservable<T?>, IObserver<bool>
         }
 
         // subscribe node, node as subscription.
-        var next = new ObserverNode<T?>(this, observer);
+        var next = new ObserverNode<T>(this, observer);
         if (_root == null)
         {
             _root = _last = next;
@@ -213,7 +212,7 @@ public class ReactiveCommandSlim<T> : ICommand, IObservable<T?>, IObserver<bool>
         return next;
     }
 
-    void IObserverLinkedList<T?>.UnsubscribeNode(ObserverNode<T?> node)
+    void IObserverLinkedList<T>.UnsubscribeNode(ObserverNode<T> node)
     {
         if (node == _root)
         {
@@ -255,6 +254,8 @@ public class ReactiveCommandSlim<T> : ICommand, IObservable<T?>, IObserver<bool>
             node.OnCompleted();
             node = node.Next;
         }
+
+        GC.SuppressFinalize(this);
     }
 
     void IObserver<bool>.OnCompleted() => _canExecute = false;
@@ -338,9 +339,9 @@ public static class ReactiveCommandSlimExtensions
     /// <param name="onNext">Action</param>
     /// <param name="postProcess">Handling of the subscription.</param>
     /// <returns>Same of self argument</returns>
-    public static ReactiveCommandSlim<T> WithSubscribe<T>(this ReactiveCommandSlim<T> self, Action<T?> onNext, Action<IDisposable>? postProcess = null)
+    public static ReactiveCommandSlim<T> WithSubscribe<T>(this ReactiveCommandSlim<T> self, Action<T> onNext, Action<IDisposable>? postProcess = null)
     {
-        var d = self.Subscribe(new DelegateObserver<T?>(onNext));
+        var d = self.Subscribe(new DelegateObserver<T>(onNext));
         postProcess?.Invoke(d);
         return self;
     }
@@ -366,9 +367,9 @@ public static class ReactiveCommandSlimExtensions
     /// <param name="onNext">Action</param>
     /// <param name="disposable">The return value of self.Subscribe(onNext)</param>
     /// <returns>Same of self argument</returns>
-    public static ReactiveCommandSlim<T> WithSubscribe<T>(this ReactiveCommandSlim<T> self, Action<T?> onNext, out IDisposable disposable)
+    public static ReactiveCommandSlim<T> WithSubscribe<T>(this ReactiveCommandSlim<T> self, Action<T> onNext, out IDisposable disposable)
     {
-        disposable = self.Subscribe(new DelegateObserver<T?>(onNext));
+        disposable = self.Subscribe(new DelegateObserver<T>(onNext));
         return self;
     }
 }
