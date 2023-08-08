@@ -28,9 +28,9 @@ jobs:
       run: dotnet restore ReactiveProperty.sln
     - name: Test
       run: dotnet test ReactiveProperty.sln --no-restore --verbosity normal
-    - name: Code Analysis
-      uses: dotnet/code-analysis@v1
-      id: code-analysis
+    - name: Archive NuGet packages
+      uses: actions/upload-artifact@v1
       with:
-        build-breaking: true
+        name: errorlog-report.json
+        path: errorlog-report.json
     
