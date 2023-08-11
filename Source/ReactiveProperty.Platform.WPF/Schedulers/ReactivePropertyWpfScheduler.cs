@@ -12,7 +12,6 @@ namespace Reactive.Bindings.Schedulers;
 public class ReactivePropertyWpfScheduler : LocalScheduler
 {
     private readonly Dispatcher _dispatcher;
-    private readonly DispatcherSynchronizationContext _context;
 
     /// <summary>
     /// Construct a scheduler from Dispatcher.
@@ -21,7 +20,6 @@ public class ReactivePropertyWpfScheduler : LocalScheduler
     public ReactivePropertyWpfScheduler(Dispatcher dispatcher)
     {
         _dispatcher = dispatcher;
-        _context = new DispatcherSynchronizationContext(dispatcher);
     }
 
     /// <summary>
@@ -40,18 +38,19 @@ public class ReactivePropertyWpfScheduler : LocalScheduler
 
         if (_dispatcher.CheckAccess())
         {
-            return action(this, state);
+            return ImmediateScheduler.Instance.Schedule(state, action);
         }
 
         var d = new SingleAssignmentDisposable();
 
-        _context.PostWithStartComplete(() =>
-        {
-            if (!d.IsDisposed)
+        _dispatcher.BeginInvoke(() =>
             {
-                d.Disposable = action(this, state);
-            }
-        });
+                if (!d.IsDisposed)
+                {
+                    d.Disposable = action(this, state);
+                }
+            }, 
+            DispatcherPriority.Normal);
 
         return d;
     }
@@ -80,46 +79,5 @@ public class ReactivePropertyWpfScheduler : LocalScheduler
         // Note that avoiding closure allocation here would introduce infinite generic recursion over the TState argument
         return DefaultScheduler.Instance.Schedule(state, dt, (_, state1) => Schedule(state1, action));
     }
-}
-internal static class SynchronizationContextExtensions
-{
-    public static void PostWithStartComplete<T>(this SynchronizationContext context, Action<T> action, T state)
-    {
-        context.OperationStarted();
 
-        context.Post(
-            o =>
-            {
-                try
-                {
-                    action((T)o!);
-                }
-                finally
-                {
-                    context.OperationCompleted();
-                }
-            },
-            state
-        );
-    }
-
-    public static void PostWithStartComplete(this SynchronizationContext context, Action action)
-    {
-        context.OperationStarted();
-
-        context.Post(
-            _ =>
-            {
-                try
-                {
-                    action();
-                }
-                finally
-                {
-                    context.OperationCompleted();
-                }
-            },
-            null
-        );
-    }
 }
