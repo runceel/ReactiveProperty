@@ -40,7 +40,7 @@ jobs:
       shell: pwsh
       run: |
         $doc = [XML](Get-Content 'Source\Directory.Build.props')
-        echo "::set-output name=version::$($doc.Project.PropertyGroup.Version)"    
+        echo "version=$($doc.Project.PropertyGroup.Version) >> $GITHUB_OUTPUT"
     - name: Install dependencies
       run: dotnet restore ReactiveProperty.sln
     - name: Build
