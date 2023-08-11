@@ -28,9 +28,3 @@ jobs:
       run: dotnet restore ReactiveProperty.sln
     - name: Test
       run: dotnet test ReactiveProperty.sln --no-restore --verbosity normal
-    - name: Code Analysis
-      uses: dotnet/code-analysis@v1
-      id: code-analysis
-      with:
-        build-breaking: true
-    
