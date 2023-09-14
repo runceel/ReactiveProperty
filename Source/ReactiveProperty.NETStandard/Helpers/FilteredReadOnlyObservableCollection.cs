@@ -351,7 +351,16 @@ public sealed class FilteredReadOnlyObservableCollection<TCollection, TElement, 
         CollectionChanged -= Source_CollectionChanged;
     }
 
-    private int FindNearIndex(int position) => IndexList.Take(position).Reverse().FirstOrDefault(x => x != null) ?? -1;
+    private int FindNearIndex(int position)
+    {
+        for (int i = position; i >= 0; i--)
+        {
+            var value = IndexList[i];
+            if (value != null) return value.Value;
+        }
+
+        return -1;
+    }
 
     private void AppearNewItem(int index)
     {
