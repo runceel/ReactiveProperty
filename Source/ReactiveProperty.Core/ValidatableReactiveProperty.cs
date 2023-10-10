@@ -239,8 +239,8 @@ public class ValidatableReactiveProperty<T> : IReactiveProperty<T>, IObserverLin
             node = node.Next;
         }
 
-        _observeHasErrors.PropertyChanged += ObserveHasErrors_PropertyChanged;
-        _errorMessages.PropertyChanged += ErrorMessages_PropertyChanged;
+        _observeHasErrors.PropertyChanged -= ObserveHasErrors_PropertyChanged;
+        _errorMessages.PropertyChanged -= ErrorMessages_PropertyChanged;
 
         _errorMessages.Dispose();
         _observeHasErrors.Dispose();
