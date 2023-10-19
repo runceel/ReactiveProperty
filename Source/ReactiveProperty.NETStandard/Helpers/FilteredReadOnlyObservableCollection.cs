@@ -348,7 +348,7 @@ public sealed class FilteredReadOnlyObservableCollection<TCollection, TElement, 
     {
         if (Subscription.IsDisposed) { return; }
         Subscription.Dispose();
-        CollectionChanged -= Source_CollectionChanged;
+        Source.CollectionChanged -= Source_CollectionChanged;
     }
 
     private int FindNearIndex(int position)
