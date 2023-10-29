@@ -81,6 +81,12 @@ jobs:
         with:
           name: dist
           path: dist
+      - uses: rickstaa/action-create-tag@v1
+        id: "tag_create"
+        with:
+          tag: ${{ needs.build.outputs.version }}
+          tag_exists_error: true
+          message: ${{ needs.build.outputs.version }}
       - name: Create a release
         id: create_release
         uses: ncipollo/release-action@v1
