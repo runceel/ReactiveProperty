@@ -1,0 +1,39 @@
+﻿<Window
+    x:Class="ReactiveProperty.WPF.ManualTests.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:ReactiveProperty.WPF.ManualTests"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="MainWindow"
+    Width="800"
+    Height="450"
+    mc:Ignorable="d">
+    <StackPanel Margin="10">
+        <StackPanel Margin="5">
+            <TextBlock FontSize="14" Text="Deadlock test" />
+            <Button Click="DeadlockTestButton_Click" Content="Start test" />
+            <TextBlock>
+                <Run Text="Expected behavior is finishing without deadlock." />
+                <Hyperlink NavigateUri="https://github.com/runceel/ReactiveProperty/issues/452" RequestNavigate="Hyperlink_RequestNavigate">#452</Hyperlink>
+            </TextBlock>
+            <TextBlock x:Name="deadlockTestResult" />
+        </StackPanel>
+        <StackPanel Margin="5">
+            <TextBlock FontSize="14" Text="Stack overflow test" />
+            <Button Click="StackOverflowTestButton_Click" Content="Start test" />
+            <TextBlock>
+                <Run Text="Expected behavior is finishing without StackOverflowException." />
+                <Hyperlink NavigateUri="https://github.com/runceel/ReactiveProperty/pull/436" RequestNavigate="Hyperlink_RequestNavigate">#436</Hyperlink>
+            </TextBlock>
+            <TextBlock x:Name="stackOverflowTestResult" />
+        </StackPanel>
+        <StackPanel Margin="5">
+            <TextBlock FontSize="14" Text="Validation UI test" />
+            <Button Click="ValidationUITestButton_Click" Content="Start test" />
+            <TextBlock>
+                <Run Text="Expected behavior is showing a new Window with TextBox without red boarder for validation errors." />
+            </TextBlock>
+        </StackPanel>
+    </StackPanel>
+</Window>
