@@ -85,13 +85,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReactiveProperty.WPF.Tests"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReactiveProperty.Platform.Blazor", "Source\ReactiveProperty.Platform.Blazor\ReactiveProperty.Platform.Blazor.csproj", "{B9C47D43-2EBE-4750-9C67-7FABF5D3A0BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.Blazor.Tests", "Test\ReactiveProperty.Blazor.Tests\ReactiveProperty.Blazor.Tests.csproj", "{3E78E840-14B6-407F-80D6-F6F25C5A979B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReactiveProperty.Blazor.Tests", "Test\ReactiveProperty.Blazor.Tests\ReactiveProperty.Blazor.Tests.csproj", "{3E78E840-14B6-407F-80D6-F6F25C5A979B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveProperty.WPF.ManualTests", "Test\ReactiveProperty.WPF.ManualTests\ReactiveProperty.WPF.ManualTests.csproj", "{98617635-19E9-4C15-8F24-01C214F9A4EB}"
 EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Source\ReactiveProperty.Platform.Shared\ReactiveProperty.Platform.Shared.projitems*{523e5506-24df-44ca-83cc-6aa02454f150}*SharedItemsImports = 13
-		Source\ReactiveProperty.Platform.Shared\ReactiveProperty.Platform.Shared.projitems*{75521693-a60a-4042-ae39-9fdaa14902ba}*SharedItemsImports = 5
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|ARM = Debug|ARM
@@ -380,6 +378,36 @@ Global
 		{3E78E840-14B6-407F-80D6-F6F25C5A979B}.Release|x64.Build.0 = Release|Any CPU
 		{3E78E840-14B6-407F-80D6-F6F25C5A979B}.Release|x86.ActiveCfg = Release|Any CPU
 		{3E78E840-14B6-407F-80D6-F6F25C5A979B}.Release|x86.Build.0 = Release|Any CPU
+		{98617635-19E9-4C15-8F24-01C214F9A4EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98617635-19E9-4C15-8F24-01C214F9A4EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98617635-19E9-4C15-8F24-01C214F9A4EB}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{98617635-19E9-4C15-8F24-01C214F9A4EB}.Debug|ARM.Build.0 = Debug|Any CPU
+		{98617635-19E9-4C15-8F24-01C214F9A4EB}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{98617635-19E9-4C15-8F24-01C214F9A4EB}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{98617635-19E9-4C15-8F24-01C214F9A4EB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{98617635-19E9-4C15-8F24-01C214F9A4EB}.Debug|x64.Build.0 = Debug|Any CPU
+		{98617635-19E9-4C15-8F24-01C214F9A4EB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{98617635-19E9-4C15-8F24-01C214F9A4EB}.Debug|x86.Build.0 = Debug|Any CPU
+		{98617635-19E9-4C15-8F24-01C214F9A4EB}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{98617635-19E9-4C15-8F24-01C214F9A4EB}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{98617635-19E9-4C15-8F24-01C214F9A4EB}.Documentation|ARM.ActiveCfg = Debug|Any CPU
+		{98617635-19E9-4C15-8F24-01C214F9A4EB}.Documentation|ARM.Build.0 = Debug|Any CPU
+		{98617635-19E9-4C15-8F24-01C214F9A4EB}.Documentation|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{98617635-19E9-4C15-8F24-01C214F9A4EB}.Documentation|Mixed Platforms.Build.0 = Debug|Any CPU
+		{98617635-19E9-4C15-8F24-01C214F9A4EB}.Documentation|x64.ActiveCfg = Debug|Any CPU
+		{98617635-19E9-4C15-8F24-01C214F9A4EB}.Documentation|x64.Build.0 = Debug|Any CPU
+		{98617635-19E9-4C15-8F24-01C214F9A4EB}.Documentation|x86.ActiveCfg = Debug|Any CPU
+		{98617635-19E9-4C15-8F24-01C214F9A4EB}.Documentation|x86.Build.0 = Debug|Any CPU
+		{98617635-19E9-4C15-8F24-01C214F9A4EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98617635-19E9-4C15-8F24-01C214F9A4EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98617635-19E9-4C15-8F24-01C214F9A4EB}.Release|ARM.ActiveCfg = Release|Any CPU
+		{98617635-19E9-4C15-8F24-01C214F9A4EB}.Release|ARM.Build.0 = Release|Any CPU
+		{98617635-19E9-4C15-8F24-01C214F9A4EB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{98617635-19E9-4C15-8F24-01C214F9A4EB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{98617635-19E9-4C15-8F24-01C214F9A4EB}.Release|x64.ActiveCfg = Release|Any CPU
+		{98617635-19E9-4C15-8F24-01C214F9A4EB}.Release|x64.Build.0 = Release|Any CPU
+		{98617635-19E9-4C15-8F24-01C214F9A4EB}.Release|x86.ActiveCfg = Release|Any CPU
+		{98617635-19E9-4C15-8F24-01C214F9A4EB}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -397,11 +425,16 @@ Global
 		{BDB9A031-5463-4C47-8990-0D27A31DFE91} = {6B13388E-F781-4F55-AF8B-2E991EA59DB8}
 		{B9C47D43-2EBE-4750-9C67-7FABF5D3A0BC} = {592AA479-AD7F-476B-AEF8-2B0268EA3BD8}
 		{3E78E840-14B6-407F-80D6-F6F25C5A979B} = {6B13388E-F781-4F55-AF8B-2E991EA59DB8}
+		{98617635-19E9-4C15-8F24-01C214F9A4EB} = {6B13388E-F781-4F55-AF8B-2E991EA59DB8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {5AC43AC2-86FE-46EF-B243-5C8E75EAB89B}
-		BuildVersion_UseGlobalSettings = True
 		BuildVersion_AssemblyInfoFilename = Source\NET40\Properties\CommonAssemblyInfo.cs
+		BuildVersion_UseGlobalSettings = True
+		SolutionGuid = {5AC43AC2-86FE-46EF-B243-5C8E75EAB89B}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Source\ReactiveProperty.Platform.Shared\ReactiveProperty.Platform.Shared.projitems*{523e5506-24df-44ca-83cc-6aa02454f150}*SharedItemsImports = 13
+		Source\ReactiveProperty.Platform.Shared\ReactiveProperty.Platform.Shared.projitems*{75521693-a60a-4042-ae39-9fdaa14902ba}*SharedItemsImports = 5
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = ReactiveProperty.vsmdi
