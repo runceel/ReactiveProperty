@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <PackageId>ReactiveProperty</PackageId>
-    <TargetFrameworks>netstandard2.0;net6.0;net7.0;net472</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net6.0;net7.0;net8.0;net472</TargetFrameworks>
     <AssemblyName>ReactiveProperty</AssemblyName>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
@@ -16,6 +16,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ReactiveProperty.Core\ReactiveProperty.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Microsoft.SourceLink.GitHub" Version="8.0.0" />
   </ItemGroup>
 
 </Project>

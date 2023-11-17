@@ -10,6 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using Reactive.Bindings.Helpers;
+using ReactiveProperty.Tests.TestUtilities;
 
 namespace ReactiveProperty.Tests.Helpers;
 

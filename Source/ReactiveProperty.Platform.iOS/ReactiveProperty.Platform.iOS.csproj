@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net7.0-ios</TargetFramework>
+    <TargetFrameworks>net7.0-ios;net8.0-ios</TargetFrameworks>
     <PackageId>ReactiveProperty.XamariniOS</PackageId>
     <AssemblyName>ReactiveProperty.XamariniOS</AssemblyName>
     <SignAssembly>true</SignAssembly>
@@ -11,5 +11,8 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReactiveProperty.NETStandard\ReactiveProperty.NETStandard.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Update="Microsoft.SourceLink.GitHub" Version="8.0.0" />
   </ItemGroup>
 </Project>
