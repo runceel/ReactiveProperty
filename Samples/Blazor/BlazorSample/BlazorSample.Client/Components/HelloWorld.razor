@@ -1,0 +1,70 @@
+﻿@using Reactive.Bindings
+@using Reactive.Bindings.Extensions
+@using Reactive.Bindings.Components
+@using System.Reactive.Linq
+@using System.Reactive.Disposables
+@using System.Reactive.Concurrency
+@using BlazorSample.Client.ViewModels
+
+<div>
+    <h1>ReactiveProperty samples</h1>
+
+    <h3>Hello world</h3>
+
+    <input class="form-control" type="text" @bind="HelloWorldViewModel.Input.Value" @bind:event="oninput" />
+    <div class="alert alert-primary">
+        @HelloWorldViewModel.Output.Value
+    </div>
+
+    <h3>Validation sample</h3>
+
+    <EditForm Enhance
+               FormName="ValidationViewModel"
+               Model="ValidationViewModel"
+               OnInvalidSubmit="() => ValidationViewModel.InvalidSubmitCommand.ExecuteAsync()"
+               OnValidSubmit="() => ValidationViewModel.SubmitCommand.ExecuteAsync()">
+         <ReactivePropertiesValidator />
+         <ValidationSummary />
+
+         <div class="mb-3">
+             <label for="firstName">First name</label>
+             <InputText @bind-Value="ValidationViewModel.FirstName.Value" class="form-control" />
+             <ValidationMessage For="() => ValidationViewModel.FirstName.Value" />
+         </div>
+         <div class="mb-3">
+             <label for="firstName">Last name</label>
+             <InputText @bind-Value="ValidationViewModel.LastName.Value" class="form-control" />
+             <ValidationMessage For="() => ValidationViewModel.LastName.Value" />
+         </div>
+
+         <div class="mb-3">
+             <span>Full name: @ValidationViewModel.FullName.Value</span>
+        </div>
+
+        <button type="submit" class="btn btn-primary" disabled="@ValidationViewModel.SubmitCommand.IsDisabled()">Submit</button>
+    </EditForm>
+</div>
+
+@if (!string.IsNullOrEmpty(ValidationViewModel?.Message?.Value))
+{
+    <div class="alert alert-primary">
+        <span>@ValidationViewModel.Message.Value</span>
+    </div>
+}
+
+@code {
+    private readonly CompositeDisposable _disposable = new();
+
+    [Inject]
+    public Microsoft.AspNetCore.Components.Forms.Mapping.IFormValueMapper Mapper { get; set; } = null!;
+
+    [SupplyParameterFromForm]
+    public ValidationViewModel? ValidationViewModel { get; set; }
+
+    public HelloWorldViewModel HelloWorldViewModel { get; } = new();
+
+    protected override void OnInitialized()
+    {
+        ValidationViewModel = new();
+    }
+}
