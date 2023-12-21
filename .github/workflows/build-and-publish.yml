@@ -59,7 +59,7 @@ jobs:
 
   release-to-nuget:
     runs-on: windows-latest
-    needs: [build]
+    needs: build
     steps:
       - name: Download archives
         uses: actions/download-artifact@v2
@@ -70,7 +70,7 @@ jobs:
 
   create-release:
     runs-on: windows-latest
-    needs: [build]
+    needs: build
     steps:
       - name: Download archives
         uses: actions/download-artifact@v2
