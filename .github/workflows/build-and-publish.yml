@@ -81,7 +81,7 @@ jobs:
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "latest"
-          prerelease: ${{ contains(github.ref, '-pre') }}
-          title: "${GITHUB_REF/refs/tags}"
+          prerelease: ${{ contains(needs.build.outputs.version, '-pre') }}
+          title: "Release v${{ needs.build.outputs.version }}"
           files: |
             dist/*.nupkg
