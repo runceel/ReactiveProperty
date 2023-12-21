@@ -33,6 +33,6 @@ app.UseAntiforgery();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
     .AddInteractiveWebAssemblyRenderMode()
-    .AddAdditionalAssemblies(typeof(BlazorSample.Client.Components.Counter).Assembly);
+    .AddAdditionalAssemblies(typeof(BlazorSample.Client._Imports).Assembly);
 
 app.Run();
