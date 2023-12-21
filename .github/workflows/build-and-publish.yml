@@ -31,7 +31,7 @@ jobs:
       shell: pwsh
       run: |
         $doc = [XML](Get-Content 'Source\Directory.Build.props')
-        $doc.Project.PropertyGroup.Version = '${{github.refs}}'.Split('/')[2].Substring(1)
+        $doc.Project.PropertyGroup.Version = '${{github.ref}}'.Split('/')[2].Substring(1)
         $doc.Save('Source\Directory.Build.props')
     - name: Set version to outputs
       id: set-version-to-output
@@ -80,7 +80,7 @@ jobs:
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "${GITHUB_REF/refs/tags}"
+          automatic_release_tag: "latest"
           prerelease: ${{ contains(github.ref, '-pre') }}
           title: "${GITHUB_REF/refs/tags}"
           files: |
