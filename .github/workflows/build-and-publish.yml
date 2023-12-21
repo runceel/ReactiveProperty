@@ -2,12 +2,11 @@ name: Build and Release
 
 on:
   push:
-    branches: [ main, pre-release, release ]
-    paths-ignore: 
-      - 'docs/**'
+    tags:
+      - 'v*'
 
 env:
-  DOTNET_VERSION: 7.0.x
+  DOTNET_VERSION: 8.0.x
 
 jobs:
   build:
@@ -29,11 +28,10 @@ jobs:
     - name: Add msbuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
     - name: Update version number
-      if: github.ref != 'refs/heads/release'
       shell: pwsh
       run: |
         $doc = [XML](Get-Content 'Source\Directory.Build.props')
-        $doc.Project.PropertyGroup.Version += '-pre' + (Get-Date).ToString("yyyyMMddHHmm")
+        $doc.Project.PropertyGroup.Version = '${GITHUB_REF/refs/tags}'.Substring(1)
         $doc.Save('Source\Directory.Build.props')
     - name: Set version to outputs
       id: set-version-to-output
@@ -44,7 +42,7 @@ jobs:
     - name: Install dependencies
       run: dotnet restore ReactiveProperty.sln
     - name: Build
-      run: dotnet build ReactiveProperty.sln -c Release /p:ContinuousIntegrationBuild=True /p:EmbedUntrackedSources=True
+      run: dotnet build ReactiveProperty.sln -c Release --no-restore /p:ContinuousIntegrationBuild=True /p:EmbedUntrackedSources=True /p:Version=${GITHUB_REF/refs/tags}
     - name: Test
       run: dotnet test ReactiveProperty.sln --no-restore --verbosity normal
     - name: Copy package files
@@ -62,7 +60,6 @@ jobs:
   release-to-nuget:
     runs-on: windows-latest
     needs: [build]
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/pre-release' || github.ref == 'refs/heads/release')
     steps:
       - name: Download archives
         uses: actions/download-artifact@v2
@@ -74,40 +71,17 @@ jobs:
   create-release:
     runs-on: windows-latest
     needs: [build]
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/pre-release' || github.ref == 'refs/heads/release')
     steps:
       - name: Download archives
         uses: actions/download-artifact@v2
         with:
           name: dist
           path: dist
-      - uses: rickstaa/action-create-tag@v1
-        id: "tag_create"
+      - uses: "marvinpinto/action-automatic-releases@latest"
         with:
-          tag: ${{ needs.build.outputs.version }}
-          tag_exists_error: true
-          message: ${{ needs.build.outputs.version }}
-      - name: Create a release
-        id: create_release
-        uses: ncipollo/release-action@v1
-        with:
-          tag: ${{ needs.build.outputs.version }}
-          name: Release ${{ needs.build.outputs.version }}
-          body: |
-            TBD
-          draft: true
-          prerelease: ${{ github.ref == 'refs/heads/pre-release' }}
-      - name: Archive packages
-        shell: pwsh
-        run: |
-          Compress-Archive -Path dist -DestinationPath packages.zip
-      - name: Upload Release Asset
-        id: upload-release-asset 
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: packages.zip
-          asset_name: packages-${{ needs.build.outputs.version }}.zip
-          asset_content_type: application/zip
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "${GITHUB_REF/refs/tags}"
+          prerelease: ${{ contains(github.ref, '-pre') }}
+          title: "${GITHUB_REF/refs/tags}"
+          files: |
+            dist/*.nupkg
