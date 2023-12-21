@@ -37,7 +37,7 @@ public static class ReactivePropertyExtensions
             self.SetValidateNotifyError(x =>
             {
                 var validationResults = new List<ValidationResult>();
-                if (Validator.TryValidateValue(x, context, validationResults, attrs))
+                if (Validator.TryValidateValue(x!, context, validationResults, attrs))
                 {
                     return null;
                 }

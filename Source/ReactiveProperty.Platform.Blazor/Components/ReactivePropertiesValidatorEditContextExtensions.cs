@@ -37,7 +37,7 @@ public static class ReactivePropertiesValidatorEditContextExtensions
             .Select(x => (IReactiveProperty?)x.GetValue(model))
             .Where(x => x != null)
             .Select(x => x!)
-            .ToList();
+            .ToArray();
 
         foreach (var property in properties)
         {
@@ -69,8 +69,15 @@ public static class ReactivePropertiesValidatorEditContextExtensions
                 property.ForceNotify();
             }
         }
+
+        void fieldChanged(object? sender, FieldChangedEventArgs e)
+        {
+            if (e.FieldIdentifier.Model is IReactiveProperty rp) rp.ForceNotify();
+        }
+
         // When validation process was requested, then ReactiveProperty#ForceNotify call to trigger validation process.
         editContext.OnValidationRequested += validateAll;
+        editContext.OnFieldChanged += fieldChanged;
         Disposable.Create<(EditContext EditContext, EventHandler<ValidationRequestedEventArgs> EventHandler)>(
             (editContext, validateAll),
             state => state.EditContext.OnValidationRequested -= state.EventHandler)

@@ -1,0 +1,19 @@
+﻿@using BlazorSample.Client.ViewModels
+@using Reactive.Bindings
+
+<div>
+    <h1>Counter</h1>
+
+    <p role="status">Current count: @CounterViewModel.Counter.Value</p>
+
+    <button class="btn btn-primary"
+            @onclick="() => CounterViewModel.IncrementCommand.Execute()"
+            disabled="@CounterViewModel.IncrementCommand.IsDisabled()"
+            type="button">
+        Click me
+    </button>
+</div>
+
+@code {
+    private CounterViewModel CounterViewModel { get; } = new();
+}
