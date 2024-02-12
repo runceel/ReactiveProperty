@@ -403,6 +403,24 @@ public class ValidatableReactivePropertyTest : ReactiveTest
             OnNext(0, true));
     }
 
+    [TestMethod]
+    public void ErrorChangedTest()
+    {
+        var rp = new ValidatableReactiveProperty<string>(
+            "",
+            [
+                x => x == "valid" ? null : "Error!!",
+            ],
+            mode: ReactivePropertyMode.Default | ReactivePropertyMode.IgnoreInitialValidationError);
+
+        rp.ErrorsChanged += (_, e) =>
+        {
+            Assert.IsTrue(rp.HasErrors);
+        };
+
+        rp.ForceNotify();
+    }
+
     class Person : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;

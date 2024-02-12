@@ -367,8 +367,8 @@ public class ValidatableReactiveProperty<T> : IReactiveProperty<T>, IObserverLin
     {
         if (e.PropertyName != nameof(IReactiveProperty.Value)) return;
         PropertyChanged?.Invoke(this, SingletonPropertyChangedEventArgs.ErrorMessage);
-        ErrorsChanged?.Invoke(this, SingletonDataErrorsChangedEventArgs.Value);
         _observeHasErrors.Value = _errorMessages.Value.Length != 0;
+        ErrorsChanged?.Invoke(this, SingletonDataErrorsChangedEventArgs.Value);
     }
 
     private void ObserveHasErrors_PropertyChanged(object? sender, PropertyChangedEventArgs e)
