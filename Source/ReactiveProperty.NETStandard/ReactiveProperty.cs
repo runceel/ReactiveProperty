@@ -62,6 +62,12 @@ public class ReactiveProperty<T> : IReactiveProperty<T>, IObserverLinkedList<T>
     /// </value>
     public bool IsIgnoreInitialValidationError => (_mode & ReactivePropertyMode.IgnoreInitialValidationError) == ReactivePropertyMode.IgnoreInitialValidationError;
 
+    /// <summary>
+    /// Used for invoking PropertyChanged event in derived classes.
+    /// </summary>
+    /// <param name="propertyName">Name of property that has changed</param>
+    protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
     private readonly IEqualityComparer<T> _equalityComparer;
 
     private ReactivePropertyMode _mode; // None = 0, DistinctUntilChanged = 1, RaiseLatestValueOnSubscribe = 2, Disposed = (1 << 9)

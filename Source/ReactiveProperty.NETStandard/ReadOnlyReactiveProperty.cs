@@ -161,6 +161,12 @@ public class ReadOnlyReactiveProperty<T> : IReadOnlyReactiveProperty<T>, IObserv
         _sourceSubscription = null;
     }
 
+    /// <summary>
+    /// Used for invoking PropertyChanged event in derived classes.
+    /// </summary>
+    /// <param name="propertyName">Name of property that has changed</param>
+    protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
     void IObserver<T>.OnNext(T value)
     {
         if (IsDisposed)

@@ -116,6 +116,12 @@ public class ReactivePropertySlim<T> : IReactiveProperty<T>, IObserverLinkedList
         _equalityComparer = equalityComparer ?? EqualityComparer<T>.Default;
     }
 
+    /// <summary>
+    /// Used for invoking PropertyChanged event in derived classes.
+    /// </summary>
+    /// <param name="propertyName">Name of property that has changed</param>
+    protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
     private void OnNextAndRaiseValueChanged(ref T value)
     {
         // call source.OnNext
@@ -290,6 +296,12 @@ public class ReadOnlyReactivePropertySlim<T> : IReadOnlyReactiveProperty<T>, IOb
     /// </summary>
     /// <value><c>true</c> if this instance is disposed; otherwise, <c>false</c>.</value>
     public bool IsDisposed => (int)_mode == IsDisposedFlagNumber;
+
+    /// <summary>
+    /// Used for invoking PropertyChanged event in derived classes.
+    /// </summary>
+    /// <param name="propertyName">Name of property that has changed</param>
+    protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
     object? IReadOnlyReactiveProperty.Value => Value;
 
