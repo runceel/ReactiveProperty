@@ -246,6 +246,11 @@ public class ReactivePropertySlim<T> : IReactiveProperty<T>, IObserverLinkedList
     {
         return System.Linq.Enumerable.Empty<object>();
     }
+
+    protected virtual void OnPropertyChanged(string? propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
 }
 
 /// <summary>
