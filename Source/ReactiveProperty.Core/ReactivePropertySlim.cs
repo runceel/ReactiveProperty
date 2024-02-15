@@ -247,6 +247,7 @@ public class ReactivePropertySlim<T> : IReactiveProperty<T>, IObserverLinkedList
         return System.Linq.Enumerable.Empty<object>();
     }
 
+    // for use by derived classes
     protected virtual void OnPropertyChanged(string? propertyName = null)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -463,6 +464,7 @@ public class ReadOnlyReactivePropertySlim<T> : IReadOnlyReactiveProperty<T>, IOb
             : _latestValue.ToString();
     }
 
+    // for use by derived classes
     protected virtual void OnPropertyChanged(string? propertyName = null)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
