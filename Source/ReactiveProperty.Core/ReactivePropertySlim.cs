@@ -462,6 +462,11 @@ public class ReadOnlyReactivePropertySlim<T> : IReadOnlyReactiveProperty<T>, IOb
             ? "null"
             : _latestValue.ToString();
     }
+
+    protected virtual void OnPropertyChanged(string? propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
 }
 
 /// <summary>
