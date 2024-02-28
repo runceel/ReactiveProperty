@@ -10,6 +10,14 @@ ReactiveProperty provides MVVM and asynchronous support features under Reactive 
 
 ![ReactiveProperty overview](https://raw.githubusercontent.com/runceel/ReactiveProperty/main/Images/rpsummary.png)
 
+### Note:
+
+If you’re developing a new application, consider using R3 instead of ReactiveProperty. R3, redesigned by the original author, aligns with the current .NET ecosystem and offers most of the features found in ReactiveProperty.
+
+[GitHub - Cysharp/R3](https://github.com/Cysharp/R3)
+
+## Concept
+
 ReactiveProperty is a very powerful and simple library.
 
 ![Delay and Select](https://raw.githubusercontent.com/runceel/ReactiveProperty/main/Images/helloworld-winui.gif)
