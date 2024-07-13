@@ -11,13 +11,13 @@
   <ItemGroup>
     <!--<PackageReference Include="ChainingAssertion.Bin" Version="1.8.1.3" />-->
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Reactive.Testing" Version="6.0.0" />
-    <PackageReference Include="Moq" Version="4.20.69" />
-    <PackageReference Include="MSTest.TestAdapter" Version="3.1.1" />
-    <PackageReference Include="MSTest.TestFramework" Version="3.1.1" />
+    <PackageReference Include="Microsoft.Reactive.Testing" Version="6.0.1" />
+    <PackageReference Include="Moq" Version="4.20.70" />
+    <PackageReference Include="MSTest.TestAdapter" Version="3.4.3" />
+    <PackageReference Include="MSTest.TestFramework" Version="3.4.3" />
   </ItemGroup>
 
   <ItemGroup>
