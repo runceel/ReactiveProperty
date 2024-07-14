@@ -44,7 +44,7 @@ jobs:
         Copy-Item (Get-ChildItem -Path "Source/**/*.snupkg" -Recurse) -Destination dist
       shell: pwsh
     - name: Archive NuGet packages
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v4
       with:
         name: dist
         path: dist
