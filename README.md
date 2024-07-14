@@ -153,7 +153,7 @@ ReactiveProperty doesn't provide base class by ViewModel, which means that React
 |[ReactiveProperty.WPF](https://www.nuget.org/packages/ReactiveProperty.WPF/)|![](https://img.shields.io/nuget/v/ReactiveProperty.WPF.svg)![](https://img.shields.io/nuget/dt/ReactiveProperty.WPF.svg)|The package includes EventToReactiveProperty and EventToReactiveCommand for WPF. This is for .NET 6 or later and .NET Framework 4.7.2 or later.|
 |[ReactiveProperty.Blazor](https://www.nuget.org/packages/ReactiveProperty.Blazor/)|![](https://img.shields.io/nuget/v/ReactiveProperty.Blazor.svg)![](https://img.shields.io/nuget/dt/ReactiveProperty.Blazor.svg)|The package includes validation support for EditForm component of Blazor with ReactiveProperty validation feature. This is for .NET 6.0 or later. |
 
-Following packages are maitanance phase.
+The following packages are no longer supported.
 
 |Package Id|Version and downloads|Description|
 |----|----|----|
