@@ -483,5 +483,19 @@ See below:
 canExecuteSource.ObserveOn(theSchedulerInstanceYouWant).ToAsyncReactiveCommand();
 ```
 
+### `ReactiveCommandSlim`
 
+This is a lightweight version of `ReactiveCommand`. The main difference from the traditional `ReactiveCommand` is that the `CanExecuteChanged` event is no longer dispatched on the UI thread. If it is necessary to always trigger the event on the UI thread, use the `ObserveOn` method on the `IObservable<bool>` source of `ReactiveCommandSlim` to explicitly set it.
 
+Additionally, by implementing it in the same way as `ReactivePropertySlim`, various performance improvements have been made. The benchmarks are as follows:
+
+|                                        Method |         Mean |       Error |      StdDev |       Median |
+|---------------------------------------------- |-------------:|------------:|------------:|-------------:|
+|                         CreateReactiveCommand |   291.931 ns |   5.6965 ns |  10.5589 ns |   291.178 ns |
+|                     CreateReactiveCommandSlim |     4.313 ns |   0.1293 ns |   0.1080 ns |     4.269 ns |
+|                BasicUsecaseForReactiveCommand | 1,187.294 ns |  22.8930 ns |  21.4141 ns | 1,179.896 ns |
+|            BasicUsecaseForReactiveCommandSlim |    91.861 ns |   1.8934 ns |   3.5096 ns |    91.750 ns |
+
+From top to bottom, these represent the creation of a `ReactiveCommand`, the creation of a `ReactiveCommandSlim`, the basic use case for `ReactiveCommand`, and the basic use case for `ReactiveCommandSlim`. There is a performance difference of over 70 times in the instantiation case and 13 times in the basic functionality usage case.
+
+Furthermore, like `AsyncReactiveCommand`, it is possible to easily share the execution state across multiple commands by sharing an `IReactiveProperty<bool>`.
