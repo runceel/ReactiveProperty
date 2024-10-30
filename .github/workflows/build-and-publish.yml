@@ -14,19 +14,11 @@ jobs:
     outputs:
       version: ${{ steps.set-version-to-output.outputs.version }}
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Setup .NET
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
-    - uses: actions/setup-java@v2
-      with:
-        distribution: 'zulu'
-        java-version: '11'
-    - name: Install MAUI
-      run: dotnet workload install maui
-    - name: Add msbuild to PATH
-      uses: microsoft/setup-msbuild@v1.0.2
     - name: Update version number
       shell: pwsh
       run: |
@@ -52,7 +44,7 @@ jobs:
         Copy-Item (Get-ChildItem -Path "Source/**/*.snupkg" -Recurse) -Destination dist
       shell: pwsh
     - name: Archive NuGet packages
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v4
       with:
         name: dist
         path: dist
@@ -62,7 +54,7 @@ jobs:
     needs: build
     steps:
       - name: Download archives
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: dist
       - name: Publish packages
@@ -73,14 +65,14 @@ jobs:
     needs: build
     steps:
       - name: Download archives
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: dist
           path: dist
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: ${{ needs.build.outputs.version }}
+          automatic_release_tag: "v${{ needs.build.outputs.version }}"
           prerelease: ${{ contains(needs.build.outputs.version, '-pre') }}
           title: Release ${{ needs.build.outputs.version }}
           files: |
