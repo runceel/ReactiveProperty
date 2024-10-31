@@ -52,28 +52,40 @@ public class AsyncReactiveCommandTest
         var source = new Subject<bool>();
         var taskSource = new TaskCompletionSource<object>();
         var canExecuteChangedCounter = 0;
+        var isExecutingChangedCounter = 0;
 
         var command = source.ToAsyncReactiveCommand();
         command.Subscribe(_ => taskSource.Task);
         command.CanExecuteChanged += (_, __) => canExecuteChangedCounter++;
+        command.IsExecutingChanged += (_, __) => isExecutingChangedCounter++;
 
         canExecuteChangedCounter.Is(0);
+        isExecutingChangedCounter.Is(0);
         command.CanExecute().Is(false);
+        command.IsExecuting().Is(false);
 
         source.OnNext(true);
         command.CanExecute().Is(true);
+        command.IsExecuting().Is(false);
         canExecuteChangedCounter.Is(1);
+        isExecutingChangedCounter.Is(0);
 
         command.Execute();
         command.CanExecute().Is(false);
+        command.IsExecuting().Is(true);
         canExecuteChangedCounter.Is(2);
+        isExecutingChangedCounter.Is(1);
 
         taskSource.SetResult(null);
         command.CanExecute().Is(true);
+        command.IsExecuting().Is(false);
         canExecuteChangedCounter.Is(3);
+        isExecutingChangedCounter.Is(2);
 
         command.Dispose();
         command.CanExecute().Is(false);
+        command.IsExecuting().Is(false);
+        isExecutingChangedCounter.Is(2);
     }
 
     [TestMethod]

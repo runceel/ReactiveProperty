@@ -73,8 +73,14 @@ public class AsyncReactiveCommand<T> : ICommand, IDisposable
     /// <returns></returns>
     public event EventHandler? CanExecuteChanged;
 
+    /// <summary>
+    /// Occurs when changes occur that affect whether or not the command is executing.
+    /// </summary>
+    public event EventHandler? IsExecutingChanged;
+
     private readonly object _gate = new();
     private readonly IReactiveProperty<bool> _canExecute;
+    private readonly IReactiveProperty<bool> _isExecuting;
     private readonly IReadOnlyReactiveProperty<bool>? _canExecuteSource;
     private bool _isCanExecute;
     private readonly Action _disposeAction;
@@ -112,6 +118,8 @@ public class AsyncReactiveCommand<T> : ICommand, IDisposable
             CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
 
+        _isExecuting = new ReactivePropertySlim<bool>(false);
+        _isExecuting.PropertyChanged += _isExecuting_PropertyChanged;
         _canExecute = sharedCanExecute ?? new ReactivePropertySlim<bool>(true);
         _canExecute.PropertyChanged += canExecute_PropertyChanged;
         _canExecuteSource = canExecuteSource.ToReadOnlyReactivePropertySlim();
@@ -121,6 +129,7 @@ public class AsyncReactiveCommand<T> : ICommand, IDisposable
 
         _disposeAction = () =>
         {
+            _isExecuting.PropertyChanged -= _isExecuting_PropertyChanged;
             _canExecute.PropertyChanged -= canExecute_PropertyChanged;
             _canExecuteSource.PropertyChanged -= canExecute_PropertyChanged;
             _canExecuteSource.Dispose();
@@ -141,10 +150,31 @@ public class AsyncReactiveCommand<T> : ICommand, IDisposable
             CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
 
+        _isExecuting = new ReactivePropertySlim<bool>(false);
+        _isExecuting.PropertyChanged += _isExecuting_PropertyChanged;
         _canExecute = sharedCanExecute;
         _canExecute.PropertyChanged += canExecute_PropertyChanged;
         _isCanExecute = _canExecute.Value;
-        _disposeAction = () => _canExecute.PropertyChanged -= canExecute_PropertyChanged;
+        _disposeAction = () =>
+        {
+            _isExecuting.PropertyChanged -= _isExecuting_PropertyChanged;
+            _canExecute.PropertyChanged -= canExecute_PropertyChanged;
+        };
+    }
+
+    void _isExecuting_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName is not nameof(IReactiveProperty<bool>.Value)) return;
+
+        IsExecutingChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    /// <summary>
+    /// Return current isExecuting status.
+    /// </summary>
+    public bool IsExecuting()
+    {
+        return _isDisposed ? false : _isExecuting.Value;
     }
 
     /// <summary>
@@ -175,6 +205,7 @@ public class AsyncReactiveCommand<T> : ICommand, IDisposable
     {
         if (_isCanExecute)
         {
+            _isExecuting.Value = true;
             _canExecute.Value = false;
             var a = _asyncActions.Data;
 
@@ -188,6 +219,7 @@ public class AsyncReactiveCommand<T> : ICommand, IDisposable
                 finally
                 {
                     _canExecute.Value = true;
+                    _isExecuting.Value = false;
                 }
             }
             else
@@ -205,6 +237,7 @@ public class AsyncReactiveCommand<T> : ICommand, IDisposable
                 finally
                 {
                     _canExecute.Value = true;
+                    _isExecuting.Value = false;
                 }
             }
         }
