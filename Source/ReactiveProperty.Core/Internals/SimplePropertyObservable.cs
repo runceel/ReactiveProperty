@@ -60,8 +60,8 @@ internal class SimplePropertyObservable<TSubject, TProperty> : IObservable<TProp
 
         private void PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            if (_isDisposed) throw new InvalidOperationException();
             if (e.PropertyName != _propertyName && !string.IsNullOrEmpty(e.PropertyName)) return;
+            if (_isDisposed) throw new InvalidOperationException();
 
             try
             {
@@ -80,6 +80,7 @@ internal class SimplePropertyObservable<TSubject, TProperty> : IObservable<TProp
             if (_isDisposed) return;
 
             _isDisposed = true;
+            _subject.PropertyChanged -= PropertyChanged;
             if (_onError is false)
             {
                 try
@@ -92,7 +93,6 @@ internal class SimplePropertyObservable<TSubject, TProperty> : IObservable<TProp
                 }
             }
 
-            _subject.PropertyChanged -= PropertyChanged;
             _subject = default!;
             _observer = null!;
             _accessor = null!;
