@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <PackageId>ReactiveProperty.Core</PackageId>
-    <TargetFrameworks>netstandard2.0;net6.0;net8.0;net472</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net8.0;net9.0;net472</TargetFrameworks>
     <AssemblyName>ReactiveProperty.Core</AssemblyName>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
