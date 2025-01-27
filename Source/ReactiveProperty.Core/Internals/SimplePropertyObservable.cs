@@ -60,8 +60,8 @@ internal class SimplePropertyObservable<TSubject, TProperty> : IObservable<TProp
 
         private void PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
+            if (_isDisposed) return;
             if (e.PropertyName != _propertyName && !string.IsNullOrEmpty(e.PropertyName)) return;
-            if (_isDisposed) throw new InvalidOperationException();
 
             try
             {

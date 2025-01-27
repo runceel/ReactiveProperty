@@ -31,7 +31,7 @@ internal class PropertyChangedObservable : IObservable<PropertyChangedEventArgs>
 
         private void PropertyChanged(object? _, PropertyChangedEventArgs e)
         {
-            if (_isDisposed) throw new InvalidOperationException();
+            if (_isDisposed) return;
             _observer.OnNext(e);
         }
 
