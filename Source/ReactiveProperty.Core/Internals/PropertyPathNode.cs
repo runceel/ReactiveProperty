@@ -113,6 +113,7 @@ internal class PropertyPathNode : IDisposable
 
     private void SourcePropertyChangedEventHandler(object? sender, PropertyChangedEventArgs e)
     {
+        if (_isDisposed) return;
         if (e.PropertyName == PropertyName || string.IsNullOrEmpty(e.PropertyName))
         {
             Next?.UpdateSource(GetPropertyValue());
