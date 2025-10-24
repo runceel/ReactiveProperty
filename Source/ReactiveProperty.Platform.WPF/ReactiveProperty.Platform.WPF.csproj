@@ -10,15 +10,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.122" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ReactiveProperty.NETStandard\ReactiveProperty.NETStandard.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="Microsoft.SourceLink.GitHub" Version="8.0.0" />
   </ItemGroup>
 
   <Import Project="..\ReactiveProperty.Platform.Shared\ReactiveProperty.Platform.Shared.projitems" Label="Shared" />
