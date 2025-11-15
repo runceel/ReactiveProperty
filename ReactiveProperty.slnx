@@ -1,0 +1,96 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="Debug" />
+    <BuildType Name="Documentation" />
+    <BuildType Name="Release" />
+    <Platform Name="Any CPU" />
+    <Platform Name="ARM" />
+    <Platform Name="Mixed Platforms" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/Images/">
+    <File Path="Images/delay.png" />
+    <File Path="Images/error1.png" />
+    <File Path="Images/error2.png" />
+    <File Path="Images/interval.png" />
+    <File Path="Images/reactivecommand1.png" />
+    <File Path="Images/reactivecommand2.png" />
+    <File Path="Images/rpsummary.png" />
+    <File Path="Images/synchronize.png" />
+    <File Path="Images/todomvvm.png" />
+    <File Path="Images/xf-howtouserp-createproject-en.png" />
+    <File Path="Images/xf-howtouserp-createproject.png" />
+  </Folder>
+  <Folder Name="/Snippet/" />
+  <Folder Name="/Snippet/csharp5/">
+    <File Path="Snippet/csharp5/AsyncReactiveCommand.snippet" />
+    <File Path="Snippet/csharp5/AsyncReactiveCommandGeneric.snippet" />
+    <File Path="Snippet/csharp5/ReactiveCollection.snippet" />
+    <File Path="Snippet/csharp5/ReactiveCommand.snippet" />
+    <File Path="Snippet/csharp5/ReactiveCommandGeneric.snippet" />
+    <File Path="Snippet/csharp5/ReactiveProperty.snippet" />
+    <File Path="Snippet/csharp5/ReactivePropertySlim.snippet" />
+    <File Path="Snippet/csharp5/ReadOnlyReactiveCollection.snippet" />
+    <File Path="Snippet/csharp5/ReadOnlyReactiveProperty.snippet" />
+    <File Path="Snippet/csharp5/ReadOnlyReactivePropertySlim.snippet" />
+  </Folder>
+  <Folder Name="/Snippet/csharp6/">
+    <File Path="Snippet/csharp6/AsyncReactiveCommand.snippet" />
+    <File Path="Snippet/csharp6/AsyncReactiveCommandGeneric.snippet" />
+    <File Path="Snippet/csharp6/ReactiveCollection.snippet" />
+    <File Path="Snippet/csharp6/ReactiveCommand.snippet" />
+    <File Path="Snippet/csharp6/ReactiveCommandGeneric.snippet" />
+    <File Path="Snippet/csharp6/ReactiveProperty.snippet" />
+    <File Path="Snippet/csharp6/ReactivePropertySlim.snippet" />
+    <File Path="Snippet/csharp6/ReadOnlyReactiveCollection.snippet" />
+    <File Path="Snippet/csharp6/ReadOnlyReactiveProperty.snippet" />
+    <File Path="Snippet/csharp6/ReadOnlyReactivePropertySlim.snippet" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path="LICENSE.txt" />
+    <File Path="Local.testsettings" />
+    <File Path="ReactiveProperty.vsmdi" />
+    <File Path="README.md" />
+    <File Path="ReleaseNote-ja.md" />
+    <File Path="ReleaseNote.md" />
+    <File Path="TraceAndTestImpact.testsettings" />
+  </Folder>
+  <Folder Name="/Source/">
+    <Project Path="Source/ReactiveProperty.Core/ReactiveProperty.Core.csproj">
+      <BuildType Solution="Documentation|*" Project="Debug" />
+    </Project>
+    <Project Path="Source/ReactiveProperty.NETStandard/ReactiveProperty.NETStandard.csproj">
+      <BuildType Solution="Documentation|*" Project="Debug" />
+    </Project>
+    <Project Path="Source/ReactiveProperty.Platform.Blazor/ReactiveProperty.Platform.Blazor.csproj">
+      <BuildType Solution="Documentation|*" Project="Debug" />
+    </Project>
+    <Project Path="Source/ReactiveProperty.Platform.Shared/ReactiveProperty.Platform.Shared.shproj" />
+    <Project Path="Source/ReactiveProperty.Platform.WPF/ReactiveProperty.Platform.WPF.csproj">
+      <BuildType Solution="Documentation|*" Project="Debug" />
+    </Project>
+  </Folder>
+  <Folder Name="/Test/">
+    <Project Path="Test/ReactiveProperty.Blazor.Tests/ReactiveProperty.Blazor.Tests.csproj">
+      <BuildType Solution="Documentation|*" Project="Debug" />
+    </Project>
+    <Project Path="Test/ReactiveProperty.NETStandard.Tests/ReactiveProperty.NETStandard.Tests.csproj">
+      <BuildType Solution="Documentation|*" Project="Debug" />
+    </Project>
+    <Project Path="Test/ReactiveProperty.WPF.ManualTests/ReactiveProperty.WPF.ManualTests.csproj">
+      <BuildType Solution="Documentation|*" Project="Debug" />
+    </Project>
+    <Project Path="Test/ReactiveProperty.WPF.Tests/ReactiveProperty.WPF.Tests.csproj">
+      <BuildType Solution="Documentation|*" Project="Debug" />
+    </Project>
+  </Folder>
+  <Properties Name="ExtensibilityGlobals" Scope="PostLoad">
+    <Property Name="BuildVersion_AssemblyInfoFilename" Value="Source\NET40\Properties\CommonAssemblyInfo.cs" />
+    <Property Name="BuildVersion_UseGlobalSettings" Value="True" />
+  </Properties>
+  <Properties Name="TestCaseManagementSettings" Scope="PostLoad">
+    <Property Name="CategoryFile" Value="ReactiveProperty.vsmdi" />
+  </Properties>
+</Solution>

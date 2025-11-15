@@ -1,0 +1,25 @@
+<Solution>
+  <Folder Name="/BasicSample/">
+    <Project Path="Samples/ReactivePropertyCoreSample.WPF/ReactivePropertyCoreSample.WPF.csproj" />
+    <Project Path="Samples/ReactivePropertySamples.Shared/ReactivePropertySamples.Shared.csproj" />
+    <Project Path="Samples/ReactivePropertySamples.WPF/ReactivePropertySamples.WPF.csproj" />
+  </Folder>
+  <Folder Name="/Blazor/">
+    <Project Path="Samples/Blazor/BlazorSample.Shared/BlazorSample.Shared.csproj" />
+    <Project Path="Samples/Blazor/BlazorSample/BlazorSample.Client/BlazorSample.Client.csproj" />
+    <Project Path="Samples/Blazor/BlazorSample/BlazorSample/BlazorSample.csproj" />
+  </Folder>
+  <Folder Name="/Libraries/">
+    <Project Path="Source/ReactiveProperty.Core/ReactiveProperty.Core.csproj" />
+    <Project Path="Source/ReactiveProperty.NETStandard/ReactiveProperty.NETStandard.csproj" />
+    <Project Path="Source/ReactiveProperty.Platform.Blazor/ReactiveProperty.Platform.Blazor.csproj" />
+    <Project Path="Source/ReactiveProperty.Platform.WPF/ReactiveProperty.Platform.WPF.csproj" />
+  </Folder>
+  <Folder Name="/MultiUIThread/">
+    <Project Path="Samples/MultiUIThreadApp/MultiUIThreadApp.csproj" />
+  </Folder>
+  <Folder Name="/WithPrism/">
+    <Project Path="Samples/Reactive.Todo.Main/Reactive.Todo.Main.csproj" />
+    <Project Path="Samples/Reactive.Todo/Reactive.Todo.csproj" />
+  </Folder>
+</Solution>
