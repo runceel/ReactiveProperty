@@ -2,7 +2,7 @@
 
 # ReactiveProperty
 
-ReactiveProperty provides MVVM and asynchronous support features under Reactive Extensions. Target framework is .NET 6.0+, .NET Framework 4.7.2 and .NET Standard 2.0.
+ReactiveProperty provides MVVM and asynchronous support features under Reactive Extensions. Target framework is .NET 8.0+, .NET Framework 4.7.2 and .NET Standard 2.0.
 
 ![](https://img.shields.io/nuget/v/ReactiveProperty.svg)
 ![](https://img.shields.io/nuget/dt/ReactiveProperty.svg)
