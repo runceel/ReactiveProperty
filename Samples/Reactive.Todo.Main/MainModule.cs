@@ -1,8 +1,8 @@
 ﻿using Reactive.Todo.Main.Views;
 using Prism.Ioc;
 using Prism.Modularity;
-using Prism.Regions;
 using Reactive.Todo.Main.Models;
+using Prism.Navigation.Regions;
 
 namespace Reactive.Todo.Main
 {

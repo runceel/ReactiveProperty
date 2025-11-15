@@ -6,7 +6,7 @@ on:
       - 'v*'
 
 env:
-  DOTNET_VERSION: 9.0.x
+  DOTNET_VERSION: 10.0.x
 
 jobs:
   build:
@@ -32,11 +32,11 @@ jobs:
         $doc = [XML](Get-Content 'Source\Directory.Build.props')
         echo "version=$($doc.Project.PropertyGroup.Version)" >> $Env:GITHUB_OUTPUT
     - name: Install dependencies
-      run: dotnet restore ReactiveProperty.sln
+      run: dotnet restore ReactiveProperty.slnx
     - name: Build
-      run: dotnet build ReactiveProperty.sln -c Release --no-restore /p:ContinuousIntegrationBuild=True /p:EmbedUntrackedSources=True
+      run: dotnet build ReactiveProperty.slnx -c Release --no-restore /p:ContinuousIntegrationBuild=True /p:EmbedUntrackedSources=True
     - name: Test
-      run: dotnet test ReactiveProperty.sln --no-restore --verbosity normal
+      run: dotnet test ReactiveProperty.slnx --no-restore --verbosity normal
     - name: Copy package files
       run: |
         mkdir dist

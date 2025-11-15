@@ -5,7 +5,7 @@ on:
     branches: [ main ]
 
 env:
-  DOTNET_VERSION: 9.0.x
+  DOTNET_VERSION: 10.0.x
 
 jobs:
   build:
@@ -19,6 +19,6 @@ jobs:
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
     - name: Install dependencies
-      run: dotnet restore ReactiveProperty.sln
+      run: dotnet restore ReactiveProperty.slnx
     - name: Test
-      run: dotnet test ReactiveProperty.sln --no-restore --verbosity normal
+      run: dotnet test ReactiveProperty.slnx --no-restore --verbosity normal
