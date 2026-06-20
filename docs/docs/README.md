@@ -113,6 +113,11 @@ And learn the core features on following links.
 - [Commanding](features/Commanding.md)
 - [Collections](features/Collections.md)
 
+Repository maintenance guidance is available on following links.
+
+- [ADRs and Agent Skills](development/adr-and-agent-skills.md)
+- [ADR 0001: Document architecture decisions and agent skills](adr/0001-document-architecture-decisions-and-agent-skills.md)
+
 
 ## NuGet packages
 

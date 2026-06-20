@@ -39,6 +39,13 @@ module.exports = {
                     { text: 'Work with other MVVM Frameworks', link: '/advanced/work-with-other-mvvm-framwork.html' },
                 ]
             },
+            {
+                text: 'Development',
+                items: [
+                    { text: 'ADRs and Agent Skills', link: '/development/adr-and-agent-skills.html' },
+                    { text: 'ADR 0001', link: '/adr/0001-document-architecture-decisions-and-agent-skills.html' },
+                ]
+            },
             { text: 'Samples', link: '/samples.html' },
         ],
         lastUpdated: true,
