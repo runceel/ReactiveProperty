@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "rules": [
+    {
+      "ruleId": "RP-OPR-010",
+      "symbol": "Throttle/Sample simple R3 operator rename",
+      "matchKind": "MethodInvocation",
+      "category": "auto",
+      "severity": "Medium",
+      "autoFix": true,
+      "requiresCompatibilityLayer": false,
+      "replacement": "Throttle -> Debounce; Sample -> ThrottleLast",
+      "downgradeWhen": "always, when overload semantics match R3 TimeProvider usage",
+      "downgradeTarget": "R3 operators",
+      "requiredTests": [],
+      "deprecation": "not applicable"
+    },
+    {
+      "ruleId": "RP-VAL-001",
+      "symbol": "ReactiveProperty.SetValidateNotifyError(Func<IObservable<T>,IObservable<IEnumerable>>)",
+      "matchKind": "MethodInvocation",
+      "category": "compat",
+      "severity": "High",
+      "autoFix": false,
+      "requiresCompatibilityLayer": true,
+      "replacement": "CompatValidatableProperty<T>.SetValidateNotifyError(stream)",
+      "downgradeWhen": "validator is synchronous and single-value",
+      "downgradeTarget": "BindableReactiveProperty<T>.EnableValidation",
+      "requiredTests": ["validation-stream-aggregation", "validation-async-haserrors"],
+      "deprecation": "remove when stream-validator usage == 0"
+    },
+    {
+      "ruleId": "RP-CMD-002",
+      "symbol": "AsyncReactiveCommand with sharedCanExecute",
+      "matchKind": "ObjectCreation",
+      "category": "compat",
+      "severity": "High",
+      "autoFix": false,
+      "requiresCompatibilityLayer": true,
+      "replacement": "AsyncReactiveCommandCompat<T>",
+      "downgradeWhen": "sharedCanExecute is not shared and there is no dependency on re-entrancy control",
+      "downgradeTarget": "R3 ReactiveCommand / ToReactiveCommand",
+      "requiredTests": ["command-running-canexecute", "command-shared-canexecute"],
+      "deprecation": "remove when shared CanExecute usage == 0"
+    },
+    {
+      "ruleId": "RP-CMD-SLIM",
+      "symbol": "ReactiveCommandSlim<T>",
+      "matchKind": "ObjectCreation",
+      "category": "compat",
+      "severity": "High",
+      "autoFix": false,
+      "requiresCompatibilityLayer": true,
+      "replacement": "ReactiveCommandSlimCompat<T>",
+      "downgradeWhen": "the command no longer depends on the Slim API surface",
+      "downgradeTarget": "R3 ReactiveCommand",
+      "requiredTests": ["command-dispose-noop", "command-canexecutechanged"],
+      "deprecation": "remove when Slim command usage == 0"
+    },
+    {
+      "ruleId": "RP-COL-001",
+      "symbol": "ReadOnlyReactiveCollection automatic dispose or Reset behavior",
+      "matchKind": "ObjectCreation",
+      "category": "compat",
+      "severity": "Medium",
+      "autoFix": false,
+      "requiresCompatibilityLayer": true,
+      "replacement": "ReadOnlyReactiveCollectionCompat<T>",
+      "downgradeWhen": "disposeElement=false and Reset is unused",
+      "downgradeTarget": "ObservableCollections.R3",
+      "requiredTests": ["collection-reset", "collection-dispose-elements"],
+      "deprecation": "remove when automatic Dispose / Reset-diff dependencies == 0"
+    },
+    {
+      "ruleId": "RP-SCH-001",
+      "symbol": "ReactivePropertyMode or IScheduler-dependent behavior",
+      "matchKind": "ArgumentOrInitializer",
+      "category": "manual",
+      "severity": "Medium",
+      "autoFix": false,
+      "requiresCompatibilityLayer": false,
+      "replacement": "CompatibilityOptions / TimeProvider review",
+      "downgradeWhen": "mode flags map directly to native R3 behavior and scheduler semantics are verified",
+      "downgradeTarget": "R3 TimeProvider and native property options",
+      "requiredTests": ["scheduler-mode-behavior"],
+      "deprecation": "manual review item, not a compatibility API"
+    }
+  ]
+}

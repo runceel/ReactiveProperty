@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageId>ReactiveProperty.R3.Compatibility.Validation</PackageId>
+    <TargetFrameworks>netstandard2.0;net8.0;net9.0</TargetFrameworks>
+    <AssemblyName>ReactiveProperty.R3.Compatibility.Validation</AssemblyName>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\ReactiveProperty.Core\key.snk</AssemblyOriginatorKeyFile>
+    <Description>Temporary R3 validation compatibility APIs for ReactiveProperty migrations.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="R3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ReactiveProperty.R3.Compatibility.Core\ReactiveProperty.R3.Compatibility.Core.csproj" />
+  </ItemGroup>
+</Project>
