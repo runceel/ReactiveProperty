@@ -10,19 +10,30 @@ public class TelemetryAndRulesTest
     [TestMethod]
     public void TelemetryWritesUsageReport()
     {
-        var path = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"), "compat-usage.json");
-        CompatibilityTelemetry.Track("test-api", "test-callsite");
+        var directory = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
+        try
+        {
+            var path = Path.Combine(directory, "compat-usage.json");
+            CompatibilityTelemetry.Track("test-api", "test-callsite");
 
-        CompatibilityTelemetry.WriteUsageReport(path);
+            CompatibilityTelemetry.WriteUsageReport(path);
 
-        var json = File.ReadAllText(path);
-        Assert.IsTrue(json.Contains("test-api@test-callsite"));
+            var json = File.ReadAllText(path);
+            Assert.IsTrue(json.Contains("test-api@test-callsite"));
+        }
+        finally
+        {
+            if (Directory.Exists(directory))
+            {
+                Directory.Delete(directory, true);
+            }
+        }
     }
 
     [TestMethod]
     public void RuleEngineDowngradeRulesDocumentCompatExitPath()
     {
-        var rulesPath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../..", "skills/migrating-reactiveproperty-to-r3/references/rules.json"));
+        var rulesPath = Path.Combine(AppContext.BaseDirectory, "rules.json");
         using var document = JsonDocument.Parse(File.ReadAllText(rulesPath));
         var streamRule = document.RootElement.GetProperty("rules").EnumerateArray().Single(x => x.GetProperty("ruleId").GetString() == "RP-VAL-001");
 

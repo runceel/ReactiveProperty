@@ -29,4 +29,8 @@
     <ProjectReference Include="..\..\Source\ReactiveProperty.R3.Compatibility.Core\ReactiveProperty.R3.Compatibility.Core.csproj" />
     <ProjectReference Include="..\..\Source\ReactiveProperty.R3.Compatibility.Validation\ReactiveProperty.R3.Compatibility.Validation.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\skills\migrating-reactiveproperty-to-r3\references\rules.json" Link="rules.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
 </Project>

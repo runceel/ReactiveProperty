@@ -291,7 +291,7 @@ public sealed class CompatValidatableProperty<T> : IDisposable, INotifyDataError
 
     private static Func<T, IEnumerable?> CreateValidatorFromDataAnnotations(Expression<Func<CompatValidatableProperty<T>>> selector)
     {
-        if (!(selector.Body is MemberExpression memberExpression) || !(memberExpression.Member is PropertyInfo propertyInfo))
+        if (selector.Body is not MemberExpression memberExpression || memberExpression.Member is not PropertyInfo propertyInfo)
         {
             throw new ArgumentException("The selector must point to a property.", nameof(selector));
         }
@@ -300,7 +300,7 @@ public sealed class CompatValidatableProperty<T> : IDisposable, INotifyDataError
         var attrs = propertyInfo.GetCustomAttributes<ValidationAttribute>().ToArray();
         if (attrs.Length == 0)
         {
-            throw new InvalidOperationException($"Data annotations does not found on {propertyInfo.Name}.");
+            throw new InvalidOperationException($"Data annotations not found on {propertyInfo.Name}.");
         }
 
         var context = new ValidationContext(DummyValidationContextSource)
