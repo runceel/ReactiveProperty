@@ -21,7 +21,7 @@ public sealed class ReadOnlyReactiveCollectionCompat<T> : ReadOnlyObservableColl
         _source = source;
         _subscription = subscription;
         _disposeElement = disposeElement;
-        CompatibilityTelemetry.Track("R3Compat.Collections.ReadOnlyReactiveCollectionCompat", "ReadOnlyReactiveCollectionCompat.ctor");
+        CompatibilityTelemetry.Track("R3Compat.Collections.ReadOnlyReactiveCollectionCompat", ".ctor");
     }
 
     public static ReadOnlyReactiveCollectionCompat<T> Create<TSource>(

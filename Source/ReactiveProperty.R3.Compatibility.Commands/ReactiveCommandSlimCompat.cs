@@ -31,7 +31,7 @@ public sealed class ReactiveCommandSlimCompat<T> : ICommand, IDisposable
             }));
         }
 
-        CompatibilityTelemetry.Track("R3Compat.Commands.ReactiveCommandSlimCompat", "ReactiveCommandSlimCompat.ctor");
+        CompatibilityTelemetry.Track("R3Compat.Commands.ReactiveCommandSlimCompat", ".ctor");
     }
 
     public event EventHandler? CanExecuteChanged;

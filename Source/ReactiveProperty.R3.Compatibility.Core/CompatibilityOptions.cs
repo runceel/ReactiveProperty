@@ -32,11 +32,15 @@ public sealed class CompatibilityOptions
 public static class CompatibilityTelemetry
 {
     private static readonly ConcurrentDictionary<string, int> Usage = new();
+    private static readonly ConcurrentDictionary<string, ConcurrentDictionary<string, int>> UsageByCallSite = new();
 
     public static void Track(string compatApiId, string callSite)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(compatApiId);
+        ArgumentException.ThrowIfNullOrWhiteSpace(callSite);
         Usage.AddOrUpdate(compatApiId, 1, static (_, count) => count + 1);
+        UsageByCallSite.GetOrAdd(compatApiId, static _ => new ConcurrentDictionary<string, int>())
+            .AddOrUpdate(callSite, 1, static (_, count) => count + 1);
     }
 
     public static IReadOnlyDictionary<string, int> Snapshot() => new ReadOnlyDictionary<string, int>(Usage.ToDictionary());
