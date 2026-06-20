@@ -13,7 +13,8 @@
       "downgradeWhen": "always, when overload semantics match R3 TimeProvider usage",
       "downgradeTarget": "R3 operators",
       "requiredTests": [],
-      "deprecation": "not applicable"
+      "deprecation": "not applicable",
+      "notes": "Uses the OPR prefix from the R3 migration design for operator rewrite rules."
     },
     {
       "ruleId": "RP-VAL-001",

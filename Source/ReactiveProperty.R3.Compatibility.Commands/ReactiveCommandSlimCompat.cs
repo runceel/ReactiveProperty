@@ -16,7 +16,7 @@ namespace Reactive.Bindings.R3Compat.Commands;
 /// </remarks>
 public sealed class ReactiveCommandSlimCompat<T> : ICommand, IDisposable
 {
-    private readonly List<Action<T>> _actions = new();
+    private Action<T>[] _actions = Array.Empty<Action<T>>();
     private readonly IDisposable? _canExecuteSourceSubscription;
     private bool _canExecute = true;
     private bool _isDisposed;
@@ -51,7 +51,10 @@ public sealed class ReactiveCommandSlimCompat<T> : ICommand, IDisposable
             throw new ArgumentNullException(nameof(action));
         }
 
-        _actions.Add(action);
+        var actions = new Action<T>[_actions.Length + 1];
+        Array.Copy(_actions, actions, _actions.Length);
+        actions[actions.Length - 1] = action;
+        _actions = actions;
         return this;
     }
 
@@ -68,7 +71,7 @@ public sealed class ReactiveCommandSlimCompat<T> : ICommand, IDisposable
             return;
         }
 
-        foreach (var action in _actions.ToArray())
+        foreach (var action in _actions)
         {
             action(parameter);
         }

@@ -18,7 +18,7 @@ namespace Reactive.Bindings.R3Compat.Commands;
 /// </remarks>
 public sealed class AsyncReactiveCommandCompat<T> : ICommand, IDisposable
 {
-    private readonly List<Func<T, ValueTask>> _actions = new();
+    private Func<T, ValueTask>[] _actions = Array.Empty<Func<T, ValueTask>>();
     private readonly IReactiveProperty<bool> _sharedCanExecute;
     private readonly bool _ownsSharedCanExecute;
     private readonly IDisposable? _canExecuteSourceSubscription;
@@ -70,7 +70,10 @@ public sealed class AsyncReactiveCommandCompat<T> : ICommand, IDisposable
             throw new ArgumentNullException(nameof(asyncAction));
         }
 
-        _actions.Add(asyncAction);
+        var actions = new Func<T, ValueTask>[_actions.Length + 1];
+        Array.Copy(_actions, actions, _actions.Length);
+        actions[actions.Length - 1] = asyncAction;
+        _actions = actions;
         return this;
     }
 
@@ -86,7 +89,7 @@ public sealed class AsyncReactiveCommandCompat<T> : ICommand, IDisposable
         _sharedCanExecute.Value = false;
         try
         {
-            foreach (var action in _actions.ToArray())
+            foreach (var action in _actions)
             {
                 await action(parameter).ConfigureAwait(false);
             }
@@ -104,6 +107,7 @@ public sealed class AsyncReactiveCommandCompat<T> : ICommand, IDisposable
     bool ICommand.CanExecute(object? parameter) => CurrentCanExecute;
 
     /// <inheritdoc />
+    /// <remarks>Use <see cref="ExecuteAsync(T)"/> directly when callers need to observe exceptions.</remarks>
     async void ICommand.Execute(object? parameter) => await ExecuteAsync((T)parameter!).ConfigureAwait(false);
 
     /// <inheritdoc />

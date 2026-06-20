@@ -37,11 +37,14 @@ public class CompatValidatablePropertyTest
         property.SetValidateNotifyError(_ => results);
 
         property.Value = "invalid";
-        await Task.Run(async () =>
+        var release = new TaskCompletionSource();
+        var publish = Task.Run(async () =>
         {
-            await Task.Delay(10);
+            await release.Task;
             results.OnNext(new[] { "async error" });
         });
+        release.SetResult();
+        await publish;
 
         Assert.IsTrue(property.HasErrors);
         CollectionAssert.AreEqual(new[] { false, true }, transitions);
