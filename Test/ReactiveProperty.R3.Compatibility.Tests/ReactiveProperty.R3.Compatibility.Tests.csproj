@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <RootNamespace>ReactiveProperty.R3.Compatibility.Tests</RootNamespace>
+    <AssemblyName>ReactiveProperty.R3.Compatibility.Tests</AssemblyName>
+    <IsTestProject>true</IsTestProject>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="MSTest.TestAdapter" />
+    <PackageReference Include="MSTest.TestFramework" />
+    <PackageReference Include="R3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Source\ReactiveProperty.R3.Compatibility.Core\ReactiveProperty.R3.Compatibility.Core.csproj" />
+    <ProjectReference Include="..\..\Source\ReactiveProperty.R3.Compatibility.Validation\ReactiveProperty.R3.Compatibility.Validation.csproj" />
+    <ProjectReference Include="..\..\Source\ReactiveProperty.R3.Compatibility.Commands\ReactiveProperty.R3.Compatibility.Commands.csproj" />
+    <ProjectReference Include="..\..\Source\ReactiveProperty.R3.Compatibility.Collections\ReactiveProperty.R3.Compatibility.Collections.csproj" />
+  </ItemGroup>
+
+</Project>

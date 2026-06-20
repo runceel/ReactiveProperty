@@ -64,6 +64,18 @@
     <Project Path="Source/ReactiveProperty.NETStandard/ReactiveProperty.NETStandard.csproj">
       <BuildType Solution="Documentation|*" Project="Debug" />
     </Project>
+    <Project Path="Source/ReactiveProperty.R3.Compatibility.Core/ReactiveProperty.R3.Compatibility.Core.csproj">
+      <BuildType Solution="Documentation|*" Project="Debug" />
+    </Project>
+    <Project Path="Source/ReactiveProperty.R3.Compatibility.Validation/ReactiveProperty.R3.Compatibility.Validation.csproj">
+      <BuildType Solution="Documentation|*" Project="Debug" />
+    </Project>
+    <Project Path="Source/ReactiveProperty.R3.Compatibility.Commands/ReactiveProperty.R3.Compatibility.Commands.csproj">
+      <BuildType Solution="Documentation|*" Project="Debug" />
+    </Project>
+    <Project Path="Source/ReactiveProperty.R3.Compatibility.Collections/ReactiveProperty.R3.Compatibility.Collections.csproj">
+      <BuildType Solution="Documentation|*" Project="Debug" />
+    </Project>
     <Project Path="Source/ReactiveProperty.Platform.Blazor/ReactiveProperty.Platform.Blazor.csproj">
       <BuildType Solution="Documentation|*" Project="Debug" />
     </Project>
@@ -77,6 +89,9 @@
       <BuildType Solution="Documentation|*" Project="Debug" />
     </Project>
     <Project Path="Test/ReactiveProperty.NETStandard.Tests/ReactiveProperty.NETStandard.Tests.csproj">
+      <BuildType Solution="Documentation|*" Project="Debug" />
+    </Project>
+    <Project Path="Test/ReactiveProperty.R3.Compatibility.Tests/ReactiveProperty.R3.Compatibility.Tests.csproj">
       <BuildType Solution="Documentation|*" Project="Debug" />
     </Project>
     <Project Path="Test/ReactiveProperty.WPF.ManualTests/ReactiveProperty.WPF.ManualTests.csproj">

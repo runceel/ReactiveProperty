@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <PackageId>ReactiveProperty.R3.Compatibility.Commands</PackageId>
+    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+    <AssemblyName>ReactiveProperty.R3.Compatibility.Commands</AssemblyName>
+    <Description>Minimal R3 command compatibility APIs for ReactiveProperty migration.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="R3" />
+    <ProjectReference Include="..\ReactiveProperty.R3.Compatibility.Core\ReactiveProperty.R3.Compatibility.Core.csproj" />
+  </ItemGroup>
+</Project>
