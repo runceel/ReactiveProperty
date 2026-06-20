@@ -27,7 +27,7 @@ public sealed class CompatValidatableProperty<T> : IDisposable, INotifyDataError
         _value = initialValue;
         _valueSource = new BehaviorSubject<T>(initialValue);
         _hasErrors = new R3.ReactiveProperty<bool>(false);
-        CompatibilityTelemetry.Track("R3Compat.Validation.CompatValidatableProperty", string.Empty);
+        CompatibilityTelemetry.Track("R3Compat.Validation.CompatValidatableProperty", "CompatValidatableProperty.ctor");
     }
 
     public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;

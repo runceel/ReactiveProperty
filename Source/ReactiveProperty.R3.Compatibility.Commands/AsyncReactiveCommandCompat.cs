@@ -43,7 +43,7 @@ public sealed class AsyncReactiveCommandCompat<T> : ICommand, IDisposable
             }));
         }
 
-        CompatibilityTelemetry.Track("R3Compat.Commands.AsyncReactiveCommandCompat", string.Empty);
+        CompatibilityTelemetry.Track("R3Compat.Commands.AsyncReactiveCommandCompat", "AsyncReactiveCommandCompat.ctor");
     }
 
     public event EventHandler? CanExecuteChanged;
