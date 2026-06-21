@@ -123,26 +123,15 @@
       "notes": "Creates a binding-friendly property seeded from the source observable."
     },
     {
-      "ruleId": "RP-AS-R3-OBSERVABLE",
-      "symbol": "System.IObservable<T>.ToObservable",
-      "matchKind": "MethodInvocation",
+      "ruleId": "RP-OBSERVABLE-INTEROP",
+      "symbol": "System.IObservable<T>",
+      "matchKind": "TypeReference",
       "target": "r3-direct",
-      "replacement": "R3.ToObservable",
+      "replacement": "R3.Observable<T>",
       "usingAdd": ["R3"],
       "usingRemove": [],
       "manualReview": null,
-      "notes": "R3 ToObservable() converts a System.IObservable<T> to an R3 Observable<T>. Use AsSystemObservable() for the reverse direction."
-    },
-    {
-      "ruleId": "RP-AS-SYSTEM-OBSERVABLE",
-      "symbol": "R3.Observable<T>.AsSystemObservable",
-      "matchKind": "MethodInvocation",
-      "target": "r3-direct",
-      "replacement": "R3.AsSystemObservable",
-      "usingAdd": ["R3"],
-      "usingRemove": [],
-      "manualReview": null,
-      "notes": "Convert an R3 Observable<T> back to System.IObservable<T> only at boundaries that still require System.Reactive."
+      "notes": "ReactiveProperty types are System.IObservable<T>; their R3 replacements are R3 Observable<T>. Prefer the R3 shape end-to-end. At a boundary that still requires System.Reactive, bridge with R3's ToObservable() (System.IObservable<T> -> R3 Observable<T>) or AsSystemObservable() (R3 Observable<T> -> System.IObservable<T>)."
     },
     {
       "ruleId": "RP-VALIDATE-ATTRIBUTE",
@@ -473,17 +462,6 @@
       "usingRemove": [],
       "manualReview": "A custom IScheduler argument that is neither the UI dispatcher nor the default cannot be translated mechanically. R3 time-based APIs take a TimeProvider and collection dispatch uses a SynchronizationContext. Choose the right TimeProvider/SynchronizationContext (or FrameProvider) for this call site.",
       "notes": "Applies to explicit IScheduler arguments passed to RP APIs (e.g. ScheduledNotifier, ReactiveTimer, collection-dispatch overloads)."
-    },
-    {
-      "ruleId": "RP-MANUAL-UNLISTED",
-      "symbol": "Reactive.Bindings.*",
-      "matchKind": "TypeReference",
-      "target": "manualReview",
-      "replacement": null,
-      "usingAdd": [],
-      "usingRemove": [],
-      "manualReview": "This ReactiveProperty API is not covered by a rule above. Flag it with file/line and a one-line description; do not guess a replacement.",
-      "notes": "Catch-all for any Reactive.Bindings symbol with no specific rule (e.g. WPF/Blazor platform helpers like EventToReactiveCommand, BindTo, ReactiveCollection<T>)."
     }
   ]
 }

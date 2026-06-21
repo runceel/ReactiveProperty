@@ -80,8 +80,10 @@ Generic type rules apply to the closed forms too — e.g. the rule for
 - Report: build status, test status, and the **manual-review list** — each `manualReview` hit with its
   file, line, and the rule's `manualReview` note. Keep this list concise; it is the only narrative
   output. Common manual-review cases are narrow: a custom `IScheduler` argument that is neither the UI
-  dispatcher nor the default (`RP-MANUAL-SCHEDULER`), and any ReactiveProperty API not covered by a
-  rule (`RP-MANUAL-UNLISTED`, e.g. WPF/Blazor platform helpers).
+  dispatcher nor the default (`RP-MANUAL-SCHEDULER`), and any `Reactive.Bindings*` API not covered by
+  a rule (default fallback — flag it with file/line and a one-line description; do **not** guess a
+  replacement; e.g. WPF/Blazor platform helpers like `EventToReactiveCommand`, `BindTo`, or
+  `ReactiveCollection<T>`).
 
 ## Notes
 - Prefer the R3 shape end-to-end. Use `ToObservable()` / `AsSystemObservable()` only at boundaries
