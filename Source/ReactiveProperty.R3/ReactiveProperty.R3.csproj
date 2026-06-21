@@ -13,6 +13,7 @@
   <ItemGroup>
     <PackageReference Include="R3" />
     <PackageReference Include="ObservableCollections.R3" />
+    <PackageReference Include="System.ComponentModel.Annotations" />
   </ItemGroup>
 
 </Project>

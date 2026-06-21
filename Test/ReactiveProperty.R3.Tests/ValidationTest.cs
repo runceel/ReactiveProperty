@@ -1,9 +1,11 @@
 ﻿#nullable enable
 
 using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using R3;
@@ -39,7 +41,10 @@ public sealed class ValidationTest
         property.ErrorMessage.Is("required");
         property.GetErrors().Is("required", "empty");
         ((IEnumerable)property.GetErrors(nameof(ValidatableReactiveProperty<string>.Value))!).Cast<string>().ToArray().Is("required", "empty");
-        errors.Select(x => x.ToArray()).Is(x => x.Is("required", "empty"), x => x.Is(), x => x.Is("required", "empty"));
+        errors.Count.Is(3);
+        errors[0].ToArray().Is("required", "empty");
+        errors[1].ToArray().Is();
+        errors[2].ToArray().Is("required", "empty");
         hasErrors.Is(true, false, true);
         changedCount.Is(2);
     }
@@ -47,9 +52,8 @@ public sealed class ValidationTest
     [TestMethod]
     public void StreamValidationUpdatesErrorStreams()
     {
-        using var source = new Subject<int>();
         using var property = new ValidatableReactiveProperty<int>(0)
-            .SetValidateNotifyError(values => values.Select(x => x < 0 ? new[] { "negative" } : null));
+            .SetValidateNotifyError(values => values.Select<int, IEnumerable?>(x => x < 0 ? new[] { "negative" } : null));
         var hasErrors = new List<bool>();
 
         using var subscription = property.ObserveHasErrors.Subscribe(hasErrors.Add);
@@ -95,7 +99,10 @@ public sealed class ValidationTest
 
         changed.Count.Is(2);
         hasErrors.Is(false, true, false);
-        errorLists.Select(x => x.ToArray()).Is(x => x.Is("error"), x => x.Is());
+        errorLists.Count.Is(3);
+        errorLists[0].ToArray().Is();
+        errorLists[1].ToArray().Is("error");
+        errorLists[2].ToArray().Is();
     }
 
     [TestMethod]

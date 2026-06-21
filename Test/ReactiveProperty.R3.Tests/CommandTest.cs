@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using R3;
 using Reactive.Bindings.R3;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ReactiveProperty.Tests;
