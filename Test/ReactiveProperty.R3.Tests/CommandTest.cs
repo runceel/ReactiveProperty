@@ -119,6 +119,17 @@ public sealed class CommandTest
         values.Is(10);
     }
 
+    [TestMethod]
+    public async Task AsyncReactiveCommandTreatsNullTaskAsCompletedTask()
+    {
+        using var command = new AsyncReactiveCommand<int>();
+        using var subscription = command.Subscribe(_ => null!);
+
+        await command.ExecuteAsync(10);
+
+        command.CanExecute().IsTrue();
+    }
+
     private static async Task SpinWaitUntil(Func<bool> condition)
     {
         for (var i = 0; i < 100; i++)

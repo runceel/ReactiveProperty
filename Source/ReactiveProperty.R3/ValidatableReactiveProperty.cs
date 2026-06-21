@@ -19,6 +19,7 @@ namespace Reactive.Bindings.R3;
 public sealed class ValidatableReactiveProperty<T> : Observable<T>, INotifyPropertyChanged, INotifyDataErrorInfo, IDisposable
 {
     private readonly ReactiveProperty<T> _property;
+    private readonly IEqualityComparer<T> _equalityComparer;
     private readonly object _validationSyncRoot = new();
     private readonly ReactiveProperty<IReadOnlyList<string>> _errors = new(Array.Empty<string>());
     private readonly ReactiveProperty<bool> _hasErrors = new(false);
@@ -38,7 +39,8 @@ public sealed class ValidatableReactiveProperty<T> : Observable<T>, INotifyPrope
         IEqualityComparer<T>? equalityComparer = null,
         bool ignoreInitialValidationError = false)
     {
-        _property = new ReactiveProperty<T>(initialValue, equalityComparer);
+        _equalityComparer = equalityComparer ?? EqualityComparer<T>.Default;
+        _property = new ReactiveProperty<T>(initialValue, _equalityComparer);
         _ignoreInitialValidationError = ignoreInitialValidationError;
     }
 
@@ -50,6 +52,11 @@ public sealed class ValidatableReactiveProperty<T> : Observable<T>, INotifyPrope
         get => _property.Value;
         set
         {
+            if (_equalityComparer.Equals(_property.Value, value))
+            {
+                return;
+            }
+
             _hasChangedValue = true;
             _property.Value = value;
             ValidateAndNotify(value);
@@ -300,32 +307,24 @@ public sealed class ValidatableReactiveProperty<T> : Observable<T>, INotifyPrope
 
     private void SetErrors(int slot, IEnumerable<string> errors)
     {
-        string[] allErrors;
         lock (_validationSyncRoot)
         {
             _validationErrors[slot] = errors.ToArray();
-            allErrors = _validationErrors.SelectMany(static x => x).ToArray();
-        }
+            var next = _validationErrors.SelectMany(static x => x).ToArray();
+            var previousHasErrors = _hasErrors.Value;
+            if (_errors.Value.SequenceEqual(next))
+            {
+                return;
+            }
 
-        SetErrors(allErrors);
-    }
-
-    private void SetErrors(IReadOnlyList<string> errors)
-    {
-        var previousHasErrors = _hasErrors.Value;
-        var next = errors.ToArray();
-        if (_errors.Value.SequenceEqual(next))
-        {
-            return;
-        }
-
-        _errors.Value = next;
-        _hasErrors.Value = next.Length != 0;
-        ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(Value)));
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ErrorMessage)));
-        if (previousHasErrors != _hasErrors.Value)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(HasErrors)));
+            _errors.Value = next;
+            _hasErrors.Value = next.Length != 0;
+            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(Value)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ErrorMessage)));
+            if (previousHasErrors != _hasErrors.Value)
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(HasErrors)));
+            }
         }
     }
 

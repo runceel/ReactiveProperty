@@ -68,7 +68,7 @@ public static class INotifyDataErrorInfoExtensions
         {
             observer.OnNext(GetErrors(subject, propertyName));
             return subject.ErrorsChangedAsObservable()
-                .Where(e => string.IsNullOrEmpty(propertyName) || e.PropertyName == propertyName)
+                .Where(e => string.IsNullOrEmpty(propertyName) || string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == propertyName)
                 .Subscribe(_ => observer.OnNext(GetErrors(subject, propertyName)));
         });
     }

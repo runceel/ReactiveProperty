@@ -130,10 +130,85 @@ public sealed class ValidationTest
         property.HasErrors.IsTrue();
     }
 
+    [TestMethod]
+    public void ValidatableReactivePropertySkipsValidationOnEqualValue()
+    {
+        var validateCount = 0;
+        using var property = new ValidatableReactiveProperty<string>(
+                "same",
+                ignoreInitialValidationError: true)
+            .SetValidateNotifyError(x =>
+            {
+                validateCount++;
+                return x.Length == 0 ? "required" : null;
+            });
+        var valueChangedCount = 0;
+        property.PropertyChanged += (_, e) =>
+        {
+            if (e.PropertyName == nameof(ValidatableReactiveProperty<string>.Value))
+            {
+                valueChangedCount++;
+            }
+        };
+
+        property.Value = "same";
+
+        validateCount.Is(0);
+        valueChangedCount.Is(0);
+    }
+
+    [TestMethod]
+    public void ObserveErrorChangedIncludesEntityLevelNotifications()
+    {
+        var source = new TestNotifyDataErrorInfo();
+        var values = new List<IReadOnlyList<string>>();
+
+        using var subscription = source.ObserveErrorChanged("Name").Subscribe(values.Add);
+        source.SetErrors("Name", "error-1");
+        source.RaiseErrorsChanged(null);
+
+        values.Count.Is(2);
+        values[0].ToArray().Is();
+        values[1].ToArray().Is("error-1");
+    }
+
     private sealed class RequiredViewModel
     {
         [Required]
         public ValidatableReactiveProperty<string> Name { get; } = new("");
+    }
+
+    private sealed class TestNotifyDataErrorInfo : INotifyDataErrorInfo
+    {
+        private readonly Dictionary<string, string[]> _errors = new();
+
+        public bool HasErrors => _errors.Count != 0;
+
+        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
+
+        public IEnumerable GetErrors(string? propertyName)
+        {
+            if (string.IsNullOrEmpty(propertyName))
+            {
+                return _errors.Values.SelectMany(static x => x).ToArray();
+            }
+
+            return _errors.TryGetValue(propertyName, out var errors) ? errors : Array.Empty<string>();
+        }
+
+        public void SetErrors(string propertyName, params string[] errors)
+        {
+            if (errors.Length == 0)
+            {
+                _errors.Remove(propertyName);
+                return;
+            }
+
+            _errors[propertyName] = errors;
+        }
+
+        public void RaiseErrorsChanged(string? propertyName) =>
+            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
     }
 
     private static async Task SpinWaitUntil(Func<bool> condition)

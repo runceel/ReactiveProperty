@@ -1,5 +1,6 @@
 ﻿#nullable enable
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -71,6 +72,28 @@ public sealed class SynchronizedPropertyTest
         values.Is("Initial", "Changed", "Written", "Replacement", "ReplacementChanged", "WrittenAgain", "WrittenButNotApplied");
     }
 
+    [TestMethod]
+    public void ToReactivePropertyAsSynchronizedThrowsForNonPropertyAccessExpression()
+    {
+        var source = new Person { Name = "Alice" };
+
+        Assert.ThrowsExactly<ArgumentException>(() =>
+        {
+            using var _ = source.ToReactivePropertyAsSynchronized(x => x.Name, propertyName: "x => x.GetName()");
+        });
+    }
+
+    [TestMethod]
+    public void ToReactivePropertyAsSynchronizedThrowsForNestedExpressionInSingleHop()
+    {
+        var source = new Person { Name = "Alice", Child = new Child { Name = "Bob" } };
+
+        Assert.ThrowsExactly<ArgumentException>(() =>
+        {
+            using var _ = source.ToReactivePropertyAsSynchronized(x => x.Name, propertyName: "x => x.Child.Name");
+        });
+    }
+
     private sealed class Person : INotifyPropertyChanged
     {
         private string _name = "";
@@ -108,6 +131,8 @@ public sealed class SynchronizedPropertyTest
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
+
+        public string GetName() => Name;
     }
 
     private sealed class Child : INotifyPropertyChanged

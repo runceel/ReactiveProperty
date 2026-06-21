@@ -32,7 +32,7 @@ public static class INotifyPropertyChangedExtensions
             throw new ArgumentNullException(nameof(propertySelector));
         }
 
-        var resolvedPropertyName = ResolvePropertyName(propertyName);
+        var resolvedPropertyName = ResolvePropertyName<TSubject>(propertyName);
         var property = new SynchronizedBindableReactiveProperty<TProperty>(propertySelector(subject));
         property.Add(Observable.ObservePropertyChanged(subject, propertySelector, pushCurrentValueOnSubscribe, default, resolvedPropertyName)
             .Subscribe(value => property.Value = value));
@@ -62,7 +62,7 @@ public static class INotifyPropertyChangedExtensions
             throw new ArgumentNullException(nameof(convertBack));
         }
 
-        var resolvedPropertyName = ResolvePropertyName(propertyName);
+        var resolvedPropertyName = ResolvePropertyName<TSubject>(propertyName);
         var property = new SynchronizedBindableReactiveProperty<TResult>(convert(propertySelector(subject)));
         property.Add(Observable.ObservePropertyChanged(subject, propertySelector, pushCurrentValueOnSubscribe, default, resolvedPropertyName)
             .Select(convert)
@@ -93,7 +93,7 @@ public static class INotifyPropertyChangedExtensions
             throw new ArgumentNullException(nameof(convertBack));
         }
 
-        var resolvedPropertyName = ResolvePropertyName(propertyName);
+        var resolvedPropertyName = ResolvePropertyName<TSubject>(propertyName);
         var initial = default(TResult)!;
         using (convert(Observable.Return(propertySelector(subject))).Subscribe(x => initial = x))
         {
@@ -119,8 +119,8 @@ public static class INotifyPropertyChangedExtensions
         where TSubject : INotifyPropertyChanged
         where TProperty1 : class?, INotifyPropertyChanged
     {
-        var resolvedPropertyName1 = ResolvePropertyName(propertyName1);
-        var resolvedPropertyName2 = ResolvePropertyName(propertyName2);
+        var resolvedPropertyName1 = ResolvePropertyName<TSubject>(propertyName1);
+        var resolvedPropertyName2 = ResolvePropertyName<TProperty1>(propertyName2);
         var initialParent = propertySelector1(subject);
         var initial = initialParent is null ? default! : propertySelector2(initialParent);
         var property = new SynchronizedBindableReactiveProperty<TProperty2>(initial);
@@ -153,9 +153,9 @@ public static class INotifyPropertyChangedExtensions
         where TProperty1 : class?, INotifyPropertyChanged
         where TProperty2 : class?, INotifyPropertyChanged
     {
-        var resolvedPropertyName1 = ResolvePropertyName(propertyName1);
-        var resolvedPropertyName2 = ResolvePropertyName(propertyName2);
-        var resolvedPropertyName3 = ResolvePropertyName(propertyName3);
+        var resolvedPropertyName1 = ResolvePropertyName<TSubject>(propertyName1);
+        var resolvedPropertyName2 = ResolvePropertyName<TProperty1>(propertyName2);
+        var resolvedPropertyName3 = ResolvePropertyName<TProperty2>(propertyName3);
         var initialParent1 = propertySelector1(subject);
         var initialParent2 = initialParent1 is null ? null : propertySelector2(initialParent1);
         var initial = initialParent2 is null ? default! : propertySelector3(initialParent2);
@@ -184,7 +184,7 @@ public static class INotifyPropertyChangedExtensions
         [CallerArgumentExpression(nameof(propertySelector))] string? propertyName = null)
         where TSubject : INotifyPropertyChanged
     {
-        var resolvedPropertyName = ResolvePropertyName(propertyName);
+        var resolvedPropertyName = ResolvePropertyName<TSubject>(propertyName);
         var property = new SynchronizedReactiveProperty<TProperty>(propertySelector(subject));
         property.Add(Observable.ObservePropertyChanged(subject, propertySelector, pushCurrentValueOnSubscribe, default, resolvedPropertyName)
             .Subscribe(value => property.Value = value));
@@ -199,7 +199,18 @@ public static class INotifyPropertyChangedExtensions
         propertyInfo.SetValue(target, value, null);
     }
 
-    private static string ResolvePropertyName(string? propertyExpression)
+    private static string ResolvePropertyName<TTarget>(string? propertyExpression)
+    {
+        var propertyName = ParsePropertyName(propertyExpression);
+        if (typeof(TTarget).GetProperty(propertyName) is null)
+        {
+            throw new ArgumentException($"'{propertyName}' is not a property of '{typeof(TTarget).FullName}'.", nameof(propertyExpression));
+        }
+
+        return propertyName;
+    }
+
+    private static string ParsePropertyName(string? propertyExpression)
     {
         if (string.IsNullOrWhiteSpace(propertyExpression))
         {
@@ -209,15 +220,49 @@ public static class INotifyPropertyChangedExtensions
         var expression = propertyExpression!.Trim();
         var arrowIndex = expression.IndexOf("=>", StringComparison.Ordinal);
         var body = arrowIndex < 0 ? expression : expression.Substring(arrowIndex + 2).Trim();
-        var name = body.Split('.').Last().Trim();
-        if (name.EndsWith(")", StringComparison.Ordinal))
+        body = body.TrimEnd('!');
+
+        if (body.IndexOfAny(new[] { '(', ')', '[', ']', '?', ':', ',', '+' }) >= 0)
         {
-            name = name.TrimEnd(')');
+            throw new ArgumentException($"Unsupported property selector: '{propertyExpression}'.", nameof(propertyExpression));
         }
 
-        name = name.TrimEnd('!');
+        var segments = body.Split('.', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+        if (segments.Length == 0 || segments.Length > 2)
+        {
+            throw new ArgumentException($"Unsupported property selector: '{propertyExpression}'.", nameof(propertyExpression));
+        }
+
+        var name = segments[^1];
+        if (!IsValidIdentifier(name))
+        {
+            throw new ArgumentException($"Unsupported property selector: '{propertyExpression}'.", nameof(propertyExpression));
+        }
 
         return name;
+    }
+
+    private static bool IsValidIdentifier(string value)
+    {
+        if (string.IsNullOrEmpty(value))
+        {
+            return false;
+        }
+
+        if (!(char.IsLetter(value[0]) || value[0] == '_'))
+        {
+            return false;
+        }
+
+        for (var i = 1; i < value.Length; i++)
+        {
+            if (!(char.IsLetterOrDigit(value[i]) || value[i] == '_'))
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private sealed class SynchronizedBindableReactiveProperty<T> : BindableReactiveProperty<T>

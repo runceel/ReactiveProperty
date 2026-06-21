@@ -115,11 +115,18 @@ public class AsyncReactiveCommand<T> : ICommand, IDisposable
         {
             if (actions.Length == 1)
             {
-                await actions[0](parameter).ConfigureAwait(false);
+                var actionTask = actions[0](parameter) ?? Task.CompletedTask;
+                await actionTask.ConfigureAwait(false);
             }
             else
             {
-                await Task.WhenAll(Array.ConvertAll(actions, x => x(parameter))).ConfigureAwait(false);
+                var tasks = new Task[actions.Length];
+                for (var i = 0; i < actions.Length; i++)
+                {
+                    tasks[i] = actions[i](parameter) ?? Task.CompletedTask;
+                }
+
+                await Task.WhenAll(tasks).ConfigureAwait(false);
             }
         }
         finally
