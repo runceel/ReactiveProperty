@@ -93,7 +93,7 @@ public sealed class ValidatableReactiveProperty<T> : Observable<T>, INotifyPrope
     /// <summary>
     /// Gets the current validation errors.
     /// </summary>
-    public string[] GetErrors() => _errors.Value.ToArray();
+    public string[] GetErrors() => [.. _errors.Value];
 
     /// <summary>
     /// Gets the current validation errors for a property.
@@ -207,7 +207,7 @@ public sealed class ValidatableReactiveProperty<T> : Observable<T>, INotifyPrope
             throw new ArgumentException("The selector must point to a property.", nameof(selfSelector));
         }
 
-        var attributes = propertyInfo.GetCustomAttributes<ValidationAttribute>(true).ToArray();
+        ValidationAttribute[] attributes = [.. propertyInfo.GetCustomAttributes<ValidationAttribute>(true)];
         return SetValidateNotifyError(value =>
         {
             var context = new ValidationContext(this)
@@ -218,7 +218,7 @@ public sealed class ValidatableReactiveProperty<T> : Observable<T>, INotifyPrope
             var results = new List<ValidationResult>();
             return Validator.TryValidateValue(value, context, results, attributes)
                 ? null
-                : results.Select(x => x.ErrorMessage ?? x.ToString()).ToArray();
+                : [.. results.Select(x => x.ErrorMessage ?? x.ToString())];
         });
     }
 
@@ -285,7 +285,7 @@ public sealed class ValidatableReactiveProperty<T> : Observable<T>, INotifyPrope
         (int Slot, Func<T, IEnumerable<string>?> Validate)[] validators;
         lock (_validationSyncRoot)
         {
-            validators = _validators.ToArray();
+            validators = [.. _validators];
         }
 
         if (validators.Length == 0)
@@ -309,8 +309,8 @@ public sealed class ValidatableReactiveProperty<T> : Observable<T>, INotifyPrope
     {
         lock (_validationSyncRoot)
         {
-            _validationErrors[slot] = errors.ToArray();
-            var next = _validationErrors.SelectMany(static x => x).ToArray();
+            _validationErrors[slot] = [.. errors];
+            string[] next = [.. _validationErrors.SelectMany(static x => x)];
             var previousHasErrors = _hasErrors.Value;
             if (_errors.Value.SequenceEqual(next))
             {
@@ -340,12 +340,11 @@ public sealed class ValidatableReactiveProperty<T> : Observable<T>, INotifyPrope
             return new[] { singleError };
         }
 
-        return errors.Cast<object?>()
+        return [.. errors.Cast<object?>()
             .Where(x => x is not null)
             .Select(static x => x?.ToString())
             .Where(x => x is not null)
-            .Select(static x => x!)
-            .ToArray();
+            .Select(static x => x!)];
     }
 
     private static Observable<IEnumerable?> ToAsyncValidationObservable(
@@ -362,7 +361,7 @@ public sealed class ValidatableReactiveProperty<T> : Observable<T>, INotifyPrope
                     var errors = await validate(value).ConfigureAwait(false);
                     if (version == Volatile.Read(ref latestVersion))
                     {
-                        observer.OnNext(errors?.ToArray());
+                        observer.OnNext(errors is null ? null : (string[])[.. errors]);
                     }
                 }
                 catch (Exception ex)

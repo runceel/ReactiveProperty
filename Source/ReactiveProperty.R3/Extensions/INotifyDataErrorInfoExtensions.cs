@@ -107,9 +107,8 @@ public static class INotifyDataErrorInfoExtensions
             return new[] { singleError };
         }
 
-        return errors.Cast<object?>()
+        return [.. errors.Cast<object?>()
             .Where(x => x is not null)
-            .Select(x => x!.ToString()!)
-            .ToArray();
+            .Select(x => x!.ToString()!)];
     }
 }

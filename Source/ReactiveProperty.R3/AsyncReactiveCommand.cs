@@ -107,7 +107,7 @@ public class AsyncReactiveCommand<T> : ICommand, IDisposable
                 return;
             }
 
-            actions = _asyncActions.ToArray();
+            actions = [.. _asyncActions];
             _sharedCanExecute.Value = false;
         }
 

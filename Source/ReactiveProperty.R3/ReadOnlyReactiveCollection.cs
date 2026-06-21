@@ -70,7 +70,8 @@ public sealed class ReadOnlyReactiveCollection<T> : ReadOnlyObservableCollection
         }
 
         _isDisposed = true;
-        foreach (var subscription in _subscriptions.ToArray())
+        IDisposable[] subscriptions = [.. _subscriptions];
+        foreach (var subscription in subscriptions)
         {
             subscription.Dispose();
         }
@@ -78,7 +79,8 @@ public sealed class ReadOnlyReactiveCollection<T> : ReadOnlyObservableCollection
         _subscriptions.Clear();
         if (_disposeElement)
         {
-            foreach (var item in _source.OfType<IDisposable>().ToArray())
+            IDisposable[] items = [.. _source.OfType<IDisposable>()];
+            foreach (var item in items)
             {
                 item.Dispose();
             }
@@ -152,7 +154,7 @@ public sealed class ReadOnlyReactiveCollection<T> : ReadOnlyObservableCollection
     {
         var startingIndex = collectionChanged.Index < 0 ? _source.Count : collectionChanged.Index;
         var index = startingIndex;
-        var values = collectionChanged.Values?.ToArray() ?? Array.Empty<T>();
+        T[] values = collectionChanged.Values is null ? [] : [.. collectionChanged.Values];
         foreach (var item in values)
         {
             _source.Insert(index++, item);
@@ -164,9 +166,9 @@ public sealed class ReadOnlyReactiveCollection<T> : ReadOnlyObservableCollection
     private NotifyCollectionChangedEventArgs ApplyRemove(CollectionChanged<T> collectionChanged)
     {
         var index = collectionChanged.Index;
-        var values = collectionChanged.Values?.Any() == true
-            ? collectionChanged.Values.ToArray()
-            : new[] { _source[index] };
+        T[] values = collectionChanged.Values is { Count: > 0 } sourceValues
+            ? [.. sourceValues]
+            : [_source[index]];
         foreach (var _ in values)
         {
             InvokeDispose(_source[index]);
@@ -197,7 +199,8 @@ public sealed class ReadOnlyReactiveCollection<T> : ReadOnlyObservableCollection
 
     private NotifyCollectionChangedEventArgs ApplyReset(CollectionChanged<T> collectionChanged)
     {
-        foreach (var item in _source.ToArray())
+        T[] items = [.. _source];
+        foreach (var item in items)
         {
             InvokeDispose(item);
         }
@@ -252,19 +255,19 @@ public readonly struct CollectionChanged<T>
     /// Creates a reset change with a new source.
     /// </summary>
     public static CollectionChanged<T> ResetWithSource(IEnumerable<T>? source) =>
-        new(NotifyCollectionChangedAction.Reset, -1, null, -1, source?.ToArray());
+        new(NotifyCollectionChangedAction.Reset, -1, null, -1, source is null ? null : [.. source]);
 
     /// <summary>
     /// Creates an add change.
     /// </summary>
     public static CollectionChanged<T> Add(int index, T value) =>
-        Add(index, new[] { value });
+        Add(index, [value]);
 
     /// <summary>
     /// Creates an add change.
     /// </summary>
     public static CollectionChanged<T> Add(int index, IEnumerable<T> values) =>
-        new(NotifyCollectionChangedAction.Add, index, values.ToArray(), -1, null);
+        new(NotifyCollectionChangedAction.Add, index, [.. values], -1, null);
 
     /// <summary>
     /// Creates a remove change that carries only the index. The removed value is
@@ -278,13 +281,13 @@ public readonly struct CollectionChanged<T>
     /// Creates a remove change.
     /// </summary>
     public static CollectionChanged<T> Remove(int index, T? value) =>
-        value is null ? new(NotifyCollectionChangedAction.Remove, index, null, -1, null) : Remove(index, new[] { value });
+        value is null ? new(NotifyCollectionChangedAction.Remove, index, null, -1, null) : Remove(index, [value]);
 
     /// <summary>
     /// Creates a remove change.
     /// </summary>
     public static CollectionChanged<T> Remove(int index, IEnumerable<T> values) =>
-        new(NotifyCollectionChangedAction.Remove, index, values.ToArray(), -1, null);
+        new(NotifyCollectionChangedAction.Remove, index, [.. values], -1, null);
 
     /// <summary>
     /// Creates a replace change.
