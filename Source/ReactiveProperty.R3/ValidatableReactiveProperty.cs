@@ -19,6 +19,7 @@ namespace Reactive.Bindings.R3;
 public sealed class ValidatableReactiveProperty<T> : Observable<T>, INotifyPropertyChanged, INotifyDataErrorInfo, IDisposable
 {
     private readonly ReactiveProperty<T> _property;
+    private readonly object _validationSyncRoot = new();
     private readonly ReactiveProperty<IReadOnlyList<string>> _errors = new(Array.Empty<string>());
     private readonly ReactiveProperty<bool> _hasErrors = new(false);
     private readonly Subject<T> _validationTrigger = new();
@@ -51,8 +52,7 @@ public sealed class ValidatableReactiveProperty<T> : Observable<T>, INotifyPrope
         {
             _hasChangedValue = true;
             _property.Value = value;
-            Validate(value);
-            _validationTrigger.OnNext(value);
+            ValidateAndNotify(value);
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Value)));
         }
     }
@@ -124,8 +124,12 @@ public sealed class ValidatableReactiveProperty<T> : Observable<T>, INotifyPrope
             throw new ArgumentNullException(nameof(validate));
         }
 
-        var slot = AddValidationSlot();
-        _validators.Add((slot, validate));
+        lock (_validationSyncRoot)
+        {
+            var slot = AddValidationSlot();
+            _validators.Add((slot, validate));
+        }
+
         ValidateAfterRegistration();
         return this;
     }
@@ -170,7 +174,12 @@ public sealed class ValidatableReactiveProperty<T> : Observable<T>, INotifyPrope
             throw new ArgumentNullException(nameof(validate));
         }
 
-        var slot = AddValidationSlot();
+        int slot;
+        lock (_validationSyncRoot)
+        {
+            slot = AddValidationSlot();
+        }
+
         _subscriptions.Add(validate(_validationTrigger).Subscribe(errors => SetErrors(slot, ToErrorMessages(errors))));
         ValidateAfterRegistration();
         return this;
@@ -211,8 +220,7 @@ public sealed class ValidatableReactiveProperty<T> : Observable<T>, INotifyPrope
     /// </summary>
     public void ForceValidate()
     {
-        Validate(Value);
-        _validationTrigger.OnNext(Value);
+        ValidateAndNotify(Value);
     }
 
     /// <summary>
@@ -259,14 +267,26 @@ public sealed class ValidatableReactiveProperty<T> : Observable<T>, INotifyPrope
         ForceValidate();
     }
 
+    private void ValidateAndNotify(T value)
+    {
+        Validate(value);
+        _validationTrigger.OnNext(value);
+    }
+
     private void Validate(T value)
     {
-        if (_validators.Count == 0)
+        (int Slot, Func<T, IEnumerable<string>?> Validate)[] validators;
+        lock (_validationSyncRoot)
+        {
+            validators = _validators.ToArray();
+        }
+
+        if (validators.Length == 0)
         {
             return;
         }
 
-        foreach (var validator in _validators)
+        foreach (var validator in validators)
         {
             SetErrors(validator.Slot, validator.Validate(value) ?? Array.Empty<string>());
         }
@@ -280,8 +300,14 @@ public sealed class ValidatableReactiveProperty<T> : Observable<T>, INotifyPrope
 
     private void SetErrors(int slot, IEnumerable<string> errors)
     {
-        _validationErrors[slot] = errors.ToArray();
-        SetErrors(_validationErrors.SelectMany(static x => x).ToArray());
+        string[] allErrors;
+        lock (_validationSyncRoot)
+        {
+            _validationErrors[slot] = errors.ToArray();
+            allErrors = _validationErrors.SelectMany(static x => x).ToArray();
+        }
+
+        SetErrors(allErrors);
     }
 
     private void SetErrors(IReadOnlyList<string> errors)
@@ -317,7 +343,9 @@ public sealed class ValidatableReactiveProperty<T> : Observable<T>, INotifyPrope
 
         return errors.Cast<object?>()
             .Where(x => x is not null)
-            .Select(x => x!.ToString()!)
+            .Select(static x => x?.ToString())
+            .Where(x => x is not null)
+            .Select(static x => x!)
             .ToArray();
     }
 

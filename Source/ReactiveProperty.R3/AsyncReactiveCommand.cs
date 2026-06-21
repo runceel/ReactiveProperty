@@ -124,7 +124,7 @@ public class AsyncReactiveCommand<T> : ICommand, IDisposable
         }
         finally
         {
-            if (!_isDisposed || !_ownsSharedCanExecute)
+            if (ShouldRestoreSharedCanExecuteAfterRun)
             {
                 _sharedCanExecute.Value = true;
             }
@@ -184,6 +184,8 @@ public class AsyncReactiveCommand<T> : ICommand, IDisposable
     }
 
     private void OnCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+
+    private bool ShouldRestoreSharedCanExecuteAfterRun => !_isDisposed || !_ownsSharedCanExecute;
 }
 
 /// <summary>

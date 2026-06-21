@@ -65,10 +65,10 @@ public sealed class SynchronizedPropertyTest
         source.Child.Name = "ReplacementChanged";
         property.Value = "WrittenAgain";
         source.Child = null;
-        property.Value = "Ignored";
+        property.Value = "WrittenButNotApplied";
 
         source.Child.IsNull();
-        values.Is("Initial", "Changed", "Written", "Replacement", "ReplacementChanged", "WrittenAgain", "Ignored");
+        values.Is("Initial", "Changed", "Written", "Replacement", "ReplacementChanged", "WrittenAgain", "WrittenButNotApplied");
     }
 
     private sealed class Person : INotifyPropertyChanged

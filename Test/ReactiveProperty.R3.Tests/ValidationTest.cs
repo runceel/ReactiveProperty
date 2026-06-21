@@ -53,7 +53,7 @@ public sealed class ValidationTest
     public void StreamValidationUpdatesErrorStreams()
     {
         using var property = new ValidatableReactiveProperty<int>(0)
-            .SetValidateNotifyError(values => values.Select<int, IEnumerable?>(x => x < 0 ? new[] { "negative" } : null));
+            .SetValidateNotifyError(values => values.Select(x => x < 0 ? (IEnumerable?)new[] { "negative" } : null));
         var hasErrors = new List<bool>();
 
         using var subscription = property.ObserveHasErrors.Subscribe(hasErrors.Add);
@@ -87,7 +87,7 @@ public sealed class ValidationTest
         using var property = new ValidatableReactiveProperty<string>("")
             .SetValidateNotifyError(x => string.IsNullOrEmpty(x) ? "required" : null)
             .SetValidateNotifyError(x => x.Length < 3 ? new[] { "too short" } : null)
-            .SetValidateNotifyError(values => values.Select<string, IEnumerable?>(x => x.Contains('!') ? new[] { "bang" } : null));
+            .SetValidateNotifyError(values => values.Select(x => x.Contains('!') ? (IEnumerable?)new[] { "bang" } : null));
 
         property.Value = "!";
 
