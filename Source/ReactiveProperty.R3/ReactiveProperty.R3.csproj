@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageId>ReactiveProperty.R3</PackageId>
+    <RootNamespace>Reactive.Bindings.R3</RootNamespace>
+    <TargetFrameworks>netstandard2.0;net8.0;net9.0;net10.0</TargetFrameworks>
+    <AssemblyName>ReactiveProperty.R3</AssemblyName>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\ReactiveProperty.Core\key.snk</AssemblyOriginatorKeyFile>
+    <Description>ReactiveProperty.R3 provides migration bridge features for R3.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="R3" />
+    <PackageReference Include="ObservableCollections.R3" />
+  </ItemGroup>
+
+</Project>

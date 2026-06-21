@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>ReactiveProperty.Tests</RootNamespace>
+    <IsTestProject>true</IsTestProject>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.TimeProvider.Testing" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="MSTest.TestAdapter" />
+    <PackageReference Include="MSTest.TestFramework" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Source\ReactiveProperty.R3\ReactiveProperty.R3.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\ReactiveProperty.NETStandard.Tests\ChainingAssertion.MSTest.cs" Link="ChainingAssertion.MSTest.cs" />
+  </ItemGroup>
+
+</Project>
