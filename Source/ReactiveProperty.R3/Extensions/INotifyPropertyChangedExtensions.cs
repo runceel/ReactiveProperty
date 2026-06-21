@@ -12,6 +12,8 @@ namespace Reactive.Bindings.R3.Extensions;
 /// </summary>
 public static class INotifyPropertyChangedExtensions
 {
+    private static readonly char[] s_unsupportedPropertySelectorChars = ['(', ')', '[', ']', '?', ':', ',', '+'];
+
     /// <summary>
     /// Creates a two-way synchronized bindable reactive property.
     /// </summary>
@@ -222,18 +224,21 @@ public static class INotifyPropertyChangedExtensions
         var body = arrowIndex < 0 ? expression : expression.Substring(arrowIndex + 2).Trim();
         body = body.TrimEnd('!');
 
-        if (body.IndexOfAny(new[] { '(', ')', '[', ']', '?', ':', ',', '+' }) >= 0)
+        if (body.IndexOfAny(s_unsupportedPropertySelectorChars) >= 0)
         {
             throw new ArgumentException($"Unsupported property selector: '{propertyExpression}'.", nameof(propertyExpression));
         }
 
-        var segments = body.Split('.', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+        var segments = body.Split(['.' ], StringSplitOptions.RemoveEmptyEntries)
+            .Select(x => x.Trim())
+            .Where(x => x.Length != 0)
+            .ToArray();
         if (segments.Length == 0 || segments.Length > 2)
         {
             throw new ArgumentException($"Unsupported property selector: '{propertyExpression}'.", nameof(propertyExpression));
         }
 
-        var name = segments[^1];
+        var name = segments[segments.Length - 1];
         if (!IsValidIdentifier(name))
         {
             throw new ArgumentException($"Unsupported property selector: '{propertyExpression}'.", nameof(propertyExpression));
