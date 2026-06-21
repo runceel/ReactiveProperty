@@ -421,6 +421,12 @@ public class ReactiveTimer : Observable<long>, INotifyPropertyChanged, IDisposab
 
 - Hot, stoppable/restartable; emits an incrementing `long`. Backed by `TimeProvider.CreateTimer`
   (or R3 `Observable.Timer` with the supplied `TimeProvider`) + an R3 `Subject<long>`.
+- **Interval-change parity gap (ADR 0002):** The `period` of the underlying `ITimer` is
+  captured once at `Start()`. Setting `Interval` while the timer is running raises
+  `PropertyChanged` but the new period only takes effect on the next `Start()`. This differs
+  from the legacy implementation, which read `Interval` on every tick. The trade-off was
+  made in favour of deterministic behaviour under `FakeTimeProvider`; callers that need the
+  new interval applied immediately should call `Stop()` then `Start()`.
 
 ### 4.8 `MessageBroker` / `AsyncMessageBroker` — `Reactive.Bindings.R3.Notifiers`
 

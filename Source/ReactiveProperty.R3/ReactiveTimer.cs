@@ -162,12 +162,14 @@ public class ReactiveTimer : Observable<long>, INotifyPropertyChanged, IDisposab
             _timer = null;
         }
 
+        IsEnabled = false;
         _subject.OnCompleted();
         _subject.Dispose();
     }
 
     private void OnTick(object? state)
     {
+        long count;
         lock (_lockObject)
         {
             if (_isDisposed || _timer is null)
@@ -175,7 +177,9 @@ public class ReactiveTimer : Observable<long>, INotifyPropertyChanged, IDisposab
                 return;
             }
 
-            _subject.OnNext(_count++);
+            count = _count++;
         }
+
+        _subject.OnNext(count);
     }
 }

@@ -92,6 +92,21 @@ public sealed class NotifierTest
     }
 
     [TestMethod]
+    public void CountNotifierIncrementClampedAtMaxDisposableDecrementsFullAmount()
+    {
+        // When incrementCount would exceed Max, Count is clamped to Max,
+        // but the returned disposable decrements by the full requested incrementCount.
+        // This matches legacy behavior: the decrement can underflow to 0 (clamped there too).
+        var notifier = new CountNotifier(max: 3);
+        notifier.Increment(2); // Count = 2
+        var handle = notifier.Increment(5); // would be 7, clamped to Max=3; disposable decrements by 5
+        notifier.Count.Is(3);
+
+        handle.Dispose(); // 3 - 5 = -2, clamped to 0
+        notifier.Count.Is(0);
+    }
+
+    [TestMethod]
     public void BusyNotifierReferenceCounting()
     {
         var notifier = new BusyNotifier();

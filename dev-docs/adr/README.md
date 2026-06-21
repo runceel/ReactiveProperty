@@ -35,3 +35,4 @@ Trivial, easily reversible choices (local refactors, naming) do not need an ADR.
 | ADR | Title | Status |
 |-----|-------|--------|
 | [0001](./0001-adopt-tdd-adr-and-dev-docs.md) | Adopt TDD, ADRs, and a dev-docs location | Accepted |
+| [0002](./0002-reactivetimer-fixed-period-interval.md) | ReactiveTimer uses a fixed-period ITimer; Interval changes take effect on next Start | Accepted |

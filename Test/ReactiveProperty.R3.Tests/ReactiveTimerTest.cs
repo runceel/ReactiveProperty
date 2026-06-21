@@ -82,6 +82,24 @@ public sealed class ReactiveTimerTest
     }
 
     [TestMethod]
+    public void DisposeResetsIsEnabled()
+    {
+        var timeProvider = new FakeTimeProvider();
+        var timer = new ReactiveTimer(TimeSpan.FromSeconds(1), timeProvider);
+        var propertyChanges = new List<string?>();
+        timer.PropertyChanged += (_, e) => propertyChanges.Add(e.PropertyName);
+
+        timer.Start();
+        timer.IsEnabled.IsTrue();
+
+        timer.Dispose();
+        timer.IsEnabled.IsFalse();
+
+        // PropertyChanged should have fired for IsEnabled (true on Start, false on Dispose).
+        propertyChanges.Contains(nameof(ReactiveTimer.IsEnabled)).IsTrue();
+    }
+
+    [TestMethod]
     public void IntervalChangeRaisesPropertyChanged()
     {
         var timeProvider = new FakeTimeProvider();

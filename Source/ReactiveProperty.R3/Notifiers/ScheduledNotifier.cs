@@ -40,17 +40,21 @@ public class ScheduledNotifier<T> : Observable<T>, IProgress<T>
     /// <returns>A disposable that cancels the scheduled report when disposed.</returns>
     public IDisposable Report(T value, TimeSpan dueTime)
     {
-        ITimer? timer = null;
-        timer = _timeProvider.CreateTimer(
+        // A holder is used so the callback can always dispose the ITimer safely,
+        // even if the timer fires before the assignment to the local variable completes
+        // (e.g. dueTime == Zero on an eager TimeProvider).
+        var holder = new SingleFireTimerHolder();
+        var timer = _timeProvider.CreateTimer(
             _ =>
             {
                 _trigger.OnNext(value);
-                timer?.Dispose();
+                holder.Dispose();
             },
             null,
             dueTime,
             Timeout.InfiniteTimeSpan);
-        return timer;
+        holder.SetTimer(timer);
+        return holder;
     }
 
     /// <summary>
@@ -72,4 +76,49 @@ public class ScheduledNotifier<T> : Observable<T>, IProgress<T>
 
     /// <inheritdoc />
     protected override IDisposable SubscribeCore(Observer<T> observer) => _trigger.Subscribe(observer.OnNext, observer.OnErrorResume, observer.OnCompleted);
+
+    /// <summary>
+    /// Thread-safe wrapper that holds an <see cref="ITimer"/> and guarantees the timer is
+    /// disposed exactly once regardless of whether <see cref="SetTimer"/> or
+    /// <see cref="Dispose"/> is called first.
+    /// </summary>
+    private sealed class SingleFireTimerHolder : IDisposable
+    {
+        private ITimer? _timer;
+        private bool _disposeRequested;
+        private readonly object _gate = new();
+
+        public void SetTimer(ITimer timer)
+        {
+            lock (_gate)
+            {
+                _timer = timer;
+                if (!_disposeRequested)
+                {
+                    return;
+                }
+            }
+
+            // Dispose was already requested before the timer was assigned.
+            timer.Dispose();
+        }
+
+        public void Dispose()
+        {
+            ITimer? toDispose;
+            lock (_gate)
+            {
+                if (_disposeRequested)
+                {
+                    return;
+                }
+
+                _disposeRequested = true;
+                toDispose = _timer;
+                _timer = null;
+            }
+
+            toDispose?.Dispose();
+        }
+    }
 }
