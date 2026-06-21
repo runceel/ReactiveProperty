@@ -51,7 +51,7 @@ public sealed class CollectionObservationTest
     public void ObserveElementPropertyTracksCollectionChanges()
     {
         var first = new Item { Name = "first" };
-        var second = new Item { Name = "second" };
+        var second = new Item { Id = 2, Name = "second" };
         var source = new ObservableCollection<Item> { first };
         var values = new List<string>();
 
@@ -59,7 +59,6 @@ public sealed class CollectionObservationTest
             .ObserveElementProperty(x => x.Name)
             .Subscribe(x => values.Add($"{x.Instance.Id}:{x.Property.Name}:{x.Value}"));
 
-        second.Id = 2;
         source.Add(second);
         first.Name = "first changed";
         source.Remove(first);

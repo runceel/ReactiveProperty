@@ -150,14 +150,15 @@ public sealed class ReadOnlyReactiveCollection<T> : ReadOnlyObservableCollection
 
     private NotifyCollectionChangedEventArgs ApplyAdd(CollectionChanged<T> collectionChanged)
     {
-        var index = collectionChanged.Index < 0 ? _source.Count : collectionChanged.Index;
+        var startingIndex = collectionChanged.Index < 0 ? _source.Count : collectionChanged.Index;
+        var index = startingIndex;
         var values = collectionChanged.Values?.ToArray() ?? Array.Empty<T>();
         foreach (var item in values)
         {
             _source.Insert(index++, item);
         }
 
-        return new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, values, collectionChanged.Index < 0 ? _source.Count - values.Length : collectionChanged.Index);
+        return new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, values, startingIndex);
     }
 
     private NotifyCollectionChangedEventArgs ApplyRemove(CollectionChanged<T> collectionChanged)
