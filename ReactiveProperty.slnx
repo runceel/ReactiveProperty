@@ -64,6 +64,9 @@
     <Project Path="Source/ReactiveProperty.NETStandard/ReactiveProperty.NETStandard.csproj">
       <BuildType Solution="Documentation|*" Project="Debug" />
     </Project>
+    <Project Path="Source/ReactiveProperty.R3/ReactiveProperty.R3.csproj">
+      <BuildType Solution="Documentation|*" Project="Debug" />
+    </Project>
     <Project Path="Source/ReactiveProperty.Platform.Blazor/ReactiveProperty.Platform.Blazor.csproj">
       <BuildType Solution="Documentation|*" Project="Debug" />
     </Project>
@@ -77,6 +80,9 @@
       <BuildType Solution="Documentation|*" Project="Debug" />
     </Project>
     <Project Path="Test/ReactiveProperty.NETStandard.Tests/ReactiveProperty.NETStandard.Tests.csproj">
+      <BuildType Solution="Documentation|*" Project="Debug" />
+    </Project>
+    <Project Path="Test/ReactiveProperty.R3.Tests/ReactiveProperty.R3.Tests.csproj">
       <BuildType Solution="Documentation|*" Project="Debug" />
     </Project>
     <Project Path="Test/ReactiveProperty.WPF.ManualTests/ReactiveProperty.WPF.ManualTests.csproj">
