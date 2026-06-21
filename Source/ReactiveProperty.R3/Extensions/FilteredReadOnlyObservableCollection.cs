@@ -83,7 +83,8 @@ internal sealed class FilteredReadOnlyObservableCollection<TCollection, TElement
     {
         lock (_syncRoot)
         {
-            return _innerCollection.ToArray().AsEnumerable().GetEnumerator();
+            TElement[] items = [.. _innerCollection];
+            return items.AsEnumerable().GetEnumerator();
         }
     }
 
@@ -109,7 +110,8 @@ internal sealed class FilteredReadOnlyObservableCollection<TCollection, TElement
 
         _isDisposed = true;
         Source.CollectionChanged -= SourceCollectionChanged;
-        foreach (var subscription in _subscriptions.ToArray())
+        IDisposable[] subscriptions = [.. _subscriptions];
+        foreach (var subscription in subscriptions)
         {
             subscription.Dispose();
         }

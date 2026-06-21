@@ -76,7 +76,7 @@ public static class INotifyCollectionChangedExtensions
     public static Observable<OldNewPair<T[]>> ObserveMoveChangedItems<T>(this INotifyCollectionChanged source) =>
         source.CollectionChangedAsObservable()
             .Where(static e => e.Action == NotifyCollectionChangedAction.Move)
-            .Select(static e => new OldNewPair<T[]>(e.OldItems!.Cast<T>().ToArray(), e.NewItems!.Cast<T>().ToArray()));
+            .Select(static e => new OldNewPair<T[]>([.. e.OldItems!.Cast<T>()], [.. e.NewItems!.Cast<T>()]));
 
     /// <summary>
     /// Observes replaced items and takes the first item from each replace event.
@@ -91,7 +91,7 @@ public static class INotifyCollectionChangedExtensions
     public static Observable<OldNewPair<T[]>> ObserveReplaceChangedItems<T>(this INotifyCollectionChanged source) =>
         source.CollectionChangedAsObservable()
             .Where(static e => e.Action == NotifyCollectionChangedAction.Replace)
-            .Select(static e => new OldNewPair<T[]>(e.OldItems!.Cast<T>().ToArray(), e.NewItems!.Cast<T>().ToArray()));
+            .Select(static e => new OldNewPair<T[]>([.. e.OldItems!.Cast<T>()], [.. e.NewItems!.Cast<T>()]));
 
     /// <summary>
     /// Observes reset events.
@@ -194,7 +194,7 @@ public static class INotifyCollectionChangedExtensions
         Func<NotifyCollectionChangedEventArgs, System.Collections.IList> itemSelector) =>
         source.CollectionChangedAsObservable()
             .Where(e => e.Action == action)
-            .Select(e => itemSelector(e).Cast<T>().ToArray());
+            .Select(e => (T[])[.. itemSelector(e).Cast<T>()]);
 
     internal static Observable<TResult> ObserveElementCore<TElement, TResult>(
         this IEnumerable<TElement> source,
@@ -232,7 +232,8 @@ public static class INotifyCollectionChangedExtensions
 
             void UnsubscribeAll()
             {
-                foreach (var subscription in subscriptionCache.Values.ToArray())
+                IDisposable[] subscriptions = [.. subscriptionCache.Values];
+                foreach (var subscription in subscriptions)
                 {
                     subscription.Dispose();
                 }
