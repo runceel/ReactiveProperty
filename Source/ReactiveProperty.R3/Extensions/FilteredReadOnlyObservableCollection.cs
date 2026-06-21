@@ -158,12 +158,12 @@ internal sealed class FilteredReadOnlyObservableCollection<TCollection, TElement
             {
                 case NotifyCollectionChangedAction.Add:
                     _indexList.InsertRange(e.NewStartingIndex, Enumerable.Repeat<int?>(null, e.NewItems!.Count));
-                    foreach (var itemAndIndex in e.NewItems.Cast<TElement>().Select((Item, Offset) => (Item, Index: e.NewStartingIndex + Offset)))
+                    foreach (var itemAndIndex in e.NewItems.Cast<TElement>().Select((item, offset) => (item, Index: e.NewStartingIndex + offset)))
                     {
-                        if (_filter(itemAndIndex.Item))
+                        if (_filter(itemAndIndex.item))
                         {
                             AppearNewItem(itemAndIndex.Index);
-                            args ??= new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, itemAndIndex.Item, _indexList[itemAndIndex.Index]!.Value);
+                            args ??= new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, itemAndIndex.item, _indexList[itemAndIndex.Index]!.Value);
                         }
                     }
 
