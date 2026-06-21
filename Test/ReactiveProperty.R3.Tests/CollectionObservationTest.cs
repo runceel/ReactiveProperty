@@ -1,5 +1,6 @@
 ﻿#nullable enable
 
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -90,6 +91,32 @@ public sealed class CollectionObservationTest
         changedNames.Is(nameof(Item.Name));
     }
 
+    [TestMethod]
+    public void ObserveElementPropertyAcceptsExplicitBarePropertyName()
+    {
+        var item = new Item { Name = "first" };
+        var source = new ObservableCollection<Item> { item };
+        var values = new List<string>();
+        Func<Item, string> selector = x => x.Name;
+
+        using var subscription = source
+            .ObserveElementProperty(selector, propertyName: nameof(Item.Name))
+            .Subscribe(x => values.Add($"{x.Property.Name}:{x.Value}"));
+
+        item.Name = "changed";
+
+        values.Is("Name:first", "Name:changed");
+    }
+
+    [TestMethod]
+    public void ObserveElementPropertyRejectsNestedPropertySelector()
+    {
+        var source = new ObservableCollection<Outer> { new() };
+
+        Assert.ThrowsExactly<ArgumentException>(() =>
+            source.ObserveElementProperty(x => x.Inner.Name));
+    }
+
     private sealed class Item : INotifyPropertyChanged
     {
         private string _name = "";
@@ -107,6 +134,42 @@ public sealed class CollectionObservationTest
         }
 
         public Subject<string> NameChanged { get; } = new();
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+    }
+
+    private sealed class Outer : INotifyPropertyChanged
+    {
+        private string _name = "outer";
+
+        public Inner Inner { get; } = new();
+
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                _name = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Name)));
+            }
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+    }
+
+    private sealed class Inner : INotifyPropertyChanged
+    {
+        private string _name = "";
+
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                _name = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Name)));
+            }
+        }
 
         public event PropertyChangedEventHandler? PropertyChanged;
     }

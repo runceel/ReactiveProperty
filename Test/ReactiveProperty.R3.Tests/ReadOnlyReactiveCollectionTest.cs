@@ -43,6 +43,28 @@ public sealed class ReadOnlyReactiveCollectionTest
     }
 
     [TestMethod]
+    public void RemoveReportsActualValueForValueTypeElements()
+    {
+        var source = new ObservableCollection<int> { 10, 20, 30 };
+        var collection = source.ToReadOnlyReactiveCollection();
+        var removed = new List<int?>();
+
+        ((INotifyCollectionChanged)collection).CollectionChanged += (_, e) =>
+        {
+            if (e.Action == NotifyCollectionChangedAction.Remove)
+            {
+                removed.Add((int?)e.OldItems?[0]);
+            }
+        };
+
+        source.RemoveAt(0);
+
+        collection.Is(20, 30);
+        removed.Count.Is(1);
+        removed[0].Is(10);
+    }
+
+    [TestMethod]
     public void AppliesObservableChangeStreamAndResetStream()
     {
         var add = new Subject<string>();

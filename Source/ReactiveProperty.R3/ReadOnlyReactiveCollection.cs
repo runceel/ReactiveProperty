@@ -267,6 +267,14 @@ public readonly struct CollectionChanged<T>
         new(NotifyCollectionChangedAction.Add, index, values.ToArray(), -1, null);
 
     /// <summary>
+    /// Creates a remove change that carries only the index. The removed value is
+    /// resolved from the backing collection when the change is applied, so this is
+    /// safe for value-type elements (where <c>default</c> is not <see langword="null"/>).
+    /// </summary>
+    public static CollectionChanged<T> Remove(int index) =>
+        new(NotifyCollectionChangedAction.Remove, index, null, -1, null);
+
+    /// <summary>
     /// Creates a remove change.
     /// </summary>
     public static CollectionChanged<T> Remove(int index, T? value) =>
@@ -437,7 +445,7 @@ public static class ReadOnlyReactiveCollectionExtensions
         var convertedChanges = collectionChanged.Select(x => x.Action switch
         {
             NotifyCollectionChangedAction.Add => CollectionChanged<TResult>.Add(x.Index, x.Values!.Select(converter)),
-            NotifyCollectionChangedAction.Remove => CollectionChanged<TResult>.Remove(x.Index, default(TResult)),
+            NotifyCollectionChangedAction.Remove => CollectionChanged<TResult>.Remove(x.Index),
             NotifyCollectionChangedAction.Replace => CollectionChanged<TResult>.Replace(x.Index, converter(x.Value!)),
             NotifyCollectionChangedAction.Move => CollectionChanged<TResult>.Move(x.OldIndex, x.Index, default),
             NotifyCollectionChangedAction.Reset => CollectionChanged<TResult>.ResetWithSource(x.Source?.Select(converter)),

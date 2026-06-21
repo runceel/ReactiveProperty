@@ -324,20 +324,105 @@ public static class INotifyCollectionChangedExtensions
         typeof(TElement).GetProperty(propertyName)
         ?? throw new ArgumentException($"'{propertyName}' is not a property of '{typeof(TElement).FullName}'.", nameof(propertyName));
 
-    private static string ResolvePropertyName(string? propertyName)
+    private static string ResolvePropertyName(string? propertyExpression)
     {
-        if (string.IsNullOrWhiteSpace(propertyName))
+        if (string.IsNullOrWhiteSpace(propertyExpression))
         {
-            throw new ArgumentException("Property name is required.", nameof(propertyName));
+            throw new ArgumentException("Property selector is required.", "propertyName");
         }
 
-        var name = propertyName!.Trim();
-        var lastDotIndex = name.LastIndexOf('.');
-        if (lastDotIndex >= 0)
+        var expression = propertyExpression!.Trim();
+
+        // Strip an optional lambda prefix ("x =>", "(x) =>", "static x =>") so only the body remains.
+        var arrowIndex = expression.IndexOf("=>", StringComparison.Ordinal);
+        if (arrowIndex < 0)
         {
-            name = name.Substring(lastDotIndex + 1);
+            // An explicit, already-resolved property name (e.g. propertyName: nameof(Item.Name)).
+            var bare = StripVerbatimPrefix(expression);
+            if (IsValidIdentifier(bare))
+            {
+                return bare;
+            }
+
+            throw NotSingleLevelSelector(propertyExpression);
         }
 
-        return name.Trim();
+        var body = expression.Substring(arrowIndex + 2).Trim();
+
+        // A single-level selector body is "<receiver>.<Property>" with exactly one top-level member
+        // access. Dots inside parentheses/brackets (e.g. a cast such as "((My.Ns.Base)x).Name") do not
+        // count, so casts are accepted while nested paths ("x.Child.Name") are rejected.
+        if (!TryGetSingleLevelProperty(body, out var name))
+        {
+            throw NotSingleLevelSelector(propertyExpression);
+        }
+
+        return name;
+    }
+
+    private static bool TryGetSingleLevelProperty(string body, out string name)
+    {
+        name = string.Empty;
+        var depth = 0;
+        var topLevelDotCount = 0;
+        var lastTopLevelDot = -1;
+        for (var i = 0; i < body.Length; i++)
+        {
+            switch (body[i])
+            {
+                case '(':
+                case '[':
+                    depth++;
+                    break;
+                case ')':
+                case ']':
+                    depth--;
+                    break;
+                case '.' when depth == 0:
+                    topLevelDotCount++;
+                    lastTopLevelDot = i;
+                    break;
+            }
+        }
+
+        if (topLevelDotCount != 1)
+        {
+            return false;
+        }
+
+        var candidate = StripVerbatimPrefix(body.Substring(lastTopLevelDot + 1).Trim());
+        if (!IsValidIdentifier(candidate))
+        {
+            return false;
+        }
+
+        name = candidate;
+        return true;
+    }
+
+    private static string StripVerbatimPrefix(string value) =>
+        value.StartsWith("@", StringComparison.Ordinal) ? value.Substring(1) : value;
+
+    private static ArgumentException NotSingleLevelSelector(string propertyExpression) =>
+        new(
+            $"Only a single-level property selector such as 'x => x.PropertyName' is supported, but '{propertyExpression}' was provided. Nested property paths are not supported.",
+            "propertyName");
+
+    private static bool IsValidIdentifier(string value)
+    {
+        if (value.Length == 0 || !(char.IsLetter(value[0]) || value[0] == '_'))
+        {
+            return false;
+        }
+
+        for (var i = 1; i < value.Length; i++)
+        {
+            if (!(char.IsLetterOrDigit(value[i]) || value[i] == '_'))
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
