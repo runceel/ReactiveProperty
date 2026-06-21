@@ -1,10 +1,10 @@
 ﻿#nullable enable
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -79,6 +79,19 @@ public sealed class ValidationTest
         await SpinWaitUntil(() => property.HasErrors);
 
         property.ErrorMessage.Is("async error");
+    }
+
+    [TestMethod]
+    public void MultipleValidatorKindsAggregateErrors()
+    {
+        using var property = new ValidatableReactiveProperty<string>("")
+            .SetValidateNotifyError(x => string.IsNullOrEmpty(x) ? "required" : null)
+            .SetValidateNotifyError(x => x.Length < 3 ? new[] { "too short" } : null)
+            .SetValidateNotifyError(values => values.Select<string, IEnumerable?>(x => x.Contains('!') ? new[] { "bang" } : null));
+
+        property.Value = "!";
+
+        property.GetErrors().Is("too short", "bang");
     }
 
     [TestMethod]

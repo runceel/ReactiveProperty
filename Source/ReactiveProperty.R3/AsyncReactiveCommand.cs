@@ -16,6 +16,7 @@ public class AsyncReactiveCommand<T> : ICommand, IDisposable
     private readonly List<Func<T, Task>> _asyncActions = new();
     private readonly ReactiveProperty<bool> _sharedCanExecute;
     private readonly IDisposable? _canExecuteSubscription;
+    private readonly bool _ownsSharedCanExecute;
     private bool _sourceCanExecute = true;
     private bool _isDisposed;
 
@@ -23,7 +24,7 @@ public class AsyncReactiveCommand<T> : ICommand, IDisposable
     /// Initializes a new instance of the <see cref="AsyncReactiveCommand{T}"/> class.
     /// </summary>
     public AsyncReactiveCommand()
-        : this(new ReactiveProperty<bool>(true))
+        : this(new ReactiveProperty<bool>(true), true)
     {
     }
 
@@ -31,7 +32,7 @@ public class AsyncReactiveCommand<T> : ICommand, IDisposable
     /// Initializes a new instance of the <see cref="AsyncReactiveCommand{T}"/> class.
     /// </summary>
     public AsyncReactiveCommand(Observable<bool> canExecuteSource)
-        : this(canExecuteSource, new ReactiveProperty<bool>(true))
+        : this(canExecuteSource, new ReactiveProperty<bool>(true), true)
     {
     }
 
@@ -39,8 +40,14 @@ public class AsyncReactiveCommand<T> : ICommand, IDisposable
     /// Initializes a new instance of the <see cref="AsyncReactiveCommand{T}"/> class.
     /// </summary>
     public AsyncReactiveCommand(ReactiveProperty<bool> sharedCanExecute)
+        : this(sharedCanExecute, false)
+    {
+    }
+
+    private AsyncReactiveCommand(ReactiveProperty<bool> sharedCanExecute, bool ownsSharedCanExecute)
     {
         _sharedCanExecute = sharedCanExecute ?? throw new ArgumentNullException(nameof(sharedCanExecute));
+        _ownsSharedCanExecute = ownsSharedCanExecute;
         _canExecuteSubscription = _sharedCanExecute.Subscribe(_ => OnCanExecuteChanged());
     }
 
@@ -48,7 +55,12 @@ public class AsyncReactiveCommand<T> : ICommand, IDisposable
     /// Initializes a new instance of the <see cref="AsyncReactiveCommand{T}"/> class.
     /// </summary>
     public AsyncReactiveCommand(Observable<bool> canExecuteSource, ReactiveProperty<bool> sharedCanExecute)
-        : this(sharedCanExecute)
+        : this(canExecuteSource, sharedCanExecute, false)
+    {
+    }
+
+    private AsyncReactiveCommand(Observable<bool> canExecuteSource, ReactiveProperty<bool> sharedCanExecute, bool ownsSharedCanExecute)
+        : this(sharedCanExecute, ownsSharedCanExecute)
     {
         if (canExecuteSource is null)
         {
@@ -112,7 +124,7 @@ public class AsyncReactiveCommand<T> : ICommand, IDisposable
         }
         finally
         {
-            if (!_isDisposed)
+            if (!_isDisposed || !_ownsSharedCanExecute)
             {
                 _sharedCanExecute.Value = true;
             }
@@ -162,7 +174,11 @@ public class AsyncReactiveCommand<T> : ICommand, IDisposable
         }
 
         _isDisposed = true;
-        _sharedCanExecute.Value = false;
+        if (_ownsSharedCanExecute)
+        {
+            _sharedCanExecute.Value = false;
+        }
+
         _canExecuteSubscription?.Dispose();
         OnCanExecuteChanged();
     }

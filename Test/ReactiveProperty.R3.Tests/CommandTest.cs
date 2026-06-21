@@ -1,11 +1,11 @@
 ﻿#nullable enable
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using R3;
-using Reactive.Bindings.R3;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using R3;
+using Reactive.Bindings.R3;
 
 namespace ReactiveProperty.Tests;
 
@@ -75,6 +75,20 @@ public sealed class CommandTest
         command.Dispose();
         command.CanExecute().IsFalse();
         command.Execute();
+    }
+
+    [TestMethod]
+    public void DisposingOneSharedCommandDoesNotDisableSiblings()
+    {
+        using var sharedCanExecute = new ReactiveProperty<bool>(true);
+        using var first = sharedCanExecute.ToAsyncReactiveCommand();
+        using var second = sharedCanExecute.ToAsyncReactiveCommand();
+
+        first.Dispose();
+
+        sharedCanExecute.Value.IsTrue();
+        first.CanExecute().IsFalse();
+        second.CanExecute().IsTrue();
     }
 
     [TestMethod]

@@ -215,6 +215,8 @@ public static class INotifyPropertyChangedExtensions
             name = name.TrimEnd(')');
         }
 
+        name = name.TrimEnd('!');
+
         return name;
     }
 
@@ -231,7 +233,7 @@ public static class INotifyPropertyChangedExtensions
 
         protected override void DisposeCore()
         {
-            foreach (var subscription in _subscriptions.ToArray())
+            foreach (var subscription in _subscriptions)
             {
                 subscription.Dispose();
             }
@@ -254,7 +256,7 @@ public static class INotifyPropertyChangedExtensions
 
         protected override void DisposeCore()
         {
-            foreach (var subscription in _subscriptions.ToArray())
+            foreach (var subscription in _subscriptions)
             {
                 subscription.Dispose();
             }

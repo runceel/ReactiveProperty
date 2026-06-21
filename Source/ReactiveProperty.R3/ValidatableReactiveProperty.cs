@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using R3;
 
@@ -21,7 +22,8 @@ public sealed class ValidatableReactiveProperty<T> : Observable<T>, INotifyPrope
     private readonly ReactiveProperty<IReadOnlyList<string>> _errors = new(Array.Empty<string>());
     private readonly ReactiveProperty<bool> _hasErrors = new(false);
     private readonly Subject<T> _validationTrigger = new();
-    private readonly List<Func<T, IEnumerable<string>?>> _validators = new();
+    private readonly List<(int Slot, Func<T, IEnumerable<string>?> Validate)> _validators = new();
+    private readonly List<string[]> _validationErrors = new();
     private readonly List<IDisposable> _subscriptions = new();
     private readonly bool _ignoreInitialValidationError;
     private bool _hasChangedValue;
@@ -122,7 +124,8 @@ public sealed class ValidatableReactiveProperty<T> : Observable<T>, INotifyPrope
             throw new ArgumentNullException(nameof(validate));
         }
 
-        _validators.Add(validate);
+        var slot = AddValidationSlot();
+        _validators.Add((slot, validate));
         ValidateAfterRegistration();
         return this;
     }
@@ -167,7 +170,8 @@ public sealed class ValidatableReactiveProperty<T> : Observable<T>, INotifyPrope
             throw new ArgumentNullException(nameof(validate));
         }
 
-        _subscriptions.Add(validate(_validationTrigger).Subscribe(errors => SetErrors(ToErrorMessages(errors))));
+        var slot = AddValidationSlot();
+        _subscriptions.Add(validate(_validationTrigger).Subscribe(errors => SetErrors(slot, ToErrorMessages(errors))));
         ValidateAfterRegistration();
         return this;
     }
@@ -230,7 +234,7 @@ public sealed class ValidatableReactiveProperty<T> : Observable<T>, INotifyPrope
         }
 
         _isDisposed = true;
-        foreach (var subscription in _subscriptions.ToArray())
+        foreach (var subscription in _subscriptions)
         {
             subscription.Dispose();
         }
@@ -262,7 +266,22 @@ public sealed class ValidatableReactiveProperty<T> : Observable<T>, INotifyPrope
             return;
         }
 
-        SetErrors(_validators.SelectMany(x => x(value) ?? Array.Empty<string>()).ToArray());
+        foreach (var validator in _validators)
+        {
+            SetErrors(validator.Slot, validator.Validate(value) ?? Array.Empty<string>());
+        }
+    }
+
+    private int AddValidationSlot()
+    {
+        _validationErrors.Add(Array.Empty<string>());
+        return _validationErrors.Count - 1;
+    }
+
+    private void SetErrors(int slot, IEnumerable<string> errors)
+    {
+        _validationErrors[slot] = errors.ToArray();
+        SetErrors(_validationErrors.SelectMany(static x => x).ToArray());
     }
 
     private void SetErrors(IReadOnlyList<string> errors)
@@ -304,11 +323,28 @@ public sealed class ValidatableReactiveProperty<T> : Observable<T>, INotifyPrope
 
     private static Observable<IEnumerable?> ToAsyncValidationObservable(
         Observable<T> source,
-        Func<T, Task<IEnumerable<string>?>> validate) =>
-        Observable.Create<IEnumerable?>(observer =>
+        Func<T, Task<IEnumerable<string>?>> validate)
+    {
+        var latestVersion = 0;
+        return Observable.Create<IEnumerable?>(observer =>
             source.Subscribe(async value =>
             {
-                var errors = await validate(value).ConfigureAwait(false);
-                observer.OnNext(errors?.ToArray());
+                var version = Interlocked.Increment(ref latestVersion);
+                try
+                {
+                    var errors = await validate(value).ConfigureAwait(false);
+                    if (version == Volatile.Read(ref latestVersion))
+                    {
+                        observer.OnNext(errors?.ToArray());
+                    }
+                }
+                catch (Exception ex)
+                {
+                    if (version == Volatile.Read(ref latestVersion))
+                    {
+                        observer.OnNext(new[] { ex.Message });
+                    }
+                }
             }));
+    }
 }

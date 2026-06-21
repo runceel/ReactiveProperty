@@ -1,7 +1,7 @@
 ﻿#nullable enable
 
-using System.ComponentModel;
 using System.Collections.Generic;
+using System.ComponentModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using R3;
 using Reactive.Bindings.R3.Extensions;
@@ -16,7 +16,7 @@ public sealed class SynchronizedPropertyTest
     {
         var source = new Person { Name = "Alice" };
         using var property = source.ToReactivePropertyAsSynchronized(x => x.Name);
-        var values = new List<string>();
+        var values = new List<string?>();
         using var subscription = property.Subscribe(values.Add);
 
         source.Name = "Bob";
@@ -61,11 +61,14 @@ public sealed class SynchronizedPropertyTest
 
         source.Child.Name = "Changed";
         property.Value = "Written";
+        source.Child = new Child { Name = "Replacement" };
+        source.Child.Name = "ReplacementChanged";
+        property.Value = "WrittenAgain";
         source.Child = null;
         property.Value = "Ignored";
 
         source.Child.IsNull();
-        values.Is("Initial", "Changed", "Written", "Ignored");
+        values.Is("Initial", "Changed", "Written", "Replacement", "ReplacementChanged", "WrittenAgain", "Ignored");
     }
 
     private sealed class Person : INotifyPropertyChanged
