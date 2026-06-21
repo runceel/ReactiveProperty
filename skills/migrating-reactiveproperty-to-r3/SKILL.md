@@ -29,7 +29,7 @@ rule has these fields and nothing else:
 |---|---|
 | `ruleId` | Stable identifier for the rule. |
 | `symbol` | The ReactiveProperty type or member the rule matches (fully qualified). |
-| `matchKind` | `TypeReference`, `MethodInvocation`, or `ObjectCreation`. |
+| `matchKind` | `TypeReference`, `MethodInvocation`, `PropertyReference`, or `ObjectCreation`. |
 | `target` | `r3-direct`, `reactiveproperty-r3`, or `manualReview`. |
 | `replacement` | The fully-qualified replacement symbol (`null` for `manualReview`). |
 | `usingAdd` | Namespaces to add. |
@@ -80,7 +80,9 @@ Generic type rules apply to the closed forms too — e.g. the rule for
 - Report: build status, test status, and the **manual-review list** — each `manualReview` hit with its
   file, line, and the rule's `manualReview` note. Keep this list concise; it is the only narrative
   output. Common manual-review cases are narrow: a custom `IScheduler` argument that is neither the UI
-  dispatcher nor the default (`RP-MANUAL-SCHEDULER`), and any `Reactive.Bindings*` API not covered by
+  dispatcher nor the default (`RP-MANUAL-SCHEDULER`), a `ReactivePropertyMode` argument that has no R3
+  equivalent (`RP-MANUAL-MODE`), a `System.IObservable<T>` boundary that must not be retyped
+  mechanically (`RP-OBSERVABLE-INTEROP`), and any `Reactive.Bindings*` API not covered by
   a rule (default fallback — flag it with file/line and a one-line description; do **not** guess a
   replacement; e.g. WPF/Blazor platform helpers like `EventToReactiveCommand`, `BindTo`, or
   `ReactiveCollection<T>`).
@@ -88,9 +90,10 @@ Generic type rules apply to the closed forms too — e.g. the rule for
 ## Notes
 - Prefer the R3 shape end-to-end. Use `ToObservable()` / `AsSystemObservable()` only at boundaries
   that still require `System.Reactive`.
-- Element-property observation (`ObserveElementProperty`) and nested property paths
-  (`ToReactivePropertyAsSynchronized(x => x.A.B)`) are fully supported — they are `reactiveproperty-r3`
-  rewrites, not manual review.
+- Element-property observation (`ObserveElementProperty`) is a `reactiveproperty-r3` rewrite, not manual
+  review. Nested property paths are **not** supported as a single selector: the bridge's
+  `ToReactivePropertyAsSynchronized` rejects `x => x.A.B` at runtime (`ArgumentException`) and only
+  accepts chained single-hop selectors (`x => x.A, a => a.B`). Rewrite any nested path into that chain form.
 - DataAnnotations validation on a single property is a direct `EnableValidation()` rewrite; only
   stream/async validation and observable error streams need `ValidatableReactiveProperty<T>` from
   `ReactiveProperty.R3`.

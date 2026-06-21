@@ -102,9 +102,9 @@ Root namespace **`Reactive.Bindings.R3`**, mirroring ReactiveProperty's sub-name
 
 | New namespace | Members |
 |---|---|
-| `Reactive.Bindings.R3` | `AsyncReactiveCommand`, `AsyncReactiveCommand<T>`, `ReactiveTimer`, `ReadOnlyReactiveCollection<T>`, `CollectionChanged<T>`, `ValidatableReactiveProperty<T>` (+ factory) |
+| `Reactive.Bindings.R3` | `AsyncReactiveCommand`, `AsyncReactiveCommand<T>`, `ReactiveTimer`, `ReadOnlyReactiveCollection<T>`, `CollectionChanged<T>`, `ToReadOnlyReactiveCollection`, `ValidatableReactiveProperty<T>` (+ factory) |
 | `Reactive.Bindings.R3.Notifiers` | `BooleanNotifier`, `CountNotifier` (+`CountChangedStatus`), `BusyNotifier`, `ScheduledNotifier<T>`, `MessageBroker`, `AsyncMessageBroker` (+ interfaces) |
-| `Reactive.Bindings.R3.Extensions` | collection-changed extensions, `INotifyDataErrorInfo` extensions, `ToReadOnlyReactiveCollection`, `ToFilteredReadOnlyObservableCollection`, `ToReactivePropertyAsSynchronized`, command `WithSubscribe`/`ToAsyncReactiveCommand` |
+| `Reactive.Bindings.R3.Extensions` | collection-changed extensions, `INotifyDataErrorInfo` extensions, `ToFilteredReadOnlyObservableCollection`, `ToReactivePropertyAsSynchronized`, command `WithSubscribe`/`ToAsyncReactiveCommand` |
 
 > **Decision (confirmed by owner): `Reactive.Bindings.R3`.** An alternative considered was reusing
 > the **exact original** namespaces (`Reactive.Bindings`, `Reactive.Bindings.Notifiers`,
@@ -290,7 +290,7 @@ public sealed class ReadOnlyReactiveCollection<T> : ReadOnlyObservableCollection
 }
 ```
 
-Factory extensions in `Reactive.Bindings.R3.Extensions`:
+Factory extensions in `Reactive.Bindings.R3`:
 
 ```csharp
 public static class ReadOnlyReactiveCollectionExtensions
