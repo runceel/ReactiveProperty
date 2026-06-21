@@ -14,9 +14,13 @@
     <Project Path="Source/ReactiveProperty.NETStandard/ReactiveProperty.NETStandard.csproj" />
     <Project Path="Source/ReactiveProperty.Platform.Blazor/ReactiveProperty.Platform.Blazor.csproj" />
     <Project Path="Source/ReactiveProperty.Platform.WPF/ReactiveProperty.Platform.WPF.csproj" />
+    <Project Path="Source/ReactiveProperty.R3/ReactiveProperty.R3.csproj" />
   </Folder>
   <Folder Name="/MultiUIThread/">
     <Project Path="Samples/MultiUIThreadApp/MultiUIThreadApp.csproj" />
+  </Folder>
+  <Folder Name="/R3Migration/">
+    <Project Path="Samples/R3Migration/R3MigrationSample.csproj" />
   </Folder>
   <Folder Name="/WithPrism/">
     <Project Path="Samples/Reactive.Todo.Main/Reactive.Todo.Main.csproj" />
