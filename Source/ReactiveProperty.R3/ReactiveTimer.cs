@@ -46,15 +46,26 @@ public class ReactiveTimer : Observable<long>, INotifyPropertyChanged, IDisposab
     /// </summary>
     public TimeSpan Interval
     {
-        get => _interval;
+        get
+        {
+            lock (_lockObject)
+            {
+                return _interval;
+            }
+        }
+
         set
         {
-            if (_interval == value)
+            lock (_lockObject)
             {
-                return;
+                if (_interval == value)
+                {
+                    return;
+                }
+
+                _interval = value;
             }
 
-            _interval = value;
             PropertyChanged?.Invoke(this, s_intervalPropertyChangedEventArgs);
         }
     }
@@ -96,7 +107,7 @@ public class ReactiveTimer : Observable<long>, INotifyPropertyChanged, IDisposab
             }
 
             _timer?.Dispose();
-            _timer = _timeProvider.CreateTimer(OnTick, null, dueTime, Interval);
+            _timer = _timeProvider.CreateTimer(OnTick, null, dueTime, _interval);
         }
 
         IsEnabled = true;
