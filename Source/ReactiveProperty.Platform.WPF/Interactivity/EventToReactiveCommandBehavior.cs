@@ -205,6 +205,10 @@ public class EventToReactiveCommandBehavior : Behavior<FrameworkElement>
     private void SetSubscribes()
     {
         _executeSubscription?.Dispose();
+        if (AssociatedObject == null)
+        {
+            return;
+        }
 
         IObservable<object?> ox = _source;
         foreach (var c in Converters)

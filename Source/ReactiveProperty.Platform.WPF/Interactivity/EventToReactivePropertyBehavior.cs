@@ -140,6 +140,10 @@ public class EventToReactivePropertyBehavior : Behavior<FrameworkElement>
     private void SetSubscribes()
     {
         _subscription?.Dispose();
+        if (AssociatedObject == null)
+        {
+            return;
+        }
 
         IObservable<object?> ox = _source;
         foreach (var c in Converters)
