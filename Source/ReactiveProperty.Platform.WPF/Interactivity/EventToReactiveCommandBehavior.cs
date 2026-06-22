@@ -179,7 +179,12 @@ public class EventToReactiveCommandBehavior : Behavior<FrameworkElement>
         }
 
         var methodInfo = typeof(EventToReactiveCommandBehavior).GetMethod(nameof(OnEvent), BindingFlags.Instance | BindingFlags.NonPublic);
-        _eventHandler = methodInfo?.CreateDelegate(_eventInfo.EventHandlerType, this);
+        if (methodInfo == null)
+        {
+            return;
+        }
+
+        _eventHandler = methodInfo.CreateDelegate(_eventInfo.EventHandlerType, this);
         if (_eventHandler != null)
         {
             _eventInfo.AddEventHandler(AssociatedObject, _eventHandler);
@@ -249,7 +254,7 @@ public class EventToReactiveCommandBehavior : Behavior<FrameworkElement>
     private void OnEvent(object sender, EventArgs eventArgs)
     {
         var command = Command;
-        if (!command?.CanExecute(eventArgs) ?? true)
+        if (command == null || !command.CanExecute(eventArgs))
         {
             return;
         }

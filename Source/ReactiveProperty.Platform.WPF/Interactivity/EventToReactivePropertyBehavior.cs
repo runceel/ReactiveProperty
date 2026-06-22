@@ -114,7 +114,12 @@ public class EventToReactivePropertyBehavior : Behavior<FrameworkElement>
         }
 
         var methodInfo = typeof(EventToReactivePropertyBehavior).GetMethod(nameof(OnEvent), BindingFlags.Instance | BindingFlags.NonPublic);
-        _eventHandler = methodInfo?.CreateDelegate(_eventInfo.EventHandlerType, this);
+        if (methodInfo == null)
+        {
+            return;
+        }
+
+        _eventHandler = methodInfo.CreateDelegate(_eventInfo.EventHandlerType, this);
         if (_eventHandler != null)
         {
             _eventInfo.AddEventHandler(AssociatedObject, _eventHandler);
