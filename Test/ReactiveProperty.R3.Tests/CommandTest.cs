@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using R3;
@@ -35,6 +36,33 @@ public sealed class CommandTest
         await task;
 
         command.CanExecute().IsTrue();
+    }
+
+    [TestMethod]
+    public void CanExecuteChangedUsesCapturedSynchronizationContext()
+    {
+        var callbackExecuted = false;
+        var originalContext = SynchronizationContext.Current;
+        var context = new TestSynchronizationContext();
+        SynchronizationContext.SetSynchronizationContext(context);
+
+        try
+        {
+            using var command = new AsyncReactiveCommand();
+            command.CanExecuteChanged += (_, _) =>
+            {
+                callbackExecuted = true;
+            };
+
+            Task.Run(() => command.Dispose()).GetAwaiter().GetResult();
+
+            callbackExecuted.IsTrue();
+            Assert.IsTrue(context.PostCount > 0);
+        }
+        finally
+        {
+            SynchronizationContext.SetSynchronizationContext(originalContext);
+        }
     }
 
     [TestMethod]
@@ -128,6 +156,17 @@ public sealed class CommandTest
         await command.ExecuteAsync(10);
 
         command.CanExecute().IsTrue();
+    }
+
+    private sealed class TestSynchronizationContext : SynchronizationContext
+    {
+        public int PostCount { get; private set; }
+
+        public override void Post(SendOrPostCallback d, object? state)
+        {
+            PostCount++;
+            d(state);
+        }
     }
 
     private static async Task SpinWaitUntil(Func<bool> condition)

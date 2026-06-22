@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using R3;
@@ -17,6 +18,7 @@ public class AsyncReactiveCommand<T> : ICommand, IDisposable
     private readonly ReactiveProperty<bool> _sharedCanExecute;
     private readonly IDisposable? _canExecuteSubscription;
     private readonly bool _ownsSharedCanExecute;
+    private readonly SynchronizationContext? _synchronizationContext;
     private bool _sourceCanExecute = true;
     private bool _isDisposed;
 
@@ -48,6 +50,7 @@ public class AsyncReactiveCommand<T> : ICommand, IDisposable
     {
         _sharedCanExecute = sharedCanExecute ?? throw new ArgumentNullException(nameof(sharedCanExecute));
         _ownsSharedCanExecute = ownsSharedCanExecute;
+        _synchronizationContext = SynchronizationContext.Current;
         _canExecuteSubscription = _sharedCanExecute.Subscribe(_ => OnCanExecuteChanged());
     }
 
@@ -190,7 +193,22 @@ public class AsyncReactiveCommand<T> : ICommand, IDisposable
         OnCanExecuteChanged();
     }
 
-    private void OnCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+    private void OnCanExecuteChanged()
+    {
+        if (_synchronizationContext is null)
+        {
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+            return;
+        }
+
+        if (SynchronizationContext.Current == _synchronizationContext)
+        {
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+            return;
+        }
+
+        _synchronizationContext.Post(_ => CanExecuteChanged?.Invoke(this, EventArgs.Empty), null);
+    }
 
     private bool ShouldRestoreSharedCanExecuteAfterRun => !_isDisposed || !_ownsSharedCanExecute;
 }

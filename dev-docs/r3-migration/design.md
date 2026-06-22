@@ -669,10 +669,10 @@ in §4.
 
 ## 7. ADR
 
-Record an ADR in `dev-docs/adr/` ("Adopt a permanent minimal `ReactiveProperty.R3` migration bridge
-filling genuine R3 gaps"), cross-referencing this design document, capturing the namespace decision
-(§3.1), the repo-wide move to .NET 10 + C# 14 (§3.0), and the collection-dispatch decision (§4.4)
-under *Decision* once confirmed.
+Recorded as [ADR 0003 — *Ship a permanent minimal `ReactiveProperty.R3` migration bridge and a
+migration skill*](../adr/0003-reactiveproperty-r3-migration-bridge.md) (`Accepted`). It
+cross-references this design document and captures the namespace decision (§3.1), the repo-wide
+move to .NET 10 + C# 14 (§3.0), and the collection-dispatch decision (§4.4) under *Decision*.
 
 ## 8. Acceptance criteria
 

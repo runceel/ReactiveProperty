@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading;
 using R3;
 using Reactive.Bindings.R3;
 
@@ -33,14 +34,16 @@ internal sealed class FilteredReadOnlyObservableCollection<TCollection, TElement
     private readonly List<int?> _indexList = new();
     private readonly List<IDisposable> _subscriptions = new();
     private readonly Func<TElement, Observable<TTrigger>> _elementChangedFactory;
+    private readonly SynchronizationContext? _raiseEventContext;
     private Func<TElement, bool> _filter;
     private bool _isDisposed;
 
-    public FilteredReadOnlyObservableCollection(TCollection source, Func<TElement, bool> filter, Func<TElement, Observable<TTrigger>> elementChangedFactory)
+    public FilteredReadOnlyObservableCollection(TCollection source, Func<TElement, bool> filter, Func<TElement, Observable<TTrigger>> elementChangedFactory, SynchronizationContext? raiseEventContext = null)
     {
         Source = source ?? throw new ArgumentNullException(nameof(source));
         _filter = filter ?? throw new ArgumentNullException(nameof(filter));
         _elementChangedFactory = elementChangedFactory ?? throw new ArgumentNullException(nameof(elementChangedFactory));
+        _raiseEventContext = raiseEventContext;
 
         lock (_syncRoot)
         {
@@ -289,6 +292,26 @@ internal sealed class FilteredReadOnlyObservableCollection<TCollection, TElement
             return;
         }
 
+        if (_raiseEventContext is null)
+        {
+            RaiseChangedCore(args);
+            return;
+        }
+
+        _raiseEventContext.Post(static state =>
+        {
+            var (collection, eventArgs) = ((FilteredReadOnlyObservableCollection<TCollection, TElement, TTrigger> Collection, NotifyCollectionChangedEventArgs? EventArgs))state!;
+            collection.RaiseChangedCore(eventArgs);
+        }, (this, args));
+    }
+
+    private void RaiseChangedCore(NotifyCollectionChangedEventArgs? args)
+    {
+        if (args is null)
+        {
+            return;
+        }
+
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Count)));
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Item[]"));
         CollectionChanged?.Invoke(this, args);
@@ -305,7 +328,8 @@ public static class FilteredReadOnlyObservableCollectionExtensions
     /// </summary>
     public static IFilteredReadOnlyObservableCollection<TElement> ToFilteredReadOnlyObservableCollection<TCollection, TElement>(
         this TCollection source,
-        Func<TElement, bool> filter)
+        Func<TElement, bool> filter,
+        SynchronizationContext? raiseEventContext = null)
         where TCollection : INotifyCollectionChanged, IList<TElement>
         where TElement : class, INotifyPropertyChanged =>
         new FilteredReadOnlyObservableCollection<TCollection, TElement, PropertyChangedEventArgs>(
@@ -315,25 +339,28 @@ public static class FilteredReadOnlyObservableCollectionExtensions
                 h => (_, e) => h(e),
                 h => x.PropertyChanged += h,
                 h => x.PropertyChanged -= h,
-                default));
+                default),
+            raiseEventContext);
 
     /// <summary>
     /// Creates a filtered read-only observable collection.
     /// </summary>
     public static IFilteredReadOnlyObservableCollection<TElement> ToFilteredReadOnlyObservableCollection<TElement>(
         this ObservableCollection<TElement> source,
-        Func<TElement, bool> filter)
+        Func<TElement, bool> filter,
+        SynchronizationContext? raiseEventContext = null)
         where TElement : class, INotifyPropertyChanged =>
-        source.ToFilteredReadOnlyObservableCollection<ObservableCollection<TElement>, TElement>(filter);
+        source.ToFilteredReadOnlyObservableCollection<ObservableCollection<TElement>, TElement>(filter, raiseEventContext);
 
     /// <summary>
     /// Creates a filtered read-only observable collection.
     /// </summary>
     public static IFilteredReadOnlyObservableCollection<TElement> ToFilteredReadOnlyObservableCollection<TElement>(
         this ReadOnlyObservableCollection<TElement> source,
-        Func<TElement, bool> filter)
+        Func<TElement, bool> filter,
+        SynchronizationContext? raiseEventContext = null)
         where TElement : class, INotifyPropertyChanged =>
-        source.ToFilteredReadOnlyObservableCollection<ReadOnlyObservableCollection<TElement>, TElement>(filter);
+        source.ToFilteredReadOnlyObservableCollection<ReadOnlyObservableCollection<TElement>, TElement>(filter, raiseEventContext);
 
     /// <summary>
     /// Creates a filtered read-only observable collection.
@@ -341,8 +368,9 @@ public static class FilteredReadOnlyObservableCollectionExtensions
     public static IFilteredReadOnlyObservableCollection<TElement> ToFilteredReadOnlyObservableCollection<TCollection, TElement, TTrigger>(
         this TCollection source,
         Func<TElement, bool> filter,
-        Func<TElement, Observable<TTrigger>> elementStatusChangedFactory)
+        Func<TElement, Observable<TTrigger>> elementStatusChangedFactory,
+        SynchronizationContext? raiseEventContext = null)
         where TCollection : INotifyCollectionChanged, IList<TElement>
         where TElement : class, INotifyPropertyChanged =>
-        new FilteredReadOnlyObservableCollection<TCollection, TElement, TTrigger>(source, filter, elementStatusChangedFactory);
+        new FilteredReadOnlyObservableCollection<TCollection, TElement, TTrigger>(source, filter, elementStatusChangedFactory, raiseEventContext);
 }
