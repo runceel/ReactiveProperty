@@ -1,0 +1,8 @@
+<Project>
+  <Target Name="EnsureGeneratedMSBuildEditorConfigDirectory"
+          BeforeTargets="GenerateMSBuildEditorConfigFileCore"
+          Condition="'$(GeneratedMSBuildEditorConfigFile)' != ''">
+    <!-- Work around Visual Studio/.NET SDK preview WPF temporary projects that can reach Roslyn before obj exists. -->
+    <MakeDir Directories="$([System.IO.Path]::GetDirectoryName('$(GeneratedMSBuildEditorConfigFile)'))" />
+  </Target>
+</Project>

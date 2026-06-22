@@ -62,7 +62,7 @@ namespace ReactivePropertySamples.Migrated.ViewModels
 
             FilterSourceItems = new ObservableCollection<FilterSourceItem>();
             FilteredItems = FilterSourceItems
-                .ToFilteredReadOnlyObservableCollection(x => x.Count >= 7)
+                .ToFilteredReadOnlyObservableCollection(x => x.Count >= 7, uiContext)
                 .AddTo(Disposables);
             AddToFilterSourceItemsCommand = new ReactiveCommand()
                 .AddTo(Disposables);

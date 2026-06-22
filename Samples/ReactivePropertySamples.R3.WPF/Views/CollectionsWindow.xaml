@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ReactivePropertySamples.R3.WPF.Views"
         xmlns:viewModels="clr-namespace:ReactivePropertySamples.Migrated.ViewModels;assembly=ReactivePropertySamples.R3.Shared"
-        xmlns:intaractivity="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:interactivity="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:behaviors="clr-namespace:ReactivePropertySamples.R3.WPF.Behaviors"
         mc:Ignorable="d"
         Title="CollectionsWindow" Height="800" Width="800">
-    <intaractivity:Interaction.Behaviors>
+    <interactivity:Interaction.Behaviors>
         <behaviors:DisposeViewModelWhenClosedBehavior />
-    </intaractivity:Interaction.Behaviors>
+    </interactivity:Interaction.Behaviors>
     <Window.DataContext>
         <viewModels:CollectionsViewModel />
     </Window.DataContext>
