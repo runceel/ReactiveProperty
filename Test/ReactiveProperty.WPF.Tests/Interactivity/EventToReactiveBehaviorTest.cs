@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reactive.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -37,19 +38,29 @@ public class EventToReactiveBehaviorTest
     [STATestMethod]
     public void EventToReactivePropertyBehavior_EventRaised_UpdatesReactivePropertyWithConvertedValue()
     {
-        var associatedObject = new TestFrameworkElement();
-        var property = new ReactiveProperty<string>();
-        var behavior = new EventToReactivePropertyBehavior
+        var currentSynchronizationContext = SynchronizationContext.Current;
+        SynchronizationContext.SetSynchronizationContext(new ImmediateSynchronizationContext());
+        UIDispatcherScheduler.Initialize();
+        try
         {
-            EventName = nameof(TestFrameworkElement.TestEvent),
-            ReactiveProperty = property,
-        };
-        behavior.Converters.Add(new TestConverter());
-        behavior.Attach(associatedObject);
+            var associatedObject = new TestFrameworkElement();
+            var property = new ReactiveProperty<string>();
+            var behavior = new EventToReactivePropertyBehavior
+            {
+                EventName = nameof(TestFrameworkElement.TestEvent),
+                ReactiveProperty = property,
+            };
+            behavior.Converters.Add(new TestConverter());
+            behavior.Attach(associatedObject);
 
-        associatedObject.RaiseTestEvent(EventArgs.Empty);
+            associatedObject.RaiseTestEvent(EventArgs.Empty);
 
-        property.Value.Is("converted");
+            property.Value.Is("converted");
+        }
+        finally
+        {
+            SynchronizationContext.SetSynchronizationContext(currentSynchronizationContext);
+        }
     }
 
     private sealed class TestFrameworkElement : FrameworkElement
@@ -67,6 +78,19 @@ public class EventToReactiveBehaviorTest
         protected override IObservable<string> OnConvert(IObservable<EventArgs> source)
         {
             return source.Select(_ => "converted");
+        }
+    }
+
+    private sealed class ImmediateSynchronizationContext : SynchronizationContext
+    {
+        public override void Post(SendOrPostCallback d, object state)
+        {
+            d(state);
+        }
+
+        public override void Send(SendOrPostCallback d, object state)
+        {
+            d(state);
         }
     }
 }
