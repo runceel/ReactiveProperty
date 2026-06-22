@@ -1,0 +1,41 @@
+﻿<Window
+    x:Class="ReactivePropertySamples.R3.WPF.Views.EventToReactiveWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:behaviors="clr-namespace:ReactivePropertySamples.R3.WPF.Behaviors"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:interactivity="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:ReactivePropertySamples.R3.WPF.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:ReactivePropertySamples.Migrated.ViewModels;assembly=ReactivePropertySamples.R3.Shared"
+    Title="EventToReactiveWindow"
+    Width="800"
+    Height="450"
+    mc:Ignorable="d">
+    <interactivity:Interaction.Behaviors>
+        <behaviors:DisposeViewModelWhenClosedBehavior />
+    </interactivity:Interaction.Behaviors>
+    <Window.DataContext>
+        <viewModels:EventToReactiveViewModel />
+    </Window.DataContext>
+    <StackPanel Margin="10">
+        <Label Content="EventToReactiveProperty:" Style="{StaticResource TitleLabel}" />
+        <TextBlock>
+            <Run Text="Mouse position: " />
+            <Run Text="{Binding MousePosition.Value}" />
+        </TextBlock>
+        <!--  EventToReactiveProperty is a ReactiveProperty.WPF helper with no R3 equivalent,  -->
+        <!--  so the MouseMove event is handled naively in code-behind instead.  -->
+        <Border
+            Height="100"
+            Background="LightGoldenrodYellow"
+            BorderBrush="DarkRed"
+            BorderThickness="1"
+            MouseMove="Border_MouseMove" />
+        <Label Content="EventToReactiveCommand:" Style="{StaticResource TitleLabel}" />
+        <CheckBox Content="CanExecute" IsChecked="{Binding CanExecute.Value, Mode=TwoWay}" />
+        <!--  EventToReactiveCommand + OpenFileConverter are likewise re-implemented in code-behind.  -->
+        <Button Content="Open file" Click="OpenFileButton_Click" />
+        <TextBlock Text="{Binding OpenedFile.Value}" />
+    </StackPanel>
+</Window>

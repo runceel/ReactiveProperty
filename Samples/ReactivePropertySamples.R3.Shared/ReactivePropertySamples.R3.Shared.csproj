@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>ReactivePropertySamples.Migrated</RootNamespace>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="R3" />
+    <ProjectReference Include="..\..\Source\ReactiveProperty.R3\ReactiveProperty.R3.csproj" />
+  </ItemGroup>
+
+</Project>
