@@ -31,20 +31,24 @@
             Background="LightGoldenrodYellow"
             BorderBrush="DarkRed"
             BorderThickness="1">
-            <interactivity:Interaction.Behaviors>
-                <reactiveProperty:EventToReactivePropertyBehavior EventName="MouseMove" ReactiveProperty="{Binding MousePosition}">
-                    <converters:MouseEventConverter />
-                </reactiveProperty:EventToReactivePropertyBehavior>
-            </interactivity:Interaction.Behaviors>
+            <interactivity:Interaction.Triggers>
+                <interactivity:EventTrigger EventName="MouseMove">
+                    <reactiveProperty:EventToReactiveProperty ReactiveProperty="{Binding MousePosition}">
+                        <converters:MouseEventConverter />
+                    </reactiveProperty:EventToReactiveProperty>
+                </interactivity:EventTrigger>
+            </interactivity:Interaction.Triggers>
         </Border>
         <Label Content="EventToReactiveCommand:" Style="{StaticResource TitleLabel}" />
         <CheckBox Content="CanExecute" IsChecked="{Binding CanExecute.Value, Mode=TwoWay}" />
         <Button Content="Open file">
-            <interactivity:Interaction.Behaviors>
-                <reactiveProperty:EventToReactiveCommandBehavior EventName="Click" Command="{Binding OpenFileCommand}">
-                    <converters:OpenFileConverter />
-                </reactiveProperty:EventToReactiveCommandBehavior>
-            </interactivity:Interaction.Behaviors>
+            <interactivity:Interaction.Triggers>
+                <interactivity:EventTrigger EventName="Click">
+                    <reactiveProperty:EventToReactiveCommand Command="{Binding OpenFileCommand}">
+                        <converters:OpenFileConverter />
+                    </reactiveProperty:EventToReactiveCommand>
+                </interactivity:EventTrigger>
+            </interactivity:Interaction.Triggers>
         </Button>
         <TextBlock Text="{Binding OpenedFile.Value}" />
     </StackPanel>

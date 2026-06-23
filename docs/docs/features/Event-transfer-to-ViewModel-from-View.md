@@ -157,31 +157,6 @@ namespace App1
 }
 ```
 
-
-
-## WPF behavior syntax
-
-WPF also provides `EventToReactiveCommandBehavior` and `EventToReactivePropertyBehavior` for
-`Interaction.Behaviors`. They are useful when migrating WPF XAML that already uses behavior-based
-event wiring and avoid the extra `Interaction.Triggers`/`EventTrigger` wrapper.
-
-```xml
-<Button Content="OpenFile...">
-  <i:Interaction.Behaviors>
-    <reactiveProperty:EventToReactiveCommandBehavior
-        EventName="Click"
-        Command="{Binding SelectFileCommand}">
-      <local:FileOpenReactiveConverter />
-    </reactiveProperty:EventToReactiveCommandBehavior>
-  </i:Interaction.Behaviors>
-</Button>
-```
-
-The behavior-based command helper supports the same converter chain, `IgnoreEventArgs`,
-`AutoEnable`, and `CallExecuteOnScheduler` settings as `EventToReactiveCommand`.
-`EventToReactivePropertyBehavior` similarly supports `EventName`, converter chains, and
-`IgnoreEventArgs`.
-
 ## Customizing EventToReactiveCommand
 
 ### CallExecuteOnScheduler property

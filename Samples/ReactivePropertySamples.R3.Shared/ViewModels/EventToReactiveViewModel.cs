@@ -11,8 +11,8 @@ namespace ReactivePropertySamples.Migrated.ViewModels
 
         public EventToReactiveViewModel()
         {
-            // EventToReactiveProperty / EventToReactiveCommand are WPF platform helpers that are
-            // out of scope for the bridge, so the View raises these via plain code-behind handlers.
+            // MousePosition / OpenedFile are updated through the EventToReactiveProperty and
+            // EventToReactiveCommand trigger actions from ReactiveProperty.R3.WPF (see the View).
             // The ViewModel just exposes the reactive surface they push into.
             MousePosition = new BindableReactiveProperty<string>("")
                 .AddTo(Disposables);

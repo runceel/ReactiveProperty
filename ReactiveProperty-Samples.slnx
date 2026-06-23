@@ -15,6 +15,7 @@
     <Project Path="Source/ReactiveProperty.Platform.Blazor/ReactiveProperty.Platform.Blazor.csproj" />
     <Project Path="Source/ReactiveProperty.Platform.WPF/ReactiveProperty.Platform.WPF.csproj" />
     <Project Path="Source/ReactiveProperty.R3/ReactiveProperty.R3.csproj" />
+    <Project Path="Source/ReactiveProperty.R3.WPF/ReactiveProperty.R3.WPF.csproj" />
   </Folder>
   <Folder Name="/MultiUIThread/">
     <Project Path="Samples/MultiUIThreadApp/MultiUIThreadApp.csproj" />
