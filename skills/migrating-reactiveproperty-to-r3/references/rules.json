@@ -517,6 +517,50 @@
       "usingRemove": [],
       "manualReview": "A custom IScheduler argument that is neither the UI dispatcher nor the default cannot be translated mechanically. R3 time-based APIs take a TimeProvider and collection dispatch uses a SynchronizationContext. Choose the right TimeProvider/SynchronizationContext (or FrameProvider) for this call site.",
       "notes": "Applies to explicit IScheduler arguments passed to RP APIs (e.g. ScheduledNotifier, ReactiveTimer, collection-dispatch overloads)."
+    },
+    {
+      "ruleId": "RP-EVENT-TO-RP",
+      "symbol": "Reactive.Bindings.Interactivity.EventToReactiveProperty",
+      "matchKind": "TypeReference",
+      "target": "reactiveproperty-r3",
+      "replacement": "Reactive.Bindings.R3.Interactivity.EventToReactiveProperty",
+      "usingAdd": ["Reactive.Bindings.R3.Interactivity"],
+      "usingRemove": ["Reactive.Bindings.Interactivity"],
+      "manualReview": null,
+      "notes": "WPF TriggerAction used inside a Microsoft.Xaml.Behaviors EventTrigger. Lives in the ReactiveProperty.R3.WPF package - add it (the R3 version is NOT in ReactiveProperty.R3). Usually referenced from XAML: change the xmlns from 'clr-namespace:Reactive.Bindings.Interactivity;assembly=ReactiveProperty.WPF' to 'clr-namespace:Reactive.Bindings.R3.Interactivity;assembly=ReactiveProperty.R3.WPF'. The property surface is unchanged (ReactiveProperty, Converters, IgnoreEventArgs); the bound ReactiveProperty<T> is the already-migrated R3 BindableReactiveProperty<T> (the action binds via R3 IBindableReactiveProperty)."
+    },
+    {
+      "ruleId": "RP-EVENT-TO-COMMAND",
+      "symbol": "Reactive.Bindings.Interactivity.EventToReactiveCommand",
+      "matchKind": "TypeReference",
+      "target": "reactiveproperty-r3",
+      "replacement": "Reactive.Bindings.R3.Interactivity.EventToReactiveCommand",
+      "usingAdd": ["Reactive.Bindings.R3.Interactivity"],
+      "usingRemove": ["Reactive.Bindings.Interactivity"],
+      "manualReview": null,
+      "notes": "WPF TriggerAction used inside a Microsoft.Xaml.Behaviors EventTrigger. Lives in the ReactiveProperty.R3.WPF package - add it (NOT in ReactiveProperty.R3). Usually referenced from XAML: swap the xmlns to 'clr-namespace:Reactive.Bindings.R3.Interactivity;assembly=ReactiveProperty.R3.WPF'. The property surface is unchanged (Command, Converters, IgnoreEventArgs, AutoEnable, CallExecuteOnScheduler); the bound Command is the already-migrated R3 ReactiveCommand/ReactiveCommand<T>, which implements ICommand."
+    },
+    {
+      "ruleId": "RP-EVENT-CONVERTER",
+      "symbol": "Reactive.Bindings.Interactivity.ReactiveConverter<T, U>",
+      "matchKind": "TypeReference",
+      "target": "reactiveproperty-r3",
+      "replacement": "Reactive.Bindings.R3.Interactivity.ReactiveConverter<T, U>",
+      "usingAdd": ["Reactive.Bindings.R3.Interactivity", "R3"],
+      "usingRemove": ["Reactive.Bindings.Interactivity"],
+      "manualReview": null,
+      "notes": "Base class for custom EventToReactiveProperty/Command converters, in the ReactiveProperty.R3.WPF package. Same role, but the abstract OnConvert now uses R3 streams: 'protected override Observable<U?> OnConvert(Observable<T?> source)' instead of System.Reactive IObservable<T> -> IObservable<U>. Rewrite the body with R3 operators (Select/Where/...) and add 'using R3;'. AssociateObject is typed object? (cast as needed)."
+    },
+    {
+      "ruleId": "RP-EVENT-CONVERTER-IFACE",
+      "symbol": "Reactive.Bindings.Interactivity.IEventToReactiveConverter",
+      "matchKind": "TypeReference",
+      "target": "reactiveproperty-r3",
+      "replacement": "Reactive.Bindings.R3.Interactivity.IEventToReactiveConverter",
+      "usingAdd": ["Reactive.Bindings.R3.Interactivity", "R3"],
+      "usingRemove": ["Reactive.Bindings.Interactivity"],
+      "manualReview": null,
+      "notes": "Converter contract in the ReactiveProperty.R3.WPF package. Convert now takes/returns R3 Observable<object?> instead of System.Reactive IObservable<object>. Most code derives from ReactiveConverter<T, U> (RP-EVENT-CONVERTER) rather than implementing this interface directly."
     }
   ]
 }
