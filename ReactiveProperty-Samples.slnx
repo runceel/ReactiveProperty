@@ -21,7 +21,6 @@
     <Project Path="Samples/MultiUIThreadApp/MultiUIThreadApp.csproj" />
   </Folder>
   <Folder Name="/R3Migration/">
-    <Project Path="Samples/R3Migration/R3MigrationSample.csproj" />
     <Project Path="Samples/ReactivePropertySamples.R3.Shared/ReactivePropertySamples.R3.Shared.csproj" />
     <Project Path="Samples/ReactivePropertySamples.R3.WPF/ReactivePropertySamples.R3.WPF.csproj" />
   </Folder>

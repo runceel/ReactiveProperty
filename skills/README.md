@@ -20,8 +20,7 @@ skills directory. Each skill is self-contained.
 - [`migrating-reactiveproperty-to-r3`](./migrating-reactiveproperty-to-r3/SKILL.md) — migrate an
   app from ReactiveProperty (namespace `Reactive.Bindings`) to [R3](https://github.com/Cysharp/R3)
   plus the `ReactiveProperty.R3` bridge package, driven by a mapping table
-  ([`references/rules.json`](./migrating-reactiveproperty-to-r3/references/rules.json)). See the
-  end-to-end example in [`Samples/R3Migration`](../Samples/R3Migration).
+  ([`references/rules.json`](./migrating-reactiveproperty-to-r3/references/rules.json)).
 
 ## Layout
 
