@@ -53,6 +53,9 @@ rule has these fields and nothing else:
 
 ### 1. Fix the package references
 - **Add** `R3` and `ReactiveProperty.R3`.
+- If the project uses the WPF `EventToReactiveProperty` / `EventToReactiveCommand` trigger actions
+  (or custom `ReactiveConverter<T, U>` converters for them), also **add** `ReactiveProperty.R3.WPF`.
+  Their R3 versions live in that package, **not** in `ReactiveProperty.R3`.
 - **Remove** `ReactiveProperty`, `ReactiveProperty.Core`, `ReactiveProperty.WPF`,
   `ReactiveProperty.Blazor`, and `ReactiveProperty.UWP`.
 - Use the project's existing mechanism (NuGet Central Package Management if present, otherwise
@@ -84,8 +87,8 @@ Generic type rules apply to the closed forms too — e.g. the rule for
   equivalent (`RP-MANUAL-MODE`), a `System.IObservable<T>` boundary that must not be retyped
   mechanically (`RP-OBSERVABLE-INTEROP`), and any `Reactive.Bindings*` API not covered by
   a rule (default fallback — flag it with file/line and a one-line description; do **not** guess a
-  replacement; e.g. WPF/Blazor platform helpers like `EventToReactiveCommand`, `BindTo`, or
-  `ReactiveCollection<T>`).
+  replacement; e.g. WPF/Blazor platform helpers like `BindTo`, `ReactiveCollection<T>`, or the
+  Blazor `ValidationMessage` integration).
 
 ## Notes
 - Prefer the R3 shape end-to-end. Use `ToObservable()` / `AsSystemObservable()` only at boundaries
@@ -97,3 +100,12 @@ Generic type rules apply to the closed forms too — e.g. the rule for
 - DataAnnotations validation on a single property is a direct `EnableValidation()` rewrite; only
   stream/async validation and observable error streams need `ValidatableReactiveProperty<T>` from
   `ReactiveProperty.R3`.
+- The WPF `EventToReactiveProperty` / `EventToReactiveCommand` trigger actions have R3 versions in
+  the **`ReactiveProperty.R3.WPF`** package (`Reactive.Bindings.R3.Interactivity`). They are normally
+  referenced from XAML inside a `Microsoft.Xaml.Behaviors` `EventTrigger`, so the rewrite is mainly an
+  xmlns swap: `clr-namespace:Reactive.Bindings.Interactivity;assembly=ReactiveProperty.WPF` →
+  `clr-namespace:Reactive.Bindings.R3.Interactivity;assembly=ReactiveProperty.R3.WPF`. The bound
+  `ReactiveProperty`/`Command` are the already-migrated R3 `BindableReactiveProperty<T>` / R3
+  `ReactiveCommand`. Custom `ReactiveConverter<T, U>` subclasses keep the same shape, but `OnConvert`
+  now takes/returns R3 `Observable<T?>`/`Observable<U?>` instead of `System.Reactive` observables —
+  rewrite the body with R3 operators and add `using R3;`.

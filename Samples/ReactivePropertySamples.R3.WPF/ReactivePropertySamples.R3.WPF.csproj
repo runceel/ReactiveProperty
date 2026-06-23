@@ -8,10 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- The ReactiveProperty.WPF platform package (EventToReactive*, ReactivePropertyWpfScheduler)
-         is intentionally NOT referenced: it has no R3 counterpart and those features are
-         re-implemented with plain WPF code-behind in this migrated sample. -->
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" />
+    <ProjectReference Include="..\..\Source\ReactiveProperty.R3.WPF\ReactiveProperty.R3.WPF.csproj" />
     <ProjectReference Include="..\ReactivePropertySamples.R3.Shared\ReactivePropertySamples.R3.Shared.csproj" />
   </ItemGroup>
 
