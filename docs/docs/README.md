@@ -112,7 +112,7 @@ And learn the core features on following links.
 - [ReactiveProperty](features/ReactiveProperty.md)
 - [Commanding](features/Commanding.md)
 - [Collections](features/Collections.md)
-
+- [R3 migration support](advanced/r3-migration-support.md)
 
 ## NuGet packages
 

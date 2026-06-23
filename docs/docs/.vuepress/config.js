@@ -36,6 +36,7 @@ module.exports = {
                 items: [
                     { text: 'Thread control', link: '/advanced/thread.html' },
                     { text: 'Work with await operator', link: '/advanced/awaitable.html' },
+                    { text: 'R3 migration support', link: '/advanced/r3-migration-support.html' },
                     { text: 'Work with other MVVM Frameworks', link: '/advanced/work-with-other-mvvm-framwork.html' },
                 ]
             },
