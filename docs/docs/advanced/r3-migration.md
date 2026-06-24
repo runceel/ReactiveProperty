@@ -17,6 +17,12 @@ The bridge covers the common gaps that appear during migration:
 
 ## Install the packages
 
+> **Bridge availability:** `R3` and `ObservableCollections.R3` are already on NuGet. The
+> `ReactiveProperty.R3` and `ReactiveProperty.R3.WPF` bridge packages are **not published yet**.
+> Until they ship, reference the bridge from source with a `ProjectReference` to the
+> `Source/ReactiveProperty.R3` and `Source/ReactiveProperty.R3.WPF` projects in this repository. The
+> `dotnet add package` commands below describe the intended experience once the bridge is released.
+
 Use the .NET CLI or Visual Studio NuGet Package Manager to add the packages to your project.
 
 If you are using the .NET CLI, run:
@@ -75,24 +81,121 @@ public sealed class ViewModel
 }
 ```
 
-## How to use the migration skill
+## Migrate with the GitHub Copilot CLI
 
-The repository also includes a published migration skill at `skills/migrating-reactiveproperty-to-r3/SKILL.md`. Use it when you want an agent or a human to migrate an app from `Reactive.Bindings` to R3 while keeping the features that R3 does not provide.
+The repository ships a migration **skill** at `skills/migrating-reactiveproperty-to-r3/`. It turns
+the steps above into a repeatable, agent-driven flow: it changes the package references, rewrites
+every ReactiveProperty symbol from a mapping table, and reports the few cases that need a human
+decision instead of guessing. The flow below was validated end to end on a sample WPF app that
+exercises ViewModels, DataAnnotations validation, notifiers, a `ReadOnlyReactiveCollection<T>`, and
+a XAML `EventToReactiveCommand`.
 
-The skill is intended for projects that already use ReactiveProperty and want a repeatable migration flow. It works by:
+### 1. Install the skill
 
-1. changing the package references to `R3` and `ReactiveProperty.R3`
-2. rewriting ReactiveProperty symbols that already have direct R3 equivalents
-3. rewriting the genuine gap types to the bridge package types
-4. reporting any cases that need manual review instead of guessing a replacement
+Copy the skill folder into your personal Copilot skills directory so the CLI loads it
+automatically:
 
-In practice, you can invoke the skill when a request says things like:
+```powershell
+# from a clone of this repository
+Copy-Item -Recurse skills/migrating-reactiveproperty-to-r3 `
+  "$HOME/.copilot/skills/migrating-reactiveproperty-to-r3"
+```
 
-- "migrate this app to R3"
-- "replace ReactiveProperty with R3"
-- "move this ViewModel off ReactiveProperty"
+On macOS/Linux the destination is `~/.copilot/skills/migrating-reactiveproperty-to-r3`. After the
+copy, start `copilot` in your project; the skill loads on its own and activates when you ask to
+migrate to R3. (Installing it as a local plugin/marketplace also works, but the folder copy is the
+simplest path.)
 
-The skill is driven by the mapping table in `skills/migrating-reactiveproperty-to-r3/references/rules.json`, so the migration is systematic rather than a one-off rewrite.
+### 2. Ask for a plan before changing code
+
+Open the CLI in your project and ask for an inventory and plan first. A scoped, realistic prompt
+works best — do not ask the agent to "migrate everything" in one shot:
+
+```text
+I want to migrate this WPF app from ReactiveProperty to R3. Before changing any code, inventory
+every ReactiveProperty symbol in the project and tell me, for each one, the matching rule, its
+target (r3-direct / reactiveproperty-r3 / manualReview), and the R3 replacement. List the
+manual-review items separately.
+```
+
+The agent reads the mapping table and produces a per-symbol plan: direct R3 replacements
+(`ReactivePropertySlim<T>` → `R3.ReactiveProperty<T>`, `ReactiveProperty<T>` →
+`R3.BindableReactiveProperty<T>`, `ObserveProperty` → `ObservePropertyChanged`, …), bridge
+replacements for the genuine gaps (`AsyncReactiveCommand`, `BusyNotifier`,
+`ReadOnlyReactiveCollection<T>`, `ValidatableReactiveProperty<T>`,
+`ToReactivePropertyAsSynchronized`), and a short manual-review list.
+
+### 3. Migrate incrementally
+
+Migrate in small, reviewable chunks and keep the same session with `--continue`:
+
+```text
+Migrate the CounterViewModel and PeopleViewModel to R3 now. Use R3 from NuGet and the
+ReactiveProperty.R3 bridge for the gap types.
+```
+
+```text
+Now migrate the remaining ViewModels, fix the package and using directives, and swap the XAML
+EventToReactiveCommand xmlns to the R3.WPF bridge.
+```
+
+For XAML trigger actions the rewrite is mostly an xmlns swap:
+
+```xml
+<!-- before -->
+xmlns:i="clr-namespace:Reactive.Bindings.Interactivity;assembly=ReactiveProperty.WPF"
+<!-- after -->
+xmlns:i="clr-namespace:Reactive.Bindings.R3.Interactivity;assembly=ReactiveProperty.R3.WPF"
+```
+
+### 4. Build, test, and fix
+
+Ask the agent to build and run your existing tests, then drive any failures with concrete prompts:
+
+```text
+Build the solution and run the tests, then report build status, test status, and the manual-review
+list.
+```
+
+```text
+The build fails with <paste the error>. Fix it.
+```
+
+Because the bridge gap types expose **R3** observables, make sure `using R3;` is present in files
+that subscribe or chain operators (`Subscribe`, `Where`, `Select`, …).
+
+> **Validation timing:** DataAnnotations on a single property map to R3's
+> `BindableReactiveProperty<T>.EnableValidation()`, but R3 validates **lazily** — it does not flag
+> the initial value until a binding or subscriber attaches. If you have headless tests (or logic)
+> that expect the original eager validation, use `ReactiveProperty.R3`'s
+> `ValidatableReactiveProperty<T>` instead, which validates immediately.
+
+### 5. Resolve the manual-review items
+
+The skill never guesses the cases that cannot be rewritten mechanically — it flags them with the
+file, line, and a note. Expect a small list, typically:
+
+- **A `ReactivePropertyMode` argument** (for example on `ToReactivePropertyAsSynchronized` or a
+  `ReactiveProperty<T>` constructor). It has no R3 equivalent, so the agent removes it and explains
+  how to reproduce the intent: `DistinctUntilChanged` matches R3's default distinct behavior, and
+  `RaiseLatestValueOnSubscribe` maps to whether the property replays its current value. Confirm the
+  behavior you actually relied on.
+- **A custom `IScheduler` argument.** R3 uses `TimeProvider` for time and `SynchronizationContext`
+  for dispatch, so a non-default scheduler cannot be translated automatically. The agent reports it
+  and you choose the right provider for that call site.
+- **`System.IObservable<T>` boundaries** that must stay on `System.Reactive` (public APIs,
+  third-party Rx). Bridge them with R3's `ToObservable()` / `AsSystemObservable()` rather than
+  retyping the declarations.
+
+You can invoke the whole flow with requests as simple as "migrate this app to R3", "replace
+ReactiveProperty with R3", or "move this ViewModel off ReactiveProperty".
+
+> **Note:** The skill is driven by its bundled mapping table at
+> `skills/migrating-reactiveproperty-to-r3/references/rules.json`. The CLI's structured file reader
+> is scoped to your project directory, so the agent may report that it "cannot read" that file
+> because it lives under `~/.copilot/skills/`, outside your project. That is a read-scoping quirk,
+> not a content block — the agent can still read it (for example with a shell command), and
+> otherwise falls back to the guidance carried in the skill itself.
 
 ## Notes for large migrations
 
