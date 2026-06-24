@@ -81,6 +81,20 @@ public sealed class ViewModel
 }
 ```
 
+## Runnable sample
+
+This repository ships a **before/after pair** of WPF apps you can open side by side to see a full
+migration in context:
+
+- **Before** — `Samples/ReactivePropertySamples.WPF` (with `Samples/ReactivePropertySamples.Shared`):
+  the original app built on `Reactive.Bindings` (ReactiveProperty).
+- **After** — `Samples/ReactivePropertySamples.R3.WPF` (with
+  `Samples/ReactivePropertySamples.R3.Shared`): the same app migrated to R3 + `ReactiveProperty.R3`.
+
+The ViewModels live in the `.Shared` projects, so diffing the two `.Shared` folders shows exactly
+which symbols changed and how. The migrated ViewModels are additionally covered by
+`Samples/ReactivePropertySamples.R3.Tests`, which locks in the behaviors described below.
+
 ## Migrate with the GitHub Copilot CLI
 
 The repository ships a migration **skill** at `skills/migrating-reactiveproperty-to-r3/`. It turns
@@ -198,6 +212,10 @@ file, line, and a note. Expect a small list, typically:
 - **`System.IObservable<T>` boundaries** that must stay on `System.Reactive` (public APIs,
   third-party Rx). Bridge them with R3's `ToObservable()` / `AsSystemObservable()` rather than
   retyping the declarations.
+- **DataAnnotations validation that must stay eager.** The skill rewrites single-property
+  DataAnnotations to `EnableValidation()`, which validates lazily — see the **Validation timing**
+  note above. If you relied on eager validation (for example in headless tests), switch that
+  property to `ValidatableReactiveProperty<T>`.
 
 You can invoke the whole flow with requests as simple as "migrate this app to R3", "replace
 ReactiveProperty with R3", or "move this ViewModel off ReactiveProperty".

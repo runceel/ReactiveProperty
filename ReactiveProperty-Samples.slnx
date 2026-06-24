@@ -22,6 +22,7 @@
   </Folder>
   <Folder Name="/R3Migration/">
     <Project Path="Samples/ReactivePropertySamples.R3.Shared/ReactivePropertySamples.R3.Shared.csproj" />
+    <Project Path="Samples/ReactivePropertySamples.R3.Tests/ReactivePropertySamples.R3.Tests.csproj" />
     <Project Path="Samples/ReactivePropertySamples.R3.WPF/ReactivePropertySamples.R3.WPF.csproj" />
   </Folder>
   <Folder Name="/WithPrism/">

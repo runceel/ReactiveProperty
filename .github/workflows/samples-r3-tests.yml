@@ -1,0 +1,27 @@
+name: Samples R3 migration tests
+
+# Gating safety net for the R3 migration sample. Scoped to the single
+# ReactivePropertySamples.R3.Tests project so it builds/restores only the R3 bridge
+# and the migrated sample ViewModels - it does NOT pull in the WPF/Blazor/Prism/MahApps
+# samples, keeping the check fast enough to run on every PR.
+
+on:
+  pull_request:
+    branches: [ main, feature/r3-migration-support ]
+
+env:
+  DOTNET_VERSION: 10.0.x
+
+jobs:
+  test:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    - name: Test R3 migration sample
+      run: dotnet test Samples/ReactivePropertySamples.R3.Tests/ReactivePropertySamples.R3.Tests.csproj --verbosity normal
