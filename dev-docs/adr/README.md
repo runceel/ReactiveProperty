@@ -35,3 +35,6 @@ Trivial, easily reversible choices (local refactors, naming) do not need an ADR.
 | ADR | Title | Status |
 |-----|-------|--------|
 | [0001](./0001-adopt-tdd-adr-and-dev-docs.md) | Adopt TDD, ADRs, and a dev-docs location | Accepted |
+| [0002](./0002-reactivetimer-fixed-period-interval.md) | ReactiveTimer uses a fixed-period ITimer; Interval changes take effect on next Start | Accepted |
+| [0003](./0003-reactiveproperty-r3-migration-bridge.md) | Ship a permanent minimal `ReactiveProperty.R3` migration bridge and a migration skill | Accepted |
+| [0004](./0004-reactiveproperty-r3-wpf-event-to-reactive.md) | Provide R3-targeting EventToReactive trigger actions in a new ReactiveProperty.R3.WPF package | Accepted |

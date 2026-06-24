@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>ReactivePropertySamples.R3.WPF</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" />
+    <ProjectReference Include="..\..\Source\ReactiveProperty.R3.WPF\ReactiveProperty.R3.WPF.csproj" />
+    <ProjectReference Include="..\ReactivePropertySamples.R3.Shared\ReactivePropertySamples.R3.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

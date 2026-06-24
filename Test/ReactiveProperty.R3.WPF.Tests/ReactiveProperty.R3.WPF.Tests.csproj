@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <UseWpf>true</UseWpf>
+    <RootNamespace>ReactiveProperty.R3.Tests</RootNamespace>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CSharp" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="Moq" />
+    <PackageReference Include="MSTest.TestAdapter" />
+    <PackageReference Include="MSTest.TestFramework" />
+    <PackageReference Include="R3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Source\ReactiveProperty.R3.WPF\ReactiveProperty.R3.WPF.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\ReactiveProperty.WPF.Tests\ChainingAssertion.MSTest.cs" Link="ChainingAssertion.MSTest.cs" />
+  </ItemGroup>
+
+</Project>

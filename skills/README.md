@@ -15,6 +15,13 @@ Copy (or install) a skill folder into the agent's skills location for their own 
 for example the project-level `.agents/skills/` of the consuming repository, or a personal
 skills directory. Each skill is self-contained.
 
+## Available skills
+
+- [`migrating-reactiveproperty-to-r3`](./migrating-reactiveproperty-to-r3/SKILL.md) — migrate an
+  app from ReactiveProperty (namespace `Reactive.Bindings`) to [R3](https://github.com/Cysharp/R3)
+  plus the `ReactiveProperty.R3` bridge package, driven by a mapping table
+  ([`references/rules.json`](./migrating-reactiveproperty-to-r3/references/rules.json)).
+
 ## Layout
 
 One folder per skill, each with a `SKILL.md`:
