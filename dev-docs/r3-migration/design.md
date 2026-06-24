@@ -575,6 +575,10 @@ public static class INotifyPropertyChangedExtensions
 The skill is **execution-centric**: it drives code rewrites from a mapping table, then surfaces only
 the spots that need manual review.
 
+> **See also:** [`skill-evaluation.md`](skill-evaluation.md) records the end-to-end validation of
+> this skill (3 findings, incl. the fixed YAML frontmatter bug and the `rules.json` install-path
+> friction, plus the 51-rule conformance check).
+
 ### 5.1 `SKILL.md` flow
 
 1. Ensure the project references `R3` and `ReactiveProperty.R3`, and drops `ReactiveProperty` /

@@ -86,3 +86,8 @@ Three sub-decisions are confirmed here (see `design.md` §9):
 - A few constructs cannot be rewritten mechanically (custom `IScheduler`, `ReactivePropertyMode`,
   `System.IObservable<T>` interop boundaries, and platform helpers such as
   `EventToReactiveCommand`); these are surfaced as manual-review items rather than guessed.
+
+## See also
+
+- [Skill evaluation](../r3-migration/skill-evaluation.md) — end-to-end validation of the
+  migration skill (3 findings incl. the fixed YAML frontmatter bug, plus 51-rule conformance).
