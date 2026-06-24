@@ -92,19 +92,31 @@ a XAML `EventToReactiveCommand`.
 
 ### 1. Install the skill
 
-Copy the skill folder into your personal Copilot skills directory so the CLI loads it
-automatically:
+**Recommended — install it into your project so the CLI loads it automatically and the agent can
+read the skill's mapping table with no friction.** Copy the skill folder into your project's
+`.agents/skills/` directory (this is what the repo's `skills/README.md` recommends first):
 
 ```powershell
-# from a clone of this repository
+# from a clone of this repository, run at the root of YOUR app's repo
+Copy-Item -Recurse <path-to-clone>/skills/migrating-reactiveproperty-to-r3 `
+  ".agents/skills/migrating-reactiveproperty-to-r3"
+```
+
+Because the skill now lives **inside your project tree**, the agent reads its bundled
+`references/rules.json` directly with its structured file reader — no read-scoping workaround needed.
+
+**Alternative — install it once for every project** in your personal Copilot skills directory:
+
+```powershell
 Copy-Item -Recurse skills/migrating-reactiveproperty-to-r3 `
   "$HOME/.copilot/skills/migrating-reactiveproperty-to-r3"
 ```
 
-On macOS/Linux the destination is `~/.copilot/skills/migrating-reactiveproperty-to-r3`. After the
-copy, start `copilot` in your project; the skill loads on its own and activates when you ask to
-migrate to R3. (Installing it as a local plugin/marketplace also works, but the folder copy is the
-simplest path.)
+On macOS/Linux the personal destination is `~/.copilot/skills/migrating-reactiveproperty-to-r3`.
+This is handy when you migrate several projects, but the skill folder is then *outside* your project,
+which triggers the read-scoping note at the end of this guide. Either way, after the copy start
+`copilot` in your project; the skill loads on its own and activates when you ask to migrate to R3.
+(Installing it as a local plugin/marketplace also works, but the folder copy is simplest.)
 
 ### 2. Ask for a plan before changing code
 
@@ -190,12 +202,15 @@ file, line, and a note. Expect a small list, typically:
 You can invoke the whole flow with requests as simple as "migrate this app to R3", "replace
 ReactiveProperty with R3", or "move this ViewModel off ReactiveProperty".
 
-> **Note:** The skill is driven by its bundled mapping table at
-> `skills/migrating-reactiveproperty-to-r3/references/rules.json`. The CLI's structured file reader
-> is scoped to your project directory, so the agent may report that it "cannot read" that file
-> because it lives under `~/.copilot/skills/`, outside your project. That is a read-scoping quirk,
-> not a content block — the agent can still read it (for example with a shell command), and
-> otherwise falls back to the guidance carried in the skill itself.
+> **Note (only if you used the personal `~/.copilot/skills/` install):** The skill is driven by its
+> bundled mapping table at `migrating-reactiveproperty-to-r3/references/rules.json`. The CLI's
+> structured file reader is scoped to your project directory, so when the skill lives under
+> `~/.copilot/skills/` (outside your project) the agent may report that it "cannot read" that file —
+> sometimes even mislabeling it as a content/policy block. That is a read-scoping quirk, not a real
+> block: the agent can still read it (for example with a shell command) and otherwise falls back to
+> the guidance carried in the skill itself. **Installing the skill in your project's
+> `.agents/skills/` (the recommended path in step 1) avoids this entirely**, because the mapping
+> table is then inside your working tree.
 
 ## Notes for large migrations
 
