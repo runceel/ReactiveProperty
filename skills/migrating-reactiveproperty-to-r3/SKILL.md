@@ -1,4 +1,4 @@
----
+﻿---
 name: migrating-reactiveproperty-to-r3
 description: 'Migrate an application from ReactiveProperty (namespace Reactive.Bindings) to R3 plus the ReactiveProperty.R3 bridge package. Use this when asked to "migrate to R3", "move off ReactiveProperty", "replace ReactiveProperty with R3", "swap Reactive.Bindings for R3", or to rewrite ViewModels/commands/validation/notifiers/collections that use ReactiveProperty so they run on R3. Drives the rewrite from a mapping table (references/rules.json): everything R3 already provides becomes native R3, every genuine gap becomes a ReactiveProperty.R3 type, and the few cases that cannot be rewritten mechanically are flagged for manual review.'
 ---
@@ -71,7 +71,7 @@ rule has these fields and nothing else:
 For every ReactiveProperty symbol in the project, find its rule in `references/rules.json` and apply it:
 - `r3-direct` → rewrite to the R3 `replacement`.
 - `reactiveproperty-r3` → rewrite to the `ReactiveProperty.R3` `replacement`.
-- `manualReview` → leave it and record it for step 4.
+- `manualReview` → leave it and record it for step 5.
 
 Generic type rules apply to the closed forms too — e.g. the rule for
 `Reactive.Bindings.ReactivePropertySlim<T>` covers `ReactivePropertySlim<int>`.
@@ -84,7 +84,20 @@ Generic type rules apply to the closed forms too — e.g. the rule for
   …). When in doubt, add `using R3;` to files that touch any rewritten symbol.
 - `Reactive.Bindings*` namespaces map to `R3` and/or `Reactive.Bindings.R3*` per the rules.
 
-### 4. Build, test, and report
+### 4. Audit WPF/XAML bindings
+- In WPF projects, search XAML for `{Binding Xxx.Value}` and `ItemsSource="{Binding Xxx.Value}"` after
+  the mechanical rewrite. Any `Xxx` property that is bound through `.Value` must raise WPF
+  `PropertyChanged` for `Value` changes.
+- For UI-bound read/write properties, prefer `BindableReactiveProperty<T>` instead of
+  `ReactiveProperty<T>` even when the original type was `ReactivePropertySlim<T>`.
+- For UI-bound read-only properties, create them with `ToReadOnlyBindableReactiveProperty(...)` and
+  expose them as `IReadOnlyBindableReactiveProperty<T>`; do **not** expose the internal concrete
+  `ReadOnlyBindableReactiveProperty<T>` type. Use `ReadOnlyReactiveProperty<T>` only for non-XAML
+  code paths.
+- Build success alone is not enough for WPF migration: verify every XAML `.Value` binding is backed by
+  a bindable R3 property or interface.
+
+### 5. Build, test, and report
 - Build the project and run its **existing** tests.
 - Report: build status, test status, and the **manual-review list** — each `manualReview` hit with its
   file, line, and the rule's `manualReview` note. Keep this list concise; it is the only narrative

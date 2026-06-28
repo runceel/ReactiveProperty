@@ -1,4 +1,4 @@
-{
+﻿{
   "schemaVersion": 2,
   "rules": [
     {
@@ -21,7 +21,7 @@
       "usingAdd": ["R3"],
       "usingRemove": ["Reactive.Bindings"],
       "manualReview": null,
-      "notes": "R3 ReactiveProperty<T> is the read/write slim property; same Value/IObservable semantics."
+      "notes": "R3 ReactiveProperty<T> is the read/write slim property; same Value/IObservable semantics. In WPF, if this property is bound from XAML through `.Value`, prefer R3 BindableReactiveProperty<T> so Value changes raise PropertyChanged for binding updates."
     },
     {
       "ruleId": "RP-READONLY-PROP-SLIM",
@@ -32,7 +32,7 @@
       "usingAdd": ["R3"],
       "usingRemove": ["Reactive.Bindings"],
       "manualReview": null,
-      "notes": "R3 ReadOnlyReactiveProperty<T> is the slim read-only property."
+      "notes": "R3 ReadOnlyReactiveProperty<T> is the slim read-only property for non-XAML code paths. In WPF, if this property is bound from XAML through `.Value` (including ItemsSource), create it with ToReadOnlyBindableReactiveProperty(...) and expose the public property as IReadOnlyBindableReactiveProperty<T> so Value changes raise PropertyChanged."
     },
     {
       "ruleId": "RP-PROP-BINDING",
@@ -54,7 +54,7 @@
       "usingAdd": ["R3"],
       "usingRemove": ["Reactive.Bindings"],
       "manualReview": null,
-      "notes": "Use R3 BindableReactiveProperty<T> instead when the value is bound to XAML and must raise PropertyChanged."
+      "notes": "Use R3 BindableReactiveProperty<T> instead when the value is bound to XAML and must raise PropertyChanged. For read-only XAML-bound values, use ToReadOnlyBindableReactiveProperty(...) and expose IReadOnlyBindableReactiveProperty<T>."
     },
     {
       "ruleId": "RP-COMMAND",
@@ -98,7 +98,7 @@
       "usingAdd": ["R3"],
       "usingRemove": ["Reactive.Bindings"],
       "manualReview": null,
-      "notes": "Build a read-only property from an IObservable<T>/Observable<T> source."
+      "notes": "Build a read-only property from an IObservable<T>/Observable<T> source. In WPF, if the result is bound from XAML through `.Value` (including ItemsSource), use ToReadOnlyBindableReactiveProperty(...) instead and expose IReadOnlyBindableReactiveProperty<T>."
     },
     {
       "ruleId": "RP-TO-READONLY-PROP",
