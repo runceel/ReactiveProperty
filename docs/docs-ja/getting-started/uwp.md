@@ -1,16 +1,16 @@
-# Getting started with UWP
+# UWP をはじめる
 
-## Create a project
-- Create a Blank App (Universal Windows) project.
-    - Set the `Minimum version` item to Windows 10 Fall Creators Update (10.0; Build 16299).
+## プロジェクトの作成
+- Blank App (Universal Windows) プロジェクトを作成します。
+    - `Minimum version` 項目を Windows 10 Fall Creators Update (10.0; Build 16299) に設定します。
 
-      ![Target version](./images/uwp-target-version.png)
+      ![ターゲット バージョン](../../docs/getting-started/images/uwp-target-version.png)
 
-- Install ReactiveProperty package from NuGet.
+- NuGet から ReactiveProperty パッケージをインストールします。
 
-## Edit the code
-- Create a MainPageViewModel.cs file.
-- Edit the files as follows.
+## コードの編集
+- MainPageViewModel.cs ファイルを作成します。
+- 次のようにファイルを編集します。
 
 MainPageViewModel.cs
 ```csharp
@@ -42,12 +42,12 @@ MainPage.xaml.cs
 ```csharp
 using Windows.UI.Xaml.Controls;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
+// Blank Page 項目テンプレートについては、https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409 を参照してください。
 
 namespace GettingStartedUWP
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// 単体で使用することも、Frame 内で移動先として使用することもできる空のページです。
     /// </summary>
     public sealed partial class MainPage : Page
     {
@@ -84,9 +84,9 @@ MainPage.xaml
 </Page>
 ```
 
-## Launch the application
+## アプリケーションの起動
 
-After launching the app, you can see the window below.
-The output value is displayed in uppercase 1 second after the input.
+アプリを起動すると、下のウィンドウが表示されます。
+入力してから 1 秒後に、出力値が大文字で表示されます。
 
-![Launch the app](./images/launch-uwp-app.gif)
+![アプリの起動](../../docs/getting-started/images/launch-uwp-app.gif)

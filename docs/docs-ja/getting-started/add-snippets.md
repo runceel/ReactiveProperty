@@ -1,13 +1,13 @@
-# Add code snippets
+# コード スニペットの追加
 
-We provide snippet files [here](https://github.com/runceel/ReactiveProperty/tree/master/Snippet).
-If you want to use them, please install the snippets manually.
+スニペット ファイルは [こちら](https://github.com/runceel/ReactiveProperty/tree/master/Snippet) で提供しています。
+使用する場合は、スニペットを手動でインストールしてください。
 
-The following document lists the steps to add a snippet to Visual Studio.
+次のドキュメントに、Visual Studio にスニペットを追加する手順が記載されています。
 
-- [Add a code snippet to Visual Studio](https://docs.microsoft.com/en-us/visualstudio/ide/walkthrough-creating-a-code-snippet?view=vs-2019#add-a-code-snippet-to-visual-studio)
+- [Visual Studio にコード スニペットを追加する](https://docs.microsoft.com/en-us/visualstudio/ide/walkthrough-creating-a-code-snippet?view=vs-2019#add-a-code-snippet-to-visual-studio)
 
-## Provided snippets
+## 提供されているスニペット
 
 - `rprop`
   ```csharp

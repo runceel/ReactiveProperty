@@ -1,17 +1,17 @@
-# Work with POCOs
+# POCO と連携する
 
-The classes in this library can work with POCO classes.
+このライブラリのクラスは POCO クラスと連携できます。
 
-## Connect to classes that implement `INotifyPropertyChanged`
+## `INotifyPropertyChanged` を実装するクラスと接続する
 
-ReactiveProperty provides many features that synchronize with a POCO class instance.
+ReactiveProperty は、POCO クラスのインスタンスと同期するための多くの機能を提供します。
 
-### One-way synchronization
+### 一方向同期
 
-The `ObserveProperty` extension method of the `INotifyPropertyChanged` interface converts `INotifyPropertyChanged` to `IObservable<T>`.
-`IObservable` can be converted to `ReactiveProperty`. This means that you can have one-way synchronization from `INotifyPropertyChanged` to `ReactiveProperty`.
+`INotifyPropertyChanged` インターフェイスの `ObserveProperty` 拡張メソッドは、`INotifyPropertyChanged` を `IObservable<T>` に変換します。
+`IObservable` は `ReactiveProperty` に変換できます。つまり、`INotifyPropertyChanged` から `ReactiveProperty` への一方向同期を実現できます。
 
-For example:
+例を示します。
 
 ```csharp
 public class BindableBase : INotifyPropertyChanged
@@ -51,7 +51,7 @@ public class Person : BindableBase
 }
 ```
 
-One-way synchronization is written as follows.
+一方向同期は次のように記述します。
 
 ```csharp
 // using Reactive.Bindings.Extensions;
@@ -66,24 +66,24 @@ public class ViewModel
     public ViewModel()
     {
         Name = Person
-            // Convert the Name PropertyChanged event to IObservable<string>
+            // Name の PropertyChanged イベントを IObservable<string> に変換します
             .ObserveProperty(x => x.Name)
-            // Convert to ReadOnlyReactiveProperty<string>
+            // ReadOnlyReactiveProperty<string> に変換します
             .ToReadOnlyReactiveProperty();
 
         UpdatePersonCommand = new ReactiveCommand()
             .WithSubscribe(() =>
             {
-                // Update the name property.
+                // name プロパティを更新します。
                 Person.Name = "Tanaka";
             });
     }
 }
 ```
 
-### Two-way synchronization
+### 双方向同期
 
-`ToReactivePropertyAsSynchronized` extension method provides two-way synchronization.
+`ToReactivePropertyAsSynchronized` 拡張メソッドは双方向同期を提供します。
 
 ```csharp
 // using Reactive.Bindings.Extensions;
@@ -100,7 +100,7 @@ public class ViewModel
 }
 ```
 
-Example for UWP is below.
+UWP の例を次に示します。
 
 MainPage.xaml.cs
 
@@ -140,9 +140,9 @@ MainPage.xaml
 </Page>
 ```
 
-![Two-way synchronization](./images/work-together-with-poco-two-way-synchronization.gif)
+![双方向同期](../../docs/features/images/work-together-with-poco-two-way-synchronization.gif)
 
-The `ToReactivePropertyAsSynchronized` extension method can add conversion and convert-back logic.
+`ToReactivePropertyAsSynchronized` 拡張メソッドには、変換ロジックと逆変換ロジックを追加できます。
 
 ```csharp
 public class ViewModel
@@ -160,9 +160,9 @@ public class ViewModel
 }
 ```
 
-![Convert and convert-back](./images/work-together-with-poco-two-way-synchronization-and-convert.gif)
+![変換と逆変換](../../docs/features/images/work-together-with-poco-two-way-synchronization-and-convert.gif)
 
-When the `ignoreValidationErrorValue` argument is set to true, it stops synchronization if a validation error occurs.
+`ignoreValidationErrorValue` 引数を true に設定すると、検証エラーが発生した場合に同期を停止します。
 
 ```csharp
 public class ViewModel
@@ -177,15 +177,15 @@ public class ViewModel
         Name = Person.ToReactivePropertyAsSynchronized(x => x.Name,
             convert: x => string.IsNullOrWhiteSpace(x) ? "" : $"{x}-san",
             convertBack: x => Regex.Replace(x, "-san$", ""),
-            ignoreValidationErrorValue: true)  // activate this behavior
-            .SetValidateAttribute(() => Name); // set validation logic
+            ignoreValidationErrorValue: true)  // この動作を有効にします
+            .SetValidateAttribute(() => Name); // 検証ロジックを設定します
     }
 }
 ```
 
-![Ignore validation error value](./images/work-together-with-poco-two-way-synchronization-and-ignoreValidationError.gif)
+![検証エラー値の無視](../../docs/features/images/work-together-with-poco-two-way-synchronization-and-ignoreValidationError.gif)
 
-You can also use LINQ to convert values, as shown below:
+次のように LINQ を使って値を変換することもできます。
 
 ```csharp
 public class ViewModel
@@ -197,26 +197,26 @@ public class ViewModel
     public ViewModel()
     {
         Name = Person.ToReactivePropertyAsSynchronized(x => x.Name,
-            // ox is IObservable<string>. string is a type of the Name property.
+            // ox は IObservable<string> です。string は Name プロパティの型です。
             convert: ox => Observable.Merge(
                 ox.Where(x => string.IsNullOrEmpty(x)).Select(_ => ""),
                 ox.Where(x => !string.IsNullOrEmpty(x)).Select(x => $"{x}-san")
             ),
-            // ox is IObservable<string>. string is a result type of convert logic.
+            // ox は IObservable<string> です。string は変換ロジックの結果型です。
             convertBack: ox => ox
-                .Where(x => x.Length <= 10) // You can use all LINQ methods like this.
+                .Where(x => x.Length <= 10) // このようにすべての LINQ メソッドを使用できます。
                 .Select(x => x.Replace("-san", "")));
     }
 }
 ```
 
-If you want to use `ReactivePropertySlim`, you can use the `ToReactivePropertySlimAsSynchronized` extension method.
-It is similar to `ToReactivePropertyAsSynchronized`. The `ignoreValidationErrorValue` and `scheduler` arguments are not available; otherwise, they are the same.
+`ReactivePropertySlim` を使いたい場合は、`ToReactivePropertySlimAsSynchronized` 拡張メソッドを使えます。
+これは `ToReactivePropertyAsSynchronized` に似ています。`ignoreValidationErrorValue` 引数と `scheduler` 引数は利用できませんが、それ以外は同じです。
 
-### One-way synchronization to source
+### ソースへの一方向同期
 
-The `FromObject` method creates a `ReactiveProperty` instance from a POCO.
-This method sets the `Value` property from the POCO when the `ReactiveProperty` instance is created. When the `Value` property is updated, it updates the source value.
+`FromObject` メソッドは、POCO から `ReactiveProperty` インスタンスを作成します。
+このメソッドは、`ReactiveProperty` インスタンスが作成されたときに POCO から `Value` プロパティを設定します。`Value` プロパティが更新されると、ソース値を更新します。
 
 ```csharp
 using Reactive.Bindings;
@@ -243,9 +243,9 @@ namespace ReactivePropertyEduApp
 }
 ```
 
-### Nested property path
+### ネストされたプロパティ パス
 
-`ObserveProperty`, `ToReactivePropertyAsSynchronized`, `ToReactivePropertySlimAsSynchronized`, and `FromObject` support nested property paths like `x => x.Child.Name`.
-If the value of any property in the path is null, ReactiveProperty sets `default(T)` to the Value property when synchronizing from the source property to ReactiveProperty, and ReactiveProperty stops synchronization to the source property when synchronizing from ReactiveProperty to the source property.
+`ObserveProperty`、`ToReactivePropertyAsSynchronized`、`ToReactivePropertySlimAsSynchronized`、`FromObject` は、`x => x.Child.Name` のようなネストされたプロパティ パスをサポートしています。
+パス内のいずれかのプロパティの値が null の場合、ソース プロパティから ReactiveProperty へ同期するときは ReactiveProperty が Value プロパティに `default(T)` を設定し、ReactiveProperty からソース プロパティへ同期するときはソース プロパティへの同期を停止します。
 
-After the value is updated to a non-null value, ReactiveProperty restarts synchronization.
+値が null 以外の値に更新された後、ReactiveProperty は同期を再開します。

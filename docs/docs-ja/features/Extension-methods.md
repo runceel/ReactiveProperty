@@ -1,16 +1,16 @@
-# Extension methods
+# 拡張メソッド
 
-The `Reactive.Bindings.Extensions` namespace provides useful extension methods.
+`Reactive.Bindings.Extensions` 名前空間は便利な拡張メソッドを提供します。
 
 ## `AddTo`
 
-This is a very useful extension method in this namespace.
-It collects `IDisposable` instances in the method chain.
+この名前空間の中でも、とても便利な拡張メソッドです。
+メソッド チェーンの中で `IDisposable` インスタンスを集約できます。
 
-Without this method, you need two statements: one for instance creation and one for adding the `IDisposable` instance.
+このメソッドがない場合、インスタンス作成用と `IDisposable` インスタンス追加用の 2 つの文が必要です。
 
 ```csharp
-// init
+// 初期化
 var d = new CompositeDisposable();
 
 Name = model.ObserveProperty(x => x.Name)
@@ -21,14 +21,14 @@ Age = model.ObserveProperty(x => x.Age)
     .ToReadOnlyReactiveProperty();
 d.Add(Age);
 
-// dispose all
+// すべて破棄
 d.Dispose();
 ```
 
-`AddTo` extension method's sample code:
+`AddTo` 拡張メソッドのサンプル コードです。
 
 ```csharp
-// init
+// 初期化
 var d = new CompositeDisposable();
 
 Name = model.ObserveProperty(x => x.Name)
@@ -39,15 +39,15 @@ Age = model.ObserveProperty(x => x.Age)
     .ToReadOnlyReactiveProperty()
     .AddTo(d);
 
-// dispose all
+// すべて破棄
 d.Dispose();
 ```
 
-It's very cool!
+とても便利です。
 
 ## `CatchIgnore`
 
-This extension method catches exceptions and returns `Observable.Empty`.
+この拡張メソッドは例外を捕捉し、`Observable.Empty` を返します。
 
 ```csharp
 source.CatchIgnore((Exception ex) => { ... error action ... })
@@ -56,16 +56,16 @@ source.CatchIgnore((Exception ex) => { ... error action ... })
 
 ## `CombineLatestValuesAreAllXXXX`
 
-Provides two methods.
+2 つのメソッドを提供します。
 
 - `CombineLatestValuesAreAllTrue`
 - `CombineLatestValuesAreAllFalse`
 
-These are just shortcuts:
+これらは単なるショートカットです。
 
 ```csharp
 /// <summary>
-/// Latest values of each sequence are all true.
+/// 各シーケンスの最新値がすべて true です。
 /// </summary>
 public static IObservable<bool> CombineLatestValuesAreAllTrue(
     this IEnumerable<IObservable<bool>> sources) =>
@@ -73,7 +73,7 @@ public static IObservable<bool> CombineLatestValuesAreAllTrue(
 
 
 /// <summary>
-/// Latest values of each sequence are all false.
+/// 各シーケンスの最新値がすべて false です。
 /// </summary>
 public static IObservable<bool> CombineLatestValuesAreAllFalse(
     this IEnumerable<IObservable<bool>> sources) =>
@@ -82,7 +82,7 @@ public static IObservable<bool> CombineLatestValuesAreAllFalse(
 
 ## DisposePreviousValue
 
-This extension method calls the `Dispose` method for previous values of an `IObservable<T>` sequence.
+この拡張メソッドは、`IObservable<T>` シーケンスの前の値に対して `Dispose` メソッドを呼び出します。
 
 ```csharp
 var source = new Subject<string>();
@@ -90,18 +90,18 @@ var rrp = source.Select(x => new SomeDisposableClass(x))
     .DisposePreviousValue()
     .ToReadOnlyReactivePropertySlim();
 
-source.OnNext("first"); // first SomeDisposableClass is created.
-source.OnNext("second"); // second SomeDisposableClass is created, and first one is disposed.
-source.OnCompleted(); // second one is also disposed.
+source.OnNext("first"); // first の SomeDisposableClass が作成されます。
+source.OnNext("second"); // second の SomeDisposableClass が作成され、first は破棄されます。
+source.OnCompleted(); // second も破棄されます。
 ```
 
 ## `CanExecuteChangedAsObservable`
 
-This is an extension method of the `ICommand` interface.
-It is a shortcut for `Observable.FromEvent`.
+これは `ICommand` インターフェイスの拡張メソッドです。
+`Observable.FromEvent` のショートカットです。
 
 ```csharp
-/// <summary>Converts CanExecuteChanged to an observable sequence.</summary>
+/// <summary>CanExecuteChanged を Observable シーケンスに変換します。</summary>
 public static IObservable<EventArgs> CanExecuteChangedAsObservable<T>(this T source)
     where T : ICommand =>
     Observable.FromEvent<EventHandler, EventArgs>(
@@ -110,100 +110,100 @@ public static IObservable<EventArgs> CanExecuteChangedAsObservable<T>(this T sou
         h => source.CanExecuteChanged -= h);
 ```
 
-## `INotifyCollectionChanged` extension methods
+## `INotifyCollectionChanged` 拡張メソッド
 
-Convert the `CollectionChanged` event to `IObservable`.
+`CollectionChanged` イベントを `IObservable` に変換します。
 
 ```csharp
-/// <summary>Observe CollectionChanged:Remove and take single item.</summary>
+/// <summary>CollectionChanged:Remove を監視し、単一の項目を取り出します。</summary>
 public static IObservable<T> ObserveRemoveChanged<T>(this INotifyCollectionChanged source) =>
     source.CollectionChangedAsObservable()
         .Where(e => e.Action == NotifyCollectionChangedAction.Remove)
         .Select(e => (T)e.OldItems[0]);
 
-/// <summary>Observe CollectionChanged:Remove.</summary>
+/// <summary>CollectionChanged:Remove を監視します。</summary>
 public static IObservable<T[]> ObserveRemoveChangedItems<T>(this INotifyCollectionChanged source) =>
     source.CollectionChangedAsObservable()
         .Where(e => e.Action == NotifyCollectionChangedAction.Remove)
         .Select(e => e.OldItems.Cast<T>().ToArray());
 
-/// <summary>Observe CollectionChanged:Move and take single item.</summary>
+/// <summary>CollectionChanged:Move を監視し、単一の項目を取り出します。</summary>
 public static IObservable<OldNewPair<T>> ObserveMoveChanged<T>(this INotifyCollectionChanged source) =>
     source.CollectionChangedAsObservable()
         .Where(e => e.Action == NotifyCollectionChangedAction.Move)
         .Select(e => new OldNewPair<T>((T)e.OldItems[0], (T)e.NewItems[0]));
 
-/// <summary>Observe CollectionChanged:Move.</summary>
+/// <summary>CollectionChanged:Move を監視します。</summary>
 public static IObservable<OldNewPair<T[]>> ObserveMoveChangedItems<T>(this INotifyCollectionChanged source) =>
     source.CollectionChangedAsObservable()
         .Where(e => e.Action == NotifyCollectionChangedAction.Move)
         .Select(e => new OldNewPair<T[]>(e.OldItems.Cast<T>().ToArray(), e.NewItems.Cast<T>().ToArray()));
 
-/// <summary>Observe CollectionChanged:Replace and take single item.</summary>
+/// <summary>CollectionChanged:Replace を監視し、単一の項目を取り出します。</summary>
 public static IObservable<OldNewPair<T>> ObserveReplaceChanged<T>(this INotifyCollectionChanged source) =>
     source.CollectionChangedAsObservable()
         .Where(e => e.Action == NotifyCollectionChangedAction.Replace)
         .Select(e => new OldNewPair<T>((T)e.OldItems[0], (T)e.NewItems[0]));
 
-/// <summary>Observe CollectionChanged:Replace.</summary>
+/// <summary>CollectionChanged:Replace を監視します。</summary>
 public static IObservable<OldNewPair<T[]>> ObserveReplaceChangedItems<T>(this INotifyCollectionChanged source) =>
     source.CollectionChangedAsObservable()
         .Where(e => e.Action == NotifyCollectionChangedAction.Replace)
         .Select(e => new OldNewPair<T[]>(e.OldItems.Cast<T>().ToArray(), e.NewItems.Cast<T>().ToArray()));
 
-/// <summary>Observe CollectionChanged:Reset.</summary>
+/// <summary>CollectionChanged:Reset を監視します。</summary>
 public static IObservable<Unit> ObserveResetChanged<T>(this INotifyCollectionChanged source) =>
     source.CollectionChangedAsObservable()
         .Where(e => e.Action == NotifyCollectionChangedAction.Reset)
         .Select(_ => new Unit());
 ```
 
-## `ObservableCollection` extension methods
+## `ObservableCollection` 拡張メソッド
 
-It is a type-safe version of the `INotifyPropertyChanged` extension methods.
+これは `INotifyPropertyChanged` 拡張メソッドの型安全なバージョンです。
 
 ```csharp
-/// <summary>Observe CollectionChanged:Add and take single item.</summary>
+/// <summary>CollectionChanged:Add を監視し、単一の項目を取り出します。</summary>
 public static IObservable<T> ObserveAddChanged<T>(this ObservableCollection<T> source) =>
     ((INotifyCollectionChanged)source).ObserveAddChanged<T>();
 
-/// <summary>Observe CollectionChanged:Add.</summary>
+/// <summary>CollectionChanged:Add を監視します。</summary>
 public static IObservable<T[]> ObserveAddChangedItems<T>(this ObservableCollection<T> source) =>
     ((INotifyCollectionChanged)source).ObserveAddChangedItems<T>();
 
-/// <summary>Observe CollectionChanged:Remove and take single item.</summary>
+/// <summary>CollectionChanged:Remove を監視し、単一の項目を取り出します。</summary>
 public static IObservable<T> ObserveRemoveChanged<T>(this ObservableCollection<T> source) =>
      ((INotifyCollectionChanged)source).ObserveRemoveChanged<T>();
 
-/// <summary>Observe CollectionChanged:Remove.</summary>
+/// <summary>CollectionChanged:Remove を監視します。</summary>
 public static IObservable<T[]> ObserveRemoveChangedItems<T>(this ObservableCollection<T> source) =>
     ((INotifyCollectionChanged)source).ObserveRemoveChangedItems<T>();
 
-/// <summary>Observe CollectionChanged:Move and take single item.</summary>
+/// <summary>CollectionChanged:Move を監視し、単一の項目を取り出します。</summary>
 public static IObservable<OldNewPair<T>> ObserveMoveChanged<T>(this ObservableCollection<T> source) =>
     ((INotifyCollectionChanged)source).ObserveMoveChanged<T>();
 
-/// <summary>Observe CollectionChanged:Move.</summary>
+/// <summary>CollectionChanged:Move を監視します。</summary>
 public static IObservable<OldNewPair<T[]>> ObserveMoveChangedItems<T>(this ObservableCollection<T> source) =>
     ((INotifyCollectionChanged)source).ObserveMoveChangedItems<T>();
 
-/// <summary>Observe CollectionChanged:Replace and take single item.</summary>
+/// <summary>CollectionChanged:Replace を監視し、単一の項目を取り出します。</summary>
 public static IObservable<OldNewPair<T>> ObserveReplaceChanged<T>(this ObservableCollection<T> source) =>
     ((INotifyCollectionChanged)source).ObserveReplaceChanged<T>();
 
-/// <summary>Observe CollectionChanged:Replace.</summary>
+/// <summary>CollectionChanged:Replace を監視します。</summary>
 public static IObservable<OldNewPair<T[]>> ObserveReplaceChangedItems<T>(this ObservableCollection<T> source) =>
     ((INotifyCollectionChanged)source).ObserveReplaceChangedItems<T>();
 
-/// <summary>Observe CollectionChanged:Reset.</summary>
+/// <summary>CollectionChanged:Reset を監視します。</summary>
 public static IObservable<Unit> ObserveResetChanged<T>(this ObservableCollection<T> source) =>
     ((INotifyCollectionChanged)source).ObserveResetChanged<T>();
 ```
 
-## Observe `PropertyChanged` events of elements of `ObservableCollection` and `IFilteredReadOnlyObservableCollection`
+## `ObservableCollection` と `IFilteredReadOnlyObservableCollection` の要素の `PropertyChanged` イベントを監視する
 
-Watch `PropertyChanged` events of elements in `ObservableCollection` and `IFilteredReadOnlyObservableCollection`.
-The `ObserveElementProperty` extension method can observe a specific property's `PropertyChanged` events.
+`ObservableCollection` と `IFilteredReadOnlyObservableCollection` 内の要素の `PropertyChanged` イベントを監視します。
+`ObserveElementProperty` 拡張メソッドでは、特定のプロパティの `PropertyChanged` イベントを監視できます。
 
 ```csharp
 using Reactive.Bindings.Extensions;
@@ -268,7 +268,7 @@ Remove okazuki from collection
 Change okazuki name to okazuki
 ```
 
-If the target object's property type is `ReactiveProperty`, use the `ObserveElementObservableProperty` extension method.
+対象オブジェクトのプロパティ型が `ReactiveProperty` の場合は、`ObserveElementObservableProperty` 拡張メソッドを使います。
 
 ```csharp
 using Reactive.Bindings;
@@ -329,13 +329,13 @@ Remove okazuki from collection
 Change okazuki name to okazuki
 ```
 
-## `INotifyDataErrorInfo` extension methods
+## `INotifyDataErrorInfo` 拡張メソッド
 
-Convert the `ErrorsChanged` event to an `IObservable<DataErrorsChangedEventArgs>`.
-It is a shortcut of `FromEvent` method.
+`ErrorsChanged` イベントを `IObservable<DataErrorsChangedEventArgs>` に変換します。
+`FromEvent` メソッドのショートカットです。
 
 ```csharp
-/// <summary>Converts ErrorsChanged to an observable sequence.</summary>
+/// <summary>ErrorsChanged を Observable シーケンスに変換します。</summary>
 public static IObservable<DataErrorsChangedEventArgs> ErrorsChangedAsObservable<T>(this T subject)
     where T : INotifyDataErrorInfo =>
     Observable.FromEvent<EventHandler<DataErrorsChangedEventArgs>, DataErrorsChangedEventArgs>(
@@ -344,18 +344,18 @@ public static IObservable<DataErrorsChangedEventArgs> ErrorsChangedAsObservable<
         h => subject.ErrorsChanged -= h);
 ```
 
-The `ObserveErrorInfo` extension method raises the property value when the `ErrorsChanged` event is raised.
+`ObserveErrorInfo` 拡張メソッドは、`ErrorsChanged` イベントが発生したときにプロパティ値を発行します。
 
 ## `Inverse`
 
-Inverts the boolean value of an `IObservable<bool>` sequence.
+`IObservable<bool>` シーケンスの bool 値を反転します。
 
 ```csharp
 IObservable<bool> boolSequence = ...;
 IObservable<bool> inversedBoolSequence = boolSequence.Inverse();
 ```
 
-It is the same as the code below:
+これは次のコードと同じです。
 
 ```csharp
 IObservable<bool> boolSequence = ...;

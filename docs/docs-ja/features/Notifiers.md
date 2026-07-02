@@ -1,22 +1,22 @@
-# Notifiers
+# 通知クラス
 
-The `Reactive.Bindings.Notifiers` namespace provides many useful classes that implement the `IObservable` interface.
+`Reactive.Bindings.Notifiers` 名前空間は、`IObservable` インターフェイスを実装する多くの便利なクラスを提供します。
 
 ## `BooleanNotifier`
 
-`BooleanNotifier` class implements the `IObservable<bool>` interface.
-It has some methods and a property.
+`BooleanNotifier` クラスは `IObservable<bool>` インターフェイスを実装しています。
+いくつかのメソッドとプロパティを持っています。
 
-- `TurnOn` method
-    - Changes the state to true.
-- `TurnOff` method
-    - Changes the state to false.
-- `SwitchValue` method
-    - Switches the state.
-- `Value` property
-    - Sets the state.
+- `TurnOn` メソッド
+    - 状態を true に変更します。
+- `TurnOff` メソッド
+    - 状態を false に変更します。
+- `SwitchValue` メソッド
+    - 状態を切り替えます。
+- `Value` プロパティ
+    - 状態を設定します。
 
-The initial state can be set in the constructor. The default value is false.
+初期状態はコンストラクターで設定できます。既定値は false です。
 
 
 ```csharp
@@ -29,59 +29,59 @@ n.Value = true; // true
 n.Value = false; // false
 ```
 
-It can be used as the source of `ReactiveCommand` as shown below:
+次のように `ReactiveCommand` のソースとして使えます。
 
 ```csharp
-var n = new BooleanNotifier(); // the default value is false.
+var n = new BooleanNotifier(); // 既定値は false です。
 
-// The CanExecute method of ReactiveCommand returns true by default, so set initialValue explicitly to `n.Value`.
+// ReactiveCommand の CanExecute メソッドは既定で true を返すため、initialValue に `n.Value` を明示的に設定します。
 var command = n.ToReactiveCommand(initialValue: n.Value);
 
-// Or, if you would like to convert to something using Select and other operators before calling ToReactiveCommand, you can use StartWith.
+// または、ToReactiveCommand を呼び出す前に Select などの演算子で何かに変換したい場合は、StartWith を使えます。
 var command2 = n.StartWith(n.Value).Select(x => Something(x)).ToReactiveCommand();
 ```
 
 ## `CountNotifier`
 
-The `CountNotifier` class implements the `IObservable<CountChangedStatus>` interface. It provides increment and decrement features, and raises a `CountChangedStatus` value when the state changes.
+`CountNotifier` クラスは `IObservable<CountChangedStatus>` インターフェイスを実装しています。インクリメントとデクリメント機能を提供し、状態が変わると `CountChangedStatus` 値を発行します。
 
-The CountChangedStatus enum is defined below.
+CountChangedStatus enum は次のように定義されています。
 
 ```csharp
-/// <summary>Event kind of CountNotifier.</summary>
+/// <summary>CountNotifier のイベント種別です。</summary>
 public enum CountChangedStatus
 {
-    /// <summary>Count incremented.</summary>
+    /// <summary>カウントがインクリメントされました。</summary>
     Increment,
-    /// <summary>Count decremented.</summary>
+    /// <summary>カウントがデクリメントされました。</summary>
     Decrement,
-    /// <summary>Count is zero.</summary>
+    /// <summary>カウントは 0 です。</summary>
     Empty,
-    /// <summary>Count arrived max.</summary>
+    /// <summary>カウントが最大値に達しました。</summary>
     Max
 }
 ```
 
-`CountNotifier`'s max value can be set from a constructor argument:
+`CountNotifier` の最大値はコンストラクター引数から設定できます。
 
 ```csharp
-var c = new CountNotifier(); // default max value is int.MaxValue
-// output status.
+var c = new CountNotifier(); // 既定の最大値は int.MaxValue です
+// 状態を出力します。
 c.Subscribe(x => Debug.WriteLine(x));
-// output current value.
+// 現在の値を出力します。
 c.Select(_ => c.Count).Subscribe(x => Debug.WriteLine(x));
-// increment
+// インクリメント
 var d = c.Increment(10);
-// revert increment
+// インクリメントを元に戻します
 d.Dispose();
-// increment and decrement
+// インクリメントとデクリメント
 c.Increment(10);
 c.Decrement(5);
-// output current value.
+// 現在の値を出力します。
 Debug.WriteLine(c.Count);
 ```
 
-The output is below.
+出力は次のとおりです。
 
 ```
 Increment
@@ -99,23 +99,23 @@ Decrement
 
 ## `ScheduledNotifier`
 
-This class raises the value on the scheduler. The default scheduler is `Scheduler.Immediate`. Set the scheduler using constructor argument.
+このクラスはスケジューラー上で値を発行します。既定のスケジューラーは `Scheduler.Immediate` です。コンストラクター引数を使ってスケジューラーを設定します。
 
 ```csharp
 var n = new ScheduledNotifier<string>();
 n.Subscribe(x => Debug.WriteLine(x));
-// output the value immediately
+// 値をすぐに出力します
 n.Report("Hello world");
-// output the value after 2 seconds.
+// 2 秒後に値を出力します。
 n.Report("After 2 seconds.", TimeSpan.FromSeconds(2));
 ```
 
 ## `BusyNotifier`
 
-This class implements the `IObservable<bool>` interface.
-It raises `true` while a process is running and raises `false` when all processes end.
+このクラスは `IObservable<bool>` インターフェイスを実装しています。
+処理の実行中は `true` を発行し、すべての処理が終了すると `false` を発行します。
 
-The `ProcessStart` method returns an `IDisposable` instance. When the process finishes, call the Dispose method.
+`ProcessStart` メソッドは `IDisposable` インスタンスを返します。処理が終了したら、Dispose メソッドを呼び出します。
 
 
 ```csharp
@@ -161,7 +161,7 @@ namespace ReactivePropertyEduApp
 }
 ```
 
-The output is below.
+出力は次のとおりです。
 
 ```
 15:07:45: OnNext: False
@@ -176,7 +176,7 @@ The output is below.
 
 ## `MessageBroker`
 
-`MessageBroker` is an in-memory pub-sub notifier. It is Rx- and async-friendly, similar to an `EventAggregator` or `MessageBus`, and can be used for the messenger pattern.
+`MessageBroker` はインメモリの pub-sub notifier です。`EventAggregator` や `MessageBus` に似ており、Rx と async に適しています。messenger パターンに利用できます。
 
 ```csharp
 using Reactive.Bindings.Notifiers;
@@ -197,7 +197,7 @@ class Program
 {
     static void RunMessageBroker()
     {
-        // global scope pub-sub messaging
+        // グローバル スコープの pub-sub メッセージング
         MessageBroker.Default.Subscribe<MyClass>(x =>
         {
             Console.WriteLine("A:" + x);
@@ -208,7 +208,7 @@ class Program
             Console.WriteLine("B:" + x);
         });
 
-        // support conversion to IObservable<T>
+        // IObservable<T> への変換をサポート
         MessageBroker.Default.ToObservable<MyClass>().Subscribe(x =>
         {
             Console.WriteLine("C:" + x);
@@ -218,13 +218,13 @@ class Program
         MessageBroker.Default.Publish(new MyClass { MyProperty = 200 });
         MessageBroker.Default.Publish(new MyClass { MyProperty = 300 });
 
-        d.Dispose(); // unsubscribe
+        d.Dispose(); // 購読解除
         MessageBroker.Default.Publish(new MyClass { MyProperty = 400 });
     }
 
     static async Task RunAsyncMessageBroker()
     {
-        // asynchronous message pub-sub
+        // 非同期の message pub-sub
         AsyncMessageBroker.Default.Subscribe<MyClass>(async x =>
         {
             Console.WriteLine("A:" + x);
@@ -237,12 +237,12 @@ class Program
             await Task.Delay(TimeSpan.FromSeconds(2));
         });
 
-        // await all subscribers to complete
+        // すべての subscriber の完了を待ちます
         await AsyncMessageBroker.Default.PublishAsync(new MyClass { MyProperty = 100 });
         await AsyncMessageBroker.Default.PublishAsync(new MyClass { MyProperty = 200 });
         await AsyncMessageBroker.Default.PublishAsync(new MyClass { MyProperty = 300 });
 
-        d.Dispose(); // unsubscribe
+        d.Dispose(); // 購読解除
         await AsyncMessageBroker.Default.PublishAsync(new MyClass { MyProperty = 400 });
     }
 
@@ -257,17 +257,16 @@ class Program
 }
 ```
 
-Multi-thread dispatch for the messenger pattern can be handled easily with Rx.
+messenger パターンのマルチスレッド ディスパッチは、Rx で簡単に扱えます。
 
 ```csharp
 MessageBroker.Default.ToObservable<MyClass>()
-    .ObserveOn(Dispatcher) // Rx Magic!
+    .ObserveOn(Dispatcher) // Rx の魔法!
     .Subscribe(x =>
     {
         Console.WriteLine(x);
     });
 ```
-
 
 
 

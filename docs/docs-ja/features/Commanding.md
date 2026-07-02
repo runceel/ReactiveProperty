@@ -1,28 +1,28 @@
-# Commanding
+# コマンド
 
-`ReactiveCommand` class implements the following two interfaces.
+`ReactiveCommand` クラスは次の 2 つのインターフェイスを実装しています。
 
-- `ICommand` interface
+- `ICommand` インターフェイス
 - `IObservable<T>`
 
-## Basic usage
+## 基本的な使い方
 
-This class can be created using the `ToReactiveCommand` extension method from an `IObservable<bool>` instance.
-When the `IObservable<bool>` instance publishes a value, the `CanExecuteChanged` event is raised.
+このクラスは、`IObservable<bool>` インスタンスから `ToReactiveCommand` 拡張メソッドを使って作成できます。
+`IObservable<bool>` インスタンスが値を発行すると、`CanExecuteChanged` イベントが発生します。
 
-If you always want an executable command, you can create a `ReactiveCommand` instance using the default constructor.
+常に実行可能なコマンドが必要な場合は、既定のコンストラクターを使って `ReactiveCommand` インスタンスを作成できます。
 
 ```csharp
 IObservable<bool> canExecuteSource = ...;
 
-ReactiveCommand someCommand = canExecuteSource.ToReactiveCommand(); // version without a command parameter.
-ReactiveCommand<string> hasCommandParameterCommand = canExecuteSource.ToReactiveCommand<string>(); // version with a command parameter
-ReactiveCommand alwaysExecutableCommand = new ReactiveCommand(); // version without a command parameter that can always execute.
-ReactiveCommand<string> alwaysExecutableAndHasCommandParameterCommand = new ReactiveCommand<string>(); // version with a command parameter that can always execute.
+ReactiveCommand someCommand = canExecuteSource.ToReactiveCommand(); // コマンド パラメーターなしのバージョン
+ReactiveCommand<string> hasCommandParameterCommand = canExecuteSource.ToReactiveCommand<string>(); // コマンド パラメーターありのバージョン
+ReactiveCommand alwaysExecutableCommand = new ReactiveCommand(); // コマンド パラメーターなしで常に実行できるバージョン
+ReactiveCommand<string> alwaysExecutableAndHasCommandParameterCommand = new ReactiveCommand<string>(); // コマンド パラメーターありで常に実行できるバージョン
 ```
 
-You can set the initial return value of the `CanExecute` method using the factory extension method's `initialValue` argument.
-The default value is `true`.
+ファクトリ拡張メソッドの `initialValue` 引数を使って、`CanExecute` メソッドの初期戻り値を設定できます。
+既定値は `true` です。
 
 ```csharp
 IObservable<bool> canExecuteSource = ...;
@@ -31,19 +31,19 @@ ReactiveCommand someCommand = canExecuteSource.ToReactiveCommand(false);
 ReactiveCommand<string> hasCommandParameterCommand = canExecuteSource.ToReactiveCommand<string>(false);
 ```
 
-When the `Execute` method is called, `ReactiveCommand` calls the `OnNext` callback.
-You can register execute logic using the `Subscribe` method.
+`Execute` メソッドが呼び出されると、`ReactiveCommand` は `OnNext` コールバックを呼び出します。
+実行ロジックは `Subscribe` メソッドで登録できます。
 
 ```csharp
 ReactiveCommand someCommand = new ReactiveCommand();
-someCommand.Subscribe(_ => { ... some logic ... }); // set an OnNext callback
+someCommand.Subscribe(_ => { ... some logic ... }); // OnNext コールバックを設定します
 
-someCommand.Execute(); // OnNext callback is called.
+someCommand.Execute(); // OnNext コールバックが呼び出されます。
 ```
 
-## Using in ViewModel class
+## ViewModel クラスで使う
 
-The first example just uses the `ReactiveCommand` class.
+最初の例では、`ReactiveCommand` クラスだけを使います。
 
 ```csharp
 public class ViewModel
@@ -61,7 +61,7 @@ public class ViewModel
 }
 ```
 
-Example for UWP.
+UWP の例です。
 
 ```csharp
 public sealed partial class MainPage : Page
@@ -93,20 +93,20 @@ public sealed partial class MainPage : Page
 </Page>
 ```
 
-![First example](./images/reactivecommand-firstexample.gif)
+![最初の例](../../docs/features/images/reactivecommand-firstexample.gif)
 
-## Work with LINQ
+## LINQ と連携する
 
-`ReactiveCommand` class implements the `IObservable<T>` interface.
-You can use LINQ methods, and the `ReactiveProperty<T>` class can be created from `IObservable<T>`.
-The previous example code can be changed to this:
+`ReactiveCommand` クラスは `IObservable<T>` インターフェイスを実装しています。
+LINQ メソッドを使用でき、`ReactiveProperty<T>` クラスは `IObservable<T>` から作成できます。
+前の例のコードは次のように変更できます。
 
 ```csharp
 public class ViewModel
 {
     public ReactiveCommand UpdateTimeCommand { get; }
 
-    // You don't need to set the Value property, so this can change to ReadOnlyReactiveProperty.
+    // Value プロパティを設定する必要がないため、ReadOnlyReactiveProperty に変更できます。
     public ReadOnlyReactiveProperty<string> Time { get; }
 
     public ViewModel()
@@ -119,9 +119,9 @@ public class ViewModel
 }
 ```
 
-## Create from `IObservable<bool>`
+## `IObservable<bool>` から作成する
 
-Change this so that the `UpdateTimeCommand` can't execute for 5 seconds after the command is invoked.
+コマンド実行後 5 秒間は `UpdateTimeCommand` を実行できないように変更します。
 
 ```csharp
 public class ViewModel
@@ -145,12 +145,12 @@ public class ViewModel
 }
 ```
 
-![Disable 5 secs](./images/reactivecommand-disable5secs.gif)
+![5 秒間無効化](../../docs/features/images/reactivecommand-disable5secs.gif)
 
-## Create command and subscribe, in one statement
+## コマンドの作成と購読を 1 文で行う
 
-If you aren't using LINQ methods, you can create a command and subscribe in one statement.
-`WithSubscribe` extension method subscribes and returns the `ReactiveCommand` instance:
+LINQ メソッドを使わない場合は、コマンドの作成と購読を 1 文で行えます。
+`WithSubscribe` 拡張メソッドは購読して、`ReactiveCommand` インスタンスを返します。
 
 ```csharp
 public class ViewModel
@@ -168,54 +168,54 @@ public class ViewModel
             updateTimeTrigger.Select(_ => false),
             updateTimeTrigger.Delay(TimeSpan.FromSeconds(5)).Select(_ => true))
             .ToReactiveCommand()
-            .WithSubscribe(() => Time.Value = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")); // here
+            .WithSubscribe(() => Time.Value = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")); // ここ
     }
 }
 ```
 
-`WithSubscribe` method is just a shortcut:
+`WithSubscribe` メソッドは単なるショートカットです。
 
 ```csharp
-// Without WithSubscribe
+// WithSubscribe を使わない場合
 var command = new ReactiveCommand();
 command.Subscribe(_ => { ... some actions ... });
 
-// With WithSubscribe
+// WithSubscribe を使う場合
 var command = new ReactiveCommand()
     .WithSubscribe(() => { ... some actions ... });
 ```
 
-If you use LINQ methods, create separate statements to instantiate and subscribe.
+LINQ メソッドを使う場合は、インスタンス化と購読を別の文に分けてください。
 
-## Unsubscribe actions
+## アクションの購読解除
 
-If you need to unsubscribe actions, use the `Dispose` method of the `IDisposable` instance returned by the `Subscribe` method.
+アクションの購読を解除する必要がある場合は、`Subscribe` メソッドが返す `IDisposable` インスタンスの `Dispose` メソッドを使います。
 
 ```csharp
 var command = new ReactiveCommand();
 var subscription1 = command.Subscribe(_ => { ... some actions ... });
 var subscription2 = command.Subscribe(_ => { ... some actions ... });
 
-// Unsubscribe each Subscribe method.
+// 各 Subscribe メソッドの購読を解除します。
 subscription1.Dispose();
 subscription2.Dispose();
 
-// Unsubscribe all
+// すべて購読解除します
 command.Dispose();
 ```
 
-The `WithSubscribe` extension method has overloads with an `IDisposable` argument.
+`WithSubscribe` 拡張メソッドには、`IDisposable` 引数を持つオーバーロードがあります。
 
 ```csharp
 IDisposable subscription = null;
 var command = new ReactiveCommand().WithSubscribe(() => { ... some actions ... }, out subscription);
 
-// Unsubscribe
+// 購読解除
 subscription.Dispose();
 ```
 
-It also has another overload with an `Action<IDisposable>` argument.
-It is used together with the `CompositeDisposable` class.
+`Action<IDisposable>` 引数を持つ別のオーバーロードもあります。
+これは `CompositeDisposable` クラスと一緒に使います。
 
 ```csharp
 var subscriptions = new CompositeDisposable();
@@ -223,24 +223,24 @@ var command = new ReactiveCommand()
     .WithSubscribe(() => { ... some actions ... }, subscriptions.Add)
     .WithSubscribe(() => { ... some actions ... }, subscriptions.Add);
 
-// Unsubscribe
+// 購読解除
 subscription.Dispose();
 ```
 
-When subscribing to another instance's events, you should call the `Dispose` method of the `ReactiveCommand` class at the end of the ViewModel lifecycle.
+別のインスタンスのイベントを購読する場合は、ViewModel のライフサイクルの最後に `ReactiveCommand` クラスの `Dispose` メソッドを呼び出してください。
 
-## Async version of ReactiveCommand
+## ReactiveCommand の非同期版
 
-The `AsyncReactiveCommand` class is an `async` version of the `ReactiveCommand` class.
-This class can subscribe to `async` methods, and while an async method is executing, the `CanExecute` method returns `false`.
-Therefore, this class can't re-execute while the async method is running.
+`AsyncReactiveCommand` クラスは、`ReactiveCommand` クラスの `async` 版です。
+このクラスは `async` メソッドを購読できます。async メソッドの実行中は、`CanExecute` メソッドが `false` を返します。
+そのため、async メソッドの実行中は再実行できません。
 
-The `ExecuteAsync` method is an async version of the `Execute` method. It can wait for all async processes added to the command to finish. This method is useful for unit testing and for calling commands from C#.
+`ExecuteAsync` メソッドは `Execute` メソッドの async 版です。コマンドに追加されたすべての async 処理の完了を待てます。このメソッドは単体テストや C# からコマンドを呼び出すときに便利です。
 
-### Basic usage
+### 基本的な使い方
 
-It is nearly the same as the `ReactiveCommand` class.
-The only difference is that it accepts an `async` method as a `Subscribe` method argument and doesn't implement the `IObservable<T>` interface.
+`ReactiveCommand` クラスとほぼ同じです。
+唯一の違いは、`Subscribe` メソッドの引数として `async` メソッドを受け取れることと、`IObservable<T>` インターフェイスを実装していないことです。
 
 ```csharp
 public class ViewModel
@@ -280,9 +280,9 @@ public class ViewModel
 </Page>
 ```
 
-![HeavyCommand](./images/asyncreactivecommand-heavyprocess.gif)
+![HeavyCommand](../../docs/features/images/asyncreactivecommand-heavyprocess.gif)
 
-Of course, `AsyncReactiveCommand` can be created from `IObservable<bool>`.
+もちろん、`AsyncReactiveCommand` は `IObservable<bool>` からも作成できます。
 
 ```csharp
 public class ViewModel
@@ -306,16 +306,16 @@ public class ViewModel
 }
 ```
 
-![From IObservable<bool>](./images/asyncreactivecommand-from-iobool.gif)
+![IObservable<bool> から](../../docs/features/images/asyncreactivecommand-from-iobool.gif)
 
-The `AsyncReactiveCommand` class also implements the `IDisposable` interface.
-You should call the `Dispose` method when subscribing to another instance's events.
+`AsyncReactiveCommand` クラスも `IDisposable` インターフェイスを実装しています。
+別のインスタンスのイベントを購読する場合は、`Dispose` メソッドを呼び出してください。
 
-### Share `CanExecute` state
+### `CanExecute` 状態を共有する
 
-Sometimes you want only one async method to execute on a page.
-In this case, you can share the `CanExecute` state between `AsyncReactiveCommand` instances.
-When they are created from the same `IReactiveProperty<bool>` instance, you can synchronize the `CanExecute` state.
+ページ上で一度に 1 つの async メソッドだけを実行したい場合があります。
+この場合、`AsyncReactiveCommand` インスタンス間で `CanExecute` 状態を共有できます。
+同じ `IReactiveProperty<bool>` インスタンスから作成すると、`CanExecute` 状態を同期できます。
 
 ```csharp
 public class ViewModel
@@ -369,10 +369,10 @@ public class ViewModel
 </Page>
 ```
 
-![Share state](./images/asyncreactivecommand-share-state.gif)
+![状態の共有](../../docs/features/images/asyncreactivecommand-share-state.gif)
 
-Of course, you can combine `IObservable<bool>` and `IReactiveProperty<bool>`. Use `IObservable<bool>` as the source of `AsyncReactiveCommand`, and use `IReactiveProperty<bool>` to share state across `AsyncReactiveCommand`s.
-You can use `ToAsyncReactiveCommand(this IObservable<bool> source, IReactiveProperty<bool> sharedCanExecute = null)` method, like this:
+もちろん、`IObservable<bool>` と `IReactiveProperty<bool>` を組み合わせることもできます。`AsyncReactiveCommand` のソースとして `IObservable<bool>` を使い、複数の `AsyncReactiveCommand` で状態を共有するために `IReactiveProperty<bool>` を使います。
+次のように、`ToAsyncReactiveCommand(this IObservable<bool> source, IReactiveProperty<bool> sharedCanExecute = null)` メソッドを使えます。
 
 ```csharp
 using Reactive.Bindings;
@@ -384,13 +384,13 @@ namespace RPSample
 {
     public class MainPageViewModel
     {
-        // for shared state
+        // 共有状態用
         private ReactivePropertySlim<bool> SharedCanExecute { get; }
-        // for command source
+        // コマンド ソース用
         [Required]
         public ReactiveProperty<string> Input { get; }
 
-        // commands
+        // コマンド
         public AsyncReactiveCommand CommandA { get; }
         public AsyncReactiveCommand CommandB { get; }
 
@@ -398,7 +398,7 @@ namespace RPSample
         {
             Input = new ReactiveProperty<string>().SetValidateAttribute(() => Input);
 
-            // create AsyncReactiveCommands from the same source and the same IReactiveProperty<bool> to share CanExecute status.
+            // CanExecute 状態を共有するため、同じソースと同じ IReactiveProperty<bool> から AsyncReactiveCommand を作成します。
             SharedCanExecute = new ReactivePropertySlim<bool>(true);
             CommandA = Input.ObserveHasErrors
                 .Inverse()
@@ -413,10 +413,10 @@ namespace RPSample
 }
 ```
 
-After binding the ViewModel class to the view:
+ViewModel クラスを View にバインディングした後は次のようになります。
 
 ```csharp
-// code behind
+// コード ビハインド
 using Windows.UI.Xaml.Controls;
 
 namespace RPSample
@@ -456,28 +456,28 @@ namespace RPSample
 </Page>
 ```
 
-It works like this:
+動作は次のようになります。
 
-![Share state and same source](./images/asyncreactivecommand-shared-source.gif)
+![状態と同じソースの共有](../../docs/features/images/asyncreactivecommand-shared-source.gif)
 
 
-## Threading
+## スレッド処理
 
-### `ReactiveCommand` class
+### `ReactiveCommand` クラス
 
-When using the `ReactiveCommand` class, the class raises the `CanExecute` event on a scheduler (the default is the UI thread scheduler). If you want to change the behavior, use the overload of `ToReactiveCommand` that has an `IScheduler` argument.
+`ReactiveCommand` クラスを使うと、このクラスはスケジューラー上で `CanExecute` イベントを発生させます（既定は UI スレッド スケジューラーです）。この動作を変更したい場合は、`IScheduler` 引数を持つ `ToReactiveCommand` のオーバーロードを使います。
 
-See below:
+次の例を参照してください。
 
 ```csharp
 canExecuteSource.ToReactiveCommand(theSchedulerInstanceYouWant);
 ```
 
-### `AsyncReactiveCommand` class
+### `AsyncReactiveCommand` クラス
 
-`AsyncReactiveCommand` class doesn't change thread automatically. If you want to change the thread, then use `ObserveOn` method.
+`AsyncReactiveCommand` クラスはスレッドを自動的に変更しません。スレッドを変更したい場合は、`ObserveOn` メソッドを使います。
 
-See below:
+次の例を参照してください。
 
 ```csharp
 canExecuteSource.ObserveOn(theSchedulerInstanceYouWant).ToAsyncReactiveCommand();
@@ -485,17 +485,17 @@ canExecuteSource.ObserveOn(theSchedulerInstanceYouWant).ToAsyncReactiveCommand()
 
 ### `ReactiveCommandSlim`
 
-This is a lightweight version of `ReactiveCommand`. The main difference from the traditional `ReactiveCommand` is that the `CanExecuteChanged` event is no longer dispatched on the UI thread. If it is necessary to always trigger the event on the UI thread, use the `ObserveOn` method on the `IObservable<bool>` source of `ReactiveCommandSlim` to explicitly set it.
+これは `ReactiveCommand` の軽量版です。従来の `ReactiveCommand` との主な違いは、`CanExecuteChanged` イベントが UI スレッドへディスパッチされなくなったことです。常に UI スレッドでイベントを発生させる必要がある場合は、`ReactiveCommandSlim` のソースである `IObservable<bool>` に対して `ObserveOn` メソッドを使い、明示的に設定してください。
 
-Additionally, by implementing it in the same way as `ReactivePropertySlim`, various performance improvements have been made. The benchmarks are as follows:
+さらに、`ReactivePropertySlim` と同じ方法で実装することで、さまざまな性能改善が行われています。ベンチマークは次のとおりです。
 
-|                                        Method |         Mean |       Error |      StdDev |       Median |
+|                                        メソッド |         平均 |       エラー |      標準偏差 |       中央値 |
 |---------------------------------------------- |-------------:|------------:|------------:|-------------:|
 |                         CreateReactiveCommand |   291.931 ns |   5.6965 ns |  10.5589 ns |   291.178 ns |
 |                     CreateReactiveCommandSlim |     4.313 ns |   0.1293 ns |   0.1080 ns |     4.269 ns |
 |                BasicUsecaseForReactiveCommand | 1,187.294 ns |  22.8930 ns |  21.4141 ns | 1,179.896 ns |
 |            BasicUsecaseForReactiveCommandSlim |    91.861 ns |   1.8934 ns |   3.5096 ns |    91.750 ns |
 
-From top to bottom, these represent the creation of a `ReactiveCommand`, the creation of a `ReactiveCommandSlim`, the basic use case for `ReactiveCommand`, and the basic use case for `ReactiveCommandSlim`. There is a performance difference of over 70 times in the instantiation case and 13 times in the basic functionality usage case.
+上から順に、`ReactiveCommand` の作成、`ReactiveCommandSlim` の作成、`ReactiveCommand` の基本的なユースケース、`ReactiveCommandSlim` の基本的なユースケースを表しています。インスタンス化では 70 倍以上、基本機能の利用では 13 倍の性能差があります。
 
-Furthermore, like `AsyncReactiveCommand`, it is possible to easily share the execution state across multiple commands by sharing an `IReactiveProperty<bool>`.
+さらに、`AsyncReactiveCommand` と同様に、`IReactiveProperty<bool>` を共有することで複数のコマンド間で実行状態を簡単に共有できます。

@@ -1,14 +1,14 @@
-# Getting started with WPF
+# WPF をはじめる
 
-## Create a project
-- Create a WPF App (.NET Framework) project.
-    - You must use .NET Framework 4.7.2 or later, or .NET Core 3.0 or later.
-- Install ReactiveProperty.WPF package from NuGet.
+## プロジェクトの作成
+- WPF App (.NET Framework) プロジェクトを作成します。
+    - .NET Framework 4.7.2 以降、または .NET Core 3.0 以降を使用する必要があります。
+- NuGet から ReactiveProperty.WPF パッケージをインストールします。
 
-## Edit the code
+## コードの編集
 
-- Add the Startup event handler to the App class.
-- Add code to initialize the scheduler for ReactiveProperty classes.
+- App クラスに Startup イベント ハンドラーを追加します。
+- ReactiveProperty クラス用のスケジューラーを初期化するコードを追加します。
 
 ```csharp
 using System;
@@ -33,8 +33,8 @@ namespace WpfApp1
 }
 ```
 
-- Create a MainWindowViewModel.cs file.
-- Edit the files as follows.
+- MainWindowViewModel.cs ファイルを作成します。
+- 次のようにファイルを編集します。
 
 MainWindowViewModel.cs
 ```csharp
@@ -91,9 +91,9 @@ MainWindow.xaml
 </Window>
 ```
 
-## Launch the application
+## アプリケーションの起動
 
-After launching the app, you can see the window below.
-The output value is displayed in uppercase 1 second after the input.
+アプリを起動すると、下のウィンドウが表示されます。
+入力してから 1 秒後に、出力値が大文字で表示されます。
 
-![Launch the app](./images/launch-wpf-app.gif)
+![アプリの起動](../../docs/getting-started/images/launch-wpf-app.gif)

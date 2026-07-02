@@ -1,22 +1,22 @@
-# Getting started with Uno Platform
+# Uno Platform をはじめる
 
-Uno Platform is a development platform for cross-platform apps.
-Uno builds UWP app projects as Android, iOS, WebAssembly, Linux, and macOS apps.
+Uno Platform はクロスプラットフォーム アプリ用の開発プラットフォームです。
+Uno は UWP アプリ プロジェクトを Android、iOS、WebAssembly、Linux、macOS アプリとしてビルドします。
 
-Install the Uno Platform extension for Visual Studio before you start this getting-started guide.
+このはじめにガイドを開始する前に、Visual Studio 用の Uno Platform 拡張機能をインストールしてください。
 
-## Create a project
-- Create a Cross-Platform App (Uno Platform) project.
-- Install the ReactiveProperty package in all projects from NuGet.
-- Install the Reactive.Wasm package in the YourProjectName.Wasm project.
+## プロジェクトの作成
+- Cross-Platform App (Uno Platform) プロジェクトを作成します。
+- NuGet からすべてのプロジェクトに ReactiveProperty パッケージをインストールします。
+- YourProjectName.Wasm プロジェクトに Reactive.Wasm パッケージをインストールします。
 
-## Edit the code
-- Edit Program.cs in the Wasm project to support Reactive Extensions.
+## コードの編集
+- Reactive Extensions をサポートするために、Wasm プロジェクトの Program.cs を編集します。
 
 ```csharp
 using System;
 using Windows.UI.Xaml;
-using System.Reactive.PlatformServices; // add
+using System.Reactive.PlatformServices; // 追加
 
 namespace GettingStartedUno.Wasm
 {
@@ -26,9 +26,9 @@ namespace GettingStartedUno.Wasm
 
         static int Main(string[] args)
         {
-#pragma warning disable CS0618 // Type or member is obsolete
-            PlatformEnlightenmentProvider.Current.EnableWasm(); // add
-#pragma warning restore CS0618 // Type or member is obsolete
+#pragma warning disable CS0618 // 型またはメンバーは廃止されています
+            PlatformEnlightenmentProvider.Current.EnableWasm(); // 追加
+#pragma warning restore CS0618 // 型またはメンバーは廃止されています
             Windows.UI.Xaml.Application.Start(_ => _app = new App());
 
             return 0;
@@ -37,8 +37,8 @@ namespace GettingStartedUno.Wasm
 }
 ```
 
-- Create a MainPageViewModel.cs file in the Shared project.
-- Edit the files as follows.
+- Shared プロジェクトに MainPageViewModel.cs ファイルを作成します。
+- 次のようにファイルを編集します。
 
 MainPageViewModel.cs
 ```csharp
@@ -70,12 +70,12 @@ MainPage.xaml.cs
 ```csharp
 using Windows.UI.Xaml.Controls;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
+// Blank Page 項目テンプレートについては、https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409 を参照してください。
 
 namespace GettingStartedUno
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// 単体で使用することも、Frame 内で移動先として使用することもできる空のページです。
     /// </summary>
     public sealed partial class MainPage : Page
     {
@@ -112,23 +112,23 @@ MainPage.xaml
 </Page>
 ```
 
-## Launch the application
+## アプリケーションの起動
 
-After launching the app, you can see the apps below on each platform.
-The output value is displayed in uppercase 1 second after the input.
+アプリを起動すると、各プラットフォームで以下のアプリを確認できます。
+入力してから 1 秒後に、出力値が大文字で表示されます。
 
 ### WebAssembly
 
-![Launch the app](./images/wasm-getting-started.gif)
+![アプリの起動](../../docs/getting-started/images/wasm-getting-started.gif)
 
 ### UWP
 
-![Launch the app](./images/unouwp-getting-started.gif)
+![アプリの起動](../../docs/getting-started/images/unouwp-getting-started.gif)
 
 ### Android
 
-![Launch the app](./images/unoandroid-getting-started.gif)
+![アプリの起動](../../docs/getting-started/images/unoandroid-getting-started.gif)
 
 ### iOS
 
-TBD
+未定

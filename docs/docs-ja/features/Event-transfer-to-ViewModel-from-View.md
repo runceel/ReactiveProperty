@@ -1,17 +1,17 @@
-# Transfer events to ViewModels from Views
+# View から ViewModel へイベントを転送する
 
-`EventToReactiveProperty` and `EventToReactiveCommand` classes transfer events from the View layer to a `ReactiveProperty` or `ReactiveCommand`.
-These classes extend `TriggerAction` and are designed to be used with `EventTrigger`.
+`EventToReactiveProperty` クラスと `EventToReactiveCommand` クラスは、View レイヤーからのイベントを `ReactiveProperty` または `ReactiveCommand` に転送します。
+これらのクラスは `TriggerAction` を拡張しており、`EventTrigger` と一緒に使うように設計されています。
 
-<b>Note:</b>
-> This feature is available only for WPF and UWP. Xamarin.Forms can't use it. If you want to use it, add the `ReactiveProperty.WPF` package for WPF or the `ReactiveProperty.UWP` package for UWP to your project.
+<b>メモ:</b>
+> この機能は WPF と UWP でのみ利用できます。Xamarin.Forms では使えません。使いたい場合は、WPF では `ReactiveProperty.WPF` パッケージを、UWP では `ReactiveProperty.UWP` パッケージをプロジェクトに追加してください。
 
-These classes can convert `EventArgs` to any object type using `ReactiveConverter<T, U>`.
+これらのクラスは、`ReactiveConverter<T, U>` を使って `EventArgs` を任意のオブジェクト型に変換できます。
 
-The `ReactiveConverter` class can use an Rx method chain. It's very powerful.
+`ReactiveConverter` クラスでは Rx のメソッド チェーンを使用できます。非常に強力です。
 
 
-UWP sample:
+UWP のサンプル:
 
 ```csharp
 using Reactive.Bindings.Interactivity;
@@ -41,9 +41,9 @@ namespace App1
 }
 ```
 
-It converts the `RoutedEventArgs` to the file path.
+これは `RoutedEventArgs` をファイル パスに変換します。
 
-XAML and code-behind are below.
+XAML とコード ビハインドは次のとおりです。
 
 ```xml
 <Page x:Class="App1.MainPage"
@@ -102,10 +102,10 @@ namespace App1
 }
 ```
 
-![EventToReactiveCommand and EventToReactiveProperty](./images/event-to-reactivexxx.gif)
+![EventToReactiveCommand と EventToReactiveProperty](../../docs/features/images/event-to-reactivexxx.gif)
 
 
-`EventToReactiveProperty` sets the value converted by `ReactiveConverter` to `ReactiveProperty`.
+`EventToReactiveProperty` は、`ReactiveConverter` で変換された値を `ReactiveProperty` に設定します。
 
 ```xml
 <Page x:Class="App1.MainPage"
@@ -157,13 +157,13 @@ namespace App1
 }
 ```
 
-## Customizing EventToReactiveCommand
+## EventToReactiveCommand のカスタマイズ
 
-### CallExecuteOnScheduler property
+### CallExecuteOnScheduler プロパティ
 
-The default behavior calls the command's Execute method on the `IScheduler` set to `ReactivePropertyScheduler.Default`. To disable this behavior, set this property to false.
+既定の動作では、`ReactivePropertyScheduler.Default` に設定された `IScheduler` 上でコマンドの Execute メソッドを呼び出します。この動作を無効にするには、このプロパティを false に設定します。
 
-### AutoEnable property
+### AutoEnable プロパティ
 
-The default behavior synchronizes automatically between AssociatedObject.IsEnabled and the command's CanExecute.
-To disable this behavior, set this property to false.
+既定の動作では、AssociatedObject.IsEnabled とコマンドの CanExecute が自動的に同期されます。
+この動作を無効にするには、このプロパティを false に設定します。
