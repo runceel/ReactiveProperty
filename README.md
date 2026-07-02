@@ -1,4 +1,4 @@
-[Japanese](https://qiita.com/okazuki/items/7572f46848d0e93516b1)
+[日本語ドキュメント](docs/docs-ja/README.md)
 
 # ReactiveProperty
 
@@ -43,7 +43,7 @@ public class MainPageViewModel
 
 It is really simple and understandable (I think!). Because there are NOT any base classes and interfaces. Just has declarative code between Input property and Output property. 
 
-All steps are written in the "Getting Started" section in the [ReactiveProperty documentation](https://github.com/runceel/ReactiveProperty/tree/main/docs).
+All steps are written in the "Getting Started" section in the [ReactiveProperty documentation](docs/docs/README.md).
 
 The concept of ReactiveProperty is simple that is a core class what name is `ReactiveProperty[Slim]`, it is just a wrap class what has a value, and implements `IObservable<T>` and `INotifyPropertyChanged`, `IObservable<T>` is for connect change event of the property value to Rx LINQ method chane, `INotifyPropertyChanged` is for data binding system such as WPF, WinUI and MAUI.
 
@@ -142,7 +142,8 @@ ReactiveProperty doesn't provide base class by ViewModel, which means that React
 
 ## Documentation
 
-[ReactiveProperty documentation](https://github.com/runceel/ReactiveProperty/tree/main/docs)
+- [ReactiveProperty documentation](docs/docs/README.md)
+- [日本語ドキュメント](docs/docs-ja/README.md)
 
 ## NuGet packages
 
