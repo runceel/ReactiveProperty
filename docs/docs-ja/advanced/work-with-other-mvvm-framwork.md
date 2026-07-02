@@ -1,23 +1,23 @@
-# Work with other MVVM frameworks
+# 他の MVVM フレームワークと連携する
 
-ReactiveProperty doesn't provide base classes for ViewModels or other layers.
-This means you can use ReactiveProperty with other MVVM frameworks like Prism, MVVM Light Toolkit, and others.
+ReactiveProperty は ViewModel やその他のレイヤー向けの基底クラスを提供しません。
+つまり、Prism、MVVM Light Toolkit などの他の MVVM フレームワークと一緒に ReactiveProperty を使用できます。
 
-In this section, we explain how to use ReactiveProperty with Prism.
+このセクションでは、ReactiveProperty を Prism と一緒に使う方法を説明します。
 
-Let's get started!
+始めましょう！
 
-## Create a Prism project
+## Prism プロジェクトを作成する
 
-Prism provides the Prism Template Pack extension for Visual Studio.
-After installing the extension, you can create an app from the project templates.
+Prism は Visual Studio 向けに Prism Template Pack 拡張機能を提供しています。
+拡張機能をインストールすると、プロジェクト テンプレートからアプリを作成できます。
 
-![](./images/create-project.png)
+![](../../docs/advanced/images/create-project.png)
 
-When using ReactiveProperty with Prism, you can replace `DelegateCommand` with `ReactiveCommand`, and you can also use all other ReactiveProperty features with Prism.
+ReactiveProperty を Prism と一緒に使用する場合、`DelegateCommand` を `ReactiveCommand` に置き換えられます。また、その他すべての ReactiveProperty 機能も Prism と一緒に使用できます。
 
-This example creates a Prism Blank App (WPF) named PrismSampleApp and a Prism Module (WPF) named PrismSampleModule.
-Add a PrismSampleModule reference to PrismSampleApp, and then edit App.xaml.cs to add the module, as shown below:
+この例では、PrismSampleApp という名前の Prism Blank App (WPF) と、PrismSampleModule という名前の Prism Module (WPF) を作成します。
+PrismSampleApp に PrismSampleModule への参照を追加し、次に以下のように App.xaml.cs を編集してモジュールを追加します:
 
 ```csharp
 public partial class App
@@ -39,7 +39,7 @@ public partial class App
 }
 ```
 
-Next, edit PrismSampleModuleModule.cs to add a view for navigation and register ViewA with the shell.
+次に、PrismSampleModuleModule.cs を編集してナビゲーション用のビューを追加し、ViewA をシェルに登録します。
 
 ```csharp
 using PrismSampleModule.Views;
@@ -71,11 +71,11 @@ namespace PrismSampleModule
 }
 ```
 
-## Using ReactiveProperty
+## ReactiveProperty を使用する
 
-Add a ReactiveProperty reference to all projects using NuGet. Feel free to use any ReactiveProperty classes.
+NuGet を使用して、すべてのプロジェクトに ReactiveProperty 参照を追加します。ReactiveProperty の任意のクラスを自由に使用できます。
 
-In this example, ReactiveProperty features are used in ViewAViewModel.cs as shown below:
+この例では、以下に示すように ViewAViewModel.cs で ReactiveProperty の機能を使用します:
 
 ```csharp
 using Prism.Mvvm;
@@ -108,7 +108,7 @@ namespace PrismSampleModule.ViewModels
 }
 ```
 
-Next, edit `ViewA.xaml`.
+次に、`ViewA.xaml` を編集します。
 
 ```xml
 <UserControl x:Class="PrismSampleModule.Views.ViewA"
@@ -131,11 +131,11 @@ Next, edit `ViewA.xaml`.
 </UserControl>
 ```
 
-It works fine. :)
+問題なく動作します。:)
 
-![](./images/hello-world.gif)
+![](../../docs/advanced/images/hello-world.gif)
 
-## Wrap up
+## まとめ
 
-ReactiveProperty doesn't provide base classes.
-As explained in this section, you can use ReactiveProperty and other MVVM frameworks together.
+ReactiveProperty は基底クラスを提供しません。
+このセクションで説明したように、ReactiveProperty は他の MVVM フレームワークと一緒に使用できます。

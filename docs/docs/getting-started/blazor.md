@@ -1,23 +1,23 @@
-# Getting start for Blazor
+# Getting started with Blazor
 
-Blazor is for development framework for Single Page Application using C#.
+Blazor is a development framework for single-page applications using C#.
 
-See below:
+See the following:
 
 [ASP.NET Core Blazor](https://docs.microsoft.com/en-us/aspnet/core/blazor/)
 
-ReactiveProperty also works both of Blazor Server and Blazor WebAssembly. But Blazor WebAssembly doen't support all operations of Reactive Extensions. For example, `Delay` extension method doesn't work on Blazor WASM.
-If you want to use ReactiveProperty on Blazor WASM, then please care to not use unsupported features. 
+ReactiveProperty works with both Blazor Server and Blazor WebAssembly, but Blazor WebAssembly doesn't support all Reactive Extensions operations. For example, the `Delay` extension method doesn't work on Blazor WASM.
+If you want to use ReactiveProperty on Blazor WASM, be careful not to use unsupported features.
 
 ## Create a project
 
 - Create a Blazor Server or WebAssembly project.
 - Install ReactiveProperty.Blazor package from NuGet.
 
-## Edit codes
+## Edit the code
 
-- Create a class what name is `IndexViewModel`.
-- Edit the class like fillowing:
+- Create a class named `IndexViewModel`.
+- Edit the class as follows:
 
 ```csharp
 using Reactive.Bindings;
@@ -39,7 +39,7 @@ public class IndexViewModel : IDisposable
         Input = new ReactivePropertySlim<string>("")
             .AddTo(_disposable);
         Output = Input
-            .Delay(TimeSpan.FromSeconds(2)) // Important! Delay method doesn't work on Blazor WASM. If you are working on WASM, then please remove this line.
+            .Delay(TimeSpan.FromSeconds(2)) // Important! The Delay method doesn't work on Blazor WASM. If you are working on WASM, remove this line.
             .Select(x => x.ToUpperInvariant())
             .ToReadOnlyReactivePropertySlim("")
             .AddTo(_disposable);
@@ -49,7 +49,7 @@ public class IndexViewModel : IDisposable
 }
 ```
 
-- Edit Index.razor like below:
+- Edit Index.razor as follows:
 
 ```csharp
 @page "/"
@@ -75,7 +75,7 @@ public class IndexViewModel : IDisposable
         _viewModel = new IndexViewModel()
             .AddTo(_disposable);
 
-        // Observe changing Output property, and call StateHasChanged on UI thread.
+        // Observe changes to the Output property, and call StateHasChanged on the UI thread.
         _viewModel.Output
             .Subscribe(x => InvokeAsync(StateHasChanged))
             .AddTo(_disposable);
@@ -85,9 +85,9 @@ public class IndexViewModel : IDisposable
 }
 ```
 
-- Launch this app
+- Launch the app.
 
-You can see below result:
+You can see the following result:
 
 ![Launch the app](./images/blazor-helloworld.png)
 
@@ -95,20 +95,20 @@ You can see below result:
 
 ### Dependency Injection
 
-If you want to inject ViewModels to page, then please register ViewModels to DI container on Program.cs like below:
+If you want to inject ViewModels into a page, register them in the DI container in Program.cs as follows:
 
 ```csharp
 builder.Services.AddTransient<IndexViewModel>();
 ```
 
-And inject to page like `@inject IndexViewModel _viewModel`.
+Then inject the ViewModel into the page with `@inject IndexViewModel _viewModel`.
 
 
 ### Integrate validation feature
 
-If you want to use validation feature of ReactiveProperty with Blazor's EditForm component, then you can use `Reactive.Bindings.Components.ReactivePropertiesValidator` component.
+If you want to use ReactiveProperty validation features with Blazor's EditForm component, you can use the `Reactive.Bindings.Components.ReactivePropertiesValidator` component.
 
-`ReactivePropertiesValidator` can be used same as `DataAnnotationsValidator` component like below:
+`ReactivePropertiesValidator` can be used in the same way as the `DataAnnotationsValidator` component, as shown below:
 
 ```csharp
 <EditForm Model="_validationViewModel" OnInvalidSubmit="InvalidSubmit" OnValidSubmit="ValidSubmit">
@@ -123,4 +123,4 @@ If you want to use validation feature of ReactiveProperty with Blazor's EditForm
     </div>
 ```
 
-Please see Blazor's sample app under Samples/Blazor folder to know more details. The page using it is Pages/Index.razor page of BlazorSample.Shared project.
+See the Blazor sample app under the Samples/Blazor folder for more details. The page that uses it is Pages/Index.razor in the BlazorSample.Shared project.

@@ -8,7 +8,7 @@ Use `ReactiveProperty.R3` when you are moving a project from `Reactive.Bindings`
 
 The bridge covers the common gaps that appear during migration:
 
-- notifiers such as `BooleanNotifier`, `BusyNotifier`, `CountNotifier`, `ScheduledNotifier<T>` and message brokers
+- notifiers such as `BooleanNotifier`, `BusyNotifier`, `CountNotifier`, `ScheduledNotifier<T>`, and message brokers
 - `ReactiveTimer`
 - `AsyncReactiveCommand`
 - `ReadOnlyReactiveCollection<T>` and collection helpers
@@ -40,7 +40,7 @@ If the project uses WPF trigger actions or converters, also add the WPF bridge p
 dotnet add package ReactiveProperty.R3.WPF
 ```
 
-Visual Studio users can install `ReactiveProperty.R3.WPF` the same way from the NuGet package manager.
+Visual Studio users can install `ReactiveProperty.R3.WPF` the same way from NuGet Package Manager.
 
 ## Migration approach
 
@@ -128,7 +128,7 @@ Copy-Item -Recurse skills/migrating-reactiveproperty-to-r3 `
 
 On macOS/Linux the personal destination is `~/.copilot/skills/migrating-reactiveproperty-to-r3`.
 This is handy when you migrate several projects, but the skill folder is then *outside* your project,
-which triggers the read-scoping note at the end of this guide. Either way, after the copy start
+which triggers the read-scoping note at the end of this guide. Either way, after copying, start
 `copilot` in your project; the skill loads on its own and activates when you ask to migrate to R3.
 (Installing it as a local plugin/marketplace also works, but the folder copy is simplest.)
 

@@ -1,9 +1,9 @@
 # Awaitable
 
-You can use `await` operator on `ReactiveProperty`(includes `ReactivePropertySlim`), `ReadOnlyReactiveProperty`(includes `ReadOnlyReactivePropertySlim`), and `ReactiveCommand`.
+You can use the `await` operator on `ReactiveProperty` (including `ReactivePropertySlim`), `ReadOnlyReactiveProperty` (including `ReadOnlyReactivePropertySlim`), and `ReactiveCommand`.
 When using the `await` operator, the program will wait until the next value is published.
 
-## For example:
+## Example:
 
 ```csharp
 // View with CancellationTokenSource
@@ -21,7 +21,7 @@ public partial class SampleWindow : Window
 
     protected override void OnClosed(EventArgs e)
     {
-        // on finish, cancel all await.
+        // On finish, cancel all awaits.
         cts.Cancel();
         cts.Dispose();
 
@@ -40,7 +40,7 @@ public class SampleViewModel
         MyCommand = new ReactiveCommand();
         ClickCount = new ReactiveProperty<int>();
 
-        // handling event by async/await.
+        // Handle events with async/await.
         SubscribeAsync(closeToken);
     }
 
@@ -58,6 +58,6 @@ public class SampleViewModel
 }
 ```
 
-If you await multiple times, you should get `ObservableAsyncHandler<T>` from `GetAsyncHandler`. it can await multiple times on zero allocation. If you await single time, you can use `await command.WaitUntilValueChangedAsync(token)`.
+If you await multiple times, get `ObservableAsyncHandler<T>` from `GetAsyncHandler`. It can await multiple times with zero allocation. If you await only once, you can use `await command.WaitUntilValueChangedAsync(token)`.
 
-> Note: you can await `ReactiveProperty` directly but we recommend use `GetAsyncHandler`(multiple) or `WaitUntilValueChangedAsync`(one shot) with pass over `CancellationToken`.
+> Note: you can await `ReactiveProperty` directly, but we recommend using `GetAsyncHandler` (multiple awaits) or `WaitUntilValueChangedAsync` (one shot) and passing a `CancellationToken`.

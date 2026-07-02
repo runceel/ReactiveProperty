@@ -1,6 +1,6 @@
-# Collections
+# コレクション
 
-ReactiveProperty provides some collection classes.
+ReactiveProperty はいくつかのコレクション クラスを提供します。
 
 - ReactiveCollection&lt;T&gt;
 - ReadOnlyReactiveCollection&lt;T&gt;
@@ -8,10 +8,10 @@ ReactiveProperty provides some collection classes.
 
 ## ReactiveCollection
 
-`ReactiveCollection` inherits `ObservableCollection`.
-This class is created from `IObservable`.
-It adds an item when a value is provided from the source `IObservable`.
-`ReactiveCollection` executes this process using `IScheduler`. The default `IScheduler` dispatches to the UI thread.
+`ReactiveCollection` は `ObservableCollection` を継承しています。
+このクラスは `IObservable` から作成されます。
+元の `IObservable` から値が通知されると、項目を追加します。
+`ReactiveCollection` はこの処理を `IScheduler` を使って実行します。既定の `IScheduler` は UI スレッドへディスパッチします。
 
 ```csharp
 public class ViewModel
@@ -23,7 +23,7 @@ public class ViewModel
     public ViewModel()
     {
         StartRecordCommand = new ReactiveCommand();
-        // Create a ReactiveCollection instance from IObservable
+        // IObservable から ReactiveCollection インスタンスを作成します
         Records = StartRecordCommand
             .ToUnit()
             .Take(1)
@@ -34,10 +34,10 @@ public class ViewModel
 }
 ```
 
-> `ToUnit` extension method is defined in the Reactive.Bindings.Extensions namespace.
-> This extension method is the same as `.Select(_ => Unit.Default)`.
+> `ToUnit` 拡張メソッドは Reactive.Bindings.Extensions 名前空間で定義されています。
+> この拡張メソッドは `.Select(_ => Unit.Default)` と同じです。
 
-Example for UWP.
+UWP の例です。
 
 MainPage.xaml.cs
 ```csharp
@@ -76,12 +76,12 @@ MainPage.xaml
 </Page>
 ```
 
-![Basic usage](./images/collections-reactivecollection-basic-usage.gif)
+![基本的な使い方](../../docs/features/images/collections-reactivecollection-basic-usage.gif)
 
-## Collection operations
+## コレクション操作
 
-The `ReactiveCollection` class has `XxxxOnScheduler` methods, such as `AddOnScheduler`, `RemoveOnScheduler`, `ClearOnScheduler`, and `GetOnScheduler`.
-These methods run on the `IScheduler` and can be called from outside the UI thread.
+`ReactiveCollection` クラスには、`AddOnScheduler`、`RemoveOnScheduler`、`ClearOnScheduler`、`GetOnScheduler` などの `XxxxOnScheduler` メソッドがあります。
+これらのメソッドは `IScheduler` 上で実行され、UI スレッド以外から呼び出せます。
 
 ```csharp
 public class ViewModel
@@ -95,7 +95,7 @@ public class ViewModel
     public ViewModel()
     {
         StartRecordCommand = new ReactiveCommand();
-        // Create a ReactiveCollection instance from IObservable
+        // IObservable から ReactiveCollection インスタンスを作成します
         Records = StartRecordCommand
             .ToUnit()
             .Take(1)
@@ -104,7 +104,7 @@ public class ViewModel
             .ToReactiveCollection();
 
         ClearCommand = new ReactiveCommand();
-        ClearCommand.ObserveOn(TaskPoolScheduler.Default) // run on another thread
+        ClearCommand.ObserveOn(TaskPoolScheduler.Default) // 別スレッドで実行します
             .Subscribe(_ => Records.ClearOnScheduler());
     }
 }
@@ -137,15 +137,15 @@ public class ViewModel
 </Page>
 ```
 
-![Collection operations](./images/collections-reactivecollection-collection-operations.gif)
+![コレクション操作](../../docs/features/images/collections-reactivecollection-collection-operations.gif)
 
-When a `ReactiveCollection` instance is disposed, it unsubscribes from the source IObservable instance.
+`ReactiveCollection` インスタンスを破棄すると、元の IObservable インスタンスから購読解除されます。
 
 ## ReadOnlyReactiveCollection
 
-The `ReadOnlyReactiveCollection` class provides one-way synchronization from `ObservableCollection`. You can set conversion logic and dispatch the `CollectionChanged` event on the `IScheduler`. The default `IScheduler` dispatches to the UI thread.
+`ReadOnlyReactiveCollection` クラスは、`ObservableCollection` からの一方向同期を提供します。変換ロジックを設定し、`CollectionChanged` イベントを `IScheduler` 上でディスパッチできます。既定の `IScheduler` は UI スレッドへディスパッチします。
 
-First, create POCO classes.
+まず POCO クラスを作成します。
 
 ```csharp
 public class BindableBase : INotifyPropertyChanged
@@ -191,9 +191,9 @@ public class TimerObject : BindableBase, IDisposable
 }
 ```
 
-This is a simple class that increments the `Count` property once per second.
+これは `Count` プロパティを 1 秒ごとにインクリメントする単純なクラスです。
 
-Wrap the class in the ViewModel layer using ReactiveProperty.
+ReactiveProperty を使って、このクラスを ViewModel レイヤーでラップします。
 
 ```csharp
 public class TimerObjectViewModel : IDisposable
@@ -217,16 +217,16 @@ public class TimerObjectViewModel : IDisposable
 }
 ```
 
-Manage `TimerObject` instances using the `ObservableCollection`.
-To provide `TimerObjectViewModel` instances to the View layer, use the `ReadOnlyReactiveCollection` class.
-A `ReadOnlyReactiveCollection` instance is created using the `ToReadOnlyReactiveCollection` extension method.
+`ObservableCollection` を使って `TimerObject` インスタンスを管理します。
+View レイヤーへ `TimerObjectViewModel` インスタンスを提供するには、`ReadOnlyReactiveCollection` クラスを使います。
+`ReadOnlyReactiveCollection` インスタンスは `ToReadOnlyReactiveCollection` 拡張メソッドで作成します。
 
 ```csharp
 public class ViewModel
 {
-    // TimerObject collection
+    // TimerObject のコレクション
     private ReactiveCollection<TimerObject> ModelCollection { get; }
-    // TimerObjectViewModel collection
+    // TimerObjectViewModel のコレクション
     public ReadOnlyReactiveCollection<TimerObjectViewModel> ViewModelCollection { get; }
 
     public ReactiveCommand AddCommand { get; }
@@ -239,7 +239,7 @@ public class ViewModel
         ModelCollection = AddCommand
             .Select(_ => new TimerObject())
             .ToReactiveCollection();
-        // Create a ReadOnlyReactiveCollection instance using the converting logic.
+        // 変換ロジックを使って ReadOnlyReactiveCollection インスタンスを作成します。
         ViewModelCollection = ModelCollection
             .ToReadOnlyReactiveCollection(x => new TimerObjectViewModel(x));
 
@@ -249,7 +249,7 @@ public class ViewModel
 }
 ```
 
-The test view is below.
+テスト用の View は次のとおりです。
 
 ```xml
 <Page x:Class="App1.MainPage"
@@ -294,21 +294,21 @@ The test view is below.
 </Page>
 ```
 
-![ReadOnlyReactiveCollection](./images/collections-reactivecollection-readonly-collection.gif)
+![ReadOnlyReactiveCollection](../../docs/features/images/collections-reactivecollection-readonly-collection.gif)
 
 
-When an instance is removed from the `ReadOnlyReactiveCollection`, the `Dispose` method is called. If you don't need this behavior, set the `disposeElement` argument to `false` in `ToReadOnlyReactiveCollection()`.
+`ReadOnlyReactiveCollection` からインスタンスが削除されると、`Dispose` メソッドが呼び出されます。この動作が不要な場合は、`ToReadOnlyReactiveCollection()` の `disposeElement` 引数に `false` を設定します。
 
 ```csharp
 ViewModelCollection = ModelCollection
     .ToReadOnlyReactiveCollection(x => new TimerObjectViewModel(x), disposeElement: false);
 ```
 
-### Create from IObservable
+### `IObservable` から作成する
 
-`ReadOnlyReactiveCollection` can be created from `IObservable`, the same as `ReactiveCollection`. However, `ReadOnlyReactiveCollection` doesn't have collection operation methods.
-`ToReadOnlyReactiveCollection` extension method has an `onReset` argument which is `IObservable<Unit>`.
-When this argument publishes a value, the collection is cleared.
+`ReadOnlyReactiveCollection` は `ReactiveCollection` と同様に `IObservable` から作成できます。ただし、`ReadOnlyReactiveCollection` にはコレクション操作メソッドがありません。
+`ToReadOnlyReactiveCollection` 拡張メソッドには `IObservable<Unit>` 型の `onReset` 引数があります。
+この引数が値を発行すると、コレクションはクリアされます。
 
 ```csharp
 public class ViewModel
@@ -349,14 +349,14 @@ public class ViewModel
 </Page>
 ```
 
-When the `ResetCommand` is executed, the Messages collection is cleared.
+`ResetCommand` が実行されると、Messages コレクションがクリアされます。
 
-![Reset](./images/collections-reactivecollection-readonly-collection-reset.gif)
+![Reset](../../docs/features/images/collections-reactivecollection-readonly-collection-reset.gif)
 
 ## IFilteredReadOnlyObservableCollection
 
-A collection that filters in real time from `ObservableCollection`.
-`IFilteredReadOnlyObservableCollection` watches the `PropertyChanged` event of the source collection item and the `CollectionChanged` event.
+`ObservableCollection` からリアルタイムにフィルターするコレクションです。
+`IFilteredReadOnlyObservableCollection` は、元コレクション内の項目の `PropertyChanged` イベントと `CollectionChanged` イベントを監視します。
 
 ```csharp
 public class ValueHolder : INotifyPropertyChanged
@@ -405,7 +405,7 @@ public class ViewModel
 }
 ```
 
-> `ObserveOnUIDispatcher` extension method switches to the UI thread from the current thread.
+> `ObserveOnUIDispatcher` 拡張メソッドは、現在のスレッドから UI スレッドへ切り替えます。
 
 
 ```xml
@@ -460,28 +460,28 @@ public class ViewModel
 </Page>
 ```
 
-![IFilteredReadOnlyObservableCollection](./images/collections-filtered-collection.gif)
+![IFilteredReadOnlyObservableCollection](../../docs/features/images/collections-filtered-collection.gif)
 
-When the Value property is greater than 7, display the value in the Filtered Values ListView (right side).
+Value プロパティが 7 より大きいとき、Filtered Values の ListView（右側）に値を表示します。
 
-### Customize how to observe collection elements
+### コレクション要素の監視方法をカスタマイズする
 
-If you want to change the trigger that updates elements from the CollectionChanged event to another trigger, you can customize it using another overload that has an `IObservable<T> sourceElementStatusChanged` argument.
+要素を更新するトリガーを CollectionChanged イベントから別のトリガーに変更したい場合は、`IObservable<T> sourceElementStatusChanged` 引数を持つ別のオーバーロードを使ってカスタマイズできます。
 
-For example, you may want to filter by a nested property of elements in a collection.
+たとえば、コレクション内の要素のネストされたプロパティでフィルターしたい場合があります。
 
 ```csharp
-// An object that has a nested object property
+// ネストされたオブジェクト プロパティを持つオブジェクト
 public class NestedPropertyObject : INotifyPropertyChanged
 {
-    // omit INPC impl
+    // INPC 実装は省略
 
     public string Id { get; } => Guid.NewGuid().ToString();
     public ReactivePropertySlim<bool> NestedObject { get; } = new ReactivePropertySlim<bool>(true);
 }
 
 // --------------------
-// Trigger
+// トリガー
 var sourceCollection = new ObservableCollection<NestedPropertyObject>
 {
     new NestedPropertyObject(),
@@ -490,20 +490,20 @@ var sourceCollection = new ObservableCollection<NestedPropertyObject>
 };
 
 var filteredCollection = sourceCollection.ToFilteredReadOnlyObservableCollection(
-    // a lambda expression for the filter condition
+    // フィルター条件のラムダ式
     x => x.NestedObject.Value,
-    // create an IObservable instance for the collection element update trigger
+    // コレクション要素の更新トリガーとなる IObservable インスタンスを作成します
     x => x.ObserveProperty(y => NestedObject.Value)
 );
 
 Console.WriteLine(filteredCollection.Count); // 3
-// filteredCollection is observing the NestedObject.Value property path.
-// Then the following line triggers re-evaluation of the filter condition
+// filteredCollection は NestedObject.Value プロパティ パスを監視しています。
+// そのため、次の行でフィルター条件の再評価がトリガーされます
 sourceCollection[1].NestedObject.Value = false;
 Console.WriteLine(filteredCollection.Count); // 2
 ```
 
-The following two lines are the same:
+次の 2 行は同じです。
 
 ```csharp
 collection.ToFilteredReadOnlyObservableCollection(x => x.SomeProperty);

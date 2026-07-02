@@ -1,16 +1,16 @@
 # ReactiveProperty
 
 `ReactiveProperty` is the core class of this library.
-This has following features.
+It has the following features.
 
 - Implements the `INotifyPropertyChanged` interface.
-    - The value property raise the `PropertyChanged` event.
+    - The Value property raises the `PropertyChanged` event.
 - Implements the `IObservable<T>` interface.
 
-Yes, The value property can bind to XAML control's property.
-And the class call the `IObserver<T>`#OnNext method when the value is set.
+Yes, the Value property can bind to a XAML control's property.
+The class also calls the `IObserver<T>`#OnNext method when the value is set.
 
-A sample code is as below.
+Sample code is shown below.
 
 ```csharp
 using Reactive.Bindings;
@@ -22,13 +22,13 @@ namespace ReactivePropertyEduApp
     {
         static void Main(string[] args)
         {
-            // create from defualt constructor(default value is null)
+            // Create from the default constructor (default value is null).
             var name = new ReactiveProperty<string>();
-            // setup the event handler and the onNext callback.
+            // Set up the event handler and the OnNext callback.
             name.PropertyChanged += (_, e) => Console.WriteLine($"PropertyChanged: {e.PropertyName}");
             name.Subscribe(x => Console.WriteLine($"OnNext: {x}"));
 
-            // update the value property.
+            // Update the Value property.
             name.Value = "neuecc";
             name.Value = "xin9le";
             name.Value = "okazuki";
@@ -49,17 +49,17 @@ OnNext: okazuki
 PropertyChanged: Value
 ```
 
-What's different between `PropertyChanged` and `onNext` callback?
-The `onNext` callback is called when subscribed. The `PropertyChanged` isn't called when the event handler is added. And the `onNext` callback's argument is the property value, the `PropertyChanged` argument doesn't have the property value.
+What's the difference between the `PropertyChanged` and `OnNext` callbacks?
+The `OnNext` callback is called when subscribed. `PropertyChanged` isn't called when the event handler is added. Also, the `OnNext` callback's argument is the property value, while the `PropertyChanged` argument doesn't have the property value.
 
-The `PropertyChanged` event was provided for data binding. In the normal case, you should use Reactive Extensions methods.
+The `PropertyChanged` event is provided for data binding. In normal cases, you should use Reactive Extensions methods.
 
-## Use with XAML platform
+## Use with XAML platforms
 
-The `ReactiveProperty` class is designed for XAML platform which is like WPF, UWP, and Xamarin.Forms.
-This class can be used a ViewModel layer. 
+The `ReactiveProperty` class is designed for XAML platforms such as WPF, UWP, and Xamarin.Forms.
+This class can be used in the ViewModel layer.
 
-In the case that you don't use the `ReactiveProperty`, a ViewModel class wrote below. 
+If you don't use `ReactiveProperty`, a ViewModel class looks like this.
 
 ```csharp
 public class MainPageViewModel : INotifyPropertyChanged
@@ -77,11 +77,11 @@ public class MainPageViewModel : INotifyPropertyChanged
         }
     }
 
-    // Other properties are defined similar codes.
+    // Other properties are defined with similar code.
 }
 ```
 
-And those properties bind in the XAML code.
+Those properties are bound in XAML code.
 
 ```xml
 <!-- In the WPF -->
@@ -97,20 +97,20 @@ And those properties bind in the XAML code.
 <Entry Text="{Binding Name}" />
 ```
 
-In the case that you use the `ReactiveProperty`, a ViewModel code becomes very simple!
+If you use `ReactiveProperty`, the ViewModel code becomes very simple!
 
 ```csharp
-// The INotifyPropertyChanged interface must implement when using the WPF.
-// Because, if you don't implement this, then memory leak occurred.
+// The INotifyPropertyChanged interface must be implemented when using WPF.
+// Otherwise, a memory leak can occur.
 public class MainPageViewModel
 {
     public ReactiveProperty<string> Name { get; } = new ReactiveProperty<string>();
 
-    // Other properties are defined similar codes.
+    // Other properties are defined with similar code.
 }
 ```
 
-When binding in the XAML code, you must add the `.Value` in binding path.
+When binding in XAML code, you must add `.Value` to the binding path.
 This is the only limitation of this library.
 
 ```xml
@@ -127,32 +127,32 @@ This is the only limitation of this library.
 <Entry Text="{Binding Name.Value}" />
 ```
 
-> We forget the `.Value` sometimes. If you have a ReSharper license, then you can use this plugin.
+> We sometimes forget the `.Value`. If you have a ReSharper license, you can use this plugin.
 > [ReactiveProperty XAML Binding Corrector](https://resharper-plugins.jetbrains.com/packages/ReSharper.RpCorrector/)
-> Highlight the missing of ReactiveProperty ".Value" in XAML.
+> It highlights missing ReactiveProperty ".Value" bindings in XAML.
 
 ## How to create a `ReactiveProperty` instance
 
-The `ReactiveProperty` class can create from many methods.
+The `ReactiveProperty` class can be created in many ways.
 
 ### Create from the constructor
 
-The simplest way is using the constructor.
+The simplest way is to use the constructor.
 
 ```csharp
-// create with the default value.
+// Create with the default value.
 var name = new ReactiveProperty<string>();
 Console.WriteLine(name.Value); // -> empty output
 
-// create with the initial value.
+// Create with the initial value.
 var name = new ReactiveProperty<string>("okazuki");
 Console.WriteLine(name.Value); // -> okazuki
 ```
 
 ### Create from `IObservable<T>`
 
-This can created from `IObservable<T>`.
-Just calls `ToReactiveProperty` method.
+It can be created from `IObservable<T>`.
+Just call the `ToReactiveProperty` method.
 
 ```csharp
 IObservable<long> observableInstance = Observable.Interval(TimeSpan.FromSeconds(1));
@@ -173,11 +173,11 @@ var formalName = name.Select(x => $"Dear {x}")
     .ToReactiveProperty();
 ```
 
-All `IObservable` instances can become `ReactiveProperty`. 
+All `IObservable` instances can become a `ReactiveProperty`.
 
 ## Validation
 
-The `ReactiveProperty` class implements `INotifyDataErrorInfo` interface.
+The `ReactiveProperty` class implements the `INotifyDataErrorInfo` interface.
 
 ### Set custom validation logic
 
@@ -193,8 +193,8 @@ In invalid value case, logic should return an error message.
 
 ### Work with DataAnnotations
 
-This class can work together with the DataAnnotations.
-You can set validation attribute using the `SetValidateAttribute` method.
+This class can work with DataAnnotations.
+You can set validation attributes using the `SetValidateAttribute` method.
 
 ```csharp
 class ViewModel
@@ -213,17 +213,17 @@ class ViewModel
 }
 ```
 
-WPF is integrated with `INotifyDataErrorInfo` interface. See below.
+WPF is integrated with the `INotifyDataErrorInfo` interface. See below.
 
 ![WPF Validation](./images/wpf-validation.png)
 
 ### Handling validation errors
 
-Another platform can't display error messages from the `INofityDataErrorInfo` interface.
-`ReactiveProperty` class have some properties for handling validation errors.
+Other platforms can't display error messages from the `INotifyDataErrorInfo` interface.
+The `ReactiveProperty` class has some properties for handling validation errors.
 
-A first property is `ObserveErrorChanged`.
-This type is `IObservable<IEnumerable>`. You can convert to an error message from `IEnumerable`. See below.
+The first property is `ObserveErrorChanged`.
+This type is `IObservable<IEnumerable>`. You can convert an `IEnumerable` to an error message. See below.
 
 ```csharp
 class ViewModel
@@ -251,7 +251,7 @@ class ViewModel
 
 Bind `NameErrorMessage.Value` property to a text control. An error message can be displayed.
 
-In the case of UWP, see below.
+For UWP, see below.
 
 ```csharp
 public sealed partial class MainPage : Page
@@ -287,7 +287,7 @@ public sealed partial class MainPage : Page
 
 ![A validation error message](./images/validation-errormessage.png)
 
-ReactiveProperty v7.0.0 or later, there is `ObserveValidationErrorMessage` extension method instead of `ObserveErrorChanged.Select(x => x?.OfType<string>()?.FirstOrDefault())`. The above code is as below:
+In ReactiveProperty v7.0.0 or later, use the `ObserveValidationErrorMessage` extension method instead of `ObserveErrorChanged.Select(x => x?.OfType<string>()?.FirstOrDefault())`. The code above is shown below:
 
 ```csharp
 class ViewModel
@@ -312,10 +312,10 @@ class ViewModel
 }
 ```
 
-Next property is `ObserveHasErrors`. `ObserveHasErrors` property type is `IObservable<bool>`.
-In the popular input form case, combining `ObserveHasErrors` property values is very useful.
+The next property is `ObserveHasErrors`. The `ObserveHasErrors` property type is `IObservable<bool>`.
+In a typical input form, combining `ObserveHasErrors` property values is very useful.
 
-This sample program creates the `HasErrors` property that is of type `ReactiveProperty<bool>` that combine two `ReactiveProperty`'s `ObserveHasErrors` properties.
+This sample program creates a `HasErrors` property of type `ReactiveProperty<bool>` that combines two `ReactiveProperty` `ObserveHasErrors` properties.
 
 ```csharp
 public class ViewModel
@@ -359,7 +359,7 @@ public class ViewModel
       mc:Ignorable="d">
     <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <TextBlock Text="Name"
-                   Style="{ThemeResource CaptionTextBlockStyle}" 
+                   Style="{ThemeResource CaptionTextBlockStyle}"
                    Margin="5" />
         <TextBox Text="{x:Bind ViewModel.Name.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                  Margin="5" />
@@ -382,7 +382,7 @@ public class ViewModel
 
 ![HasErrors2](./images/haserrors-handling2.png)
 
-The last property is `HasErrors`. It is a just `bool` property.
+The last property is `HasErrors`. It is just a `bool` property.
 
 ```csharp
 public class ViewModel
@@ -414,8 +414,8 @@ public class ViewModel
 
 ### Don't need an initial validation error
 
-In default behavior, `ReactiveProperty` reports errors when validation logic is set.
-If you don't need initial validation errors, then you can skip the error.
+In the default behavior, `ReactiveProperty` reports errors when validation logic is set.
+If you don't need initial validation errors, you can skip the error.
 Just call the `Skip` method.
 
 ```csharp
@@ -468,17 +468,17 @@ class ViewModel
 }
 ```
 
-What's different between `Skip` and `IgnoreInitialValidationError`?
+What's the difference between `Skip` and `IgnoreInitialValidationError`?
 In the `IgnoreInitialValidationError` case, the `ReactiveProperty` class doesn't report an error of initial value.
 In the `Skip` case, it just ignores the error event.
 
-This difference is important on the supported platform of `INotifyDataErrorInfo` like WPF.
-`Skip` approach will be fed back to the UI by a red border.
-`IgnoreInitialValidationError` approach does not feed back to the UI.
+This difference is important on platforms that support `INotifyDataErrorInfo`, such as WPF.
+The `Skip` approach is still reflected in the UI as a red border.
+The `IgnoreInitialValidationError` approach is not reflected in the UI.
 
 ## The mode of `ReactiveProperty`
 
-`ReactiveProperty` class calls the `OnNext` callback when `Subscribe` method called.
+The `ReactiveProperty` class calls the `OnNext` callback when the `Subscribe` method is called.
 
 ```csharp
 var x = new ReactiveProperty<string>("initial value");
@@ -486,21 +486,21 @@ x.Subscribe(x => Console.WriteLine(x)); // -> initial value
 ```
 
 You can change this behavior when a `ReactiveProperty` instance is created.
-the constructor and `ToReactiveProperty` methods have `ReactivePropertyMode` arguments.
+The constructor and `ToReactiveProperty` methods have `ReactivePropertyMode` arguments.
 They can be set to the following values.
 
 - `ReactivePropertyMode.None`
-    - ReactiveProperty doesn't call the `OnNext` callback when `Subscribe` method is call. And calls the `OnNext` callback if the same value is set.
+    - ReactiveProperty doesn't call the `OnNext` callback when the `Subscribe` method is called. It calls the `OnNext` callback if the same value is set.
 - `ReactivePropertyMode.DistinctUntilChanged`
-    - This doesn't call `OnNext` callback if same value set.
+    - This doesn't call the `OnNext` callback if the same value is set.
 - `ReactivePropertyMode.RaiseLatestValueOnSubscribe`
-    - This calls `OnNext` callback when `Subscribe` method call.
+    - This calls the `OnNext` callback when the `Subscribe` method is called.
 - `ReactivePropertyMode.Default`
-    - It is default value. It is same as `ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe`.
+    - It is the default value. It is the same as `ReactivePropertyMode.DistinctUntilChanged | ReactivePropertyMode.RaiseLatestValueOnSubscribe`.
 - `ReactivePropertyMode.IgnoreInitialValidationError`
     - Ignore initial validation error.
 
-If you don't need this behavior, then you can set `ReactivePropertyMode.None` value.
+If you don't need this behavior, you can set the `ReactivePropertyMode.None` value.
 
 ```csharp
 var rp = new ReactiveProperty<string>("initial value", mode: ReactivePropertyMode.None);
@@ -510,8 +510,8 @@ rp.Value = "initial value"; // -> initial value
 
 ## `ForceNotify`
 
-If want to push the value forcibly, then can use the `ForceNotify` method.
-This method pushes the value to subscribers, and raise a `PropertyChanged` event.
+If you want to push the value forcibly, you can use the `ForceNotify` method.
+This method pushes the value to subscribers and raises a `PropertyChanged` event.
 
 ```csharp
 var rp = new ReactiveProperty<string>("value");
@@ -521,7 +521,7 @@ rp.PropertyChanged += (_, e) => Console.WriteLine($"{e.PropertyName} changed");
 rp.ForceNotify();
 ```
 
-Output is as below.
+The output is below.
 
 ```
 value                  # first subscribe
@@ -531,7 +531,7 @@ Value changed          # by the ForceNotify method
 
 ## Change comparer logic
 
-Can change comparer logic by the equalityComparer argument of constructor and factory methods.
+You can change comparer logic by using the equalityComparer argument of constructors and factory methods.
 
 For example, ignore case comparer:
 
@@ -563,8 +563,8 @@ source.OnNext("Hello japan"); // change to "Hello japan" from "Hello world"
 ## `ReadOnlyReactiveProperty` class
 
 If you never set `Value` property, then you can use `ReadOnlyReactiveProperty` class.
-This class can't set the property, and other behavior is same ReactiveProperty class.
-`ReadOnlyReactiveProperty` class is created from `ToReadOnlyReactiveProperty` extension method.
+This class can't set the property, and other behavior is the same as the ReactiveProperty class.
+The `ReadOnlyReactiveProperty` class is created from the `ToReadOnlyReactiveProperty` extension method.
 
 See below.
 
@@ -573,7 +573,7 @@ public class ViewModel
 {
     public ReactiveProperty<string> Input { get; }
 
-    // Output never set value.
+    // Output never sets the value.
     public ReadOnlyReactiveProperty<string> Output { get; }
 
     public ViewModel()
@@ -590,8 +590,8 @@ public class ViewModel
 ## `Unsubscribe`
 
 `ReactiveProperty` class implements the `IDisposable` interface.
-When the `Dispose` method called, `ReactiveProperty` class releases all subscriptions.
-In other instance's events subscribe, you should call the `Dispose` method at the end of the ViewModel lifecycle.
+When the `Dispose` method is called, the `ReactiveProperty` class releases all subscriptions.
+When subscribing to another instance's events, you should call the `Dispose` method at the end of the ViewModel lifecycle.
 
 ```csharp
 public class ViewModel : IDisposable
@@ -607,7 +607,7 @@ public class ViewModel : IDisposable
 
     public void Dispose()
     {
-        // Unsbscribe
+        // Unsubscribe
         Time.Dispose();
     }
 }

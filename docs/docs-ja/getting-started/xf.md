@@ -1,17 +1,17 @@
-# Getting started with Xamarin.Forms
+# Xamarin.Forms をはじめる
 
-## Create a project
+## プロジェクトの作成
 
-- Create a Cross-Platform app (Xamarin.Forms) project.
-- Configure the `New Cross Platform App` dialog as follows.
-  Choose the .NET Standard project. Of course, you can select a shared project.
-  ![New Cross Platform App dialog](./images/xf-create-project.png)
-- Install ReactiveProperty in all projects from NuGet.
+- Cross-Platform app (Xamarin.Forms) プロジェクトを作成します。
+- `New Cross Platform App` ダイアログを次のように設定します。
+  .NET Standard プロジェクトを選択します。もちろん、共有プロジェクトを選択することもできます。
+  ![New Cross Platform App ダイアログ](../../docs/getting-started/images/xf-create-project.png)
+- NuGet からすべてのプロジェクトに ReactiveProperty をインストールします。
 
-## Edit the code
+## コードの編集
 
-- Create MainPageViewModel.cs in the .NET Standard project.
-- Edit the file as follows.
+- .NET Standard プロジェクトに MainPageViewModel.cs を作成します。
+- 次のようにファイルを編集します。
 
 MainPageViewModel.cs
 ```csharp
@@ -55,11 +55,11 @@ MainPage.xaml
 </ContentPage>
 ```
 
-## Launch the application
+## アプリケーションの起動
 
-After launching the app, you can see the window below.
-The output value is displayed in uppercase 1 second after the input.
+アプリを起動すると、下のウィンドウが表示されます。
+入力してから 1 秒後に、出力値が大文字で表示されます。
 
-![Launch the app](./images/launch-xf-app-android.gif)
+![アプリの起動](../../docs/getting-started/images/launch-xf-app-android.gif)
 
-![Launch the app](./images/launch-xf-app-uwp.gif)
+![アプリの起動](../../docs/getting-started/images/launch-xf-app-uwp.gif)

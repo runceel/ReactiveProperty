@@ -1,18 +1,18 @@
-# Getting started with Avalonia UI
+# Avalonia UI をはじめる
 
-Avalonia is a cross-platform .NET UI framework!
+Avalonia はクロスプラットフォームの .NET UI フレームワークです!
 
-See the following:
+次を参照してください:
 
-[Avalonia UI Framework](http://avaloniaui.net/)
+[Avalonia UI フレームワーク](http://avaloniaui.net/)
 
-## Create a project
-- Create an Avalonia .NET Core Application project. (Of course, an Avalonia application project can use the same ReactiveProperty as .NET Core projects.)
-- Install ReactiveProperty from NuGet.
+## プロジェクトの作成
+- Avalonia .NET Core Application プロジェクトを作成します。（もちろん、Avalonia アプリケーション プロジェクトでも .NET Core プロジェクトと同じ ReactiveProperty を使用できます。）
+- NuGet から ReactiveProperty をインストールします。
 
-## Edit the code
-- Create a MainWindowViewModel.cs file.
-- Edit the files as follows.
+## コードの編集
+- MainWindowViewModel.cs ファイルを作成します。
+- 次のようにファイルを編集します。
 
 MainWindowViewModel.cs
 ```csharp
@@ -54,9 +54,9 @@ MainWindow.xaml
 </Window>
 ```
 
-## Launch the application
+## アプリケーションの起動
 
-After launching the app, you can see the window below.
-The output value is displayed in uppercase 1 second after the input.
+アプリを起動すると、下のウィンドウが表示されます。
+入力してから 1 秒後に、出力値が大文字で表示されます。
 
-![Launch the app](./images/launch-avalonia-app.gif)
+![アプリの起動](../../docs/getting-started/images/launch-avalonia-app.gif)
