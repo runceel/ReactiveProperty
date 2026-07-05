@@ -5,7 +5,7 @@ ReactiveProperty は ViewModel やその他のレイヤー向けの基底クラ�
 
 このセクションでは、ReactiveProperty を Prism と一緒に使う方法を説明します。
 
-始めましょう！
+それでは始めましょう。
 
 ## Prism プロジェクトを作成する
 

@@ -132,7 +132,7 @@ Cool! It is really declarative and clear.
 
 - [Samples](samples.md)
 
-## Let's start!
+## Getting started
 
 You can start using ReactiveProperty from the following links.
 
