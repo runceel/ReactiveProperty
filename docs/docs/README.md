@@ -98,6 +98,40 @@ class ViewModel
 
 Cool! It is really declarative and clear.
 
+## Documentation contents
+
+### Getting started
+
+- [Windows Presentation Foundation](getting-started/wpf.md)
+- [Universal Windows Platform](getting-started/uwp.md)
+- [Xamarin.Forms](getting-started/xf.md)
+- [Avalonia](getting-started/avalonia.md)
+- [Uno Platform](getting-started/uno-platform.md)
+- [Blazor](getting-started/blazor.md)
+- [Add code snippets](getting-started/add-snippets.md)
+
+### Features
+
+- [ReactiveProperty](features/ReactiveProperty.md)
+- [ReactivePropertySlim](features/ReactivePropertySlim.md)
+- [Commanding](features/Commanding.md)
+- [Collections](features/Collections.md)
+- [Work together with plain model layer objects](features/Work-together-with-plane-model-layer-objects.md)
+- [Useful classes which implement IObservable](features/Notifiers.md)
+- [Extension methods](features/Extension-methods.md)
+- [Transfer event to ViewModel from View](features/Event-transfer-to-ViewModel-from-View.md)
+
+### Advanced topics
+
+- [Thread control](advanced/thread.md)
+- [Work with await operator](advanced/awaitable.md)
+- [Migrate to R3](advanced/r3-migration.md)
+- [Work with other MVVM Frameworks](advanced/work-with-other-mvvm-framwork.md)
+
+### Samples
+
+- [Samples](samples.md)
+
 ## Let's start!
 
 You can start using ReactiveProperty from the following links.

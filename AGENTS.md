@@ -37,7 +37,7 @@ Test/                           Unit tests (MSTest)
   ReactiveProperty.WPF.ManualTests/    Manual/interactive WPF test app
 Samples/                        Example apps (WPF, Blazor, MAUI-style, Prism, etc.)
 Benchmark/                      BenchmarkDotNet projects (separate solution)
-docs/                           VuePress documentation site (user-facing, published)
+docs/                           Plain-Markdown documentation (user-facing; browse on GitHub)
 dev-docs/                       Implementer/contributor docs + ADRs (not published)
 skills/                         Published agent skills for ReactiveProperty *users* (consumers)
 .agents/skills/                 Agent skills for working *on* this repo (contributors)
@@ -116,13 +116,9 @@ See the **`development-workflow`** skill (`.agents/skills/development-workflow/S
 - Add tests under the matching `Test/*` project; mirror the namespace `ReactiveProperty.Tests`.
 
 ## Documentation
-- **`docs/` = user-facing**, built with **VuePress** (English + Japanese `*-ja` variants):
-  ```pwsh
-  cd docs
-  npm install
-  npm run docs:dev     # local dev server
-  npm run docs:build   # static build
-  ```
+- **`docs/` = user-facing**, plain Markdown (English + Japanese `*-ja` variants). There is no
+  site generator — just browse the folder on GitHub. Keep links relative (`.md`) so they work
+  both on GitHub and in local editors.
 - **`dev-docs/` = implementer/contributor-facing** (not published): architecture notes,
   contributor workflow, and ADRs in `dev-docs/adr/`. See `dev-docs/README.md`.
 
