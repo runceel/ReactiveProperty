@@ -132,7 +132,7 @@ class ViewModel
 
 - [サンプル](samples.md)
 
-## 始めましょう！
+## クイックスタート
 
 ReactiveProperty は次のリンクから使い始めることができます。
 
