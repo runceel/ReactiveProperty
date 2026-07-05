@@ -5,7 +5,7 @@ This folder holds documentation for people working **on** ReactiveProperty
 
 | Folder | Audience | Published? |
 |--------|----------|------------|
-| [`../docs/`](../docs) | Library **users** (consumers) | Yes — built and published with VuePress |
+| [`../docs/`](../docs) | Library **users** (consumers) | Plain Markdown, browsable on GitHub |
 | `dev-docs/` (this folder) | **Implementers / contributors** | No |
 
 Put "how does a consumer use this feature?" content in `docs/`. Put "how/why is this

@@ -1,6 +1,6 @@
 ---
 name: development-workflow
-description: ReactiveProperty repository development policy. Use whenever you implement a feature or bug fix, change library or test code under Source/ or Test/, make a design or architecture decision, or write documentation in this repo. Enforces strict Test-Driven Development (Red -> Green -> Refactor) with MSTest and `dotnet test ReactiveProperty.slnx`, requires recording design decisions as ADRs under dev-docs/adr/, and defines the documentation split: docs/ is user-facing (published via VuePress) while dev-docs/ holds implementer/contributor documentation. Triggers include "implement", "add feature", "fix bug", "TDD", "red green refactor", "design decision", "architecture", "ADR", "where do docs go", and "contributor docs".
+description: ReactiveProperty repository development policy. Use whenever you implement a feature or bug fix, change library or test code under Source/ or Test/, make a design or architecture decision, or write documentation in this repo. Enforces strict Test-Driven Development (Red -> Green -> Refactor) with MSTest and `dotnet test ReactiveProperty.slnx`, requires recording design decisions as ADRs under dev-docs/adr/, and defines the documentation split: docs/ is user-facing (plain Markdown browsed on GitHub) while dev-docs/ holds implementer/contributor documentation. Triggers include "implement", "add feature", "fix bug", "TDD", "red green refactor", "design decision", "architecture", "ADR", "where do docs go", and "contributor docs".
 ---
 # Development Workflow (ReactiveProperty)
 
@@ -84,9 +84,9 @@ Trivial, reversible choices (local refactors, naming) do **not** need an ADR.
 
 ## 3. Documentation split: `docs/` vs `dev-docs/`
 
-- **`docs/` = user-facing** documentation, published as the VuePress site
-  (`npm run docs:build`). Write here for library *consumers*: getting-started, API usage,
-  samples. Available in English and Japanese (`*-ja`).
+- **`docs/` = user-facing** documentation, plain Markdown browsed directly on GitHub (no site
+  generator). Write here for library *consumers*: getting-started, API usage,
+  samples. Available in English and Japanese (`*-ja`). Keep links relative (`.md`).
 - **`dev-docs/` = implementer/contributor-facing** documentation, **not** published.
   Write here for people working *on* ReactiveProperty: architecture notes, internal design,
   contributor workflow, and ADRs (`dev-docs/adr/`).
