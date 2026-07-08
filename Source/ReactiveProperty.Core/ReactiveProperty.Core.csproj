@@ -12,4 +12,19 @@
   <ItemGroup>
     <PackageReference Include="System.ComponentModel.Annotations" />
   </ItemGroup>
+
+  <ItemGroup>
+    <!-- Build the analyzer first, but do not add it as a compile-time reference. -->
+    <ProjectReference Include="..\ReactiveProperty.Analyzer\ReactiveProperty.Analyzer.csproj"
+                      ReferenceOutputAssembly="false"
+                      PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Ship the analyzer inside this package. -->
+    <None Include="..\ReactiveProperty.Analyzer\bin\$(Configuration)\netstandard2.0\ReactiveProperty.Analyzer.dll"
+          Pack="true"
+          PackagePath="analyzers/dotnet/cs"
+          Visible="false" />
+  </ItemGroup>
 </Project>
