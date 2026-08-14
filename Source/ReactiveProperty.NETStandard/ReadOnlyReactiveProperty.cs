@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
-using System.Reactive.PlatformServices;
 using System.Runtime.ExceptionServices;
 using Reactive.Bindings.Internals;
 
