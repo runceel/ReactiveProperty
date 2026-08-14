@@ -39,3 +39,4 @@ Trivial, easily reversible choices (local refactors, naming) do not need an ADR.
 | [0003](./0003-reactiveproperty-r3-migration-bridge.md) | Ship a permanent minimal `ReactiveProperty.R3` migration bridge and a migration skill | Accepted |
 | [0004](./0004-reactiveproperty-r3-wpf-event-to-reactive.md) | Provide R3-targeting EventToReactive trigger actions in a new ReactiveProperty.R3.WPF package | Accepted |
 | [0005](./0005-remove-vuepress-plain-markdown-docs.md) | Remove VuePress; publish docs as plain Markdown on GitHub | Accepted |
+| [0006](./0006-upgrade-system-reactive-v7.md) | Upgrade the System.Reactive dependency to v7 | Accepted |
