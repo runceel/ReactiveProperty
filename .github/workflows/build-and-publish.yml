@@ -71,6 +71,8 @@ jobs:
   create-release:
     runs-on: windows-latest
     needs: build
+    permissions:
+      contents: write
     steps:
       - name: Download archives
         uses: actions/download-artifact@v4
