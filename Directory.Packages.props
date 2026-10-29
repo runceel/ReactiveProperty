@@ -24,6 +24,7 @@
     <PackageVersion Include="Prism.Wpf" Version="9.0.537" />
 
     <!-- Test Dependencies -->
+    <PackageVersion Include="AngleSharp" Version="1.5.0" />
     <PackageVersion Include="bunit" Version="1.40.0" />
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />
     <PackageVersion Include="Microsoft.CSharp" Version="4.7.0" />
@@ -34,6 +35,6 @@
     <PackageVersion Include="MSTest.TestAdapter" Version="3.11.0" />
     <PackageVersion Include="MSTest.TestFramework" Version="3.11.0" />
     <!-- Build and Source Control -->
-    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="10.0.403" />
   </ItemGroup>
 </Project>
