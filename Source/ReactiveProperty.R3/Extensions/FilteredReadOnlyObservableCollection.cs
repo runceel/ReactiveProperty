@@ -181,7 +181,7 @@ internal sealed class FilteredReadOnlyObservableCollection<TCollection, TElement
                     {
                         var sourceIndex = e.OldStartingIndex;
                         var filteredIndex = _indexList[sourceIndex];
-                        var item = e.OldItems.Cast<TElement>().ElementAt(i);
+                        var item = (TElement)e.OldItems[i]!;
                         if (filteredIndex.HasValue)
                         {
                             DisappearItem(sourceIndex);
