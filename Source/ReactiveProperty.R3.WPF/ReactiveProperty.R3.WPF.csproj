@@ -4,7 +4,7 @@
     <PackageId>ReactiveProperty.R3.WPF</PackageId>
     <RootNamespace>Reactive.Bindings.R3</RootNamespace>
     <AssemblyName>ReactiveProperty.R3.WPF</AssemblyName>
-    <TargetFrameworks>net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
+    <TargetFrameworks>net10.0-windows;net11.0-windows</TargetFrameworks>
     <UseWPF>true</UseWPF>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\ReactiveProperty.Core\key.snk</AssemblyOriginatorKeyFile>
