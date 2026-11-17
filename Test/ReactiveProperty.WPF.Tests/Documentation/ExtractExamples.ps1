@@ -1,6 +1,7 @@
 param(
     [Parameter(Mandatory = $true)][string]$DocumentationRoot,
-    [Parameter(Mandatory = $true)][string]$OutputDirectory
+    [Parameter(Mandatory = $true)][string]$OutputDirectory,
+    [string]$Chapter
 )
 
 $ErrorActionPreference = 'Stop'
@@ -30,6 +31,11 @@ $examples = @(
     @{ Chapter = 'Event-transfer-to-ViewModel-from-View'; Page = 1; Code = @(0, 2) },
     @{ Chapter = 'Work-together-with-plane-model-layer-objects'; Page = 0; Code = @(0, 2, 3) }
 )
+
+if ($Chapter) {
+    $examples = @($examples | Where-Object { $_.Chapter -eq $Chapter })
+    if ($examples.Count -eq 0) { throw "No executable documentation examples for chapter '$Chapter'." }
+}
 
 $usings = @'
 using System;
@@ -84,7 +90,8 @@ foreach ($locale in @('docs', 'docs-ja')) {
             }
             $existingUsings = @([regex]::Matches($code, '(?m)^using [^;]+;') | ForEach-Object { $_.Value })
             $additionalUsings = @($usings -split '\r?\n' | Where-Object { $_ -notin $existingUsings }) -join "`n"
-            Write-GeneratedFile (Join-Path $directory "Block$index.cs") "$additionalUsings`n$code`n"
+            # The snippets omit nullable annotations; preserve their oblivious context.
+            Write-GeneratedFile (Join-Path $directory "Block$index.cs") "#nullable disable`n$additionalUsings`n$code`n"
         }
         $factories.Add("(`"$locale`", `"$($example.Chapter)`", $($example.Page)) => new $namespace.MainPage(),")
     }

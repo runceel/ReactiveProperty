@@ -26,8 +26,11 @@ settings unchanged; .NET 11 support and .NET 8/9 target retirement belong to #57
 
 Compile and execute the replacement English/Japanese Page examples in the existing
 WPF test project, extracting the actual Markdown code instead of maintaining
-duplicate models. Use real controls and binding diagnostics; keep native file-picker
-selection/cancellation opt-in because it requires an interactive Windows desktop.
+duplicate models. Use real controls and binding diagnostics. Keep ordinary tests
+noninteractive: use a deterministic converter to verify event wiring and notifications,
+and host the unmodified file-picker examples in the existing WPF ManualTests app
+for explicit selection/cancellation checks, rather than adding Inconclusive entries
+to normal test discovery.
 
 ### Alternatives considered
 

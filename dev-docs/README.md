@@ -33,8 +33,8 @@ central package management, and code style.
 
 The WPF test project extracts the complete C# and Page XAML examples from both
 languages of Collections, Commanding, ReactiveProperty, Event transfer, and POCO
-synchronization. It supplies omitted imports and isolates namespaces, but compiles
-and runs the documented models, bindings, and converters without replacement models.
+synchronization. It supplies omitted imports, preserves the snippets' nullable-oblivious
+context, and isolates namespaces, but compiles the documented models, bindings, and converters.
 When changing the example layout, update the explicit block map in
 `Test/ReactiveProperty.WPF.Tests/Documentation/ExtractExamples.ps1`.
 
@@ -49,21 +49,28 @@ commands, asynchronous/shared CanExecute, validation, and POCO synchronization.
 Periodic item subscriptions in the filtering example must be disposed when closing
 the view; the test host disposes its models, properties, and collection items.
 
-The two event-transfer tests cover the remaining four Pages using the actual
-`OpenFileDialog` converter, selecting a temporary `.snippet` file and then cancelling.
-They are skipped unless explicitly enabled on an interactive Windows desktop:
+The other two tests exercise the four event-transfer Pages noninteractively.
+They retain the documented ViewModels and XAML binding expressions, clone each
+trigger action, and install a deterministic converter before attaching it.
+Real Button Click events must produce converted values, observable notifications,
+and matching displayed text. These tests do **not** exercise `OpenFileDialog` or
+the documented file-picker converter. No environment variable or special test
+filter is required: ordinary Visual Studio **Run All** and `dotnet test` run all
+14 documentation tests without Inconclusive results or native dialogs.
 
-```powershell
-$env:REACTIVEPROPERTY_TEST_FILE_DIALOGS = '1'
-try {
-    dotnet test Test\ReactiveProperty.WPF.Tests\ReactiveProperty.WPF.Tests.csproj --filter FullyQualifiedName~DocumentationExamplesTest
-}
-finally {
-    Remove-Item Env:\REACTIVEPROPERTY_TEST_FILE_DIALOGS
-}
-```
+### Manual file-picker verification
 
-Dialog automation targets only native dialogs belonging to the test dispatcher
-thread. Ordinary CI verifies the other Pages; it does not claim to verify the real
-file picker. The tests use observable UI-state conditions with watchdog timeouts,
-not performance thresholds or fixed sleeps to assert completion.
+Use the existing **ReactiveProperty.WPF.ManualTests** startup project in Visual
+Studio (or `dotnet run --project Test\ReactiveProperty.WPF.ManualTests`).
+Choose **Start test** under **Documentation event-transfer / file-picker test**.
+The four tabs load the actual English/Japanese command/property Pages and their
+unmodified converters, extracted from the same Markdown during the build.
+
+1. In each tab, click **OpenFile...**, select an existing `.snippet` file (for example
+   one under `Snippet`), and verify that its full path is displayed.
+2. Open the dialog again and cancel; the displayed path must stay unchanged.
+3. Select a different `.snippet` file and verify that the displayed path updates.
+
+This is manual verification, not automated test coverage. Ordinary tests and CI
+never drive OS dialogs. Automatic tests use observable UI-state conditions with
+watchdog timeouts, not performance thresholds or fixed sleeps to assert completion.

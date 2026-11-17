@@ -23,16 +23,6 @@
     <ProjectReference Include="..\..\Source\ReactiveProperty.Platform.WPF\ReactiveProperty.Platform.WPF.csproj" />
   </ItemGroup>
 
-  <Target Name="ExtractDocumentationExamples" BeforeTargets="PrepareForBuild">
-    <Exec Command="powershell.exe -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildProjectDirectory)\Documentation\ExtractExamples.ps1&quot; -DocumentationRoot &quot;$(MSBuildProjectDirectory)\..\..\docs&quot; -OutputDirectory &quot;$(MSBuildProjectDirectory)\$(IntermediateOutputPath)DocumentationExamples&quot;" />
-    <ItemGroup>
-      <Compile Include="$(IntermediateOutputPath)DocumentationExamples\**\*.cs" />
-      <Page Include="$(MSBuildProjectDirectory)\$(IntermediateOutputPath)DocumentationExamples\**\*.xaml" />
-      <Page Update="@(Page)">
-        <Link>DocumentationExamples\%(Page.RecursiveDir)%(Page.Filename)%(Page.Extension)</Link>
-      </Page>
-      <FileWrites Include="$(IntermediateOutputPath)DocumentationExamples\**\*" />
-    </ItemGroup>
-  </Target>
+  <Import Project="Documentation\DocumentationExamples.targets" />
 
 </Project>

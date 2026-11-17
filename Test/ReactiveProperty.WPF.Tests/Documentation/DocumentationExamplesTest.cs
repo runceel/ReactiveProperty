@@ -1,10 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.Xaml.Behaviors;
+using Reactive.Bindings.Interactivity;
 
 namespace ReactiveProperty.Tests.Documentation;
 
@@ -259,25 +265,83 @@ public sealed class DocumentationExamplesTest
     }
 
     [TestMethod]
-    [TestCategory("Interactive")]
-    public void EventToCommand_RealFileDialog_SelectAndCancel()
+    public void EventToCommand_Click_ConvertsAndNotifiesTheDisplayedValue()
     {
-        VerifyFilePicker(0);
+        VerifyEventTransfer(0);
     }
 
     [TestMethod]
-    [TestCategory("Interactive")]
-    public void EventToProperty_RealFileDialog_SelectAndCancel()
+    public void EventToProperty_Click_ConvertsAndNotifiesTheDisplayedValue()
     {
-        VerifyFilePicker(1);
+        VerifyEventTransfer(1);
     }
 
-    private static void VerifyFilePicker(int page)
+    private static void VerifyEventTransfer(int page)
     {
-        if (Environment.GetEnvironmentVariable("REACTIVEPROPERTY_TEST_FILE_DIALOGS") != "1")
+        ForBothLanguages(EventChapter, page, example =>
         {
-            Assert.Inconclusive("Set REACTIVEPROPERTY_TEST_FILE_DIALOGS=1 on an interactive Windows desktop to test real shell dialogs.");
+            var button = example.Controls<Button>().Single();
+            var trigger = Interaction.GetTriggers(button).Single();
+            var original = trigger.Actions.Single();
+            Assert.IsInstanceOfType<Microsoft.Xaml.Behaviors.TriggerAction>(original.Clone(), out var action);
+            var converter = new ClickValueConverter();
+
+            // Command actions capture their converter pipeline when attached.
+            // Clone the XAML bindings, then set the test converter before attaching.
+            // The unmodified file-picker converter is exercised in ManualTests.
+            if (action is EventToReactiveCommand command)
+            {
+                Assert.IsNotNull(BindingOperations.GetBinding(command, EventToReactiveCommand.CommandProperty));
+                Assert.AreEqual(0, command.Converters.Count);
+                command.Converters.Add(converter);
+            }
+            else
+            {
+                Assert.IsInstanceOfType<EventToReactiveProperty>(action, out var property);
+                Assert.IsNotNull(BindingOperations.GetBinding(property, EventToReactiveProperty.ReactivePropertyProperty));
+                Assert.AreEqual(0, property.Converters.Count);
+                property.Converters.Add(converter);
+            }
+
+            trigger.Actions.Remove(original);
+            trigger.Actions.Add(action);
+            try
+            {
+                var values = new List<string>();
+                var fileName = DocumentationWindow.Property<IObservable<string>>(example.Page.DataContext, "FileName");
+                using var subscription = fileName.Subscribe(values.Add);
+                var initialCount = values.Count;
+                var output = example.Controls<TextBlock>().Last();
+
+                for (var i = 1; i <= 2; i++)
+                {
+                    example.Click(button);
+                    var expected = $"converted Click {i}";
+                    Assert.AreEqual(expected, output.Text);
+                    Assert.AreEqual(initialCount + i, values.Count);
+                    Assert.AreEqual(expected, values.Last());
+                    Assert.AreEqual(i, converter.Invocations);
+                    Assert.AreSame(button, converter.AssociateObject);
+                }
+            }
+            finally
+            {
+                trigger.Actions.Remove(action);
+            }
+        });
+    }
+
+    private sealed class ClickValueConverter : ReactiveConverter<RoutedEventArgs, string>
+    {
+        public int Invocations { get; private set; }
+
+        protected override IObservable<string> OnConvert(IObservable<RoutedEventArgs> source)
+        {
+            return source.Select(args =>
+            {
+                Assert.AreSame(AssociateObject, args.Source);
+                return $"converted {args.RoutedEvent.Name} {++Invocations}";
+            });
         }
-        ForBothLanguages(EventChapter, page, NativeFileDialog.VerifySelectAndCancel);
     }
 }
