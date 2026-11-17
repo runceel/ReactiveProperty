@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
@@ -13,6 +14,83 @@ namespace ReactiveProperty.Tests;
 [TestClass]
 public class ValidatableReactivePropertyTest : ReactiveTest
 {
+    [TestMethod]
+    [DataRow(0, 0)]
+    [DataRow(1, 0)]
+    [DataRow(1, 1)]
+    [DataRow(8, 0)]
+    [DataRow(8, 1)]
+    [DataRow(8, 2)]
+    public void ForceNotifyHandlesValidatorResults(int count, int errorMode)
+    {
+        var calls = 0;
+        var validators = Enumerable.Range(0, count)
+            .Select(i => (Func<int, string>)(_ =>
+            {
+                calls++;
+                return errorMode == 2 || (errorMode == 1 && i % 2 == 0) ? $"error-{i}" : null;
+            }))
+            .ToArray();
+        using var target = new ValidatableReactiveProperty<int>(0, validators);
+        calls = 0;
+        var expectedErrors = Enumerable.Range(0, count)
+            .Where(i => errorMode == 2 || (errorMode == 1 && i % 2 == 0))
+            .Select(i => $"error-{i}")
+            .ToArray();
+
+        target.ForceNotify();
+
+        calls.Is(count);
+        CollectionAssert.AreEqual(expectedErrors, target.GetErrors());
+        Assert.AreEqual(expectedErrors.Length != 0, target.HasErrors);
+    }
+
+    [TestMethod]
+    public void ForceNotifyPreservesValidatorOrderAndEmptyStringErrors()
+    {
+        var calls = 0;
+        using var target = new ValidatableReactiveProperty<int>(
+            0,
+            new Func<int, string>[]
+            {
+                _ => { calls++; return null; },
+                _ => { calls++; return ""; },
+                _ => { calls++; return "error"; },
+            });
+
+        calls = 0;
+        target.ForceNotify();
+
+        calls.Is(3);
+        target.HasErrors.IsTrue();
+        target.GetErrors().Is("", "error");
+    }
+
+    [TestMethod]
+    public void ForceNotifyWithNoErrorsAvoidsExcessAllocation()
+    {
+        using var target = new ValidatableReactiveProperty<int>(
+            0,
+            new Func<int, string>[]
+            {
+                _ => null, _ => null, _ => null, _ => null,
+                _ => null, _ => null, _ => null, _ => null,
+            });
+        for (var i = 0; i < 32; i++)
+        {
+            target.ForceNotify();
+        }
+
+        var before = GC.GetAllocatedBytesForCurrentThread();
+        for (var i = 0; i < 64; i++)
+        {
+            target.ForceNotify();
+        }
+
+        var allocated = GC.GetAllocatedBytesForCurrentThread() - before;
+        Assert.IsTrue(allocated < 64 * 64, $"Allocated {allocated} bytes for 64 validations.");
+    }
+
     [TestMethod]
     public void BasicUsage()
     {

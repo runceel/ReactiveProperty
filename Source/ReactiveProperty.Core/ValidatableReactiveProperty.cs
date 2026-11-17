@@ -337,9 +337,17 @@ public class ValidatableReactiveProperty<T> : IReactiveProperty<T>, IObserverLin
         _latestValue = value;
         if (needValidation)
         {
-            _errorMessages.Value = _validators.Select(x => x(value))
-                .Where(x => x is not null)
-                .ToArray()!;
+            List<string>? errors = null;
+            foreach (var validator in _validators)
+            {
+                var error = validator(value);
+                if (error is not null)
+                {
+                    (errors ??= new List<string>()).Add(error);
+                }
+            }
+
+            _errorMessages.Value = errors?.ToArray() ?? Array.Empty<string>();
         }
 
         if (isNotEquals || IsDistinctUntilChanged is false)
