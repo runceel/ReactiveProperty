@@ -2,7 +2,7 @@
 
 ## プロジェクトの作成
 - WPF App (.NET Framework) プロジェクトを作成します。
-    - Windows 向けの .NET 10 または .NET 11、もしくは .NET Framework 4.7.2 を使用してください。
+    - Windows 向けの .NET 10 または .NET 11、もしくは .NET Framework 4.7.2 以降を使用してください。
 - NuGet から ReactiveProperty.WPF パッケージをインストールします。
 
 ## コードの編集
