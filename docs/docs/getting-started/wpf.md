@@ -2,7 +2,7 @@
 
 ## Create a project
 - Create a WPF App (.NET Framework) project.
-    - You must use .NET Framework 4.7.2 or later, or .NET Core 3.0 or later.
+    - Use .NET 10 or .NET 11 for Windows, or .NET Framework 4.7.2 or later.
 - Install ReactiveProperty.WPF package from NuGet.
 
 ## Edit the code
