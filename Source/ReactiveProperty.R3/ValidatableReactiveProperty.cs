@@ -28,7 +28,7 @@ public sealed class ValidatableReactiveProperty<T> : Observable<T>, INotifyPrope
     private readonly ReactiveProperty<IReadOnlyList<string>> _errors = new(Array.Empty<string>());
     private readonly ReactiveProperty<bool> _hasErrors = new(false);
     private readonly Subject<T> _validationTrigger = new();
-    private readonly List<(int Slot, Func<T, IEnumerable<string>?> Validate)> _validators = new();
+    private (int Slot, Func<T, IEnumerable<string>?> Validate)[] _validators = [];
     private readonly List<string[]> _validationErrors = new();
     private readonly List<IDisposable> _subscriptions = new();
     private readonly bool _ignoreInitialValidationError;
@@ -138,7 +138,11 @@ public sealed class ValidatableReactiveProperty<T> : Observable<T>, INotifyPrope
         lock (_validationSyncRoot)
         {
             var slot = AddValidationSlot();
-            _validators.Add((slot, validate));
+            var validators = _validators;
+            var nextValidators = new (int Slot, Func<T, IEnumerable<string>?> Validate)[validators.Length + 1];
+            Array.Copy(validators, nextValidators, validators.Length);
+            nextValidators[validators.Length] = (slot, validate);
+            _validators = nextValidators;
         }
 
         ValidateAfterRegistration();
@@ -289,7 +293,7 @@ public sealed class ValidatableReactiveProperty<T> : Observable<T>, INotifyPrope
         (int Slot, Func<T, IEnumerable<string>?> Validate)[] validators;
         lock (_validationSyncRoot)
         {
-            validators = [.. _validators];
+            validators = _validators;
         }
 
         if (validators.Length == 0)
@@ -313,7 +317,13 @@ public sealed class ValidatableReactiveProperty<T> : Observable<T>, INotifyPrope
     {
         lock (_validationSyncRoot)
         {
-            _validationErrors[slot] = [.. errors];
+            string[] nextErrors = [.. errors];
+            if (_validationErrors[slot].SequenceEqual(nextErrors))
+            {
+                return;
+            }
+
+            _validationErrors[slot] = nextErrors;
             string[] next = [.. _validationErrors.SelectMany(static x => x)];
             var previousHasErrors = _hasErrors.Value;
             if (_errors.Value.SequenceEqual(next))
