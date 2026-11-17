@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFrameworks>net10.0;net11.0</TargetFrameworks>
+    <!-- Large-collection tests have timeouts and must not compete across runtimes. -->
+    <TestTfmsInParallel>false</TestTfmsInParallel>
     <RootNamespace>ReactiveProperty.Tests</RootNamespace>
     <AssemblyName>ReactiveProperty.Tests</AssemblyName>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
