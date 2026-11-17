@@ -351,8 +351,9 @@ A collection that filters in real time from `ObservableCollection`.
 `IFilteredReadOnlyObservableCollection` watches the `PropertyChanged` event of the source collection item and the `CollectionChanged` event.
 
 ```csharp
-public class ValueHolder : INotifyPropertyChanged
+public class ValueHolder : INotifyPropertyChanged, IDisposable
 {
+    private readonly IDisposable _subscription;
     public event PropertyChangedEventHandler PropertyChanged;
 
     public int Id { get; set; }
@@ -371,9 +372,14 @@ public class ValueHolder : INotifyPropertyChanged
     public ValueHolder()
     {
         var r = new Random();
-        Observable.Interval(TimeSpan.FromSeconds(1))
+        _subscription = Observable.Interval(TimeSpan.FromSeconds(1))
             .ObserveOnUIDispatcher()
             .Subscribe(_ => Value = r.Next(10));
+    }
+
+    public void Dispose()
+    {
+        _subscription.Dispose();
     }
 }
 

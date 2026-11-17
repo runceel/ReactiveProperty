@@ -24,6 +24,11 @@ Keep historical release notes and accepted ADRs unchanged. Do not remove or unli
 previously published NuGet packages. Keep framework targets and CI framework
 settings unchanged; .NET 11 support and .NET 8/9 target retirement belong to #570.
 
+Compile and execute the replacement English/Japanese Page examples in the existing
+WPF test project, extracting the actual Markdown code instead of maintaining
+duplicate models. Use real controls and binding diagnostics; keep native file-picker
+selection/cancellation opt-in because it requires an interactive Windows desktop.
+
 ### Alternatives considered
 
 - **Retain unsupported projects and tutorials** -- rejected because they continue
