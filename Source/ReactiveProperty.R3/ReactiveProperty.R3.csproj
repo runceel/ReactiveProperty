@@ -3,7 +3,7 @@
   <PropertyGroup>
     <PackageId>ReactiveProperty.R3</PackageId>
     <RootNamespace>Reactive.Bindings.R3</RootNamespace>
-    <TargetFrameworks>netstandard2.0;net8.0;net9.0;net10.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net10.0;net11.0</TargetFrameworks>
     <AssemblyName>ReactiveProperty.R3</AssemblyName>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\ReactiveProperty.Core\key.snk</AssemblyOriginatorKeyFile>

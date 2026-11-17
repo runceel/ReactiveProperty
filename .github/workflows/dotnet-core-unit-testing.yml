@@ -5,7 +5,7 @@ on:
     branches: [ main ]
 
 env:
-  DOTNET_VERSION: 10.0.x
+  DOTNET_VERSION: 11.0.x
 
 jobs:
   build:
@@ -14,11 +14,15 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Setup .NET Core
+    - name: Setup .NET SDKs and runtimes
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: ${{ env.DOTNET_VERSION }}
+        dotnet-version: |
+          10.0.x
+          ${{ env.DOTNET_VERSION }}
     - name: Install dependencies
       run: dotnet restore ReactiveProperty.slnx
-    - name: Test
+    - name: Build all package targets
+      run: dotnet build ReactiveProperty.slnx -c Release --no-restore
+    - name: Test .NET 10 and .NET 11
       run: dotnet test ReactiveProperty.slnx --no-restore --verbosity normal

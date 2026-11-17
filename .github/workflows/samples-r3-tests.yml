@@ -10,7 +10,7 @@ on:
     branches: [ main, feature/r3-migration-support ]
 
 env:
-  DOTNET_VERSION: 10.0.x
+  DOTNET_VERSION: 11.0.x
 
 jobs:
   test:
@@ -22,6 +22,8 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: ${{ env.DOTNET_VERSION }}
+        dotnet-version: |
+          10.0.x
+          ${{ env.DOTNET_VERSION }}
     - name: Test R3 migration sample
       run: dotnet test Samples/ReactivePropertySamples.R3.Tests/ReactivePropertySamples.R3.Tests.csproj --verbosity normal

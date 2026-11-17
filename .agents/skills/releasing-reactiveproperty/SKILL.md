@@ -12,7 +12,7 @@ Run the tag-driven release procedure for the ReactiveProperty NuGet package set.
 - **Repository access**: permission to push tags to `runceel/ReactiveProperty`.
 - **GitHub CLI**: authenticated with access to Actions and Releases (`gh auth status`).
 - **NuGet trusted publishing**: `.github/workflows/build-and-publish.yml` uses `NuGet/login@v1` and `secrets.NUGET_USER`; if this setup is broken or missing, use the `nuget-trusted-publishing` skill instead.
-- **Local validation environment**: Windows with the .NET 10 SDK (`10.0.x`) when running the full solution locally.
+- **Local validation environment**: Windows with the .NET 11 SDK (`11.0.x`) and .NET 10/11 runtimes when running the full solution locally.
 
 ## Critical Rules
 

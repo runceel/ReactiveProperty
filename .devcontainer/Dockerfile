@@ -1,6 +1,9 @@
-# [Choice] .NET version: 5.0, 3.1, 2.1
-ARG VARIANT="6.0"
-FROM mcr.microsoft.com/dotnet/sdk:${VARIANT}-focal
+# The Linux container supports platform-independent projects; WPF needs Windows.
+ARG VARIANT="11.0"
+FROM mcr.microsoft.com/dotnet/aspnet:10.0-noble AS runtime10
+FROM mcr.microsoft.com/dotnet/sdk:${VARIANT}-noble
+
+COPY --from=runtime10 /usr/share/dotnet/shared/ /usr/share/dotnet/shared/
 
 # Copy library scripts to execute
 COPY library-scripts/*.sh library-scripts/*.env /tmp/library-scripts/
