@@ -21,8 +21,8 @@ solution, retaining each package's existing .NET Standard 2.0 and .NET Framework
 Automated library and R3 sample tests will run on .NET 10 and .NET 11. The core
 test project will run its target frameworks serially: concurrent test hosts
 reproducibly exceed the existing large-collection test timeouts. CI will install
-both runtimes, use the .NET 11 SDK, build all package targets, and test the same
-Release outputs.
+both runtimes, use the .NET 11 SDK, build all package targets in Release, and
+retain the existing default Debug configuration for automated tests.
 
 The migration assessment uses the migration skill's .NET 11 Preview 3 compiler,
 core library, SDK/MSBuild, and ASP.NET Core references. The scanned code does not

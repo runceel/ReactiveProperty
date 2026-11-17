@@ -38,7 +38,7 @@ jobs:
     - name: Build
       run: dotnet build ReactiveProperty.slnx -c Release --no-restore /p:ContinuousIntegrationBuild=True /p:EmbedUntrackedSources=True
     - name: Test
-      run: dotnet test ReactiveProperty.slnx -c Release --no-build --no-restore --verbosity normal
+      run: dotnet test ReactiveProperty.slnx --no-restore --verbosity normal
     - name: Copy package files
       run: |
         mkdir dist

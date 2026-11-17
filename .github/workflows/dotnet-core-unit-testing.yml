@@ -25,4 +25,4 @@ jobs:
     - name: Build all package targets
       run: dotnet build ReactiveProperty.slnx -c Release --no-restore
     - name: Test .NET 10 and .NET 11
-      run: dotnet test ReactiveProperty.slnx -c Release --no-build --no-restore --verbosity normal
+      run: dotnet test ReactiveProperty.slnx --no-restore --verbosity normal
