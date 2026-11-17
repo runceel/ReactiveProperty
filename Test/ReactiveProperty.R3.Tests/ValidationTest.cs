@@ -158,6 +158,29 @@ public sealed class ValidationTest
     }
 
     [TestMethod]
+    public void ValidatableReactivePropertyReusesFixedPropertyChangedEventArgs()
+    {
+        using var property = new ValidatableReactiveProperty<string>("ok")
+            .SetValidateNotifyError(x => x == "ng" ? "error" : null);
+        var propertyChangedEvents = new List<PropertyChangedEventArgs>();
+        property.PropertyChanged += (_, e) => propertyChangedEvents.Add(e);
+
+        property.Value = "ng";
+        property.Value = "ok";
+
+        propertyChangedEvents.Select(static x => x.PropertyName).Is(
+            nameof(ValidatableReactiveProperty<string>.ErrorMessage),
+            nameof(ValidatableReactiveProperty<string>.HasErrors),
+            nameof(ValidatableReactiveProperty<string>.Value),
+            nameof(ValidatableReactiveProperty<string>.ErrorMessage),
+            nameof(ValidatableReactiveProperty<string>.HasErrors),
+            nameof(ValidatableReactiveProperty<string>.Value));
+        Assert.AreSame(propertyChangedEvents[0], propertyChangedEvents[3]);
+        Assert.AreSame(propertyChangedEvents[1], propertyChangedEvents[4]);
+        Assert.AreSame(propertyChangedEvents[2], propertyChangedEvents[5]);
+    }
+
+    [TestMethod]
     public void ObserveErrorChangedIncludesEntityLevelNotifications()
     {
         var source = new TestNotifyDataErrorInfo();

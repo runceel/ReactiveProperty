@@ -65,6 +65,26 @@ public sealed class ReadOnlyReactiveCollectionTest
     }
 
     [TestMethod]
+    public void ReusesFixedPropertyChangedEventArgs()
+    {
+        var source = new ObservableCollection<string> { "a" };
+        var collection = source.ToReadOnlyReactiveCollection();
+        var propertyChangedEvents = new List<PropertyChangedEventArgs>();
+        ((INotifyPropertyChanged)collection).PropertyChanged += (_, e) => propertyChangedEvents.Add(e);
+
+        source[0] = "b";
+        source[0] = "c";
+
+        propertyChangedEvents.Select(static x => x.PropertyName).Is(
+            nameof(collection.Count),
+            "Item[]",
+            nameof(collection.Count),
+            "Item[]");
+        Assert.AreSame(propertyChangedEvents[0], propertyChangedEvents[2]);
+        Assert.AreSame(propertyChangedEvents[1], propertyChangedEvents[3]);
+    }
+
+    [TestMethod]
     public void AppliesObservableChangeStreamAndResetStream()
     {
         var add = new Subject<string>();

@@ -53,6 +53,29 @@ public sealed class FilteredReadOnlyObservableCollectionTest
         Assert.IsTrue(context.PostCount > 0);
     }
 
+    [TestMethod]
+    public void ReusesFixedPropertyChangedEventArgs()
+    {
+        var source = new ObservableCollection<Item>
+        {
+            new() { Name = "a", IsVisible = true },
+        };
+        var collection = source.ToFilteredReadOnlyObservableCollection(x => x.IsVisible);
+        var propertyChangedEvents = new List<PropertyChangedEventArgs>();
+        collection.PropertyChanged += (_, e) => propertyChangedEvents.Add(e);
+
+        source[0] = new Item { Name = "b", IsVisible = true };
+        source[0] = new Item { Name = "c", IsVisible = true };
+
+        propertyChangedEvents.Select(static x => x.PropertyName).Is(
+            nameof(collection.Count),
+            "Item[]",
+            nameof(collection.Count),
+            "Item[]");
+        Assert.AreSame(propertyChangedEvents[0], propertyChangedEvents[2]);
+        Assert.AreSame(propertyChangedEvents[1], propertyChangedEvents[3]);
+    }
+
     private sealed class TestSynchronizationContext : SynchronizationContext
     {
         public int PostCount { get; private set; }

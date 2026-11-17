@@ -18,6 +18,10 @@ namespace Reactive.Bindings.R3;
 /// <typeparam name="T">Value type.</typeparam>
 public sealed class ValidatableReactiveProperty<T> : Observable<T>, INotifyPropertyChanged, INotifyDataErrorInfo, IDisposable
 {
+    private static readonly PropertyChangedEventArgs s_valuePropertyChangedEventArgs = new(nameof(Value));
+    private static readonly PropertyChangedEventArgs s_errorMessagePropertyChangedEventArgs = new(nameof(ErrorMessage));
+    private static readonly PropertyChangedEventArgs s_hasErrorsPropertyChangedEventArgs = new(nameof(HasErrors));
+
     private readonly ReactiveProperty<T> _property;
     private readonly IEqualityComparer<T> _equalityComparer;
     private readonly object _validationSyncRoot = new();
@@ -60,7 +64,7 @@ public sealed class ValidatableReactiveProperty<T> : Observable<T>, INotifyPrope
             _hasChangedValue = true;
             _property.Value = value;
             ValidateAndNotify(value);
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Value)));
+            PropertyChanged?.Invoke(this, s_valuePropertyChangedEventArgs);
         }
     }
 
@@ -320,10 +324,10 @@ public sealed class ValidatableReactiveProperty<T> : Observable<T>, INotifyPrope
             _errors.Value = next;
             _hasErrors.Value = next.Length != 0;
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(Value)));
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ErrorMessage)));
+            PropertyChanged?.Invoke(this, s_errorMessagePropertyChangedEventArgs);
             if (previousHasErrors != _hasErrors.Value)
             {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(HasErrors)));
+                PropertyChanged?.Invoke(this, s_hasErrorsPropertyChangedEventArgs);
             }
         }
     }
