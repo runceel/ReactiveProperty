@@ -30,6 +30,8 @@ Source/                         Library source (each folder is one package/assem
   ReactiveProperty.Platform.WPF/     pkg ReactiveProperty.WPF — EventToReactiveCommand/Property
   ReactiveProperty.Platform.UWP/     pkg ReactiveProperty.UWP (legacy, no longer supported)
   ReactiveProperty.Platform.Shared/  Shared project (.shproj/.projitems) imported by platform projects
+  ReactiveProperty.R3/          pkg ReactiveProperty.R3 — R3 migration bridge
+  ReactiveProperty.R3.WPF/      pkg ReactiveProperty.R3.WPF — R3 WPF trigger actions
 Test/                           Unit tests (MSTest)
   ReactiveProperty.NETStandard.Tests/  Core/main library tests (namespace ReactiveProperty.Tests)
   ReactiveProperty.Blazor.Tests/       Blazor tests (bunit)
@@ -49,8 +51,9 @@ ReactiveProperty-Samples.slnx   Samples solution
 
 ## Build, test, and run
 
-The project uses the **.NET 10 SDK** (`10.0.x`) and CI runs on **Windows**
+The project uses the **.NET 11 SDK** (`11.0.x`) and CI runs on **Windows**
 (the WPF/UWP projects require Windows to build the full solution).
+Install the .NET 10 and .NET 11 runtimes to run both automated test target legs.
 
 ```pwsh
 # Restore, build, and test the library + tests
@@ -78,16 +81,20 @@ Package versions are managed centrally (`ManagePackageVersionsCentrally=true`).
 ### Target frameworks (don't change casually)
 | Project | TargetFramework(s) |
 |---|---|
-| `ReactiveProperty.Core`, `ReactiveProperty.NETStandard` | `netstandard2.0;net8.0;net9.0;net472` |
-| `ReactiveProperty.Platform.Blazor` | `net8.0;net9.0;net10.0` |
-| `ReactiveProperty.Platform.WPF` | `net8.0-windows;net9.0-windows;net472` |
-| `ReactiveProperty.NETStandard.Tests` | `net9.0` |
+| `ReactiveProperty.Core`, `ReactiveProperty.NETStandard` | `netstandard2.0;net10.0;net11.0;net472` |
+| `ReactiveProperty.Platform.Blazor` | `net10.0;net11.0` |
+| `ReactiveProperty.Platform.WPF` | `net10.0-windows;net11.0-windows;net472` |
+| `ReactiveProperty.R3` | `netstandard2.0;net10.0;net11.0` |
+| `ReactiveProperty.R3.WPF` | `net10.0-windows;net11.0-windows` |
+| Core/main, Blazor, and R3 automated tests | `net10.0;net11.0` |
+| WPF and R3 WPF automated tests | `net10.0-windows;net11.0-windows` |
+| WPF manual test app | `net10.0-windows` |
 
 Because of `netstandard2.0`/`net472`, keep core code compatible with older frameworks
 (avoid APIs that only exist on modern .NET unless guarded).
 
 ### Project settings (from `Source/Directory.Build.props`)
-- `LangVersion` is **12.0**; `Nullable` is **enable** — keep new code null-annotated.
+- `LangVersion` is **14.0**; `Nullable` is **enable** — keep new code null-annotated.
 - Assemblies are **strong-name signed** (`key.snk`); don't break signing.
 - XML documentation is generated (`GenerateDocumentationFile=true`) — public APIs need doc comments.
 - The package **version** is `<Version>` in `Source/Directory.Build.props` (do not hand-edit for releases; the tag workflow updates it).

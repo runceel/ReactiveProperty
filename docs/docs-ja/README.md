@@ -1,6 +1,6 @@
 # ReactiveProperty とは
 
-ReactiveProperty は Reactive Extensions 向けに MVVM と非同期処理を支援する機能を提供します。ターゲット フレームワークは .NET Standard 2.0 です。
+ReactiveProperty は Reactive Extensions 向けに MVVM と非同期処理を支援する機能を提供します。コア パッケージは .NET 10、.NET 11、.NET Framework 4.7.2、.NET Standard 2.0 をターゲットにしています。プラットフォーム別の対象は[パッケージ一覧](#nuget-パッケージ)を参照してください。
 
 ![概要](../docs/images/rpsummary.png)
 
@@ -152,9 +152,12 @@ ReactiveProperty は次のリンクから使い始めることができます。
 
 |パッケージ ID|バージョンとダウンロード数|説明|
 |----|----|----|
-|ReactiveProperty|![](https://img.shields.io/nuget/v/ReactiveProperty.svg)![](https://img.shields.io/nuget/dt/ReactiveProperty.svg)|すべてのコア機能が含まれ、ターゲット プラットフォームは .NET Standard 2.0 です。ほぼすべての状況に適しています。|
-|ReactiveProperty.Core|![](https://img.shields.io/nuget/v/ReactiveProperty.Core.svg)![](https://img.shields.io/nuget/dt/ReactiveProperty.Core.svg)|`ReactivePropertySlim<T>` や `ReadOnlyReactivePropertySlim<T>` など、最小限のクラスが含まれます。System.Reactive にも依存しません。Rx 機能が不要な場合に適しています。|
-|ReactiveProperty.WPF|![](https://img.shields.io/nuget/v/ReactiveProperty.WPF.svg)![](https://img.shields.io/nuget/dt/ReactiveProperty.WPF.svg)|WPF 向けの EventToReactiveProperty と EventToReactiveCommand が含まれます。.NET Core 3.0 以降および .NET Framework 4.7.2 以降向けです。|
+|[ReactiveProperty](https://www.nuget.org/packages/ReactiveProperty/)|![](https://img.shields.io/nuget/v/ReactiveProperty.svg)![](https://img.shields.io/nuget/dt/ReactiveProperty.svg)|System.Reactive を使った MVVM と非同期処理の機能。 `netstandard2.0;net10.0;net11.0;net472`.|
+|[ReactiveProperty.Core](https://www.nuget.org/packages/ReactiveProperty.Core/)|![](https://img.shields.io/nuget/v/ReactiveProperty.Core.svg)![](https://img.shields.io/nuget/dt/ReactiveProperty.Core.svg)|`ReactivePropertySlim<T>` や `ReadOnlyReactivePropertySlim<T>` などの最小限の型。System.Reactive には依存しません。 `netstandard2.0;net10.0;net11.0;net472`.|
+|[ReactiveProperty.WPF](https://www.nuget.org/packages/ReactiveProperty.WPF/)|![](https://img.shields.io/nuget/v/ReactiveProperty.WPF.svg)![](https://img.shields.io/nuget/dt/ReactiveProperty.WPF.svg)|WPF 向けの EventToReactiveProperty と EventToReactiveCommand ビヘイビア。 `net10.0-windows;net11.0-windows;net472`.|
+|[ReactiveProperty.Blazor](https://www.nuget.org/packages/ReactiveProperty.Blazor/)|![](https://img.shields.io/nuget/v/ReactiveProperty.Blazor.svg)![](https://img.shields.io/nuget/dt/ReactiveProperty.Blazor.svg)|InteractiveServer レンダー モードで ReactiveProperty の検証と EditForm を連携する機能。 `net10.0;net11.0`.|
+|[ReactiveProperty.R3](https://www.nuget.org/packages/ReactiveProperty.R3/)|![](https://img.shields.io/nuget/v/ReactiveProperty.R3.svg)![](https://img.shields.io/nuget/dt/ReactiveProperty.R3.svg)|既存の ReactiveProperty ViewModel を R3 へ移行するためのブリッジ。 `netstandard2.0;net10.0;net11.0`.|
+|[ReactiveProperty.R3.WPF](https://www.nuget.org/packages/ReactiveProperty.R3.WPF/)|![](https://img.shields.io/nuget/v/ReactiveProperty.R3.WPF.svg)![](https://img.shields.io/nuget/dt/ReactiveProperty.R3.WPF.svg)|R3 向けの WPF EventToReactiveProperty と EventToReactiveCommand トリガー アクション。 `net10.0-windows;net11.0-windows`.|
 |ReactiveProperty.UWP|![](https://img.shields.io/nuget/v/ReactiveProperty.UWP.svg)![](https://img.shields.io/nuget/dt/ReactiveProperty.UWP.svg)|UWP 向けの EventToReactiveProperty と EventToReactiveCommand が含まれます。|
 |ReactiveProperty.XamarinAndroid|![](https://img.shields.io/nuget/v/ReactiveProperty.XamarinAndroid.svg)![](https://img.shields.io/nuget/dt/ReactiveProperty.XamarinAndroid.svg)|Xamarin.Android ネイティブのイベントから IObservable インスタンスを作成するための多くの拡張メソッドが含まれます。|
 |ReactiveProperty.XamariniOS|![](https://img.shields.io/nuget/v/ReactiveProperty.XamariniOS.svg)![](https://img.shields.io/nuget/dt/ReactiveProperty.XamariniOS.svg)|ReactiveProperty と ReactiveCommand を Xamarin.iOS ネイティブ コントロールにバインドするための多くの拡張メソッドが含まれます。|

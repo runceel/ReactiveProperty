@@ -2,7 +2,7 @@
 
 # ReactiveProperty
 
-ReactiveProperty provides MVVM and asynchronous support features under Reactive Extensions. Target framework is .NET 8.0+, .NET Framework 4.7.2 and .NET Standard 2.0.
+ReactiveProperty provides MVVM and asynchronous support features under Reactive Extensions. The core packages target .NET 10, .NET 11, .NET Framework 4.7.2, and .NET Standard 2.0. See the [package overview](#nuget-packages) for platform-specific targets.
 
 ![](https://img.shields.io/nuget/v/ReactiveProperty.svg)
 ![](https://img.shields.io/nuget/dt/ReactiveProperty.svg)
@@ -149,10 +149,12 @@ ReactiveProperty doesn't provide base class by ViewModel, which means that React
 
 |Package Id|Version and downloads|Description|
 |----|----|----|
-|[ReactiveProperty](https://www.nuget.org/packages/ReactiveProperty/)|![](https://img.shields.io/nuget/v/ReactiveProperty.svg)![](https://img.shields.io/nuget/dt/ReactiveProperty.svg)|The package includes all core features.|
-|[ReactiveProperty.Core](https://www.nuget.org/packages/ReactiveProperty.Core/)|![](https://img.shields.io/nuget/v/ReactiveProperty.Core.svg)![](https://img.shields.io/nuget/dt/ReactiveProperty.Core.svg)|The package includes minimum classes such as `ReactivePropertySlim<T>` and `ReadOnlyReactivePropertySlim<T>`. And this doesn't have any dependency even System.Reactive. If you don't need Rx features, then it fits.|
-|[ReactiveProperty.WPF](https://www.nuget.org/packages/ReactiveProperty.WPF/)|![](https://img.shields.io/nuget/v/ReactiveProperty.WPF.svg)![](https://img.shields.io/nuget/dt/ReactiveProperty.WPF.svg)|The package includes EventToReactiveProperty and EventToReactiveCommand for WPF. This is for .NET 6 or later and .NET Framework 4.7.2 or later.|
-|[ReactiveProperty.Blazor](https://www.nuget.org/packages/ReactiveProperty.Blazor/)|![](https://img.shields.io/nuget/v/ReactiveProperty.Blazor.svg)![](https://img.shields.io/nuget/dt/ReactiveProperty.Blazor.svg)|The package includes validation support for EditForm component of Blazor with ReactiveProperty validation feature for `InteractiveServer` render mode. This is for .NET 8.0 or later. |
+|[ReactiveProperty](https://www.nuget.org/packages/ReactiveProperty/)|![](https://img.shields.io/nuget/v/ReactiveProperty.svg)![](https://img.shields.io/nuget/dt/ReactiveProperty.svg)|MVVM and asynchronous features built on System.Reactive. `netstandard2.0;net10.0;net11.0;net472`.|
+|[ReactiveProperty.Core](https://www.nuget.org/packages/ReactiveProperty.Core/)|![](https://img.shields.io/nuget/v/ReactiveProperty.Core.svg)![](https://img.shields.io/nuget/dt/ReactiveProperty.Core.svg)|Minimal types such as `ReactivePropertySlim<T>` and `ReadOnlyReactivePropertySlim<T>`, without a System.Reactive dependency. `netstandard2.0;net10.0;net11.0;net472`.|
+|[ReactiveProperty.WPF](https://www.nuget.org/packages/ReactiveProperty.WPF/)|![](https://img.shields.io/nuget/v/ReactiveProperty.WPF.svg)![](https://img.shields.io/nuget/dt/ReactiveProperty.WPF.svg)|WPF EventToReactiveProperty and EventToReactiveCommand behaviors. `net10.0-windows;net11.0-windows;net472`.|
+|[ReactiveProperty.Blazor](https://www.nuget.org/packages/ReactiveProperty.Blazor/)|![](https://img.shields.io/nuget/v/ReactiveProperty.Blazor.svg)![](https://img.shields.io/nuget/dt/ReactiveProperty.Blazor.svg)|EditForm validation integration with ReactiveProperty for InteractiveServer render mode. `net10.0;net11.0`.|
+|[ReactiveProperty.R3](https://www.nuget.org/packages/ReactiveProperty.R3/)|![](https://img.shields.io/nuget/v/ReactiveProperty.R3.svg)![](https://img.shields.io/nuget/dt/ReactiveProperty.R3.svg)|An R3-native migration bridge for existing ReactiveProperty ViewModels. `netstandard2.0;net10.0;net11.0`.|
+|[ReactiveProperty.R3.WPF](https://www.nuget.org/packages/ReactiveProperty.R3.WPF/)|![](https://img.shields.io/nuget/v/ReactiveProperty.R3.WPF.svg)![](https://img.shields.io/nuget/dt/ReactiveProperty.R3.WPF.svg)|R3-native EventToReactiveProperty and EventToReactiveCommand trigger actions for WPF. `net10.0-windows;net11.0-windows`.|
 
 The following packages are no longer supported.
 
