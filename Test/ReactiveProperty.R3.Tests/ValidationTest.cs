@@ -96,6 +96,20 @@ public sealed class ValidationTest
     }
 
     [TestMethod]
+    public void RevalidationRestoresMutatedObservedErrors()
+    {
+        using var property = new ValidatableReactiveProperty<int>()
+            .SetValidateNotifyError(_ => "error");
+        IReadOnlyList<string>? observed = null;
+        using var subscription = property.ObserveErrorChanged.Subscribe(errors => observed = errors);
+        ((string[])observed!)[0] = "changed";
+
+        property.ForceValidate();
+
+        property.GetErrors().Is("error");
+    }
+
+    [TestMethod]
     public void ValidatableReactivePropertyAggregatesMultipleErrors()
     {
         using var property = new ValidatableReactiveProperty<string>("")

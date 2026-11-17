@@ -318,7 +318,7 @@ public sealed class ValidatableReactiveProperty<T> : Observable<T>, INotifyPrope
         lock (_validationSyncRoot)
         {
             string[] nextErrors = [.. errors];
-            if (_validationErrors[slot].SequenceEqual(nextErrors))
+            if (_validationErrors[slot].SequenceEqual(nextErrors) && ErrorsMatchSlots())
             {
                 return;
             }
@@ -340,6 +340,26 @@ public sealed class ValidatableReactiveProperty<T> : Observable<T>, INotifyPrope
                 PropertyChanged?.Invoke(this, s_hasErrorsPropertyChangedEventArgs);
             }
         }
+    }
+
+    private bool ErrorsMatchSlots()
+    {
+        var current = _errors.Value;
+        var index = 0;
+        foreach (var errors in _validationErrors)
+        {
+            foreach (var error in errors)
+            {
+                if (index >= current.Count || !EqualityComparer<string>.Default.Equals(error, current[index]))
+                {
+                    return false;
+                }
+
+                index++;
+            }
+        }
+
+        return index == current.Count;
     }
 
     private static string[] ToErrorMessages(IEnumerable? errors)

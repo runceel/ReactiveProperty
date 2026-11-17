@@ -17,7 +17,9 @@ Replace the validator array when registering a synchronous validator, and captur
 the current array under the existing validation lock before invoking validators.
 Keep each snapshot immutable and preserve registration and invocation order.
 Skip aggregation only when the newly materialized errors for a slot equal its
-previous errors; validators and their returned sequences are still executed.
+previous errors and the published aggregate still matches all slots. Observers
+can retain the underlying array, so it must also be checked for mutation.
+Validators and their returned sequences are still executed.
 
 ### Alternatives considered
 
