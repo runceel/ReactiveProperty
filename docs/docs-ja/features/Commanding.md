@@ -1,4 +1,4 @@
-# コマンド
+﻿# コマンド
 
 `ReactiveCommand` クラスは次の 2 つのインターフェイスを実装しています。
 
@@ -61,7 +61,7 @@ public class ViewModel
 }
 ```
 
-UWP の例です。
+WPF の例です。
 
 ```csharp
 public sealed partial class MainPage : Page
@@ -70,6 +70,7 @@ public sealed partial class MainPage : Page
     public MainPage()
     {
         this.InitializeComponent();
+        DataContext = ViewModel;
     }
 }
 ```
@@ -78,22 +79,19 @@ public sealed partial class MainPage : Page
 <Page x:Class="App1.MainPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:local="using:App1"
+      xmlns:local="clr-namespace:App1"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
-    <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <StackPanel>
         <Button Content="Update the time"
-                Command="{x:Bind ViewModel.UpdateTimeCommand}"
+                Command="{Binding UpdateTimeCommand}"
                 Margin="5" />
-        <TextBlock Text="{x:Bind ViewModel.Time.Value, Mode=OneWay}"
-                   Style="{ThemeResource BodyTextBlockStyle}"
+        <TextBlock Text="{Binding Time.Value, Mode=OneWay}"
                    Margin="5" />
     </StackPanel>
 </Page>
 ```
-
-![最初の例](../../docs/features/images/reactivecommand-firstexample.gif)
 
 ## LINQ と連携する
 
@@ -144,8 +142,6 @@ public class ViewModel
     }
 }
 ```
-
-![5 秒間無効化](../../docs/features/images/reactivecommand-disable5secs.gif)
 
 ## コマンドの作成と購読を 1 文で行う
 
@@ -266,21 +262,19 @@ public class ViewModel
 <Page x:Class="App1.MainPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:local="using:App1"
+      xmlns:local="clr-namespace:App1"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
-    <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <StackPanel>
         <Button Content="Heavy command"
-                Command="{x:Bind ViewModel.HeavyCommand}"
+                Command="{Binding HeavyCommand}"
                 Margin="5" />
-        <TextBlock Text="{x:Bind ViewModel.Message.Value, Mode=OneWay}"
+        <TextBlock Text="{Binding Message.Value, Mode=OneWay}"
                    Margin="5" />
     </StackPanel>
 </Page>
 ```
-
-![HeavyCommand](../../docs/features/images/asyncreactivecommand-heavyprocess.gif)
 
 もちろん、`AsyncReactiveCommand` は `IObservable<bool>` からも作成できます。
 
@@ -305,8 +299,6 @@ public class ViewModel
     }
 }
 ```
-
-![IObservable<bool> から](../../docs/features/images/asyncreactivecommand-from-iobool.gif)
 
 `AsyncReactiveCommand` クラスも `IDisposable` インターフェイスを実装しています。
 別のインスタンスのイベントを購読する場合は、`Dispose` メソッドを呼び出してください。
@@ -352,24 +344,22 @@ public class ViewModel
 <Page x:Class="App1.MainPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:local="using:App1"
+      xmlns:local="clr-namespace:App1"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
-    <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <StackPanel>
         <Button Content="Heavy command 1"
-                Command="{x:Bind ViewModel.HeavyCommand1}"
+                Command="{Binding HeavyCommand1}"
                 Margin="5" />
         <Button Content="Heavy command 2"
-                Command="{x:Bind ViewModel.HeavyCommand2}"
+                Command="{Binding HeavyCommand2}"
                 Margin="5" />
-        <TextBlock Text="{x:Bind ViewModel.Message.Value, Mode=OneWay}"
+        <TextBlock Text="{Binding Message.Value, Mode=OneWay}"
                    Margin="5" />
     </StackPanel>
 </Page>
 ```
-
-![状態の共有](../../docs/features/images/asyncreactivecommand-share-state.gif)
 
 もちろん、`IObservable<bool>` と `IReactiveProperty<bool>` を組み合わせることもできます。`AsyncReactiveCommand` のソースとして `IObservable<bool>` を使い、複数の `AsyncReactiveCommand` で状態を共有するために `IReactiveProperty<bool>` を使います。
 次のように、`ToAsyncReactiveCommand(this IObservable<bool> source, IReactiveProperty<bool> sharedCanExecute = null)` メソッドを使えます。
@@ -417,7 +407,7 @@ ViewModel クラスを View にバインディングした後は次のように�
 
 ```csharp
 // コード ビハインド
-using Windows.UI.Xaml.Controls;
+using System.Windows.Controls;
 
 namespace RPSample
 {
@@ -427,6 +417,7 @@ namespace RPSample
         public MainPage()
         {
             InitializeComponent();
+            DataContext = ViewModel;
         }
     }
 }
@@ -439,27 +430,21 @@ namespace RPSample
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
     <StackPanel>
-        <TextBox Text="{x:Bind ViewModel.Input.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <TextBox Text="{Binding Input.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         <Button
             HorizontalAlignment="Stretch"
-            Command="{x:Bind ViewModel.CommandA}"
+            Command="{Binding CommandA}"
             Content="CommandA" />
         <Button
             HorizontalAlignment="Stretch"
-            Command="{x:Bind ViewModel.CommandB}"
+            Command="{Binding CommandB}"
             Content="CommandB" />
     </StackPanel>
 </Page>
 ```
-
-動作は次のようになります。
-
-![状態と同じソースの共有](../../docs/features/images/asyncreactivecommand-shared-source.gif)
-
 
 ## スレッド処理
 

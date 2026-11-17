@@ -1,4 +1,4 @@
-# ReactiveProperty
+﻿# ReactiveProperty
 
 `ReactiveProperty` はこのライブラリの中核となるクラスです。
 次の機能を備えています。
@@ -56,7 +56,7 @@ PropertyChanged: Value
 
 ## XAML プラットフォームで使う
 
-`ReactiveProperty` クラスは、WPF、UWP、Xamarin.Forms などの XAML プラットフォーム向けに設計されています。
+`ReactiveProperty` クラスは、WPF などの XAML データ バインディング向けに設計されています。
 このクラスは ViewModel レイヤーで使用できます。
 
 `ReactiveProperty` を使わない場合、ViewModel クラスは次のようになります。
@@ -87,14 +87,6 @@ public class MainPageViewModel : INotifyPropertyChanged
 <!-- WPF の場合 -->
 <TextBox Text="{Binding Name}" />
 
-<!-- UWP の場合（実行時データ バインディング） -->
-<TextBox Text="{Binding Name}" />
-
-<!-- UWP の場合（コンパイル時データ バインディング） -->
-<TextBox Text="{x:Bind ViewModel.Name, Mode=TwoWay}" />
-
-<!-- Xamarin.Forms の場合 -->
-<Entry Text="{Binding Name}" />
 ```
 
 `ReactiveProperty` を使うと、ViewModel のコードはとてもシンプルになります。
@@ -117,14 +109,6 @@ XAML コードでバインディングするときは、バインディング �
 <!-- WPF の場合 -->
 <TextBox Text="{Binding Name.Value}" />
 
-<!-- UWP の場合（実行時データ バインディング） -->
-<TextBox Text="{Binding Name.Value}" />
-
-<!-- UWP の場合（コンパイル時データ バインディング） -->
-<TextBox Text="{x:Bind ViewModel.Name.Value, Mode=TwoWay}" />
-
-<!-- Xamarin.Forms の場合 -->
-<Entry Text="{Binding Name.Value}" />
 ```
 
 > `.Value` を忘れてしまうことがあります。ReSharper ライセンスをお持ちの場合は、このプラグインを利用できます。
@@ -251,7 +235,7 @@ class ViewModel
 
 `NameErrorMessage.Value` プロパティをテキスト コントロールにバインディングします。エラー メッセージを表示できます。
 
-UWP の場合は、次の例を参照してください。
+WPF の場合は、次の例を参照してください。
 
 ```csharp
 public sealed partial class MainPage : Page
@@ -260,6 +244,7 @@ public sealed partial class MainPage : Page
     public MainPage()
     {
         this.InitializeComponent();
+        DataContext = ViewModel;
     }
 }
 ```
@@ -268,24 +253,20 @@ public sealed partial class MainPage : Page
 <Page x:Class="App1.MainPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:local="using:App1"
+      xmlns:local="clr-namespace:App1"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
-    <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock Text="Name"
-                   Style="{ThemeResource CaptionTextBlockStyle}" />
-        <TextBox Text="{x:Bind ViewModel.Name.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+    <StackPanel>
+        <TextBlock Text="Name" />
+        <TextBox Text="{Binding Name.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                  Margin="5" />
-        <TextBlock Text="{x:Bind ViewModel.NameErrorMessage.Value, Mode=OneWay}"
+        <TextBlock Text="{Binding NameErrorMessage.Value, Mode=OneWay}"
                    Foreground="Red"
-                   Margin="5,0"
-                   Style="{ThemeResource BodyTextBlockStyle}" />
+                   Margin="5,0" />
     </StackPanel>
 </Page>
 ```
-
-![検証エラー メッセージ](../../docs/features/images/validation-errormessage.png)
 
 ReactiveProperty v7.0.0 以降では、`ObserveErrorChanged.Select(x => x?.OfType<string>()?.FirstOrDefault())` の代わりに `ObserveValidationErrorMessage` 拡張メソッドを使います。上のコードは次のようになります。
 
@@ -353,34 +334,27 @@ public class ViewModel
 <Page x:Class="App1.MainPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:local="using:App1"
+      xmlns:local="clr-namespace:App1"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
-    <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <StackPanel>
         <TextBlock Text="Name"
-                   Style="{ThemeResource CaptionTextBlockStyle}"
                    Margin="5" />
-        <TextBox Text="{x:Bind ViewModel.Name.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+        <TextBox Text="{Binding Name.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                  Margin="5" />
         <TextBlock Text="Memo"
-                   Style="{ThemeResource CaptionTextBlockStyle}"
                    Margin="5" />
-        <TextBox Text="{x:Bind ViewModel.Memo.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+        <TextBox Text="{Binding Memo.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                  Margin="5" />
         <TextBlock Text="HasErrors"
-                   Style="{ThemeResource CaptionTextBlockStyle}"
                    Margin="5" />
-        <CheckBox IsChecked="{x:Bind ViewModel.HasErrors.Value, Mode=OneWay}"
+        <CheckBox IsChecked="{Binding HasErrors.Value, Mode=OneWay}"
                   IsEnabled="False"
                   Margin="5" />
     </StackPanel>
 </Page>
 ```
-
-![HasErrors](../../docs/features/images/haserrors-handling.png)
-
-![HasErrors2](../../docs/features/images/haserrors-handling2.png)
 
 最後のプロパティは `HasErrors` です。これは単なる `bool` プロパティです。
 

@@ -20,7 +20,6 @@ feature may be unavailable in a given project:
 | `ReactiveProperty.Core` | `netstandard2.0;net8.0;net9.0;net472` | Only if `LangVersion` is raised; runtime-dependent features stay off on `netstandard2.0`/`net472` |
 | `ReactiveProperty` (main, `ReactiveProperty.NETStandard`) | `netstandard2.0;net8.0;net9.0;net472` | Same as above |
 | `ReactiveProperty.Platform.WPF` | `net8.0-windows;net9.0-windows;net472` | Same as above |
-| `ReactiveProperty.Platform.UWP` | (UWP TFMs) | Same as above |
 | `ReactiveProperty.Platform.Blazor` | `net8.0;net9.0;net10.0` | Yes on the `net10.0` leg |
 | `Samples/**`, Blazor samples | include `net10.0` | Yes |
 
@@ -30,7 +29,7 @@ Key facts:
   library compiles as **C# 12** today. Adopting any C# 14 feature in the library requires
   raising `LangVersion` (to `14` / `latest` / `preview`).
 - `net10.0` is currently used only by **`ReactiveProperty.Platform.Blazor`** and the
-  **samples**. The core/main/WPF/UWP libraries do **not** target `net10.0`.
+  **samples**. The core/main/WPF libraries do **not** target `net10.0`.
 - The library is **multi-targeted down to `netstandard2.0` and `net472`**. C# 14 *language*
   features that the compiler can lower (e.g. `field`, extension members, null-conditional
   assignment, partial members) work across all TFMs once `LangVersion` is raised, but

@@ -40,3 +40,4 @@ Trivial, easily reversible choices (local refactors, naming) do not need an ADR.
 | [0004](./0004-reactiveproperty-r3-wpf-event-to-reactive.md) | Provide R3-targeting EventToReactive trigger actions in a new ReactiveProperty.R3.WPF package | Accepted |
 | [0005](./0005-remove-vuepress-plain-markdown-docs.md) | Remove VuePress; publish docs as plain Markdown on GitHub | Accepted |
 | [0006](./0006-upgrade-system-reactive-v7.md) | Upgrade the System.Reactive dependency to v7 | Accepted |
+| [0008](./0008-remove-uwp-and-xamarin-support.md) | Remove UWP and Xamarin support from the maintained repository | Accepted |

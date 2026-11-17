@@ -45,7 +45,7 @@ public interface IFilteredReadOnlyObservableCollection<out T> : INotifyCollectio
 /// <typeparam name="TCollection">type of source collection</typeparam>
 /// <typeparam name="TElement">type of collection item</typeparam>
 /// <typeparam name="TTrigger">type for IObservable to notify source status changed</typeparam>
-public sealed class FilteredReadOnlyObservableCollection<TCollection, TElement, TTrigger> : IFilteredReadOnlyObservableCollection<TElement>, IList // IList UWP GridView support.
+public sealed class FilteredReadOnlyObservableCollection<TCollection, TElement, TTrigger> : IFilteredReadOnlyObservableCollection<TElement>, IList
     where TCollection : INotifyCollectionChanged, IList<TElement>
     where TElement : class, INotifyPropertyChanged
 {

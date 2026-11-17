@@ -1,5 +1,5 @@
 ---
-description: 'Migrates .NET test projects from VSTest to Microsoft.Testing.Platform (MTP). Use when user asks to "migrate to MTP", "switch from VSTest", "enable Microsoft.Testing.Platform", "use MTP runner", or mentions EnableMSTestRunner, EnableNUnitRunner, UseMicrosoftTestingPlatformRunner, or dotnet test exit code 8. Supports MSTest, NUnit, xUnit.net v2 (via YTest.MTP.XUnit2), and xUnit.net v3 (native MTP). Also covers translating xUnit.net v3 MTP filter syntax (--filter-class, --filter-trait, --filter-query). Covers runner enablement, CLI argument translation, Directory.Build.props and global.json configuration, CI/CD pipeline updates, and MTP extension packages. DO NOT USE FOR: migrating between test frameworks (MSTest/xUnit/NUnit), xUnit.net v2 to v3 API migration, MSTest version upgrades (use migrate-mstest-* skills), TFM upgrades, or UWP/WinUI test projects.'
+description: 'Migrates .NET test projects from VSTest to Microsoft.Testing.Platform (MTP). Use when user asks to "migrate to MTP", "switch from VSTest", "enable Microsoft.Testing.Platform", "use MTP runner", or mentions EnableMSTestRunner, EnableNUnitRunner, UseMicrosoftTestingPlatformRunner, or dotnet test exit code 8. Supports MSTest, NUnit, xUnit.net v2 (via YTest.MTP.XUnit2), and xUnit.net v3 (native MTP). Also covers translating xUnit.net v3 MTP filter syntax (--filter-class, --filter-trait, --filter-query). Covers runner enablement, CLI argument translation, Directory.Build.props and global.json configuration, CI/CD pipeline updates, and MTP extension packages. DO NOT USE FOR: migrating between test frameworks (MSTest/xUnit/NUnit), xUnit.net v2 to v3 API migration, MSTest version upgrades (use migrate-mstest-* skills), TFM upgrades, or packaged WinUI test projects.'
 metadata:
     github-path: plugins/dotnet-test/skills/migrate-vstest-to-mtp
     github-pinned: v1.0.0
@@ -27,7 +27,7 @@ Migrate a .NET test solution from VSTest to Microsoft.Testing.Platform (MTP). Th
 
 - The project already runs on Microsoft.Testing.Platform -- migration is done
 - Migrating between test frameworks (e.g., MSTest to xUnit.net) -- different effort entirely
-- The project builds UWP or packaged WinUI test projects -- MTP does not support these yet
+- The project builds packaged WinUI test projects -- MTP does not support these yet
 - The solution mixes .NET and non-.NET test adapters (e.g., JavaScript or C++ adapters) -- VSTest is required
 - Upgrading MSTest versions -- use `migrate-mstest-v1v2-to-v3` or `migrate-mstest-v3-to-v4`
 

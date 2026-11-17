@@ -63,7 +63,7 @@ rule has these fields and nothing else:
   (or custom `ReactiveConverter<T, U>` converters for them), also **add** `ReactiveProperty.R3.WPF`.
   Their R3 versions live in that package, **not** in `ReactiveProperty.R3`.
 - **Remove** `ReactiveProperty`, `ReactiveProperty.Core`, `ReactiveProperty.WPF`,
-  `ReactiveProperty.Blazor`, and `ReactiveProperty.UWP`.
+  and `ReactiveProperty.Blazor`.
 - Use the project's existing mechanism (NuGet Central Package Management if present, otherwise
   per-project `PackageReference`). Do not pin a version that conflicts with the repo's convention.
 

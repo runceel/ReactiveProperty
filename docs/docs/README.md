@@ -7,8 +7,6 @@ ReactiveProperty provides MVVM and asynchronous support features for Reactive Ex
 The concept of ReactiveProperty is <b>Fun programming</b>.
 You can write MVVM applications with ReactiveProperty. It's a lot of fun!
 
-![UWP](./images/launch-uwp-app.gif)
-
 The following code shows two-way binding between a ReactiveProperty and a plain object property.
 
 ```csharp
@@ -103,10 +101,7 @@ Cool! It is really declarative and clear.
 ### Getting started
 
 - [Windows Presentation Foundation](getting-started/wpf.md)
-- [Universal Windows Platform](getting-started/uwp.md)
-- [Xamarin.Forms](getting-started/xf.md)
 - [Avalonia](getting-started/avalonia.md)
-- [Uno Platform](getting-started/uno-platform.md)
 - [Blazor](getting-started/blazor.md)
 - [Add code snippets](getting-started/add-snippets.md)
 
@@ -137,9 +132,6 @@ Cool! It is really declarative and clear.
 You can start using ReactiveProperty from the following links.
 
 - [Windows Presentation Foundation](getting-started/wpf.md)
-- [Universal Windows Platform](getting-started/uwp.md)
-- [Xamarin.Forms](getting-started/xf.md)
-- [Uno Platform](getting-started/uno-platform.md)
 
 Learn the core features from the following links.
 
@@ -155,6 +147,3 @@ Learn the core features from the following links.
 |ReactiveProperty|![](https://img.shields.io/nuget/v/ReactiveProperty.svg)![](https://img.shields.io/nuget/dt/ReactiveProperty.svg)|The package includes all core features, and the target platform is .NET Standard 2.0. It fits almost all situations.|
 |ReactiveProperty.Core|![](https://img.shields.io/nuget/v/ReactiveProperty.Core.svg)![](https://img.shields.io/nuget/dt/ReactiveProperty.Core.svg)|The package includes minimal classes such as `ReactivePropertySlim<T>` and `ReadOnlyReactivePropertySlim<T>`. It has no dependencies, not even System.Reactive. If you don't need Rx features, it fits.|
 |ReactiveProperty.WPF|![](https://img.shields.io/nuget/v/ReactiveProperty.WPF.svg)![](https://img.shields.io/nuget/dt/ReactiveProperty.WPF.svg)|The package includes EventToReactiveProperty and EventToReactiveCommand for WPF. This is for .NET Core 3.0 or later and .NET Framework 4.7.2 or later.|
-|ReactiveProperty.UWP|![](https://img.shields.io/nuget/v/ReactiveProperty.UWP.svg)![](https://img.shields.io/nuget/dt/ReactiveProperty.UWP.svg)|The package includes EventToReactiveProperty and EventToReactiveCommand for UWP.|
-|ReactiveProperty.XamarinAndroid|![](https://img.shields.io/nuget/v/ReactiveProperty.XamarinAndroid.svg)![](https://img.shields.io/nuget/dt/ReactiveProperty.XamarinAndroid.svg)|The package includes many extension methods to create IObservable instances from events for Xamarin.Android native.|
-|ReactiveProperty.XamariniOS|![](https://img.shields.io/nuget/v/ReactiveProperty.XamariniOS.svg)![](https://img.shields.io/nuget/dt/ReactiveProperty.XamariniOS.svg)|The package includes many extension methods to bind ReactiveProperty and ReactiveCommand to Xamarin.iOS native controls.|

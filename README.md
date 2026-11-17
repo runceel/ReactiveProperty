@@ -154,14 +154,6 @@ ReactiveProperty doesn't provide base class by ViewModel, which means that React
 |[ReactiveProperty.WPF](https://www.nuget.org/packages/ReactiveProperty.WPF/)|![](https://img.shields.io/nuget/v/ReactiveProperty.WPF.svg)![](https://img.shields.io/nuget/dt/ReactiveProperty.WPF.svg)|The package includes EventToReactiveProperty and EventToReactiveCommand for WPF. This is for .NET 6 or later and .NET Framework 4.7.2 or later.|
 |[ReactiveProperty.Blazor](https://www.nuget.org/packages/ReactiveProperty.Blazor/)|![](https://img.shields.io/nuget/v/ReactiveProperty.Blazor.svg)![](https://img.shields.io/nuget/dt/ReactiveProperty.Blazor.svg)|The package includes validation support for EditForm component of Blazor with ReactiveProperty validation feature for `InteractiveServer` render mode. This is for .NET 8.0 or later. |
 
-The following packages are no longer supported.
-
-|Package Id|Version and downloads|Description|
-|----|----|----|
-|[ReactiveProperty.UWP](https://www.nuget.org/packages/ReactiveProperty.UWP/)|![](https://img.shields.io/nuget/v/ReactiveProperty.UWP.svg)![](https://img.shields.io/nuget/dt/ReactiveProperty.UWP.svg)|The package includes EventToReactiveProperty and EventToReactiveCommand for UWP.|
-|[ReactiveProperty.XamarinAndroid](https://www.nuget.org/packages/ReactiveProperty.XamarinAndroid/)|![](https://img.shields.io/nuget/v/ReactiveProperty.XamarinAndroid.svg)![](https://img.shields.io/nuget/dt/ReactiveProperty.XamarinAndroid.svg)|The package includes many extension methods to create IObservable from events for Xamarin.Android native.|
-|[ReactiveProperty.XamariniOS](https://www.nuget.org/packages/ReactiveProperty.XamariniOS/)|![](https://img.shields.io/nuget/v/ReactiveProperty.XamariniOS.svg)![](https://img.shields.io/nuget/dt/ReactiveProperty.XamariniOS.svg)|The package includes many extension methods to bind ReactiveProperty and ReactiveCommand to Xamarin.iOS native controls.|
-
 ## Support
 
 I'm not watching StackOverflow and other forums to support ReactiveProperty, so please feel free to post questions at Github issues.

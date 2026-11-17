@@ -53,7 +53,7 @@ Migrate a test project from MSTest v3 to MSTest v4. The outcome is a project usi
 
 1. Identify the current MSTest version by checking package references for `MSTest`, `MSTest.TestFramework`, `MSTest.TestAdapter`, or `MSTest.Sdk` in `.csproj`, `Directory.Build.props`, or `Directory.Packages.props`.
 2. Confirm the project is on MSTest v3 (3.x). If on v1 or v2, use `migrate-mstest-v1v2-to-v3` first.
-3. Check target framework(s) -- MSTest v4 drops support for .NET Core 3.1 through .NET 7. Supported target frameworks are: **net8.0**, **net9.0**, **net462** (.NET Framework 4.6.2+), **uap10.0.16299** (UWP), **net9.0-windows10.0.17763.0** (modern UWP), and **net8.0-windows10.0.18362.0** (WinUI).
+3. Check target framework(s) -- MSTest v4 drops support for .NET Core 3.1 through .NET 7. Supported target framework examples include **net8.0**, **net9.0**, **net462** (.NET Framework 4.6.2+), and **net8.0-windows10.0.18362.0** (WinUI).
 4. Check for custom `TestMethodAttribute` subclasses -- these require changes in v4.
 5. Check for usages of `ExpectedExceptionAttribute` -- removed in v4 (deprecated since v3 with analyzer MSTEST0006).
 6. Check for usages of `Assert.ThrowsException` (deprecated) -- removed in v4.
@@ -315,7 +315,7 @@ public async Task FetchData_BadUrl_Throws()
 
 #### 3.9 Dropped target frameworks
 
-MSTest v4 supports: **net8.0**, **net9.0**, **net462** (.NET Framework 4.6.2+), **uap10.0.16299** (UWP), **net9.0-windows10.0.17763.0** (modern UWP), and **net8.0-windows10.0.18362.0** (WinUI). All other frameworks are dropped -- including net5.0, net6.0, net7.0, and netcoreapp3.1.
+MSTest v4 supports targets including **net8.0**, **net9.0**, **net462** (.NET Framework 4.6.2+), and **net8.0-windows10.0.18362.0** (WinUI). It drops net5.0, net6.0, net7.0, and netcoreapp3.1.
 
 If the test project targets an unsupported framework, update `TargetFramework`:
 
@@ -444,7 +444,7 @@ Review and fix any new warnings, or suppress them in `.editorconfig` if intentio
 - [ ] `Assert.ThrowsException` replaced with `Assert.ThrowsExactly` (or `Assert.Throws`)
 - [ ] `ClassCleanupBehavior` enum usages removed
 - [ ] `TestContext.Properties.Contains` updated to `ContainsKey`
-- [ ] All target frameworks are net8.0+, net9.0, net462+, uap10.0.16299, or WinUI
+- [ ] All test target frameworks are supported by the selected MSTest version
 - [ ] Behavioral changes reviewed and addressed
 - [ ] No tests were lost during migration (compare test counts)
 
@@ -467,4 +467,4 @@ Review and fix any new warnings, or suppress them in `.editorconfig` if intentio
 | Tests hang that didn't before | AppDomain is disabled by default; on .NET Fx in testhost it is re-enabled automatically |
 | Azure DevOps test history breaks | Expected -- `TestCase.Id` generation changed; no code fix, results will re-baseline |
 | Discovery warnings now fail the run | `TreatDiscoveryWarningsAsErrors` is true by default; fix the discovery warnings |
-| Net6.0/net7.0 targets don't compile | Update to net8.0 -- MSTest v4 supports net8.0, net9.0, net462, uap10.0.16299, modern UWP, and WinUI |
+| Net6.0/net7.0 targets don't compile | Update to net8.0 -- MSTest v4 supports net8.0, net9.0, net462, and WinUI |

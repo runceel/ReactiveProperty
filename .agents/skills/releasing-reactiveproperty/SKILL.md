@@ -48,8 +48,6 @@ The normal `ReactiveProperty.slnx` release publishes these package IDs:
 | `ReactiveProperty.R3` | `Source/ReactiveProperty.R3/ReactiveProperty.R3.csproj` |
 | `ReactiveProperty.R3.WPF` | `Source/ReactiveProperty.R3.WPF/ReactiveProperty.R3.WPF.csproj` |
 
-`ReactiveProperty.UWP` is legacy and is not part of the normal `ReactiveProperty.slnx` release.
-
 ## Workflow
 
 ### 1. Resolve mode, version, and tag

@@ -19,8 +19,6 @@
     <File Path="Images/rpsummary.png" />
     <File Path="Images/synchronize.png" />
     <File Path="Images/todomvvm.png" />
-    <File Path="Images/xf-howtouserp-createproject-en.png" />
-    <File Path="Images/xf-howtouserp-createproject.png" />
   </Folder>
   <Folder Name="/Snippet/" />
   <Folder Name="/Snippet/csharp5/">

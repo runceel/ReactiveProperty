@@ -1,4 +1,4 @@
-# Commanding
+﻿# Commanding
 
 `ReactiveCommand` class implements the following two interfaces.
 
@@ -61,7 +61,7 @@ public class ViewModel
 }
 ```
 
-Example for UWP.
+Example for WPF.
 
 ```csharp
 public sealed partial class MainPage : Page
@@ -70,6 +70,7 @@ public sealed partial class MainPage : Page
     public MainPage()
     {
         this.InitializeComponent();
+        DataContext = ViewModel;
     }
 }
 ```
@@ -78,22 +79,19 @@ public sealed partial class MainPage : Page
 <Page x:Class="App1.MainPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:local="using:App1"
+      xmlns:local="clr-namespace:App1"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
-    <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <StackPanel>
         <Button Content="Update the time"
-                Command="{x:Bind ViewModel.UpdateTimeCommand}"
+                Command="{Binding UpdateTimeCommand}"
                 Margin="5" />
-        <TextBlock Text="{x:Bind ViewModel.Time.Value, Mode=OneWay}"
-                   Style="{ThemeResource BodyTextBlockStyle}"
+        <TextBlock Text="{Binding Time.Value, Mode=OneWay}"
                    Margin="5" />
     </StackPanel>
 </Page>
 ```
-
-![First example](./images/reactivecommand-firstexample.gif)
 
 ## Work with LINQ
 
@@ -144,8 +142,6 @@ public class ViewModel
     }
 }
 ```
-
-![Disable 5 secs](./images/reactivecommand-disable5secs.gif)
 
 ## Create command and subscribe, in one statement
 
@@ -266,21 +262,19 @@ public class ViewModel
 <Page x:Class="App1.MainPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:local="using:App1"
+      xmlns:local="clr-namespace:App1"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
-    <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <StackPanel>
         <Button Content="Heavy command"
-                Command="{x:Bind ViewModel.HeavyCommand}"
+                Command="{Binding HeavyCommand}"
                 Margin="5" />
-        <TextBlock Text="{x:Bind ViewModel.Message.Value, Mode=OneWay}"
+        <TextBlock Text="{Binding Message.Value, Mode=OneWay}"
                    Margin="5" />
     </StackPanel>
 </Page>
 ```
-
-![HeavyCommand](./images/asyncreactivecommand-heavyprocess.gif)
 
 Of course, `AsyncReactiveCommand` can be created from `IObservable<bool>`.
 
@@ -305,8 +299,6 @@ public class ViewModel
     }
 }
 ```
-
-![From IObservable<bool>](./images/asyncreactivecommand-from-iobool.gif)
 
 The `AsyncReactiveCommand` class also implements the `IDisposable` interface.
 You should call the `Dispose` method when subscribing to another instance's events.
@@ -352,24 +344,22 @@ public class ViewModel
 <Page x:Class="App1.MainPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:local="using:App1"
+      xmlns:local="clr-namespace:App1"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
-    <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <StackPanel>
         <Button Content="Heavy command 1"
-                Command="{x:Bind ViewModel.HeavyCommand1}"
+                Command="{Binding HeavyCommand1}"
                 Margin="5" />
         <Button Content="Heavy command 2"
-                Command="{x:Bind ViewModel.HeavyCommand2}"
+                Command="{Binding HeavyCommand2}"
                 Margin="5" />
-        <TextBlock Text="{x:Bind ViewModel.Message.Value, Mode=OneWay}"
+        <TextBlock Text="{Binding Message.Value, Mode=OneWay}"
                    Margin="5" />
     </StackPanel>
 </Page>
 ```
-
-![Share state](./images/asyncreactivecommand-share-state.gif)
 
 Of course, you can combine `IObservable<bool>` and `IReactiveProperty<bool>`. Use `IObservable<bool>` as the source of `AsyncReactiveCommand`, and use `IReactiveProperty<bool>` to share state across `AsyncReactiveCommand`s.
 You can use `ToAsyncReactiveCommand(this IObservable<bool> source, IReactiveProperty<bool> sharedCanExecute = null)` method, like this:
@@ -417,7 +407,7 @@ After binding the ViewModel class to the view:
 
 ```csharp
 // code behind
-using Windows.UI.Xaml.Controls;
+using System.Windows.Controls;
 
 namespace RPSample
 {
@@ -427,6 +417,7 @@ namespace RPSample
         public MainPage()
         {
             InitializeComponent();
+            DataContext = ViewModel;
         }
     }
 }
@@ -439,27 +430,21 @@ namespace RPSample
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
     <StackPanel>
-        <TextBox Text="{x:Bind ViewModel.Input.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <TextBox Text="{Binding Input.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         <Button
             HorizontalAlignment="Stretch"
-            Command="{x:Bind ViewModel.CommandA}"
+            Command="{Binding CommandA}"
             Content="CommandA" />
         <Button
             HorizontalAlignment="Stretch"
-            Command="{x:Bind ViewModel.CommandB}"
+            Command="{Binding CommandB}"
             Content="CommandB" />
     </StackPanel>
 </Page>
 ```
-
-It works like this:
-
-![Share state and same source](./images/asyncreactivecommand-shared-source.gif)
-
 
 ## Threading
 
