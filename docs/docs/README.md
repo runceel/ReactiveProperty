@@ -1,6 +1,6 @@
 # What is ReactiveProperty
 
-ReactiveProperty provides MVVM and asynchronous support features for Reactive Extensions. The core packages target .NET 10, .NET 11, .NET Framework 4.7.2, and .NET Standard 2.0. See the [package overview](#nuget-packages) for platform-specific targets.
+ReactiveProperty provides MVVM and asynchronous support features for Reactive Extensions. The core packages target .NET 10, .NET 11, .NET Framework 4.7.2 or later, and .NET Standard 2.0. See the [package overview](#nuget-packages) for platform-specific targets.
 
 ![Summary](./images/rpsummary.png)
 

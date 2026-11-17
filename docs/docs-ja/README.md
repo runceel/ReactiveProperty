@@ -1,6 +1,6 @@
 # ReactiveProperty とは
 
-ReactiveProperty は Reactive Extensions 向けに MVVM と非同期処理を支援する機能を提供します。コア パッケージは .NET 10、.NET 11、.NET Framework 4.7.2、.NET Standard 2.0 をターゲットにしています。プラットフォーム別の対象は[パッケージ一覧](#nuget-パッケージ)を参照してください。
+ReactiveProperty は Reactive Extensions 向けに MVVM と非同期処理を支援する機能を提供します。コア パッケージは .NET 10、.NET 11、.NET Framework 4.7.2 以降、.NET Standard 2.0 をターゲットにしています。プラットフォーム別の対象は[パッケージ一覧](#nuget-パッケージ)を参照してください。
 
 ![概要](../docs/images/rpsummary.png)
 
