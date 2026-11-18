@@ -89,7 +89,7 @@ Those properties are bound in XAML code.
 
 ```
 
-![WPF displays a required-name error under the empty field](./images/validation-errormessage.png)
+![WPF text box bound to Name, displaying Alice](./images/wpf-bind-name.png)
 
 If you use `ReactiveProperty`, the ViewModel code becomes very simple!
 
@@ -113,9 +113,9 @@ This is the only limitation of this library.
 
 ```
 
-![HasErrors is checked while required WPF fields are empty](./images/haserrors-handling.png)
+With the same value, the text box looks the same; only the binding path changes.
 
-![HasErrors is unchecked after both WPF fields are filled](./images/haserrors-handling2.png)
+![WPF text box bound to Name.Value, displaying Alice](./images/wpf-bind-name-value.png)
 
 > We sometimes forget the `.Value`. If you have a ReSharper license, you can use this plugin.
 > [ReactiveProperty XAML Binding Corrector](https://resharper-plugins.jetbrains.com/packages/ReSharper.RpCorrector/)
@@ -274,6 +274,8 @@ public sealed partial class MainPage : Page
 </Page>
 ```
 
+![Required-name message displayed below the text box by the NameErrorMessage binding](./images/validation-errormessage.png)
+
 In ReactiveProperty v7.0.0 or later, use the `ObserveValidationErrorMessage` extension method instead of `ObserveErrorChanged.Select(x => x?.OfType<string>()?.FirstOrDefault())`. The code above is shown below:
 
 ```csharp
@@ -361,6 +363,10 @@ public class ViewModel
     </StackPanel>
 </Page>
 ```
+
+![The combined HasErrors check box is checked while Name and Memo are empty](./images/haserrors-handling.png)
+
+![The combined HasErrors check box is unchecked after Name and Memo are filled](./images/haserrors-handling2.png)
 
 The last property is `HasErrors`. It is just a `bool` property.
 

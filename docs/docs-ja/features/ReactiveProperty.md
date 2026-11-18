@@ -89,7 +89,7 @@ public class MainPageViewModel : INotifyPropertyChanged
 
 ```
 
-![空の名前欄の下に必須入力エラーを表示する WPF 画面](../../docs/features/images/validation-errormessage.png)
+![Name にバインドし、Alice を表示する WPF の入力欄](../../docs/features/images/wpf-bind-name.png)
 
 `ReactiveProperty` を使うと、ViewModel のコードはとてもシンプルになります。
 
@@ -113,9 +113,9 @@ XAML コードでバインディングするときは、バインディング �
 
 ```
 
-![WPF の必須項目が空のとき HasErrors がオン](../../docs/features/images/haserrors-handling.png)
+同じ値を表示したとき、入力欄の見た目は同じです。変わるのはバインディング パスだけです。
 
-![WPF の両方の項目を入力すると HasErrors がオフ](../../docs/features/images/haserrors-handling2.png)
+![Name.Value にバインドし、Alice を表示する WPF の入力欄](../../docs/features/images/wpf-bind-name-value.png)
 
 > `.Value` を忘れてしまうことがあります。ReSharper ライセンスをお持ちの場合は、このプラグインを利用できます。
 > [ReactiveProperty XAML Binding Corrector](https://resharper-plugins.jetbrains.com/packages/ReSharper.RpCorrector/)
@@ -274,6 +274,8 @@ public sealed partial class MainPage : Page
 </Page>
 ```
 
+![NameErrorMessage のバインディングで名前欄の下に必須入力メッセージを表示](../../docs/features/images/validation-errormessage.png)
+
 ReactiveProperty v7.0.0 以降では、`ObserveErrorChanged.Select(x => x?.OfType<string>()?.FirstOrDefault())` の代わりに `ObserveValidationErrorMessage` 拡張メソッドを使います。上のコードは次のようになります。
 
 ```csharp
@@ -361,6 +363,10 @@ public class ViewModel
     </StackPanel>
 </Page>
 ```
+
+![Name と Memo が空のときにオンになる合成 HasErrors のチェックボックス](../../docs/features/images/haserrors-handling.png)
+
+![Name と Memo を入力するとオフになる合成 HasErrors のチェックボックス](../../docs/features/images/haserrors-handling2.png)
 
 最後のプロパティは `HasErrors` です。これは単なる `bool` プロパティです。
 
