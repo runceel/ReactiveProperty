@@ -89,6 +89,8 @@ Those properties are bound in XAML code.
 
 ```
 
+![WPF displays a required-name error under the empty field](./images/validation-errormessage.png)
+
 If you use `ReactiveProperty`, the ViewModel code becomes very simple!
 
 ```csharp
@@ -110,6 +112,10 @@ This is the only limitation of this library.
 <TextBox Text="{Binding Name.Value}" />
 
 ```
+
+![HasErrors is checked while required WPF fields are empty](./images/haserrors-handling.png)
+
+![HasErrors is unchecked after both WPF fields are filled](./images/haserrors-handling2.png)
 
 > We sometimes forget the `.Value`. If you have a ReSharper license, you can use this plugin.
 > [ReactiveProperty XAML Binding Corrector](https://resharper-plugins.jetbrains.com/packages/ReSharper.RpCorrector/)

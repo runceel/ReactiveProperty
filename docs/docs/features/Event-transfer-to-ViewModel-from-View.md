@@ -153,6 +153,8 @@ namespace App1
 }
 ```
 
+![WPF event actions display the selected path and leave it unchanged on cancel](./images/event-to-reactivexxx.gif)
+
 ## Customizing EventToReactiveCommand
 
 ### CallExecuteOnScheduler property

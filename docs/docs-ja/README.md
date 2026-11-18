@@ -7,6 +7,8 @@ ReactiveProperty は Reactive Extensions 向けに MVVM と非同期処理を支
 ReactiveProperty のコンセプトは <b>楽しいプログラミング</b> です。
 ReactiveProperty を使うと MVVM アプリケーションを記述できます。とても楽しいですよ！
 
+![WPF でどちらの項目を編集してももう一方が更新される様子](../docs/features/images/work-together-with-poco-two-way-synchronization.gif)
+
 次のコードは、ReactiveProperty と通常のオブジェクト プロパティの間の双方向バインディングを示しています。
 
 ```csharp

@@ -93,6 +93,8 @@ public sealed partial class MainPage : Page
 </Page>
 ```
 
+![WPF のボタンで時刻を更新](../../docs/features/images/reactivecommand-firstexample.gif)
+
 ## LINQ と連携する
 
 `ReactiveCommand` クラスは `IObservable<T>` インターフェイスを実装しています。
@@ -142,6 +144,8 @@ public class ViewModel
     }
 }
 ```
+
+![クリック後に WPF のボタンが5秒間無効になる様子](../../docs/features/images/reactivecommand-disable5secs.gif)
 
 ## コマンドの作成と購読を 1 文で行う
 
@@ -276,7 +280,10 @@ public class ViewModel
 </Page>
 ```
 
+![非同期コマンドの実行中に WPF のボタンが無効になる様子](../../docs/features/images/asyncreactivecommand-heavyprocess.gif)
+
 もちろん、`AsyncReactiveCommand` は `IObservable<bool>` からも作成できます。
+WPF でソースがバックグラウンド スレッドから値を発行する場合は、コマンドを作成する前に UI ディスパッチャーへ切り替えてください。
 
 ```csharp
 public class ViewModel
@@ -289,6 +296,7 @@ public class ViewModel
     {
         HeavyCommand = Observable.Interval(TimeSpan.FromSeconds(1))
             .Select(x => x % 2 == 0)
+            .ObserveOnUIDispatcher()
             .ToAsyncReactiveCommand()
             .WithSubscribe(async () =>
             {
@@ -299,6 +307,8 @@ public class ViewModel
     }
 }
 ```
+
+![WPF のボタンが Observable の CanExecute 状態に従う様子](../../docs/features/images/asyncreactivecommand-from-iobool.gif)
 
 `AsyncReactiveCommand` クラスも `IDisposable` インターフェイスを実装しています。
 別のインスタンスのイベントを購読する場合は、`Dispose` メソッドを呼び出してください。
@@ -360,6 +370,8 @@ public class ViewModel
     </StackPanel>
 </Page>
 ```
+
+![どちらかのコマンドの実行中に WPF の両ボタンが無効になる様子](../../docs/features/images/asyncreactivecommand-share-state.gif)
 
 もちろん、`IObservable<bool>` と `IReactiveProperty<bool>` を組み合わせることもできます。`AsyncReactiveCommand` のソースとして `IObservable<bool>` を使い、複数の `AsyncReactiveCommand` で状態を共有するために `IReactiveProperty<bool>` を使います。
 次のように、`ToAsyncReactiveCommand(this IObservable<bool> source, IReactiveProperty<bool> sharedCanExecute = null)` メソッドを使えます。
@@ -445,6 +457,8 @@ namespace RPSample
     </StackPanel>
 </Page>
 ```
+
+![有効な入力で WPF の両ボタンが有効になり、実行中は両方が無効になる様子](../../docs/features/images/asyncreactivecommand-shared-source.gif)
 
 ## スレッド処理
 

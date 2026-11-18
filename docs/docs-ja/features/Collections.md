@@ -77,6 +77,8 @@ MainPage.xaml
 </Page>
 ```
 
+![WPF の記録リストへの追加](../../docs/features/images/collections-reactivecollection-basic-usage.gif)
+
 ## コレクション操作
 
 `ReactiveCollection` クラスには、`AddOnScheduler`、`RemoveOnScheduler`、`ClearOnScheduler`、`GetOnScheduler` などの `XxxxOnScheduler` メソッドがあります。
@@ -135,6 +137,8 @@ public class ViewModel
     </Grid>
 </Page>
 ```
+
+![WPF の記録リストのクリア](../../docs/features/images/collections-reactivecollection-collection-operations.gif)
 
 `ReactiveCollection` インスタンスを破棄すると、元の IObservable インスタンスから購読解除されます。
 
@@ -290,6 +294,8 @@ public class ViewModel
 </Page>
 ```
 
+![WPF での項目の追加と削除](../../docs/features/images/collections-reactivecollection-readonly-collection.gif)
+
 
 `ReadOnlyReactiveCollection` からインスタンスが削除されると、`Dispose` メソッドが呼び出されます。この動作が不要な場合は、`ToReadOnlyReactiveCollection()` の `disposeElement` 引数に `false` を設定します。
 
@@ -342,6 +348,8 @@ public class ViewModel
     </Grid>
 </Page>
 ```
+
+![WPF のメッセージ リストのリセット](../../docs/features/images/collections-reactivecollection-readonly-collection-reset.gif)
 
 `ResetCommand` が実行されると、Messages コレクションがクリアされます。
 
@@ -455,6 +463,8 @@ public class ViewModel
     </Grid>
 </Page>
 ```
+
+![値が 7 より大きい項目が WPF のフィルター済みリストに表示される様子](../../docs/features/images/collections-filtered-collection.gif)
 
 Value プロパティが 7 より大きいとき、Filtered Values の ListView（右側）に値を表示します。
 

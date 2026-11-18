@@ -7,6 +7,8 @@ ReactiveProperty provides MVVM and asynchronous support features for Reactive Ex
 The concept of ReactiveProperty is <b>Fun programming</b>.
 You can write MVVM applications with ReactiveProperty. It's a lot of fun!
 
+![Editing either WPF field updates the other](./features/images/work-together-with-poco-two-way-synchronization.gif)
+
 The following code shows two-way binding between a ReactiveProperty and a plain object property.
 
 ```csharp

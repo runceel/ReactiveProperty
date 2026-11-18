@@ -139,6 +139,8 @@ MainPage.xaml
 </Page>
 ```
 
+![Editing either WPF field updates the other](./images/work-together-with-poco-two-way-synchronization.gif)
+
 The `ToReactivePropertyAsSynchronized` extension method can add conversion and convert-back logic.
 
 ```csharp
@@ -156,6 +158,8 @@ public class ViewModel
     }
 }
 ```
+
+![WPF displays the converted name and removes the suffix on write-back](./images/work-together-with-poco-two-way-synchronization-and-convert.gif)
 
 When the `ignoreValidationErrorValue` argument is set to true, it stops synchronization if a validation error occurs.
 
@@ -177,6 +181,8 @@ public class ViewModel
     }
 }
 ```
+
+![WPF marks invalid text without updating the model](./images/work-together-with-poco-two-way-synchronization-and-ignoreValidationError.gif)
 
 You can also use LINQ to convert values, as shown below:
 

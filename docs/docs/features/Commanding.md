@@ -93,6 +93,8 @@ public sealed partial class MainPage : Page
 </Page>
 ```
 
+![Updating the time with a WPF button](./images/reactivecommand-firstexample.gif)
+
 ## Work with LINQ
 
 `ReactiveCommand` class implements the `IObservable<T>` interface.
@@ -142,6 +144,8 @@ public class ViewModel
     }
 }
 ```
+
+![WPF button disabled for five seconds after a click](./images/reactivecommand-disable5secs.gif)
 
 ## Create command and subscribe, in one statement
 
@@ -276,7 +280,10 @@ public class ViewModel
 </Page>
 ```
 
+![WPF button disabled while the asynchronous command runs](./images/asyncreactivecommand-heavyprocess.gif)
+
 Of course, `AsyncReactiveCommand` can be created from `IObservable<bool>`.
+In WPF, switch to the UI dispatcher before creating the command if the source emits on a background thread.
 
 ```csharp
 public class ViewModel
@@ -289,6 +296,7 @@ public class ViewModel
     {
         HeavyCommand = Observable.Interval(TimeSpan.FromSeconds(1))
             .Select(x => x % 2 == 0)
+            .ObserveOnUIDispatcher()
             .ToAsyncReactiveCommand()
             .WithSubscribe(async () =>
             {
@@ -299,6 +307,8 @@ public class ViewModel
     }
 }
 ```
+
+![A WPF button following the observable CanExecute state](./images/asyncreactivecommand-from-iobool.gif)
 
 The `AsyncReactiveCommand` class also implements the `IDisposable` interface.
 You should call the `Dispose` method when subscribing to another instance's events.
@@ -360,6 +370,8 @@ public class ViewModel
     </StackPanel>
 </Page>
 ```
+
+![Both WPF buttons disable while either shared command runs](./images/asyncreactivecommand-share-state.gif)
 
 Of course, you can combine `IObservable<bool>` and `IReactiveProperty<bool>`. Use `IObservable<bool>` as the source of `AsyncReactiveCommand`, and use `IReactiveProperty<bool>` to share state across `AsyncReactiveCommand`s.
 You can use `ToAsyncReactiveCommand(this IObservable<bool> source, IReactiveProperty<bool> sharedCanExecute = null)` method, like this:
@@ -445,6 +457,8 @@ namespace RPSample
     </StackPanel>
 </Page>
 ```
+
+![Valid input enables both WPF buttons; running a command disables both](./images/asyncreactivecommand-shared-source.gif)
 
 ## Threading
 

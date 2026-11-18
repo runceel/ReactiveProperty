@@ -20,6 +20,10 @@ If you’re developing a new application, consider using R3 instead of ReactiveP
 
 ReactiveProperty is a very powerful and simple library.
 
+[Getting started with WPF](docs/docs/getting-started/wpf.md)
+
+![WPF displays the input in uppercase after one second](docs/docs/getting-started/images/launch-wpf-app.gif)
+
 ![Delay and Select](https://raw.githubusercontent.com/runceel/ReactiveProperty/main/Images/helloworld-winui.gif)
 
 This sample app's ViewModel code is as below:

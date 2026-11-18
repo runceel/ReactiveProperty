@@ -89,6 +89,8 @@ public class MainPageViewModel : INotifyPropertyChanged
 
 ```
 
+![空の名前欄の下に必須入力エラーを表示する WPF 画面](../../docs/features/images/validation-errormessage.png)
+
 `ReactiveProperty` を使うと、ViewModel のコードはとてもシンプルになります。
 
 ```csharp
@@ -110,6 +112,10 @@ XAML コードでバインディングするときは、バインディング �
 <TextBox Text="{Binding Name.Value}" />
 
 ```
+
+![WPF の必須項目が空のとき HasErrors がオン](../../docs/features/images/haserrors-handling.png)
+
+![WPF の両方の項目を入力すると HasErrors がオフ](../../docs/features/images/haserrors-handling2.png)
 
 > `.Value` を忘れてしまうことがあります。ReSharper ライセンスをお持ちの場合は、このプラグインを利用できます。
 > [ReactiveProperty XAML Binding Corrector](https://resharper-plugins.jetbrains.com/packages/ReSharper.RpCorrector/)

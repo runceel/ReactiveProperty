@@ -139,6 +139,8 @@ MainPage.xaml
 </Page>
 ```
 
+![WPF でどちらの項目を編集してももう一方が更新される様子](../../docs/features/images/work-together-with-poco-two-way-synchronization.gif)
+
 `ToReactivePropertyAsSynchronized` 拡張メソッドには、変換ロジックと逆変換ロジックを追加できます。
 
 ```csharp
@@ -156,6 +158,8 @@ public class ViewModel
     }
 }
 ```
+
+![WPF で変換後の名前を表示し、モデルに戻すときに接尾辞を取り除く様子](../../docs/features/images/work-together-with-poco-two-way-synchronization-and-convert.gif)
 
 `ignoreValidationErrorValue` 引数を true に設定すると、検証エラーが発生した場合に同期を停止します。
 
@@ -177,6 +181,8 @@ public class ViewModel
     }
 }
 ```
+
+![WPF が無効な入力を示し、モデルは更新しない様子](../../docs/features/images/work-together-with-poco-two-way-synchronization-and-ignoreValidationError.gif)
 
 次のように LINQ を使って値を変換することもできます。
 

@@ -153,6 +153,8 @@ namespace App1
 }
 ```
 
+![WPF のイベント連携で選択したパスを表示し、キャンセル時は変わらない様子](../../docs/features/images/event-to-reactivexxx.gif)
+
 ## EventToReactiveCommand のカスタマイズ
 
 ### CallExecuteOnScheduler プロパティ

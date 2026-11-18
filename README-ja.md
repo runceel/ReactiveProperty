@@ -7,6 +7,10 @@ ReactiveProperty
 
 ReactivePropertyは、Reactive ExtensionsをMVVMパターンと非同期用に拡張したものです。
 
+[WPF 入門](docs/docs-ja/getting-started/wpf.md)
+
+![WPF で入力した文字が1秒後に大文字で表示される様子](docs/docs/getting-started/images/launch-wpf-app.gif)
+
 コア パッケージは .NET 10、.NET 11、.NET Framework 4.7.2 以降、.NET Standard 2.0 をターゲットにしています。
 プラットフォーム別の対象とパッケージの一覧は[日本語ドキュメント](docs/docs-ja/README.md#nuget-パッケージ)を参照してください。
 

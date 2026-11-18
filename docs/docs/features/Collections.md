@@ -77,6 +77,8 @@ MainPage.xaml
 </Page>
 ```
 
+![Starting the WPF recording list](./images/collections-reactivecollection-basic-usage.gif)
+
 ## Collection operations
 
 The `ReactiveCollection` class has `XxxxOnScheduler` methods, such as `AddOnScheduler`, `RemoveOnScheduler`, `ClearOnScheduler`, and `GetOnScheduler`.
@@ -135,6 +137,8 @@ public class ViewModel
     </Grid>
 </Page>
 ```
+
+![Clearing the WPF recording list](./images/collections-reactivecollection-collection-operations.gif)
 
 When a `ReactiveCollection` instance is disposed, it unsubscribes from the source IObservable instance.
 
@@ -290,6 +294,8 @@ The test view is below.
 </Page>
 ```
 
+![Adding and removing an item in WPF](./images/collections-reactivecollection-readonly-collection.gif)
+
 
 When an instance is removed from the `ReadOnlyReactiveCollection`, the `Dispose` method is called. If you don't need this behavior, set the `disposeElement` argument to `false` in `ToReadOnlyReactiveCollection()`.
 
@@ -342,6 +348,8 @@ public class ViewModel
     </Grid>
 </Page>
 ```
+
+![Resetting the WPF message list](./images/collections-reactivecollection-readonly-collection-reset.gif)
 
 When the `ResetCommand` is executed, the Messages collection is cleared.
 
@@ -455,6 +463,8 @@ public class ViewModel
     </Grid>
 </Page>
 ```
+
+![Items greater than seven appearing in the filtered WPF list](./images/collections-filtered-collection.gif)
 
 When the Value property is greater than 7, display the value in the Filtered Values ListView (right side).
 
