@@ -182,7 +182,7 @@ public class ViewModel
 }
 ```
 
-![WPF が無効な入力を示し、モデルは更新しない様子](../../docs/features/images/work-together-with-poco-two-way-synchronization-and-ignoreValidationError.gif)
+![ReactiveProperty に無効な値 VeryLongName を入力しても、モデルには Alice が残る様子](../../docs/features/images/work-together-with-poco-two-way-synchronization-and-ignoreValidationError.gif)
 
 次のように LINQ を使って値を変換することもできます。
 

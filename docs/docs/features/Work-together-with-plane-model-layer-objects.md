@@ -182,7 +182,7 @@ public class ViewModel
 }
 ```
 
-![WPF marks invalid text without updating the model](./images/work-together-with-poco-two-way-synchronization-and-ignoreValidationError.gif)
+![The ReactiveProperty shows the invalid value VeryLongName while the model retains Alice](./images/work-together-with-poco-two-way-synchronization-and-ignoreValidationError.gif)
 
 You can also use LINQ to convert values, as shown below:
 

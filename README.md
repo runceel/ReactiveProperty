@@ -20,13 +20,11 @@ If you’re developing a new application, consider using R3 instead of ReactiveP
 
 ReactiveProperty is a very powerful and simple library.
 
-[Getting started with WPF](docs/docs/getting-started/wpf.md)
+The following WinUI example displays the input in uppercase after a one-second delay:
 
-![WPF displays the input in uppercase after one second](docs/docs/getting-started/images/launch-wpf-app.gif)
+![WinUI displays the input in uppercase after a one-second delay](https://raw.githubusercontent.com/runceel/ReactiveProperty/main/Images/helloworld-winui.gif)
 
-![Delay and Select](https://raw.githubusercontent.com/runceel/ReactiveProperty/main/Images/helloworld-winui.gif)
-
-This sample app's ViewModel code is as below:
+The WinUI sample's ViewModel code is as below:
 
 ```cs
 public class MainPageViewModel
