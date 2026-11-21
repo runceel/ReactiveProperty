@@ -1,5 +1,8 @@
 name: Samples R3 migration tests
 
+permissions:
+  contents: read
+
 # Gating safety net for the R3 migration sample. Scoped to the single
 # ReactivePropertySamples.R3.Tests project so it builds/restores only the R3 bridge
 # and the migrated sample ViewModels - it does NOT pull in the WPF/Blazor/Prism/MahApps
