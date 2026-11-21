@@ -32,6 +32,8 @@ Trivial, easily reversible choices (local refactors, naming) do not need an ADR.
 
 ## Index
 
+Proposed follow-up: [0009. Cache property-path accessor adapters](./0009-property-path-accessor-adapters.md).
+
 | ADR | Title | Status |
 |-----|-------|--------|
 | [0001](./0001-adopt-tdd-adr-and-dev-docs.md) | Adopt TDD, ADRs, and a dev-docs location | Accepted |
