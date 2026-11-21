@@ -343,11 +343,11 @@ public class ValidatableReactiveProperty<T> : IReactiveProperty<T>, IObserverLin
                 var error = validator(value);
                 if (error is not null)
                 {
-                    (errors ??= new List<string>()).Add(error);
+                    (errors ??= []).Add(error);
                 }
             }
 
-            _errorMessages.Value = errors?.ToArray() ?? Array.Empty<string>();
+            _errorMessages.Value = errors?.ToArray() ?? [];
         }
 
         if (isNotEquals || IsDistinctUntilChanged is false)
