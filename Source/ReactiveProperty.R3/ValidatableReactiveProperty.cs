@@ -18,13 +18,17 @@ namespace Reactive.Bindings.R3;
 /// <typeparam name="T">Value type.</typeparam>
 public sealed class ValidatableReactiveProperty<T> : Observable<T>, INotifyPropertyChanged, INotifyDataErrorInfo, IDisposable
 {
+    private static readonly PropertyChangedEventArgs s_valuePropertyChangedEventArgs = new(nameof(Value));
+    private static readonly PropertyChangedEventArgs s_errorMessagePropertyChangedEventArgs = new(nameof(ErrorMessage));
+    private static readonly PropertyChangedEventArgs s_hasErrorsPropertyChangedEventArgs = new(nameof(HasErrors));
+
     private readonly ReactiveProperty<T> _property;
     private readonly IEqualityComparer<T> _equalityComparer;
     private readonly object _validationSyncRoot = new();
     private readonly ReactiveProperty<IReadOnlyList<string>> _errors = new(Array.Empty<string>());
     private readonly ReactiveProperty<bool> _hasErrors = new(false);
     private readonly Subject<T> _validationTrigger = new();
-    private readonly List<(int Slot, Func<T, IEnumerable<string>?> Validate)> _validators = new();
+    private (int Slot, Func<T, IEnumerable<string>?> Validate)[] _validators = [];
     private readonly List<string[]> _validationErrors = new();
     private readonly List<IDisposable> _subscriptions = new();
     private readonly bool _ignoreInitialValidationError;
@@ -60,7 +64,7 @@ public sealed class ValidatableReactiveProperty<T> : Observable<T>, INotifyPrope
             _hasChangedValue = true;
             _property.Value = value;
             ValidateAndNotify(value);
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Value)));
+            PropertyChanged?.Invoke(this, s_valuePropertyChangedEventArgs);
         }
     }
 
@@ -134,7 +138,11 @@ public sealed class ValidatableReactiveProperty<T> : Observable<T>, INotifyPrope
         lock (_validationSyncRoot)
         {
             var slot = AddValidationSlot();
-            _validators.Add((slot, validate));
+            var validators = _validators;
+            var nextValidators = new (int Slot, Func<T, IEnumerable<string>?> Validate)[validators.Length + 1];
+            Array.Copy(validators, nextValidators, validators.Length);
+            nextValidators[validators.Length] = (slot, validate);
+            _validators = nextValidators;
         }
 
         ValidateAfterRegistration();
@@ -285,7 +293,7 @@ public sealed class ValidatableReactiveProperty<T> : Observable<T>, INotifyPrope
         (int Slot, Func<T, IEnumerable<string>?> Validate)[] validators;
         lock (_validationSyncRoot)
         {
-            validators = [.. _validators];
+            validators = _validators;
         }
 
         if (validators.Length == 0)
@@ -309,7 +317,13 @@ public sealed class ValidatableReactiveProperty<T> : Observable<T>, INotifyPrope
     {
         lock (_validationSyncRoot)
         {
-            _validationErrors[slot] = [.. errors];
+            string[] nextErrors = [.. errors];
+            if (_validationErrors[slot].SequenceEqual(nextErrors) && ErrorsMatchSlots())
+            {
+                return;
+            }
+
+            _validationErrors[slot] = nextErrors;
             string[] next = [.. _validationErrors.SelectMany(static x => x)];
             var previousHasErrors = _hasErrors.Value;
             if (_errors.Value.SequenceEqual(next))
@@ -320,12 +334,32 @@ public sealed class ValidatableReactiveProperty<T> : Observable<T>, INotifyPrope
             _errors.Value = next;
             _hasErrors.Value = next.Length != 0;
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(Value)));
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ErrorMessage)));
+            PropertyChanged?.Invoke(this, s_errorMessagePropertyChangedEventArgs);
             if (previousHasErrors != _hasErrors.Value)
             {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(HasErrors)));
+                PropertyChanged?.Invoke(this, s_hasErrorsPropertyChangedEventArgs);
             }
         }
+    }
+
+    private bool ErrorsMatchSlots()
+    {
+        var current = _errors.Value;
+        var index = 0;
+        foreach (var errors in _validationErrors)
+        {
+            foreach (var error in errors)
+            {
+                if (index >= current.Count || !EqualityComparer<string>.Default.Equals(error, current[index]))
+                {
+                    return false;
+                }
+
+                index++;
+            }
+        }
+
+        return index == current.Count;
     }
 
     private static string[] ToErrorMessages(IEnumerable? errors)

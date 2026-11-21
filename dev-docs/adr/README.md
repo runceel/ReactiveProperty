@@ -32,6 +32,8 @@ Trivial, easily reversible choices (local refactors, naming) do not need an ADR.
 
 ## Index
 
+Proposed follow-up: [0009. Cache property-path accessor adapters](./0009-property-path-accessor-adapters.md).
+
 | ADR | Title | Status |
 |-----|-------|--------|
 | [0001](./0001-adopt-tdd-adr-and-dev-docs.md) | Adopt TDD, ADRs, and a dev-docs location | Accepted |
@@ -42,3 +44,4 @@ Trivial, easily reversible choices (local refactors, naming) do not need an ADR.
 | [0006](./0006-upgrade-system-reactive-v7.md) | Upgrade the System.Reactive dependency to v7 | Accepted |
 | [0007](./0007-support-dotnet11-and-retire-dotnet8-and-dotnet9-targets.md) | Support .NET 11 and retire .NET 8 and .NET 9 target legs | Accepted |
 | [0008](./0008-remove-uwp-and-xamarin-support.md) | Remove UWP and Xamarin support from the maintained repository | Accepted |
+| [0010](./0010-r3-validator-snapshots.md) | Reuse R3 validator snapshots | Proposed |

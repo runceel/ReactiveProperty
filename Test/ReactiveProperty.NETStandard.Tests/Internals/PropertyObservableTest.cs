@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Microsoft.Reactive.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Reactive.Bindings;
@@ -11,6 +14,175 @@ namespace ReactiveProperty.Tests.Internals;
 [TestClass]
 public class PropertyObservableTest : ReactiveTest
 {
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public void PathAccessorPreservesNullAndReflectionConversions(bool legacy)
+    {
+        var source = new AccessorItem();
+        using var node = new PathNodeHarness(legacy, nameof(AccessorItem.Number));
+        node.Update(source);
+
+        node.Set((short)7).IsTrue();
+        source.Number.Is(7);
+        node.Set(null).IsTrue();
+        source.Number.Is(0);
+        Assert.ThrowsExactly<ArgumentException>(() => node.Set("invalid"));
+
+        node.Update(null);
+        node.Get().IsNull();
+        node.Set(1).IsFalse();
+    }
+
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public void PathAccessorPreservesNullableAndBoxedStructValues(bool legacy)
+    {
+        var source = new AccessorItem();
+        using var nullable = new PathNodeHarness(legacy, nameof(AccessorItem.Optional));
+        nullable.Update(source);
+        nullable.Set(5).IsTrue();
+        source.Optional.Is(5);
+        nullable.Set(null).IsTrue();
+        Assert.IsNull(source.Optional);
+
+        object boxed = new AccessorStruct { Number = 1 };
+        using var valueType = new PathNodeHarness(legacy, nameof(AccessorStruct.Number));
+        valueType.Update(boxed);
+        valueType.Get().Is(1);
+        valueType.Set(2).IsTrue();
+        ((AccessorStruct)boxed).Number.Is(1);
+    }
+
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public void PathAccessorPreservesGetterAndSetterExceptions(bool legacy)
+    {
+        using var node = new PathNodeHarness(legacy, nameof(ThrowingItem.Value));
+        node.Update(new ThrowingItem());
+
+        var getError = Assert.ThrowsExactly<TargetInvocationException>(() => node.Get());
+        Assert.IsInstanceOfType<InvalidOperationException>(getError.InnerException);
+        var setError = Assert.ThrowsExactly<TargetInvocationException>(() => node.Set(1));
+        Assert.IsInstanceOfType<InvalidOperationException>(setError.InnerException);
+    }
+
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public void PathAccessorPreservesMissingMembersAndChangedSourceType(bool legacy)
+    {
+        using var missing = new PathNodeHarness(legacy, "Missing");
+        missing.Update(new AccessorItem());
+        Assert.ThrowsExactly<ArgumentException>(() => missing.Get());
+
+        using var node = new PathNodeHarness(legacy, nameof(AccessorItem.Number));
+        node.Update(new AccessorItem());
+        node.Set(1).IsTrue();
+        node.Update(new OtherAccessorItem { Number = 9 });
+        node.Get().Is(9);
+        Assert.ThrowsExactly<ArgumentException>(() => node.Set(2));
+    }
+
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public void RepeatedPathReadsAvoidExcessAllocation(bool legacy)
+    {
+        using var node = new PathNodeHarness(legacy, nameof(AccessorItem.Text));
+        node.Update(new AccessorItem());
+        for (var i = 0; i < 32; i++)
+        {
+            GC.KeepAlive(node.Get());
+        }
+
+        var before = GC.GetAllocatedBytesForCurrentThread();
+        for (var i = 0; i < 64; i++)
+        {
+            GC.KeepAlive(node.Get());
+        }
+
+        var allocated = GC.GetAllocatedBytesForCurrentThread() - before;
+        Assert.IsTrue(allocated < 64 * 8, $"Allocated {allocated} bytes for 64 path reads.");
+    }
+
+    [TestMethod]
+    public void PathAccessorCacheSupportsConcurrentFirstUse()
+    {
+        Parallel.For(0, 64, i =>
+        {
+            var source = new ConcurrentAccessorItem { Number = i };
+            using var node = new PathNodeHarness(i % 2 == 0, nameof(ConcurrentAccessorItem.Number));
+            node.Update(source);
+            Assert.AreEqual(i, node.Get());
+            Assert.IsTrue(node.Set(i + 1));
+            Assert.AreEqual(i + 1, source.Number);
+        });
+    }
+
+    private sealed class PathNodeHarness : IDisposable
+    {
+        public readonly Action<object> Update;
+        public readonly Func<object> Get;
+        public readonly Func<object, bool> Set;
+        private readonly IDisposable _node;
+
+        public PathNodeHarness(bool legacy, string propertyName)
+        {
+            if (legacy)
+            {
+                var node = new PropertyPathNodeLegacy(propertyName);
+                _node = node;
+                Update = node.UpdateSource;
+                Get = node.GetPropertyPathValue;
+                Set = node.SetPropertyPathValue;
+            }
+            else
+            {
+                var node = new PropertyPathNode(propertyName);
+                _node = node;
+                Update = node.UpdateSource;
+                Get = node.GetPropertyPathValue;
+                Set = node.SetPropertyPathValue;
+            }
+        }
+
+        public void Dispose() => _node.Dispose();
+    }
+
+    private sealed class AccessorItem
+    {
+        public int Number { get; set; }
+        public int? Optional { get; set; }
+        public string Text { get; set; } = "value";
+    }
+
+    private struct AccessorStruct
+    {
+        public int Number { get; set; }
+    }
+
+    private sealed class OtherAccessorItem
+    {
+        public int Number { get; set; }
+    }
+
+    private sealed class ConcurrentAccessorItem
+    {
+        public int Number { get; set; }
+    }
+
+    private sealed class ThrowingItem
+    {
+        public int Value
+        {
+            get => throw new InvalidOperationException("getter");
+            set => throw new InvalidOperationException("setter");
+        }
+    }
+
     [TestMethod]
     public void ObserveProperty()
     {

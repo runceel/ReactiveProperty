@@ -16,6 +16,9 @@ namespace Reactive.Bindings.R3;
 /// <typeparam name="T">Element type.</typeparam>
 public sealed class ReadOnlyReactiveCollection<T> : ReadOnlyObservableCollection<T>, IDisposable
 {
+    private static readonly PropertyChangedEventArgs s_countPropertyChangedEventArgs = new(nameof(Count));
+    private static readonly PropertyChangedEventArgs s_indexerPropertyChangedEventArgs = new("Item[]");
+
     private readonly object _syncRoot = new();
     private readonly ObservableCollection<T> _source;
     private readonly bool _disposeElement;
@@ -145,8 +148,8 @@ public sealed class ReadOnlyReactiveCollection<T> : ReadOnlyObservableCollection
             }
         }
 
-        OnPropertyChanged(new PropertyChangedEventArgs(nameof(Count)));
-        OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
+        OnPropertyChanged(s_countPropertyChangedEventArgs);
+        OnPropertyChanged(s_indexerPropertyChangedEventArgs);
         OnCollectionChanged(eventArgs);
     }
 

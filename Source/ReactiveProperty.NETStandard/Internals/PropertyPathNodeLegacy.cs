@@ -9,8 +9,8 @@ internal class PropertyPathNodeLegacy : IDisposable
 {
     private bool _isDisposed = false;
     private Action? _callback;
-    private Delegate? _getAccessor;
-    private Delegate? _setAccessor;
+    private Func<object, object?>? _getAccessor;
+    private Action<object, object?>? _setAccessor;
 
     public event EventHandler? PropertyChanged;
 
@@ -70,8 +70,8 @@ internal class PropertyPathNodeLegacy : IDisposable
     {
         EnsureDispose();
         if (Source == null) return null;
-        return (_getAccessor ?? (_getAccessor = AccessorCache.LookupGet(Source.GetType(), PropertyName)))
-            .DynamicInvoke(Source);
+        return (_getAccessor ?? (_getAccessor = PropertyPathAccessor.Get(AccessorCache.LookupGet(Source.GetType(), PropertyName))))
+            .Invoke(Source);
     }
 
     public object? GetPropertyPathValue()
@@ -102,8 +102,8 @@ internal class PropertyPathNodeLegacy : IDisposable
         }
         else
         {
-            var setter = _setAccessor ?? (_setAccessor = AccessorCache.LookupSet(Source.GetType(), PropertyName));
-            setter.DynamicInvoke(Source, value);
+            var setter = _setAccessor ?? (_setAccessor = PropertyPathAccessor.Set(AccessorCache.LookupSet(Source.GetType(), PropertyName)));
+            setter(Source, value);
             return true;
         }
     }

@@ -29,6 +29,9 @@ internal sealed class FilteredReadOnlyObservableCollection<TCollection, TElement
     where TCollection : INotifyCollectionChanged, IList<TElement>
     where TElement : class, INotifyPropertyChanged
 {
+    private static readonly PropertyChangedEventArgs s_countPropertyChangedEventArgs = new(nameof(Count));
+    private static readonly PropertyChangedEventArgs s_indexerPropertyChangedEventArgs = new("Item[]");
+
     private readonly object _syncRoot = new();
     private readonly List<TElement> _innerCollection = new();
     private readonly List<int?> _indexList = new();
@@ -178,7 +181,7 @@ internal sealed class FilteredReadOnlyObservableCollection<TCollection, TElement
                     {
                         var sourceIndex = e.OldStartingIndex;
                         var filteredIndex = _indexList[sourceIndex];
-                        var item = e.OldItems.Cast<TElement>().ElementAt(i);
+                        var item = (TElement)e.OldItems[i]!;
                         if (filteredIndex.HasValue)
                         {
                             DisappearItem(sourceIndex);
@@ -312,8 +315,8 @@ internal sealed class FilteredReadOnlyObservableCollection<TCollection, TElement
             return;
         }
 
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Count)));
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Item[]"));
+        PropertyChanged?.Invoke(this, s_countPropertyChangedEventArgs);
+        PropertyChanged?.Invoke(this, s_indexerPropertyChangedEventArgs);
         CollectionChanged?.Invoke(this, args);
     }
 }

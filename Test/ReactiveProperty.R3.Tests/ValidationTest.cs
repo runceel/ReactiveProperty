@@ -18,6 +18,98 @@ namespace ReactiveProperty.Tests;
 public sealed class ValidationTest
 {
     [TestMethod]
+    public void RevalidatingUnchangedErrorsAvoidsExcessAllocation()
+    {
+        using var property = new ValidatableReactiveProperty<int>();
+        for (var i = 0; i < 8; i++)
+        {
+            property.SetValidateNotifyError(_ => (IEnumerable<string>?)null);
+        }
+
+        for (var i = 0; i < 32; i++)
+        {
+            property.ForceValidate();
+        }
+
+        var before = GC.GetAllocatedBytesForCurrentThread();
+        for (var i = 0; i < 64; i++)
+        {
+            property.ForceValidate();
+        }
+
+        var allocated = GC.GetAllocatedBytesForCurrentThread() - before;
+        Assert.IsTrue(allocated < 64 * 256, $"Allocated {allocated} bytes for 64 validations.");
+    }
+
+    [TestMethod]
+    public void RegisteringValidatorDuringValidationUsesStableSnapshot()
+    {
+        using var property = new ValidatableReactiveProperty<int>(0, ignoreInitialValidationError: true);
+        var calls = new List<string>();
+        var registered = false;
+        property.SetValidateNotifyError(_ =>
+        {
+            calls.Add("first");
+            if (!registered)
+            {
+                registered = true;
+                property.SetValidateNotifyError(_ =>
+                {
+                    calls.Add("second");
+                    return (string?)null;
+                });
+            }
+
+            return (string?)null;
+        });
+
+        property.ForceValidate();
+        calls.Is("first");
+        calls.Clear();
+        property.ForceValidate();
+        calls.Is("first", "second");
+    }
+
+    [TestMethod]
+    public void ReentrantValidationPreservesErrorNotificationOrder()
+    {
+        var invalid = false;
+        using var property = new ValidatableReactiveProperty<int>()
+            .SetValidateNotifyError(_ => invalid ? "error" : null);
+        var notifications = new List<string>();
+        using var subscription = property.ObserveErrorChanged.Subscribe(errors =>
+        {
+            notifications.Add(string.Join(",", errors));
+            if (invalid)
+            {
+                invalid = false;
+                property.ForceValidate();
+            }
+        });
+        notifications.Clear();
+
+        invalid = true;
+        property.ForceValidate();
+
+        notifications.Is("error", "");
+        property.GetErrors().Is();
+    }
+
+    [TestMethod]
+    public void RevalidationRestoresMutatedObservedErrors()
+    {
+        using var property = new ValidatableReactiveProperty<int>()
+            .SetValidateNotifyError(_ => "error");
+        IReadOnlyList<string>? observed = null;
+        using var subscription = property.ObserveErrorChanged.Subscribe(errors => observed = errors);
+        ((string[])observed!)[0] = "changed";
+
+        property.ForceValidate();
+
+        property.GetErrors().Is("error");
+    }
+
+    [TestMethod]
     public void ValidatableReactivePropertyAggregatesMultipleErrors()
     {
         using var property = new ValidatableReactiveProperty<string>("")
@@ -47,6 +139,124 @@ public sealed class ValidationTest
         errors[2].ToArray().Is("required", "empty");
         hasErrors.Is(true, false, true);
         changedCount.Is(2);
+    }
+
+    [TestMethod]
+    public void RevalidatingUnchangedErrorsRunsValidatorsWithoutRepeatingNotifications()
+    {
+        var validatorOrder = new List<string>();
+        using var property = new ValidatableReactiveProperty<int>(0)
+            .SetValidateNotifyError(_ =>
+            {
+                validatorOrder.Add("first");
+                return new[] { "first", "detail" };
+            })
+            .SetValidateNotifyError(_ =>
+            {
+                validatorOrder.Add("second");
+                return "second";
+            });
+        var errors = new List<IReadOnlyList<string>>();
+        var errorsChangedCount = 0;
+        var propertyChangedNames = new List<string?>();
+
+        using var d1 = property.ObserveErrorChanged.Subscribe(x => errors.Add([.. x]));
+        property.ErrorsChanged += (_, _) => errorsChangedCount++;
+        property.PropertyChanged += (_, e) => propertyChangedNames.Add(e.PropertyName);
+        errors.Clear();
+        validatorOrder.Clear();
+
+        property.ForceValidate();
+
+        validatorOrder.Is("first", "second");
+        errors.Count.Is(0);
+        errorsChangedCount.Is(0);
+        propertyChangedNames.Count.Is(0);
+        property.GetErrors().Is("first", "detail", "second");
+    }
+
+    [TestMethod]
+    public void ChangedErrorsRetainAggregationAndNotificationOrder()
+    {
+        using var property = new ValidatableReactiveProperty<int>(0)
+            .SetValidateNotifyError(x => x == 0 ? "first" : null)
+            .SetValidateNotifyError(x => x == 0 ? "second" : null);
+        var notifications = new List<string>();
+
+        using var d1 = property.ObserveErrorChanged.Subscribe(x => notifications.Add($"Errors:{string.Join(",", x)}"));
+        using var d2 = property.ObserveHasErrors.Subscribe(x => notifications.Add($"HasErrors:{x}"));
+        property.ErrorsChanged += (_, _) => notifications.Add("ErrorsChanged");
+        property.PropertyChanged += (_, e) => notifications.Add($"PropertyChanged:{e.PropertyName}");
+        notifications.Clear();
+
+        property.Value = 1;
+
+        notifications.Is(
+            "Errors:second",
+            "ErrorsChanged",
+            "PropertyChanged:ErrorMessage",
+            "Errors:",
+            "HasErrors:False",
+            "ErrorsChanged",
+            "PropertyChanged:ErrorMessage",
+            "PropertyChanged:HasErrors",
+            "PropertyChanged:Value");
+        property.GetErrors().Is();
+    }
+
+    [TestMethod]
+    public void RevalidatingStreamErrorsDoesNotRepeatNotifications()
+    {
+        using var property = new ValidatableReactiveProperty<int>(-1)
+            .SetValidateNotifyError(values => values.Select(x => x < 0 ? (IEnumerable?)new[] { "negative" } : null));
+        var errorsChangedCount = 0;
+        property.ErrorsChanged += (_, _) => errorsChangedCount++;
+
+        property.Value = -2;
+
+        property.GetErrors().Is("negative");
+        errorsChangedCount.Is(0);
+    }
+
+    [TestMethod]
+    public void RevalidatingAsyncErrorsDoesNotRepeatNotifications()
+    {
+        var validateCount = 0;
+        using var property = new ValidatableReactiveProperty<int>(0)
+            .SetValidateNotifyError(_ =>
+            {
+                validateCount++;
+                return Task.FromResult<string?>("async error");
+            });
+        var errorsChangedCount = 0;
+        property.ErrorsChanged += (_, _) => errorsChangedCount++;
+        var initialValidateCount = validateCount;
+
+        property.ForceValidate();
+
+        validateCount.Is(initialValidateCount + 1);
+        property.GetErrors().Is("async error");
+        errorsChangedCount.Is(0);
+    }
+
+    [TestMethod]
+    public void RevalidatingEnumerableErrorsEnumeratesInputOnce()
+    {
+        var enumerationCount = 0;
+        using var property = new ValidatableReactiveProperty<int>(0)
+            .SetValidateNotifyError(_ => GetErrors());
+        var initialEnumerationCount = enumerationCount;
+
+        property.ForceValidate();
+
+        enumerationCount.Is(initialEnumerationCount + 1);
+        property.GetErrors().Is("error");
+
+        IEnumerable<string> GetErrors()
+        {
+            enumerationCount++;
+            yield return "error";
+        }
     }
 
     [TestMethod]
@@ -155,6 +365,29 @@ public sealed class ValidationTest
 
         validateCount.Is(0);
         valueChangedCount.Is(0);
+    }
+
+    [TestMethod]
+    public void ValidatableReactivePropertyReusesFixedPropertyChangedEventArgs()
+    {
+        using var property = new ValidatableReactiveProperty<string>("ok")
+            .SetValidateNotifyError(x => x == "ng" ? "error" : null);
+        var propertyChangedEvents = new List<PropertyChangedEventArgs>();
+        property.PropertyChanged += (_, e) => propertyChangedEvents.Add(e);
+
+        property.Value = "ng";
+        property.Value = "ok";
+
+        propertyChangedEvents.Select(static x => x.PropertyName).Is(
+            nameof(ValidatableReactiveProperty<string>.ErrorMessage),
+            nameof(ValidatableReactiveProperty<string>.HasErrors),
+            nameof(ValidatableReactiveProperty<string>.Value),
+            nameof(ValidatableReactiveProperty<string>.ErrorMessage),
+            nameof(ValidatableReactiveProperty<string>.HasErrors),
+            nameof(ValidatableReactiveProperty<string>.Value));
+        Assert.AreSame(propertyChangedEvents[0], propertyChangedEvents[3]);
+        Assert.AreSame(propertyChangedEvents[1], propertyChangedEvents[4]);
+        Assert.AreSame(propertyChangedEvents[2], propertyChangedEvents[5]);
     }
 
     [TestMethod]
