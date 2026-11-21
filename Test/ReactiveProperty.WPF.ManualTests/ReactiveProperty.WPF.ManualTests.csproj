@@ -5,10 +5,13 @@
     <TargetFramework>net10.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <DocumentationExampleChapter>Event-transfer-to-ViewModel-from-View</DocumentationExampleChapter>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Source\ReactiveProperty.Platform.WPF\ReactiveProperty.Platform.WPF.csproj" />
   </ItemGroup>
+
+  <Import Project="..\ReactiveProperty.WPF.Tests\Documentation\DocumentationExamples.targets" />
 
 </Project>

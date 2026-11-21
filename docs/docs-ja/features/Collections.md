@@ -1,4 +1,4 @@
-# コレクション
+﻿# コレクション
 
 ReactiveProperty はいくつかのコレクション クラスを提供します。
 
@@ -37,7 +37,7 @@ public class ViewModel
 > `ToUnit` 拡張メソッドは Reactive.Bindings.Extensions 名前空間で定義されています。
 > この拡張メソッドは `.Select(_ => Unit.Default)` と同じです。
 
-UWP の例です。
+WPF の例です。
 
 MainPage.xaml.cs
 ```csharp
@@ -47,6 +47,7 @@ public sealed partial class MainPage : Page
     public MainPage()
     {
         this.InitializeComponent();
+        DataContext = ViewModel;
     }
 }
 ```
@@ -56,27 +57,27 @@ MainPage.xaml
 <Page x:Class="App1.MainPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:local="using:App1"
+      xmlns:local="clr-namespace:App1"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">
             <Button Content="Start"
-                    Command="{x:Bind ViewModel.StartRecordCommand}"
+                    Command="{Binding StartRecordCommand}"
                     Margin="5" />
         </StackPanel>
-        <ListView ItemsSource="{x:Bind ViewModel.Records}"
+        <ListView ItemsSource="{Binding Records}"
                   Grid.Row="1" />
     </Grid>
 </Page>
 ```
 
-![基本的な使い方](../../docs/features/images/collections-reactivecollection-basic-usage.gif)
+![WPF の記録リストへの追加](../../docs/features/images/collections-reactivecollection-basic-usage.gif)
 
 ## コレクション操作
 
@@ -114,30 +115,30 @@ public class ViewModel
 <Page x:Class="App1.MainPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:local="using:App1"
+      xmlns:local="clr-namespace:App1"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">
             <Button Content="Start"
-                    Command="{x:Bind ViewModel.StartRecordCommand}"
+                    Command="{Binding StartRecordCommand}"
                     Margin="5" />
             <Button Content="Clear"
-                    Command="{x:Bind ViewModel.ClearCommand}"
+                    Command="{Binding ClearCommand}"
                     Margin="5" />
         </StackPanel>
-        <ListView ItemsSource="{x:Bind ViewModel.Records}"
+        <ListView ItemsSource="{Binding Records}"
                   Grid.Row="1" />
     </Grid>
 </Page>
 ```
 
-![コレクション操作](../../docs/features/images/collections-reactivecollection-collection-operations.gif)
+![WPF の記録リストのクリア](../../docs/features/images/collections-reactivecollection-collection-operations.gif)
 
 `ReactiveCollection` インスタンスを破棄すると、元の IObservable インスタンスから購読解除されます。
 
@@ -255,36 +256,35 @@ public class ViewModel
 <Page x:Class="App1.MainPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:local="using:App1"
+      xmlns:local="clr-namespace:App1"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:viewModels="using:ViewModels"
+      xmlns:viewModels="clr-namespace:ViewModels"
       mc:Ignorable="d"
       x:Name="root">
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <Button Content="Add"
-                Command="{x:Bind ViewModel.AddCommand}"
+                Command="{Binding AddCommand}"
                 Margin="5" />
-        <ListView ItemsSource="{x:Bind ViewModel.ViewModelCollection}"
+        <ListView ItemsSource="{Binding ViewModelCollection}"
                   Grid.Row="1">
             <ListView.ItemTemplate>
-                <DataTemplate x:DataType="viewModels:TimerObjectViewModel">
+                <DataTemplate DataType="{x:Type viewModels:TimerObjectViewModel}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <Button Content="Remove"
-                                Command="{Binding ViewModel.RemoveCommand, ElementName=root}"
-                                CommandParameter="{x:Bind}"
+                                Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                CommandParameter="{Binding}"
                                 Margin="5" />
-                        <TextBlock Text="{x:Bind CountMessage.Value, Mode=OneWay}"
+                        <TextBlock Text="{Binding CountMessage.Value, Mode=OneWay}"
                                    VerticalAlignment="Center"
-                                   Style="{ThemeResource BodyTextBlockStyle}"
                                    Grid.Column="1" />
                     </Grid>
                 </DataTemplate>
@@ -294,7 +294,7 @@ public class ViewModel
 </Page>
 ```
 
-![ReadOnlyReactiveCollection](../../docs/features/images/collections-reactivecollection-readonly-collection.gif)
+![WPF での項目の追加と削除](../../docs/features/images/collections-reactivecollection-readonly-collection.gif)
 
 
 `ReadOnlyReactiveCollection` からインスタンスが削除されると、`Dispose` メソッドが呼び出されます。この動作が不要な場合は、`ToReadOnlyReactiveCollection()` の `disposeElement` 引数に `false` を設定します。
@@ -331,27 +331,27 @@ public class ViewModel
 <Page x:Class="App1.MainPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:local="using:App1"
+      xmlns:local="clr-namespace:App1"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <Button Content="Reset"
-                Command="{x:Bind ViewModel.ResetCommand}"
+                Command="{Binding ResetCommand}"
                 Margin="5" />
-        <ListView ItemsSource="{x:Bind ViewModel.Messages}"
+        <ListView ItemsSource="{Binding Messages}"
                   Grid.Row="1" />
     </Grid>
 </Page>
 ```
 
-`ResetCommand` が実行されると、Messages コレクションがクリアされます。
+![WPF のメッセージ リストのリセット](../../docs/features/images/collections-reactivecollection-readonly-collection-reset.gif)
 
-![Reset](../../docs/features/images/collections-reactivecollection-readonly-collection-reset.gif)
+`ResetCommand` が実行されると、Messages コレクションがクリアされます。
 
 ## IFilteredReadOnlyObservableCollection
 
@@ -359,8 +359,9 @@ public class ViewModel
 `IFilteredReadOnlyObservableCollection` は、元コレクション内の項目の `PropertyChanged` イベントと `CollectionChanged` イベントを監視します。
 
 ```csharp
-public class ValueHolder : INotifyPropertyChanged
+public class ValueHolder : INotifyPropertyChanged, IDisposable
 {
+    private readonly IDisposable _subscription;
     public event PropertyChangedEventHandler PropertyChanged;
 
     public int Id { get; set; }
@@ -379,9 +380,14 @@ public class ValueHolder : INotifyPropertyChanged
     public ValueHolder()
     {
         var r = new Random();
-        Observable.Interval(TimeSpan.FromSeconds(1))
+        _subscription = Observable.Interval(TimeSpan.FromSeconds(1))
             .ObserveOnUIDispatcher()
             .Subscribe(_ => Value = r.Next(10));
+    }
+
+    public void Dispose()
+    {
+        _subscription.Dispose();
     }
 }
 
@@ -412,24 +418,24 @@ public class ViewModel
 <Page x:Class="App1.MainPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:local="using:App1"
+      xmlns:local="clr-namespace:App1"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:viewModels="using:ViewModels"
+      xmlns:viewModels="clr-namespace:ViewModels"
       mc:Ignorable="d"
       x:Name="root">
     <Page.Resources>
         <DataTemplate x:Key="valueHolderDataTemplate"
-                      x:DataType="viewModels:ValueHolder">
+                      DataType="{x:Type viewModels:ValueHolder}">
             <TextBlock>
                 <Run Text="Id: " />
-                <Run Text="{x:Bind Id}" />
+                <Run Text="{Binding Id}" />
                 <Run Text=", Value: " />
-                <Run Text="{x:Bind Value, Mode=OneWay}" />
+                <Run Text="{Binding Value, Mode=OneWay}" />
             </TextBlock>
         </DataTemplate>
     </Page.Resources>
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -440,19 +446,17 @@ public class ViewModel
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Button Content="Add"
-                Command="{x:Bind ViewModel.AddCommand}"
+                Command="{Binding AddCommand}"
                 Margin="5" />
         <TextBlock Text="Values"
-                   Style="{ThemeResource TitleTextBlockStyle}"
                    Grid.Row="1" />
-        <ListView ItemsSource="{x:Bind ViewModel.ValuesSource}"
+        <ListView ItemsSource="{Binding ValuesSource}"
                   ItemTemplate="{StaticResource valueHolderDataTemplate}"
                   Grid.Row="2" />
         <TextBlock Text="Filtered Values"
-                   Style="{ThemeResource TitleTextBlockStyle}"
                    Grid.Row="1"
                    Grid.Column="1" />
-        <ListView ItemsSource="{x:Bind ViewModel.Values}"
+        <ListView ItemsSource="{Binding Values}"
                   ItemTemplate="{StaticResource valueHolderDataTemplate}"
                   Grid.Row="2"
                   Grid.Column="1" />
@@ -460,7 +464,7 @@ public class ViewModel
 </Page>
 ```
 
-![IFilteredReadOnlyObservableCollection](../../docs/features/images/collections-filtered-collection.gif)
+![値が 7 より大きい項目が WPF のフィルター済みリストに表示される様子](../../docs/features/images/collections-filtered-collection.gif)
 
 Value プロパティが 7 より大きいとき、Filtered Values の ListView（右側）に値を表示します。
 

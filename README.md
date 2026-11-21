@@ -20,9 +20,11 @@ If you’re developing a new application, consider using R3 instead of ReactiveP
 
 ReactiveProperty is a very powerful and simple library.
 
-![Delay and Select](https://raw.githubusercontent.com/runceel/ReactiveProperty/main/Images/helloworld-winui.gif)
+The following WinUI example displays the input in uppercase after a one-second delay:
 
-This sample app's ViewModel code is as below:
+![WinUI displays the input in uppercase after a one-second delay](https://raw.githubusercontent.com/runceel/ReactiveProperty/main/Images/helloworld-winui.gif)
+
+The WinUI sample's ViewModel code is as below:
 
 ```cs
 public class MainPageViewModel
@@ -155,14 +157,6 @@ ReactiveProperty doesn't provide base class by ViewModel, which means that React
 |[ReactiveProperty.Blazor](https://www.nuget.org/packages/ReactiveProperty.Blazor/)|![](https://img.shields.io/nuget/v/ReactiveProperty.Blazor.svg)![](https://img.shields.io/nuget/dt/ReactiveProperty.Blazor.svg)|EditForm validation integration with ReactiveProperty for InteractiveServer render mode. `net10.0;net11.0`.|
 |[ReactiveProperty.R3](https://www.nuget.org/packages/ReactiveProperty.R3/)|![](https://img.shields.io/nuget/v/ReactiveProperty.R3.svg)![](https://img.shields.io/nuget/dt/ReactiveProperty.R3.svg)|An R3-native migration bridge for existing ReactiveProperty ViewModels. `netstandard2.0;net10.0;net11.0`.|
 |[ReactiveProperty.R3.WPF](https://www.nuget.org/packages/ReactiveProperty.R3.WPF/)|![](https://img.shields.io/nuget/v/ReactiveProperty.R3.WPF.svg)![](https://img.shields.io/nuget/dt/ReactiveProperty.R3.WPF.svg)|R3-native EventToReactiveProperty and EventToReactiveCommand trigger actions for WPF. `net10.0-windows;net11.0-windows`.|
-
-The following packages are no longer supported.
-
-|Package Id|Version and downloads|Description|
-|----|----|----|
-|[ReactiveProperty.UWP](https://www.nuget.org/packages/ReactiveProperty.UWP/)|![](https://img.shields.io/nuget/v/ReactiveProperty.UWP.svg)![](https://img.shields.io/nuget/dt/ReactiveProperty.UWP.svg)|The package includes EventToReactiveProperty and EventToReactiveCommand for UWP.|
-|[ReactiveProperty.XamarinAndroid](https://www.nuget.org/packages/ReactiveProperty.XamarinAndroid/)|![](https://img.shields.io/nuget/v/ReactiveProperty.XamarinAndroid.svg)![](https://img.shields.io/nuget/dt/ReactiveProperty.XamarinAndroid.svg)|The package includes many extension methods to create IObservable from events for Xamarin.Android native.|
-|[ReactiveProperty.XamariniOS](https://www.nuget.org/packages/ReactiveProperty.XamariniOS/)|![](https://img.shields.io/nuget/v/ReactiveProperty.XamariniOS.svg)![](https://img.shields.io/nuget/dt/ReactiveProperty.XamariniOS.svg)|The package includes many extension methods to bind ReactiveProperty and ReactiveCommand to Xamarin.iOS native controls.|
 
 ## Support
 

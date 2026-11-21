@@ -1,4 +1,4 @@
-# POCO と連携する
+﻿# POCO と連携する
 
 このライブラリのクラスは POCO クラスと連携できます。
 
@@ -100,7 +100,7 @@ public class ViewModel
 }
 ```
 
-UWP の例を次に示します。
+WPF の例を次に示します。
 
 MainPage.xaml.cs
 
@@ -111,6 +111,7 @@ public sealed partial class MainPage : Page
     public MainPage()
     {
         this.InitializeComponent();
+        DataContext = ViewModel;
     }
 }
 ```
@@ -121,26 +122,24 @@ MainPage.xaml
 <Page x:Class="App1.MainPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:local="using:App1"
+      xmlns:local="clr-namespace:App1"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
-    <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <StackPanel>
         <TextBlock Text="ReactiveProperty"
-                   Style="{ThemeResource CaptionTextBlockStyle}"
                    Margin="5,0" />
-        <TextBox Text="{x:Bind ViewModel.Name.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+        <TextBox Text="{Binding Name.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                  Margin="5" />
         <TextBlock Text="Person.Name"
-                   Style="{ThemeResource CaptionTextBlockStyle}"
                    Margin="5,0" />
-        <TextBox Text="{x:Bind ViewModel.Person.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+        <TextBox Text="{Binding Person.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                  Margin="5" />
     </StackPanel>
 </Page>
 ```
 
-![双方向同期](../../docs/features/images/work-together-with-poco-two-way-synchronization.gif)
+![WPF でどちらの項目を編集してももう一方が更新される様子](../../docs/features/images/work-together-with-poco-two-way-synchronization.gif)
 
 `ToReactivePropertyAsSynchronized` 拡張メソッドには、変換ロジックと逆変換ロジックを追加できます。
 
@@ -160,7 +159,7 @@ public class ViewModel
 }
 ```
 
-![変換と逆変換](../../docs/features/images/work-together-with-poco-two-way-synchronization-and-convert.gif)
+![WPF で変換後の名前を表示し、モデルに戻すときに接尾辞を取り除く様子](../../docs/features/images/work-together-with-poco-two-way-synchronization-and-convert.gif)
 
 `ignoreValidationErrorValue` 引数を true に設定すると、検証エラーが発生した場合に同期を停止します。
 
@@ -183,7 +182,7 @@ public class ViewModel
 }
 ```
 
-![検証エラー値の無視](../../docs/features/images/work-together-with-poco-two-way-synchronization-and-ignoreValidationError.gif)
+![ReactiveProperty に無効な値 VeryLongName を入力しても、モデルには Alice が残る様子](../../docs/features/images/work-together-with-poco-two-way-synchronization-and-ignoreValidationError.gif)
 
 次のように LINQ を使って値を変換することもできます。
 

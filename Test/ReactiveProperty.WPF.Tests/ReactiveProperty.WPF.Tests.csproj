@@ -23,4 +23,6 @@
     <ProjectReference Include="..\..\Source\ReactiveProperty.Platform.WPF\ReactiveProperty.Platform.WPF.csproj" />
   </ItemGroup>
 
+  <Import Project="Documentation\DocumentationExamples.targets" />
+
 </Project>

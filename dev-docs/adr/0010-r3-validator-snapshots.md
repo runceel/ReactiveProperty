@@ -1,4 +1,4 @@
-# 0008. Reuse R3 validator snapshots
+# 0010. Reuse R3 validator snapshots
 
 - **Status:** Proposed
 - **Date:** 2026-11-17

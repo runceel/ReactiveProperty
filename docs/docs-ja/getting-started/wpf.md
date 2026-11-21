@@ -96,4 +96,4 @@ MainWindow.xaml
 アプリを起動すると、下のウィンドウが表示されます。
 入力してから 1 秒後に、出力値が大文字で表示されます。
 
-![アプリの起動](../../docs/getting-started/images/launch-wpf-app.gif)
+![WPF で入力した文字が1秒後に大文字で表示される様子](../../docs/getting-started/images/launch-wpf-app.gif)

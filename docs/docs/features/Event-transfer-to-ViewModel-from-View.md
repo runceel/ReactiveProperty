@@ -1,25 +1,25 @@
-# Transfer events to ViewModels from Views
+﻿# Transfer events to ViewModels from Views
 
 `EventToReactiveProperty` and `EventToReactiveCommand` classes transfer events from the View layer to a `ReactiveProperty` or `ReactiveCommand`.
 These classes extend `TriggerAction` and are designed to be used with `EventTrigger`.
 
 <b>Note:</b>
-> This feature is available only for WPF and UWP. Xamarin.Forms can't use it. If you want to use it, add the `ReactiveProperty.WPF` package for WPF or the `ReactiveProperty.UWP` package for UWP to your project.
+> This feature is available for WPF. Add the `ReactiveProperty.WPF` package to your project.
 
 These classes can convert `EventArgs` to any object type using `ReactiveConverter<T, U>`.
 
 The `ReactiveConverter` class can use an Rx method chain. It's very powerful.
 
 
-UWP sample:
+WPF sample:
 
 ```csharp
 using Reactive.Bindings.Interactivity;
 using System;
 using System.Linq;
 using System.Reactive.Linq;
-using Windows.Storage.Pickers;
-using Windows.UI.Xaml;
+using Microsoft.Win32;
+using System.Windows;
 
 namespace App1
 {
@@ -27,12 +27,10 @@ namespace App1
     {
         protected override IObservable<string> OnConvert(IObservable<RoutedEventArgs> source)
         {
-            return source.SelectMany(async _ =>
+            return source.Select(_ =>
             {
-                var picker = new FileOpenPicker();
-                picker.FileTypeFilter.Add(".snippet");
-                var f = await picker.PickSingleFileAsync();
-                return f?.Path;
+                var picker = new OpenFileDialog { Filter = "Code snippets|*.snippet" };
+                return picker.ShowDialog() == true ? picker.FileName : null;
             })
             .Where(x => x != null);
 
@@ -49,31 +47,30 @@ XAML and code-behind are below.
 <Page x:Class="App1.MainPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:local="using:App1"
+      xmlns:local="clr-namespace:App1"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:i="using:Microsoft.Xaml.Interactivity"
-      xmlns:c="using:Microsoft.Xaml.Interactions.Core"
-      xmlns:reactiveProperty="using:Reactive.Bindings.Interactivity"
+      xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+      xmlns:reactiveProperty="clr-namespace:Reactive.Bindings.Interactivity;assembly=ReactiveProperty.WPF"
       mc:Ignorable="d">
-    <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <StackPanel>
         <Button Content="OpenFile...">
-            <i:Interaction.Behaviors>
-                <c:EventTriggerBehavior EventName="Click">
-                    <reactiveProperty:EventToReactiveCommand Command="{x:Bind ViewModel.SelectFileCommand}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <reactiveProperty:EventToReactiveCommand Command="{Binding SelectFileCommand}">
                         <local:FileOpenReactiveConverter />
                     </reactiveProperty:EventToReactiveCommand>
-                </c:EventTriggerBehavior>
-            </i:Interaction.Behaviors>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
         </Button>
-        <TextBlock Text="{x:Bind ViewModel.FileName.Value, Mode=OneWay}" />
+        <TextBlock Text="{Binding FileName.Value, Mode=OneWay}" />
     </StackPanel>
 </Page>
 ```
 
 ```csharp
 using Reactive.Bindings;
-using Windows.UI.Xaml.Controls;
+using System.Windows.Controls;
 
 namespace App1
 {
@@ -84,6 +81,7 @@ namespace App1
         public MainPage()
         {
             this.InitializeComponent();
+            DataContext = ViewModel;
         }
     }
 
@@ -102,8 +100,6 @@ namespace App1
 }
 ```
 
-![EventToReactiveCommand and EventToReactiveProperty](./images/event-to-reactivexxx.gif)
-
 
 `EventToReactiveProperty` sets the value converted by `ReactiveConverter` to `ReactiveProperty`.
 
@@ -111,31 +107,30 @@ namespace App1
 <Page x:Class="App1.MainPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:local="using:App1"
+      xmlns:local="clr-namespace:App1"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:i="using:Microsoft.Xaml.Interactivity"
-      xmlns:c="using:Microsoft.Xaml.Interactions.Core"
-      xmlns:reactiveProperty="using:Reactive.Bindings.Interactivity"
+      xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+      xmlns:reactiveProperty="clr-namespace:Reactive.Bindings.Interactivity;assembly=ReactiveProperty.WPF"
       mc:Ignorable="d">
-    <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <StackPanel>
         <Button Content="OpenFile...">
-            <i:Interaction.Behaviors>
-                <c:EventTriggerBehavior EventName="Click">
-                    <reactiveProperty:EventToReactiveProperty ReactiveProperty="{x:Bind ViewModel.FileName}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <reactiveProperty:EventToReactiveProperty ReactiveProperty="{Binding FileName}">
                         <local:FileOpenReactiveConverter />
                     </reactiveProperty:EventToReactiveProperty>
-                </c:EventTriggerBehavior>
-            </i:Interaction.Behaviors>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
         </Button>
-        <TextBlock Text="{x:Bind ViewModel.FileName.Value, Mode=OneWay}" />
+        <TextBlock Text="{Binding FileName.Value, Mode=OneWay}" />
     </StackPanel>
 </Page>
 ```
 
 ```csharp
 using Reactive.Bindings;
-using Windows.UI.Xaml.Controls;
+using System.Windows.Controls;
 
 namespace App1
 {
@@ -146,6 +141,7 @@ namespace App1
         public MainPage()
         {
             this.InitializeComponent();
+            DataContext = ViewModel;
         }
     }
 
@@ -156,6 +152,8 @@ namespace App1
 
 }
 ```
+
+![WPF event actions display the selected path and leave it unchanged on cancel](./images/event-to-reactivexxx.gif)
 
 ## Customizing EventToReactiveCommand
 

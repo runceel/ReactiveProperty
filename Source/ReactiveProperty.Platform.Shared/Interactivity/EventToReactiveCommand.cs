@@ -7,29 +7,17 @@ using System.Reactive.Disposables;
 using Reactive.Bindings.Extensions;
 using System.Collections.Generic;
 
-#if NETFX_CORE
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Markup;
-using Windows.UI.Xaml;
-#else
 using System.Windows.Data;
 using System.Windows.Markup;
 using System.Windows;
 using Microsoft.Xaml.Behaviors;
-#endif
 
 namespace Reactive.Bindings.Interactivity;
 
 /// <summary>
 /// Converts EventArgs to object
 /// </summary>
-#if NETFX_CORE
-    [ContentProperty(Name = nameof(EventToReactiveCommand.Converters))]
-#else
-
 [ContentProperty(nameof(EventToReactiveCommand.Converters))]
-#endif
 public class EventToReactiveCommand : TriggerAction<FrameworkElement>
 {
     private readonly Subject<object?> source = new();
@@ -47,28 +35,11 @@ public class EventToReactiveCommand : TriggerAction<FrameworkElement>
         set { SetValue(CommandProperty, value); }
     }
 
-#if NETFX_CORE
-        /// <summary>
-        /// The command property
-        /// </summary>
-        public static readonly DependencyProperty CommandProperty =
-            DependencyProperty.Register(nameof(EventToReactiveCommand.Command), typeof(ICommand), typeof(EventToReactiveCommand),
-                new PropertyMetadata(null, (d, e) => ((EventToReactiveCommand)d).OnCommandInitialized(e)));
-
-        private void OnCommandInitialized(DependencyPropertyChangedEventArgs e)
-        {
-            if (e.OldValue == null && e.NewValue != null)
-            {
-                SetSubscribes();
-            }
-        }
-#else
     /// <summary>
     /// The command property
     /// </summary>
     public static readonly DependencyProperty CommandProperty =
         DependencyProperty.Register(nameof(EventToReactiveCommand.Command), typeof(ICommand), typeof(EventToReactiveCommand), new PropertyMetadata(null));
-#endif
 
     /// <summary>
     /// Gets or sets whether or not AssociatedObject.IsEnabled automatically follow the Command's CanExecute.
@@ -142,9 +113,7 @@ public class EventToReactiveCommand : TriggerAction<FrameworkElement>
     protected override void OnAttached()
     {
         base.OnAttached();
-#if !NETFX_CORE
         SetSubscribes();
-#endif
     }
 
     private void SetSubscribes()
@@ -164,13 +133,8 @@ public class EventToReactiveCommand : TriggerAction<FrameworkElement>
         ox.Where(_ => Command != null)
             .Subscribe(x => Command.Execute(x)).AddTo(Disposable);
 
-#if NETFX_CORE
-            if (!(AssociatedObject is Control control)) return;
-            var isEnabledProperty = Control.IsEnabledProperty;
-#else
         var isEnabledProperty = FrameworkElement.IsEnabledProperty;
         var control = AssociatedObject;
-#endif
         expression = AssociatedObject.GetBindingExpression(isEnabledProperty);
 
         Command?.CanExecuteChangedAsObservable().Merge(autoEnableSource)
