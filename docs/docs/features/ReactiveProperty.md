@@ -1,4 +1,4 @@
-# ReactiveProperty
+﻿# ReactiveProperty
 
 `ReactiveProperty` is the core class of this library.
 It has the following features.
@@ -56,7 +56,7 @@ The `PropertyChanged` event is provided for data binding. In normal cases, you s
 
 ## Use with XAML platforms
 
-The `ReactiveProperty` class is designed for XAML platforms such as WPF, UWP, and Xamarin.Forms.
+The `ReactiveProperty` class is designed for XAML data binding, including WPF.
 This class can be used in the ViewModel layer.
 
 If you don't use `ReactiveProperty`, a ViewModel class looks like this.
@@ -87,15 +87,9 @@ Those properties are bound in XAML code.
 <!-- In the WPF -->
 <TextBox Text="{Binding Name}" />
 
-<!-- In the UWP(Runtime data binding) -->
-<TextBox Text="{Binding Name}" />
-
-<!-- In the UWP(Compile time data binding) -->
-<TextBox Text="{x:Bind ViewModel.Name, Mode=TwoWay}" />
-
-<!-- In the Xamarin.Forms -->
-<Entry Text="{Binding Name}" />
 ```
+
+![WPF text box bound to Name, displaying Alice](./images/wpf-bind-name.png)
 
 If you use `ReactiveProperty`, the ViewModel code becomes very simple!
 
@@ -117,15 +111,11 @@ This is the only limitation of this library.
 <!-- In the WPF -->
 <TextBox Text="{Binding Name.Value}" />
 
-<!-- In the UWP(Runtime data binding) -->
-<TextBox Text="{Binding Name.Value}" />
-
-<!-- In the UWP(Compile time data binding) -->
-<TextBox Text="{x:Bind ViewModel.Name.Value, Mode=TwoWay}" />
-
-<!-- In the Xamarin.Forms -->
-<Entry Text="{Binding Name.Value}" />
 ```
+
+With the same value, the text box looks the same; only the binding path changes.
+
+![WPF text box bound to Name.Value, displaying Alice](./images/wpf-bind-name-value.png)
 
 > We sometimes forget the `.Value`. If you have a ReSharper license, you can use this plugin.
 > [ReactiveProperty XAML Binding Corrector](https://resharper-plugins.jetbrains.com/packages/ReSharper.RpCorrector/)
@@ -251,7 +241,7 @@ class ViewModel
 
 Bind `NameErrorMessage.Value` property to a text control. An error message can be displayed.
 
-For UWP, see below.
+For WPF, see below.
 
 ```csharp
 public sealed partial class MainPage : Page
@@ -260,6 +250,7 @@ public sealed partial class MainPage : Page
     public MainPage()
     {
         this.InitializeComponent();
+        DataContext = ViewModel;
     }
 }
 ```
@@ -268,24 +259,22 @@ public sealed partial class MainPage : Page
 <Page x:Class="App1.MainPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:local="using:App1"
+      xmlns:local="clr-namespace:App1"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
-    <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock Text="Name"
-                   Style="{ThemeResource CaptionTextBlockStyle}" />
-        <TextBox Text="{x:Bind ViewModel.Name.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+    <StackPanel>
+        <TextBlock Text="Name" />
+        <TextBox Text="{Binding Name.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                  Margin="5" />
-        <TextBlock Text="{x:Bind ViewModel.NameErrorMessage.Value, Mode=OneWay}"
+        <TextBlock Text="{Binding NameErrorMessage.Value, Mode=OneWay}"
                    Foreground="Red"
-                   Margin="5,0"
-                   Style="{ThemeResource BodyTextBlockStyle}" />
+                   Margin="5,0" />
     </StackPanel>
 </Page>
 ```
 
-![A validation error message](./images/validation-errormessage.png)
+![Required-name message displayed below the text box by the NameErrorMessage binding](./images/validation-errormessage.png)
 
 In ReactiveProperty v7.0.0 or later, use the `ObserveValidationErrorMessage` extension method instead of `ObserveErrorChanged.Select(x => x?.OfType<string>()?.FirstOrDefault())`. The code above is shown below:
 
@@ -353,34 +342,31 @@ public class ViewModel
 <Page x:Class="App1.MainPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:local="using:App1"
+      xmlns:local="clr-namespace:App1"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
-    <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <StackPanel>
         <TextBlock Text="Name"
-                   Style="{ThemeResource CaptionTextBlockStyle}"
                    Margin="5" />
-        <TextBox Text="{x:Bind ViewModel.Name.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+        <TextBox Text="{Binding Name.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                  Margin="5" />
         <TextBlock Text="Memo"
-                   Style="{ThemeResource CaptionTextBlockStyle}"
                    Margin="5" />
-        <TextBox Text="{x:Bind ViewModel.Memo.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+        <TextBox Text="{Binding Memo.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                  Margin="5" />
         <TextBlock Text="HasErrors"
-                   Style="{ThemeResource CaptionTextBlockStyle}"
                    Margin="5" />
-        <CheckBox IsChecked="{x:Bind ViewModel.HasErrors.Value, Mode=OneWay}"
+        <CheckBox IsChecked="{Binding HasErrors.Value, Mode=OneWay}"
                   IsEnabled="False"
                   Margin="5" />
     </StackPanel>
 </Page>
 ```
 
-![HasErrors](./images/haserrors-handling.png)
+![The combined HasErrors check box is checked while Name and Memo are empty](./images/haserrors-handling.png)
 
-![HasErrors2](./images/haserrors-handling2.png)
+![The combined HasErrors check box is unchecked after Name and Memo are filled](./images/haserrors-handling2.png)
 
 The last property is `HasErrors`. It is just a `bool` property.
 

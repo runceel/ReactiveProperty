@@ -28,8 +28,7 @@ Source/                         Library source (each folder is one package/assem
   ReactiveProperty.NETStandard/ pkg ReactiveProperty — the main package (depends on System.Reactive)
   ReactiveProperty.Platform.Blazor/  pkg ReactiveProperty.Blazor — EditForm validation support
   ReactiveProperty.Platform.WPF/     pkg ReactiveProperty.WPF — EventToReactiveCommand/Property
-  ReactiveProperty.Platform.UWP/     pkg ReactiveProperty.UWP (legacy, no longer supported)
-  ReactiveProperty.Platform.Shared/  Shared project (.shproj/.projitems) imported by platform projects
+  ReactiveProperty.Platform.Shared/  Shared project (.shproj/.projitems) imported by WPF
   ReactiveProperty.R3/          pkg ReactiveProperty.R3 — R3 migration bridge
   ReactiveProperty.R3.WPF/      pkg ReactiveProperty.R3.WPF — R3 WPF trigger actions
 Test/                           Unit tests (MSTest)
@@ -52,7 +51,7 @@ ReactiveProperty-Samples.slnx   Samples solution
 ## Build, test, and run
 
 The project uses the **.NET 11 SDK** (`11.0.x`) and CI runs on **Windows**
-(the WPF/UWP projects require Windows to build the full solution).
+(the WPF projects require Windows to build the full solution).
 Install the .NET 10 and .NET 11 runtimes to run both automated test target legs.
 
 ```pwsh

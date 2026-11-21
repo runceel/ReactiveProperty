@@ -35,5 +35,10 @@
                 <Run Text="Expected behavior is showing a new Window with TextBox without red boarder for validation errors." />
             </TextBlock>
         </StackPanel>
+        <StackPanel Margin="5">
+            <TextBlock FontSize="14" Text="Documentation event-transfer / file-picker test" />
+            <Button Click="EventTransferTestButton_Click" Content="Start test" />
+            <TextBlock Text="Select a .snippet file, then cancel: the displayed path must stay unchanged." />
+        </StackPanel>
     </StackPanel>
 </Window>

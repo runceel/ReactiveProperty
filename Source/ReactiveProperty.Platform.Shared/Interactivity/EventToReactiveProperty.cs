@@ -4,27 +4,17 @@ using System.Reactive.Subjects;
 using System.Reactive.Linq;
 using Reactive.Bindings.Extensions;
 
-#if NETFX_CORE
-using Windows.UI.Xaml.Markup;
-using Windows.UI.Xaml;
-using System.Collections.Generic;
-#else
 using Microsoft.Xaml.Behaviors;
 using System.Windows.Markup;
 using System.Windows;
 using System.Collections.Generic;
-#endif
 
 namespace Reactive.Bindings.Interactivity;
 
 /// <summary>
 /// Converts EventArgs to object
 /// </summary>
-#if NETFX_CORE
-    [ContentProperty(Name = nameof(EventToReactiveProperty.Converters))]
-#else
 [ContentProperty(nameof(EventToReactiveProperty.Converters))]
-#endif
 public class EventToReactiveProperty : TriggerAction<FrameworkElement>
 {
     private readonly Subject<object?> source = new();

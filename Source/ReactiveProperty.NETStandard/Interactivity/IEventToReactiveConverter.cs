@@ -1,9 +1,5 @@
 ﻿using System;
 
-#if NETFX_CORE
-using Windows.UI.Xaml;
-#endif
-
 namespace Reactive.Bindings.Interactivity;
 
 /// <summary>

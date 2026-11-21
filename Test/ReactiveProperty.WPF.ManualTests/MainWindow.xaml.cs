@@ -82,4 +82,9 @@ public partial class MainWindow : Window
     {
         new ValidationWindow().ShowDialog();
     }
+
+    private void EventTransferTestButton_Click(object sender, RoutedEventArgs e)
+    {
+        new EventTransferWindow().ShowDialog();
+    }
 }

@@ -1,0 +1,29 @@
+﻿<Window
+    x:Class="ReactiveProperty.WPF.ManualTests.EventTransferWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Documentation event transfer"
+    Width="800"
+    Height="450">
+    <DockPanel Margin="10">
+        <TextBlock DockPanel.Dock="Top" Margin="0,0,0,10" TextWrapping="Wrap">
+            In each tab: select a .snippet file and check the displayed full path.
+            Open again and cancel; the path must remain unchanged.
+            Select another file and check that the path updates.
+        </TextBlock>
+        <TabControl>
+            <TabItem Header="English: command">
+                <Frame x:Name="CommandEnglish" NavigationUIVisibility="Hidden" />
+            </TabItem>
+            <TabItem Header="English: property">
+                <Frame x:Name="PropertyEnglish" NavigationUIVisibility="Hidden" />
+            </TabItem>
+            <TabItem Header="Japanese: command">
+                <Frame x:Name="CommandJapanese" NavigationUIVisibility="Hidden" />
+            </TabItem>
+            <TabItem Header="Japanese: property">
+                <Frame x:Name="PropertyJapanese" NavigationUIVisibility="Hidden" />
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+</Window>

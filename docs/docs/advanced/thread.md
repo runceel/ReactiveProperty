@@ -85,7 +85,5 @@ var rp = Observable.Interval(TimeSpan.FromSeconds(1))
 ## Caution
 
 By default, ReactiveProperty was designed for single-UI-thread platforms.
-This means a few features don't work on multi-UI-thread platforms such as UWP.
-
-UWP has multiple UI threads in a single process when multiple windows are created.
-When creating multiple windows on UWP, set `ImmediateScheduler` using the `ReactivePropertyScheduler.SetDefault` method to disable automatic event dispatch to the UI thread, or create different scheduler instances for each UI thread using the `ReactivePropertyScheduler.SetDefaultSchedulerFactory` method. Alternatively, use the `ReactivePropertySlim` / `ReadOnlyReactivePropertySlim` classes instead of the ReactiveProperty / ReadOnlyReactiveProperty classes.
+When using multiple UI threads in WPF, do not share one UI scheduler across dispatchers.
+Set `ImmediateScheduler` using `ReactivePropertyScheduler.SetDefault` to disable automatic event dispatch, or use `ReactivePropertyScheduler.SetDefaultSchedulerFactory` to create a scheduler for each UI thread. Alternatively, use `ReactivePropertySlim` / `ReadOnlyReactivePropertySlim`, which do not dispatch automatically.

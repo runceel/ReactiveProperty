@@ -1,4 +1,4 @@
-# Work with POCOs
+﻿# Work with POCOs
 
 The classes in this library can work with POCO classes.
 
@@ -100,7 +100,7 @@ public class ViewModel
 }
 ```
 
-Example for UWP is below.
+The following example uses WPF.
 
 MainPage.xaml.cs
 
@@ -111,6 +111,7 @@ public sealed partial class MainPage : Page
     public MainPage()
     {
         this.InitializeComponent();
+        DataContext = ViewModel;
     }
 }
 ```
@@ -121,26 +122,24 @@ MainPage.xaml
 <Page x:Class="App1.MainPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:local="using:App1"
+      xmlns:local="clr-namespace:App1"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
-    <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <StackPanel>
         <TextBlock Text="ReactiveProperty"
-                   Style="{ThemeResource CaptionTextBlockStyle}"
                    Margin="5,0" />
-        <TextBox Text="{x:Bind ViewModel.Name.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+        <TextBox Text="{Binding Name.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                  Margin="5" />
         <TextBlock Text="Person.Name"
-                   Style="{ThemeResource CaptionTextBlockStyle}"
                    Margin="5,0" />
-        <TextBox Text="{x:Bind ViewModel.Person.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+        <TextBox Text="{Binding Person.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                  Margin="5" />
     </StackPanel>
 </Page>
 ```
 
-![Two-way synchronization](./images/work-together-with-poco-two-way-synchronization.gif)
+![Editing either WPF field updates the other](./images/work-together-with-poco-two-way-synchronization.gif)
 
 The `ToReactivePropertyAsSynchronized` extension method can add conversion and convert-back logic.
 
@@ -160,7 +159,7 @@ public class ViewModel
 }
 ```
 
-![Convert and convert-back](./images/work-together-with-poco-two-way-synchronization-and-convert.gif)
+![WPF displays the converted name and removes the suffix on write-back](./images/work-together-with-poco-two-way-synchronization-and-convert.gif)
 
 When the `ignoreValidationErrorValue` argument is set to true, it stops synchronization if a validation error occurs.
 
@@ -183,7 +182,7 @@ public class ViewModel
 }
 ```
 
-![Ignore validation error value](./images/work-together-with-poco-two-way-synchronization-and-ignoreValidationError.gif)
+![The ReactiveProperty shows the invalid value VeryLongName while the model retains Alice](./images/work-together-with-poco-two-way-synchronization-and-ignoreValidationError.gif)
 
 You can also use LINQ to convert values, as shown below:
 

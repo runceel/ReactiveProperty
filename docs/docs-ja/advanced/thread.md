@@ -85,7 +85,5 @@ var rp = Observable.Interval(TimeSpan.FromSeconds(1))
 ## 注意
 
 既定では、ReactiveProperty は単一 UI スレッドのプラットフォーム向けに設計されています。
-つまり、UWP などの複数 UI スレッドを持つプラットフォームでは、一部の機能が動作しません。
-
-UWP では、複数のウィンドウを作成すると、単一プロセス内に複数の UI スレッドが存在します。
-UWP で複数のウィンドウを作成する場合は、`ReactivePropertyScheduler.SetDefault` メソッドで `ImmediateScheduler` を設定して UI スレッドへの自動イベント ディスパッチを無効にするか、`ReactivePropertyScheduler.SetDefaultSchedulerFactory` メソッドを使用して UI スレッドごとに異なるスケジューラー インスタンスを作成してください。または、ReactiveProperty / ReadOnlyReactiveProperty クラスの代わりに `ReactivePropertySlim` / `ReadOnlyReactivePropertySlim` クラスを使用してください。
+WPF で複数の UI スレッドを使用する場合は、ディスパッチャー間で UI スケジューラーを共有しないでください。
+`ReactivePropertyScheduler.SetDefault` で `ImmediateScheduler` を設定して自動イベント ディスパッチを無効にするか、`ReactivePropertyScheduler.SetDefaultSchedulerFactory` で UI スレッドごとにスケジューラーを作成してください。または、自動ディスパッチを行わない `ReactivePropertySlim` / `ReadOnlyReactivePropertySlim` を使用してください。

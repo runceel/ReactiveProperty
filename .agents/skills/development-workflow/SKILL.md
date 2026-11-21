@@ -41,7 +41,7 @@ Rules:
 - Never write production code without a failing test that requires it.
 - Keep each Red→Green→Refactor cycle small and focused on one behavior.
 - A change is not "done" until `dotnet test ReactiveProperty.slnx` passes on Windows
-  (WPF/UWP projects require Windows).
+  (WPF projects require Windows).
 
 ### Test conventions (this repo)
 - Framework: **MSTest** (`MSTest.TestAdapter` / `MSTest.TestFramework`).

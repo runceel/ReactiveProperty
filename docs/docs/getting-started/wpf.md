@@ -96,4 +96,4 @@ MainWindow.xaml
 After launching the app, you can see the window below.
 The output value is displayed in uppercase 1 second after the input.
 
-![Launch the app](./images/launch-wpf-app.gif)
+![WPF displays the input in uppercase after one second](./images/launch-wpf-app.gif)

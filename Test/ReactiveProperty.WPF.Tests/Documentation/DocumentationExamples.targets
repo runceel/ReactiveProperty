@@ -1,0 +1,20 @@
+﻿<Project>
+  <PropertyGroup>
+    <_DocumentationExamplesTools>$(MSBuildThisFileDirectory)</_DocumentationExamplesTools>
+  </PropertyGroup>
+  <Target Name="ExtractDocumentationExamples" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <_DocumentationChapterArgument Condition="'$(DocumentationExampleChapter)' != ''">-Chapter &quot;$(DocumentationExampleChapter)&quot;</_DocumentationChapterArgument>
+    </PropertyGroup>
+    <Exec Command="powershell.exe -NoProfile -ExecutionPolicy Bypass -File &quot;$(_DocumentationExamplesTools)ExtractExamples.ps1&quot; -DocumentationRoot &quot;$(_DocumentationExamplesTools)..\..\..\docs&quot; -OutputDirectory &quot;$(MSBuildProjectDirectory)\$(IntermediateOutputPath)DocumentationExamples&quot; $(_DocumentationChapterArgument)" />
+    <ItemGroup>
+      <Compile Include="$(IntermediateOutputPath)DocumentationExamples\**\*.cs" />
+      <_DocumentationExamplePage Include="$(MSBuildProjectDirectory)\$(IntermediateOutputPath)DocumentationExamples\**\*.xaml" />
+      <_DocumentationExamplePage>
+        <Link>DocumentationExamples\%(_DocumentationExamplePage.RecursiveDir)%(_DocumentationExamplePage.Filename)%(_DocumentationExamplePage.Extension)</Link>
+      </_DocumentationExamplePage>
+      <Page Include="@(_DocumentationExamplePage)" />
+      <FileWrites Include="$(IntermediateOutputPath)DocumentationExamples\**\*" />
+    </ItemGroup>
+  </Target>
+</Project>
