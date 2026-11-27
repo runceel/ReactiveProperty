@@ -7,6 +7,9 @@ namespace Reactive.Bindings.Internals;
 
 internal static class PropertyPathAccessor
 {
+    private static readonly MethodInfo s_dynamicInvokeMethod = typeof(Delegate).GetMethod(
+        nameof(Delegate.DynamicInvoke),
+        new[] { typeof(object[]) })!;
     private static readonly ConditionalWeakTable<Delegate, Func<object, object?>> s_getters = new();
     private static readonly ConditionalWeakTable<Delegate, Action<object, object?>> s_setters = new();
 
@@ -21,8 +24,7 @@ internal static class PropertyPathAccessor
         var invoke = Expression.Invoke(Expression.Constant(accessor), Expression.Convert(source, typeArguments[0]));
         var fallback = Expression.Call(
             Expression.Constant(accessor),
-            nameof(Delegate.DynamicInvoke),
-            Type.EmptyTypes,
+            s_dynamicInvokeMethod,
             Expression.NewArrayInit(typeof(object), source));
         var body = Expression.Condition(
             Expression.TypeIs(source, typeArguments[0]),
@@ -42,8 +44,7 @@ internal static class PropertyPathAccessor
             Expression.Convert(value, typeArguments[1]));
         var fallback = Expression.Call(
             Expression.Constant(accessor),
-            nameof(Delegate.DynamicInvoke),
-            Type.EmptyTypes,
+            s_dynamicInvokeMethod,
             Expression.NewArrayInit(typeof(object), source, value));
         var body = Expression.IfThenElse(
             Expression.AndAlso(Expression.TypeIs(source, typeArguments[0]), Expression.TypeIs(value, typeArguments[1])),
